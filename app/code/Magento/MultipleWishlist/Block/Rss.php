@@ -37,7 +37,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Helper\Output $outputHelper
-     * @param \Magento\Customer\Helper\View $customerViewHelper,
+     * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      * @param array $priceBlockTypes
