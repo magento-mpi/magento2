@@ -185,32 +185,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
 
-        if ($this->isPageCacheEnabled()) {
-            $this->cleanProductPagesCache(array_unique(array_merge($productIdsBeforeUnbind, $matchedProductIds)));
+        if ($this->moduleManager->isEnabled('Magento_PageCache')) {
+            $productIds = array_unique(array_merge($productIdsBeforeUnbind, $matchedProductIds));
+            $this->context->registerEntities(Product::CACHE_TAG, $productIds);
+            $this->eventManager->dispatch('clean_cache_by_tags', ['object' => $this->context]);
         }
+
         return $this;
-    }
-
-    /**
-     * Check is page cache enabled
-     *
-     * @return bool
-     */
-    protected function isPageCacheEnabled()
-    {
-        return $this->moduleManager->isEnabled('Magento_PageCache');
-    }
-
-    /**
-     * Clean product full page cache
-     *
-     * @param array $productIds
-     */
-    protected function cleanProductPagesCache($productIds)
-    {
-        $this->context->registerEntities(Product::CACHE_TAG, $productIds);
-
-        $this->eventManager->dispatch('clean_cache_by_tags', ['object' => $this->context]);
     }
 
     /**
