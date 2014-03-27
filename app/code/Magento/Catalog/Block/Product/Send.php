@@ -24,6 +24,7 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
      *
      * @var \Magento\Customer\Helper\View
      */
+    protected $_customerView;
 
     /**
      * @param Context $context
