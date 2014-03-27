@@ -37,14 +37,10 @@ class Rss extends \Magento\Rss\Block\Wishlist
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Helper\Output $outputHelper
-     * @param \Magento\MultipleWishlist\Helper\Rss $wishlistHelper
-     * @param \Magento\Catalog\Helper\Output $outputHelper
-     * @param \Magento\Customer\Helper\View $customerViewHelper
+     * @param \Magento\Customer\Helper\View $customerViewHelper,
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      * @param array $priceBlockTypes
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -54,7 +50,6 @@ class Rss extends \Magento\Rss\Block\Wishlist
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Helper\Output $outputHelper,
-        \Magento\MultipleWishlist\Helper\Rss $wishlistHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         array $data = array(),
@@ -75,7 +70,6 @@ class Rss extends \Magento\Rss\Block\Wishlist
             $data,
             $priceBlockTypes
         );
-        $this->_wishlistHelper = $wishlistHelper;
     }
 
     /**

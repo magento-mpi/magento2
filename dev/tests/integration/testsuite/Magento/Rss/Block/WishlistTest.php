@@ -48,17 +48,9 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')
             ->loadByCustomerId($fixtureCustomerId);
-        /** @var \Magento\View\Element\Template\Context $context */
-        $contextBlock = $this->_objectManager->create('Magento\View\Element\Template\Context');
-        /** @var \Magento\App\Request\Http $request */
-        $request = $contextBlock->getRequest();
-        $request->setParam('wishlist_id', $wishlist->getId());
-        $request->setParam('data', $this->_coreData->urlEncode($fixtureCustomerId));
 
         /** @var \Magento\App\Helper\Context $contextHelper */
-        $contextHelper = $this->_objectManager->create('Magento\App\Helper\Context',
-            ['httpRequest' =>  $request]
-        );
+        $contextHelper = $this->_objectManager->create('Magento\App\Helper\Context');
 
         $wishlistHelper = $this->_objectManager->create('Magento\Rss\Helper\WishlistRss',
             [
@@ -67,11 +59,23 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
+        /** @var \Magento\Catalog\Block\Product\Context $context */
+        $contextBlock = $this->_objectManager->create(
+            'Magento\Rss\Block\Context',
+            [
+                'request' => $contextHelper->getRequest(),
+                'wishlistHelper' => $wishlistHelper
+            ]
+        );
+        /** @var \Magento\App\Request\Http $request */
+        $request = $contextHelper->getRequest();
+        $request->setParam('wishlist_id', $wishlist->getId());
+        $request->setParam('data', $this->_coreData->urlEncode($fixtureCustomerId));
+
         /** @var \Magento\Rss\Block\Wishlist $block */
         $block = $this->_objectManager->create('Magento\Rss\Block\Wishlist',
             [
-                'context' => $contextBlock,
-                'wishlistHelper' => $wishlistHelper
+                'context' => $contextBlock
             ]
         );
 
