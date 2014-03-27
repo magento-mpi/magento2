@@ -122,4 +122,9 @@
             <argument name="locale" xsi:type="object">Magento\Backend\Model\Locale\Resolver\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Core\Model\Session\Config">
+        <arguments>
+            <argument name="lifetimePath" xsi:type="const">Magento\Backend\Model\Auth\Session::XML_PATH_SESSION_LIFETIME</argument>
+        </arguments>
+    </type>
 </config>
