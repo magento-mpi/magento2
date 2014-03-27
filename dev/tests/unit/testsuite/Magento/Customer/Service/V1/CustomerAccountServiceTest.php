@@ -26,19 +26,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** Sample values for testing */
     const ID = 1;
-
     const FIRSTNAME = 'Jane';
-
     const LASTNAME = 'Doe';
-
     const NAME = 'J';
-
     const EMAIL = 'janedoe@example.com';
-
     const EMAIL_CONFIRMATION_KEY = 'blj487lkjs4confirmation_key';
-
     const PASSWORD = 'password';
-
     const WEBSITE_ID = 1;
 
     /**
@@ -115,6 +108,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\ObjectManager */
     protected $_objectManagerMock;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Config\Share */
+    private $_configShareMock;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Encryption\EncryptorInterface  */
+    private $_encryptorMock;
+
     public function setUp()
     {
         $this->_customerFactoryMock = $this->getMockBuilder(
@@ -123,56 +122,57 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             array('create')
         )->getMock();
 
-        $this->_customerModelMock = $this->getMockBuilder(
-            'Magento\Customer\Model\Customer'
-        )->disableOriginalConstructor()->setMethods(
-            array(
-                'getCollection',
-                'getId',
-                'getFirstname',
-                'getLastname',
-                'getName',
-                'getEmail',
-                'getAttributes',
-                'getConfirmation',
-                'setConfirmation',
-                'save',
-                'load',
-                '__wakeup',
-                'authenticate',
-                'getData',
-                'getDefaultBilling',
-                'getDefaultShipping',
-                'getDefaultShippingAddress',
-                'getDefaultBillingAddress',
-                'getStoreId',
-                'getAddressById',
-                'getAddresses',
-                'getAddressItemById',
-                'getParentId',
-                'isConfirmationRequired',
-                'isDeleteable',
-                'isReadonly',
-                'addAddress',
-                'loadByEmail',
-                'sendNewAccountEmail',
-                'setFirstname',
-                'setLastname',
-                'setEmail',
-                'setPassword',
-                'setData',
-                'setWebsiteId',
-                'getAttributeSetId',
-                'setAttributeSetId',
-                'validate',
-                'getRpToken',
-                'setRpToken',
-                'setRpTokenCreatedAt',
-                'isResetPasswordLinkTokenExpired',
-                'changeResetPasswordLinkToken',
-                'sendPasswordResetConfirmationEmail',
-                'sendPasswordResetNotificationEmail'
-            )
+        $this->_customerModelMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
+            ->disableOriginalConstructor()
+            ->setMethods(
+                array(
+                    'getCollection',
+                    'getId',
+                    'getFirstname',
+                    'getLastname',
+                    'getName',
+                    'getEmail',
+                    'getAttributes',
+                    'getConfirmation',
+                    'setConfirmation',
+                    'save',
+                    'load',
+                    '__wakeup',
+                    'authenticate',
+                    'getData',
+                    'getDefaultBilling',
+                    'getDefaultShipping',
+                    'getDefaultShippingAddress',
+                    'getDefaultBillingAddress',
+                    'getStoreId',
+                    'getAddressById',
+                    'getAddresses',
+                    'getAddressItemById',
+                    'getParentId',
+                    'isConfirmationRequired',
+                    'isDeleteable',
+                    'isReadonly',
+                    'addAddress',
+                    'loadByEmail',
+                    'sendNewAccountEmail',
+                    'setFirstname',
+                    'setLastname',
+                    'setEmail',
+                    'setPassword',
+                    'setPasswordHash',
+                    'setData',
+                    'setWebsiteId',
+                    'getAttributeSetId',
+                    'setAttributeSetId',
+                    'validate',
+                    'getRpToken',
+                    'setRpToken',
+                    'setRpTokenCreatedAt',
+                    'isResetPasswordLinkTokenExpired',
+                    'changeResetPasswordLinkToken',
+                    'sendPasswordResetConfirmationEmail',
+                    'sendPasswordResetNotificationEmail',
+                )
         )->getMock();
 
         $this->_eventManagerMock = $this->getMockBuilder(
@@ -248,6 +248,14 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_loggerMock = $this->getMockBuilder('\Magento\Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_encryptorMock = $this->getMockBuilder('Magento\Encryption\EncryptorInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_configShareMock = $this->getMockBuilder('Magento\Customer\Model\Config\Share')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -757,6 +765,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
+        $encryptedHash = 'password_encrypted_hash';
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -775,25 +784,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_customerModelMock)
         );
 
-        $this->_customerModelMock->expects($this->once())->method('setRpToken')->with(null)->will($this->returnSelf());
-        $this->_customerModelMock->expects(
-            $this->once()
-        )->method(
-            'setRpTokenCreatedAt'
-        )->with(
-            null
-        )->will(
-            $this->returnSelf()
-        );
-        $this->_customerModelMock->expects(
-            $this->once()
-        )->method(
-            'setPassword'
-        )->with(
-            $password
-        )->will(
-            $this->returnSelf()
-        );
+        $this->_customerModelMock->expects($this->once())
+            ->method('setRpToken')
+            ->with(null)
+            ->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->once())
+            ->method('setRpTokenCreatedAt')
+            ->with(null)
+            ->will($this->returnSelf());
+        $this->_encryptorMock->expects($this->once())
+            ->method('getHash')
+            ->with($password, true)
+            ->will($this->returnValue($encryptedHash));
+        $this->_customerModelMock->expects($this->once())
+            ->method('setPasswordHash')
+            ->with($encryptedHash)
+            ->will($this->returnSelf());
 
         $customerService = $this->_createService();
 
@@ -804,6 +810,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = '';
+        $encryptedHash = 'password_encrypted_hash';
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -822,25 +829,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_customerModelMock)
         );
 
-        $this->_customerModelMock->expects($this->once())->method('setRpToken')->with(null)->will($this->returnSelf());
-        $this->_customerModelMock->expects(
-            $this->once()
-        )->method(
-            'setRpTokenCreatedAt'
-        )->with(
-            null
-        )->will(
-            $this->returnSelf()
-        );
-        $this->_customerModelMock->expects(
-            $this->once()
-        )->method(
-            'setPassword'
-        )->with(
-            $password
-        )->will(
-            $this->returnSelf()
-        );
+        $this->_customerModelMock->expects($this->once())
+            ->method('setRpToken')
+            ->with(null)
+            ->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->once())
+            ->method('setRpTokenCreatedAt')
+            ->with(null)
+            ->will($this->returnSelf());
+        $this->_encryptorMock->expects($this->once())
+            ->method('getHash')
+            ->with($password, true)
+            ->will($this->returnValue($encryptedHash));
+        $this->_customerModelMock->expects($this->once())
+            ->method('setPasswordHash')
+            ->with($encryptedHash)
+            ->will($this->returnSelf());
 
         $customerService = $this->_createService();
 
@@ -1932,7 +1936,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerMetadataService,
             $this->_urlMock,
             $this->_loggerMock,
-            $this->_objectManagerMock
+            $this->_encryptorMock,
+            $this->_configShareMock
         );
         return $customerService;
     }

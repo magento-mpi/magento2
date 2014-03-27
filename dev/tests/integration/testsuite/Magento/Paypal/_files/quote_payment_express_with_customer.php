@@ -5,7 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
+
+require __DIR__ . '/../../Customer/_files/customer.php';
+require __DIR__ . '/../../Customer/_files/customer_two_addresses.php';
+
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadArea('adminhtml');
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
     ->setConfig('carriers/flatrate/active', 1);
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
@@ -29,41 +33,36 @@ $product->setTypeId('simple')
     ->save();
 $product->load(1);
 
-$billingData = array(
-    'firstname' => 'testname',
-    'lastname' => 'lastname',
-    'company' => '',
-    'email' => 'test@com.com',
-    'street' =>
-    array(
-        0 => 'test1',
-        1 => '',
-    ),
-    'city' => 'Test',
-    'region_id' => '1',
-    'region' => '',
-    'postcode' => '9001',
-    'country_id' => 'US',
-    'telephone' => '11111111',
-    'fax' => '',
-    'confirm_password' => '',
-    'save_in_address_book' => '1',
-    'use_for_shipping' => '1',
-);
+$addressConverter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Address\Converter');
 
+$customerBillingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Address');
+$customerBillingAddress->load(1);
+$billingAddressDataObject = $addressConverter->createAddressFromModel($customerBillingAddress, false, false);
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Quote\Address', array('data' => $billingData));
+    ->create('Magento\Sales\Model\Quote\Address');
+$billingAddress->importCustomerAddressData($billingAddressDataObject);
 $billingAddress->setAddressType('billing');
 
-$shippingAddress = clone $billingAddress;
-$shippingAddress->setId(null)->setAddressType('shipping');
+$customerShippingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Address');
+$customerShippingAddress->load(2);
+$shippingAddressDataObject = $addressConverter->createAddressFromModel($customerShippingAddress, false, false);
+$shippingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote\Address');
+$shippingAddress->importCustomerAddressData($shippingAddressDataObject);
+$shippingAddress->setAddressType('shipping');
+
 $shippingAddress->setShippingMethod('flatrate_flatrate');
 $shippingAddress->setCollectShippingRates(true);
 
 /** @var $quote \Magento\Sales\Model\Quote */
 $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Quote');
-$quote->setCustomerIsGuest(true)
+$quote->setCustomerIsGuest(false)
+    ->setCustomerId($customer->getId())
+    ->setCustomer($customer)
     ->setStoreId(
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->getId()
@@ -85,3 +84,4 @@ $service->submitAllWithDataObject();
 
 $order = $service->getOrder();
 $order->save();
+

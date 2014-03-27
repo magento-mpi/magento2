@@ -122,7 +122,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testLogin()
     {
         // Customer e-mail and password are pulled from the fixture customer.php
-        $customer = $this->_customerAccountService->authenticate('customer@example.com', 'password', true);
+        $customer = $this->_customerAccountService->authenticate('customer@example.com', 'password');
 
         $this->assertSame('customer@example.com', $customer->getEmail());
     }
@@ -136,7 +136,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testLoginWrongPassword()
     {
         // Customer e-mail and password are pulled from the fixture customer.php
-        $this->_customerAccountService->authenticate('customer@example.com', 'wrongPassword', true);
+        $this->_customerAccountService->authenticate('customer@example.com', 'wrongPassword');
     }
 
     /**
@@ -146,7 +146,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testLoginWrongUsername()
     {
         // Customer e-mail and password are pulled from the fixture customer.php
-        $this->_customerAccountService->authenticate('non_existing_user', 'password', true);
+        $this->_customerAccountService->authenticate('non_existing_user', 'password');
     }
 
     /**
@@ -651,7 +651,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastname, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
-        $this->_customerAccountService->authenticate($customerAfter->getEmail(), 'aPassword', true);
+        $this->_customerAccountService->authenticate(
+            $customerAfter->getEmail(),
+            'aPassword'
+        );
         $attributesBefore = \Magento\Service\DataObjectConverter::toFlatArray($customerBefore);
         $attributesAfter = \Magento\Service\DataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
@@ -696,14 +699,15 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder->populateWithArray($customerData);
         $modifiedCustomer = $this->_customerBuilder->create();
 
-        $returnedCustomerId = $this->_customerAccountService->saveCustomer($modifiedCustomer);
-        $this->assertEquals($existingCustId, $returnedCustomerId);
+        $this->_customerAccountService->updateCustomer(
+            $this->_customerDetailsBuilder->setCustomer($modifiedCustomer)->create()
+        );
         $customerAfter = $this->_customerAccountService->getCustomer($existingCustId);
         $this->assertEquals($email, $customerAfter->getEmail());
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastName, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
-        $this->_customerAccountService->authenticate($customerAfter->getEmail(), 'password', true);
+        $this->_customerAccountService->authenticate($customerAfter->getEmail(), 'password');
         $attributesBefore = \Magento\Service\DataObjectConverter::toFlatArray($customerBefore);
         $attributesAfter = \Magento\Service\DataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
@@ -750,14 +754,15 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder->populateWithArray($customerData);
         $modifiedCustomer = $this->_customerBuilder->create();
 
-        $returnedCustomerId = $this->_customerAccountService->saveCustomer($modifiedCustomer);
-        $this->assertEquals($existingCustId, $returnedCustomerId);
+        $this->_customerAccountService->updateCustomer(
+            $this->_customerDetailsBuilder->setCustomer($modifiedCustomer)->create()
+        );
         $customerAfter = $this->_customerAccountService->getCustomer($existingCustId);
         $this->assertEquals($email, $customerAfter->getEmail());
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastName, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
-        $this->_customerAccountService->authenticate($customerAfter->getEmail(), 'password', true);
+        $this->_customerAccountService->authenticate($customerAfter->getEmail(), 'password');
         $attributesBefore = \Magento\Service\DataObjectConverter::toFlatArray($customerBefore);
         $attributesAfter = \Magento\Service\DataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
@@ -832,7 +837,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastName, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
-        $this->_customerAccountService->authenticate($customerAfter->getEmail(), 'aPassword', true);
+        $this->_customerAccountService->authenticate(
+            $customerAfter->getEmail(),
+            'aPassword'
+        );
         $attributesBefore = \Magento\Service\DataObjectConverter::toFlatArray($existingCustomer);
         $attributesAfter = \Magento\Service\DataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
@@ -989,7 +997,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($firstName, $customer->getFirstname());
         $this->assertEquals($lastname, $customer->getLastname());
         $this->assertEquals('Admin', $customer->getCreatedIn());
-        $this->_customerAccountService->authenticate($customer->getEmail(), 'aPassword', true);
+        $this->_customerAccountService->authenticate(
+            $customer->getEmail(),
+            'aPassword'
+        );
     }
 
     /**
@@ -1015,11 +1026,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $groupId
         );
         $newCustomerEntity = $this->_customerBuilder->create();
-        $customerId = $this->_customerAccountService->saveCustomer($newCustomerEntity, 'aPassword');
+        $customerId = $this->_customerAccountService->createAccount(
+            $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create(),
+            'aPassword'
+        )->getId();
 
         $this->_customerBuilder->populate($this->_customerAccountService->getCustomer($customerId));
         $this->_customerBuilder->setFirstname('Tested');
-        $this->_customerAccountService->saveCustomer($this->_customerBuilder->create());
+        $this->_customerAccountService->updateCustomer(
+            $this->_customerDetailsBuilder->setCustomer($this->_customerBuilder->create())->create()
+        );
 
         $customer = $this->_customerAccountService->getCustomer($customerId);
 
@@ -1074,7 +1090,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param Data\Filter[] $filters
-     * @param Datao\Filter[] $orGroup
+     * @param Data\Filter[] $orGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider
@@ -1256,7 +1272,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->verifyDeletedAddress(2);
 
         //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
-        $result = $this->_customerAddressService->getAddresses(1);
+        $this->_customerAddressService->getAddresses(1);
     }
 
     /**
