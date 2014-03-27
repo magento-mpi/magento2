@@ -514,8 +514,16 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel = $this->_converter->createCustomerModel($customer);
 
         // Priority: hash, password, auto generated password
-        $passwordHash = $hash ?: $this->getPasswordHash($password ?: $customerModel->generatePassword());
-        $customerModel->setPasswordHash($passwordHash);
+        if ($hash) {
+            $customerModel->setPasswordHash($hash);
+        } elseif ($password) {
+            $passwordHash = $this->getPasswordHash($password);
+            $customerModel->setPasswordHash($passwordHash);
+        } elseif (!$customerModel->getId()) {
+            $passwordHash = $this->getPasswordHash($customerModel->generatePassword());
+            $customerModel->setPasswordHash($passwordHash);
+        }
+
         // Shouldn't we be calling validateCustomerData/Details here?
         $this->_validate($customerModel);
         $customerModel->save();
