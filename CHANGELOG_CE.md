@@ -38,24 +38,24 @@
   * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
   * Fixed JS/CSS merging functionality (MAGETWO-21924)
   * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
-  * Fixed Rest route paths to support query parameter syntax
-  * Fixed WebAPI issue with camel-case parameters in SOAP
-  * Fixed errors running api-functional tests with modules other than Webapi
-  * Fixed 'getCustomAttribute' is exposed as 'attribute' field in SOAP
-  * Fixed optional array arguments in WSDL
-  * Fixed encoding error when object has no 'customerId' property
-  * Fixed error when expected int array keys, got item
-  * Fixed setting 'defaultShipping' to 'true' in 'saveAddress' ignored
-  * Fixed error when 'deleteAddress' returns HTTP 202 on success
-  * Fixed error with invalid store ID results in 500
-  * Fixed Cannot Delete Customer Group which is a default for a store results in 500
-  * Fixed Customer Group Can Delete Results in True for Invalid Group IDs
-  * Fixed error when 'CustomerGroupService:saveGroup' Returns 500 Depending on Request Parameters
-  * Fixed error on invoking customerAccountService::ActivateCustomer
-  * Fixed error on invoking customerAccountService::authenticate
-  * Fixed Incorrect Output format for CustomerMetadataServiceInterface
-  * Fixed Empty array in response body using deleteCustomer()
-  * Fixed inability to place order during customer's registration flow
+  * Fixed REST route paths to support query parameter syntax (MAGETWO-21996)
+  * Fixed WebAPI issue with camel-case parameters in SOAP (MAGETWO-21848)
+  * Fixed errors running api-functional tests with modules other than WebAPI (MAGETWO-21848)
+  * Fixed 'getCustomAttribute' is exposed as 'attribute' field in SOAP (MAGETWO-22097)
+  * Fixed optional array arguments in WSDL (MAGETWO-22141)
+  * Fixed wrong test endpoint for SOAP deleteAddress test (MAGETWO-22554)
+  * Fixed error when expected int array keys, but got item in SOAP webapi calls (MAGETWO-22556)
+  * Fixed setting 'defaultShipping' to 'true' in CustomerAddressService 'saveAddress' ignored (MAGETWO-22563)
+  * Fixed error when CustomerAddressService 'deleteAddress' returns HTTP 202 on success (MAGETWO-22564)
+  * Fixed error with invalid store ID results in HTTP 500 in CustomerAddressService 'getDefaultGroup' (MAGETWO-22566)
+  * Fixed error when deleting customer group which is a default for a store in CustomerGroupService (MAGETWO-22567)
+  * Fixed customer group 'canDelete' returns true for invalid customer group IDs (MAGETWO-22568)
+  * Fixed error when 'CustomerGroupService:saveGroup' returns 500 depending on request parameters (MAGETWO-22569)
+  * Fixed error on invoking 'CustomerAccountService::activateCustomer' (MAGETWO-22570)
+  * Fixed error on invoking 'CustomerAccountService::authenticate' (MAGETWO-22571)
+  * Fixed incorrect output format for CustomerMetadataServiceInterface (MAGETWO-22598)
+  * Fixed empty array in response body using deleteCustomer() (MAGETWO-22693)
+  * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
 * Modularity improvements:
   * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110)
   * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
@@ -69,15 +69,15 @@
   * Added restrictions on the data populated to the Service Data Object
   * Renamed Data Transfer Object to the Service Data Object
   * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
-  * Improve Web API framework based on Customer Service
-  * API Service Exception Handling
-  * Refactor Multishipping module to use Customer Services
-  * Refactor PayPal module to use Customer Service
+  * Improve Web API framework based on Customer Service (MAGETWO-22045)
+  * API Service Exception Handling (MAGETWO-14490)
 * Customer Service usage:
   * Tax module refactoring to use customer service layer
   * Refactored Customer module Adminhtml internal controllers and helper to use customer services
   * Added and updated customer service APIs
   * Exposed customer services as REST APIs
+  * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
+  * Refactor PayPal module to use Customer Service (MAGETWO-20477)
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
 * Updated various PHPDoc with the parameter and return types
