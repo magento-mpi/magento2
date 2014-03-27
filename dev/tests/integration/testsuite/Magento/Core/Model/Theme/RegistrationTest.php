@@ -35,11 +35,10 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
             )
         );
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\App')
-            ->loadAreaPart(
-                \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-                \Magento\Core\Model\App\Area::PART_CONFIG
-            );
+        $objectManager->get('Magento\App\AreaList')
+            ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+
         $objectManager->get('Magento\App\State')
             ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $this->_theme = $objectManager

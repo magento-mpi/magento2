@@ -513,7 +513,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function getCategoryId()
     {
-        $category = $this->_coreRegistry->registry('current_category');
+        $category = $this->_registry->registry('current_category');
         if ($category) {
             return $category->getId();
         }
@@ -765,7 +765,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         $this->cleanCache();
         $this->_indexIndexer->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
         return parent::_beforeDelete();

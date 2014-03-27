@@ -12,7 +12,7 @@ namespace Magento\Review\Model\Review;
 /**
  * Review summary
  */
-class Summary extends \Magento\Core\Model\AbstractModel
+class Summary extends \Magento\Model\AbstractModel
 {
     /**
      * @param \Magento\Model\Context $context

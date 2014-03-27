@@ -20,7 +20,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\View\Asset\MergeService $mergeService
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -30,7 +30,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\View\Asset\MergeService $mergeService,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -42,7 +42,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      * Validate a base URL field value
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -51,11 +51,11 @@ class Baseurl extends \Magento\Core\Model\Config\Value
             if (!$this->_validateUnsecure($value) && !$this->_validateSecure($value)) {
                 $this->_validateFullyQualifiedUrl($value);
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $field = $this->getFieldConfig();
             $label = $field && is_array($field) ? $field['label'] : 'value';
             $msg = __('Invalid %1. %2', $label, $e->getMessage());
-            $error = new \Magento\Core\Exception($msg, 0, $e);
+            $error = new \Magento\Model\Exception($msg, 0, $e);
             throw $error;
         }
     }
@@ -122,12 +122,12 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      * @param array $values
      * @param string $value
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     private function _assertValuesOrUrl(array $values, $value)
     {
         if (!in_array($value, $values) && !$this->_isFullyQualifiedUrl($value)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Value must be a URL or one of placeholders: %1', implode(',', $values))
             );
         }
@@ -139,14 +139,14 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      * @param array $values
      * @param string $value
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     private function _assertStartsWithValuesOrUrl(array $values, $value)
     {
         $quoted = array_map('preg_quote', $values, array_fill(0, count($values), '/'));
         if (!preg_match('/^(' . implode('|', $quoted) . ')(.+\/)?$/', $value) && !$this->_isFullyQualifiedUrl($value)
         ) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __(
                     'Specify a URL or path that starts with placeholder(s): %1, and ends with "/".',
                     implode(', ', $values)
@@ -161,7 +161,7 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      * @param array $values
      * @param string $value
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     private function _assertStartsWithValuesOrUrlOrEmpty(array $values, $value)
     {
@@ -170,9 +170,9 @@ class Baseurl extends \Magento\Core\Model\Config\Value
         }
         try {
             $this->_assertStartsWithValuesOrUrl($values, $value);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $msg = __('%1 An empty value is allowed as well.', $e->getMessage());
-            $error = new \Magento\Core\Exception($msg, 0, $e);
+            $error = new \Magento\Model\Exception($msg, 0, $e);
             throw $error;
         }
     }
@@ -182,12 +182,12 @@ class Baseurl extends \Magento\Core\Model\Config\Value
      *
      * @param string $value
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     private function _validateFullyQualifiedUrl($value)
     {
         if (!$this->_isFullyQualifiedUrl($value)) {
-            throw new \Magento\Core\Exception(__('Specify a fully qualified URL.'));
+            throw new \Magento\Model\Exception(__('Specify a fully qualified URL.'));
         }
     }
 

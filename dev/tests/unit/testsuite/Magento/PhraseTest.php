@@ -34,7 +34,7 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
     public function testRendering()
     {
         $text = 'some text';
-        $arguments = array('arg1', 'arg2');
+        $arguments = ['arg1', 'arg2'];
         $result = 'rendered text';
         $this->phrase = new \Magento\Phrase($text, $arguments);
 
@@ -43,7 +43,7 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
         )->method(
             'render'
         )->with(
-            $text,
+            [$text],
             $arguments
         )->will(
             $this->returnValue($result)
@@ -70,7 +70,7 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
     public function testThatToStringIsAliasToRender()
     {
         $text = 'some text';
-        $arguments = array('arg1', 'arg2');
+        $arguments = ['arg1', 'arg2'];
         $result = 'rendered text';
         $this->phrase = new \Magento\Phrase($text, $arguments);
 
@@ -79,7 +79,7 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
         )->method(
             'render'
         )->with(
-            $text,
+            [$text],
             $arguments
         )->will(
             $this->returnValue($result)

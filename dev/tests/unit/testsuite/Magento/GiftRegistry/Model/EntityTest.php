@@ -45,7 +45,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
-        $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
+        $translate = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
 
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockBuilder(
@@ -86,21 +86,20 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 
         $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $context = new \Magento\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
-        $giftRegistryData = $this->getMock(
-            'Magento\GiftRegistry\Helper\Data',
-            array('getRegistryLink'),
-            array(),
-            '',
-            false,
-            false
+        $actionValidatorMock = $this->getMock(
+            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
         );
-        $giftRegistryData->expects($this->any())->method('getRegistryLink')->will($this->returnArgument(0));
+        $context = new \Magento\Model\Context(
+            $logger, $eventDispatcher, $cacheManager, $appState, $actionValidatorMock
+        );
+        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
+            array(), '', false, false);
+        $giftRegistryData->expects($this->any())
+            ->method('getRegistryLink')
+            ->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
@@ -127,31 +126,32 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $escaper = $this->getMock('Magento\Escaper', array('escapeHtml'), array(), '', false, false);
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
+
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $context,
-            $coreRegistry,
-            $giftRegistryData,
+            $context, 
+            $coreRegistry, 
+            $giftRegistryData, 
             $this->_storeManagerMock,
-            $translate,
-            $this->_transportBuilderMock,
-            $type,
-            $attributeConfig,
-            $item,
-            $inventoryStockItem,
+            $this->_transportBuilderMock, 
+            $type, 
+            $attributeConfig, 
+            $item, 
+            $inventoryStockItem, 
             $session,
-            $quoteFactory,
-            $customerFactory,
-            $personFactory,
-            $itemFactory,
-            $addressFactory,
+            $quoteFactory, 
+            $customerFactory, 
+            $personFactory, 
+            $itemFactory, 
+            $addressFactory, 
             $productFactory,
-            $dateFactory,
-            $loggingEventFactory,
-            $request,
-            $escaper,
-            $mathRandom,
-            $resource,
-            null,
+            $dateFactory, 
+            $loggingEventFactory, 
+            $request, 
+            $escaper, 
+            $mathRandom, 
+            $translate, 
+            $resource, 
+            null, 
             array()
         );
     }

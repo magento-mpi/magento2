@@ -168,7 +168,7 @@ class Targetrule extends \Magento\Backend\App\Action
                 if ($ruleId) {
                     $model->load($ruleId);
                     if ($ruleId != $model->getId()) {
-                        throw new \Magento\Core\Exception(__('Please specify a correct rule.'));
+                        throw new \Magento\Model\Exception(__('Please specify a correct rule.'));
                     }
                 }
 
@@ -196,7 +196,7 @@ class Targetrule extends \Magento\Backend\App\Action
                     $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), '_current' => true));
                     return;
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $hasError = true;
             } catch (\Zend_Date_Exception $e) {

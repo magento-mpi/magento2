@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Reminder\Model\Rule as ModelRule;
 use Magento\SalesRule\Model\Rule as SalesRule;
 
@@ -43,18 +43,18 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Core resource helper
      *
-     * @var \Magento\Core\Model\Resource\Helper
+     * @var \Magento\DB\Helper
      */
     protected $_resourceHelper;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\DB\Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\DB\Helper $resourceHelper,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
@@ -437,7 +437,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param string $operator
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getSqlOperator($operator)
     {
@@ -458,7 +458,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             case '<=':
                 return $operator;
             default:
-                throw new \Magento\Core\Exception(__('Unknown operator specified.'));
+                throw new \Magento\Model\Exception(__('Unknown operator specified.'));
         }
     }
 

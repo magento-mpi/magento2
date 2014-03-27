@@ -47,7 +47,7 @@ namespace Magento\VersionsCms\Model\Page;
  * @method int getRevisionNumber()
  * @method \Magento\VersionsCms\Model\Page\Revision setRevisionNumber(int $value)
  */
-class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Revision extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -105,7 +105,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -116,7 +116,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
         \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -232,14 +232,14 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * Checking some moments before we can actually delete revision
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeDelete()
     {
         $resource = $this->_getResource();
         /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Revision */
         if ($resource->isRevisionPublished($this)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Revision #%1 could not be removed because it is published.', $this->getRevisionNumber())
             );
         }

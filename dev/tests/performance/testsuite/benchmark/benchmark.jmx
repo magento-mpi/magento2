@@ -1045,7 +1045,7 @@ vars.put(&quot;category_3_url_key&quot;, JMeterUtils.getProperty(&quot;category_
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="571386695">&lt;title&gt;Home page&lt;/title&gt;</stringProp>
-              <stringProp name="-769309143">&lt;h2&gt;Home Page&lt;/h2&gt;</stringProp>
+              <stringProp name="1747020609">&lt;h1 class=&quot;title&quot;&gt;&lt;span class=&quot;base&quot; data-ui-id=&quot;page-title&quot; &gt;Home Page&lt;/span&gt;&lt;/h1&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -1439,7 +1439,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="571386695">&lt;title&gt;Home page&lt;/title&gt;</stringProp>
-              <stringProp name="-769309143">&lt;h2&gt;Home Page&lt;/h2&gt;</stringProp>
+              <stringProp name="1747020609">&lt;h1 class=&quot;title&quot;&gt;&lt;span class=&quot;base&quot; data-ui-id=&quot;page-title&quot; &gt;Home Page&lt;/span&gt;&lt;/h1&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -2062,7 +2062,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="571386695">&lt;title&gt;Home page&lt;/title&gt;</stringProp>
-              <stringProp name="-769309143">&lt;h2&gt;Home Page&lt;/h2&gt;</stringProp>
+              <stringProp name="1747020609">&lt;h1 class=&quot;title&quot;&gt;&lt;span class=&quot;base&quot; data-ui-id=&quot;page-title&quot; &gt;Home Page&lt;/span&gt;&lt;/h1&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -3410,7 +3410,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="571386695">&lt;title&gt;Home page&lt;/title&gt;</stringProp>
-              <stringProp name="-769309143">&lt;h2&gt;Home Page&lt;/h2&gt;</stringProp>
+              <stringProp name="1747020609">&lt;h1 class=&quot;title&quot;&gt;&lt;span class=&quot;base&quot; data-ui-id=&quot;page-title&quot; &gt;Home Page&lt;/span&gt;&lt;/h1&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>

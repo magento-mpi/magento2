@@ -100,7 +100,7 @@ class Key extends \Magento\Backend\App\Action
                     )
                 );
             }
-            $this->_objectManager->get('Magento\Core\Model\App')->cleanCache();
+            $this->_objectManager->get('Magento\App\CacheInterface')->clean();
         } catch (\Exception $e) {
             if ($message = $e->getMessage()) {
                 $this->messageManager->addError($e->getMessage());

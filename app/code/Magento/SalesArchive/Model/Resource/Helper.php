@@ -16,7 +16,7 @@ namespace Magento\SalesArchive\Model\Resource;
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Helper extends \Magento\Core\Model\Resource\Helper
+class Helper extends \Magento\DB\Helper
 {
     /**
      * @param \Magento\App\Resource $resource
@@ -50,7 +50,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            throw new \Magento\Core\Exception(__("We can't find the table."));
+            throw new \Magento\Model\Exception(__("We can't find the table."));
         }
 
         $columns = array();
@@ -63,9 +63,9 @@ class Helper extends \Magento\Core\Model\Resource\Helper
         }
 
         if (!isset($columns[$column])) {
-            throw new \Magento\Core\Exception(__('Column not found'));
+            throw new \Magento\Model\Exception(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            throw new \Magento\Core\Exception(__('Positioning column not found'));
+            throw new \Magento\Model\Exception(__('Positioning column not found'));
         }
 
         if ($after) {

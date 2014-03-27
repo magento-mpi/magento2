@@ -149,6 +149,9 @@ class CheckoutOnepageTest extends Functional
             'Incorrect authorized amount value for the order #' . $orderId);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderPaymentMethod()
     {
         return array(

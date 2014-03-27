@@ -2,23 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend\Groupprice;
 
+use Magento\Catalog\Model\Product\Attribute\Backend\Price;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Catalog product abstract group price backend attribute model
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend\Groupprice;
-
-abstract class AbstractGroupprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
+abstract class AbstractGroupprice extends Price
 {
     /**
      * Website currency codes and rates
@@ -131,7 +126,7 @@ abstract class AbstractGroupprice extends \Magento\Catalog\Model\Product\Attribu
      * Validate group price data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return bool
      */
     public function validate($object)
@@ -156,7 +151,7 @@ abstract class AbstractGroupprice extends \Magento\Catalog\Model\Product\Attribu
                 )
             );
             if (isset($duplicates[$compare])) {
-                throw new \Magento\Core\Exception($this->_getDuplicateErrorMessage());
+                throw new \Magento\Model\Exception($this->_getDuplicateErrorMessage());
             }
             $duplicates[$compare] = true;
         }
@@ -197,7 +192,7 @@ abstract class AbstractGroupprice extends \Magento\Catalog\Model\Product\Attribu
             $websiteCurrency = $rates[$priceRow['website_id']]['code'];
 
             if ($baseCurrency == $websiteCurrency && isset($duplicates[$globalCompare])) {
-                throw new \Magento\Core\Exception($this->_getDuplicateErrorMessage());
+                throw new \Magento\Model\Exception($this->_getDuplicateErrorMessage());
             }
         }
 
@@ -255,7 +250,7 @@ abstract class AbstractGroupprice extends \Magento\Catalog\Model\Product\Attribu
         foreach ($data as $k => $v) {
             $data[$k]['website_price'] = $v['price'];
             if ($v['all_groups']) {
-                $data[$k]['cust_group'] = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
+                $data[$k]['cust_group'] = CustomerGroupServiceInterface::CUST_GROUP_ALL;
             }
         }
 
@@ -340,7 +335,7 @@ abstract class AbstractGroupprice extends \Magento\Catalog\Model\Product\Attribu
                 array_merge(array($data['website_id'], $data['cust_group']), $this->_getAdditionalUniqueFields($data))
             );
 
-            $useForAllGroups = $data['cust_group'] == \Magento\Customer\Model\Group::CUST_GROUP_ALL;
+            $useForAllGroups = $data['cust_group'] == CustomerGroupServiceInterface::CUST_GROUP_ALL;
             $customerGroupId = !$useForAllGroups ? $data['cust_group'] : 0;
 
             $new[$key] = array_merge(

@@ -2,22 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
+
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Adminhtml tier price item renderer
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
-
-class Tier extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group\AbstractGroup
+class Tier extends Group\AbstractGroup
 {
     /**
      * @var string
@@ -31,7 +26,7 @@ class Tier extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group
      */
     protected function _getInitialCustomerGroups()
     {
-        return array(\Magento\Customer\Model\Group::CUST_GROUP_ALL => __('ALL GROUPS'));
+        return array(CustomerGroupServiceInterface::CUST_GROUP_ALL => __('ALL GROUPS'));
     }
 
     /**

@@ -9,7 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Import data from file

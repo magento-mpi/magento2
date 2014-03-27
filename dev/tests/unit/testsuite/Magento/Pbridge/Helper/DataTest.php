@@ -15,7 +15,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\AbstractModel
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Model\AbstractModel
      */
     protected $_order;
 
@@ -47,7 +47,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'Magento\Pbridge\Helper\Data',
             array('cartFactory' => $this->_cartFactory, 'paypalCartFactory' => $this->_paypalCartFactory)
         );
-        $this->_order = $this->getMock('Magento\Core\Model\AbstractModel', array(), array(), '', false);
+        $this->_order = $this->getMock('Magento\Model\AbstractModel', array(), array(), '', false);
     }
 
     public function testPrepareCart()
