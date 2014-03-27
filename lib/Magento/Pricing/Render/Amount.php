@@ -64,6 +64,8 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
+     * Retrieve amount html for given price, item and arguments
+     *
      * @param PriceInterface $price
      * @param SaleableInterface $saleableItem
      * @param array $arguments

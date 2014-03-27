@@ -62,6 +62,8 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     }
 
     /**
+     * Retrieve pricebox html for given price type, item and arguments
+     *
      * @param string $priceType
      * @param SaleableInterface $saleableItem
      * @param array $arguments
@@ -91,6 +93,7 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     }
 
     /**
+     * Retrieve amount html for given price and arguments
      * (to use in templates only)
      *
      * @param PriceInterface $price
@@ -125,6 +128,8 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     }
 
     /**
+     * Retrieve price object of given type and quantity
+     *
      * @param string $priceCode
      * @param float|null $quantity
      * @return PriceInterface
