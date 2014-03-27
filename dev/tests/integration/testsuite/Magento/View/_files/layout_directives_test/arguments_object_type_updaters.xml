@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
     <block class="Magento\View\Element\Text" name="block_with_object_updater_args">
         <arguments>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">Magento\Core\Model\DataSource</argument>
@@ -17,21 +17,21 @@
     <referenceBlock name="block_with_object_updater_args">
         <arguments>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">
-                <updater>Magento\Core\Model\LayoutArgumentObjectUpdater</updater>
-                <updater>Magento\Core\Model\LayoutArgumentObjectUpdater</updater>
+                <updater>Magento\View\LayoutArgumentObjectUpdater</updater>
+                <updater>Magento\View\LayoutArgumentObjectUpdater</updater>
             </argument>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">
-                <updater>Magento\Core\Model\LayoutArgumentSimpleUpdater</updater>
+                <updater>Magento\View\LayoutArgumentSimpleUpdater</updater>
             </argument>
         </arguments>
     </referenceBlock>
     <referenceBlock name="block_with_object_updater_args">
         <arguments>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">
-                <updater>Magento\Core\Model\LayoutArgumentObjectUpdater</updater>
+                <updater>Magento\View\LayoutArgumentObjectUpdater</updater>
             </argument>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">
-                <updater>Magento\Core\Model\LayoutArgumentSimpleUpdater</updater>
+                <updater>Magento\View\LayoutArgumentSimpleUpdater</updater>
             </argument>
         </arguments>
     </referenceBlock>

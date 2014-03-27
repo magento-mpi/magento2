@@ -12,22 +12,22 @@
 /**
  * Layout integration tests
  *
- * Note that some methods are not covered here, see the \Magento\Core\Model\LayoutDirectivesTest
+ * Note that some methods are not covered here, see the \Magento\View\LayoutDirectivesTest
  *
  * @see \Magento\Core\Model\LayoutDirectivesTest
  */
-namespace Magento\Core\Model;
+namespace Magento\View;
 
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $_layout;
 
     protected function setUp()
     {
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
     }
 
     /**
@@ -44,7 +44,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 $inputArguments['area']
             );
         }
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Layout');
         $this->assertEquals($expectedArea, $layout->getArea());
     }
 
@@ -63,7 +63,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $structure->createElement('test.container', array());
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Layout',
+            'Magento\View\Layout',
             array('structure' => $structure)
         );
         $this->assertTrue($layout->hasElement('test.container'));
@@ -91,7 +91,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $layoutUtility = new \Magento\Core\Utility\Layout($this);
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $this->getMock(
-            'Magento\Core\Model\Layout',
+            'Magento\View\Layout',
             array('getUpdate'),
             $layoutUtility->getLayoutDependencies()
         );
@@ -117,7 +117,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     /**
      * A smoke test for generating elements
      *
-     * See sophisticated tests at \Magento\Core\Model\LayoutDirectivesTest
+     * See sophisticated tests at \Magento\View\LayoutDirectivesTest
      * @see \Magento\Core\Model\LayoutDirectivesTest
      * @magentoAppIsolation enabled
      */
@@ -316,7 +316,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento\View\Layout
      */
     public function testSetChild()
     {
@@ -433,7 +433,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_layout->getBlock('test'));
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\Layout'
+            'Magento\View\Layout'
         )->createBlock(
             'Magento\View\Element\Text'
         );
@@ -461,9 +461,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Layout::addOutputElement
-     * @covers \Magento\Core\Model\Layout::getOutput
-     * @covers \Magento\Core\Model\Layout::removeOutputElement
+     * @covers \Magento\View\Layout::addOutputElement
+     * @covers \Magento\View\Layout::getOutput
+     * @covers \Magento\View\Layout::removeOutputElement
      */
     public function testGetOutput()
     {

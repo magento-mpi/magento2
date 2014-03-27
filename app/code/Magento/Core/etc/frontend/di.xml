@@ -13,7 +13,7 @@
             <argument name="sessionName" xsi:type="string">frontend</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Layout">
+    <type name="Magento\View\Layout">
         <arguments>
             <argument name="area" xsi:type="string">frontend</argument>
         </arguments>

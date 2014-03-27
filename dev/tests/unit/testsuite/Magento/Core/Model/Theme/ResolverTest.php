@@ -1,0 +1,223 @@
+<?php
+/**
+ * {license_notice}
+ *   
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Core\Model\Theme;
+
+class ResolverTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Magento\Core\Model\Theme\Resolver
+     */
+    protected $model;
+
+    /**
+     * @var \Magento\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $designMock;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $themeCollectionFactoryMock;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Theme\Collection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $themeCollectionMock;
+
+    /**
+     * @var \Magento\View\Design\ThemeInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $themeMock;
+
+    protected function setUp()
+    {
+        $this->designMock = $this->getMockForAbstractClass('Magento\View\DesignInterface');
+        $this->themeCollectionFactoryMock = $this->getMock(
+            'Magento\Core\Model\Resource\Theme\CollectionFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
+        $this->themeCollectionMock = $this->getMock(
+            'Magento\Core\Model\Resource\Theme\Collection',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->themeMock = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+
+        $this->model = new \Magento\Core\Model\Theme\Resolver(
+            $this->designMock,
+            $this->themeCollectionFactoryMock
+        );
+    }
+
+    public function testGetByAreaWithThemeDefaultArea()
+    {
+        $this->designMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getDesignTheme'
+        )->will(
+            $this->returnValue($this->themeMock)
+        );
+        $this->designMock->expects($this->never())->method('getArea');
+        $this->designMock->expects($this->never())->method('getConfigurationDesignTheme');
+
+        $this->themeMock->expects(
+            $this->once()
+        )->method(
+            'getArea'
+        )->will(
+            $this->returnValue('theme_area')
+        );
+
+        $this->themeCollectionFactoryMock->expects($this->never())->method('create');
+
+        $this->assertEquals($this->themeMock, $this->model->getByArea('theme_area'));
+    }
+
+    public function testGetByAreaWithDesignDefaultArea()
+    {
+        $this->designMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getDesignTheme'
+        )->will(
+            $this->returnValue($this->themeMock)
+        );
+        $this->designMock->expects(
+            $this->once()
+        )->method(
+            'getArea'
+        )->will(
+            $this->returnValue('design_area')
+        );
+        $this->designMock->expects($this->never())->method('getConfigurationDesignTheme');
+
+        $this->themeMock->expects(
+            $this->once()
+        )->method(
+            'getArea'
+        )->will(
+            $this->returnValue('theme_area')
+        );
+
+        $this->themeCollectionFactoryMock->expects($this->never())->method('create');
+
+        $this->assertEquals($this->themeMock, $this->model->getByArea('design_area'));
+    }
+
+    public function testGetByAreaWithOtherAreaAndStringThemeId()
+    {
+        $this->designMock->expects(
+            $this->once()
+        )->method(
+            'getDesignTheme'
+        )->will(
+            $this->returnValue($this->themeMock)
+        );
+        $this->designMock->expects(
+            $this->once()
+        )->method(
+            'getArea'
+        )->will(
+            $this->returnValue('design_area')
+        );
+        $this->designMock->expects(
+            $this->once()
+        )->method(
+            'getConfigurationDesignTheme'
+        )->will(
+            $this->returnValue('other_theme')
+        );
+
+        $this->themeMock->expects(
+            $this->once()
+        )->method(
+            'getArea'
+        )->will(
+            $this->returnValue('theme_area')
+        );
+
+        $this->themeCollectionFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->themeCollectionMock)
+        );
+
+        $this->themeCollectionMock->expects(
+            $this->once()
+        )->method(
+            'getThemeByFullPath'
+        )->with(
+            'other_area' . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . 'other_theme'
+        )->will(
+            $this->returnValue($this->themeMock)
+        );
+
+        $this->assertEquals($this->themeMock, $this->model->getByArea('other_area'));
+    }
+
+    public function testGetByAreaWithOtherAreaAndNumericThemeId()
+    {
+        $this->designMock->expects(
+            $this->once()
+        )->method(
+            'getDesignTheme'
+        )->will(
+            $this->returnValue($this->themeMock)
+        );
+        $this->designMock->expects(
+            $this->once()
+        )->method(
+            'getArea'
+        )->will(
+            $this->returnValue('design_area')
+        );
+        $this->designMock->expects(
+            $this->once()
+        )->method(
+            'getConfigurationDesignTheme'
+        )->will(
+            $this->returnValue(12)
+        );
+
+        $this->themeMock->expects(
+            $this->once()
+        )->method(
+            'getArea'
+        )->will(
+            $this->returnValue('theme_area')
+        );
+
+        $this->themeCollectionFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->themeCollectionMock)
+        );
+
+        $this->themeCollectionMock->expects(
+            $this->once()
+        )->method(
+            'getItemById'
+        )->with(
+            12
+        )->will(
+            $this->returnValue($this->themeMock)
+        );
+
+        $this->assertEquals($this->themeMock, $this->model->getByArea('other_area'));
+    }
+}

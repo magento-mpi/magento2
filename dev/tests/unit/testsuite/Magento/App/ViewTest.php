@@ -47,7 +47,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_layoutProcessor = $this->getMock('Magento\View\Layout\ProcessorInterface');

@@ -2,22 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\View\Layout;
 
 /**
- * Test class for \Magento\Core\Model\Layout\ScheduledStructure
+ * Test class for \Magento\View\Layout\ScheduledStructure
  */
-namespace Magento\Core\Model\Layout;
-
 class ScheduledStructureTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout\ScheduledStructure
+     * @var \Magento\View\Layout\ScheduledStructure
      */
     protected $_model;
 
@@ -61,7 +57,7 @@ class ScheduledStructureTest extends \PHPUnit_Framework_TestCase
                 'path4' => 'path 4'
             )
         );
-        $this->_model = new \Magento\Core\Model\Layout\ScheduledStructure($this->_scheduledData);
+        $this->_model = new \Magento\View\Layout\ScheduledStructure($this->_scheduledData);
     }
 
     /**

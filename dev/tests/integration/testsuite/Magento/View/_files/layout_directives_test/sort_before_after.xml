@@ -7,19 +7,19 @@
  * @license     {license_link}
  */
 -->
-<layout>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
     <container name="root" label="Root">
-        <block class="Magento\View\Element\Text" name="element1" after="element3">
+        <block class="Magento\View\Element\Text" name="element1" before="element2">
             <action method="setText">
                 <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="text" xsi:type="string">1</argument>
             </action>
         </block>
-        <block class="Magento\View\Element\Text" name="element2" after="element1">
+        <block class="Magento\View\Element\Text" name="element2" after="element3">
             <action method="setText">
                 <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="text" xsi:type="string">2</argument>
             </action>
         </block>
-        <block class="Magento\View\Element\Text" name="element3" after="element_non_existing">
+        <block class="Magento\View\Element\Text" name="element3" after="-">
             <action method="setText">
                 <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="text" xsi:type="string">3</argument>
             </action>

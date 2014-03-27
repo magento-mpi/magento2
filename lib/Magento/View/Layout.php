@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model;
+namespace Magento\View;
 
 use Magento\View\Layout\Element;
 
@@ -137,7 +137,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $argumentInterpreter;
 
     /**
-     * @var \Magento\Core\Model\Layout\ScheduledStructure
+     * @var \Magento\View\Layout\ScheduledStructure
      */
     protected $_scheduledStructure;
 
@@ -149,13 +149,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_renderers = array();
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
@@ -163,11 +156,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_eventManager;
 
     /**
-     * Core store config
+     * Application configuration
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config
      */
-    protected $_coreStoreConfig;
+    protected $config;
 
     /**
      * @var \Magento\Logger $logger
@@ -178,11 +171,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @var \Magento\View\Layout\ProcessorFactory
      */
     protected $_processorFactory;
-
-    /**
-     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
-     */
-    protected $themeFactory;
 
     /**
      * @var \Magento\App\State
@@ -200,43 +188,49 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $isPrivate = false;
 
     /**
+     * @var string
+     */
+    protected $scope;
+
+    /**
+     * @var \Magento\View\Design\Theme\ResolverInterface
+     */
+    protected $themeResolver;
+
+    /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\Data\Structure $structure
      * @param \Magento\View\Layout\Argument\Parser $argumentParser
      * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
-     * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\View\Layout\ScheduledStructure $scheduledStructure
+     * @param \Magento\App\Config $config
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\View\Design\Theme\ResolverInterface $themeResolver
      * @param string $area
+     * @param string $scope
      */
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
-        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\DesignInterface $design,
         \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\Data\Structure $structure,
         \Magento\View\Layout\Argument\Parser $argumentParser,
         \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
-        \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\View\Layout\ScheduledStructure $scheduledStructure,
+        \Magento\App\Config $config,
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
-        $area = \Magento\View\DesignInterface::DEFAULT_AREA
+        \Magento\View\Design\Theme\ResolverInterface $themeResolver,
+        $area = \Magento\View\DesignInterface::DEFAULT_AREA,
+        $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreData = $coreData;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_design = $design;
+        $this->config = $config;
         $this->_blockFactory = $blockFactory;
         $this->_appState = $appState;
         $this->_area = $area;
@@ -248,9 +242,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_renderingOutput = new \Magento\Object();
         $this->_scheduledStructure = $scheduledStructure;
         $this->_processorFactory = $processorFactory;
-        $this->themeFactory = $themeFactory;
         $this->_logger = $logger;
         $this->messageManager = $messageManager;
+        $this->scope = $scope;
+        $this->themeResolver = $themeResolver;
     }
 
     /**
@@ -277,33 +272,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     public function getUpdate()
     {
         if (!$this->_update) {
-            $theme = $this->_getThemeInstance($this->getArea());
+            $theme = $this->themeResolver->getByArea($this->getArea());
             $this->_update = $this->_processorFactory->create(array('theme' => $theme));
         }
         return $this->_update;
-    }
-
-    /**
-     * Retrieve instance of a theme currently used in an area
-     *
-     * @param string $area
-     * @return Theme
-     */
-    protected function _getThemeInstance($area)
-    {
-        if ($this->_design->getDesignTheme()->getArea() == $area || $this->_design->getArea() == $area) {
-            return $this->_design->getDesignTheme();
-        }
-        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = $this->_themeFactory->create();
-        $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
-        if (is_numeric($themeIdentifier)) {
-            $result = $themeCollection->getItemById($themeIdentifier);
-        } else {
-            $themeFullPath = $area . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themeIdentifier;
-            $result = $themeCollection->getThemeByFullPath($themeFullPath);
-        }
-        return $result;
     }
 
     /**
@@ -821,7 +793,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
 
         $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath) && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
+        if (!empty($configPath) && !$this->config->isSetFlag($configPath, $this->scope)) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
         }
@@ -921,7 +893,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
+        if ($configPath && !$this->config->isSetFlag($configPath, $this->scope)) {
             return;
         }
 

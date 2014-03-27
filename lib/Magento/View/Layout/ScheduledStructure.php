@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Layout;
+namespace Magento\View\Layout;
 
 /**
  * Layout structure model

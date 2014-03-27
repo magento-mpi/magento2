@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model;
+namespace Magento\View;
 
 class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
 {

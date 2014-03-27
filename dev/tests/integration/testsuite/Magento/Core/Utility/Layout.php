@@ -61,11 +61,11 @@ class Layout
      *
      * @param string|array $layoutUpdatesFile
      * @param array $args
-     * @return \Magento\Core\Model\Layout|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\View\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     public function getLayoutFromFixture($layoutUpdatesFile, array $args = array())
     {
-        $layout = $this->_testCase->getMock('Magento\Core\Model\Layout', array('getUpdate'), $args);
+        $layout = $this->_testCase->getMock('Magento\View\Layout', array('getUpdate'), $args);
         $layoutUpdate = $this->getLayoutUpdateFromFixture($layoutUpdatesFile);
         $layoutUpdate->asSimplexml();
         $layout->expects(
@@ -97,7 +97,7 @@ class Layout
             'structure' => $objectManager->create('Magento\Data\Structure', array()),
             'argumentParser' => $objectManager->get('Magento\View\Layout\Argument\Parser'),
             'argumentInterpreter' => $objectManager->get('layoutArgumentInterpreter'),
-            'scheduledStructure' => $objectManager->create('Magento\Core\Model\Layout\ScheduledStructure', array()),
+            'scheduledStructure' => $objectManager->create('Magento\View\Layout\ScheduledStructure', array()),
             'coreStoreConfig' => $objectManager->create('Magento\Core\Model\Store\Config'),
             'appState' => $objectManager->get('Magento\App\State'),
             'messageManager' => $objectManager->get('Magento\Message\ManagerInterface'),

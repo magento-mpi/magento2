@@ -33,7 +33,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Registry')->register('current_promo_catalog_rule', $rule);
 
         $block = $objectManager->create('Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit\Tab\Main');
-        $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
+        $block->setLayout($objectManager->create('Magento\View\Layout'));
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit\Tab\Main',
             '_prepareForm'

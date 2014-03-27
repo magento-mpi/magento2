@@ -44,7 +44,7 @@ class EditTest extends AbstractController
     {
         parent::setUp();
         $this->layout = Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Layout',
+            'Magento\View\Layout',
             array('area' => FrontNameResolver::AREA_CODE)
         );
         $this->customerGroupService = Bootstrap::getObjectManager()->create(
