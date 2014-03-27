@@ -10,6 +10,7 @@
 
 namespace Magento\Pricing\PriceInfo;
 
+use Magento\Pricing\AmountFactory;
 use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\PriceComposite;
 use Magento\Pricing\Price\PriceInterface;
@@ -48,20 +49,28 @@ class Base implements PriceInfoInterface
     protected $quantity;
 
     /**
+     * @var AmountFactory
+     */
+    protected $amountFactory;
+
+    /**
      * @param SaleableInterface $product
      * @param PriceComposite $prices
      * @param AdjustmentComposite $adjustments
+     * @param AmountFactory $amountFactory
      * @param float $quantity
      */
     public function __construct(
         SaleableInterface $product,
         PriceComposite $prices,
         AdjustmentComposite $adjustments,
+        AmountFactory $amountFactory,
         $quantity = self::PRODUCT_QUANTITY_DEFAULT
     ) {
         $this->product = $product;
         $this->prices = $prices;
         $this->adjustments = $adjustments;
+        $this->amountFactory = $amountFactory;
         $this->quantity = $quantity;
     }
 
@@ -155,5 +164,14 @@ class Base implements PriceInfoInterface
             }
         }
         return $prices;
+    }
+
+    /**
+     * @param float $amount
+     * @return \Magento\Pricing\Amount
+     */
+    public function getAmount($amount)
+    {
+        return $this->amountFactory->create($this->adjustments, $this->product, $amount);
     }
 }

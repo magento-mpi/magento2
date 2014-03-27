@@ -61,7 +61,8 @@ class Amount
     public function getAmount()
     {
         if (!$this->amount) {
-            foreach (array_reverse($this->adjustmentComposite) as $adjustment) {
+            $this->amount = $this->dirtyAmount;
+            foreach (array_reverse($this->adjustmentComposite->getAdjustments()) as $adjustment) {
                 /** @var Adjustment\AdjustmentInterface $adjustment */
                 if ($adjustment->isIncludedInBasePrice()) {
                     $adjustedAmount = $adjustment->extractAdjustment($this->amount, $this->saleableItem);
@@ -70,7 +71,7 @@ class Amount
                 }
             }
         }
-        $this->amount;
+        return $this->amount;
     }
 
     /**
@@ -82,7 +83,7 @@ class Amount
     public function getDisplayAmount($excludedCode = null)
     {
         $amount = $this->getAmount();
-        foreach ($this->adjustmentComposite as $adjustment) {
+        foreach ($this->adjustmentComposite->getAdjustments() as $adjustment) {
             /** @var Adjustment\AdjustmentInterface $adjustment */
             if ($adjustment->isIncludedInDisplayPrice($this->saleableItem)
                 && !($excludedCode && $adjustment->isExcludedWith($excludedCode))
