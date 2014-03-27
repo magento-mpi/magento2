@@ -104,6 +104,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param string $scopeType
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -128,6 +129,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Data\Form\FormKey $formKey,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        $scopeType,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
@@ -141,6 +143,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
             $routeParamsResolver,
             $queryParamsResolver,
             $scopeConfig,
+            $scopeType,
             $data
         );
         $this->_config = $config;
@@ -311,7 +314,9 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      */
     public function getStartupPageUrl()
     {
-        $menuItem = $this->_getMenu()->get($this->_storeConfig->getValue(self::XML_PATH_STARTUP_MENU_ITEM, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $menuItem = $this->_getMenu()->get($this->_storeConfig->getValue(
+            self::XML_PATH_STARTUP_MENU_ITEM, $this->_scopeType
+        ));
         if (!is_null($menuItem)) {
             if ($menuItem->isAllowed() && $menuItem->getAction()) {
                 return $menuItem->getAction();

@@ -155,9 +155,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $this->_session,
             $this->_algorithm,
             $this->_registry,
+            $this->_scopeConfig,
             $this->_resourceEngine,
-            $this->_cache,
-            $this->_scopeConfig
+            $this->_cache
         );
     }
 

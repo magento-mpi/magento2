@@ -88,6 +88,11 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     );
 
     /**
+     * @var string
+     */
+    protected $_scopeType;
+
+    /**
      * Request instance
      *
      * @var \Magento\App\RequestInterface
@@ -155,6 +160,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param string $scopeType
      * @param array $data
      */
     public function __construct(
@@ -167,6 +173,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        $scopeType,
         array $data = array()
     ) {
         $this->_request = $request;
@@ -178,6 +185,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $this->_routeParamsResolver = $routeParamsResolver->create();
         $this->_queryParamsResolver = $queryParamsResolver;
         $this->_scopeConfig = $scopeConfig;
+        $this->_scopeType = $scopeType;
         parent::__construct($data);
     }
 
@@ -319,7 +327,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     {
         return $this->_scopeConfig->getValue(
             $path,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_scopeType,
             $this->_getScope()
         );
     }
