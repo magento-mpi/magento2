@@ -17,6 +17,9 @@
         $.mage.component({
             paymentAuthentication: [
                 '<?php echo $this->getViewFileUrl('Magento_Checkout::js/payment-authentication.js') ?>'
+            ],
+            addToCart: [
+                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>'
             ]
         });
     })(jQuery);
