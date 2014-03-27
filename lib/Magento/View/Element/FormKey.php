@@ -11,9 +11,9 @@
 /**
  * Frontend form key content block
  */
-namespace Magento\Core\Block;
+namespace Magento\View\Element;
 
-class Formkey extends \Magento\View\Element\Template
+class FormKey extends \Magento\View\Element\AbstractBlock
 {
     /**
      * @var \Magento\Data\Form\FormKey
@@ -21,12 +21,12 @@ class Formkey extends \Magento\View\Element\Template
     protected $formKey;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\View\Element\Context $context
      * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\View\Element\Context $context,
         \Magento\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
@@ -42,5 +42,13 @@ class Formkey extends \Magento\View\Element\Template
     public function getFormKey()
     {
         return $this->formKey->getFormKey();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _toHtml()
+    {
+        return '<input name="form_key" type="hidden" value="' . $this->getFormKey() . '" />';
     }
 }
