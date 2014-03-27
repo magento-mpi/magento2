@@ -94,13 +94,7 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->coreStoreMock));
 
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
-        $this->priceInfoMock = $this->getMock(
-            '\Magento\Pricing\PriceInfo',
-            ['getAdjustments'],
-            [],
-            '',
-            false
-        );
+        $this->priceInfoMock = $this->getMock('\Magento\Pricing\PriceInfo', ['getAdjustments'], [], '', false);
         $this->catalogRuleResourceFactoryMock = $this->getMock(
             '\Magento\CatalogRule\Model\Resource\RuleFactory',
             ['create'],
@@ -116,13 +110,7 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->coreWebsiteMock = $this->getMock(
-            '\Magento\Core\Model\Website',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->coreWebsiteMock = $this->getMock('\Magento\Core\Model\Website', [], [], '', false);
 
         $this->priceInfoMock->expects($this->any())
             ->method('getAdjustments')
@@ -140,7 +128,8 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             $this->dataTimeMock,
             $this->storeManagerMock,
             $this->customerSessionMock,
-            $this->catalogRuleResourceFactoryMock
+            $this->catalogRuleResourceFactoryMock,
+            1.
         );
     }
 

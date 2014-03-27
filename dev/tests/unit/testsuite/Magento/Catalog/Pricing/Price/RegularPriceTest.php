@@ -54,5 +54,23 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
     public function testGetValue()
     {
         $this->assertEquals(100, $this->regularPrice->getValue());
+
+        // test false value if price was not set
+        $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+
+        $this->priceInfoMock->expects($this->once())
+            ->method('getAdjustments')
+            ->will($this->returnValue([]));
+
+        $this->salableItemMock->expects($this->once())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($this->priceInfoMock));
+
+        $this->salableItemMock->expects($this->exactly(1))
+            ->method('getPrice')
+            ->will($this->returnValue(null));
+
+        $this->regularPrice = new RegularPrice($this->salableItemMock, 1);
     }
 }

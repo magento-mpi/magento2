@@ -12,7 +12,7 @@ namespace Magento\Weee\Pricing;
 
 use Magento\Pricing\Adjustment\AdjustmentInterface;
 use Magento\Pricing\Object\SaleableInterface;
-use \Magento\Weee\Helper\Data as WeeeHelper;
+use Magento\Weee\Helper\Data as WeeeHelper;
 
 /**
  * Weee pricing adjustment
@@ -126,7 +126,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function isExcludedWith($adjustmentCode)
     {
-        return $adjustmentCode === 'tax';
+        return $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODE;
     }
 
     /**

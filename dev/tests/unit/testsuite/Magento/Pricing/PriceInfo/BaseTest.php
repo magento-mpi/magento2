@@ -59,12 +59,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->prices->expects($this->once())
             ->method('getPriceCodes')
-            ->will($this->returnValue(
-                [
-                    'test1' => ['class' => 'class1', 'include_in_base_price' => false],
-                    'test2' => ['class' => 'class2', 'include_in_base_price' => true]
-                ]
-            ));
+            ->will($this->returnValue(['test1', 'test2']));
         $this->prices->expects($this->at(1))->method('createPriceObject')
             ->with($this->product, 'test1', $this->quantity)->will($this->returnValue('1'));
         $this->prices->expects($this->at(2))->method('createPriceObject')
@@ -139,5 +134,29 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('adjustment', $this->model->getAdjustment('test1'));
 
         $this->model->getAdjustment('not_existed');
+    }
+
+    /**
+     * @covers Base::getPricesIncludedInBase
+     */
+    public function testGetPricesIncludedInBase()
+    {
+        $this->prices->expects($this->once())
+            ->method('getMetadata')
+            ->will(
+                $this->returnValue(
+                    [
+                        'test1' => ['class' => 'class1', 'include_in_base_price' => false],
+                        'test2' => ['class' => 'class2', 'include_in_base_price' => true]
+                    ]
+                )
+            );
+
+        $priceModelMock = $this->getMock('Magento\Catalog\Pricing\Price\SpecialPrice', [], [], '', false);
+        $priceModelMock->expects($this->once())->method('getValue')->will($this->returnValue(2.5));
+        $this->prices->expects($this->at(1))->method('createPriceObject')
+            ->with($this->product, 'test2', $this->quantity)->will($this->returnValue($priceModelMock));
+
+        $this->assertSame([$priceModelMock], $this->model->getPricesIncludedInBase());
     }
 }

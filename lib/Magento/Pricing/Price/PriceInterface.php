@@ -15,9 +15,12 @@ namespace Magento\Pricing\Price;
  */
 interface PriceInterface
 {
-
     /**
-     * @return float
+     * Get price value
+     *
+     * Returns float if price value exists and false if not
+     *
+     * @return float|false
      */
     public function getValue();
 

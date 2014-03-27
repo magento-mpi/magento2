@@ -87,16 +87,34 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue(77));
 
-        $this->basePrice = new \Magento\Catalog\Pricing\Price\BasePrice($this->salableItemMock, 1);
+        $this->basePrice = new BasePrice($this->salableItemMock, 1);
     }
-
 
     /**
      * Test method getValue
      */
     public function testGetMinMaxValue()
     {
-        $this->assertEquals(77, $this->basePrice->getValue());
-        $this->assertEquals(100, $this->basePrice->getMaxValue());
+        $this->assertSame(77, $this->basePrice->getValue());
+        $this->assertSame(100, $this->basePrice->getMaxValue());
+
+        // test false value if price was not set
+        $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+
+        $this->priceInfoMock->expects($this->once())
+            ->method('getAdjustments')
+            ->will($this->returnValue([]));
+
+        $this->salableItemMock->expects($this->once())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($this->priceInfoMock));
+
+        $this->priceInfoMock->expects($this->once())
+            ->method('getPricesIncludedInBase')
+            ->will($this->returnValue([]));
+
+        $this->basePrice = new BasePrice($this->salableItemMock, 1);
+        $this->assertSame(false, $this->basePrice->getValue());
     }
 }

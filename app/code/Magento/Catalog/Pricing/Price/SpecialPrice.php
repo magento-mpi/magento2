@@ -51,7 +51,6 @@ class SpecialPrice extends RegularPrice implements SpecialPriceInterface
     {
         if (null === $this->value) {
             $this->value = false;
-
             $specialPrice = $this->getSpecialPrice();
             if (!is_null($specialPrice) && $specialPrice !== false && $this->isScopeDateInInterval()) {
                 $this->value = $specialPrice;
