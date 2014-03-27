@@ -27,7 +27,7 @@
     </type>
     <type name="Magento\DesignEditor\Model\Url\NavigationMode">
         <arguments>
-            <argument name="scopeType" xsi:type="string">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
 </config>
