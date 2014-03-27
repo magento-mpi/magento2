@@ -117,6 +117,7 @@ class Config implements ConfigInterface
      * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
+     * @param string $lifetimePath
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $storeConfig,
@@ -127,7 +128,8 @@ class Config implements ConfigInterface
         \Magento\App\Filesystem $filesystem,
         $saveMethod = \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
-        $cacheLimiter = null
+        $cacheLimiter = null,
+        $lifetimePath = self::XML_PATH_COOKIE_LIFETIME
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_storeManager = $storeManager;
@@ -147,7 +149,7 @@ class Config implements ConfigInterface
             $this->setOption('session.cache_limiter', $cacheLimiter);
         }
 
-        $lifetime = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $this->_storeManager->getStore());
+        $lifetime = $this->_storeConfig->getConfig($lifetimePath, $this->_storeManager->getStore());
         $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
         $this->setCookieLifetime($lifetime);
 

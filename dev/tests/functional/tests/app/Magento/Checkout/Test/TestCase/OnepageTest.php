@@ -75,7 +75,7 @@ class OnepageTest extends Functional
     /**
      * @return array
      */
-    public static function dataProviderOnepageCheckout()
+    public function dataProviderOnepageCheckout()
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),

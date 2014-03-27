@@ -19,7 +19,7 @@ use Magento\CatalogInventory\Model\Stock\Item;
  * @method string getStockName()
  * @method \Magento\CatalogInventory\Model\Stock setStockName(string $value)
  */
-class Stock extends \Magento\Core\Model\AbstractModel
+class Stock extends \Magento\Model\AbstractModel
 {
     const BACKORDERS_NO = 0;
 
@@ -66,7 +66,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -77,7 +77,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -171,7 +171,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
      *
      * @param array $items
      * @return Item[]
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function registerProductsSale($items)
     {
@@ -185,7 +185,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
             $item->setData($itemInfo);
             if (!$item->checkQty($qtys[$item->getProductId()])) {
                 $this->_getResource()->commit();
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Not all of your products are available in the requested quantity.')
                 );
             }
@@ -215,7 +215,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
      *
      * @param  \Magento\Object $item
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function registerItemSale(\Magento\Object $item)
     {
@@ -233,7 +233,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
                 }
             }
         } else {
-            throw new \Magento\Core\Exception(__('We cannot specify a product identifier for the order item.'));
+            throw new \Magento\Model\Exception(__('We cannot specify a product identifier for the order item.'));
         }
         return $this;
     }

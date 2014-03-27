@@ -12,45 +12,15 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAdjustmentCode()
     {
-        // Instantiate/mock objects
-        /** @var \Magento\View\Element\Template\Context $context */
-        $context = $this->getMockBuilder('Magento\View\Element\Template\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $model = $objectManager->getObject('Magento\Tax\Pricing\Render\Adjustment');
 
-        /** @var \Magento\Pricing\PriceCurrencyInterface $priceCurrency */
-        $priceCurrency = $this->getMockBuilder('Magento\Pricing\PriceCurrencyInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var \Magento\Catalog\Helper\Product\Price $helper */
-        $helper = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $model = new Adjustment($context, $priceCurrency, $helper);
-
-        // Run tested method
-        $code = $model->getAdjustmentCode();
-
-        // Check expectations
-        $this->assertNotEmpty($code);
+        $this->assertNotEmpty($model->getAdjustmentCode());
     }
 
     public function testDisplayBothPrices()
     {
         $expectedResult = true;
-
-        // Instantiate/mock objects
-        /** @var \Magento\View\Element\Template\Context $context */
-        $context = $this->getMockBuilder('Magento\View\Element\Template\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var \Magento\Pricing\PriceCurrencyInterface $priceCurrency */
-        $priceCurrency = $this->getMockBuilder('Magento\Pricing\PriceCurrencyInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
 
         /** @var \Magento\Catalog\Helper\Product\Price $helper */
         $helper = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
@@ -58,7 +28,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['displayBothPrices'])
             ->getMock();
 
-        $model = new Adjustment($context, $priceCurrency, $helper);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $model = $objectManager->getObject('Magento\Tax\Pricing\Render\Adjustment', array('helper' => $helper));
 
         // Avoid executing irrelevant functionality
         $helper->expects($this->any())->method('displayBothPrices')->will($this->returnValue($expectedResult));
@@ -83,22 +54,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $expectedPrice = '$4.56';
 
         // Instantiate/mock objects
-        /** @var \Magento\View\Element\Template\Context $context */
-        $context = $this->getMockBuilder('Magento\View\Element\Template\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var \Magento\Catalog\Model\PriceCurrency $priceCurrency */
-        $priceCurrency = $this->getMockBuilder('Magento\Catalog\Model\PriceCurrency')
-            ->disableOriginalConstructor()
-            ->setMethods(['convertAndFormat'])
-            ->getMock();
-
-        /** @var \Magento\Catalog\Helper\Product\Price $helper */
-        $helper = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
-            ->disableOriginalConstructor()
-            //->setMethods(['displayBothPrices'])
-            ->getMock();
+        /** @var \Magento\Pricing\PriceCurrencyInterface $priceCurrency */
+        $priceCurrency = $this->getMock('Magento\Pricing\PriceCurrencyInterface');
 
         /** @var \Magento\Pricing\Render\Amount $amountRender */
         $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
@@ -112,12 +69,15 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getDisplayValue'])
             ->getMock();
 
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments('Magento\Tax\Pricing\Render\Adjustment', array(
+            'priceCurrency' => $priceCurrency
+        ));
         /** @var \Magento\Tax\Pricing\Render\Adjustment $model */
         $model = $this->getMockBuilder('Magento\Tax\Pricing\Render\Adjustment')
-            ->setConstructorArgs([$context, $priceCurrency, $helper])
+            ->setConstructorArgs($constructArguments)
             ->setMethods(['toHtml'])
             ->getMock();
-        //$model = new Adjustment($context, $priceCurrency, $helper);
 
         // Avoid executing irrelevant functionality; Set values to return;
         $model->expects($this->any())->method('toHtml')->will($this->returnValue($expectedHtml));
@@ -151,22 +111,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $expectedPrice = '$4.56';
 
         // Instantiate/mock objects
-        /** @var \Magento\View\Element\Template\Context $context */
-        $context = $this->getMockBuilder('Magento\View\Element\Template\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var \Magento\Catalog\Model\PriceCurrency $priceCurrency */
-        $priceCurrency = $this->getMockBuilder('Magento\Catalog\Model\PriceCurrency')
-            ->disableOriginalConstructor()
-            ->setMethods(['convertAndFormat'])
-            ->getMock();
-
-        /** @var \Magento\Catalog\Helper\Product\Price $helper */
-        $helper = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
-            ->disableOriginalConstructor()
-            //->setMethods(['displayBothPrices'])
-            ->getMock();
+        /** @var \Magento\Pricing\PriceCurrencyInterface $priceCurrency */
+        $priceCurrency = $this->getMock('Magento\Pricing\PriceCurrencyInterface');
 
         /** @var \Magento\Pricing\Render\Amount $amountRender */
         $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
@@ -180,12 +126,15 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getDisplayValue'])
             ->getMock();
 
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments('Magento\Tax\Pricing\Render\Adjustment', array(
+            'priceCurrency' => $priceCurrency
+        ));
         /** @var \Magento\Tax\Pricing\Render\Adjustment $model */
         $model = $this->getMockBuilder('Magento\Tax\Pricing\Render\Adjustment')
-            ->setConstructorArgs([$context, $priceCurrency, $helper])
+            ->setConstructorArgs($constructArguments)
             ->setMethods(['toHtml'])
             ->getMock();
-        //$model = new Adjustment($context, $priceCurrency, $helper);
 
         // Avoid executing irrelevant functionality; Set values to return;
         $model->expects($this->any())->method('toHtml')->will($this->returnValue($expectedHtml));
@@ -226,21 +175,6 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $expectedHtml = '<p>expected_html</p>';
 
         // Instantiate/mock objects
-        /** @var \Magento\View\Element\Template\Context $context */
-        $context = $this->getMockBuilder('Magento\View\Element\Template\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var \Magento\Catalog\Model\PriceCurrency $priceCurrency */
-        $priceCurrency = $this->getMockBuilder('Magento\Catalog\Model\PriceCurrency')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /** @var \Magento\Catalog\Helper\Product\Price $helper */
-        $helper = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         /** @var \Magento\Pricing\Render\Amount $amountRender */
         $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
             ->disableOriginalConstructor()
@@ -253,9 +187,12 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getId', '__wakeup'])
             ->getMock();
 
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments('Magento\Tax\Pricing\Render\Adjustment');
+
         /** @var \Magento\Tax\Pricing\Render\Adjustment $model */
         $model = $this->getMockBuilder('Magento\Tax\Pricing\Render\Adjustment')
-            ->setConstructorArgs([$context, $priceCurrency, $helper])
+            ->setConstructorArgs($constructArguments)
             ->setMethods(['toHtml'])
             ->getMock();
 

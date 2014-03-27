@@ -16,7 +16,7 @@ namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
  * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Amount extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager

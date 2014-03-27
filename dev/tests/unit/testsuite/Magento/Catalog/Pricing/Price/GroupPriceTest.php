@@ -26,7 +26,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array|null $groupPrice
      * @param int $customerGroup
-     * @param int $expected
+     * @param float $expected
      *
      * @dataProvider groupPriceDataProvider
      */
@@ -67,7 +67,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
      * @dataProvider groupPriceNonExistDataProvider
      *
      * @param array|null $groupPrice
-     * @param int $expected
+     * @param float $expected
      */
     public function testGroupPriceNonExist($groupPrice, $expected)
     {
@@ -96,11 +96,11 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $salableItemMock->expects($this->at(0))
+        $salableItemMock->expects($this->at(1))
             ->method('getData')
             ->will($this->returnValue(null));
 
-        $salableItemMock->expects($this->at(1))
+        $salableItemMock->expects($this->at(2))
             ->method('getData')
             ->will($this->returnValue($groupPrice));
 
@@ -165,39 +165,39 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                 'groupPrice' => [
                     [
                         'cust_group'    => 1,
-                        'website_price' => 90
+                        'website_price' => 90.9
                     ],
                     [
                         'cust_group'    => 2,
-                        'website_price' => 80
+                        'website_price' => 80.8
                     ],
                     [
                         'cust_group'    => 1,
-                        'website_price' => 70
+                        'website_price' => 70.7
                     ]
                 ],
                 'customer_group'   => 1,
-                'expected'         => 90
+                'expected'         => 90.9
             ],
             [
                 'groupPrice' => [
                     [
                         'cust_group'    => 2,
-                        'website_price' => 10
+                        'website_price' => 10.1
                     ],
                     [
                         'cust_group'    => 1,
-                        'website_price' => 20
+                        'website_price' => 20.2
                     ],
                 ],
                 'customer_group'   => 1,
-                'expected'         => 20
+                'expected'         => 20.2
             ],
             [
                 'groupPrice' => [
                     [
                         'cust_group'    => 1,
-                        'website_price' => 90
+                        'website_price' => 90.9
                     ],
                 ],
                 'customer_group'   => 2,

@@ -7,6 +7,8 @@
  */
 namespace Magento\Pricing\Render;
 
+use Magento\View\LayoutInterface;
+
 /**
  * Amount Renderer Factory
  */
@@ -35,7 +37,7 @@ class AmountRenderFactory
      * @return AmountRenderInterface
      */
     public function create(
-        \Magento\View\LayoutInterface $layout,
+        LayoutInterface $layout,
         $amountRender = self::AMOUNT_RENDERER_DEFAULT,
         $template = '',
         array $arguments = []

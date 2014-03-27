@@ -307,18 +307,14 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var \Magento\Catalog\Model\PriceCurrency $priceCurrency */
-        $priceCurrency = $this->getMockBuilder('Magento\Catalog\Model\PriceCurrency')
-            ->disableOriginalConstructor()
-            ->setMethods(['convertAndFormat'])
-            ->getMock();
+        /** @var \Magento\Pricing\PriceCurrencyInterface $priceCurrency */
+        $priceCurrency = $this->getMock('Magento\Pricing\PriceCurrencyInterface');
 
-        /** @var \Magento\Weee\Helper\Data $helper */
-        $helper = $this->getMockBuilder('Magento\Weee\Helper\Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $model = new Adjustment($context, $priceCurrency, $helper);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $model = $objectManager->getObject('Magento\Weee\Pricing\Render\Adjustment', array(
+            'context' => $context,
+            'priceCurrency' => $priceCurrency
+        ));
 
         // Avoid executing irrelevant functionality
         $priceCurrency->expects($this->any())->method('convertAndFormat')->will($this->returnArgument(0));

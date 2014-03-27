@@ -116,12 +116,12 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
      *
      * @param array $itemStatusArray Array of RMA items status
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getStatusByItems($itemStatusArray)
     {
         if (!is_array($itemStatusArray) || empty($itemStatusArray)) {
-            throw new \Magento\Core\Exception(__('This is the wrong RMA item status.'));
+            throw new \Magento\Model\Exception(__('This is the wrong RMA item status.'));
         }
 
         $itemStatusArray = array_unique($itemStatusArray);
@@ -131,7 +131,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {
-                throw new \Magento\Core\Exception(__('This is the wrong RMA item status.'));
+                throw new \Magento\Model\Exception(__('This is the wrong RMA item status.'));
             }
         }
 

@@ -36,8 +36,8 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var \Magento\App\State */
     protected $_appState;
 
-    /** @var \Magento\AppInterface */
-    protected $_application;
+    /** @var \Magento\View\LayoutInterface */
+    protected $_layout;
 
     /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
@@ -55,19 +55,25 @@ class Rest implements \Magento\App\FrontControllerInterface
     protected $_errorProcessor;
 
     /**
-     * Initialize dependencies.
+     * Initialize dependencies
      *
+     * @var \Magento\App\AreaList
+     */
+    protected $areaList;
+
+    /**
      * @param RestRequest $request
      * @param RestResponse $response
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
-     * @param \Magento\AppInterface $application
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
+     * @param \Magento\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -78,24 +84,26 @@ class Rest implements \Magento\App\FrontControllerInterface
         Router $router,
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
-        \Magento\AppInterface $application,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
-        ErrorProcessor $errorProcessor
+        ErrorProcessor $errorProcessor,
+        \Magento\App\AreaList $areaList
     ) {
         $this->_router = $router;
         $this->_request = $request;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
-        $this->_application = $application;
+        $this->_layout = $layout;
         $this->_oauthService = $oauthService;
         $this->_oauthHelper = $oauthHelper;
         $this->_authorizationService = $authorizationService;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
+        $this->areaList = $areaList;
     }
 
     /**
@@ -109,10 +117,8 @@ class Rest implements \Magento\App\FrontControllerInterface
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
-        $this->_application->loadAreaPart(
-            $this->_application->getLayout()->getArea(),
-            \Magento\Core\Model\App\Area::PART_TRANSLATE
-        );
+        $this->areaList->getArea($this->_layout->getArea())
+            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));

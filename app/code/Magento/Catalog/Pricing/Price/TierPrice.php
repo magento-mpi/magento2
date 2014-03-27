@@ -110,7 +110,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         if (null === $this->priceList) {
             $prices = $this->getStoredTierPrices();
             $qtyCache = [];
-            /** @var float $productPrice s a minimal available price */
+            /** @var float $productPrice is a minimal available price */
             $productPrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
             foreach ($prices as $priceKey => $price) {
                 if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {

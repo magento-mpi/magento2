@@ -37,7 +37,7 @@ use Resource\Price\Customer\Collection;
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Price extends \Magento\Core\Model\AbstractModel
+class Price extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\ProductAlert\Model\Resource\Price\Customer\CollectionFactory
@@ -48,7 +48,7 @@ class Price extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\ProductAlert\Model\Resource\Price\Customer\CollectionFactory $customerColFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -56,7 +56,7 @@ class Price extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\ProductAlert\Model\Resource\Price\Customer\CollectionFactory $customerColFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

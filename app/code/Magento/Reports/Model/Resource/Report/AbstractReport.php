@@ -13,7 +13,7 @@ namespace Magento\Reports\Model\Resource\Report;
 /**
  * Abstract report aggregate resource model
  */
-abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Flag object

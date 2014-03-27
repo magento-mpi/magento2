@@ -29,7 +29,7 @@ namespace Magento\Checkout\Model;
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Agreement extends \Magento\Core\Model\AbstractModel
+class Agreement extends \Magento\Model\AbstractModel
 {
     /**
      * @return void

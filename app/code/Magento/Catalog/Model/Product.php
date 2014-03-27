@@ -513,7 +513,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function getCategoryId()
     {
-        $category = $this->_coreRegistry->registry('current_category');
+        $category = $this->_registry->registry('current_category');
         if ($category) {
             return $category->getId();
         }
@@ -765,7 +765,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         $this->cleanCache();
         $this->_indexIndexer->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
         return parent::_beforeDelete();
@@ -949,6 +948,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * Returns special price
      *
      * @return float
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialPrice()
     {
@@ -959,6 +959,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * Returns starting date of the special price
      *
      * @return mixed
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialFromDate()
     {
@@ -969,6 +970,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * Returns end date of the special price
      *
      * @return mixed
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialToDate()
     {

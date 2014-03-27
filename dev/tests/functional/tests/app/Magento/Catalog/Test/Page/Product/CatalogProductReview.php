@@ -23,7 +23,7 @@ class CatalogProductReview extends Page
     /**
      * URL for catalog product review
      */
-    const MCA = 'catalog/product_review';
+    const MCA = 'review/product';
 
     /**
      * Review grid selector

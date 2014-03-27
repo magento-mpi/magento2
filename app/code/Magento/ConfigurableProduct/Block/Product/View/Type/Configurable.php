@@ -11,6 +11,7 @@ namespace Magento\ConfigurableProduct\Block\Product\View\Type;
 
 use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -44,14 +45,14 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Catalog\Helper\Image
-     */
-    protected $_imageHelper;
-
-    /**
      * @var \Magento\Catalog\Helper\Product\Price
      */
     protected $priceHelper;
+
+    /**
+     * @var CustomerAccountService
+     */
+    protected $_customerAccountService;
 
     /**
      * @var \Magento\Catalog\Model\Product\PriceModifierInterface
@@ -75,48 +76,30 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param \Magento\Catalog\Model\Product\PriceModifierInterface $priceModifier
+     * @param CustomerAccountService $customerAccountService
      * @param array $data
      * @param array $priceBlockTypes
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Catalog\Helper\Product\Price $priceHelper,
+        CustomerAccountService $customerAccountService,
         PriceModifierInterface $priceModifier,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
-        $this->_imageHelper = $imageHelper;
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
         $this->priceHelper = $priceHelper;
         $this->priceModifier = $priceModifier;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $arrayUtils,
             $data,
             $priceBlockTypes
@@ -305,9 +288,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             }
         }
 
-        if (!$this->priceHelper->getCustomer() && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER)
+
+        if (is_null($this->priceHelper->getCustomer()->getId())
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
         ) {
-            $this->priceHelper->setCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER));
+            $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+            $this->priceHelper->setCustomer($this->_customerAccountService->getCustomer($customerId));
         }
 
         $_request = $this->priceHelper->getRateRequest(false, false, false);

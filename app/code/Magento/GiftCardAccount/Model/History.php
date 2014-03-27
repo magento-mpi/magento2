@@ -29,7 +29,7 @@ namespace Magento\GiftCardAccount\Model;
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     const ACTION_CREATED = 0;
 
@@ -52,7 +52,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -60,7 +60,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -168,12 +168,12 @@ class History extends \Magento\Core\Model\AbstractModel
      * Processing object before save data
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            throw new \Magento\Core\Exception(__('Please assign a gift card account.'));
+            throw new \Magento\Model\Exception(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -203,7 +203,7 @@ class History extends \Magento\Core\Model\AbstractModel
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
                 break;
             default:
-                throw new \Magento\Core\Exception(__('Unknown history action.'));
+                throw new \Magento\Model\Exception(__('Unknown history action.'));
                 break;
         }
 

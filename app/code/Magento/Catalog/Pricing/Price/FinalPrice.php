@@ -34,7 +34,7 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
         $this->salableItem = $salableItem;
         $this->quantity = $quantity;
         $this->priceInfo = $salableItem->getPriceInfo();
-        $this->basePrice = $this->priceInfo->getPrice('base_price');
+        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE);
         $this->baseAmount = $this->getValue();
     }
 

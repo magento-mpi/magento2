@@ -34,6 +34,11 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
     protected $value;
 
     /**
+     * @var array|null
+     */
+    protected $storedGroupPrice;
+
+    /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
      * @param Session $customerSession
@@ -51,15 +56,10 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
     {
         if (null === $this->value) {
             $this->value = false;
-            $groupPrices = $this->getStoredGroupPrice();
-
-            if (null === $groupPrices || !is_array($groupPrices)) {
-                return $this->value;
-            }
 
             $customerGroup = $this->getCustomerGroupId();
 
-            foreach ($groupPrices as $groupPrice) {
+            foreach ($this->getStoredGroupPrice() as $groupPrice) {
                 if ($groupPrice['cust_group'] == $customerGroup) {
                     $this->value = $groupPrice['website_price'];
                     break;
@@ -81,20 +81,26 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
     }
 
     /**
-     * @return array|null
+     * @return array
      */
-    protected function getStoredGroupPrice()
+    public function getStoredGroupPrice()
     {
-        $groupPrices = $this->salableItem->getData('group_price');
+        if (null !== $this->storedGroupPrice) {
+            return $this->storedGroupPrice;
+        }
 
-        if (null === $groupPrices) {
+        $this->storedGroupPrice = $this->salableItem->getData('group_price');
+
+        if (null === $this->storedGroupPrice) {
             $attribute = $this->salableItem->getResource()->getAttribute('group_price');
             if ($attribute) {
                 $attribute->getBackend()->afterLoad($this->salableItem);
-                $groupPrices = $this->salableItem->getData('group_price');
+                $this->storedGroupPrice = $this->salableItem->getData('group_price');
             }
         }
-
-        return $groupPrices;
+        if (null === $this->storedGroupPrice || !is_array($this->storedGroupPrice)) {
+            $this->storedGroupPrice = [];
+        }
+        return $this->storedGroupPrice;
     }
 }

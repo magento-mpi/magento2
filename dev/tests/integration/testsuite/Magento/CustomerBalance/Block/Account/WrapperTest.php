@@ -17,11 +17,8 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
-        )->loadArea(
-            'frontend'
-        );
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
+            ->loadArea('frontend');
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Session',

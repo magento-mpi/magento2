@@ -431,7 +431,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
-            } catch (\Magento\Core\Exception $exception) {
+            } catch (\Magento\Model\Exception $exception) {
                 $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
                 if (!count($messages)) {
                     $messages = $exception->getMessage();
@@ -483,7 +483,7 @@ class Index extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(__('Customer will receive an email with a link to reset password.'));
         } catch (NoSuchEntityException $exception) {
             return $this->_redirect('customer/index');
-        } catch (\Magento\Core\Exception $exception) {
+        } catch (\Magento\Model\Exception $exception) {
             $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
             if (!count($messages)) {
                 $messages = $exception->getMessage();
@@ -850,7 +850,7 @@ class Index extends \Magento\Backend\App\Action
 
             $customer = $this->_customerBuilder->populateWithArray($data)->create();
             $errors = $this->_customerAccountService->validateCustomerData($customer);
-        } catch (\Magento\Core\Exception $exception) {
+        } catch (\Magento\Model\Exception $exception) {
             /* @var $error Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
                 $errors[] = $error->getText();

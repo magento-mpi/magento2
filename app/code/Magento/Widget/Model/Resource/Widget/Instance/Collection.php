@@ -18,7 +18,7 @@
  */
 namespace Magento\Widget\Model\Resource\Widget\Instance;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Fields map for corellation names & real selected fields
