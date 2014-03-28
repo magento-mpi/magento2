@@ -5,11 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Session;
-
-use Magento\Session\Exception;
-use Magento\Session\SessionManagerInterface;
-use Magento\Session\ValidatorInterface;
+namespace Magento\Session;
 
 /**
  * Session Validator

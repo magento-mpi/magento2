@@ -2241,4 +2241,5 @@ return array(
     array('Magento\Core\Model\Session', 'Magento\Session\Generic'),
     array('Magento\Core\Model\Session\Config', 'Magento\Session\Config'),
     array('Magento\Core\Model\Session\SidResolver', 'Magento\Session\SidResolver'),
+    array('Magento\Session\Validator', 'Magento\Session\Validator'),
 );
