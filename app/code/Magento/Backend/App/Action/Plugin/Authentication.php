@@ -89,6 +89,8 @@ class Authentication
             }
             if (!$this->_auth->isLoggedIn()) {
                 $this->_processNotLoggedInUser($request);
+            } else {
+                $this->_auth->getAuthStorage()->prolong();
             }
         }
         $this->_auth->getAuthStorage()->refreshAcl();
