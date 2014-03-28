@@ -2150,4 +2150,5 @@ return array(
     ['Magento\Translate\Inline\ConfigFactory'],
     array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
     array('Magento\Core\Helper\Js'),
+    array('Magento\Backend\Helper\Media\Js'),
 );
