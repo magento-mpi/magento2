@@ -1812,6 +1812,24 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($service->isEmailAvailable('email', 1));
     }
 
+    public function testIsEmailAvailableDefaultWebsite()
+    {
+        $customerMock = $this->getMockBuilder(
+            '\Magento\Customer\Service\V1\Data\Customer'
+        )->disableOriginalConstructor()->getMock();
+        $this->_converter = $this->getMockBuilder(
+            '\Magento\Customer\Model\Converter'
+        )->disableOriginalConstructor()->getMock();
+        $service = $this->_createService();
+
+        $defaultWebsiteId = 7;
+        $this->_storeMock->expects($this->once())->method('getWebSiteId')->will($this->returnValue($defaultWebsiteId));
+        $this->_converter->expects(
+            $this->once()
+        )->method('getCustomerModelByEmail')->with('email', $defaultWebsiteId)->will($this->returnValue($customerMock));
+        $this->assertFalse($service->isEmailAvailable('email'));
+    }
+
     public function testCreateAccountMailException()
     {
         $this->_customerFactoryMock->expects($this->any())
