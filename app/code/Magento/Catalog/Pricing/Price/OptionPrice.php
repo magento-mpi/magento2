@@ -9,18 +9,15 @@
  */
 namespace Magento\Catalog\Pricing\Price;
 
+use \Magento\Catalog\Pricing\Price;
+
 /**
  * Class OptionPrice
  *
  * @package Magento\Catalog\Pricing\Price
  */
-class OptionPrice extends \Magento\Catalog\Pricing\Price\RegularPrice
+class OptionPrice extends RegularPrice implements OptionPriceInterface
 {
-    /**
-     * Price model code
-     */
-    const PRICE_TYPE_CUSTOM_OPTION = 'custom_option';
-
     /**
      * @var string
      */
