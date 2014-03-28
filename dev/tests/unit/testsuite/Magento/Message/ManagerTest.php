@@ -140,7 +140,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->eventManager->expects($this->once())
             ->method('dispatch')
-            ->with('core_session_abstract_clear_messages');
+            ->with('session_abstract_clear_messages');
 
         $this->assertEquals($messageCollection, $this->model->getMessages(true));
     }

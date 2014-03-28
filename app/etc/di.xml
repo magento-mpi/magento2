@@ -226,7 +226,7 @@
     </type>
     <type name="Magento\Url">
         <arguments>
-            <argument name="session" xsi:type="object">Magento\Core\Model\Session\Proxy</argument>
+            <argument name="session" xsi:type="object">Magento\Session\Generic\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\View\Url">

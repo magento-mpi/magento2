@@ -129,10 +129,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core_session'
+ * Create table 'session'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core_session'))
+    ->newTable($installer->getTable('session'))
     ->addColumn('session_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'primary'   => true,

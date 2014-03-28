@@ -51,10 +51,10 @@
     <event name="catalog_product_compare_item_collection_clear">
         <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="registerCompareListChange" />
     </event>
-    <event name="core_session_abstract_add_message">
+    <event name="session_abstract_add_message">
         <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="processNewMessage" />
     </event>
-    <event name="core_session_abstract_clear_messages">
+    <event name="session_abstract_clear_messages">
         <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="processMessageClearing" />
     </event>
     <event name="wishlist_add_product">
