@@ -81,7 +81,7 @@ class RegularPrice implements PriceInterface
     /**
      * Get price value
      *
-     * @return float
+     * @return float|false
      */
     public function getValue()
     {
