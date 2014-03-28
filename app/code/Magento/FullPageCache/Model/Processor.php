@@ -574,7 +574,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }
 
-            if ($this->_environment->hasQuery(\Magento\Core\Model\Session\SidResolver::SESSION_ID_QUERY_PARAM)) {
+            if ($this->_environment->hasQuery(\Magento\Session\SidResolver::SESSION_ID_QUERY_PARAM)) {
                 $this->_fpcCookie->updateCustomerCookies();
                 $this->_fpcObserverFactory->create()->updateCustomerProductIndex();
             }

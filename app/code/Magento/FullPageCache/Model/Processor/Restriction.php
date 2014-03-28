@@ -73,7 +73,7 @@ class Restriction
             return false;
         }
 
-        if ($this->_environment->hasQuery(\Magento\Core\Model\Session\SidResolver::SESSION_ID_QUERY_PARAM)) {
+        if ($this->_environment->hasQuery(\Magento\Session\SidResolver::SESSION_ID_QUERY_PARAM)) {
             return false;
         }
 

@@ -14,7 +14,7 @@ namespace Magento\Core\Model\Session;
 class SidResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Session\SidResolver
+     * @var \Magento\Session\SidResolver
      */
     protected $model;
 
@@ -66,7 +66,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
 
         $this->model = $objectManager->create(
-            'Magento\Core\Model\Session\SidResolver',
+            'Magento\Session\SidResolver',
             array(
                 'coreStoreConfig' => $this->coreStoreConfig,
                 'urlBuilder' => $this->urlBuilder,

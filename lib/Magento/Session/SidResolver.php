@@ -9,10 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Session;
-
-use Magento\Session\SessionManagerInterface;
-use Magento\Session\SidResolverInterface;
+namespace Magento\Session;
 
 class SidResolver implements SidResolverInterface
 {

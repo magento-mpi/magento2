@@ -424,7 +424,7 @@ return array(
     array(
         'XML_PATH_USE_FRONTEND_SID',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
+        '\Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
     ),
     array(
         'SESSION_ID_QUERY_PARAM',

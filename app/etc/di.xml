@@ -61,7 +61,7 @@
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Image\Adapter\Config" />
     <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <preference for="Magento\Session\Config\ConfigInterface" type="Magento\Session\Config" />
-    <preference for="Magento\Session\SidResolverInterface" type="Magento\Core\Model\Session\SidResolver\Proxy" />
+    <preference for="Magento\Session\SidResolverInterface" type="Magento\Session\SidResolver\Proxy" />
     <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
     <preference for="Magento\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />

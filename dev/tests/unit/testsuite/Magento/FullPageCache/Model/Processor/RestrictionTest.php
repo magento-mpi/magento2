@@ -130,7 +130,7 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
 
         $valueMap = array(
             array('no_cache', false),
-            array(\Magento\Core\Model\Session\SidResolver::SESSION_ID_QUERY_PARAM, true),
+            array(\Magento\Session\SidResolver::SESSION_ID_QUERY_PARAM, true),
         );
 
         $this->_environmentMock->expects($this->exactly(2))
