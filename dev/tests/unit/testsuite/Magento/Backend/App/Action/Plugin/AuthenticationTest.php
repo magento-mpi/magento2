@@ -81,8 +81,7 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
         $storage->expects($this->at(1))
             ->method('refreshAcl');
 
-        $proceed = function ($request) use ($expectedResult)
-        {
+        $proceed = function ($request) use ($expectedResult) {
             return $expectedResult;
         };
 
