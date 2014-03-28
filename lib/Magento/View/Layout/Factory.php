@@ -1,7 +1,5 @@
 <?php
 /**
- * Factory class for \Magento\Authorization
- *
  * {license_notice}
  *
  * @copyright   {copyright}

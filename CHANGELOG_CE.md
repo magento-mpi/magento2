@@ -13,6 +13,7 @@
   * Resolved dependency of Catalog and related modules on Review module (MAGETWO-21480)
   * Moved indexers related logic from Core Module to Indexer Module (MAGETWO-21597)
   * Moved Inline translation and user intended translate functionality from Magento\Core module into a separate Magento\Translation module (MAGETWO-21596)
+  * Moved View related components from Magento\Core module to Magento\View (MAGETWO-21590)
 * Framework Improvements:
   * Covered Magento library components with unit tests:
      * Magento/Config
