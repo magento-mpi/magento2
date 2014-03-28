@@ -53,7 +53,7 @@ return array(
     '/config/global/index' => 'This configuration moved to indexers.xml file',
     '/config/global/catalogrule' => 'This configuration moved to Di configuration of \Magento\CatalogRule\Model\Rule',
     '/config/global/salesrule' => 'This configuration moved to Di configuration of \Magento\SalesRule\Helper\Coupon',
-    '/config/global/session' => 'This configuration moved to Di configuration of \Magento\Session\Validator',
+    '/config/global/session' => 'This configuration moved to Di configuration of \Magento\Core\Model\Session\Validator',
     '/config/global/ignore_user_agents' => 'This configuration moved to Di configuration of \Magento\Log\Model\Visitor',
     '/config/global/request' => 'This configuration moved to Di configuration of \Magento\App\RequestInterface',
     '/config/global/secure_url' =>
@@ -92,7 +92,7 @@ return array(
     '/config/global/resources' => 'This configuration moved to Di configuration of \Magento\App\Resource',
     '/config/global/resource' => 'This configuration moved to Di configuration of \Magento\App\Resource',
     '/config/*/events/core_block_abstract_to_html_after' =>
-    'Event has been replaced with "core_layout_render_element"',
+        'Event has been replaced with "core_layout_render_element"',
     '/config/*/events/catalog_controller_product_delete' => '',
     '/config//observers/*/args' => 'This was an undocumented and unused feature in event subscribers',
     '/config/default/design/theme' => 'Relocated to /config/<area>/design/theme',
@@ -104,15 +104,15 @@ return array(
     '/config/global/newsletter/tempate_filter' => 'Use DI configs to setup model for template processing',
     '/config/*/layout' => 'Use convention for layout files placement instead of configuration',
     '/config/frontend/product/collection/attributes'
-        => 'Use /config/group[@name="catalog_product"] of catalog_attributes.xml',
+    => 'Use /config/group[@name="catalog_product"] of catalog_attributes.xml',
     '/config/frontend/category/collection/attributes'
-        => 'Use /config/group[@name="catalog_category"] of catalog_attributes.xml',
+    => 'Use /config/group[@name="catalog_category"] of catalog_attributes.xml',
     '/config/global/sales/quote/item/product_attributes'
-        => 'Use /config/group[@name="sales_quote_item"] of catalog_attributes.xml',
+    => 'Use /config/group[@name="sales_quote_item"] of catalog_attributes.xml',
     '/config/global/wishlist/item/product_attributes'
-        => 'Use /config/group[@name="wishlist_item"] of catalog_attributes.xml',
+    => 'Use /config/group[@name="wishlist_item"] of catalog_attributes.xml',
     '/config/global/catalog/product/flat/attribute_nodes'
-        => 'Use /config/global/catalog/product/flat/attribute_groups',
+    => 'Use /config/global/catalog/product/flat/attribute_groups',
     '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
     '/config/global/pdf' => 'Use configuration in pdf.xml',
     '/config/install' => 'Configurations moved to DI file settings',

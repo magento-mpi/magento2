@@ -424,7 +424,7 @@ return array(
     array(
         'XML_PATH_USE_FRONTEND_SID',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
+        '\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
     ),
     array(
         'SESSION_ID_QUERY_PARAM',
@@ -434,47 +434,47 @@ return array(
     array(
         'XML_PATH_COOKIE_DOMAIN',
         '\Magento\Stdlib\Cookie',
-        '\Magento\Session\Config::XML_PATH_COOKIE_DOMAIN'
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_DOMAIN'
     ),
     array(
         'XML_PATH_COOKIE_PATH',
         '\Magento\Stdlib\Cookie',
-        '\Magento\Session\Config::XML_PATH_COOKIE_PATH'
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_PATH'
     ),
     array(
         'XML_PATH_COOKIE_LIFETIME',
         '\Magento\Stdlib\Cookie',
-        '\Magento\Session\Config::XML_PATH_COOKIE_LIFETIME'
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_LIFETIME'
     ),
     array(
         'XML_PATH_COOKIE_HTTPONLY',
         '\Magento\Stdlib\Cookie',
-        '\Magento\Session\Config::XML_PATH_COOKIE_HTTPONLY'
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_HTTPONLY'
     ),
     array(
         'PARAM_SESSION_SAVE_METHOD',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Session\Config::PARAM_SESSION_SAVE_METHOD'
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
     ),
     array(
         'PARAM_SESSION_SAVE_PATH',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Session\Config::PARAM_SESSION_SAVE_PATH'
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_PATH'
     ),
     array(
         'PARAM_SESSION_CACHE_LIMITER',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Session\Config::PARAM_SESSION_CACHE_LIMITER'
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_CACHE_LIMITER'
     ),
     array(
         'XML_NODE_SESSION_SAVE_PATH',
         'Magento\Core\Model\Session\AbstractSession',
-        'Magento\Session\Config::PARAM_SESSION_SAVE_PATH'
+        'Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_PATH'
     ),
     array(
         'XML_NODE_SESSION_SAVE',
         'Magento\Core\Model\Session\AbstractSession',
-        'Magento\Session\Config::PARAM_SESSION_SAVE_METHOD'
+        'Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
     ),
     array(
         'XML_PATH_LOG_EXCEPTION_FILE',
