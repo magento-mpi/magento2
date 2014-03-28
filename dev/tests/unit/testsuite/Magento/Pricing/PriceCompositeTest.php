@@ -10,7 +10,6 @@
  */
 namespace Magento\Pricing;
 
-use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\Factory as PriceFactory;
 use Magento\Catalog\Pricing\Price\FinalPriceInterface;
 use Magento\Catalog\Pricing\Price\GroupPriceInterface;
