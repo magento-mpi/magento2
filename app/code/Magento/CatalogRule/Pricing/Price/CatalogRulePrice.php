@@ -48,7 +48,7 @@ class CatalogRulePrice extends RegularPrice
     protected $customerSession;
 
     /**
-     * @var
+     * @var float|bool|null
      */
     protected $value;
 

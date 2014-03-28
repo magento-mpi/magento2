@@ -43,7 +43,7 @@ class Amount implements AmountInterface
     /**
      * @param AdjustmentComposite $adjustmentComposite
      * @param SaleableInterface $saleableItem
-     * @param $amount
+     * @param float $amount
      */
     public function __construct(
         AdjustmentComposite $adjustmentComposite,

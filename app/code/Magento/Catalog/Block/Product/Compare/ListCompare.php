@@ -254,8 +254,10 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     }
 
     /**
+     * Render price block
+     *
      * @param \Magento\Catalog\Model\Product $product
-     * @return mixed
+     * @return string
      */
     public function getProductPrice(\Magento\Catalog\Model\Product $product)
     {
