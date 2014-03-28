@@ -65,6 +65,10 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                             <?php echo $this->getReviewsSummaryHtml($_product,$rating) ?>
                         <?php endif; ?>
                         <?php echo $this->getPriceHtml($_product, true) ?>
+                        <?php
+                        $renderBlock = $this->getLayout()->getBlock('product.price.render.default');
+                        echo $renderBlock ? $renderBlock->render('final_price', $_product) : null;
+                        ?>
                         <?php echo $this->getLayout()->getBlock('product.price.render.default')->render(
                             'final_price',
                             $_product,

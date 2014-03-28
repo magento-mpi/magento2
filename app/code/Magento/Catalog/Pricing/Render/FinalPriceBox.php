@@ -74,7 +74,7 @@ class FinalPriceBox extends BasePriceBox
         $price = $this->getPriceType('final_price');
         $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
         return $this->renderAmount(
-            $price->getAmount(),
+            $price->getMinimalPrice(),
             [
                 'display_label'     => __('As low as:'),
                 'price_id'          => $id,
