@@ -87,7 +87,7 @@ class Observer extends \Magento\Model\AbstractModel
         if (!$customerId) {
             return false;
         }
-        return $this->_wishlistFactory->create()->loadByCustomer($customerId, true);
+        return $this->_wishlistFactory->create()->loadByCustomerId($customerId, true);
     }
 
     /**
@@ -156,7 +156,7 @@ class Observer extends \Magento\Model\AbstractModel
 
             if ($this->_customerSession->isLoggedIn()) {
                 $wishlist = $this->_wishlistFactory->create()
-                    ->loadByCustomer($this->_customerSession->getCustomer(), true);
+                    ->loadByCustomerId($this->_customerSession->getCustomerId(), true);
             } elseif ($sharedWishlist) {
                 $wishlist = $this->_wishlistFactory->create()->loadByCode($sharedWishlist);
             } else {

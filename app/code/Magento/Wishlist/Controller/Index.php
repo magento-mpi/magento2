@@ -145,7 +145,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             if ($wishlistId) {
                 $wishlist->load($wishlistId);
             } else {
-                $wishlist->loadByCustomer($customerId, true);
+                $wishlist->loadByCustomerId($customerId, true);
             }
 
             if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
