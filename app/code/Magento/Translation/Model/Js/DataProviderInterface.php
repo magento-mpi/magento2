@@ -16,4 +16,4 @@ interface DataProviderInterface
      * @return string[]
      */
     public function getData();
-} 
+}

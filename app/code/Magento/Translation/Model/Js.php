@@ -8,7 +8,7 @@
 
 namespace Magento\Translation\Model;
 
-class Js 
+class Js
 {
     /**
      * Translation data
@@ -41,4 +41,4 @@ class Js
     {
         return $this->translateData;
     }
-} 
+}

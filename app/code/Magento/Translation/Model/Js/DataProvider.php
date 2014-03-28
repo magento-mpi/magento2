@@ -157,4 +157,4 @@ class DataProvider implements DataProviderInterface
             'Your order cannot be completed at this time as there is no payment methods available for it.' => __('Your order cannot be completed at this time as there is no payment methods available for it.'),
         );
     }
-} 
+}
