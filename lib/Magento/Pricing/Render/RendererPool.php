@@ -94,8 +94,8 @@ class RendererPool extends AbstractBlock
      * @param SaleableInterface $saleableItem
      * @param PriceInterface $price
      * @param array $data
-     * @throws \InvalidArgumentException
      * @return AmountRenderInterface
+     * @throws \InvalidArgumentException
      */
     public function createAmountRender(
         AmountInterface $amount,
@@ -153,6 +153,9 @@ class RendererPool extends AbstractBlock
         return $amountBlock;
     }
 
+    /**
+     * @return array
+     */
     public function getAdjustmentRenders()
     {
         $renders = [];
@@ -164,6 +167,12 @@ class RendererPool extends AbstractBlock
         return $renders;
     }
 
+    /**
+     * @param string $type
+     * @param string $priceCode
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     protected function getAmountRenderBlockTemplate($type, $priceCode)
     {
         $template = $this->getData($type . '/prices/' . $priceCode . '/amount_render_template');
@@ -184,6 +193,12 @@ class RendererPool extends AbstractBlock
         return $template;
     }
 
+    /**
+     * @param string $type
+     * @param string $priceCode
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     protected function getRenderBlockTemplate($type, $priceCode)
     {
         $template = $this->getData($type . '/prices/' . $priceCode . '/render_template');
