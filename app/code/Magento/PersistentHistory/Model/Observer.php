@@ -111,6 +111,11 @@ class Observer
     protected $_wishListFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\PersistentHistory\Helper\Data $ePersistentData
@@ -127,6 +132,7 @@ class Observer
      * @param \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory
      * @param \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishListFactory
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
@@ -144,7 +150,8 @@ class Observer
         \Magento\Core\Model\Config\ValueFactory $valueFactory,
         \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory,
         \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory,
-        \Magento\Wishlist\Model\WishlistFactory $wishListFactory
+        \Magento\Wishlist\Model\WishlistFactory $wishListFactory,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_wishlistData = $wishlistData;
@@ -162,6 +169,7 @@ class Observer
         $this->_comparedFactory = $comparedFactory;
         $this->_viewedFactory = $viewedFactory;
         $this->_wishListFactory = $wishListFactory;
+        $this->_customerAccountService = $customerAccountService;
     }
 
     /**
@@ -178,8 +186,8 @@ class Observer
         }
 
         if ($this->_isLoggedOut()) {
-            /** @var $customer \Magento\Customer\Model\Customer */
-            $customer = $this->_customerFactory->create()->load(
+            /** @var $customer \Magento\Customer\Service\V1\Data\Customer */
+            $customer = $this->_customerAccountService->getCustomer(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
             $this->_customerSession->setCustomerId($customer->getId())->setCustomerGroupId($customer->getGroupId());

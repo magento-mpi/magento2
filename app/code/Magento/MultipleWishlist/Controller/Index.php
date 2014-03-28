@@ -63,6 +63,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Customer\Helper\View $customerHelperView
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Session\Generic $wishlistSession
@@ -77,6 +78,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Customer\Helper\View $customerHelperView,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Session\Generic $wishlistSession,
@@ -94,7 +96,8 @@ class Index extends \Magento\Wishlist\Controller\Index
             $wishlistConfig,
             $fileResponseFactory,
             $transportBuilder,
-            $inlineTranslation
+            $inlineTranslation,
+            $customerHelperView
         );
     }
 

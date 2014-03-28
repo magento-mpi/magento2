@@ -27,16 +27,24 @@ class Results extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
+     * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Registry $registry,
+        \Magento\Customer\Helper\View $customerViewHelper,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_customerViewHelper = $customerViewHelper;
         parent::__construct($context, $data);
     }
 
@@ -59,5 +67,10 @@ class Results extends \Magento\View\Element\Template
     public function getWishlistLink(\Magento\Wishlist\Model\Wishlist $item)
     {
         return $this->getUrl('*/search/view', array('wishlist_id' => $item->getId()));
+    }
+
+    public function getCustomerName($customerId)
+    {
+
     }
 }

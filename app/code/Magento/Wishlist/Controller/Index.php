@@ -60,6 +60,11 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
     protected $inlineTranslation;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerHelperView;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Customer\Model\Session $customerSession
@@ -68,6 +73,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Customer\Helper\View $customerHelperView
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -77,13 +83,15 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Customer\Helper\View $customerHelperView
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_wishlistConfig = $wishlistConfig;
         $this->_fileResponseFactory = $fileResponseFactory;
         $this->_transportBuilder = $transportBuilder;
         $this->inlineTranslation = $inlineTranslation;
+        $this->_customerHelperView = $customerHelperView;
         parent::__construct($context, $formKeyValidator, $customerSession);
     }
 
@@ -726,8 +734,8 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         $sent = 0;
 
         try {
-            $customer = $this->_customerSession->getCustomer();
-
+            $customer = $this->_customerSession->getCustomerDataObject();
+            $customerName = $this->_customerHelperView->getCustomerName($customer);
             /*if share rss added rss feed to email template*/
             if ($this->getRequest()->getParam('rss_url')) {
                 $rss_url = $this->_view->getLayout()->createBlock(
@@ -758,6 +766,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                     )->setTemplateVars(
                         array(
                             'customer' => $customer,
+                            'customerName' => $customerName,
                             'salable' => $wishlist->isSalable() ? 'yes' : '',
                             'items' => $wishlistBlock,
                             'addAllLink' => $this->_url->getUrl('*/shared/allcart', array('code' => $sharingCode)),
