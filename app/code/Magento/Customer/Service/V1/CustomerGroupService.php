@@ -15,6 +15,7 @@ use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Core\Model\StoreManagerInterface;
 
 /**
  * Class CustomerGroupService
@@ -44,21 +45,29 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_customerGroupBuilder;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $_storeManager;
+
+    /**
      * @param GroupFactory $groupFactory
      * @param StoreConfig $storeConfig
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         GroupFactory $groupFactory,
         StoreConfig $storeConfig,
         Data\SearchResultsBuilder $searchResultsBuilder,
-        Data\CustomerGroupBuilder $customerGroupBuilder
+        Data\CustomerGroupBuilder $customerGroupBuilder,
+        StoreManagerInterface $storeManager
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_storeConfig = $storeConfig;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -80,10 +89,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $this->_customerGroupBuilder->setId(
                 $group->getId()
             )->setCode(
-                $group->getCode()
-            )->setTaxClassId(
-                $group->getTaxClassId()
-            );
+                    $group->getCode()
+                )->setTaxClassId(
+                    $group->getTaxClassId()
+                );
             $groups[] = $this->_customerGroupBuilder->create();
         }
         return $groups;
@@ -116,10 +125,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $this->_customerGroupBuilder->setId(
                 $group->getId()
             )->setCode(
-                $group->getCode()
-            )->setTaxClassId(
-                $group->getTaxClassId()
-            );
+                    $group->getCode()
+                )->setTaxClassId(
+                    $group->getTaxClassId()
+                );
             $groups[] = $this->_customerGroupBuilder->create();
         }
         $this->_searchResultsBuilder->setItems($groups);
@@ -220,18 +229,21 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $this->_customerGroupBuilder->setId(
             $customerGroup->getId()
         )->setCode(
-            $customerGroup->getCode()
-        )->setTaxClassId(
-            $customerGroup->getTaxClassId()
-        );
+                $customerGroup->getCode()
+            )->setTaxClassId(
+                $customerGroup->getTaxClassId()
+            );
         return $this->_customerGroupBuilder->create();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDefaultGroup($storeId)
+    public function getDefaultGroup($storeId = null)
     {
+        if (is_null($storeId)) {
+            $storeId = $this->_storeManager->getStore()->getId();
+        }
         $groupId = $this->_storeConfig->getConfig(CustomerGroupModel::XML_PATH_DEFAULT_ID, $storeId);
         try {
             return $this->getGroup($groupId);

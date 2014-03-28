@@ -737,9 +737,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function isEmailAvailable($customerEmail, $websiteId)
+    public function isEmailAvailable($customerEmail, $websiteId = null)
     {
         try {
+            if (is_null($websiteId)) {
+                $websiteId = $this->_storeManager->getStore()->getWebsiteId();
+            }
             $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);
             return false;
         } catch (NoSuchEntityException $e) {
