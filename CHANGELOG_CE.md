@@ -40,6 +40,8 @@
   * Refactored Review module to use Customer Service (MAGETWO-20485)
   * Refactored the Catalog module to use Customer service layer (MAGETWO-20460, MAGETWO-20461)
   * Refactored the Downloadable module to use Customer service layer (MAGETWO-20473)
+* Indexer improvements:
+  * Added execution time hints for console reindex (MAGETWO-22818)
 
 2.0.0.0-dev70
 =============
