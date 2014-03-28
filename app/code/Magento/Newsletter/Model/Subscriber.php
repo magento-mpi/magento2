@@ -8,6 +8,7 @@
 namespace Magento\Newsletter\Model;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Subscriber model
@@ -421,9 +422,14 @@ class Subscriber extends \Magento\Model\AbstractModel
         }
 
         if ($isSubscribeOwnEmail) {
-            $customer = $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
-            $this->setStoreId($customer->getStoreId());
-            $this->setCustomerId($customer->getId());
+            try {
+                $customer = $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
+                $this->setStoreId($customer->getStoreId());
+                $this->setCustomerId($customer->getId());
+            } catch(NoSuchEntityException $e) {
+                $this->setStoreId($this->_storeManager->getStore()->getId());
+                $this->setCustomerId(0);
+            }
         } else {
             $this->setStoreId($this->_storeManager->getStore()->getId());
             $this->setCustomerId(0);
@@ -474,8 +480,7 @@ class Subscriber extends \Magento\Model\AbstractModel
      */
     public function subscribeCustomerById($customerId)
     {
-        $this->_updateCustomerSubscription($customerId, true);
-        return $this;
+        return $this->_updateCustomerSubscription($customerId, true);
     }
 
     /**
@@ -486,8 +491,7 @@ class Subscriber extends \Magento\Model\AbstractModel
      */
     public function unsubscribeCustomerById($customerId)
     {
-        $this->_updateCustomerSubscription($customerId, false);
-        return $this;
+        return $this->_updateCustomerSubscription($customerId, false);
     }
 
     /**
@@ -502,9 +506,13 @@ class Subscriber extends \Magento\Model\AbstractModel
      */
     protected function _updateCustomerSubscription($customerId, $subscribe)
     {
-        $this->loadByCustomerId($customerId);
-        $customerData = $this->_customerAccountService->getCustomer($customerId);
+        try {
+            $customerData = $this->_customerAccountService->getCustomer($customerId);
+        } catch (NoSuchEntityException $e) {
+            return $this;
+        }
 
+        $this->loadByCustomerId($customerId);
         if (!$subscribe && !$this->getId()) {
             // If subscription flag not set or customer is not a subscriber
             // and no subscribe below

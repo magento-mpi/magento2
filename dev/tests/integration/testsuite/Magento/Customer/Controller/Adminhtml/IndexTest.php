@@ -15,6 +15,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class IndexTest extends \Magento\Backend\Utility\Controller
 {
@@ -159,6 +160,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          * Check that errors was generated and set to session
          */
         $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+
         /**
          * Check that customer data were set to session
          */
@@ -187,6 +189,12 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertRedirect(
             $this->stringStartsWith($this->_baseControllerUrl . 'edit/id/' . $customerId . '/back/1')
         );
+
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        $subscriber = $objectManager->get("Magento\Newsletter\Model\SubscriberFactory")->create();
+        $this->assertEmpty($subscriber->getId());
+        $subscriber->loadByCustomerId($customerId);
+        $this->assertEmpty($subscriber->getId());
     }
 
     /**
@@ -236,7 +244,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                     'postcode' => '',
                     'telephone' => ''
                 )
-            )
+            ),
+            'subscription' => ''
         );
         $this->getRequest()->setPost($post);
         $this->getRequest()->setParam('customer_id', 1);
@@ -273,6 +282,56 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertEquals('update firstname', $updatedAddress->getFirstname());
         $newAddress = $this->customerAddressService->getDefaultShippingAddress($customerId);
         $this->assertEquals('new firstname', $newAddress->getFirstname());
+
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        $subscriber = $objectManager->get("Magento\Newsletter\Model\SubscriberFactory")->create();
+        $this->assertEmpty($subscriber->getId());
+        $subscriber->loadByCustomerId($customerId);
+        $this->assertNotEmpty($subscriber->getId());
+        $this->assertEquals(1, $subscriber->getStatus());
+
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'index/key/'));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Newsletter/_files/subscribers.php
+     */
+    public function testSaveActionExistingCustomerUnsubscribeNewsletter()
+    {
+        $customerId = 1;
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = Bootstrap::getObjectManager();
+
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        $subscriber = $objectManager->get("Magento\Newsletter\Model\SubscriberFactory")->create();
+        $this->assertEmpty($subscriber->getId());
+        $subscriber->loadByCustomerId($customerId);
+        $this->assertNotEmpty($subscriber->getId());
+        $this->assertEquals(1, $subscriber->getStatus());
+
+        $post = array(
+            'customer_id' => $customerId,
+        );
+        $this->getRequest()->setPost($post);
+        $this->getRequest()->setParam('customer_id', 1);
+        $this->dispatch('backend/customer/index/save');
+
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        $subscriber = $objectManager->get("Magento\Newsletter\Model\SubscriberFactory")->create();
+        $this->assertEmpty($subscriber->getId());
+        $subscriber->loadByCustomerId($customerId);
+        $this->assertNotEmpty($subscriber->getId());
+        $this->assertEquals(3, $subscriber->getStatus());
+
+        /**
+         * Check that success message is set
+         */
+        $this->assertSessionMessages(
+            $this->equalTo(array('You saved the customer.')),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+
+
 
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'index/key/'));
     }

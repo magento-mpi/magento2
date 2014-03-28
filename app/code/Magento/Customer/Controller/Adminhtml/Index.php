@@ -252,10 +252,10 @@ class Index extends \Magento\Backend\App\Action
 
         // restore data from SESSION
         if ($data && (!isset(
-            $data['customer_id']
-        ) || isset(
-            $data['customer_id']
-        ) && $data['customer_id'] == $customerId)
+                $data['customer_id']
+                ) || isset(
+                $data['customer_id']
+                ) && $data['customer_id'] == $customerId)
         ) {
             $request = clone $this->getRequest();
             $request->setParams($data);
@@ -402,16 +402,23 @@ class Index extends \Magento\Backend\App\Action
                 $customerDetails = $this->_customerDetailsBuilder->setCustomer(
                     $customer
                 )->setAddresses(
-                    $addresses
-                )->create();
+                        $addresses
+                    )->create();
                 if ($isExistingCustomer) {
                     $this->_customerAccountService->updateCustomer($customerDetails);
                 } else {
                     $customer = $this->_customerAccountService->createAccount($customerDetails);
+                    $customerId = $customer->getId();
                 }
 
-                if ($customerData['is_subscribed']) {
+                $isSubscribed = false;
+                if ($this->_authorization->isAllowed(null)) {
+                    $isSubscribed = $this->getRequest()->getPost('subscription') !== null;
+                }
+                if ($isSubscribed) {
                     $this->_subscriberFactory->create()->subscribeCustomerById($customerId);
+                } else {
+                    $this->_subscriberFactory->create()->unsubscribeCustomerById($customerId);
                 }
 
                 // After save
@@ -421,11 +428,8 @@ class Index extends \Magento\Backend\App\Action
                 );
 
                 // Done Saving customer, finish save action
-                $customerId = $customer->getId();
                 $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
-
                 $this->messageManager->addSuccess(__('You saved the customer.'));
-
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
             } catch (\Magento\Validator\ValidatorException $exception) {
                 $this->_addSessionErrorMessages($exception->getMessages());
@@ -547,10 +551,6 @@ class Index extends \Magento\Backend\App\Action
             );
         }
 
-        if ($this->_authorization->isAllowed(null)) {
-            $customerData['is_subscribed'] = $this->getRequest()->getPost('subscription') !== null;
-        }
-
         if (isset($customerData['disable_auto_group_change'])) {
             $customerData['disable_auto_group_change'] = empty($customerData['disable_auto_group_change']) ? '0' : '1';
         }
@@ -591,12 +591,12 @@ class Index extends \Magento\Backend\App\Action
                 // Set default billing and shipping flags to address
                 $addressData[Customer::DEFAULT_BILLING] = isset(
                     $customerData[Customer::DEFAULT_BILLING]
-                ) &&
+                    ) &&
                     $customerData[Customer::DEFAULT_BILLING] &&
                     $customerData[Customer::DEFAULT_BILLING] == $addressId;
                 $addressData[Customer::DEFAULT_SHIPPING] = isset(
                     $customerData[Customer::DEFAULT_SHIPPING]
-                ) &&
+                    ) &&
                     $customerData[Customer::DEFAULT_SHIPPING] &&
                     $customerData[Customer::DEFAULT_SHIPPING] == $addressId;
 
@@ -672,8 +672,8 @@ class Index extends \Magento\Backend\App\Action
         $subscriber = $this->_objectManager->create(
             'Magento\Newsletter\Model\Subscriber'
         )->loadByCustomer(
-            $customerId
-        );
+                $customerId
+            );
 
         $this->_coreRegistry->register('subscriber', $subscriber);
         $this->_view->loadLayout()->renderLayout();
@@ -732,10 +732,10 @@ class Index extends \Magento\Backend\App\Action
             $quote = $this->_objectManager->create(
                 'Magento\Sales\Model\Quote'
             )->setWebsite(
-                $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
-            )->loadByCustomer(
-                $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
-            );
+                    $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
+                )->loadByCustomer(
+                    $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+                );
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -760,8 +760,8 @@ class Index extends \Magento\Backend\App\Action
         $this->_view->getLayout()->getBlock(
             'admin.customer.view.cart'
         )->setWebsiteId(
-            (int)$this->getRequest()->getParam('website_id')
-        );
+                (int)$this->getRequest()->getParam('website_id')
+            );
         $this->_view->renderLayout();
     }
 
@@ -789,10 +789,10 @@ class Index extends \Magento\Backend\App\Action
         $this->_view->getLayout()->getBlock(
             'admin.customer.reviews'
         )->setCustomerId(
-            $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
-        )->setUseAjax(
-            true
-        );
+                $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+            )->setUseAjax(
+                true
+            );
         $this->_view->renderLayout();
     }
 
@@ -1032,8 +1032,8 @@ class Index extends \Magento\Backend\App\Action
             $file = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->urlDecode(
-                $this->getRequest()->getParam('image')
-            );
+                    $this->getRequest()->getParam('image')
+                );
             $plain = true;
         } else {
             throw new NotFoundException();
@@ -1045,12 +1045,12 @@ class Index extends \Magento\Backend\App\Action
         $fileName = 'customer' . '/' . ltrim($file, '/');
         $path = $directory->getAbsolutePath($fileName);
         if (!$directory->isFile(
-            $fileName
-        ) && !$this->_objectManager->get(
-            'Magento\Core\Helper\File\Storage'
-        )->processStorageFile(
-            $path
-        )
+                $fileName
+            ) && !$this->_objectManager->get(
+                'Magento\Core\Helper\File\Storage'
+            )->processStorageFile(
+                    $path
+                )
         ) {
             throw new NotFoundException();
         }
@@ -1078,20 +1078,20 @@ class Index extends \Magento\Backend\App\Action
             $this->getResponse()->setHttpResponseCode(
                 200
             )->setHeader(
-                'Pragma',
-                'public',
-                true
-            )->setHeader(
-                'Content-type',
-                $contentType,
-                true
-            )->setHeader(
-                'Content-Length',
-                $contentLength
-            )->setHeader(
-                'Last-Modified',
-                date('r', $contentModify)
-            )->clearBody();
+                    'Pragma',
+                    'public',
+                    true
+                )->setHeader(
+                    'Content-type',
+                    $contentType,
+                    true
+                )->setHeader(
+                    'Content-Length',
+                    $contentLength
+                )->setHeader(
+                    'Last-Modified',
+                    date('r', $contentModify)
+                )->clearBody();
             $this->getResponse()->sendHeaders();
 
             echo $directory->readFile($fileName);
