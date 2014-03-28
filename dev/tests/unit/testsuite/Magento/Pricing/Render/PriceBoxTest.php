@@ -57,9 +57,9 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers PriceBox::render
-     * @covers PriceBox::getSaleableItem
-     * @covers PriceBox::getPrice
+     * @covers \Magento\Pricing\Render\PriceBox::render
+     * @covers \Magento\Pricing\Render\PriceBox::getSaleableItem
+     * @covers \Magento\Pricing\Render\PriceBox::getPrice
      */
     public function testRender()
     {
