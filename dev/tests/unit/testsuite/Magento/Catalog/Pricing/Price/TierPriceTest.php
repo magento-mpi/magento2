@@ -53,6 +53,11 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected $session;
 
     /**
+     * @var TierPrice
+     */
+    protected $model;
+
+    /**
      * Initialize base dependencies
      */
     protected function setUp()
@@ -63,12 +68,14 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         }));
 
         $this->product = $this->getMock('Magento\Catalog\Model\Product',
-            ['getPriceInfo', 'getCustomerGroupId', '__wakeup'], [], '', false);
+            ['getPriceInfo', 'hasCustomerGroupId', 'getCustomerGroupId', 'getResource', '__wakeup'], [], '', false);
         $this->product->expects($this->any())->method('getPriceInfo')->will($this->returnValue($this->priceInfo));
 
         $this->session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->session->expects($this->any())->method('getCustomerGroupId')
             ->will($this->returnValue($this->customerGroup));
+
+        $this->model = new TierPrice($this->product, $this->quantity, $this->session);
     }
 
     /**
@@ -91,9 +98,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     public function testBaseInitialization($tierPrices, $expectedValue)
     {
         $this->product->setData(TierPrice::PRICE_TYPE_TIER, $tierPrices);
-
-        $tierPrice = new TierPrice($this->product, $this->quantity, $this->session);
-        $this->assertEquals($expectedValue, $tierPrice->getValue());
+        $this->assertEquals($expectedValue, $this->model->getValue());
     }
 
     /**
@@ -127,10 +132,39 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test getter stored tier prices from eav model
+     *
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::__construct
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getStoredTierPrices
+     */
+    public function testGetterStoredTierPrices()
+    {
+        $this->product->expects($this->once())->method('hasCustomerGroupId')
+            ->will($this->returnValue(true));
+        $this->product->expects($this->once())->method('getCustomerGroupId')
+            ->will($this->returnValue($this->customerGroup));
+
+        $backendMock = $this->getMock('Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend', [], [], '', false);
+
+        $attributeMock = $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', [], [], '', false);
+        $attributeMock->expects($this->once())->method('getBackend')->will($this->returnValue($backendMock));
+
+        $productResource = $this->getMock('Magento\Catalog\Model\Resource\Product', [], [], '', false);
+        $productResource->expects($this->once())->method('getAttribute')->with(TierPrice::PRICE_TYPE_TIER)
+            ->will($this->returnValue($attributeMock));
+
+        $this->product->expects($this->once())->method('getResource')->will($this->returnValue($productResource));
+
+        $tierPrice = new TierPrice($this->product, $this->quantity, $this->session);
+        $this->assertFalse($tierPrice->getValue());
+    }
+
+    /**
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::__construct
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getTierPriceList
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getStoredTierPrices
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::applyAdjustment
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getTierPriceCount
      * @dataProvider providerForGetterTierPriceList
      */
     public function testGetterTierPriceList($tierPrices, $basePrice, $adjustments, $expectedResult)
@@ -143,16 +177,14 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->product->setData(TierPrice::PRICE_TYPE_TIER, $tierPrices);
-        $this->product->expects($this->any())->method('getCustomerGroupId')
-            ->will($this->returnValue($this->customerGroup));
 
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface', [], [], '', false);
         $price->expects($this->any())->method('getValue')->will($this->returnValue($basePrice));
 
         $this->priceInfo->expects($this->atLeastOnce())->method('getPrice')->will($this->returnValue($price));
 
-        $tierPrice = new TierPrice($this->product, $this->quantity, $this->session);
-        $this->assertEquals($expectedResult, $tierPrice->getTierPriceList());
+        $this->assertEquals($expectedResult, $this->model->getTierPriceList());
+        $this->assertEquals(count($expectedResult), $this->model->getTierPriceCount());
     }
 
     /**

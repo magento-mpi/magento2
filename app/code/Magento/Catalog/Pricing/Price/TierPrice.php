@@ -60,7 +60,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)
     {
         $this->customerSession = $customerSession;
-        if ($salableItem->getCustomerGroupId()) {
+        if ($salableItem->hasCustomerGroupId()) {
             $this->customerGroup = (int) $salableItem->getCustomerGroupId();
         } else {
             $this->customerGroup = (int) $this->customerSession->getCustomerGroupId();
@@ -130,6 +130,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
             $applicablePrices = [];
             foreach ($prices as $price) {
+                // convert string value to float
                 $price['price_qty'] = $price['price_qty'] * 1;
 
                 if ($price['price'] < $productPrice) {
@@ -203,6 +204,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         if (null === $this->rawPriceList) {
             $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_TIER);
             if (null === $this->rawPriceList) {
+                /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
                 $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_TYPE_TIER);
                 if ($attribute) {
                     $attribute->getBackend()->afterLoad($this->salableItem);
