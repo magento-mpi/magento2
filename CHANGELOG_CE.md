@@ -31,9 +31,10 @@
 * Improvements in code coverage calculation:
   * Updated whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:
-  * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
-  * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
+  * [#512] (https://ggithub.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
+  * [#502] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
+  * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
 * Customer Service usage:
   * Refactored Log Module to use Customer Service (MAGETWO-20475)
   * Refactored RSS module to use Customer Service (MAGETWO-20495)
