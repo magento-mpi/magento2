@@ -572,6 +572,11 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
         return \Magento\TestFramework\Utility\Files::composeDataSets($files);
     }
 
+    /**
+     * Test to ensure that there is no usage of HeadJS in phtml files as HeadJS is replaced by RequireJS
+     *
+     * @return void
+     */
     public function testHeadJs()
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
@@ -587,6 +592,11 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Data provider for testHeadJs that returns paths of phtml files from the codebase
+     *
+     * @return array
+     */
     public function HeadJsDataProvider()
     {
         $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
