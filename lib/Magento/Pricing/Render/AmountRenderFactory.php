@@ -20,13 +20,6 @@ class AmountRenderFactory
     const AMOUNT_RENDERER_DEFAULT = 'Magento\Pricing\Render\Amount';
 
     /**
-     * Price amount renderer list
-     *
-     * @var array
-     */
-    protected $types = [];
-
-    /**
      * Create amount renderer object for particular product
      *
      * @param \Magento\View\LayoutInterface $layout
