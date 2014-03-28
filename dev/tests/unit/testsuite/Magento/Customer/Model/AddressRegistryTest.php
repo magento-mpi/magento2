@@ -33,9 +33,9 @@ class AddressRegistryTest extends \PHPUnit_Framework_TestCase
     public function testRetrieve()
     {
         $addressId = 1;
-        $address = $this->getMockBuilder('\Magento\Customer\Model\AddressFactory')
+        $address = $this->getMockBuilder('\Magento\Customer\Model\Address')
             ->disableOriginalConstructor()
-            ->setMethods(['load', 'getId'])
+            ->setMethods(['load', 'getId', '__wakeup'])
             ->getMock();
         $address->expects($this->once())
             ->method('load')
@@ -59,8 +59,8 @@ class AddressRegistryTest extends \PHPUnit_Framework_TestCase
     public function testRetrieveException()
     {
         $addressId = 1;
-        $address = $this->getMockBuilder('\Magento\Customer\Model\AddressFactory')
-            ->setMethods(['load', 'getId'])
+        $address = $this->getMockBuilder('\Magento\Customer\Model\Address')
+            ->setMethods(['load', 'getId', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
         $address->expects($this->once())
@@ -79,9 +79,9 @@ class AddressRegistryTest extends \PHPUnit_Framework_TestCase
     public function testRemove()
     {
         $addressId = 1;
-        $address = $this->getMockBuilder('\Magento\Customer\Model\AddressFactory')
+        $address = $this->getMockBuilder('\Magento\Customer\Model\Address')
             ->disableOriginalConstructor()
-            ->setMethods(['load', 'getId'])
+            ->setMethods(['load', 'getId', '__wakeup'])
             ->getMock();
         $address->expects($this->exactly(2))
             ->method('load')
