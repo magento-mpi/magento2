@@ -2113,6 +2113,8 @@ return array(
     array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    ['Magento\PubSub'], // unused library code which was removed
+    ['Magento\Outbound'], // unused library code which was removed
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
@@ -2123,7 +2125,7 @@ return array(
         'Magento\Review\Controller\Adminhtml\Product'
     ),
     array(
-        '\Magento\Review\Block\Helper',
+        'Magento\Review\Block\Helper',
         'Magento\Review\Block\Product\ReviewRenderer'
     ),
     array(

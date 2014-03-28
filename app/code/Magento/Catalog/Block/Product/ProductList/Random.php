@@ -32,6 +32,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
+     * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
@@ -41,6 +42,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
+        \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
@@ -52,6 +54,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
         $this->_productCollectionFactory = $productCollectionFactory;
         parent::__construct(
             $context,
+            $postDataHelper,
             $categoryFactory,
             $catalogLayer,
             $data,
