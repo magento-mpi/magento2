@@ -21,7 +21,7 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
     protected $auth;
 
     /**
-     * @var \Magento\Backend\App\Action\Plugin\Authentication
+     * @var Authentication
      */
     protected $plugin;
 
@@ -43,8 +43,8 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        unset($this->auth);
-        unset($this->plugin);
+        $this->auth = null;
+        $this->plugin = null;
     }
 
     public function testAroundDispatchProlongStorage()

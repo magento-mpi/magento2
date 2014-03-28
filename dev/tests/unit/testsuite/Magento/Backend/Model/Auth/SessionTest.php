@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Model\Auth\Session;
+namespace Magento\Backend\Model\Auth;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
@@ -36,7 +36,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $storage;
 
     /**
-     * @var \Magento\Backend\Model\Auth\Session
+     * @var Session
      */
     protected $session;
 
@@ -66,9 +66,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        unset($this->config);
-        unset($this->sessionConfig);
-        unset($this->session);
+        $this->config = null;
+        $this->sessionConfig = null;
+        $this->session = null;
     }
 
     public function testIsLoggedInPositive()
