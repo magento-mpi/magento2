@@ -1,7 +1,5 @@
 <?php
 /**
- * Test for \Magento\Customer\Model\GroupRegistry
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +8,9 @@
 
 namespace Magento\Customer\Model;
 
+/**
+ * Test for \Magento\Customer\Model\GroupRegistry
+ */
 class GroupRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /**

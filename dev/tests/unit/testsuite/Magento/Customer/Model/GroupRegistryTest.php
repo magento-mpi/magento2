@@ -1,7 +1,5 @@
 <?php
 /**
- * Unit test for converter \Magento\Customer\Model\Converter
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Customer\Model;
 
+/**
+ * Unit test for registry \Magento\Customer\Model\GroupRegistry
+ */
 class GroupRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /**
