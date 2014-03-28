@@ -59,7 +59,7 @@ class AmountFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $result = $this->getMock('\Magento\Pricing\AmountInterface', [], [], '', false);
+        $result = $this->getMock('Magento\Pricing\AmountInterface', [], [], '', false);
         $this->prepareObjectManagerMock($result);
         $this->assertSame(
             $result,
