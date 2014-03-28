@@ -11,7 +11,7 @@
 namespace Magento\Catalog\Pricing\Render;
 
 use Magento\Pricing\Object\SaleableInterface;
-use Magento\Pricing\Render\PriceBox;
+use Magento\Pricing\Render\PriceBox as BasePriceBox;
 use Magento\Catalog\Pricing\Price\MsrpPrice;
 use Magento\Pricing\Render;
 
@@ -21,7 +21,7 @@ use Magento\Pricing\Render;
  * @method bool getUseLinkForAsLowAs()
  * @method float getDisplayMinimalPrice()
  */
-class FinalPriceBox extends PriceBox
+class FinalPriceBox extends BasePriceBox
 {
     /**
      * Renders MAP price in case it is enabled
@@ -43,9 +43,9 @@ class FinalPriceBox extends PriceBox
             return $this->wrapResult($result);
         }
         if ($msrpPriceType->canApplyMsrp($saleableItem)) {
-            /** @var PriceBox $msrpBlock */
+            /** @var BasePriceBox $msrpBlock */
             $msrpBlock = $this->getChildBlock('default.msrp');
-            if ($msrpBlock instanceof PriceBox) {
+            if ($msrpBlock instanceof BasePriceBox) {
                 $arguments['real_price_html'] = $this->wrapResult($result);
                 $result = $msrpBlock->render('msrp', $saleableItem, $arguments);
             }

@@ -37,7 +37,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     protected $quantity;
 
     /**
-     * @var \Magento\Pricing\AmountFactory|\Magento\Pricing\AdjustmentComposite
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\AmountFactory
      */
     protected $amountFactory;
 
@@ -65,7 +65,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \Magento\Pricing\PriceInfo\Base::__construct
      * @covers \Magento\Pricing\PriceInfo\Base::initPrices
-     * @covers \Magento\Pricing\PriceInfo\Base::getPrice
+     * @covers \Magento\Pricing\PriceInfo\Base::getPrices
      */
     public function testGetPrices()
     {
@@ -136,7 +136,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Pricing\PriceInfo\Base::getAdjustments
+     * @covers \Magento\Pricing\PriceInfo\Base::getAdjustment
      * @expectedException \InvalidArgumentException
      */
     public function testGetAdjustment()
@@ -170,5 +170,16 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->with($this->product, 'test2', $this->quantity)->will($this->returnValue($priceModelMock));
 
         $this->assertSame([$priceModelMock], $this->model->getPricesIncludedInBase());
+    }
+
+    public function testGetAmount()
+    {
+        $amount = 2.;
+        $result = $this->getMock('Magento\Pricing\Amount', [], [], '', false);
+        $this->amountFactory->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo($this->adjustments), $this->equalTo($this->product), $this->equalTo($amount))
+            ->will($this->returnValue($result));
+        $this->assertSame($result, $this->model->getAmount($amount));
     }
 }
