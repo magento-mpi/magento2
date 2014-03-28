@@ -11,6 +11,7 @@ use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
+use Magento\Webapi\Model\PathProcessor;
 
 /**
  * Front controller for WebAPI REST area.
@@ -54,6 +55,9 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var ErrorProcessor */
     protected $_errorProcessor;
 
+    /** @var PathProcessor */
+    protected $_pathProcessor;
+
     /**
      * Initialize dependencies
      *
@@ -73,6 +77,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
+     * @param PathProcessor $pathProcessor
      * @param \Magento\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
@@ -90,6 +95,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,
+        PathProcessor $pathProcessor,
         \Magento\App\AreaList $areaList
     ) {
         $this->_router = $router;
@@ -103,6 +109,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_authorizationService = $authorizationService;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
+        $this->_pathProcessor = $pathProcessor;
         $this->areaList = $areaList;
     }
 
@@ -116,7 +123,9 @@ class Rest implements \Magento\App\FrontControllerInterface
     {
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);
-        $request->setPathInfo('/' . implode('/', $pathParts));
+        $path = '/' . implode('/', $pathParts);
+        $path = $this->_pathProcessor->processStore($path);
+        $request->setPathInfo($path);
         $this->areaList->getArea($this->_layout->getArea())
             ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
