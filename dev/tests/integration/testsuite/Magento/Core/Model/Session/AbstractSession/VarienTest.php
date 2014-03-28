@@ -36,7 +36,7 @@ class VarienTest extends \PHPUnit_Framework_TestCase
         /** @var $configModel \Magento\App\Config\ScopeConfigInterface */
         $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\App\Config\ScopeConfigInterface');
-        $configModel->setNode(\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD, $saveMethod);
+        $configModel->setNode(\Magento\Session\Config::PARAM_SESSION_SAVE_METHOD, $saveMethod);
         /**
          * @var \Magento\Session\SessionManagerInterface $model
          */

@@ -318,11 +318,11 @@
             <argument name="cryptKey" xsi:type="init_parameter">Magento\Encryption\Encryptor::PARAM_CRYPT_KEY</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Session\Config">
+    <type name="Magento\Session\Config">
         <arguments>
-            <argument name="savePath" xsi:type="init_parameter">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_PATH</argument>
-            <argument name="cacheLimiter" xsi:type="init_parameter">Magento\Core\Model\Session\Config::PARAM_SESSION_CACHE_LIMITER</argument>
-            <argument name="saveMethod" xsi:type="init_parameter">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
+            <argument name="savePath" xsi:type="init_parameter">Magento\Session\Config::PARAM_SESSION_SAVE_PATH</argument>
+            <argument name="cacheLimiter" xsi:type="init_parameter">Magento\Session\Config::PARAM_SESSION_CACHE_LIMITER</argument>
+            <argument name="saveMethod" xsi:type="init_parameter">Magento\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
         </arguments>
     </type>
     <type name="Magento\App\Helper\Context">

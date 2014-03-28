@@ -7,14 +7,14 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Session\Config
+ * Test class for \Magento\Session\Config
  */
 namespace Magento\Core\Model\Session;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Session\Config
+     * @var \Magento\Session\Config
      */
     protected $config;
 
@@ -69,7 +69,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
         $this->_filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false, false);
 
-        $this->config = new \Magento\Core\Model\Session\Config(
+        $this->config = new \Magento\Session\Config(
             $this->_configMock,
             $this->_storeManagerMock,
             $this->_stringHelperMock,
@@ -84,7 +84,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testSetOptionsWrongType()
     {
         $this->setExpectedException('\InvalidArgumentException',
-            'Parameter provided to Magento\Core\Model\Session\Config::setOptions must be an array or Traversable');
+            'Parameter provided to Magento\Session\Config::setOptions must be an array or Traversable');
         $this->config->setOptions('');
     }
 
@@ -229,7 +229,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOptions()
     {
-        $appStateProperty = new \ReflectionProperty('Magento\Core\Model\Session\Config', 'options');
+        $appStateProperty = new \ReflectionProperty('Magento\Session\Config', 'options');
         $appStateProperty->setAccessible(true);
         $original = $appStateProperty->getValue($this->config);
         $valueForTest = array('test' => 'test2');
@@ -243,7 +243,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testHasOption()
     {
-        $appStateProperty = new \ReflectionProperty('Magento\Core\Model\Session\Config', 'options');
+        $appStateProperty = new \ReflectionProperty('Magento\Session\Config', 'options');
         $appStateProperty->setAccessible(true);
         $original = $appStateProperty->getValue($this->config);
         $valueForTest = array('session.test' => 'test2');
@@ -322,7 +322,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             '\BadMethodCallException',
-            'Method "methodThatNotExist" does not exist in Magento\Core\Model\Session\Config'
+            'Method "methodThatNotExist" does not exist in Magento\Session\Config'
         );
         $this->config->methodThatNotExist();
     }

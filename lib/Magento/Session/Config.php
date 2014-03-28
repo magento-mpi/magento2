@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Session;
+namespace Magento\Session;
 
 use Magento\Session\Config\ConfigInterface;
 

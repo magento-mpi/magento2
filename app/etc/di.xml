@@ -60,7 +60,7 @@
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Image\Adapter\Config" />
     <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
-    <preference for="Magento\Session\Config\ConfigInterface" type="Magento\Core\Model\Session\Config" />
+    <preference for="Magento\Session\Config\ConfigInterface" type="Magento\Session\Config" />
     <preference for="Magento\Session\SidResolverInterface" type="Magento\Core\Model\Session\SidResolver\Proxy" />
     <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
@@ -86,7 +86,7 @@
     <preference for="Magento\Session\SaveHandlerInterface" type="Magento\Session\SaveHandler" />
     <type name="Magento\Session\SaveHandler">
         <arguments>
-            <argument name="saveMethod" xsi:type="init_parameter">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
+            <argument name="saveMethod" xsi:type="init_parameter">Magento\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
         </arguments>
     </type>
     <type name="Magento\Session\SaveHandlerFactory">

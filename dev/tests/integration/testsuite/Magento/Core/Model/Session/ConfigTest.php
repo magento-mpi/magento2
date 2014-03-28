@@ -14,7 +14,7 @@ namespace Magento\Core\Model\Session;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Session\Config
+     * @var \Magento\Session\Config
      */
     protected $_model;
 
@@ -36,7 +36,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         if ($sessionManager->isSessionExists()) {
             $sessionManager->destroy();
         }
-        $this->_model = $this->_objectManager->create('Magento\Core\Model\Session\Config', array(
+        $this->_model = $this->_objectManager->create('Magento\Session\Config', array(
             'saveMethod' => 'files',
             'cacheLimiter' => $this->_cacheLimiter
         ));
@@ -44,7 +44,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Session\Config');
+        $this->_objectManager->removeSharedInstance('Magento\Session\Config');
     }
 
     /**
@@ -58,7 +58,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_model->getSavePath()
         );
         $this->assertEquals(
-            \Magento\Core\Model\Session\Config::COOKIE_LIFETIME_DEFAULT,
+            \Magento\Session\Config::COOKIE_LIFETIME_DEFAULT,
             $this->_model->getCookieLifetime()
         );
         $this->assertEquals($this->_cacheLimiter, $this->_model->getCacheLimiter());
