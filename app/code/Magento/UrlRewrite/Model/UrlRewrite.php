@@ -96,6 +96,8 @@ class UrlRewrite extends \Magento\Model\AbstractModel
 
     /**
      * Initialize corresponding resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
