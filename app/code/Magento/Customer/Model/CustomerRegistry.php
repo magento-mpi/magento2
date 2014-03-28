@@ -86,7 +86,7 @@ class CustomerRegistry
         $customer->loadByEmail($customerEmail);
         if (!$customer->getEmail()) {
             // customer does not exist
-            throw new NoSuchEntityException('customerEmail', $customerEmail);
+            throw (new NoSuchEntityException('email', $customerEmail))->addField('websiteId', $websiteId);;
         } else {
             $this->customerRegistryById[$customer->getId()] = $customer;
             $this->customerRegistryByEmail[$this->getEmailKey($customer)] = $customer;
@@ -112,12 +112,13 @@ class CustomerRegistry
      * Remove instance of the Customer Model from registry given an email
      *
      * @param string $customerEmail
+     * @param string $websiteId
      * @return void
      */
-    public function removeByEmail($customerEmail)
+    public function removeByEmail($customerEmail, $websiteId)
     {
         /** @var Customer $customer */
-        $customer = $this->customerRegistryByEmail[$customerEmail];
+        $customer = $this->customerRegistryByEmail[$customerEmail . self::REGISTRY_SEPARATOR . $websiteId];
         unset($this->customerRegistryByEmail[$this->getEmailKey($customer)]);
         unset($this->customerRegistryById[$customer->getId()]);
     }
