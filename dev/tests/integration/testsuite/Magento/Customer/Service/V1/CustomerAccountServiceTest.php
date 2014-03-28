@@ -349,7 +349,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $email = 'customer@example.com';
 
-        $this->_customerAccountService->initiatePasswordReset($email, 1, CustomerAccountServiceInterface::EMAIL_RESET);
+        $this->_customerAccountService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, 1);
     }
 
     /**
@@ -363,8 +363,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_customerAccountService->initiatePasswordReset(
                 $email,
-                0,
-                CustomerAccountServiceInterface::EMAIL_RESET
+                CustomerAccountServiceInterface::EMAIL_RESET,
+                0
             );
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {

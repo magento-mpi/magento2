@@ -248,8 +248,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         );
         $requestData = array(
             'email' => $customerData[Customer::EMAIL],
-            'websiteId' => $customerData[Customer::WEBSITE_ID],
-            'template' => CustomerAccountServiceInterface::EMAIL_RESET
+            'template' => CustomerAccountServiceInterface::EMAIL_RESET,
+            'websiteId' => $customerData[Customer::WEBSITE_ID]
         );
         // This api doesn't return any response.
         // No exception or response means the request was processed successfully.
@@ -267,8 +267,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         );
         $requestData = array(
             'email' => 'dummy@example.com',
-            'websiteId' => 0,
-            'template' => CustomerAccountServiceInterface::EMAIL_RESET
+            'template' => CustomerAccountServiceInterface::EMAIL_RESET,
+            'websiteId' => 0
         );
         try {
             $this->_webApiCall($serviceInfo, $requestData);

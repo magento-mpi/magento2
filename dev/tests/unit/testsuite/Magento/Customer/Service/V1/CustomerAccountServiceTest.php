@@ -646,8 +646,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService->initiatePasswordReset(
             $email,
-            self::WEBSITE_ID,
-            CustomerAccountServiceInterface::EMAIL_RESET
+            CustomerAccountServiceInterface::EMAIL_RESET,
+            self::WEBSITE_ID
         );
     }
 
@@ -675,7 +675,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->initiatePasswordReset($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
+            $customerService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, 0);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (\Magento\Exception\NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -718,8 +718,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService->initiatePasswordReset(
             $email,
-            self::WEBSITE_ID,
-            CustomerAccountServiceInterface::EMAIL_RESET
+            CustomerAccountServiceInterface::EMAIL_RESET,
+            self::WEBSITE_ID
         );
     }
 
@@ -750,7 +750,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->initiatePasswordReset($email, self::WEBSITE_ID, CustomerAccountServiceInterface::EMAIL_RESET);
+        $customerService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, self::WEBSITE_ID);
     }
 
     public function testResetPassword()

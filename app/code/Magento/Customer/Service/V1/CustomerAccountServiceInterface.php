@@ -153,12 +153,11 @@ interface CustomerAccountServiceInterface
      * Send an email to the customer with a password reset link.
      *
      * @param string $email
-     * @param int $websiteId
      * @param string $template Type of email to send.  Must be one of the email constants.
+     * @param int    $websiteId optional id
      * @return void
-     * @throws \Magento\Exception\NoSuchEntityException
      */
-    public function initiatePasswordReset($email, $websiteId, $template);
+    public function initiatePasswordReset($email, $template, $websiteId = null);
 
     /**
      * Reset customer password.

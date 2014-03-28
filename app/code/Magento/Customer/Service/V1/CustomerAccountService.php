@@ -229,8 +229,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function initiatePasswordReset($email, $websiteId, $template)
+    public function initiatePasswordReset($email, $template, $websiteId = null)
     {
+        if (is_null($websiteId)) {
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
+        }
+
         $customer = $this->_customerFactory->create()->setWebsiteId($websiteId)->loadByEmail($email);
 
         if (!$customer->getId()) {
