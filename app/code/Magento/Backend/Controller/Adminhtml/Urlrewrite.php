@@ -525,7 +525,7 @@ class Urlrewrite extends Action
     /**
      * Get URL rewrite from request
      *
-     * @return Rewrite
+     * @return \Magento\UrlRewrite\Model\UrlRewrite
      */
     private function _getUrlRewrite()
     {
