@@ -15,11 +15,14 @@
          * Declaration of resources needed for defined components
          */
         $.mage.component({
+            compareItems: [
+                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/compare.js')?>'
+            ],
             compareList: [
                 '<?php echo $this->getViewFileUrl('Magento_Catalog::js/list.js')?>'
             ],
-            compareItems: [
-                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/compare.js')?>'
+            fileOption: [
+                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/file-option.js')?>'
             ],
             relatedProducts: [
                 '<?php echo $this->getViewFileUrl('Magento_Catalog::js/related-products.js')?>'
