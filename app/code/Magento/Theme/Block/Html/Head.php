@@ -66,6 +66,11 @@ class Head extends \Magento\View\Element\Template
     protected $_localeResolver;
 
     /**
+     * @var \Magento\Translation\Block\Js
+     */
+    protected $jsTranslation;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
@@ -73,6 +78,7 @@ class Head extends \Magento\View\Element\Template
      * @param \Magento\View\Asset\MergeService $assetMergeService
      * @param \Magento\View\Asset\MinifyService $assetMinifyService
      * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Translation\Block\Js $jsTranslation
      * @param array $data
      */
     public function __construct(
@@ -83,6 +89,7 @@ class Head extends \Magento\View\Element\Template
         \Magento\View\Asset\MergeService $assetMergeService,
         \Magento\View\Asset\MinifyService $assetMinifyService,
         \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Translation\Block\Js $jsTranslation,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -92,6 +99,7 @@ class Head extends \Magento\View\Element\Template
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $assets;
         $this->_localeResolver = $localeResolver;
+        $this->jsTranslation = $jsTranslation;
     }
 
     /**
@@ -422,6 +430,6 @@ class Head extends \Magento\View\Element\Template
      */
     public function getTranslatorScript()
     {
-        return $this->getLayout()->createBlock('Magento\Translation\Block\Js')->toHtml();
+        return $this->jsTranslation->render();
     }
 }

@@ -12,7 +12,7 @@ use Magento\View\Element\BlockInterface;
 use \Magento\Translation\Model\Js as DataProvider;
 use \Magento\Translate\InlineInterface as InlineTranslator;
 
-class Js implements BlockInterface
+class Js
 {
     /**
      * Data provider model
@@ -41,11 +41,11 @@ class Js implements BlockInterface
     }
 
     /**
-     * Produce and return block's html output
+     * Render js translation
      *
      * @return string
      */
-    public function toHtml()
+    public function render()
     {
         $json = \Zend_Json::encode($this->dataProvider->getTranslateData());
         $this->translateInline->processResponseBody($json, false);
