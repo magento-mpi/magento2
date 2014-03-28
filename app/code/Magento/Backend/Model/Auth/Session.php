@@ -166,14 +166,16 @@ class Session extends \Magento\Session\SessionManager implements \Magento\Backen
      */
     public function prolong()
     {
+        $lifetime = $this->_config->getValue(self::XML_PATH_SESSION_LIFETIME);
         $currentTime = time();
+
         $this->setUpdatedAt($currentTime);
         $cookieValue = $this->_cookie->get($this->getName());
         if ($cookieValue) {
             $this->_cookie->set(
                 $this->getName(),
                 $cookieValue,
-                $this->sessionConfig->getCookieLifetime(),
+                $lifetime,
                 $this->sessionConfig->getCookiePath(),
                 $this->sessionConfig->getCookieDomain(),
                 $this->sessionConfig->getCookieSecure(),

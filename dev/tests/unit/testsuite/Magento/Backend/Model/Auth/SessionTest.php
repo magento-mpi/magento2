@@ -47,7 +47,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->storage = $this->getMock('Magento\Session\Storage', ['getUser'], [], '', false);
         $this->sessionConfig = $this->getMock(
             'Magento\Core\Model\Session\Config',
-            ['getCookieLifetime', 'getCookiePath', 'getCookieDomain', 'getCookieSecure', 'getCookieHttpOnly'],
+            ['getCookiePath', 'getCookieDomain', 'getCookieSecure', 'getCookieHttpOnly'],
             [],
             '',
             false
@@ -97,7 +97,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $name = session_name();
         $cookie = 'cookie';
-        $time = time();
+        $lifetime = 900;
         $path = '/';
         $domain = 'magento2';
         $secure = true;
@@ -109,11 +109,12 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($cookie));
         $this->cookie->expects($this->once())
             ->method('set')
-            ->with($name, $cookie, $this->greaterThanOrEqual(time()), $path, $domain, $secure, $httpOnly);
+            ->with($name, $cookie, $lifetime, $path, $domain, $secure, $httpOnly);
 
-        $this->sessionConfig->expects($this->once())
-            ->method('getCookieLifetime')
-            ->will($this->returnValue($time));
+        $this->config->expects($this->once())
+            ->method('getValue')
+            ->with(\Magento\Backend\Model\Auth\Session::XML_PATH_SESSION_LIFETIME)
+            ->will($this->returnValue($lifetime));
         $this->sessionConfig->expects($this->once())
             ->method('getCookiePath')
             ->will($this->returnValue($path));
