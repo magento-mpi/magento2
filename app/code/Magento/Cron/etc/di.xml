@@ -23,4 +23,9 @@
     <type name="Magento\App\Config\Initial\Converter">
         <plugin name="cron_system_config_initial_converter_plugin" type="Magento\Cron\Model\System\Config\Initial\Converter" />
     </type>
+    <type name="Magento\Cron\Model\Observer">
+        <arguments>
+            <argument name="shell" xsi:type="object">Magento\ShellBackground</argument>
+        </arguments>
+    </type>
 </config>

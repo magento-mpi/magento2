@@ -35,7 +35,7 @@ $bootstrap = new \Magento\TestFramework\Bootstrap(
     new \Magento\TestFramework\Bootstrap\Environment(),
     new \Magento\TestFramework\Bootstrap\WebapiDocBlock("{$integrationTestsDir}/testsuite"),
     new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Profiler\Driver\Standard()),
-    new \Magento\Shell(new \Magento\OSInfo()),
+    new \Magento\Shell(new \Zend_Log()),
     $testsTmpDir
 );
 $bootstrap->runBootstrap();

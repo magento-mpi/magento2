@@ -13,13 +13,13 @@ namespace Magento;
 class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\OSInfo|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Zend_Log|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $osInfo;
+    protected $logger;
 
     public function setUp()
     {
-        $this->osInfo = $this->getMockBuilder('Magento\OSInfo')->disableOriginalConstructor()->getMock();
+        $this->logger = $this->getMock('Zend_Log', array('log'));
     }
 
     /**
@@ -46,7 +46,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute($command, $commandArgs, $expectedResult)
     {
-        $this->_testExecuteCommand(new \Magento\Shell($this->osInfo), $command, $commandArgs, $expectedResult);
+        $this->_testExecuteCommand(new \Magento\Shell($this->logger), $command, $commandArgs, $expectedResult);
     }
 
     /**
@@ -60,13 +60,12 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     {
         $quoteChar = substr(escapeshellarg(' '), 0, 1);
         // environment-dependent quote character
-        $logger = $this->getMock('Zend_Log', array('log'));
         foreach ($expectedLogRecords as $logRecordIndex => $expectedLogMessage) {
             $expectedLogMessage = str_replace('`', $quoteChar, $expectedLogMessage);
-            $logger->expects($this->at($logRecordIndex))->method('log')->with($expectedLogMessage, \Zend_Log::INFO);
+            $this->logger->expects($this->at($logRecordIndex))->method('log')->with($expectedLogMessage, \Zend_Log::INFO);
         }
         $this->_testExecuteCommand(
-            new \Magento\Shell($this->osInfo, $logger),
+            new \Magento\Shell($this->logger),
             $command,
             $commandArgs,
             $expectedResult
@@ -107,7 +106,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteFailure()
     {
-        $shell = new \Magento\Shell($this->osInfo);
+        $shell = new \Magento\Shell($this->logger);
         $shell->execute('non_existing_command');
     }
 
