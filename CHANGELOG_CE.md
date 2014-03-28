@@ -1,46 +1,46 @@
 2.0.0.0-dev71
 =============
 * Fixed bugs:
-  * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
-  * Fixed applying catalog price rule on category level (MAGETWO-22143)
-  * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
-  * Fixed problem with placing order with customer which is assigned to VAT group (MAGETWO-21975)
-  * Fixed problem with update failed registration message & provide resend confirmation email button for registrations failing to complete (MAGETWO-22021)
-  * Fixed problem with Magento Catalog module resource Setup Upgrade logic is broken (MAGETWO-22414)
+  * Fixed an issue with displaying product on the frontend when the product flat indexer is enabled
+  * Fixed an issue with applying catalog price rules on the category level
+  * Fixed an issue where the essential cookies like CUSTOMER, CART, and so on were not created in Google Chrome
+  * Fixed an issue with placing orders by customers assigned to a VAT group
+  * Fixed an issue with incorrect error message during registration, and inability for a shopper to ask for resending a confirmation email
+  * Fixed an issue where the Catalog module resource Setup Upgrade logic was broken
 * Modularity improvements:
-  * Moved abstract Core models and related logic into Magento/Model library (MAGETWO-21588)
-  * Moved abstract DB logic and Core resource helpers into Magento/DB library (MAGETWO-21588)
-  * Eliminated Core\Model\App class (MAGETWO-21593)
-  * Moved Magento Flag functionality to the library (MAGETWO-21605)
-  * Resolved dependency of Catalog and related modules on Review module (MAGETWO-21480)
-  * Moved indexers related logic from Core Module to Indexer Module (MAGETWO-21597)
-  * Moved Inline translation and user intended translate functionality from Magento\Core module into a separate Magento\Translation module (MAGETWO-21596)
+  * Moved abstract Core models and related logic to the Magento/Model library
+  * Moved the abstract DB logic and Core resource helpers to the Magento/DB library
+  * Eliminated the Core\Model\App class
+  * Moved the Magento Flag functionality to the library
+  * Resolved dependency of the Catalog and related modules on the Review module
+  * Moved indexers related logic from the Core module to the Indexer module
+  * Moved the Inline translation and user intended translate functionality from the Core module to a separate Translation module
 * Framework Improvements:
-  * Covered Magento library components with unit tests: (MAGETWO-21135)
-    * Magento/Config
-    * Magento/Convert
-    * Magento/Controller
-    * Magento/Data/Collection/Db
-    * Magento/Mview
-    * Magento/Url folder and Magento/Url.php
-  * Covered Magento application components with unit tests: (MAGETWO-21135)
-    * Magento/Checkout/Model/Config
-    * Magento/Checkout/Model/Observer
-    * Magento/Checkout/Model/Type
-    * Magento/Sales/Model/Config     
-  * LauncherInterface renamed to AppInterface (MAGETWO-21593)
+  * Covered Magento library components with unit tests:
+     * Magento\Config
+     * Magento\Convert
+     * Magento\Controller
+     * Magento\Data\Collection\Db
+     * Magento\Mview
+     * Magento\Url and Magento/Url.php
+  * Covered Magento application components with unit tests:
+     * Magento\Checkout\Model\Config
+     * Magento\Checkout\Model\Observer
+     * Magento\Checkout\Model\Type
+     * Magento\Sales\Model\Config
+  * Renamed LauncherInterface to AppInterface
 * Improvements in code coverage calculation:
-  * Updated whitelist filter with library code for integration tests code coverage calculation
+  * Updated the whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:
   * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
   * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
 * Customer Service usage:
-  * Refactored Log Module to use Customer Service (MAGETWO-20475)
-  * Refactored RSS module to use Customer Service (MAGETWO-20495)
-  * Refactored Review module to use Customer Service (MAGETWO-20485)
-  * Refactored the Catalog module to use Customer service layer (MAGETWO-20460, MAGETWO-20461)
-  * Refactored the Downloadable module to use Customer service layer (MAGETWO-20473)
+  * Refactored the Log module to use Customer Service
+  * Refactored the RSS module to use Customer Service
+  * Refactored the Review module to use Customer Service
+  * Refactored the Catalog module to use Customer service layer
+  * Refactored the Downloadable module to use Customer service layer
 
 2.0.0.0-dev70
 =============
