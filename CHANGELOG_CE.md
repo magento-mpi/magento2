@@ -1,3 +1,5 @@
+2.0.0.0-dev71
+=============
 * Fixed bugs:
   * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
   * Fixed applying catalog price rule on category level (MAGETWO-22143)
