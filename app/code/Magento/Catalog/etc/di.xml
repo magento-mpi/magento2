@@ -341,6 +341,10 @@
                     <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\BasePrice</item>
                     <item name="include_in_base_price" xsi:type="boolean">false</item>
                 </item>
+                <item name="custom_option" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\OptionPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">true</item>
+                </item>
             </argument>
         </arguments>
     </type>
