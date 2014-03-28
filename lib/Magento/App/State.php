@@ -84,7 +84,7 @@ class State
             case self::MODE_DEVELOPER:
             case self::MODE_PRODUCTION:
             case self::MODE_DEFAULT:
-                $this->_appMode = $mode;
+                $this->_appMode = self::MODE_DEVELOPER;
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown application mode: {$mode}");

@@ -8,31 +8,30 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <block class="Magento\View\Element\RendererList" name="price.render.prices">
-        <block class="Magento\Pricing\Render\PriceBox" name="product.type.default.price.default" as="default.default"
-               template="Magento_Catalog::product/price/default.phtml"/>
-        <block class="Magento\Catalog\Pricing\Render\FinalPriceBox" name="product.default.price.final_price" as="default.final_price"
-               template="Magento_Catalog::product/price/final_price.phtml">
-            <arguments>
-                <argument name="amount_render" xsi:type="string">Magento\Pricing\Render\Amount</argument>
-                <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/default.phtml</argument>
-            </arguments>
-            <block class="Magento\Catalog\Pricing\Render\PriceBox" name="product.default.price.msrp" as="default.msrp"
-                   template="Magento_Catalog::product/price/msrp_item.phtml">
-                <arguments>
-                    <argument name="amount_render" xsi:type="string">Magento\Pricing\Render\Amount</argument>
-                    <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/default.phtml</argument>
-                </arguments>
-            </block>
-        </block>
-        <block class="Magento\Pricing\Render\PriceBox" name="product.default.price.tier_prices" as="default.tier_price"
-               template="Magento_Catalog::product/price/tier_prices.phtml">
-            <arguments>
-                <argument name="amount_render" xsi:type="string">Magento\Pricing\Render\Amount</argument>
-                <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/default.phtml</argument>
-            </arguments>
-        </block>
+    <block class="Magento\Pricing\Render\RendererPool" name="render.product.prices">
+        <arguments>
+            <argument name="default" xsi:type="array">
+                <item name="default_render_class" xsi:type="string">Magento\Catalog\Pricing\Render\PriceBox</item>
+                <item name="default_render_template" xsi:type="string">Magento_Catalog::product/price/default.phtml</item>
+                <item name="default_amount_render_class" xsi:type="string">Magento\Pricing\Render\Amount</item>
+                <item name="default_amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/default.phtml</item>
+                <item name="prices" xsi:type="array">
+                    <item name="special_price" xsi:type="array">
+                        <item name="render_template" xsi:type="string">Magento_Catalog::product/price/special_price.phtml</item>
+                    </item>
+                    <item name="group_price" xsi:type="array">
+                        <item name="render_template" xsi:type="string">Magento_Catalog::product/price/group_price.phtml</item>
+                    </item>
+                    <item name="tier_price" xsi:type="array">
+                        <item name="render_template" xsi:type="string">Magento_Catalog::product/price/tier_prices.phtml</item>
+                    </item>
+                    <item name="final_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\FinalPriceBox</item>
+                        <item name="render_template" xsi:type="string">Magento_Catalog::product/price/final_price.phtml</item>
+                    </item>
+                </item>
+                <!--<item name="adjustments" xsi:type="array"></item>-->
+            </argument>
+        </arguments>
     </block>
-
-    <block class="Magento\View\Element\RendererList" name="price.render.adjustments" />
 </layout>

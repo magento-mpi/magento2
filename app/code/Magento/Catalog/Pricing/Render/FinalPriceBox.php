@@ -23,32 +23,29 @@ use Magento\Pricing\Render;
  */
 class FinalPriceBox extends BasePriceBox
 {
-    /**
-     * Renders MAP price in case it is enabled
-     *
-     * @param string $priceType
-     * @param SaleableInterface $saleableItem
-     * @param array $arguments
-     * @return string
-     */
-    public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
+    protected function _toHtml()
     {
-        $result = parent::render($priceType, $saleableItem, $arguments);
+        $result = parent::_toHtml();
 
         try {
             /** @var MsrpPrice $msrpPriceType */
-            $msrpPriceType = $saleableItem->getPriceInfo()->getPrice('msrp');
+            $msrpPriceType = $this->getSaleableItem()->getPriceInfo()->getPrice('msrp');
         } catch (\InvalidArgumentException $e) {
             $this->_logger->logException($e);
             return $this->wrapResult($result);
         }
-        if ($msrpPriceType->canApplyMsrp($saleableItem)) {
+
+        //Renders MAP price in case it is enabled
+        if ($msrpPriceType->canApplyMsrp($this->getSaleableItem())) {
             /** @var BasePriceBox $msrpBlock */
-            $msrpBlock = $this->getChildBlock('default.msrp');
-            if ($msrpBlock instanceof BasePriceBox) {
-                $arguments['real_price_html'] = $this->wrapResult($result);
-                $result = $msrpBlock->render('msrp', $saleableItem, $arguments);
-            }
+            $msrpBlock = $this->rendererPool->createPriceRender(
+                'msrp',
+                $this->getSaleableItem(),
+                [
+                    'real_price_html' => $result
+                ]
+            );
+            $result = $msrpBlock->toHtml();
         }
 
         return $this->wrapResult($result);
@@ -77,7 +74,7 @@ class FinalPriceBox extends BasePriceBox
         $price = $this->getPriceType('final_price');
         $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
         return $this->renderAmount(
-            $price,
+            $price->getAmount(),
             [
                 'display_label'     => __('As low as:'),
                 'price_id'          => $id,
@@ -93,9 +90,8 @@ class FinalPriceBox extends BasePriceBox
      */
     public function showSpecialPrice()
     {
-        $displayRegularPrice = $this->getPriceType('regular_price')->getDisplayValue();
-        $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
-
+        $displayRegularPrice = $this->getPriceType('regular_price')->getAmount();
+        $displayFinalPrice = $this->getPriceType('final_price')->getAmount();
         return $displayFinalPrice < $displayRegularPrice;
     }
 
@@ -106,7 +102,7 @@ class FinalPriceBox extends BasePriceBox
      */
     public function showMinimalPrice()
     {
-        $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
+        $displayFinalPrice = $this->getPriceType('final_price')->getAmount();
         $minimalPrice = $this->getPriceType('final_price')->getMinimalPrice();
 
         return $this->getDisplayMinimalPrice() && $minimalPrice && $minimalPrice < $displayFinalPrice;

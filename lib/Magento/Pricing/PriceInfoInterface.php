@@ -50,10 +50,4 @@ interface PriceInfoInterface
      * @return PriceInterface[]
      */
     public function getPricesIncludedInBase();
-
-    /**
-     * @param float $amount
-     * @return \Magento\Pricing\Amount
-     */
-    public function getAmount($amount);
 }

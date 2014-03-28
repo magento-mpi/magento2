@@ -10,6 +10,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Customer\Model\Session;
 
@@ -29,11 +30,6 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
     protected $customerSession;
 
     /**
-     * @var float|bool|null
-     */
-    protected $value;
-
-    /**
      * @var array|null
      */
     protected $storedGroupPrice;
@@ -41,12 +37,17 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
     /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
+     * @param Calculator $calculator
      * @param Session $customerSession
      */
-    public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)
+    public function __construct(
+        SaleableInterface $salableItem,
+        $quantity,
+        Calculator $calculator,
+        Session $customerSession)
     {
+        parent::__construct($salableItem, $quantity, $calculator);
         $this->customerSession = $customerSession;
-        parent::__construct($salableItem, $quantity);
     }
 
     /**
@@ -54,11 +55,10 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
      */
     public function getValue()
     {
-        if (null === $this->value) {
+        if ($this->value === null) {
             $this->value = false;
 
             $customerGroup = $this->getCustomerGroupId();
-
             foreach ($this->getStoredGroupPrice() as $groupPrice) {
                 if ($groupPrice['cust_group'] == $customerGroup) {
                     $this->value = $groupPrice['website_price'];

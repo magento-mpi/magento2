@@ -9,9 +9,11 @@
  */
 namespace Magento\Catalog\Pricing\Render;
 
+use Magento\Pricing\Object\SaleableInterface;
+use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Render\PriceBox as PriceBoxRender;
 use Magento\View\Element\Template\Context;
-use Magento\Pricing\Render\AmountRenderFactory;
+use Magento\Pricing\Render\RendererPool;
 use Magento\Core\Helper\Data;
 use Magento\Math\Random;
 
@@ -36,21 +38,25 @@ class PriceBox extends PriceBoxRender
 
     /**
      * @param Context $context
-     * @param AmountRenderFactory $amountRenderFactory
+     * @param SaleableInterface $saleableItem
+     * @param PriceInterface $price
+     * @param RendererPool $rendererPool
      * @param Data $coreDataHelper
      * @param Random $mathRandom
      * @param array $data
      */
     public function __construct(
         Context $context,
-        AmountRenderFactory $amountRenderFactory,
+        SaleableInterface $saleableItem,
+        PriceInterface $price,
+        RendererPool $rendererPool,
         Data $coreDataHelper,
         Random $mathRandom,
         array $data = array()
     ) {
         $this->coreDataHelper = $coreDataHelper;
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $amountRenderFactory);
+        parent::__construct($context, $saleableItem, $price, $rendererPool);
     }
 
     /**

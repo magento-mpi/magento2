@@ -54,13 +54,24 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Get weee amount
+     *
+     * @return float
+     */
+    protected function getWeeeTaxAmount()
+    {
+        $product = $this->getSaleableItem();
+        return $this->weeeHelper->getAmount($product);
+    }
+
+    /**
      * Define if adjustment should be shown with including tax, description
      *
      * @return bool
      */
     public function showInclDescr()
     {
-        return $this->isDisplayFpt() && $this->getAmount() && $this->typeOfDisplay(Tax::DISPLAY_INCL_DESCR);
+        return $this->isDisplayFpt() && $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_INCL_DESCR);
     }
 
     /**
@@ -70,7 +81,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function showExclDescrIncl()
     {
-        return $this->isDisplayFpt() && $this->getAmount() && $this->typeOfDisplay(Tax::DISPLAY_EXCL_DESCR_INCL);
+        return $this->isDisplayFpt() && $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_EXCL_DESCR_INCL);
     }
 
     /**
@@ -108,17 +119,6 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
-     * Get amount
-     *
-     * @return float
-     */
-    protected function getAmount()
-    {
-        $product = $this->getSaleableItem();
-        return $this->weeeHelper->getAmount($product);
-    }
-
-    /**
      * Get Weee attributes for display
      *
      * @return \Magento\Object[]
@@ -127,18 +127,6 @@ class Adjustment extends AbstractAdjustment
     {
         $product = $this->getSaleableItem();
         return $this->weeeHelper->getProductWeeeAttributesForDisplay($product);
-    }
-
-    /**
-     * Get Weee tax amount
-     *
-     * @TODO Seems not used
-     *
-     * @return float|null
-     */
-    protected function getWeeeTaxAmount()
-    {
-        return $this->isDisplayFpt() ? $this->getAmount() : null;
     }
 
     /**

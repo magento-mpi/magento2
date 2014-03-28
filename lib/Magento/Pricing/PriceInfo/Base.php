@@ -10,7 +10,7 @@
 
 namespace Magento\Pricing\PriceInfo;
 
-use Magento\Pricing\AmountFactory;
+use Magento\Pricing\Amount\AmountFactory;
 use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\PriceComposite;
 use Magento\Pricing\Price\PriceInterface;
@@ -164,14 +164,5 @@ class Base implements PriceInfoInterface
             }
         }
         return $prices;
-    }
-
-    /**
-     * @param float $amount
-     * @return \Magento\Pricing\Amount
-     */
-    public function getAmount($amount)
-    {
-        return $this->amountFactory->create($this->adjustments, $this->product, $amount);
     }
 }

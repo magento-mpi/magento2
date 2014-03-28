@@ -11,6 +11,7 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Catalog\Helper\Data;
+use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
 
 /**
@@ -30,13 +31,18 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
-     * @param Data $catalogDataHelper
      * @param float $quantity
+     * @param Calculator $calculator
+     * @param Data $catalogDataHelper
      */
-    public function __construct(SaleableInterface $salableItem, $quantity, Data $catalogDataHelper)
+    public function __construct(
+        SaleableInterface $salableItem,
+        $quantity,
+        Calculator $calculator,
+        Data $catalogDataHelper)
     {
+        parent::__construct($salableItem, $quantity, $calculator);
         $this->catalogDataHelper = $catalogDataHelper;
-        parent::__construct($salableItem, $quantity);
     }
 
     /**

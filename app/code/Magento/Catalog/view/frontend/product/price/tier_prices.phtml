@@ -33,7 +33,7 @@ $minPrice = $this->getPriceType(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_
                     'Buy %1 for %2',
                     $price['price_qty'],
                     $this->renderAmount(
-                        $tierPriceModel,
+                        $price['price'],
                         [
                             'price_id'          => $index,
                             'id_suffix'         => '-' . $index,

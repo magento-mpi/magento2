@@ -11,6 +11,8 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Adjustment\AdjustmentInterface;
+use Magento\Pricing\Adjustment\Calculator;
+use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\Object\SaleableInterface;
@@ -46,30 +48,71 @@ class RegularPrice implements PriceInterface
     protected $quantity;
 
     /**
+     * @var \Magento\Pricing\Adjustment\Calculator
+     */
+    protected $calculator;
+
+    /**
+     * @var bool|float
+     */
+    protected $value;
+
+    /**
+     * @var AmountInterface
+     */
+    protected $amount;
+
+    /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
+     * @param Calculator $calculator
      */
-    public function __construct(SaleableInterface $salableItem, $quantity)
+    public function __construct(
+        SaleableInterface $salableItem,
+        $quantity,
+        Calculator $calculator)
     {
         $this->salableItem = $salableItem;
         $this->quantity = $quantity;
+        $this->calculator = $calculator;
+
         $this->priceInfo = $salableItem->getPriceInfo();
     }
 
     /**
-     * {@inheritdoc}
+     * Get price value
+     *
+     * @return float
      */
     public function getValue()
     {
-        $price = $this->salableItem->getPrice();
-        return $price !== null ? $price : false;
+        if ($this->value === null) {
+            $price = $this->salableItem->getPrice();
+            $this->value = $price ? $price : false;
+        }
+        return $this->value;
     }
 
     /**
-     * {@inheritdoc}
+     * Get Price Amount object
+     *
+     * @return AmountInterface
      */
-    public function getDisplayValue($baseAmount = null, $excludedCode = null)
+    public function getAmount()
     {
-        return $this->priceInfo->getAmount($baseAmount ?: $this->getValue())->getDisplayAmount($excludedCode);
+        if (!$this->amount) {
+            $this->amount = $this->calculator->getAmount($this->getValue(), $this->salableItem);
+        }
+        return $this->amount;
+    }
+
+    /**
+     * Get price type code
+     *
+     * @return string
+     */
+    public function getPriceType()
+    {
+        return $this->priceType;
     }
 }

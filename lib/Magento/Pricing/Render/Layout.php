@@ -10,6 +10,7 @@
 
 namespace Magento\Pricing\Render;
 
+use Magento\Pricing\Object\SaleableInterface;
 use Magento\View\LayoutFactory;
 use Magento\View\LayoutInterface;
 

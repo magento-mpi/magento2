@@ -10,6 +10,7 @@
 
 namespace Magento\Pricing\Render;
 
+use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Object\SaleableInterface;
 
@@ -21,22 +22,17 @@ interface AmountRenderInterface
     /**
      * Retrieve amount html for given price, item and arguments
      *
-     * @param PriceInterface $price
-     * @param SaleableInterface $saleableItem
-     * @param array $arguments
-     * @return string
+     * @return AmountInterface
      */
-    public function render(PriceInterface $price, SaleableInterface $saleableItem, array $arguments = []);
+    public function getAmount();
+
+    /**
+     * @return SaleableInterface
+     */
+    public function getSaleableItem();
 
     /**
      * @return PriceInterface
      */
     public function getPrice();
-
-    /**
-     * (to use in templates only)
-     *
-     * @return SaleableInterface
-     */
-    public function getSaleableItem();
 }

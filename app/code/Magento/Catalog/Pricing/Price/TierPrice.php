@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
@@ -34,11 +35,6 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     protected $customerGroup;
 
     /**
-     * @var bool|float
-     */
-    protected $value;
-
-    /**
      * Raw price list stored in DB
      *
      * @var array
@@ -54,22 +50,29 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
-     * @param float $quantity
+     * @param $quantity
+     * @param Calculator $calculator
      * @param Session $customerSession
      */
-    public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)
+    public function __construct(
+        SaleableInterface $salableItem,
+        $quantity,
+        Calculator $calculator,
+        Session $customerSession)
     {
+        parent::__construct($salableItem, $quantity, $calculator);
         $this->customerSession = $customerSession;
         if ($salableItem->hasCustomerGroupId()) {
             $this->customerGroup = (int) $salableItem->getCustomerGroupId();
         } else {
             $this->customerGroup = (int) $this->customerSession->getCustomerGroupId();
         }
-        parent::__construct($salableItem, $quantity);
     }
 
     /**
-     * {@inheritdoc}
+     * Get price value
+     *
+     * @return bool|float
      */
     public function getValue()
     {
@@ -135,7 +138,8 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
                 if ($price['price'] < $productPrice) {
                     $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
-                    $applicablePrices[] = $this->applyAdjustment($price);
+                    $price['price'] = $this->applyAdjustment($price['price']);
+                    $applicablePrices[] = $price;
                 }
             }
             $this->priceList = $applicablePrices;
@@ -149,14 +153,14 @@ class TierPrice extends RegularPrice implements TierPriceInterface
      */
     protected function applyAdjustment($price)
     {
-        foreach (array_reverse($this->priceInfo->getAdjustments()) as $adjustment) {
-            /** @var \Magento\Pricing\Adjustment\AdjustmentInterface $adjustment */
-            if ($adjustment->isIncludedInBasePrice()) {
-                $price['adjustedAmount'] = $adjustment->extractAdjustment($price['website_price'], $this->salableItem);
-                $price['website_price'] = $price['website_price'] - $price['adjustedAmount'];
-            }
-        }
-        return $price;
+//        foreach (array_reverse($this->priceInfo->getAdjustments()) as $adjustment) {
+//            /** @var \Magento\Pricing\Adjustment\AdjustmentInterface $adjustment */
+//            if ($adjustment->isIncludedInBasePrice()) {
+//                $price['adjustedAmount'] = $adjustment->extractAdjustment($price['website_price'], $this->salableItem);
+//                $price['website_price'] = $price['website_price'] - $price['adjustedAmount'];
+//            }
+//        }
+        return $this->calculator->getAmount($price, $this->salableItem);
     }
 
     /**
