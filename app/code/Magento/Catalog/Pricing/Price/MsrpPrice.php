@@ -78,11 +78,11 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     /**
      * Check if can apply Minimum Advertise price to product
      *
-     * @param SaleableInterface $product
+     * @param SaleableInterface $saleableItem
      * @return bool
      */
-    public function canApplyMsrp(SaleableInterface $product)
+    public function canApplyMsrp(SaleableInterface $saleableItem)
     {
-        return $this->catalogDataHelper->canApplyMsrp($product);
+        return $this->catalogDataHelper->canApplyMsrp($saleableItem);
     }
 }

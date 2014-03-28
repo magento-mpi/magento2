@@ -28,7 +28,7 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $product;
+    protected $saleableItem;
 
     /**
      * @var \Magento\Catalog\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject
@@ -41,7 +41,7 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->product = $this->getMock(
+        $this->saleableItem = $this->getMock(
             'Magento\Catalog\Model\Product',
             ['getPriceInfo', '__wakeup'],
             [],
@@ -49,20 +49,14 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->priceInfo = $this->getMock(
-            'Magento\Pricing\PriceInfo\Base',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->priceInfo = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
         $this->price = $this->getMock('Magento\Catalog\Pricing\Price\BasePrice', [], [], '', false);
 
         $this->priceInfo->expects($this->any())
             ->method('getAdjustments')
             ->will($this->returnValue([]));
 
-        $this->product->expects($this->any())
+        $this->saleableItem->expects($this->any())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfo));
 
@@ -73,20 +67,24 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->helper = $this->getMock(
             '\Magento\Catalog\Helper\Data',
-            ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'isMsrpEnabled'],
+            ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'isMsrpEnabled', 'canApplyMsrp'],
             [],
             '',
             false
         );
 
-        $this->object = new MsrpPrice($this->product, PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT, $this->helper);
+        $this->object = new MsrpPrice(
+            $this->saleableItem,
+            PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT,
+            $this->helper
+        );
     }
 
     public function testIsShowPriceOnGestureTrue()
     {
         $this->helper->expects($this->once())
             ->method('isShowPriceOnGesture')
-            ->with($this->equalTo($this->product))
+            ->with($this->equalTo($this->saleableItem))
             ->will($this->returnValue(true));
 
         $this->assertTrue($this->object->isShowPriceOnGesture());
@@ -96,7 +94,7 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
     {
         $this->helper->expects($this->once())
             ->method('isShowPriceOnGesture')
-            ->with($this->equalTo($this->product))
+            ->with($this->equalTo($this->saleableItem))
             ->will($this->returnValue(false));
 
         $this->assertFalse($this->object->isShowPriceOnGesture());
@@ -107,7 +105,7 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = 'test';
         $this->helper->expects($this->once())
             ->method('getMsrpPriceMessage')
-            ->with($this->equalTo($this->product))
+            ->with($this->equalTo($this->saleableItem))
             ->will($this->returnValue($expectedMessage));
 
         $this->assertEquals($expectedMessage, $this->object->getMsrpPriceMessage());
@@ -120,5 +118,15 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->assertTrue($this->object->isMsrpEnabled());
+    }
+
+    public function testCanApplyMsrp()
+    {
+        $this->helper->expects($this->once())
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->saleableItem))
+            ->will($this->returnValue(true));
+
+        $this->assertTrue($this->object->canApplyMsrp($this->saleableItem));
     }
 }
