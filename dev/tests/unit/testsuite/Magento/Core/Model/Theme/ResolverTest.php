@@ -25,6 +25,11 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     protected $themeCollectionFactoryMock;
 
     /**
+     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $appStateMock;
+
+    /**
      * @var \Magento\Core\Model\Resource\Theme\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $themeCollectionMock;
@@ -51,9 +56,17 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->appStateMock = $this->getMock(
+            'Magento\App\State',
+            [],
+            [],
+            '',
+            false
+        );
         $this->themeMock = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
 
         $this->model = new \Magento\Core\Model\Theme\Resolver(
+            $this->appStateMock,
             $this->designMock,
             $this->themeCollectionFactoryMock
         );
@@ -81,7 +94,15 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
 
         $this->themeCollectionFactoryMock->expects($this->never())->method('create');
 
-        $this->assertEquals($this->themeMock, $this->model->getByArea('theme_area'));
+        $this->appStateMock->expects(
+            $this->once()
+        )->method(
+            'getAreaCode'
+        )->will(
+            $this->returnValue('theme_area')
+        );
+
+        $this->assertEquals($this->themeMock, $this->model->get());
     }
 
     public function testGetByAreaWithDesignDefaultArea()
@@ -112,7 +133,15 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
 
         $this->themeCollectionFactoryMock->expects($this->never())->method('create');
 
-        $this->assertEquals($this->themeMock, $this->model->getByArea('design_area'));
+        $this->appStateMock->expects(
+            $this->once()
+        )->method(
+            'getAreaCode'
+        )->will(
+            $this->returnValue('design_area')
+        );
+
+        $this->assertEquals($this->themeMock, $this->model->get());
     }
 
     public function testGetByAreaWithOtherAreaAndStringThemeId()
@@ -165,7 +194,15 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->themeMock)
         );
 
-        $this->assertEquals($this->themeMock, $this->model->getByArea('other_area'));
+        $this->appStateMock->expects(
+            $this->once()
+        )->method(
+            'getAreaCode'
+        )->will(
+            $this->returnValue('other_area')
+        );
+
+        $this->assertEquals($this->themeMock, $this->model->get());
     }
 
     public function testGetByAreaWithOtherAreaAndNumericThemeId()
@@ -218,6 +255,14 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->themeMock)
         );
 
-        $this->assertEquals($this->themeMock, $this->model->getByArea('other_area'));
+        $this->appStateMock->expects(
+            $this->once()
+        )->method(
+            'getAreaCode'
+        )->will(
+            $this->returnValue('other_area')
+        );
+
+        $this->assertEquals($this->themeMock, $this->model->get());
     }
 }

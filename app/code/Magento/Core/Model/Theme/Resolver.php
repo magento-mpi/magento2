@@ -23,25 +23,33 @@ class Resolver implements \Magento\View\Design\Theme\ResolverInterface
     protected $themeFactory;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $appState;
+
+    /**
+     * @param \Magento\App\State $appState
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
      */
     public function __construct(
+        \Magento\App\State $appState,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
     ) {
         $this->design = $design;
         $this->themeFactory = $themeFactory;
+        $this->appState = $appState;
     }
 
     /**
      * Retrieve instance of a theme currently used in an area
      *
-     * @param string $area
      * @return \Magento\View\Design\ThemeInterface
      */
-    public function getByArea($area)
+    public function get()
     {
+        $area = $this->appState->getAreaCode();
         if ($this->design->getDesignTheme()->getArea() == $area || $this->design->getArea() == $area) {
             return $this->design->getDesignTheme();
         }

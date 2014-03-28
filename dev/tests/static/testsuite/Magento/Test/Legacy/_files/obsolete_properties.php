@@ -316,4 +316,7 @@ return array(
     ['_translate', 'Magento\Rma\Model\Rma'],
     ['_translate', 'Magento\Rma\Model\Rma\Status\History'],
     ['_translate', 'Magento\Sales\Model\Order\Pdf\AbstractPdf'],
+    ['_layout', 'Magento\Install\App\Action\Plugin\Design'],
+    ['_layout', 'Magento\View\DesignLoader'],
+    ['_area', 'Magento\View\Layout'],
 );

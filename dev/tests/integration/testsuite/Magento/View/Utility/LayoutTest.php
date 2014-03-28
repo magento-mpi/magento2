@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Utility;
+namespace Magento\View\Utility;
 
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Utility\Layout
+     * @var \Magento\View\Utility\Layout
      */
     protected $_utility;
 
@@ -23,15 +23,14 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_utility = new \Magento\Core\Utility\Layout($this);
+        $this->_utility = new \Magento\View\Utility\Layout($this);
     }
 
     /**
      * Assert that the actual layout update instance represents the expected layout update file
      *
-     * @param \Magento\Core\Model\Layout\Merge $actualUpdate
      * @param string $expectedUpdateFile
-     * @param \Magento\Core\Model\Layout\Merge $actualUpdate
+     * @param \Magento\View\Layout\ProcessorInterface $actualUpdate
      */
     protected function _assertLayoutUpdate($expectedUpdateFile, $actualUpdate)
     {
@@ -43,9 +42,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getLayoutFromFixtureDataProvider
      * @param string|array $inputFiles
      * @param string $expectedFile
+     *
+     * @dataProvider getLayoutFromFixtureDataProvider
      */
     public function testGetLayoutUpdateFromFixture($inputFiles, $expectedFile)
     {
@@ -54,9 +54,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getLayoutFromFixtureDataProvider
      * @param string|array $inputFiles
      * @param string $expectedFile
+     *
+     * @dataProvider getLayoutFromFixtureDataProvider
      */
     public function testGetLayoutFromFixture($inputFiles, $expectedFile)
     {

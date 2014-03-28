@@ -40,7 +40,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     protected $themeResolverMock;
 
     /**
-     * @var \Magento\View\Layout\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Layout\Merge|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $processorMock;
 
@@ -71,7 +71,13 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->themeResolverMock = $this->getMockForAbstractClass('Magento\View\Design\Theme\ResolverInterface');
-        $this->processorMock = $this->getMockForAbstractClass('Magento\View\Layout\ProcessorInterface');
+        $this->processorMock = $this->getMock(
+            'Magento\Core\Model\Layout\Merge',
+            ['__destruct'],
+            [],
+            '',
+            false
+        );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
@@ -112,9 +118,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->themeResolverMock->expects(
             $this->once()
         )->method(
-            'getByArea'
-        )->with(
-            'some_area'
+            'get'
         )->will(
             $this->returnValue($themeMock)
         );
@@ -127,14 +131,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             array('theme' => $themeMock)
         )->will(
             $this->returnValue($this->processorMock)
-        );
-
-        $this->appStateMock->expects(
-            $this->once()
-        )->method(
-            'getAreaCode'
-        )->will(
-            $this->returnValue('some_area')
         );
 
         $this->assertEquals($this->processorMock, $this->_model->getUpdate());

@@ -10,7 +10,7 @@ namespace Magento\App;
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Backend\Model\View
+     * @var \Magento\App\View
      */
     protected $_view;
 
@@ -75,14 +75,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLayout()
     {
-        $this->_configScopeMock->expects(
-            $this->once()
-        )->method(
-            'getCurrentScope'
-        )->will(
-            $this->returnValue('areaCode')
-        );
-        $this->_layoutMock->expects($this->once())->method('setArea')->with('areaCode');
         $this->assertEquals($this->_layoutMock, $this->_view->getLayout());
     }
 

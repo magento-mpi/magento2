@@ -30,33 +30,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Layout');
     }
 
-    /**
-     * @param array $inputArguments
-     * @param string $expectedArea
-     * @dataProvider constructorDataProvider
-     */
-    public function testConstructor(array $inputArguments, $expectedArea)
-    {
-        if (isset($inputArguments['area'])) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\App\State'
-            )->setAreaCode(
-                $inputArguments['area']
-            );
-        }
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Layout');
-        $this->assertEquals($expectedArea, $layout->getArea());
-    }
-
-    public function constructorDataProvider()
-    {
-        return array(
-            'default area' => array(array(), null),
-            'frontend area' => array(array('area' => 'frontend'), 'frontend'),
-            'backend area' => array(array('area' => 'adminhtml'), 'adminhtml')
-        );
-    }
-
     public function testConstructorStructure()
     {
         $structure = new \Magento\Data\Structure();
@@ -88,7 +61,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerateXml()
     {
-        $layoutUtility = new \Magento\Core\Utility\Layout($this);
+        $layoutUtility = new Utility\Layout($this);
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $this->getMock(
             'Magento\View\Layout',

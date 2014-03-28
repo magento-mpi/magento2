@@ -14,9 +14,6 @@
         </arguments>
     </type>
     <type name="Magento\View\Layout">
-        <arguments>
-            <argument name="area" xsi:type="string">frontend</argument>
-        </arguments>
         <plugin name="core-session-depersonalize"
                 type="Magento\Core\Model\Layout\DepersonalizePlugin" sortOrder="1"/>
     </type>

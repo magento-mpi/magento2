@@ -12,7 +12,7 @@
 /**
  * Core layout utility
  */
-namespace Magento\Core\Utility;
+namespace Magento\View\Utility;
 
 class Layout
 {
@@ -30,7 +30,7 @@ class Layout
      * Retrieve new layout update model instance with XML data from a fixture file
      *
      * @param string|array $layoutUpdatesFile
-     * @return \Magento\Core\Model\Layout\Merge
+     * @return \Magento\View\Layout\ProcessorInterface
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
@@ -39,7 +39,7 @@ class Layout
         $fileFactory = $objectManager->get('Magento\View\Layout\File\Factory');
         $files = array();
         foreach ((array)$layoutUpdatesFile as $filename) {
-            $files[] = $fileFactory->create($filename, 'Magento_Core');
+            $files[] = $fileFactory->create($filename, 'Magento_View');
         }
         $fileSource = $this->_testCase->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $fileSource->expects(
@@ -88,19 +88,18 @@ class Layout
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
             'processorFactory' => $objectManager->get('Magento\View\Layout\ProcessorFactory'),
-            'themeFactory' => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'logger' => $objectManager->get('Magento\Logger'),
             'eventManager' => $objectManager->get('Magento\Event\ManagerInterface'),
-            'coreData' => $objectManager->get('Magento\Core\Helper\Data'),
-            'design' => $objectManager->get('Magento\View\DesignInterface'),
             'blockFactory' => $objectManager->create('Magento\View\Element\BlockFactory', array()),
             'structure' => $objectManager->create('Magento\Data\Structure', array()),
             'argumentParser' => $objectManager->get('Magento\View\Layout\Argument\Parser'),
             'argumentInterpreter' => $objectManager->get('layoutArgumentInterpreter'),
             'scheduledStructure' => $objectManager->create('Magento\View\Layout\ScheduledStructure', array()),
-            'coreStoreConfig' => $objectManager->create('Magento\Core\Model\Store\Config'),
+            'config' => $objectManager->create('Magento\App\Config'),
             'appState' => $objectManager->get('Magento\App\State'),
             'messageManager' => $objectManager->get('Magento\Message\ManagerInterface'),
+            'themeResolver' => $objectManager->get('Magento\View\Design\Theme\ResolverInterface'),
+            'scopeResolver' => $objectManager->get('Magento\BaseScopeResolverInterface'),
             'objectManager' => $objectManager
         );
     }

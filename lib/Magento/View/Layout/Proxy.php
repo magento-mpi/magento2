@@ -103,28 +103,6 @@ class Proxy extends \Magento\View\Layout
     }
 
     /**
-     * Retrieve layout area
-     *
-     * @return string
-     */
-    public function getArea()
-    {
-        return $this->getSubject()->getArea();
-    }
-
-    /**
-     * Set area code
-     *
-     * @param string $areaCode
-     * @return void
-     * @deprecated
-     */
-    public function setArea($areaCode)
-    {
-        $this->getSubject()->setArea($areaCode);
-    }
-
-    /**
      * Layout xml generation
      *
      * @return $this

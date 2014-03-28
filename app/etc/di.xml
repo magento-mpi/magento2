@@ -318,7 +318,7 @@
     <type name="Magento\View\Layout">
         <arguments>
             <argument name="argumentInterpreter" xsi:type="object">layoutArgumentInterpreter</argument>
-            <argument name="scope" xsi:type="init_parameter">Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE</argument>
+            <argument name="scope" xsi:type="const">Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE</argument>
         </arguments>
     </type>
     <type name="Magento\Mview\View">

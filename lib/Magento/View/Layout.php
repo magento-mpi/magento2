@@ -85,13 +85,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_output = array();
 
     /**
-     * Layout area (f.e. admin, frontend)
-     *
-     * @var string
-     */
-    protected $_area;
-
-    /**
      * Helper blocks cache for this layout
      *
      * @var array
@@ -198,6 +191,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $themeResolver;
 
     /**
+     * @var \Magento\BaseScopeResolverInterface
+     */
+    protected $scopeResolver;
+
+    /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -210,7 +208,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\View\Design\Theme\ResolverInterface $themeResolver
-     * @param string $area
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
      * @param string $scope
      */
     public function __construct(
@@ -226,14 +224,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\View\Design\Theme\ResolverInterface $themeResolver,
-        $area = \Magento\View\DesignInterface::DEFAULT_AREA,
+        \Magento\BaseScopeResolverInterface $scopeResolver,
         $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT
     ) {
         $this->_eventManager = $eventManager;
         $this->config = $config;
         $this->_blockFactory = $blockFactory;
         $this->_appState = $appState;
-        $this->_area = $area;
         $this->_structure = $structure;
         $this->argumentParser = $argumentParser;
         $this->argumentInterpreter = $argumentInterpreter;
@@ -246,6 +243,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->messageManager = $messageManager;
         $this->scope = $scope;
         $this->themeResolver = $themeResolver;
+        $this->scopeResolver = $scopeResolver;
     }
 
     /**
@@ -272,32 +270,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     public function getUpdate()
     {
         if (!$this->_update) {
-            $theme = $this->themeResolver->getByArea($this->getArea());
+            $theme = $this->themeResolver->get();
             $this->_update = $this->_processorFactory->create(array('theme' => $theme));
         }
         return $this->_update;
-    }
-
-    /**
-     * Retrieve layout area
-     *
-     * @return string
-     */
-    public function getArea()
-    {
-        return $this->_appState->getAreaCode();
-    }
-
-    /**
-     * Set area code
-     *
-     * @param string $areaCode
-     * @return void
-     * @deprecated
-     */
-    public function setArea($areaCode)
-    {
-        $this->_area = $areaCode;
     }
 
     /**
@@ -793,7 +769,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
 
         $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath) && !$this->config->isSetFlag($configPath, $this->scope)) {
+        if (!empty($configPath)
+            && !$this->config->isSetFlag($configPath, $this->scope, $this->scopeResolver->getScope()->getCode())
+        ) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
         }
@@ -893,7 +871,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !$this->config->isSetFlag($configPath, $this->scope)) {
+        if ($configPath
+            && !$this->config->isSetFlag($configPath, $this->scope, $this->scopeResolver->getScope()->getCode())
+        ) {
             return;
         }
 

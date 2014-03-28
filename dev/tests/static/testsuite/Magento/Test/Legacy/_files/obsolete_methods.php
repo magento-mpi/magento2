@@ -1579,4 +1579,6 @@ return array(
     ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
     ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
     ['_getThemeInstance', 'Magento\View\Layout'],
+    ['getArea', 'Magento\View\Layout'],
+    ['setArea', 'Magento\View\Layout'],
 );
