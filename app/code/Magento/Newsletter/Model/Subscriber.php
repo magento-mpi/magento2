@@ -349,9 +349,6 @@ class Subscriber extends \Magento\Model\AbstractModel
             if (!empty($data) && $customerData->getId() && !$this->getCustomerId()) {
                 $this->setCustomerId($customerData->getId());
                 $this->setSubscriberConfirmCode($this->randomSequence());
-                if ($this->getStatus() == self::STATUS_NOT_ACTIVE) {
-                    $this->setStatus(self::STATUS_UNSUBSCRIBED);
-                }
                 $this->save();
             }
         } catch (\Magento\Exception\NoSuchEntityException $e) {
@@ -491,6 +488,19 @@ class Subscriber extends \Magento\Model\AbstractModel
     }
 
     /**
+     * Update the subscription based on latest information of associated customer.
+     *
+     * @param int $customerId
+     * @return $this
+     */
+    public function updateSubscription($customerId)
+    {
+        $this->loadByCustomerId($customerId);
+        $this->_updateCustomerSubscription($customerId, $this->isSubscribed());
+        return $this;
+    }
+
+    /**
      * Saving customer subscription status
      *
      * @param int $customerId
@@ -506,8 +516,6 @@ class Subscriber extends \Magento\Model\AbstractModel
         $customerData = $this->_customerAccountService->getCustomer($customerId);
 
         if (!$subscribe && !$this->getId()) {
-            // If subscription flag not set or customer is not a subscriber
-            // and no subscribe below
             return $this;
         }
 

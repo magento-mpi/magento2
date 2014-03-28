@@ -9,6 +9,7 @@ namespace Magento\Newsletter\Model\Plugin;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Newsletter\Model\SubscriberFactory;
 
 class CustomerPlugin
@@ -42,9 +43,29 @@ class CustomerPlugin
      */
     public function afterCreateAccount(CustomerAccountServiceInterface $subject, Customer $customer)
     {
-        $this->subscriberFactory->create()->subscribeCustomerById($customer->getId());
+        $this->subscriberFactory->create()->updateSubscription($customer->getId());
 
         return $customer;
+    }
+
+    /**
+     * Plugin after create account that updates any newsletter subscription that may have existed.
+     *
+     * @param CustomerAccountServiceInterface $subject
+     * @param callable $updateCustomer
+     * @param CustomerDetails $customerDetails
+     * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function aroundUpdateCustomer(
+        CustomerAccountServiceInterface $subject,
+        callable $updateCustomer,
+        CustomerDetails $customerDetails
+    ) {
+        $updateCustomer($customerDetails);
+
+        $this->subscriberFactory->create()->updateSubscription($customerDetails->getCustomer()->getid());
     }
 
     /**
@@ -57,8 +78,11 @@ class CustomerPlugin
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDeleteCustomer(CustomerAccountServiceInterface $subject, $deleteCustomer, $customerId)
-    {
+    public function aroundDeleteCustomer(
+        CustomerAccountServiceInterface $subject,
+        callable $deleteCustomer,
+        $customerId
+    ) {
         $customer = $subject->getCustomer($customerId);
 
         $deleteCustomer($customerId);
