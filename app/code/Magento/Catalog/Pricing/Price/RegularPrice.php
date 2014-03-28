@@ -70,12 +70,11 @@ class RegularPrice implements PriceInterface
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator)
-    {
+        Calculator $calculator
+    ) {
         $this->salableItem = $salableItem;
         $this->quantity = $quantity;
         $this->calculator = $calculator;
-
         $this->priceInfo = $salableItem->getPriceInfo();
     }
 

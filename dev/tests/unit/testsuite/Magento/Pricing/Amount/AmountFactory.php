@@ -8,8 +8,6 @@
 
 namespace Magento\Pricing\Amount;
 
-use Magento\Pricing\Object\SaleableInterface;
-
 /**
  * Class AmountFactory
  */
@@ -18,7 +16,7 @@ class AmountFactory
     /**
      * Default Amount Class
      */
-    const DEFAULT_AMOUNT_CLASS = '\Magento\Pricing\Amount\Base';
+    const DEFAULT_AMOUNT_CLASS = 'Magento\Pricing\Amount\Base';
 
     /**
      * Object Manager
@@ -52,7 +50,7 @@ class AmountFactory
         $arguments['amount'] = $amount;
         $arguments['adjustmentAmounts'] = $adjustmentAmounts;
         $amountModel = $this->objectManager->create(self::DEFAULT_AMOUNT_CLASS, $arguments);
-        if (!$amountModel instanceof \Magento\Pricing\Amount\AmountInterface) {
+        if (!$amountModel instanceof AmountInterface) {
             throw new \InvalidArgumentException(
                 $className . ' doesn\'t implement \Magento\Pricing\Amount\AmountInterface'
             );

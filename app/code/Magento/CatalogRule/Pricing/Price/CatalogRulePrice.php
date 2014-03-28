@@ -90,7 +90,7 @@ class CatalogRulePrice extends RegularPrice
      */
     public function getValue()
     {
-        if (!$this->value) {
+        if (null === $this->value) {
             $this->value = $this->resourceRuleFactory->create()
                 ->getRulePrice(
                     $this->dateTime->scopeTimeStamp($this->storeManager->getStore()->getId()),
@@ -98,7 +98,8 @@ class CatalogRulePrice extends RegularPrice
                     $this->customerSession->getCustomerGroupId(),
                     $this->salableItem->getId()
                 );
+            $this->value = $this->value ? floatval($this->value) : false;
         }
-        return $this->value ? floatval($this->value) : false;
+        return $this->value;
     }
 }

@@ -63,15 +63,16 @@ class Amount extends Template implements AmountRenderInterface
      * @param PriceCurrencyInterface $priceCurrency
      * @param RendererPool $rendererPool
      * @param SaleableInterface $saleableItem
+     * @param \Magento\Pricing\Price\PriceInterface $price
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         AmountInterface $amount,
-        SaleableInterface $saleableItem = null,
-        PriceInterface $price = null,
         PriceCurrencyInterface $priceCurrency,
         RendererPool $rendererPool,
+        SaleableInterface $saleableItem = null,
+        PriceInterface $price = null,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -137,7 +138,7 @@ class Amount extends Template implements AmountRenderInterface
      */
     protected function getApplicableAdjustmentRenders()
     {
-        if (!$this->getSkipAdjustments()) {
+        if (!$this->hasSkipAdjustments()) {
             return $this->getAdjustmentRenders();
         } else {
             return [];
@@ -196,9 +197,7 @@ class Amount extends Template implements AmountRenderInterface
     {
         $cssClasses = $this->hasData('css_classes') ? $this->getData('css_classes') : [];
         $cssClasses = array_merge($cssClasses, array_keys($adjustmentRenders));
-
         $this->setData('adjustment_css_classes', join(' ', $cssClasses));
-
         return $this;
     }
 }

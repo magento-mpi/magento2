@@ -39,8 +39,8 @@ class SpecialPrice extends RegularPrice implements SpecialPriceInterface
         SaleableInterface $salableItem,
         $quantity,
         Calculator $calculator,
-        TimezoneInterface $localeDate)
-    {
+        TimezoneInterface $localeDate
+    ) {
         parent::__construct($salableItem, $quantity, $calculator);
         $this->localeDate = $localeDate;
     }

@@ -58,8 +58,8 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         SaleableInterface $salableItem,
         $quantity,
         Calculator $calculator,
-        Session $customerSession)
-    {
+        Session $customerSession
+    ) {
         parent::__construct($salableItem, $quantity, $calculator);
         $this->customerSession = $customerSession;
         if ($salableItem->hasCustomerGroupId()) {
