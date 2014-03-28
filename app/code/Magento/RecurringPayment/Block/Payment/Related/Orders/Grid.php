@@ -11,6 +11,9 @@ use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Recurring payment related orders grid
+ *
+ * @method \Magento\Object[] getGridElements()
+ * @method Grid setGridElements($orders)
  */
 class Grid extends \Magento\RecurringPayment\Block\Payment\View
 {
@@ -69,15 +72,10 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
     protected function _prepareRelatedOrders($fieldsToSelect = '*')
     {
         if (null === $this->_relatedOrders) {
-            $this->_orderCollection->addFieldToSelect(
-                $fieldsToSelect
-            )->addFieldToFilter(
-                'customer_id',
-                $this->_registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
-            )->setOrder(
-                'entity_id',
-                'desc'
-            );
+            $this->_orderCollection
+                ->addFieldToSelect($fieldsToSelect)
+                ->addFieldToFilter('customer_id', $this->_registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
+                ->setOrder('entity_id', 'desc');
             $this->_relatedOrders = $this->_recurringCollectionFilter->byIds(
                 $this->_orderCollection,
                 $this->_recurringPayment->getId()
