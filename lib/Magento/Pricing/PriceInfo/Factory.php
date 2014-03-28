@@ -61,7 +61,7 @@ class Factory
         $type = $product->getTypeId();
         $className = isset($this->types[$type]) ? $this->types[$type] : self::DEFAULT_PRICE_INFO_CLASS;
 
-        $arguments['product'] = $product;
+        $arguments['saleableItem'] = $product;
         if ($product->getQty()) {
             $arguments['quantity'] = $product->getQty();
         }
