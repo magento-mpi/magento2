@@ -58,13 +58,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             $this->prices,
             $this->adjustments,
             $this->amountFactory,
-            $this->quantity);
+            $this->quantity
+        );
     }
 
     /**
-     * @covers Base::__construct
-     * @covers Base::initPrices
-     * @covers Base::getPrice
+     * @covers \Magento\Pricing\PriceInfo\Base::__construct
+     * @covers \Magento\Pricing\PriceInfo\Base::initPrices
+     * @covers \Magento\Pricing\PriceInfo\Base::getPrice
      */
     public function testGetPrices()
     {
@@ -79,8 +80,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Base::__construct
-     * @covers Base::getPrice
+     * @covers \Magento\Pricing\PriceInfo\Base::__construct
+     * @covers \Magento\Pricing\PriceInfo\Base::getPrice
      * @dataProvider providerGetPrice
      */
     public function testGetPrice($entryParams, $createCount)
@@ -126,7 +127,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Base::getAdjustments
+     * @covers \Magento\Pricing\PriceInfo\Base::getAdjustments
      */
     public function testGetAdjustments()
     {
@@ -135,7 +136,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Base::getAdjustments
+     * @covers \Magento\Pricing\PriceInfo\Base::getAdjustments
      * @expectedException \InvalidArgumentException
      */
     public function testGetAdjustment()
@@ -148,7 +149,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Base::getPricesIncludedInBase
+     * @covers \Magento\Pricing\PriceInfo\Base::getPricesIncludedInBase
      */
     public function testGetPricesIncludedInBase()
     {
