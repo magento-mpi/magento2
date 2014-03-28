@@ -86,6 +86,7 @@ class CustomerRegistryTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_model->retrieveByEmail(self::CUSTOMER_EMAIL, self::WEBSITE_ID);
+            $this->fail("NoSuchEntityException was not thrown as expected.");
         }  catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'email' => 'customer@example.com',
