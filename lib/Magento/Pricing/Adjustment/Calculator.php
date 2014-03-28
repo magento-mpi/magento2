@@ -8,8 +8,8 @@
 
 namespace Magento\Pricing\Adjustment;
 
-use \Magento\Pricing\Amount\AmountFactory;
-use \Magento\Pricing\AdjustmentComposite;
+use Magento\Pricing\Amount\AmountFactory;
+use Magento\Pricing\AdjustmentComposite;
 use Magento\Pricing\Object\SaleableInterface;
 
 /**
@@ -40,7 +40,7 @@ class Calculator
     }
 
     /**
-     * @param $amount
+     * @param float $amount
      * @param SaleableInterface $saleableItem
      * @return \Magento\Pricing\Amount\AmountInterface
      */

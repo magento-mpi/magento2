@@ -44,8 +44,8 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
         SaleableInterface $salableItem,
         $quantity,
         Calculator $calculator,
-        Session $customerSession)
-    {
+        Session $customerSession
+    ) {
         parent::__construct($salableItem, $quantity, $calculator);
         $this->customerSession = $customerSession;
     }

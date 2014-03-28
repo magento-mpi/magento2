@@ -10,10 +10,10 @@
 
 namespace Magento\Catalog\Pricing\Render;
 
-use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Render\PriceBox as BasePriceBox;
 use Magento\Catalog\Pricing\Price\MsrpPrice;
 use Magento\Pricing\Render;
+use Magento\Catalog\Pricing\Price;
 
 /**
  * Class for final_price rendering
@@ -90,8 +90,8 @@ class FinalPriceBox extends BasePriceBox
      */
     public function showSpecialPrice()
     {
-        $displayRegularPrice = $this->getPriceType('regular_price')->getAmount();
-        $displayFinalPrice = $this->getPriceType('final_price')->getAmount();
+        $displayRegularPrice = $this->getPriceType(Price\RegularPrice::PRICE_TYPE_PRICE_DEFAULT)->getAmount();
+        $displayFinalPrice = $this->getPriceType(Price\FinalPriceInterface::PRICE_TYPE_FINAL)->getAmount();
         return $displayFinalPrice < $displayRegularPrice;
     }
 
@@ -102,8 +102,10 @@ class FinalPriceBox extends BasePriceBox
      */
     public function showMinimalPrice()
     {
-        $displayFinalPrice = $this->getPriceType('final_price')->getAmount();
-        $minimalPrice = $this->getPriceType('final_price')->getMinimalPrice();
+        /** @var Price\FinalPrice $finalPrice */
+        $finalPrice = $this->getPriceType(Price\FinalPriceInterface::PRICE_TYPE_FINAL);
+        $displayFinalPrice = $finalPrice->getAmount();
+        $minimalPrice = $finalPrice->getMinimalPrice();
 
         return $this->getDisplayMinimalPrice() && $minimalPrice && $minimalPrice < $displayFinalPrice;
     }

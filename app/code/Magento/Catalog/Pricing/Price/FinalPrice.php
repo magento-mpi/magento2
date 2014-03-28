@@ -36,8 +36,8 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator)
-    {
+        Calculator $calculator
+    ) {
         parent::__construct($salableItem, $quantity, $calculator);
         $this->priceInfo = $salableItem->getPriceInfo();
         $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE);

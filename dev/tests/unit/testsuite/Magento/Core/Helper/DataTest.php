@@ -60,7 +60,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function currencyDataProvider()
     {
         return array(
-            array('amount' => '100', 'format' => true, 'includeContainer' => true, 'result' => '100rgn.'),
+            array('amount' => '100', 'format' => true, 'includeContainer' => true, 'result' => '100grn.'),
             array('amount' => '115', 'format' => true, 'includeContainer' => false, 'result' => '1150'),
             array('amount' => '120', 'format' => false, 'includeContainer' => null, 'result' => '1200'),
         );
@@ -93,7 +93,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function currencyByStoreDataProvider()
     {
         return array(
-            array('amount' => '10', 'store' => 1, 'format' => true, 'includeContainer' => true, 'result' => '10rgn.'),
+            array('amount' => '10', 'store' => 1, 'format' => true, 'includeContainer' => true, 'result' => '10grn.'),
             array('amount' => '115', 'store' => 4,  'format' => true, 'includeContainer' => false, 'result' => '1150'),
             array('amount' => '120', 'store' => 5,  'format' => false, 'includeContainer' => null, 'result' => '1200'),
         );
@@ -103,7 +103,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $amount = '120';
         $includeContainer = false;
-        $result = '10rgn.';
+        $result = '10grn.';
 
         $this->priceCurrency->expects($this->once())
             ->method('convertAndFormat')
@@ -117,7 +117,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $amount = '120';
         $includeContainer = false;
-        $result = '10rgn.';
+        $result = '10grn.';
 
         $this->priceCurrency->expects($this->once())
             ->method('format')

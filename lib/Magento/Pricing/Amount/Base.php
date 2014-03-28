@@ -12,6 +12,9 @@ namespace Magento\Pricing\Amount;
 
 use Magento\Pricing\Adjustment\AdjustmentInterface;
 
+/**
+ * Amount base model
+ */
 class Base implements AmountInterface
 {
     /**
@@ -40,13 +43,13 @@ class Base implements AmountInterface
     protected $adjustments = [];
 
     /**
-     * @param $amount
+     * @param float $amount
      * @param array $adjustmentAmounts
      */
     public function __construct(
         $amount,
-        array $adjustmentAmounts = [])
-    {
+        array $adjustmentAmounts = []
+    ) {
         $this->amount = $amount;
         $this->adjustmentAmounts = $adjustmentAmounts;
     }

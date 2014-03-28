@@ -67,7 +67,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      * @param int $precision
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
      * @param Currency|string|null $currency
-     * @return float
+     * @return string
      */
     public function format(
         $amount,
