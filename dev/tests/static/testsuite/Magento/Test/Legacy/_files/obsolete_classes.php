@@ -790,6 +790,7 @@ return array(
     array('Magento\Core\Model\Resource\Entity\Table', 'Magento\Model\Resource\Entity\Table'),
     array('Magento\Core\Model\Resource\Flag', 'Magento\Flag\Resource'),
     array('Magento\Core\Model\Resource\Iterator', 'Magento\Model\Resource\Iterator'),
+    array('Magento\Core\Model\Resource\Resource', 'Magento\Install\Model\Resource\Resource'),
     array('Magento\Core\Model\Resource\Type\AbstractType', 'Magento\Model\Resource\Type\AbstractType'),
     array('Magento\Core\Model\Resource\Type\Db', 'Magento\Model\Resource\Type\Db'),
     array('Magento\Core\Model\Resource\Type\Db\Pdo\Mysql', 'Magento\Model\Resource\Type\Db\Pdo\Mysql'),
@@ -2007,6 +2008,7 @@ return array(
     array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),
     array('Magento\Catalog\Helper\Flat\AbstractFlat'),
+    array('Magento\Core\App\Action\Plugin\Install', 'Magento\Install\App\Action\Plugin\Install'),
     array('Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'),
     array(
         'Magento\Core\Model\LocaleInterface',
