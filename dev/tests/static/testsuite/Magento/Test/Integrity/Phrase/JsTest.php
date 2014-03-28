@@ -106,8 +106,9 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
      */
     protected function _getRegisteredPhrases()
     {
-        $jsHelperFile = realpath(__DIR__ . '/../../../../../../../..'
-            . '/app/code/Magento/Translation/Model/Js/DataProvider.php');
+        $jsHelperFile = realpath(
+            __DIR__ . '/../../../../../../../../app/code/Magento/Translation/Model/Js/DataProvider.php'
+        );
 
         $this->_phraseCollector->parse($jsHelperFile);
 
