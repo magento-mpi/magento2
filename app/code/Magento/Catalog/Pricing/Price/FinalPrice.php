@@ -45,7 +45,7 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     }
 
     /**
-     * @return float
+     * @return float|bool
      */
     public function getValue()
     {

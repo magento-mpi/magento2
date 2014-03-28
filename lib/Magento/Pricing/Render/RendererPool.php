@@ -49,20 +49,17 @@ class RendererPool extends AbstractBlock
         $type = $saleableItem->getTypeId();
 
         // implement class resolving fallback
-        $renderClassName = $this->getData($type . '/prices/' . $priceCode . '/render_class');
+        $pattern = [
+            $type . '/prices/' . $priceCode . '/render_class',
+            $type . '/default_render_class',
+            'default/prices/' . $priceCode . '/render_class',
+            'default/default_render_class'
+        ];
+        $renderClassName = $this->findDataByPattern($pattern);
         if (!$renderClassName) {
-            $renderClassName = $this->getData($type . '/default_render_class');
-            if (!$renderClassName) {
-                $renderClassName = $this->getData('default/prices/' . $priceCode . '/render_class');
-                if (!$renderClassName) {
-                    $renderClassName = $this->getData('default/default_render_class');
-                    if (!$renderClassName) {
-                        throw new \InvalidArgumentException(
-                            $priceCode . ' isn\'t registered price type'
-                        );
-                    }
-                }
-            }
+            throw new \InvalidArgumentException(
+                $priceCode . ' isn\'t registered price type'
+            );
         }
 
         $price = $saleableItem->getPriceInfo()->getPrice($priceCode);
@@ -94,8 +91,8 @@ class RendererPool extends AbstractBlock
      * @param SaleableInterface $saleableItem
      * @param PriceInterface $price
      * @param array $data
-     * @throws \InvalidArgumentException
      * @return AmountRenderInterface
+     * @throws \InvalidArgumentException
      */
     public function createAmountRender(
         AmountInterface $amount,
@@ -115,20 +112,17 @@ class RendererPool extends AbstractBlock
         } else {
             $priceCode = $price->getPriceType();
             // implement class resolving fallback
-            $renderClassName = $this->getData($type . '/prices/' . $priceCode . '/amount_render_class');
+            $pattern = [
+                $type . '/prices/' . $priceCode . '/amount_render_class',
+                $type . '/default_amount_render_class',
+                'default/prices/' . $priceCode . '/amount_render_class',
+                'default/default_amount_render_class'
+            ];
+            $renderClassName = $this->findDataByPattern($pattern);
             if (!$renderClassName) {
-                $renderClassName = $this->getData($type . '/default_amount_render_class');
-                if (!$renderClassName) {
-                    $renderClassName = $this->getData('default/prices/' . $priceCode . '/amount_render_class');
-                    if (!$renderClassName) {
-                        $renderClassName = $this->getData('default/default_amount_render_class');
-                        if (!$renderClassName) {
-                            throw new \InvalidArgumentException(
-                                "There is no amount render class registered for '{$priceCode}' price type"
-                            );
-                        }
-                    }
-                }
+                throw new \InvalidArgumentException(
+                    "There is no amount render class registered for '{$priceCode}' price type"
+                );
             }
         }
 
@@ -153,6 +147,9 @@ class RendererPool extends AbstractBlock
         return $amountBlock;
     }
 
+    /**
+     * @return array
+     */
     public function getAdjustmentRenders()
     {
         $renders = [];
@@ -164,43 +161,65 @@ class RendererPool extends AbstractBlock
         return $renders;
     }
 
+    /**
+     * @param string $type
+     * @param string $priceCode
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     protected function getAmountRenderBlockTemplate($type, $priceCode)
     {
-        $template = $this->getData($type . '/prices/' . $priceCode . '/amount_render_template');
+        $pattern = [
+            $type . '/prices/' . $priceCode . '/amount_render_template',
+            $type . '/default_amount_render_template',
+            'default/prices/' . $priceCode . '/amount_render_template',
+            'default/default_amount_render_template'
+        ];
+        $template = $this->findDataByPattern($pattern);
         if (!$template) {
-            $template = $this->getData($type . '/default_amount_render_template');
-            if (!$template) {
-                $template = $this->getData('default/prices/' . $priceCode . '/amount_render_template');
-                if (!$template) {
-                    $template = $this->getData('default/default_amount_render_template');
-                    if (!$template) {
-                        throw new \InvalidArgumentException(
-                            $type . ' amount render block isn\'t configured properly'
-                        );
-                    }
-                }
-            }
+            throw new \InvalidArgumentException(
+                $type . ' amount render block isn\'t configured properly'
+            );
         }
         return $template;
     }
 
+    /**
+     * @param string $type
+     * @param string $priceCode
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     protected function getRenderBlockTemplate($type, $priceCode)
     {
-        $template = $this->getData($type . '/prices/' . $priceCode . '/render_template');
+        $pattern = [
+            $type . '/prices/' . $priceCode . '/render_template',
+            $type . '/default_render_template',
+            'default/prices/' . $priceCode . '/render_template',
+            'default/default_render_template'
+        ];
+        $template = $this->findDataByPattern($pattern);
         if (!$template) {
-            $template = $this->getData($type . '/default_render_template');
-            if (!$template) {
-                $template = $this->getData('default/prices/' . $priceCode . '/render_template');
-                if (!$template) {
-                    $template = $this->getData('default/default_render_template');
-                    if (!$template) {
-                        throw new \InvalidArgumentException(
-                            $priceCode . ' render block isn\'t configured properly'
-                        );
-                    }
-                }
-            }
+            throw new \InvalidArgumentException(
+                $priceCode . ' render block isn\'t configured properly'
+            );
         }
         return $template;
+    }
+
+    /**
+     * @param array $pattern
+     * @return null|string
+     */
+    protected function findDataByPattern($pattern)
+    {
+        $data = null;
+        foreach ($pattern as $key) {
+            $data = $this->getData($key);
+            if ($data) {
+                break;
+            }
+        }
+        return $data;
     }
 }
