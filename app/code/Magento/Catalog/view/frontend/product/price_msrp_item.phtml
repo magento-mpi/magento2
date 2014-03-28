@@ -40,12 +40,12 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
         <a href="#"
            id="<?php echo($popupId);?>"
            data-mage-init='{"addToCart":{"popupId": "#<?php echo($popupId);?>",
-                                     "productName": "<?php echo $_product->getName() ?>",
-                                     "realPrice": <?php echo $this->getRealPriceJs($_product) ?>,
-                                     "msrpPrice": "<?php echo $_msrpPrice ?>",
-                                     "priceElementId":"<?php echo $priceElementId ?>",
-                                     "popupCartButtonId": "#map-popup-button",
-                                     "cartForm": "#product_addtocart_form"}}'><?php echo __('Click for price') ?>
+                                         "productName": "<?php echo $_product->getName() ?>",
+                                         "realPrice": <?php echo $this->getRealPriceJs($_product) ?>,
+                                         "msrpPrice": "<?php echo $_msrpPrice ?>",
+                                         "priceElementId":"<?php echo $priceElementId ?>",
+                                         "popupCartButtonId": "#map-popup-button",
+                                         "cartForm": "#product_addtocart_form"}}'><?php echo __('Click for price') ?>
         </a>
     <?php else: ?>
         <span class="msrp message">
