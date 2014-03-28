@@ -29,7 +29,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue($isValidInterval, $specialPrice, $expected)
     {
-        $specialPriceMock = $this->objectManager->getObject(
+        $specialPriceModel = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\SpecialPrice',
             [
                 'salableItem' => $this->prepareSalebleItem($specialPrice),
@@ -37,7 +37,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertSame($expected, $specialPriceMock->getValue());
+        $this->assertSame($expected, $specialPriceModel->getValue());
     }
 
     /**

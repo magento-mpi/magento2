@@ -34,14 +34,14 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     {
         $salableItemMock = $this->prepareSalableItem($groupPrice);
         $sessionMock = $this->prepareSession($salableItemMock, $customerGroup);
-        $groupPriceMock = $this->objectManager->getObject(
+        $groupPriceModel = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\GroupPrice',
             [
                 'salableItem'     => $salableItemMock,
                 'customerSession' => $sessionMock
             ]
         );
-        $this->assertEquals($expected, $groupPriceMock->getValue());
+        $this->assertEquals($expected, $groupPriceModel->getValue());
     }
 
     /**
@@ -71,7 +71,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupPriceNonExist($groupPrice, $expected)
     {
-        $groupPriceMock = $this->objectManager->getObject(
+        $groupPriceModel = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\GroupPrice',
             [
                 'salableItem'     => $this->prepareSalableItem($groupPrice),
@@ -79,7 +79,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertEquals($expected, $groupPriceMock->getValue());
+        $this->assertEquals($expected, $groupPriceModel->getValue());
     }
 
     /**

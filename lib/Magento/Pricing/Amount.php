@@ -9,15 +9,17 @@
 namespace Magento\Pricing;
 
 use \Magento\Pricing\Object\SaleableInterface;
+
 /**
  * Class Amount
  */
-class Amount
+class Amount implements AmountInterface
 {
     /**
      * @var Object\SaleableInterface
      */
     protected $saleableItem;
+
     /**
      * @var float
      */

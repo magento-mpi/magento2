@@ -9,7 +9,7 @@
 namespace Magento\Pricing;
 
 /**
- * Class Amount
+ * Amount factory
  */
 class AmountFactory
 {
@@ -18,6 +18,9 @@ class AmountFactory
      */
     protected $objectManager;
 
+    /**
+     * @param \Magento\ObjectManager $objectManager
+     */
     public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
@@ -27,17 +30,27 @@ class AmountFactory
      * @param AdjustmentComposite $adjustmentComposite
      * @param Object\SaleableInterface $saleableItem
      * @param float $amount
-     * @return \Magento\Pricing\Amount
+     * @return \Magento\Pricing\AmountInterface
+     * @throws \UnexpectedValueException
      */
     public function create(
         AdjustmentComposite $adjustmentComposite,
         Object\SaleableInterface $saleableItem,
         $amount
     ) {
-        return $this->objectManager->create('Magento\Pricing\Amount', array(
-            'adjustmentComposite' => $adjustmentComposite,
-            'saleableItem' => $saleableItem,
-            'amount' => $amount
-        ));
+        $amountModel =  $this->objectManager->create(
+            'Magento\Pricing\Amount',
+            [
+                'adjustmentComposite' => $adjustmentComposite,
+                'saleableItem' => $saleableItem,
+                'amount' => $amount
+            ]
+        );
+        if (!$amountModel instanceof AmountInterface) {
+            throw new \UnexpectedValueException(
+                get_class($amountModel) . ' doesn\'t implement \Magento\Pricing\AmountInterface'
+            );
+        }
+        return $amountModel;
     }
 }
