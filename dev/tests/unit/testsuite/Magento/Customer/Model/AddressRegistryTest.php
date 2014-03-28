@@ -73,7 +73,7 @@ class AddressRegistryTest extends \PHPUnit_Framework_TestCase
         $this->addressFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($address));
-        $actual = $this->unit->retrieve($addressId);
+        $this->unit->retrieve($addressId);
     }
 
     public function testRemove()
