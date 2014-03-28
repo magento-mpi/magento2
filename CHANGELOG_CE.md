@@ -27,6 +27,7 @@
     * Magento/Checkout/Model/Type
     * Magento/Sales/Model/Config     
   * LauncherInterface renamed to AppInterface (MAGETWO-21593)
+  * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
 * Improvements in code coverage calculation:
   * Updated whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:
