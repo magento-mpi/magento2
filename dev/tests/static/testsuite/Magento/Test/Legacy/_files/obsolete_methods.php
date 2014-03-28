@@ -1345,6 +1345,6 @@ return array(
     [
         'convertModuleNotationToPath',
         'Magento\View\Asset\PreProcessor\ModuleNotation',
-        'Magento\View\Asset\PreProcessor\ModuleNotation\Resolver::convertModuleNotationToPath'
+        'Magento\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
 );

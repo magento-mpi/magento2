@@ -66,7 +66,7 @@ class ThemeDeployment
     private $_path;
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver
+     * @var \Magento\View\Asset\ModuleNotation\Resolver
      */
     private $_notationResolver;
 
@@ -77,7 +77,7 @@ class ThemeDeployment
      * @param \Magento\App\View\Deployment\Version\StorageInterface $versionStorage
      * @param \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator
      * @param \Magento\View\Asset\PathGenerator $path
-     * @param \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver $notationResolver
+     * @param \Magento\View\Asset\ModuleNotation\Resolver $notationResolver
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -89,7 +89,7 @@ class ThemeDeployment
         \Magento\App\View\Deployment\Version\StorageInterface $versionStorage,
         \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
         \Magento\View\Asset\PathGenerator $path,
-        \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver $notationResolver,
+        \Magento\View\Asset\ModuleNotation\Resolver $notationResolver,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,

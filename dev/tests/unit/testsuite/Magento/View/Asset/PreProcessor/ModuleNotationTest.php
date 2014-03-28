@@ -29,7 +29,7 @@ class ModuleNotationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assetMock = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
         $this->cssResolverMock = $this->getMock('Magento\View\Url\CssResolver', array(), array(), '', false);
-        $notationResolver = $this->getMock('\Magento\View\Asset\PreProcessor\ModuleNotation\Resolver');
+        $notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver');
         $this->moduleNotation = new \Magento\View\Asset\PreProcessor\ModuleNotation(
             $this->cssResolverMock, $notationResolver
         );

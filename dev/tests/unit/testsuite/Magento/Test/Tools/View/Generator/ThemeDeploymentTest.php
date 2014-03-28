@@ -51,7 +51,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     protected $path;
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $notationResolver;
 
@@ -79,7 +79,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->versionGenerator = $this->getMock('Magento\App\View\Deployment\Version\GeneratorInterface');
 
         $this->path = new \Magento\View\Asset\PathGenerator(\Magento\App\State::MODE_PRODUCTION);
-        $this->notationResolver = $this->getMock('Magento\View\Asset\PreProcessor\ModuleNotation\Resolver', null);
+        $this->notationResolver = $this->getMock('Magento\View\Asset\ModuleNotation\Resolver', null);
     }
 
     protected function tearDown()

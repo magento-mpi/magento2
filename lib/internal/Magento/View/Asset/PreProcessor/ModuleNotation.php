@@ -9,7 +9,6 @@
 namespace Magento\View\Asset\PreProcessor;
 
 use Magento\View\Asset;
-use Magento\View\FileSystem;
 use Magento\View\Url\CssResolver;
 
 /**
@@ -29,15 +28,15 @@ class ModuleNotation implements Asset\PreProcessorInterface
     private $cssResolver;
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver
+     * @var \Magento\View\Asset\ModuleNotation\Resolver
      */
     private $notationResolver;
 
     /**
      * @param CssResolver $cssResolver
-     * @param ModuleNotation\Resolver $notationResolver
+     * @param Asset\ModuleNotation\Resolver $notationResolver
      */
-    public function __construct(CssResolver $cssResolver, ModuleNotation\Resolver $notationResolver)
+    public function __construct(CssResolver $cssResolver, Asset\ModuleNotation\Resolver $notationResolver)
     {
         $this->cssResolver = $cssResolver;
         $this->notationResolver = $notationResolver;

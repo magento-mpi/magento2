@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\PreProcessor\ModuleNotation;
+namespace Magento\View\Asset\ModuleNotation;
 
 class ResolverTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,14 +16,14 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     private $asset;
     
     /**
-     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver;
+     * @var \Magento\View\Asset\ModuleNotation\Resolver;
      */
     private $object;
 
     protected function setUp()
     {
         $this->asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
-        $this->object = new \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver();
+        $this->object = new \Magento\View\Asset\ModuleNotation\Resolver();
     }
 
     public function testConvertModuleNotationToPathNoModularSeparator()

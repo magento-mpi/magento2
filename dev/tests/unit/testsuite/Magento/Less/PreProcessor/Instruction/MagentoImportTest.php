@@ -26,7 +26,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     private $errorHandler;
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
      */
     private $notationResolver;
 
@@ -40,7 +40,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $this->design = $this->getMockForAbstractClass('\Magento\View\DesignInterface');
         $this->fileSource = $this->getMockForAbstractClass('\Magento\View\File\CollectorInterface');
         $this->errorHandler = $this->getMockForAbstractClass('\Magento\Less\PreProcessor\ErrorHandlerInterface');
-        $this->notationResolver = $this->getMock('\Magento\View\Asset\PreProcessor\ModuleNotation\Resolver');
+        $this->notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver');
 
         $this->object = new \Magento\Less\PreProcessor\Instruction\MagentoImport(
             $this->design, $this->fileSource, $this->errorHandler, $this->notationResolver

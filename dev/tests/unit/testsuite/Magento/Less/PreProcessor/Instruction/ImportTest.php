@@ -11,7 +11,7 @@ namespace Magento\Less\PreProcessor\Instruction;
 class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
      */
     private $notationResolver;
 
@@ -22,7 +22,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->notationResolver = $this->getMock('\Magento\View\Asset\PreProcessor\ModuleNotation\Resolver');
+        $this->notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver');
         $this->object = new \Magento\Less\PreProcessor\Instruction\Import($this->notationResolver);
     }
 

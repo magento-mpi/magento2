@@ -11,7 +11,7 @@ namespace Magento\Less\PreProcessor\Instruction;
 use Magento\View\Asset\PreProcessorInterface;
 use Magento\View\Asset\LocalInterface;
 use Magento\View\Asset\FileId;
-use Magento\View\Asset\PreProcessor\ModuleNotation;
+use Magento\View\Asset\ModuleNotation;
 
 /**
  * Less @import instruction preprocessor
@@ -25,7 +25,7 @@ class Import implements PreProcessorInterface
         '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver
+     * @var \Magento\View\Asset\ModuleNotation\Resolver
      */
     private $notationResolver;
 

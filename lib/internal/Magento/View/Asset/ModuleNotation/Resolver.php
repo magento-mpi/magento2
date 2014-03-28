@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\PreProcessor\ModuleNotation;
+namespace Magento\View\Asset\ModuleNotation;
 
 use Magento\View\Asset;
 use Magento\View\FileSystem;
