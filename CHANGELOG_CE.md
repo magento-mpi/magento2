@@ -27,6 +27,7 @@
     * Magento/Checkout/Model/Type
     * Magento/Sales/Model/Config     
   * LauncherInterface renamed to AppInterface (MAGETWO-21593)
+  * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
 * Improvements in code coverage calculation:
   * Updated whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:
@@ -34,6 +35,9 @@
   * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
 * Customer Service usage:
+  * Refactored Log Module to use Customer Service (MAGETWO-20475)
+  * Refactored RSS module to use Customer Service (MAGETWO-20495)
+  * Refactored Review module to use Customer Service (MAGETWO-20485)
   * Refactored the Catalog module to use Customer service layer (MAGETWO-20460, MAGETWO-20461)
   * Refactored the Downloadable module to use Customer service layer (MAGETWO-20473)
 

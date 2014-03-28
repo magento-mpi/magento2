@@ -1332,24 +1332,6 @@ return array(
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
-    array('setArguments', 'Magento\ObjectManager\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array('setArguments', 'Magento\ObjectManager\Factory\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array('setArguments', 'Magento\Interception\FactoryDecorator', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\Interception\FactoryDecorator',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
     array(
         '_processArrayNode',
         'Magento\ObjectManager\Config\Mapper\Dom',
@@ -1565,7 +1547,9 @@ return array(
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
+    array('addCustomerData', 'Magento\Log\Model\Visitor'),
     array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
+    array('loadByCustomer', 'Magento\Wishlist\Model\Wishlist'),
     ['_sessionVarCallback', 'Magento\Url', 'Replaced with inlined closure'],
     array(
         'reviewsAction',
