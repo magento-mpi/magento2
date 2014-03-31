@@ -15,7 +15,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml
- * @magentoDbIsolation enabled
  */
 class IndexTest extends \Magento\Backend\Utility\Controller
 {
@@ -57,6 +56,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')->getMessages(true);
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testSaveActionWithEmptyPostData()
     {
         $this->getRequest()->setPost(array());
@@ -64,6 +66,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testSaveActionWithInvalidFormData()
     {
         $post = array('account' => array('middlename' => 'test middlename', 'group_id' => 1));
@@ -603,6 +608,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testMassSubscriberActionNoSelection()
     {
         $this->dispatch('backend/customer/index/massSubscribe');
@@ -614,6 +622,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testMassSubscriberActionInvalidId()
     {
         $this->getRequest()->setParam('customer', array(4200));
@@ -677,6 +688,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertRedirect($this->stringContains('customer/index'));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testInvalidIdMassDeleteAction()
     {
         $this->getRequest()->setPost('customer', array(1));
@@ -689,6 +703,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
     /**
      * Valid group Id but no customer Ids specified
+     * @magentoDbIsolation enabled
      */
     public function testMassDeleteActionNoCustomerIds()
     {
@@ -738,6 +753,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
     /**
      * Valid group Id but no data fixture so no customer exists with customer Id = 1
+     * @magentoDbIsolation enabled
      */
     public function testMassAssignGroupActionInvalidCustomerId()
     {
@@ -751,6 +767,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
     /**
      * Valid group Id but no customer Ids specified
+     * @magentoDbIsolation enabled
      */
     public function testMassAssignGroupActionNoCustomerIds()
     {
@@ -816,6 +833,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testMassUnsubscriberActionNoSelection()
     {
         $this->dispatch('backend/customer/index/massUnsubscribe');
@@ -827,6 +847,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testMassUnsubscriberActionInvalidId()
     {
         $this->getRequest()->setParam('customer', array(4200));
@@ -988,6 +1011,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('\"Country\" is a required value.', $body);
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testResetPasswordActionNoCustomerId()
     {
         // No customer ID in post, will just get redirected to base
@@ -995,6 +1021,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testResetPasswordActionBadCustomerId()
     {
         // Bad customer ID in post, will just get redirected to base
