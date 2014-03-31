@@ -30,7 +30,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Rating data
      *
-     * @var \Magento\Rating\Helper\Data
+     * @var \Magento\Review\Helper\Data
      */
     protected $_ratingData = null;
 
@@ -42,14 +42,14 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Logger $logger
-     * @param \Magento\Rating\Helper\Data $ratingData
+     * @param \Magento\Review\Helper\Data $ratingData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\Resource\Review\Summary $reviewSummary
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Logger $logger,
-        \Magento\Rating\Helper\Data $ratingData,
+        \Magento\Review\Helper\Data $ratingData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Review\Model\Resource\Review\Summary $reviewSummary
     ) {

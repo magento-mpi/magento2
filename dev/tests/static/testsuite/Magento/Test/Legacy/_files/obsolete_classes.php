@@ -2149,4 +2149,5 @@ return array(
     ['Magento\Backend\Model\Translate\Inline'],
     ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
     ['Magento\Translate\Inline\ConfigFactory'],
+    ['Magento\Rating\Helper\Data, Magento\Review\Helper\Data'],
 );
