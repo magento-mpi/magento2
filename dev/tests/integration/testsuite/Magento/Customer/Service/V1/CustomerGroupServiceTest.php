@@ -157,16 +157,6 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return array
-     */
-    public function getDefaultGroupDataProvider()
-    {
-        return array(
-            array(array('id' => 1, 'code' => 'General', 'tax_class_id' => 3)),
-        );
-    }
-
-    /**
      * @param $testGroup
      * @dataProvider getDefaultGroupDataProvider
      */
@@ -181,23 +171,28 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $testGroup
      * @dataProvider getDefaultGroupDataProvider
+     * @expectedException \Magento\Core\Model\Store\Exception
      */
     public function testGetDefaultGroupWithStoreId($testGroup)
     {
-        $storeId = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
-        $group = $this->_groupService->getDefaultGroup($storeId);
+        $group = $this->_groupService->getDefaultGroup($testGroup['storeId']);
         $this->assertEquals($testGroup['id'], $group->getId());
         $this->assertEquals($testGroup['code'], $group->getCode());
         $this->assertEquals($testGroup['tax_class_id'], $group->getTaxClassId());
-    }
-
-    /**
-     * @expectedException \Magento\Core\Model\Store\Exception
-     */
-    public function testGetDefaultGroupWithInValidStoreId()
-    {
+        //Invalid storeId
         $storeId = 1234567;
         $this->_groupService->getDefaultGroup($storeId);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getDefaultGroupDataProvider()
+    {
+        return [
+            [['storeId' => 1, 'id' => 1, 'code' => 'General', 'tax_class_id' => 3]]
+        ];
     }
 
     /**
@@ -219,7 +214,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
         $searchResults = $this->_groupService->searchGroups($searchBuilder->create());
 
-        /** @var $item Data\CustomerGroup*/
+        /** @var $item Data\CustomerGroup */
         foreach ($searchResults->getItems() as $item) {
             $this->assertEquals($expectedResult[$item->getId()]['code'], $item->getCode());
             $this->assertEquals($expectedResult[$item->getId()]['tax_class_id'], $item->getTaxClassId());
