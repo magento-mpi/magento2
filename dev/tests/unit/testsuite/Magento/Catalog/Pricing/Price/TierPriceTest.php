@@ -43,7 +43,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected $quantity = 3.;
 
     /**
-     * @var  \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $calculator;
 
@@ -64,8 +64,13 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     {
         $this->priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface', [], [], '', false);
 
-        $this->product = $this->getMock('Magento\Catalog\Model\Product',
-            ['getPriceInfo', 'hasCustomerGroupId', 'getCustomerGroupId', 'getResource', '__wakeup'], [], '', false);
+        $this->product = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            ['getPriceInfo', 'hasCustomerGroupId', 'getCustomerGroupId', 'getResource', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $this->product->expects($this->any())->method('getPriceInfo')->will($this->returnValue($this->priceInfo));
 
         $this->session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);

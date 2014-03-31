@@ -13,22 +13,14 @@
 /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
 $tierPriceModel = $this->getPrice();
 $tierPrices = $tierPriceModel->getTierPriceList();
-
-/** @var BasePrice $minPrice is a minimal available price */
+/** @var float $minPrice is a minimal available price */
 $minPrice = $this->getPriceType(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
 ?>
-
 <?php if (count($tierPrices)) : ?>
     <ul class="<?php echo ($this->hasListClass() ? $this->getListClass() : 'prices tier items'); ?>">
     <?php foreach ($tierPrices as $index => $price) : ?>
         <li class="item">
             <?php
-                /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
-                $tierPriceModel = $this->getPriceType(
-                    \Magento\Catalog\Pricing\Price\TierPriceInterface::PRICE_TYPE_TIER,
-                    $price['price_qty']
-                );
-
                 echo __(
                     'Buy %1 for %2',
                     $price['price_qty'],
@@ -42,7 +34,7 @@ $minPrice = $this->getPriceType(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_
                     )
                 );
             ?>&nbsp;<?php echo __('each') ?>
-            <?php if ($this->getShowDetailedPrice() !== false && $minPrice > $tierPriceModel->getValue()): ?>
+            <?php if ($this->getShowDetailedPrice() !== false && $minPrice > $price['price']): ?>
                 <?php echo __('and') ?>&nbsp;<strong class="benefit">
                     <?php echo __('save')?>
                     <span class="percent tier-<?php echo $index ?>"><?php echo $price['savePercent']?></span>%

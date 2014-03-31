@@ -148,18 +148,11 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     }
 
     /**
-     * @param float $price
+     * @param float|string $price
      * @return array
      */
     protected function applyAdjustment($price)
     {
-//        foreach (array_reverse($this->priceInfo->getAdjustments()) as $adjustment) {
-//            /** @var \Magento\Pricing\Adjustment\AdjustmentInterface $adjustment */
-//            if ($adjustment->isIncludedInBasePrice()) {
-//                $price['adjustedAmount'] = $adjustment->extractAdjustment($price['website_price'], $this->salableItem);
-//                $price['website_price'] = $price['website_price'] - $price['adjustedAmount'];
-//            }
-//        }
         return $this->calculator->getAmount($price, $this->salableItem);
     }
 

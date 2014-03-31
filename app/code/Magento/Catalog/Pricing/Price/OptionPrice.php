@@ -24,11 +24,6 @@ class OptionPrice extends RegularPrice implements OptionPriceInterface
     protected $priceType = self::PRICE_TYPE_CUSTOM_OPTION;
 
     /**
-     * @var bool|false|float|null
-     */
-    protected $value;
-
-    /**
      * @var array
      */
     protected $priceOptions;
