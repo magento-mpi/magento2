@@ -647,8 +647,6 @@ class Proxy extends \Magento\View\Layout
      *
      * @param boolean $flag
      * @return $this
-     *
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function setCacheSaved($flag)
     {
@@ -659,6 +657,8 @@ class Proxy extends \Magento\View\Layout
      * Return whether cache is saved
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getCacheSaved()
     {
