@@ -81,14 +81,14 @@ class CustomerRegistry
         }
 
         /** @var Customer $customer */
-        $customer = $this->customerFactory->create()->setEmail($customerEmail)->setWebsiteId($websiteId);
+        $customer = $this->customerFactory->create()->setWebsiteId($websiteId);
         $customer->loadByEmail($customerEmail);
         if (!$customer->getEmail()) {
             // customer does not exist
             throw (new NoSuchEntityException('email', $customerEmail))->addField('websiteId', $websiteId);
         } else {
             $this->customerRegistryById[$customer->getId()] = $customer;
-            $this->customerRegistryByEmail[$customer->getEmail() . $customer->getWebsiteId()] = $customer;
+            $this->customerRegistryByEmail[$emailKey] = $customer;
             return $customer;
         }
     }
