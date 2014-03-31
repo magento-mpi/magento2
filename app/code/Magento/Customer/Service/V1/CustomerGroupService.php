@@ -89,10 +89,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $this->_customerGroupBuilder->setId(
                 $group->getId()
             )->setCode(
-                    $group->getCode()
-                )->setTaxClassId(
-                    $group->getTaxClassId()
-                );
+                $group->getCode()
+            )->setTaxClassId(
+                $group->getTaxClassId()
+            );
             $groups[] = $this->_customerGroupBuilder->create();
         }
         return $groups;
@@ -125,10 +125,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $this->_customerGroupBuilder->setId(
                 $group->getId()
             )->setCode(
-                    $group->getCode()
-                )->setTaxClassId(
-                    $group->getTaxClassId()
-                );
+                $group->getCode()
+            )->setTaxClassId(
+                $group->getTaxClassId()
+            );
             $groups[] = $this->_customerGroupBuilder->create();
         }
         $this->_searchResultsBuilder->setItems($groups);
@@ -229,10 +229,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $this->_customerGroupBuilder->setId(
             $customerGroup->getId()
         )->setCode(
-                $customerGroup->getCode()
-            )->setTaxClassId(
-                $customerGroup->getTaxClassId()
-            );
+            $customerGroup->getCode()
+        )->setTaxClassId(
+            $customerGroup->getTaxClassId()
+        );
         return $this->_customerGroupBuilder->create();
     }
 
