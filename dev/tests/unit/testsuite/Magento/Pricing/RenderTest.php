@@ -53,21 +53,20 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $this->model->setLayout($layout);
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
     public function testRenderWithoutRenderList()
     {
-        $objectType = 'simple';
         $priceType = 'final';
         $arguments = ['param' => 1];
         $result = '';
 
         $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $saleable->expects($this->atLeastOnce())
-            ->method('getTypeId')
-            ->will($this->returnValue($objectType));
 
         $this->priceLayout->expects($this->once())
             ->method('getBlock')
-            ->with('price.render.prices')
+            ->with('render.product.prices')
             ->will($this->returnValue(false));
 
         $this->assertEquals($result, $this->model->render($priceType, $saleable, $arguments));
@@ -75,120 +74,72 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 
     public function testRender()
     {
-        $objectType = 'simple';
         $priceType = 'final';
         $arguments = ['param' => 1];
         $result = 'simple.final';
 
         $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $saleable->expects($this->atLeastOnce())
-            ->method('getTypeId')
-            ->will($this->returnValue($objectType));
-
-        $priceRender = $this->getMockBuilder('Magento\View\Element\AbstractBlock')
-            ->setMethods(['render'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceRender->expects($this->once())
-            ->method('render')
-            ->with($priceType, $saleable, array_replace($this->model->getData(), $arguments))
-            ->will($this->returnValue($result));
-
-        $renderList = $this->getMockBuilder('Magento\View\Element\AbstractBlock')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $renderList->expects($this->any())
-            ->method('getChildBlock')
-            ->will($this->returnValueMap([
-            [$objectType . '.' . $priceType, $priceRender],
-            ['default.' . $priceType, false],
-            ['default.default', false]
-        ]));
-
+        $renderPool = $this->getMock('Magento\Pricing\Render\RendererPool', [],[], '', false, true, true, false);
+        $pricingRender = $this->getMock('Magento\Pricing\Render', [],[], '', false, true, true, false);
+        $renderPool->expects($this->once())
+            ->method('createPriceRender')
+            ->will($this->returnValue($pricingRender));
+        $pricingRender->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue('simple.final'));
         $this->priceLayout->expects($this->once())
             ->method('getBlock')
-            ->with('price.render.prices')
-            ->will($this->returnValue($renderList));
-
+            ->with('render.product.prices')
+            ->will($this->returnValue($renderPool));
         $this->assertEquals($result, $this->model->render($priceType, $saleable, $arguments));
     }
 
     public function testRenderDefault()
     {
-        $objectType = 'simple';
         $priceType = 'special';
         $arguments = ['param' => 15];
         $result = 'default.special';
-
         $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $saleable->expects($this->atLeastOnce())
-            ->method('getTypeId')
-            ->will($this->returnValue($objectType));
-
-        $priceRender = $this->getMockBuilder('Magento\View\Element\AbstractBlock')
-            ->setMethods(['render'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceRender->expects($this->once())
-            ->method('render')
-            ->with($priceType, $saleable, array_replace($this->model->getData(), $arguments))
-            ->will($this->returnValue($result));
-
-        $renderList = $this->getMockBuilder('Magento\View\Element\AbstractBlock')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $renderList->expects($this->any())
-            ->method('getChildBlock')
-            ->will($this->returnValueMap([
-            [$objectType . '.' . $priceType, false],
-            ['default.' . $priceType, $priceRender],
-            ['default.default', false]
-        ]));
-
+        $renderPool = $this->getMock('Magento\Pricing\Render\RendererPool', [],[], '', false, true, true, false);
+        $pricingRender = $this->getMock('Magento\Pricing\Render', [],[], '', false, true, true, false);
+        $renderPool->expects($this->once())
+            ->method('createPriceRender')
+            ->will($this->returnValue($pricingRender));
+        $pricingRender->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue('default.special'));
         $this->priceLayout->expects($this->once())
             ->method('getBlock')
-            ->with('price.render.prices')
-            ->will($this->returnValue($renderList));
+            ->with('render.product.prices')
+            ->will($this->returnValue($renderPool));
 
         $this->assertEquals($result, $this->model->render($priceType, $saleable, $arguments));
     }
 
     public function testRenderDefaultDefault()
     {
-        $objectType = 'bundle';
         $priceType = 'final';
         $arguments = ['param' => 15];
         $result = 'default.default';
 
         $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $saleable->expects($this->atLeastOnce())
-            ->method('getTypeId')
-            ->will($this->returnValue($objectType));
-
-        $priceRender = $this->getMockBuilder('Magento\View\Element\AbstractBlock')
-            ->setMethods(['render'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceRender->expects($this->once())
-            ->method('render')
-            ->with($priceType, $saleable, array_replace($this->model->getData(), $arguments))
-            ->will($this->returnValue($result));
-
-        $renderList = $this->getMockBuilder('Magento\View\Element\AbstractBlock')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $renderList->expects($this->any())
-            ->method('getChildBlock')
-            ->will($this->returnValueMap([
-            [$objectType . '.' . $priceType, false],
-            ['default.' . $priceType, false],
-            ['default.default', $priceRender]
-        ]));
+        $renderPool = $this->getMock('Magento\Pricing\Render\RendererPool', [],[], '', false, true, true, false);
+        $pricingRender = $this->getMock('Magento\Pricing\Render', [],[], '', false, true, true, false);
+        $renderPool->expects($this->once())
+            ->method('createPriceRender')
+            ->will($this->returnValue($pricingRender));
+        $pricingRender->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue('default.default'));
+        $this->priceLayout->expects($this->once())
+            ->method('getBlock')
+            ->with('render.product.prices')
+            ->will($this->returnValue($renderPool));
 
         $this->priceLayout->expects($this->once())
             ->method('getBlock')
-            ->with('price.render.prices')
-            ->will($this->returnValue($renderList));
+            ->with('render.product.prices')
+            ->will($this->returnValue($renderPool));
 
         $this->assertEquals($result, $this->model->render($priceType, $saleable, $arguments));
     }

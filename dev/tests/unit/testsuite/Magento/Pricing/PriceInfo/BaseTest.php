@@ -171,15 +171,4 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame([$priceModelMock], $this->model->getPricesIncludedInBase());
     }
-
-    public function testGetAmount()
-    {
-        $amount = 2.;
-        $result = $this->getMock('Magento\Pricing\Amount', [], [], '', false);
-        $this->amountFactory->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo($this->adjustments), $this->equalTo($this->saleableItem), $this->equalTo($amount))
-            ->will($this->returnValue($result));
-        $this->assertSame($result, $this->model->getAmount($amount));
-    }
 }
