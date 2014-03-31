@@ -224,5 +224,6 @@ return array(
     array('reindexAfterProductAssignedWebsite', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
     array('saveProductPermissionIndex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
     array('reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
-    array('getCacheIdTags', 'Magento\CatalogEvent\Model\Event')
+    array('getCacheIdTags', 'Magento\CatalogEvent\Model\Event'),
+    ['_compareSortOrder', 'Magento\Rma\Block\Returns\Create'],
 );

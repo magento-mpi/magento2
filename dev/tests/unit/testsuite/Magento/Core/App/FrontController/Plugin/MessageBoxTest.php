@@ -39,7 +39,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * @var \Magento\View\Element\Messages|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Message\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $messageManagerMock;
 
@@ -58,13 +58,12 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', array('set', 'get'), array(), '', false);
+        $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array('isPost'), array(), '', false);
         $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array('isEnabled'), array(), '', false);
-        $this->messageManagerMock = $this->getMockBuilder('Magento\Message\ManagerInterface')
-            ->setMethods(array('getMessages', 'getCount'))
+        $this->messageManagerMock = $this->getMockBuilder('Magento\Message\Manager')
             ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+            ->getMock();
 
         $this->msgBox = new MessageBox(
             $this->cookieMock,
@@ -85,13 +84,9 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterDispatch()
     {
-        $messageCollectionMock = $this->getMock('Magento\Message\Collection', array('getCount'), array(), '', false);
-        $messageCollectionMock->expects($this->once())
-            ->method('getCount')
-            ->will($this->returnValue(5));
         $this->messageManagerMock->expects($this->once())
-            ->method('getMessages')
-            ->will($this->returnValue($messageCollectionMock));
+            ->method('hasMessages')
+            ->will($this->returnValue(true));
         $this->requestMock->expects($this->once())
             ->method('isPost')
             ->will($this->returnValue(true));
@@ -103,7 +98,8 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->equalTo(\Magento\Core\App\FrontController\Plugin\MessageBox::COOKIE_NAME),
                 1,
-                $this->equalTo(\Magento\Core\App\FrontController\Plugin\MessageBox::COOKIE_PERIOD)
+                $this->equalTo(\Magento\Core\App\FrontController\Plugin\MessageBox::COOKIE_PERIOD),
+                '/'
             );
         $this->assertInstanceOf(
             '\Magento\App\ResponseInterface',

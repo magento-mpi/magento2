@@ -15,7 +15,6 @@ namespace Magento\AdminGws\Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/AdminGws/_files/role_websites_login.php
      * @magentoDataFixture Magento/CatalogEvent/_files/events.php
      */

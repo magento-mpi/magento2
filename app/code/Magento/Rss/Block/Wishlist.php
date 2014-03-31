@@ -19,13 +19,6 @@ namespace Magento\Rss\Block;
 class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
-     * Customer instance
-     *
-     * @var \Magento\Customer\Model\Customer
-     */
-    protected $_customer;
-
-    /**
      * Default MAP renderer type
      *
      * @var string
@@ -36,11 +29,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishlistFactory;
-
-    /**
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
 
     /**
      * @var \Magento\Rss\Model\RssFactory
@@ -63,7 +51,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param array $data
@@ -75,7 +62,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Helper\Output $outputHelper,
         array $data = array(),
@@ -84,7 +70,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         $this->_outputHelper = $outputHelper;
         $this->_coreData = $coreData;
         $this->_wishlistFactory = $wishlistFactory;
-        $this->_customerFactory = $customerFactory;
         $this->_rssFactory = $rssFactory;
         parent::__construct(
             $context,
@@ -103,41 +88,13 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = $this->_wishlistFactory->create();
-            $wishlistId = $this->getRequest()->getParam('wishlist_id');
-            if ($wishlistId) {
-                $this->_wishlist->load($wishlistId);
-                if ($this->_wishlist->getCustomerId() != $this->_getCustomer()->getId()) {
-                    $this->_wishlist->unsetData();
-                }
-            } else {
-                if ($this->_getCustomer()->getId()) {
-                    $this->_wishlist->loadByCustomer($this->_getCustomer());
-                }
+            $this->_wishlist = parent::_getWishlist();
+            if ($this->_wishlist->getCustomerId() != $this->_getHelper()->getCustomer()->getId()) {
+                $this->_wishlist->unsetData();
             }
         }
+
         return $this->_wishlist;
-    }
-
-    /**
-     * Retrieve Customer instance
-     *
-     * @return \Magento\Customer\Model\Customer
-     */
-    protected function _getCustomer()
-    {
-        if (is_null($this->_customer)) {
-            $this->_customer = $this->_customerFactory->create();
-
-            $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
-            $data   = explode(',', $params);
-            $cId    = abs(intval($data[0]));
-            if ($cId && ($cId == $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH))) {
-                $this->_customer->load($cId);
-            }
-        }
-
-        return $this->_customer;
     }
 
     /**
@@ -147,7 +104,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      */
     protected function _getTitle()
     {
-        return __('%1\'s Wishlist', $this->_getCustomer()->getName());
+        return __('%1\'s Wishlist', $this->_getHelper()->getCustomerName());
     }
 
     /**
