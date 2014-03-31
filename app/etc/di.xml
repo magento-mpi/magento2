@@ -56,7 +56,7 @@
     <preference for="Magento\App\Config\ValueInterface" type="Magento\Core\Model\Config\Value" />
     <preference for="Magento\Module\DependencyManagerInterface" type="Magento\Module\DependencyManager" />    
     <preference for="Magento\Interception\Chain" type="Magento\Interception\Chain\Chain" />
-    <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
+    <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Module\Output\Config" />
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Image\Adapter\Config" />
     <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
