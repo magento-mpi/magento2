@@ -1559,7 +1559,6 @@ return array(
     ),
     ['_insertInlineScriptsHtml', 'Magento\DesignEditor\Model\Translate\Inline', 'addInlineScript'],
     ['initializeTranslation', 'Magento\Backend\Model\Observer'],
-    ['getTranslateJson', 'Magento\Core\Helper\Js'],
     ['_isEmptyTranslateArg', 'Magento\Translate'],
     ['_getTranslatedString', 'Magento\Translate'],
     ['initLocale', 'Magento\Translate'],

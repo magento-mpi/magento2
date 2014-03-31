@@ -137,7 +137,7 @@
         <group name="core_urlrewrites">
             <label translate="true">URL Redirects</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Url\Rewrite" />
+                <expected_model class="Magento\UrlRewrite\Model\UrlRewrite" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_urlrewrite_edit" action_alias="view" />
