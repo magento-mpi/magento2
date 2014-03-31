@@ -60,10 +60,6 @@ class ReviewRenderer extends \Magento\View\Element\Template implements ReviewRen
         $displayIfNoReviews = false
     ) {
 
-        //moved from doubled method calls ($product->getRatingSummary() and $this->getReviewsSummaryHtml())
-        //covered not all cases
-        // 1. app/code/Magento/Catalog/view/frontend/product/compare/list.phtml
-
         if (!$product->getRatingSummary() && !$displayIfNoReviews) {
             return '';
         }
