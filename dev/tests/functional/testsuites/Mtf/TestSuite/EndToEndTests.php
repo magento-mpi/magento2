@@ -64,6 +64,7 @@ class EndToEndTests
         // Customer
         $suite->addTestSuite('Magento\Customer\Test\TestCase\BackendCustomerCreateTest');
         $suite->addTestSuite('Magento\Customer\Test\TestCase\CreateOnFrontendTest');
+        $suite->addTestSuite('Magento\Customer\Test\TestCase\ForgotPasswordOnFrontendTest');
 
         // Customer Segment
         $suite->addTestSuite('Magento\CustomerSegment\Test\TestCase\CreateTest');
