@@ -255,15 +255,10 @@ class Area implements \Magento\App\AreaInterface
      */
     protected function _initTranslate()
     {
-        $dispatchResult = new \Magento\Object(array('inline_type' => null, 'params' => array('area' => $this->_code)));
-        $eventManager = $this->_objectManager->get('Magento\Event\ManagerInterface');
-        $eventManager->dispatch(
-            'translate_initialization_before',
-            array('translate_object' => $this->_translator, 'result' => $dispatchResult)
-        );
-        $this->_translator->init(null, $dispatchResult, false);
+        $this->_translator->loadData(null, false);
 
         \Magento\Phrase::setRenderer($this->_objectManager->get('Magento\Phrase\RendererInterface'));
+
         return $this;
     }
 

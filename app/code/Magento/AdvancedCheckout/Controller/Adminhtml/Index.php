@@ -289,8 +289,8 @@ class Index extends \Magento\Backend\App\Action
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
                 $wishlist = $this->_objectManager->create(
                     'Magento\Wishlist\Model\Wishlist'
-                )->loadByCustomer(
-                    $customer
+                )->loadByCustomerId(
+                    $customer->getId()
                 )->setStore(
                     $store
                 )->setSharedStoreIds(

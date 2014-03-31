@@ -10,20 +10,18 @@
 namespace Magento\Downloadable\Block\Catalog\Product;
 
 use Magento\Downloadable\Model\Link;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Downloadable Product Links part block
  *
- * @category    Magento
- * @package     Magento_Downloadable
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * @var \Magento\Tax\Model\Calculation
      */
-    protected $_calculationModel;
+    protected $calculationModel;
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -36,10 +34,16 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $coreData;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $accountService;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Tax\Model\Calculation $calculationModel
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param array $data
      * @param array $priceBlockTypes
      */
@@ -48,12 +52,14 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Tax\Model\Calculation $calculationModel,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
-        $this->_calculationModel = $calculationModel;
+        $this->calculationModel = $calculationModel;
         $this->jsonEncoder = $jsonEncoder;
         $this->coreData = $coreData;
+        $this->accountService = $accountService;
         parent::__construct(
             $context,
             $data,
@@ -109,9 +115,11 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             return '';
         }
 
-        $taxCalculation = $this->_calculationModel;
-        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
+        if (!$this->calculationModel->getCustomerData()->getId()
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)) {
+            $customer = $this->accountService
+                ->getCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
+            $this->calculationModel->setCustomerData($customer);
         }
 
         $taxHelper = $this->_taxData;

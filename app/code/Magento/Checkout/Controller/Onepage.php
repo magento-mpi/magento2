@@ -53,7 +53,7 @@ class Onepage extends Action
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Translate\InlineInterface $translateInline,
+     * @param \Magento\Translate\InlineInterface $translateInline
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(

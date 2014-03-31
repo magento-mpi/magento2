@@ -55,12 +55,18 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -68,12 +74,14 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_wishlistConfig = $wishlistConfig;
         $this->_fileResponseFactory = $fileResponseFactory;
         $this->_transportBuilder = $transportBuilder;
+        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context, $formKeyValidator);
     }
 
@@ -137,7 +145,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             if ($wishlistId) {
                 $wishlist->load($wishlistId);
             } else {
-                $wishlist->loadByCustomer($customerId, true);
+                $wishlist->loadByCustomerId($customerId, true);
             }
 
             if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
@@ -711,9 +719,8 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             return;
         }
 
-        $translate = $this->_objectManager->get('Magento\TranslateInterface');
-        /* @var $translate \Magento\TranslateInterface */
-        $translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
+
         $sent = 0;
 
         try {
@@ -774,13 +781,13 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $wishlist->setShared($wishlist->getShared() + $sent);
             $wishlist->save();
 
-            $translate->setTranslateInline(true);
+            $this->inlineTranslation->resume();
 
             $this->_eventManager->dispatch('wishlist_share', array('wishlist' => $wishlist));
             $this->messageManager->addSuccess(__('Your wish list has been shared.'));
             $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
         } catch (\Exception $e) {
-            $translate->setTranslateInline(true);
+            $this->inlineTranslation->resume();
             $this->messageManager->addError($e->getMessage());
             $this->_objectManager->get(
                 'Magento\Wishlist\Model\Session'

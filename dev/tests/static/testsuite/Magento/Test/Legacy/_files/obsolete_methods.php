@@ -179,6 +179,7 @@ return array(
     array('addConstraint', 'Magento\DB\Adapter\Pdo\Mysql'),
     array('addCss', 'Magento\Theme\Block\Html\Head'),
     array('addCssIe', 'Magento\Theme\Block\Html\Head'),
+    array('addCustomerData', 'Magento\Catalog\Model\Product\Item', 'setCustomerId'),
     array('addCustomersToAlertQueueAction'),
     array('addCustomerToSegments'),
     array('addHandle', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
@@ -275,7 +276,7 @@ return array(
     array('cloneIndexTable', 'Magento\Index\Model\Resource\AbstractResource'),
     array('collectRoutes', 'Magento\Backend\App\Router\DefaultRouter'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),
-    array('composeLocaleHierarchy', 'Magento\Core\Helper\Translate'),
+    array('composeLocaleHierarchy', 'Magento\Translation\Helper\Data'),
     array('convertOldTaxData', 'Magento\Tax\Model\Resource\Setup'),
     array('convertOldTreeToNew', 'Magento\Catalog\Model\Resource\Setup'),
     array('copyFieldset', 'Magento\Core\Helper\Data', 'copyFieldsetToTarget'),
@@ -526,6 +527,16 @@ return array(
     array('getSectionNode', 'Magento\Core\Model\Config'),
     array('getSecure', 'Magento\Backend\Model\UrlInterface', 'isSecure'),
     array('getSecure', 'Magento\Url', 'isSecure'),
+    array('_prepareSessionUrlWithParams', 'Magento\Url'),
+    array('_getQueryParams', 'Magento\Url'),
+    array('_setRouteFrontName', 'Magento\Url'),
+    array('setType', 'Magento\Url'),
+    array('purgeQueryParams', 'Magento\Url', 'Use setQueryParams([]) instead'),
+    array('purgeQueryParams', 'Magento\Url\QueryParamsResolver', 'Use setQueryParams([]) instead'),
+    array('purgeQueryParams', 'Magento\Url\QueryParamsResolverInterface', 'Use setQueryParams([]) instead'),
+    array('_getDefaultActionName', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_ACTION_NAME'),
+    array('_getDefaultControllerName', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_CONTROLLER_NAME'),
+    array('_getDefaultUrlType', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_URL_TYPE'),
     array('getSelectionFinalPrice', 'Magento\Bundle\Model\Product\Price'),
     array('getShipId', 'Magento\Shipping\Block\Tracking\Popup'),
     array('getShippingCarrier', 'Magento\Sales\Model\Order', 'Magento\Shipping\Model\CarrierFactory::create'),
@@ -1321,24 +1332,6 @@ return array(
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
-    array('setArguments', 'Magento\ObjectManager\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array('setArguments', 'Magento\ObjectManager\Factory\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array('setArguments', 'Magento\Interception\FactoryDecorator', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\Interception\FactoryDecorator',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
     array(
         '_processArrayNode',
         'Magento\ObjectManager\Config\Mapper\Dom',
@@ -1537,6 +1530,12 @@ return array(
     array('displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'),
     array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
     array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage'),
+    ['_compareSortOrder', 'Magento\Sales\Model\Config\Ordered'],
+    [
+        '_toOptionHashOptimized',
+        'Magento\Data\Collection\Db',
+        'Magento\Tax\Model\Resource\Calculation\Rate\Collection::toOptionHashOptimized'
+    ],
     array('getSwitchCurrencyUrl', 'Magento\Directory\Block\Currency'),
     array('getPageVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getOrderVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
@@ -1548,16 +1547,41 @@ return array(
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
+    array('addCustomerData', 'Magento\Log\Model\Visitor'),
     array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
+    array('loadByCustomer', 'Magento\Wishlist\Model\Wishlist'),
+    ['_sessionVarCallback', 'Magento\Url', 'Replaced with inlined closure'],
     array(
         'reviewsAction',
         'Magento\Catalog\Controller\Adminhtml\Product',
         'Magento\Review\Controller\Adminhtml\Product\Reviews::gridAction'
     ),
+    ['_insertInlineScriptsHtml', 'Magento\DesignEditor\Model\Translate\Inline', 'addInlineScript'],
+    ['initializeTranslation', 'Magento\Backend\Model\Observer'],
+    ['getTranslateJson', 'Magento\Core\Helper\Js'],
+    ['_isEmptyTranslateArg', 'Magento\Translate'],
+    ['_getTranslatedString', 'Magento\Translate'],
+    ['initLocale', 'Magento\Translate'],
+    ['_prepareDataString', 'Magento\Translate'],
+    ['getInlineObject', 'Magento\Translate'],
+    ['init', 'Magento\Translate', 'loadData'],
+    ['disable', 'Magento\Translate\Inline'],
+    ['_getAjaxUrl', 'Magento\Translate\Inline', 'getAjaxUrl'],
+    ['_stripInlineTranslations', 'Magento\Translate\Inline', 'stripInlineTranslations'],
+    ['isAllowed', 'Magento\Translate'],
+    ['translate', 'Magento\Translate'],
+    ['_getStoreId', 'Magento\Translation\Model\Resource\Translate', 'getScope'],
+    ['_getStoreId', 'Magento\Translation\Model\Resource\String', 'getScope'],
+    ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
+    ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
     array('getReservedAttributes', 'Magento\Catalog\Model\Product'),
     array(
         'isReservedAttribute',
         'Magento\Catalog\Model\Product',
         'Magento\Catalog\Model\Product\ReservedAttributeList::isReservedAttribute'
+    ),
+    array(
+        'getRatingSummary',
+        'Magento\Catalog\Model\Product'
     ),
 );

@@ -144,6 +144,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_localeDate;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * The property is used to define content-scope of block. Can be private or public.
      * If it isn't defined then application considers it as false.
      *
@@ -176,6 +181,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_escaper = $context->getEscaper();
         $this->filterManager = $context->getFilterManager();
         $this->_localeDate = $context->getLocaleDate();
+        $this->inlineTranslation = $context->getInlineTranslation();
         parent::__construct($data);
         $this->_construct();
     }
@@ -612,7 +618,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $html = $this->_loadCache();
         if ($html === false) {
             if ($this->hasData('translate_inline')) {
-                $this->_translator->setTranslateInline($this->getData('translate_inline'));
+                $this->inlineTranslation->suspend($this->getData('translate_inline'));
             }
 
             $this->_beforeToHtml();
@@ -620,7 +626,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
             $this->_saveCache($html);
 
             if ($this->hasData('translate_inline')) {
-                $this->_translator->setTranslateInline(true);
+                $this->inlineTranslation->resume();
             }
         }
         $html = $this->_afterToHtml($html);

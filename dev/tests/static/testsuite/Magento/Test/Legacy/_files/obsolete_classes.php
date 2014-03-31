@@ -2110,6 +2110,8 @@ return array(
     array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    ['Magento\PubSub'], // unused library code which was removed
+    ['Magento\Outbound'], // unused library code which was removed
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
@@ -2120,11 +2122,31 @@ return array(
         'Magento\Review\Controller\Adminhtml\Product'
     ),
     array(
-        '\Magento\Review\Block\Helper',
+        'Magento\Review\Block\Helper',
         'Magento\Review\Block\Product\ReviewRenderer'
     ),
     array(
         'Magento\LauncherInterface',
         'Magento\AppInterface',
-    )
+    ),
+    array('Magento\Convert\ConvertException'),
+    array('Magento\Convert\Container\AbstractContainer'),
+    array('Magento\Convert\Mapper\Column'),
+    array('Magento\Convert\Mapper\MapperInterface'),
+    ['Magento\Core\Controller\Ajax', 'Magento\Translation\Controller\Ajax'],
+    ['Magento\Core\Helper\Translate', 'Magento\Translation\Helper\Data'],
+    ['Magento\Core\Model\Translate\Inline\Config', 'Magento\Translation\Model\Inline\Config'],
+    ['Magento\Core\Model\Translate\Inline\Parser', 'Magento\Translation\Model\Inline\Parser'],
+    ['Magento\Core\Model\Resource\Translate\String', 'Magento\Translation\Model\Resource\String'],
+    ['Magento\Core\Model\Resource\Translate', 'Magento\Translation\Model\Resource\Translate'],
+    ['Magento\Core\Model\Translate\String', 'Magento\Translation\Model\String'],
+    ['Magento\Translation\Helper\Data'],
+    ['Magento\Translate\Factory'],
+    ['Magento\Backend\Model\Translate'],
+    ['Magento\Backend\Model\Resource\Translate'],
+    ['Magento\Backend\Model\Resource\Translate\String'],
+    ['Magento\DesignEditor\Model\Translate\InlineVde', 'Magento\DesignEditor\Model\Translate\Inline'],
+    ['Magento\Backend\Model\Translate\Inline'],
+    ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
+    ['Magento\Translate\Inline\ConfigFactory'],
 );

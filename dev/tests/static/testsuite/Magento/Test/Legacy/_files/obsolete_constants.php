@@ -576,5 +576,11 @@ return array(
         'XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY',
         '\Magento\Catalog\Helper\Category\Flat',
         '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'
-    )
+    ),
+    array('CSV_SEPARATOR', 'Magento\Translate'),
+    array('SCOPE_SEPARATOR', 'Magento\Translate'),
+    array('CONFIG_KEY_AREA', 'Magento\Translate'),
+    array('CONFIG_KEY_LOCALE', 'Magento\Translate'),
+    array('CONFIG_KEY_SCOPE', 'Magento\Translate'),
+    array('CONFIG_KEY_DESIGN_THEME', 'Magento\Translate'),
 );

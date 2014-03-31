@@ -70,7 +70,7 @@ class Subscription implements SubscriptionInterface
         \Magento\App\Resource $resource,
         \Magento\DB\Ddl\TriggerFactory $triggerFactory,
         \Magento\Mview\View\CollectionInterface $viewCollection,
-        $view,
+        \Magento\Mview\ViewInterface $view,
         $tableName,
         $columnName
     ) {
@@ -81,9 +81,6 @@ class Subscription implements SubscriptionInterface
         $this->tableName = $tableName;
         $this->columnName = $columnName;
         $this->resource = $resource;
-
-        // Force collection clear
-        $this->viewCollection->clear();
     }
 
     /**
