@@ -47,11 +47,14 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      */
     public function call($serviceInfo, $arguments = array())
     {
-        $resourcePath = $this->_getRestResourcePath($serviceInfo);
+        $defaultStoreCode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getStore()->getCode();
+        $resourcePath = '/' . $defaultStoreCode . $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
         //Get a valid token
         $accessCredentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
-        /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient*/
+        /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient */
         $oAuthClient = $accessCredentials['oauth_client'];
         // delegate the request to vanilla cURL REST client
         $curlClient = new \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient();
