@@ -21,11 +21,6 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected $object;
 
     /**
-     * @var array
-     */
-    protected $adjustments = [];
-
-    /**
      * Test customer group
      *
      * @var int
@@ -48,6 +43,11 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected $quantity = 3.;
 
     /**
+     * @var  \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $calculator;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $session;
@@ -63,9 +63,6 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface', [], [], '', false);
-        $this->priceInfo->expects($this->any())->method('getAdjustments')->will($this->returnCallback(function () {
-            return $this->adjustments;
-        }));
 
         $this->product = $this->getMock('Magento\Catalog\Model\Product',
             ['getPriceInfo', 'hasCustomerGroupId', 'getCustomerGroupId', 'getResource', '__wakeup'], [], '', false);
@@ -75,16 +72,11 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $this->session->expects($this->any())->method('getCustomerGroupId')
             ->will($this->returnValue($this->customerGroup));
 
-        $this->model = new TierPrice($this->product, $this->quantity, $this->session);
+        $this->calculator = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
+
+        $this->model = new TierPrice($this->product, $this->quantity, $this->calculator, $this->session);
     }
 
-    /**
-     * Reset adjustment mock list
-     */
-    protected function tearDown()
-    {
-        $this->adjustments = [];
-    }
 
     /**
      * Test base initialization of tier price
@@ -155,7 +147,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->product->expects($this->once())->method('getResource')->will($this->returnValue($productResource));
 
-        $tierPrice = new TierPrice($this->product, $this->quantity, $this->session);
+        $tierPrice = new TierPrice($this->product, $this->quantity, $this->calculator, $this->session);
         $this->assertFalse($tierPrice->getValue());
     }
 
@@ -167,21 +159,17 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getTierPriceCount
      * @dataProvider providerForGetterTierPriceList
      */
-    public function testGetterTierPriceList($tierPrices, $basePrice, $adjustments, $expectedResult)
+    public function testGetterTierPriceList($tierPrices, $basePrice, $expectedResult)
     {
-        foreach ($adjustments as $adjustment) {
-            $adjustmentMock = $this->getMock('Magento\Pricing\Adjustment\AdjustmentInterface', [], [], '', false);
-            $adjustmentMock->expects($this->any())->method('isIncludedInBasePrice')->will($this->returnValue(true));
-            $adjustmentMock->expects($this->any())->method('extractAdjustment')->will($this->returnValue($adjustment));
-            $this->adjustments[] = $adjustmentMock;
-        }
-
         $this->product->setData(TierPrice::PRICE_TYPE_TIER, $tierPrices);
 
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface', [], [], '', false);
         $price->expects($this->any())->method('getValue')->will($this->returnValue($basePrice));
 
         $this->priceInfo->expects($this->atLeastOnce())->method('getPrice')->will($this->returnValue($price));
+
+        $this->calculator->expects($this->atLeastOnce())->method('getAmount')->with($this->anything(), $this->product)
+            ->will($this->returnArgument(0));
 
         $this->assertEquals($expectedResult, $this->model->getTierPriceList());
         $this->assertEquals(count($expectedResult), $this->model->getTierPriceCount());
@@ -236,25 +224,20 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
                 'basePrice' => 20.,
-                'adjustments' => [
-                    'firstFixedAmount' => 2., 'secondFixedAmount' => 3.,
-                ],
                 'expectedResult' => [
                     [
                         'price'          => '15.1',
-                        'website_price'  => '10.1',
+                        'website_price'  => '15.1',
                         'price_qty'      => '5.',
                         'cust_group'     => Group::CUST_GROUP_ALL,
                         'savePercent'    => 25.,
-                        'adjustedAmount' => 2.
                     ],
                     [
                         'price'         => '8.3',
-                        'website_price' => '3.3',
+                        'website_price' => '8.3',
                         'price_qty'     => '2.',
                         'cust_group'    => Group::CUST_GROUP_ALL,
                         'savePercent'    => 59.,
-                        'adjustedAmount' => 2.
                     ],
                 ]
             ]
