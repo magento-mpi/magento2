@@ -60,15 +60,15 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $sourceFile = 'some/file';
         $expectedFile = '/root/tmp/some/file';
-        $mtime = time();
-        $this->sourceDir->expects($this->once())
-            ->method('stat')
-            ->will($this->returnValue(['mtime' => $mtime]));
-        $expectedData = json_encode(['path' => '%tmp%/some/file', 'mtime' => $mtime]);
+        $expectedData = '%tmp%/some/file';
         $this->cacheStorage->expects($this->once())
             ->method('load')
             ->with($sourceFile)
             ->will($this->returnValue($expectedData));
+        $this->directory->expects($this->once())
+            ->method('isExist')
+            ->with($sourceFile)
+            ->will($this->returnValue(true));
         $this->directory->expects($this->once())
             ->method('getAbsolutePath')
             ->with('some/file')
@@ -78,14 +78,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedFile, $actualFile);
     }
 
-    public function testGetProcessedFileFromCacheOutdated()
+    public function testGetProcessedFileFromCacheNonexistent()
     {
         $sourceFile = 'some/file';
-        $mtime = time();
-        $this->sourceDir->expects($this->once())
-            ->method('stat')
-            ->will($this->returnValue(['mtime' => $mtime]));
-        $expectedData = json_encode(['path' => '%tmp%/some/file', 'mtime' => $mtime - 100]);
+        $this->directory->expects($this->once())
+            ->method('isExist')
+            ->with($sourceFile)
+            ->will($this->returnValue(false));
+        $expectedData = '%tmp%/some/file';
         $this->cacheStorage->expects($this->once())
             ->method('load')
             ->with($sourceFile)
@@ -97,39 +97,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(false, $actualFile);
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage Either 'path' or 'mtime' section is not found in cached data
-     *
-     * @dataProvider getProcessedFileFromCacheExceptionDataProvider
-     */
-    public function testGetProcessedFileFromCacheException($cachedData)
-    {
-        $sourceFile = 'some/file';
-        $expectedData = json_encode($cachedData);
-        $this->cacheStorage->expects($this->once())
-            ->method('load')
-            ->with($sourceFile)
-            ->will($this->returnValue($expectedData));
-        $this->object->getProcessedFileFromCache($sourceFile);
-    }
-
-    /**
-     * @return array
-     */
-    public function getProcessedFileFromCacheExceptionDataProvider()
-    {
-        return [
-            'no path'    => [['mtime' => time()]],
-            'no mtime'   => [['path' => '%tmp%/some/file']],
-        ];
-    }
-
     public function testSaveProcessedFileToCache()
     {
         $sourceFile = 'some/file';
         $processedFile = '/root/tmp/some/file';
-        $mtime = time();
 
         $this->directory->expects($this->once())
             ->method('getAbsolutePath')
@@ -139,16 +110,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('getRelativePath')
             ->with($processedFile)
             ->will($this->returnValue('some/file'));
-        $this->sourceDir->expects($this->once())
-            ->method('stat')
-            ->will($this->returnValue(['mtime' => $mtime]));
-
-        $expectedData = json_encode(['path' => '%tmp%/some/file', 'mtime' => $mtime]);
-        $expectedCacheId = $sourceFile;
 
         $this->cacheStorage->expects($this->once())
             ->method('save')
-            ->with($expectedData, $expectedCacheId);
+            ->with('%tmp%/some/file', 'some/file');
 
         $this->object->saveProcessedFileToCache($processedFile, $sourceFile);
     }

@@ -52,6 +52,8 @@ class Cache
     }
 
     /**
+     * Retrieve data from cache with replacement of relative paths back to absolute ones
+     *
      * @param string $sourceFile
      * @return bool|string
      * @throws \UnexpectedValueException
@@ -60,21 +62,16 @@ class Cache
     {
         $path = false;
         $cacheId = $this->sourceDir->getRelativePath($sourceFile);
-        $data = json_decode($this->cache->load($cacheId), true);
-        if ($data) {
-            if (!isset($data['path']) || !isset($data['mtime'])) {
-                throw new \UnexpectedValueException("Either 'path' or 'mtime' section is not found in cached data");
-            }
-            $sourceStat = $this->sourceDir->stat($cacheId);
-            // Accept cached data only if it's up to date
-            if ($sourceStat['mtime'] == $data['mtime']) {
-                $path = $this->getAbsolutePath($data['path']);
-            }
+        $relativePath = $this->cache->load($cacheId);
+        if ($relativePath) {
+            $path = $this->getAbsolutePath($relativePath);
         }
         return $path;
     }
 
     /**
+     * Save data to cache with replacement of absolute paths to relative ones
+     *
      * @param string $processedFile
      * @param string $sourceFile
      * @return bool
@@ -82,13 +79,15 @@ class Cache
     public function saveProcessedFileToCache($processedFile, $sourceFile)
     {
         $cacheId = $this->sourceDir->getRelativePath($sourceFile);
-        $cachedPath = $this->getRelativePath($processedFile);
-        $sourceStat = $this->sourceDir->stat($cacheId);
-        $value = array('path' => $cachedPath, 'mtime' => $sourceStat['mtime']);
-        return $this->cache->save(json_encode($value), $cacheId);
+        $relativePath = $this->getRelativePath($processedFile);
+        return $this->cache->save($relativePath, $cacheId);
     }
 
     /**
+     * Get absolute path basing on placeholder for a directory in the relative path
+     *
+     * Example: %root%/somewhere/file.ext -> /root/somewhere/file.ext (if %root% is configured to /root)
+     *
      * @param string $path
      * @return string
      */
@@ -97,15 +96,21 @@ class Cache
         $absolutePath = false;
         foreach ($this->directories as $placeholder => $dir) {
             if (substr($path, 0, strlen($placeholder)) == $placeholder) {
-                $absolutePath = substr($path, strlen($placeholder) + 1);
-                $absolutePath = $dir->getAbsolutePath($absolutePath);
-                break;
+                $relativePath = substr($path, strlen($placeholder) + 1);
+                if ($dir->isExist($relativePath)) {
+                    $absolutePath = $dir->getAbsolutePath($relativePath);
+                    break;
+                }
             }
         }
         return $absolutePath;
     }
 
     /**
+     * Get relative path for the absolute path, replacing base directory to one of configured placeholders
+     *
+     * Example: /root/somewhere/file.ext -> %root%/somewhere/file.ext (if %root% is configured to /root)
+     *
      * @param string $path
      * @return bool|string
      */
