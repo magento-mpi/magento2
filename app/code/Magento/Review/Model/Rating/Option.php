@@ -3,28 +3,28 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Rating;
+namespace Magento\Review\Model\Rating;
 
 /**
  * Rating option model
  *
- * @method \Magento\Rating\Model\Resource\Rating\Option _getResource()
- * @method \Magento\Rating\Model\Resource\Rating\Option getResource()
+ * @method \Magento\Review\Model\Resource\Rating\Option _getResource()
+ * @method \Magento\Review\Model\Resource\Rating\Option getResource()
  * @method int getRatingId()
- * @method \Magento\Rating\Model\Rating\Option setRatingId(int $value)
+ * @method \Magento\Review\Model\Rating\Option setRatingId(int $value)
  * @method string getCode()
- * @method \Magento\Rating\Model\Rating\Option setCode(string $value)
+ * @method \Magento\Review\Model\Rating\Option setCode(string $value)
  * @method int getValue()
- * @method \Magento\Rating\Model\Rating\Option setValue(int $value)
+ * @method \Magento\Review\Model\Rating\Option setValue(int $value)
  * @method int getPosition()
- * @method \Magento\Rating\Model\Rating\Option setPosition(int $value)
+ * @method \Magento\Review\Model\Rating\Option setPosition(int $value)
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Option extends \Magento\Model\AbstractModel
@@ -34,7 +34,7 @@ class Option extends \Magento\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Magento\Rating\Model\Resource\Rating\Option');
+        $this->_init('Magento\Review\Model\Resource\Rating\Option');
     }
 
     /**

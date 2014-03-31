@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,7 +28,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Option factory
      *
-     * @var \Magento\Rating\Model\Rating\OptionFactory
+     * @var \Magento\Review\Model\Rating\OptionFactory
      */
     protected $_optionFactory;
 
@@ -36,7 +36,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Rating\Model\Rating\OptionFactory $optionFactory
+     * @param \Magento\Review\Model\Rating\OptionFactory $optionFactory
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
@@ -45,7 +45,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Rating\Model\Rating\OptionFactory $optionFactory,
+        \Magento\Review\Model\Rating\OptionFactory $optionFactory,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()

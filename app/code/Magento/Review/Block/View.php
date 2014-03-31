@@ -26,14 +26,14 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Rating option model
      *
-     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
+     * @var \Magento\Review\Model\Rating\Option\VoteFactory
      */
     protected $_voteFactory;
 
     /**
      * Rating model factory
      *
-     * @var \Magento\Rating\Model\RatingFactory
+     * @var \Magento\Review\Model\RatingFactory
      */
     protected $_ratingFactory;
 
@@ -46,16 +46,16 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
-     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param array $data
      * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
-        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         array $data = array(),
         array $priceBlockTypes = array()
@@ -103,7 +103,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Retrieve collection of ratings
      *
-     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
+     * @return \Magento\Review\Model\Resource\Rating\Option\Vote\Collection
      */
     public function getRating()
     {

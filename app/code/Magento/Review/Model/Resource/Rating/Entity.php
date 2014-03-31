@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Resource\Rating;
+namespace Magento\Review\Model\Resource\Rating;
 
 /**
  * Rating entity resource
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Entity extends \Magento\Model\Resource\Db\AbstractDb

@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Resource\Rating\Option;
+namespace Magento\Review\Model\Resource\Rating\Option;
 
 /**
  * Rating vote resource model
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Vote extends \Magento\Model\Resource\Db\AbstractDb

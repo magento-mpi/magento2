@@ -475,7 +475,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Save correct store list in rating (while Managing Ratings)
      *
-     * @param \Magento\Rating\Model\Rating $model
+     * @param \Magento\Review\Model\Rating $model
      * @return void
      */
     public function ratingSaveBefore($model)

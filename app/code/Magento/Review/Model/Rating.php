@@ -3,25 +3,25 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model;
+namespace Magento\Review\Model;
 
 /**
  * Rating model
  *
- * @method \Magento\Rating\Model\Resource\Rating getResource()
- * @method \Magento\Rating\Model\Resource\Rating _getResource()
+ * @method Resource\Rating getResource()
+ * @method Resource\Rating _getResource()
  * @method array getRatingCodes()
- * @method \Magento\Rating\Model\Rating setRatingCodes(array $value)
+ * @method \Magento\Review\Model\Rating setRatingCodes(array $value)
  * @method array getStores()
- * @method \Magento\Rating\Model\Rating setStores(array $value)
+ * @method \Magento\Review\Model\Rating setStores(array $value)
  * @method string getRatingCode()
  *
  * @category   Magento
- * @package    Magento_Rating
+ * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rating extends \Magento\Model\AbstractModel
@@ -36,20 +36,20 @@ class Rating extends \Magento\Model\AbstractModel
     const ENTITY_REVIEW_CODE = 'review';
 
     /**
-     * @var \Magento\Rating\Model\Rating\OptionFactory
+     * @var \Magento\Review\Model\Rating\OptionFactory
      */
     protected $_ratingOptionFactory;
 
     /**
-     * @var \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory
+     * @var \Magento\Review\Model\Resource\Rating\Option\CollectionFactory
      */
     protected $_ratingCollectionF;
 
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Rating\Model\Rating\OptionFactory $ratingOptionFactory
-     * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
+     * @param \Magento\Review\Model\Rating\OptionFactory $ratingOptionFactory
+     * @param \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -57,8 +57,8 @@ class Rating extends \Magento\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Rating\Model\Rating\OptionFactory $ratingOptionFactory,
-        \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
+        \Magento\Review\Model\Rating\OptionFactory $ratingOptionFactory,
+        \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -75,7 +75,7 @@ class Rating extends \Magento\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Magento\Rating\Model\Resource\Rating');
+        $this->_init('Magento\Review\Model\Resource\Rating');
     }
 
     /**

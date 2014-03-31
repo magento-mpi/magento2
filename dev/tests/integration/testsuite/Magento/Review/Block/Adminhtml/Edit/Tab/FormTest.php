@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Block\Adminhtml\Edit\Tab;
+namespace Magento\Review\Block\Adminhtml\Edit\Tab;
 
 /**
  * @magentoAppArea adminhtml

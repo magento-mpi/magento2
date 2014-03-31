@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -55,7 +55,7 @@ class Rating extends \Magento\Backend\App\Action
         $this->_initEnityId();
         $this->_view->loadLayout();
 
-        $ratingModel = $this->_objectManager->create('Magento\Rating\Model\Rating');
+        $ratingModel = $this->_objectManager->create('Magento\Review\Model\Rating');
         if ($this->getRequest()->getParam('id')) {
             $ratingModel->load($this->getRequest()->getParam('id'));
         }
@@ -92,7 +92,7 @@ class Rating extends \Magento\Backend\App\Action
 
         if ($this->getRequest()->getPost()) {
             try {
-                $ratingModel = $this->_objectManager->create('Magento\Rating\Model\Rating');
+                $ratingModel = $this->_objectManager->create('Magento\Review\Model\Rating');
 
                 $stores = $this->getRequest()->getParam('stores');
                 $position = (int)$this->getRequest()->getParam('position');
@@ -119,7 +119,7 @@ class Rating extends \Magento\Backend\App\Action
                 if (is_array($options)) {
                     $i = 1;
                     foreach ($options as $key => $optionCode) {
-                        $optionModel = $this->_objectManager->create('Magento\Rating\Model\Rating\Option');
+                        $optionModel = $this->_objectManager->create('Magento\Review\Model\Rating\Option');
                         if (!preg_match("/^add_([0-9]*?)$/", $key)) {
                             $optionModel->setId($key);
                         }
@@ -163,8 +163,8 @@ class Rating extends \Magento\Backend\App\Action
     {
         if ($this->getRequest()->getParam('id') > 0) {
             try {
-                $model = $this->_objectManager->create('Magento\Rating\Model\Rating');
-                /* @var $model \Magento\Rating\Model\Rating */
+                $model = $this->_objectManager->create('Magento\Review\Model\Rating');
+                /* @var $model \Magento\Review\Model\Rating */
                 $model->load($this->getRequest()->getParam('id'))->delete();
                 $this->messageManager->addSuccess(__('You deleted the rating.'));
                 $this->_redirect('review/rating/');
@@ -185,7 +185,7 @@ class Rating extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register(
             'entityId',
-            $this->_objectManager->create('Magento\Rating\Model\Rating\Entity')->getIdByCode('product')
+            $this->_objectManager->create('Magento\Review\Model\Rating\Entity')->getIdByCode('product')
         );
     }
 

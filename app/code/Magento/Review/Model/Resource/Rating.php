@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Resource;
+namespace Magento\Review\Model\Resource;
 
 /**
  * Rating resource model
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rating extends \Magento\Model\Resource\Db\AbstractDb
@@ -91,7 +91,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Rating\Model\Rating $object
+     * @param \Magento\Review\Model\Rating $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -115,7 +115,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Actions after load
      *
-     * @param \Magento\Model\AbstractModel|\Magento\Rating\Model\Rating $object
+     * @param \Magento\Model\AbstractModel|\Magento\Review\Model\Rating $object
      * @return $this
      */
     protected function _afterLoad(\Magento\Model\AbstractModel $object)
@@ -168,7 +168,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Actions after save
      *
-     * @param \Magento\Model\AbstractModel|\Magento\Rating\Model\Rating $object
+     * @param \Magento\Model\AbstractModel|\Magento\Review\Model\Rating $object
      * @return $this
      */
     protected function _afterSave(\Magento\Model\AbstractModel $object)
@@ -280,7 +280,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Return array of rating summary
      *
-     * @param \Magento\Rating\Model\Rating $object
+     * @param \Magento\Review\Model\Rating $object
      * @param boolean $onlyForCurrentStore
      * @return array
      */
@@ -322,7 +322,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Return data of rating summary
      *
-     * @param \Magento\Rating\Model\Rating $object
+     * @param \Magento\Review\Model\Rating $object
      * @return array
      */
     protected function _getEntitySummaryData($object)
@@ -376,7 +376,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Review summary
      *
-     * @param \Magento\Rating\Model\Rating $object
+     * @param \Magento\Review\Model\Rating $object
      * @param boolean $onlyForCurrentStore
      * @return array
      */
@@ -471,7 +471,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function deleteAggregatedRatingsByProductId($productId)
     {
-        $entityId = $this->getEntityIdByCode(\Magento\Rating\Model\Rating::ENTITY_PRODUCT_CODE);
+        $entityId = $this->getEntityIdByCode(\Magento\Review\Model\Rating::ENTITY_PRODUCT_CODE);
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()->from($this->getMainTable(), 'rating_id')->where('entity_id = :entity_id');
         $ratingIds = $adapter->fetchCol($select, array(':entity_id' => $entityId));

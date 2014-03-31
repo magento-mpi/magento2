@@ -41,13 +41,13 @@ foreach ($reviewStatuses as $k => $v) {
 }
 
 $data = array(
-    \Magento\Rating\Model\Rating::ENTITY_PRODUCT_CODE => array(
+    \Magento\Review\Model\Rating::ENTITY_PRODUCT_CODE => array(
         array('rating_code' => 'Quality', 'position' => 0),
         array('rating_code' => 'Value', 'position' => 0),
         array('rating_code' => 'Price', 'position' => 0)
     ),
-    \Magento\Rating\Model\Rating::ENTITY_PRODUCT_REVIEW_CODE => array(),
-    \Magento\Rating\Model\Rating::ENTITY_REVIEW_CODE => array()
+    \Magento\Review\Model\Rating::ENTITY_PRODUCT_REVIEW_CODE => array(),
+    \Magento\Review\Model\Rating::ENTITY_REVIEW_CODE => array()
 );
 
 foreach ($data as $entityCode => $ratings) {

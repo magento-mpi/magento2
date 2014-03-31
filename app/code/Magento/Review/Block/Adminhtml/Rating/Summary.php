@@ -9,7 +9,7 @@
  */
 namespace Magento\Review\Block\Adminhtml\Rating;
 
-use Magento\Rating\Model\Resource\Rating\Collection as RatingCollection;
+use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
 
 /**
  * Adminhtml summary rating stars
@@ -33,28 +33,28 @@ class Summary extends \Magento\Backend\Block\Template
     /**
      * Rating resource option model
      *
-     * @var \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory
+     * @var \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory
      */
     protected $_votesFactory;
 
     /**
      * Rating model
      *
-     * @var \Magento\Rating\Model\RatingFactory
+     * @var \Magento\Review\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory
-     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory
+     * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
-        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Registry $registry,
         array $data = array()
     ) {

@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Resource\Rating\Option;
+namespace Magento\Review\Model\Resource\Rating\Option;
 
 /**
  * Rating option collection
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
@@ -32,7 +32,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     protected function _construct()
     {
-        $this->_init('Magento\Rating\Model\Rating\Option', 'Magento\Rating\Model\Resource\Rating\Option');
+        $this->_init('Magento\Review\Model\Rating\Option', 'Magento\Review\Model\Resource\Rating\Option');
         $this->_ratingVoteTable = $this->getTable('rating_option_vote');
     }
 

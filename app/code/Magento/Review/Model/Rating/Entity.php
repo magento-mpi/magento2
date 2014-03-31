@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Rating;
+namespace Magento\Review\Model\Rating;
 
 /**
  * Ratings entity model
  *
- * @method \Magento\Rating\Model\Resource\Rating\Entity _getResource()
- * @method \Magento\Rating\Model\Resource\Rating\Entity getResource()
+ * @method \Magento\Review\Model\Resource\Rating\Entity _getResource()
+ * @method \Magento\Review\Model\Resource\Rating\Entity getResource()
  * @method string getEntityCode()
- * @method \Magento\Rating\Model\Rating\Entity setEntityCode(string $value)
+ * @method \Magento\Review\Model\Rating\Entity setEntityCode(string $value)
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Entity extends \Magento\Model\AbstractModel
@@ -28,7 +28,7 @@ class Entity extends \Magento\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Magento\Rating\Model\Resource\Rating\Entity');
+        $this->_init('Magento\Review\Model\Resource\Rating\Entity');
     }
 
     /**

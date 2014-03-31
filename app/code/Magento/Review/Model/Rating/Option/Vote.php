@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Rating\Option;
+namespace Magento\Review\Model\Rating\Option;
 
 /**
  * Rating vote model
  *
  * @category   Magento
- * @package    Magento_Rating
+ * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Vote extends \Magento\Model\AbstractModel
@@ -23,6 +23,6 @@ class Vote extends \Magento\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Magento\Rating\Model\Resource\Rating\Option\Vote');
+        $this->_init('Magento\Review\Model\Resource\Rating\Option\Vote');
     }
 }

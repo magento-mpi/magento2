@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Resource\Rating;
+namespace Magento\Review\Model\Resource\Rating;
 
 /**
  * Rating option resource model
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Option extends \Magento\Model\Resource\Db\AbstractDb
@@ -80,20 +80,20 @@ class Option extends \Magento\Model\Resource\Db\AbstractDb
     protected $_customerSession;
 
     /**
-     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
+     * @var \Magento\Review\Model\Rating\Option\VoteFactory
      */
     protected $_ratingOptionVoteF;
 
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $ratingOptionVoteF
+     * @param \Magento\Review\Model\Rating\Option\VoteFactory $ratingOptionVoteF
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Rating\Model\Rating\Option\VoteFactory $ratingOptionVoteF,
+        \Magento\Review\Model\Rating\Option\VoteFactory $ratingOptionVoteF,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_customerSession = $customerSession;
@@ -122,7 +122,7 @@ class Option extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Add vote
      *
-     * @param \Magento\Rating\Model\Rating\Option $option
+     * @param \Magento\Review\Model\Rating\Option $option
      * @return $this
      */
     public function addVote($option)
@@ -166,7 +166,7 @@ class Option extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Aggregate options
      *
-     * @param \Magento\Rating\Model\Rating\Option $option
+     * @param \Magento\Review\Model\Rating\Option $option
      * @return void
      */
     public function aggregate($option)

@@ -8,7 +8,7 @@
 
 namespace Magento\Review\Block\Product\Compare\ListCompare\Plugin;
 
-class Review 
+class Review
 {
     /**
      * Review model
@@ -44,6 +44,7 @@ class Review
      * @param bool $templateType
      * @param bool $displayIfNoReviews
      *
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeGetReviewsSummaryHtml(
@@ -56,4 +57,4 @@ class Review
             $this->reviewFactory->create()->getEntitySummary($product, $this->storeManager->getStore()->getId());
         }
     }
-} 
+}

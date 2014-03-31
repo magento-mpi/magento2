@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Resource\Rating\Grid;
+namespace Magento\Review\Model\Resource\Rating\Grid;
 
 /**
  * Rating grid collection
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Rating\Model\Resource\Rating\Collection
+class Collection extends \Magento\Review\Model\Resource\Rating\Collection
 {
     /**
      * Core registry
@@ -31,7 +31,7 @@ class Collection extends \Magento\Rating\Model\Resource\Rating\Collection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
+     * @param \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param \Magento\Registry $coreRegistry
      * @param mixed $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
@@ -42,7 +42,7 @@ class Collection extends \Magento\Rating\Model\Resource\Rating\Collection
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
+        \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         \Magento\Registry $coreRegistry,
         $connection = null,
         \Magento\Model\Resource\Db\AbstractDb $resource = null

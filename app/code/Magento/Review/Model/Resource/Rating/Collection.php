@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Model\Resource\Rating;
+namespace Magento\Review\Model\Resource\Rating;
 
 /**
  * Rating collection resource model
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
@@ -24,7 +24,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected $_storeManager;
 
     /**
-     * @var \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory
+     * @var \Magento\Review\Model\Resource\Rating\Option\CollectionFactory
      */
     protected $_ratingCollectionF;
 
@@ -40,7 +40,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
+     * @param \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param mixed $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
@@ -50,7 +50,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
+        \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         $connection = null,
         \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
@@ -71,7 +71,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     protected function _construct()
     {
-        $this->_init('Magento\Rating\Model\Rating', 'Magento\Rating\Model\Resource\Rating');
+        $this->_init('Magento\Review\Model\Rating', 'Magento\Review\Model\Resource\Rating');
     }
 
     /**
@@ -163,7 +163,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            /** @var \Magento\Rating\Model\Resource\Rating\Option\Collection $collection */
+            /** @var \Magento\Review\Model\Resource\Rating\Option\Collection $collection */
             $collection = $this->_ratingCollectionF->create()->addRatingFilter(
                 $arrRatingId
             )->setPositionOrder()->load();

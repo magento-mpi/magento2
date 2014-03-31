@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@ namespace Magento\Review\Block\Rating\Entity;
  * Entity rating block
  *
  * @category   Magento
- * @package    Magento_Rating
+ * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Detailed extends \Magento\View\Element\Template
@@ -24,18 +24,18 @@ class Detailed extends \Magento\View\Element\Template
     protected $_template = 'detailed.phtml';
 
     /**
-     * @var \Magento\Rating\Model\RatingFactory
+     * @var \Magento\Review\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
         array $data = array()
     ) {
         $this->_ratingFactory = $ratingFactory;

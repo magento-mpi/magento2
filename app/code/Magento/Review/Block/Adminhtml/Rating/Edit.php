@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Rating
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +24,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Rating factory
      *
-     * @var \Magento\Rating\Model\RatingFactory
+     * @var \Magento\Review\Model\RatingFactory
      */
     protected $_ratingFactory;
 
@@ -35,13 +35,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Registry $registry,
         array $data = array()
     ) {
