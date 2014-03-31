@@ -527,6 +527,16 @@ return array(
     array('getSectionNode', 'Magento\Core\Model\Config'),
     array('getSecure', 'Magento\Backend\Model\UrlInterface', 'isSecure'),
     array('getSecure', 'Magento\Url', 'isSecure'),
+    array('_prepareSessionUrlWithParams', 'Magento\Url'),
+    array('_getQueryParams', 'Magento\Url'),
+    array('_setRouteFrontName', 'Magento\Url'),
+    array('setType', 'Magento\Url'),
+    array('purgeQueryParams', 'Magento\Url', 'Use setQueryParams([]) instead'),
+    array('purgeQueryParams', 'Magento\Url\QueryParamsResolver', 'Use setQueryParams([]) instead'),
+    array('purgeQueryParams', 'Magento\Url\QueryParamsResolverInterface', 'Use setQueryParams([]) instead'),
+    array('_getDefaultActionName', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_ACTION_NAME'),
+    array('_getDefaultControllerName', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_CONTROLLER_NAME'),
+    array('_getDefaultUrlType', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_URL_TYPE'),
     array('getSelectionFinalPrice', 'Magento\Bundle\Model\Product\Price'),
     array('getShipId', 'Magento\Shipping\Block\Tracking\Popup'),
     array('getShippingCarrier', 'Magento\Sales\Model\Order', 'Magento\Shipping\Model\CarrierFactory::create'),
@@ -1323,24 +1333,6 @@ return array(
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
-    array('setArguments', 'Magento\ObjectManager\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array('setArguments', 'Magento\ObjectManager\Factory\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array('setArguments', 'Magento\Interception\FactoryDecorator', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\Interception\FactoryDecorator',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
     array(
         '_processArrayNode',
         'Magento\ObjectManager\Config\Mapper\Dom',
@@ -1539,6 +1531,7 @@ return array(
     array('displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'),
     array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
     array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage'),
+    ['_compareSortOrder', 'Magento\Sales\Model\Config\Ordered'],
     [
         '_toOptionHashOptimized',
         'Magento\Data\Collection\Db',
@@ -1555,7 +1548,11 @@ return array(
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
+    array('addCustomerData', 'Magento\Log\Model\Visitor'),
     array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
+    array('loadByCustomer', 'Magento\Wishlist\Model\Wishlist'),
+    ['_sessionVarCallback', 'Magento\Url', 'Replaced with inlined closure'],
+    array('processReinitConfig', 'Magento\Core\Model\Observer'),
     array(
         'reviewsAction',
         'Magento\Catalog\Controller\Adminhtml\Product',
@@ -1563,7 +1560,6 @@ return array(
     ),
     ['_insertInlineScriptsHtml', 'Magento\DesignEditor\Model\Translate\Inline', 'addInlineScript'],
     ['initializeTranslation', 'Magento\Backend\Model\Observer'],
-    ['getTranslateJson', 'Magento\Core\Helper\Js'],
     ['_isEmptyTranslateArg', 'Magento\Translate'],
     ['_getTranslatedString', 'Magento\Translate'],
     ['initLocale', 'Magento\Translate'],

@@ -525,7 +525,7 @@ class Observer
      */
     protected function _initWishlist()
     {
-        return $this->_wishListFactory->create()->loadByCustomer($this->_getCustomerId(), true);
+        return $this->_wishListFactory->create()->loadByCustomerId($this->_getCustomerId(), true);
     }
 
     /**

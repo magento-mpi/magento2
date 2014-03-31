@@ -31,7 +31,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $rewriteFactory = $this->getMockBuilder(
-            'Magento\Core\Model\Url\RewriteFactory'
+            'Magento\UrlRewrite\Model\UrlRewriteFactory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();
