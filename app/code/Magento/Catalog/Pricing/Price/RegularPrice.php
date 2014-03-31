@@ -10,7 +10,6 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\AdjustmentInterface;
 use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Price\PriceInterface;

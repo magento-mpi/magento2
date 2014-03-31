@@ -40,7 +40,7 @@ class Calculator
     }
 
     /**
-     * @param float $amount
+     * @param float|string $amount
      * @param SaleableInterface $saleableItem
      * @return \Magento\Pricing\Amount\AmountInterface
      */

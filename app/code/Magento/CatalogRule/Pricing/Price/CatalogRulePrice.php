@@ -49,11 +49,6 @@ class CatalogRulePrice extends RegularPrice
     protected $customerSession;
 
     /**
-     * @var float|bool|null
-     */
-    protected $value;
-
-    /**
      * @var \Magento\CatalogRule\Model\Resource\RuleFactory
      */
     protected $resourceRuleFactory;
