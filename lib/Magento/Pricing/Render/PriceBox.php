@@ -60,7 +60,7 @@ class PriceBox extends Template implements PriceBoxRenderInterface
 
     protected function _toHtml()
     {
-        $cssClasses = explode(' ', $this->getData('css_classes'));
+        $cssClasses = $this->hasData('css_classes') ? explode(' ', $this->getData('css_classes')) : [];
         $cssClasses[] = 'price-' . $this->getPrice()->getPriceType();
         $this->setData('css_classes', implode(' ', $cssClasses));
         return parent::_toHtml();
