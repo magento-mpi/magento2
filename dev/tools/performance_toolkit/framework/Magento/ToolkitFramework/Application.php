@@ -79,8 +79,6 @@ class Application
      */
     protected function _bootstrap()
     {
-        /** @var $app \Magento\AppInterface */
-        $this->_application = $this->getObjectManager()->get('\Magento\AppInterface');
         $this->getObjectManager()->configure(
             $this->getObjectManager()->get('Magento\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
