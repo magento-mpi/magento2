@@ -7,59 +7,81 @@
  */
 namespace Magento\Log\Model;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 class VisitorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider createObserverWithCustomerDto
+     * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testBindCustomerLogin(\Magento\Event\Observer $observer)
+    public function testBindCustomerLogin()
     {
-        $customerDto = $observer->getEvent()->getCustomer();
-
         /** @var \Magento\Log\Model\Visitor $visitor */
-        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Log\Model\Visitor');
-        $visitor->bindCustomerLogin($observer);
+        $visitor = Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor');
+        $visitor->unsCustomerId();
+        $visitor->unsDoCustomerLogin();
 
+        $customer = $this->_loginCustomer('customer@example.com', 'password');
+
+        // Visitor has not customer ID yet
         $this->assertTrue($visitor->getDoCustomerLogin());
-        $this->assertEquals($customerDto->getId(), $visitor->getCustomerId());
+        $this->assertEquals($customer->getId(), $visitor->getCustomerId());
 
-        $visitor->unsetData();
-        $visitor->setCustomerId('2');
-        $visitor->bindCustomerLogin($observer);
+        // Visitor already has customer ID
+        $visitor->unsDoCustomerLogin();
+        $this->_loginCustomer('customer@example.com', 'password');
         $this->assertNull($visitor->getDoCustomerLogin());
-        $this->assertEquals('2', $visitor->getCustomerId());
     }
 
     /**
-     * @dataProvider createObserverWithCustomerDto
+     * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testBindCustomerLogout(\Magento\Event\Observer $observer)
+    public function testBindCustomerLogout()
     {
         /** @var \Magento\Log\Model\Visitor $visitor */
-        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Log\Model\Visitor');
-        $visitor->setCustomerId('1');
-        $visitor->bindCustomerLogout($observer);
+        $visitor = Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor');
+
+        $this->_loginCustomer('customer@example.com', 'password');
+        $visitor->setCustomerId(1);
+        $visitor->unsDoCustomerLogout();
+        $this->_logoutCustomer(1);
+
+        // Visitor has customer ID => check that do_customer_logout flag is set
         $this->assertTrue($visitor->getDoCustomerLogout());
 
-        $visitor->unsetData();
-        $visitor->bindCustomerLogout($observer);
+        $this->_loginCustomer('customer@example.com', 'password');
+        $visitor->unsCustomerId();
+        $visitor->unsDoCustomerLogout();
+        $this->_logoutCustomer(1);
+
+        // Visitor has no customer ID => check that do_customer_logout flag not changed
         $this->assertNull($visitor->getDoCustomerLogout());
     }
 
     /**
-     * @return \Magento\Event\Observer
+     * Authenticate customer and return its DTO
+     * @param string $username
+     * @param string $password
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
-    public function createObserverWithCustomerDto()
+    protected function _loginCustomer($username, $password)
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $customer = $objectManager->create('Magento\Customer\Model\Customer')->load(1);
-        $customerDto = $objectManager->create('Magento\Customer\Model\Converter')->createCustomerFromModel($customer);
-        $event = new \Magento\Event(array('customer' => $customerDto));
-        return array(
-            array(new \Magento\Event\Observer(array('event' => $event)))
-        );
+        /** @var \Magento\Customer\Service\V1\CustomerAccountService $service */
+        $service = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        return $service->authenticate($username, $password);
     }
 
+    /**
+     * Log out customer
+     * @param int $customerId
+     */
+    public function _logoutCustomer($customerId)
+    {
+        /** @var \Magento\Customer\Model\Session $customerSession */
+        $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
+        $customerSession->setCustomerId($customerId);
+        $customerSession->logout();
+    }
 }
