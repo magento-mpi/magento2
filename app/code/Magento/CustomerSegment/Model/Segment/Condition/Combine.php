@@ -102,7 +102,7 @@ class Combine extends AbstractCombine
      * Prepare Condition According to ApplyTo Value
      *
      * @param array $conditions
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return array
      */
     protected function _prepareConditionAccordingApplyToValue(array $conditions)
@@ -122,7 +122,7 @@ class Combine extends AbstractCombine
                 break;
 
             default:
-                throw new \Magento\Core\Exception(__('Wrong "ApplyTo" type'));
+                throw new \Magento\Model\Exception(__('Wrong "ApplyTo" type'));
                 break;
         }
         return $returnedConditions;

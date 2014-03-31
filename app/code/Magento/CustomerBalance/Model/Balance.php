@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Customer balance model
@@ -18,7 +18,6 @@ use Magento\Core\Exception;
  * @method \Magento\CustomerBalance\Model\Resource\Balance getResource()
  * @method int getCustomerId()
  * @method \Magento\CustomerBalance\Model\Balance setCustomerId(int $value)
- * @method int getWebsiteId()
  * @method \Magento\CustomerBalance\Model\Balance setWebsiteId(int $value)
  * @method \Magento\CustomerBalance\Model\Balance setAmount(float $value)
  * @method string getBaseCurrencyCode()
@@ -31,7 +30,7 @@ use Magento\Core\Exception;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Balance extends \Magento\Core\Model\AbstractModel
+class Balance extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Customer\Model\Customer
@@ -69,7 +68,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -79,7 +78,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

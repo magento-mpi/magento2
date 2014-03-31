@@ -83,7 +83,7 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
      * Get component of 'checkbox' type (actually 'tile')
      *
      * @return \Magento\Data\Form\Element\Checkbox
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getCheckboxElement()
     {
@@ -96,7 +96,7 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
             }
         }
 
-        throw new \Magento\Core\Exception(
+        throw new \Magento\Model\Exception(
             __('Element "%1" is not found in "%2".', $checkboxId, $this->getData('name'))
         );
     }
@@ -105,7 +105,7 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
      * Get component of 'image-uploader' type
      *
      * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getImageUploaderElement()
     {
@@ -116,7 +116,7 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
                 return $e;
             }
         }
-        throw new \Magento\Core\Exception(
+        throw new \Magento\Model\Exception(
             __('Element "%1" is not found in "%2".', $imageUploaderId, $this->getData('name'))
         );
     }

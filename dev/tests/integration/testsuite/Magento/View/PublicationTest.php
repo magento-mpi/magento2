@@ -333,16 +333,15 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 'Magento\View\Design\Fallback\Factory' => array(
                     'arguments' => array(
                         'filesystem' => array(
-                            'value' => 'Magento\View\MockedFilesystem',
-                            'name' => 'filesystem',
-                            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'object'
+                            'instance' => 'Magento\View\MockedFilesystem',
                         )
                     )
                 )
             )
         );
 
-        $objectManager->get('Magento\Core\Model\App')->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $this->viewUrl->getViewFileUrl($cssViewFile, $designParams);
 
@@ -581,20 +580,12 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 array(
                     'Magento\View\Publisher\CssFile' => array(
                         'arguments' => array(
-                            'allowDuplication' => array(
-                                'name' => 'allowDuplication',
-                                \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
-                                'value' => $allowDuplication
-                            )
+                            'allowDuplication' => $allowDuplication
                         )
                     ),
                     'Magento\View\Publisher\File' => array(
                         'arguments' => array(
-                            'allowDuplication' => array(
-                                'name' => 'allowDuplication',
-                                \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
-                                'value' => $allowDuplication
-                            )
+                            'allowDuplication' => $allowDuplication
                         )
                     )
                 )
@@ -627,12 +618,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
-        )->loadAreaPart(
-            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-            \Magento\Core\Model\App\Area::PART_CONFIG
-        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+            ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * TargetRule Rule Model
@@ -121,7 +121,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_actionFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Model\Resource\Iterator
      */
     protected $_iterator;
 
@@ -135,11 +135,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Core\Model\Resource\Iterator $iterator
+     * @param \Magento\Model\Resource\Iterator $iterator
      * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -148,11 +148,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Core\Model\Resource\Iterator $iterator,
+        \Magento\Model\Resource\Iterator $iterator,
         \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -7,7 +7,7 @@
  */
 namespace Magento\Indexer\App;
 
-class Indexer implements \Magento\LauncherInterface
+class Indexer implements \Magento\AppInterface
 {
     /**
      * Report directory

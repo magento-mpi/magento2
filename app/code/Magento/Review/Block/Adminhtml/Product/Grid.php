@@ -139,7 +139,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('catalog/*/productGrid', array('_current' => true));
+        return $this->getUrl('catalog/product/productGrid', array('_current' => true));
     }
 
     /**
@@ -150,7 +150,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/*/jsonProductInfo', array('id' => $row->getId()));
+        return $this->getUrl('review/product/jsonProductInfo', array('id' => $row->getId()));
     }
 
     /**

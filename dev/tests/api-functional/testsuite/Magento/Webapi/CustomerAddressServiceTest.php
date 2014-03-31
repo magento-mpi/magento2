@@ -38,6 +38,11 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
      */
     protected function tearDown()
     {
+        /** @var \Magento\Registry $registry */
+        $registry = Bootstrap::getObjectManager()->get('Magento\Registry');
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', true);
+
         try {
             $fixtureFirstAddressId = 1;
             $this->customerAddressService->deleteAddress($fixtureFirstAddressId);
@@ -56,6 +61,9 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             /** Customer fixture was not used */
         }
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', false);
         parent::tearDown();
     }
 

@@ -44,13 +44,13 @@ class Solr extends \Apache_Solr_Service
      * Initialize Solr Client
      *
      * @param array $options
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function __construct($options = array())
     {
         $_optionsNames = array('hostname', 'login', 'password', 'port', 'path');
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.')
             );
         }

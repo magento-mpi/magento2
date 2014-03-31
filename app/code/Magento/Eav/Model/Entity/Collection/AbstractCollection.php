@@ -254,7 +254,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Get resource instance
      *
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     public function getResource()
     {
@@ -320,7 +320,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param null|string|array $condition
      * @param string $joinType
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      *
      * @see self::_getConditionSql for $condition
      */
@@ -353,7 +353,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
         if (!empty($conditionSql)) {
             $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
         } else {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Invalid attribute identifier for filter (%1)', get_class($attribute))
             );
         }

@@ -35,7 +35,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -47,7 +47,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_customerResource = $customerResource;
         parent::__construct(

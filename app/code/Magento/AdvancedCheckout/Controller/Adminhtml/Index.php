@@ -11,7 +11,7 @@ namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
 use Magento\AdvancedCheckout\Exception as AdvancedCheckoutException;
 use Magento\Backend\App\Action;
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Admin Checkout index controller
@@ -289,8 +289,8 @@ class Index extends \Magento\Backend\App\Action
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
                 $wishlist = $this->_objectManager->create(
                     'Magento\Wishlist\Model\Wishlist'
-                )->loadByCustomer(
-                    $customer
+                )->loadByCustomerId(
+                    $customer->getId()
                 )->setStore(
                     $store
                 )->setSharedStoreIds(

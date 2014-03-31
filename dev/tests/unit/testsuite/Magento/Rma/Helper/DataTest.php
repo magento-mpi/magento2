@@ -32,7 +32,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $storeConfigMock->expects($this->any())->method('getConfig')->will($this->returnValueMap($storeConfigData));
 
         $context = $this->getMock('Magento\App\Helper\Context', array('getApp'), array(), '', false, false);
-        $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Rma\Helper\Data $model */
@@ -54,19 +53,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertEquals($model->getReturnAddressData($mockConfig['store_id']), $expectedResult);
-    }
-
-    /**
-     * Create application mock
-     *
-     * @param array $mockConfig
-     * @return \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getAppMock($mockConfig)
-    {
-        $appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
-        $appMock->expects($this->any())->method('getStore')->will($this->returnValue($mockConfig['store_id']));
-        return $appMock;
     }
 
     /**
