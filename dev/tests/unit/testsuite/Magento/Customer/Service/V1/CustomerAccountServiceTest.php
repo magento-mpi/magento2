@@ -8,10 +8,11 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Converter;
+use Magento\Customer\Service\V1\Data\Search\AndGroupBuilder;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\StateException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAccountService
@@ -1623,8 +1624,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerService = $this->_createService();
-        $searchBuilder = new Data\SearchCriteriaBuilder();
-        $filterBuilder = new Data\FilterBuilder();
+        $searchBuilder = new Data\SearchCriteriaBuilder(new AndGroupBuilder(new FilterBuilder()));
+        $filterBuilder = new FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue('customer@search.example.com')->create();
         $searchBuilder->addFilter($filter);
 
@@ -1694,8 +1695,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerService = $this->_createService();
-        $searchBuilder = new Data\SearchCriteriaBuilder();
-        $filterBuilder = new Data\FilterBuilder();
+        $searchBuilder = new Data\SearchCriteriaBuilder(new AndGroupBuilder(new FilterBuilder()));
+        $filterBuilder = new FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue(self::EMAIL)->create();
         $searchBuilder->addFilter($filter);
 
@@ -1931,7 +1932,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_validator,
             $objectManager->getObject('\Magento\Customer\Service\V1\Data\CustomerBuilder'),
             $this->_customerDetailsBuilder,
-            new Data\SearchResultsBuilder(),
+            new Data\SearchResultsBuilder,
+            new Data\CustomerValidationResultsBuilder(),
             $this->_customerAddressServiceMock,
             $this->_customerMetadataService,
             $this->_urlMock,

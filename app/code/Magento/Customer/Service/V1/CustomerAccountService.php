@@ -24,6 +24,7 @@ use Magento\UrlInterface;
 use Magento\Logger;
 use Magento\Encryption\EncryptorInterface as Encryptor;
 use Magento\Customer\Model\Config\Share as ConfigShare;
+use Magento\Service\V1\Data\Filter;
 
 /**
  * Handle various customer account actions
@@ -45,6 +46,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
     /** @var Data\SearchResultsBuilder */
     private $_searchResultsBuilder;
+
+    /** @var Data\CustomerValidationResultsBuilder */
+    private $_customerValidationResultsBuilder;
 
     /**
      * Core event manager proxy
@@ -114,7 +118,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Validator $validator
      * @param Data\CustomerBuilder $customerBuilder
      * @param Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param Data\SearchResultsBuilder $searchResultsBuilder ,
+     * @param Data\SearchResultsBuilder $searchResultsBuilder
+     * @param Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataServiceInterface $customerMetadataService
      * @param UrlInterface $url
@@ -133,6 +138,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Data\CustomerBuilder $customerBuilder,
         Data\CustomerDetailsBuilder $customerDetailsBuilder,
         Data\SearchResultsBuilder $searchResultsBuilder,
+        Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataServiceInterface $customerMetadataService,
         UrlInterface $url,
@@ -149,6 +155,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_searchResultsBuilder = $searchResultsBuilder;
+        $this->_customerValidationResultsBuilder = $customerValidationResultsBuilder;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_url = $url;
@@ -442,6 +449,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             }
             $this->_customerAddressService->saveAddresses($customer->getId(), $addresses);
         }
+
+        return true;
     }
 
     /**
@@ -460,38 +469,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // Needed to enable filtering on name as a whole
         $collection->addNameToSelect();
         // Needed to enable filtering based on billing address attributes
-        $collection->joinAttribute(
-            'billing_postcode',
-            'customer_address/postcode',
-            'default_billing',
-            null,
-            'left'
-        )->joinAttribute(
-            'billing_city',
-            'customer_address/city',
-            'default_billing',
-            null,
-            'left'
-        )->joinAttribute(
-            'billing_telephone',
-            'customer_address/telephone',
-            'default_billing',
-            null,
-            'left'
-        )->joinAttribute(
-            'billing_region',
-            'customer_address/region',
-            'default_billing',
-            null,
-            'left'
-        )->joinAttribute(
-            'billing_country_id',
-            'customer_address/country_id',
-            'default_billing',
-            null,
-            'left'
-        );
-        $this->addFiltersToCollection($searchCriteria->getFilters(), $collection);
+        $collection->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
+            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
+            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
+            ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
+            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
+        $this->addFiltersFromRootToCollection($searchCriteria->getAndGroup(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
@@ -520,25 +503,25 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * Adds some filters from a filter group to a collection.
+     * Adds some filters from the root filter group to a collection.
      *
-     * @param Data\Search\FilterGroupInterface $filterGroup
+     * @param Data\Search\AndGroup $rootAndGroup
      * @param Collection $collection
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFiltersToCollection(Data\Search\FilterGroupInterface $filterGroup, Collection $collection)
+    protected function addFiltersFromRootToCollection(Data\Search\AndGroup $rootAndGroup, Collection $collection)
     {
-        if (strcasecmp($filterGroup->getGroupType(), 'AND')) {
-            throw new InputException('Only AND grouping is currently supported for filters.');
+        if (count($rootAndGroup->getAndGroups())) {
+            throw new InputException('Only OR groups are supported as nested groups.');
         }
 
-        foreach ($filterGroup->getFilters() as $filter) {
+        foreach ($rootAndGroup->getFilters() as $filter) {
             $this->addFilterToCollection($collection, $filter);
         }
 
-        foreach ($filterGroup->getGroups() as $group) {
-            $this->addFilterGroupToCollection($collection, $group);
+        foreach ($rootAndGroup->getOrGroups() as $group) {
+            $this->addFilterOrGroupToCollection($collection, $group);
         }
     }
 
@@ -546,10 +529,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Helper function that adds a filter to the collection
      *
      * @param Collection $collection
-     * @param Data\Filter $filter
+     * @param Filter $filter
      * @return void
      */
-    protected function addFilterToCollection(Collection $collection, Data\Filter $filter)
+    protected function addFilterToCollection(Collection $collection, Filter $filter)
     {
         $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
         $collection->addFieldToFilter($filter->getField(), array($condition => $filter->getValue()));
@@ -559,18 +542,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Helper function that adds a FilterGroup to the collection.
      *
      * @param Collection $collection
-     * @param Data\Search\FilterGroupInterface $group
+     * @param Data\Search\OrGroup $orGroup
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFilterGroupToCollection(Collection $collection, Data\Search\FilterGroupInterface $group)
+    protected function addFilterOrGroupToCollection(Collection $collection, Data\Search\OrGroup $orGroup)
     {
-        if (strcasecmp($group->getGroupType(), 'OR')) {
-            throw new InputException('The only nested groups currently supported for filters are of type OR.');
-        }
-        $fields = array();
-        $conditions = array();
-        foreach ($group->getFilters() as $filter) {
+        $fields = [];
+        $conditions = [];
+        foreach ($orGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
         }
@@ -653,16 +633,25 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         );
 
         if ($customerErrors !== true) {
-            return array('error' => -1, 'message' => implode(', ', $this->_validator->getMessages()));
+            return $this->_customerValidationResultsBuilder
+                ->setIsValid(false)
+                ->setMessages($this->_validator->getMessages())
+                ->create();
         }
 
         $customerModel = $this->_converter->createCustomerModel($customer);
 
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {
-            return array('error' => -1, 'message' => implode(', ', $result));
+            return $this->_customerValidationResultsBuilder
+                ->setIsValid(false)
+                ->setMessages($result)
+                ->create();
         }
-        return true;
+        return $this->_customerValidationResultsBuilder
+            ->setIsValid(true)
+            ->setMessages([])
+            ->create();
     }
 
     /**
@@ -795,6 +784,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
         $customerModel->delete();
+
+        return true;
     }
 
     /**

@@ -25,7 +25,7 @@
     * Magento/Checkout/Model/Config
     * Magento/Checkout/Model/Observer
     * Magento/Checkout/Model/Type
-    * Magento/Sales/Model/Config     
+    * Magento/Sales/Model/Config
   * LauncherInterface renamed to AppInterface (MAGETWO-21593)
 * Improvements in code coverage calculation:
   * Updated whitelist filter with library code for integration tests code coverage calculation
@@ -73,24 +73,47 @@
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
   * [#499](https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
 * Fixed bugs:
-  * Fixed a fatal error that occurred with a dependency in pub/errors/report.php
-  * Fixed an issue where code coverage failed for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
-  * Fixed an issue where PayPal Express Checkout redirected to the PayPal site even though the Allow Guest Checkout option was set to 'No'
-  * Fixed an issue where invalid password reset link was sent when resetting customer password from the backend
-  * Fixed an issue where it was not possible to download a previously created backup
-  * Fixed a security issue with possibility of a XSS injection in the Integration re-authorization flow
-  * Fixed an issue where Billing Agreement cancellation from the backend did not work
-  * Fixed an issue with the debug section in the developer settings
-  * Fixed the unreliable implementation of the fetching authorization header via SOAP
-  * Fixed issues with WSDL generation error reporting
-  * Fixed an issue with incorrect order of the Recurring Profile tab in Account Customer on the frontend
-  * Fixed an issue when the information about a custom option of the 'File' type was not displayed correctly on the recurring profile page
-  * Fixed an issue with editing Product template
-  * Fixed an issue with duplicated shipping method options during checkout
-  * Fixed an issue where flat indexers were re-indexed in shell when they were disabled
-  * Fixed an issue where adding a wrong/nonexistent SKU using 'Order by SKU' from My Account caused a fatal error
-  * Fixed an issue with the JS/CSS merging functionality
-  * Fixed an issue with static view files publication tool used for the 'production' mode
+  * Fixed fatal error with dependency in pub/errors/report.php (MAGETWO-21840)
+  * Fixed transaction rollback in fetchNewIncrementId on exception
+  * Fixed category saveing when it has more than 1000 products
+  * Fixed error messages displayed during installation when required extensions are not installed
+  * Fixed synopsis of install.php script
+  * Fixed absence of payment scheduled in shopping cart for products with recurring profile
+  * Fixed code coverage fails for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
+  * Fixed PayPal Express Checkout must not redirect to Paypal site if Allow Guest Checkout option is No (MAGETWO-19523)
+  * Fixed ability to reset password for customer from backend (MAGETWO-20164)
+  * Fixed ability to download backup (MAGETWO-21353)
+  * Fixed possibility of XSS injection in the Integration re-authorization flow
+  * Fixed cancellation of the Billing Agreement from backend
+  * Fixed debug section in the developer settings
+  * Fixed unreliable implementation of fetching authorization header via SOAP
+  * Fixed WSDL generation error reporting issues
+  * Fixed correct order Recurring Profile tab in Account Customer on frontend (MAGETWO-20706)
+  * Fixed displaying an image on recurring profile page (MAGETWO-21375)
+  * Fixed ability to edit Product Template (MAGETWO-21757)
+  * Fixed duplicated shipping method options (MAGETWO-20055)
+  * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
+  * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
+  * Fixed JS/CSS merging functionality (MAGETWO-21924)
+  * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
+  * Fixed REST route paths to support query parameter syntax (MAGETWO-21996)
+  * Fixed WebAPI issue with camel-case parameters in SOAP (MAGETWO-21848)
+  * Fixed errors running api-functional tests with modules other than WebAPI (MAGETWO-21848)
+  * Fixed 'getCustomAttribute' is exposed as 'attribute' field in SOAP (MAGETWO-22097)
+  * Fixed optional array arguments in WSDL (MAGETWO-22141)
+  * Fixed wrong test endpoint for SOAP deleteAddress test (MAGETWO-22554)
+  * Fixed error when expected int array keys, but got item in SOAP webapi calls (MAGETWO-22556)
+  * Fixed setting 'defaultShipping' to 'true' in CustomerAddressService 'saveAddress' ignored (MAGETWO-22563)
+  * Fixed error when CustomerAddressService 'deleteAddress' returns HTTP 202 on success (MAGETWO-22564)
+  * Fixed error with invalid store ID results in HTTP 500 in CustomerAddressService 'getDefaultGroup' (MAGETWO-22566)
+  * Fixed error when deleting customer group which is a default for a store in CustomerGroupService (MAGETWO-22567)
+  * Fixed customer group 'canDelete' returns true for invalid customer group IDs (MAGETWO-22568)
+  * Fixed error when 'CustomerGroupService:saveGroup' returns 500 depending on request parameters (MAGETWO-22569)
+  * Fixed error on invoking 'CustomerAccountService::activateCustomer' (MAGETWO-22570)
+  * Fixed error on invoking 'CustomerAccountService::authenticate' (MAGETWO-22571)
+  * Fixed incorrect output format for CustomerMetadataServiceInterface (MAGETWO-22598)
+  * Fixed empty array in response body using deleteCustomer() (MAGETWO-22693)
+  * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
 * Modularity improvements:
   * Removed the deprecated GoogleCheckout functionality
   * Removed all dependencies on the RecurringPayment module
@@ -102,13 +125,17 @@
   * Re-factored the View publisher
 * Framework improvements:
   * Added restrictions on the data populated to the Service Data Object
-  * Renamed Data Transfer Object to Service Data Object
-  * Updated the view files population tool to support LESS
+  * Renamed Data Transfer Object to the Service Data Object
+  * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
+  * Improve Web API framework based on Customer Service (MAGETWO-22045)
+  * API Service Exception Handling (MAGETWO-14490)
 * Customer Service usage:
-  * Refactored the Tax module to use Customer service layer
-  * Refactored Customer module Adminhtml internal controllers and helper to use Customer services
-  * Added and updated the Customer service APIs
-  * Exposed Customer services as REST APIs
+  * Tax module refactoring to use customer service layer
+  * Refactored Customer module Adminhtml internal controllers and helper to use customer services
+  * Added and updated customer service APIs
+  * Exposed customer services as REST APIs
+  * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
+  * Refactor PayPal module to use Customer Service (MAGETWO-20477)
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
 * Updated various PHPDoc with the parameter and return types

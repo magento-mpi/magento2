@@ -54,7 +54,7 @@
     <preference for="Magento\Json\DecoderInterface" type="Magento\Json\Decoder" />
     <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
     <preference for="Magento\App\Config\ValueInterface" type="Magento\Core\Model\Config\Value" />
-    <preference for="Magento\Module\DependencyManagerInterface" type="Magento\Module\DependencyManager" />    
+    <preference for="Magento\Module\DependencyManagerInterface" type="Magento\Module\DependencyManager" />
     <preference for="Magento\Interception\Chain" type="Magento\Interception\Chain\Chain" />
     <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
@@ -76,6 +76,7 @@
             <argument name="actionValidator" xsi:type="object">Magento\Model\ActionValidator\RemoveAction\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Service\V1\Data\FilterBuilder" shared="false" />
     <type name="Magento\Message\Manager">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Message\Session\Proxy</argument>

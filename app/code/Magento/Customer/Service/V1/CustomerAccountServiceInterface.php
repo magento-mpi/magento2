@@ -70,7 +70,8 @@ interface CustomerAccountServiceInterface
      * the array must be null.
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
-     * @return void
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerDetails is not found.
+     * @return bool True if this customer was updated
      */
     public function updateCustomer(\Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails);
 
@@ -214,7 +215,7 @@ interface CustomerAccountServiceInterface
      *
      * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
-     * @return array|bool
+     * @return \Magento\Customer\Service\V1\Data\CustomerValidationResults
      */
     public function validateCustomerData(
         \Magento\Customer\Service\V1\Data\Customer $customer,
@@ -256,7 +257,7 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @throws \Magento\Customer\Exception If something goes wrong during delete
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @return void
+     * @return bool True if the customer was deleted
      */
     public function deleteCustomer($customerId);
 
