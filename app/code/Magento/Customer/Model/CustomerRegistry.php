@@ -75,17 +75,17 @@ class CustomerRegistry
      */
     public function retrieveByEmail($customerEmail, $websiteId)
     {
-        /** @var Customer $customer */
-        $customer = $this->customerFactory->create()->setEmail($customerEmail)->setWebsiteId($websiteId);
-        $emailKey = $customer->getEmail() . $customer->getWebsiteId();
+        $emailKey = $customerEmail . $websiteId;
         if (isset($this->customerRegistryByEmail[$emailKey])) {
             return $this->customerRegistryByEmail[$emailKey];
         }
 
+        /** @var Customer $customer */
+        $customer = $this->customerFactory->create()->setEmail($customerEmail)->setWebsiteId($websiteId);
         $customer->loadByEmail($customerEmail);
         if (!$customer->getEmail()) {
             // customer does not exist
-            throw (new NoSuchEntityException('email', $customerEmail))->addField('websiteId', $websiteId);;
+            throw (new NoSuchEntityException('email', $customerEmail))->addField('websiteId', $websiteId);
         } else {
             $this->customerRegistryById[$customer->getId()] = $customer;
             $this->customerRegistryByEmail[$customer->getEmail() . $customer->getWebsiteId()] = $customer;
