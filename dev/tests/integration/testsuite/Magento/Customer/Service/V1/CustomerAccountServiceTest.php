@@ -92,6 +92,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Clean up shared dependencies
+     */
+    protected function tearDown()
+    {
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $this->_objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
+    }
+
+    /**
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
@@ -1311,12 +1322,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Core\Exception
-     * @expectedExceptionMessage Customer website ID must be specified when using the website scope
      */
     public function testIsEmailAvailableNoWebsiteSpecified()
     {
-        $this->_customerAccountService->isEmailAvailable('customer@example.com', null);
+        $this->assertTrue($this->_customerAccountService->isEmailAvailable('customer@example.com', null));
     }
 
     public function testIsEmailAvailableNonExistentEmail()
