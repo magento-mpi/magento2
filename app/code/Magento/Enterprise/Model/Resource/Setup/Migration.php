@@ -12,7 +12,7 @@ namespace Magento\Enterprise\Model\Resource\Setup;
 /**
  * Resource setup model with methods needed for migration process between Magento versions in Enterprise edition
  */
-class Migration extends \Magento\Core\Model\Resource\Setup\Migration
+class Migration extends \Magento\Module\Setup\Migration
 {
     /**
      * List of correspondence between composite module aliases and module names

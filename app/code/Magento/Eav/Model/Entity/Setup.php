@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Entity;
 
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Module\Setup
 {
     /**
      * @var \Magento\App\CacheInterface
@@ -80,7 +80,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * Create migration setup
      *
      * @param array $data
-     * @return \Magento\Core\Model\Resource\Setup\Migration
+     * @return \Magento\Module\Setup\Migration
      */
     public function createMigrationSetup(array $data = array())
     {

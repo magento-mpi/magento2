@@ -13,7 +13,7 @@ namespace Magento\User\Model\Resource;
  * @SuppressWarnings(PHPMD.LongVariable)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Module\Setup
 {
     /**
      * Role model factory
@@ -44,7 +44,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_rulesFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\User\Model\Resource\Role\CollectionFactory $roleCollectionFactory
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
@@ -54,7 +54,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Module\Setup\Context $context,
         $resourceName,
         \Magento\User\Model\Resource\Role\CollectionFactory $roleCollectionFactory,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,

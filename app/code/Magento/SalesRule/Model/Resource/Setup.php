@@ -15,7 +15,7 @@ namespace Magento\SalesRule\Model\Resource;
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @return \Magento\Core\Model\Resource\Setup\Migration
+     * @return \Magento\Module\Setup\Migration
      */
     public function getMigrationModel()
     {

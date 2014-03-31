@@ -3,24 +3,24 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Module
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\Module;
 
 class SetupTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Resource\Setup
+     * @var \Magento\Module\Setup
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Resource\Setup',
+            'Magento\Module\Setup',
             array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
         );
     }
@@ -114,7 +114,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Resource\Setup::updateTableRow
+     * @covers \Magento\Module\Setup::updateTableRow
      * @expectedException \Zend_Db_Statement_Exception
      */
     public function testUpdateTableRowNameConversion()

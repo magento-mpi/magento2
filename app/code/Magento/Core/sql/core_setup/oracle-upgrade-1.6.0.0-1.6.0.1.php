@@ -9,7 +9,7 @@
  */
 
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 $connection = $installer->getConnection();

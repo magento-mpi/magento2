@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\Module;
 
 class Setup implements \Magento\Module\Updater\SetupInterface
 {
@@ -82,17 +82,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $_resourceResource;
 
     /**
-     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
-     */
-    protected $_themeResourceFactory;
-
-    /**
-     * @var \Magento\Core\Model\Theme\CollectionFactory
-     */
-    protected $_themeFactory;
-
-    /**
-     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
+     * @var \Magento\Module\Setup\MigrationFactory
      */
     protected $_migrationFactory;
 
@@ -116,13 +106,13 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $modulesDir;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Module\Setup\Context $context,
         $resourceName,
         $moduleName,
         $connectionName = ''
@@ -134,8 +124,6 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $this->_resourceName = $resourceName;
         $this->_resourceResource = $context->getResourceResource();
         $this->_migrationFactory = $context->getMigrationFactory();
-        $this->_themeFactory = $context->getThemeFactory();
-        $this->_themeResourceFactory = $context->getThemeResourceFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
         $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);

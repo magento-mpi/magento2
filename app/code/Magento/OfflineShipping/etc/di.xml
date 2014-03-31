@@ -11,7 +11,7 @@
     <type name="Magento\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
-                <item name="offlineshipping_setup" xsi:type="string">Magento\Core\Model\Resource\Setup</item>
+                <item name="offlineshipping_setup" xsi:type="string">Magento\Module\Setup</item>
             </argument>
         </arguments>
     </type>

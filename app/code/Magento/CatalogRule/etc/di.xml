@@ -24,7 +24,7 @@
     <type name="Magento\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
-                <item name="catalogrule_setup" xsi:type="string">Magento\Core\Model\Resource\Setup\Generic</item>
+                <item name="catalogrule_setup" xsi:type="string">Magento\Module\Setup</item>
             </argument>
         </arguments>
     </type>

@@ -12,7 +12,7 @@ use Magento\Integration\Model\Manager;
 /**
  * Resource Setup Model
  */
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Module\Setup
 {
     /**
      * @var  Manager
@@ -22,7 +22,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     /**
      * Construct resource Setup Model
      *
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
      * @param Manager $integrationManager
      * @param string $moduleName
@@ -30,7 +30,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      *
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Module\Setup\Context $context,
         $resourceName,
         Manager $integrationManager,
         $moduleName = 'Magento_Integration',

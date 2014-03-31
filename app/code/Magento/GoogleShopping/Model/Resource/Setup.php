@@ -7,7 +7,7 @@
  */
 namespace Magento\GoogleShopping\Model\Resource;
 
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Module\Setup
 {
     /**
      * @var \Magento\GoogleShopping\Helper\Data
@@ -20,7 +20,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_configFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\GoogleShopping\Model\ConfigFactory $configFactory
      * @param \Magento\GoogleShopping\Helper\Data $googleShoppingData
@@ -28,7 +28,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Module\Setup\Context $context,
         $resourceName,
         \Magento\GoogleShopping\Model\ConfigFactory $configFactory,
         \Magento\GoogleShopping\Helper\Data $googleShoppingData,

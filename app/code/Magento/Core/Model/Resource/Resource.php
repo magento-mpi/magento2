@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Resource extends \Magento\Model\Resource\Db\AbstractDb
+class Resource extends \Magento\Model\Resource\Db\AbstractDb implements \Magento\Module\ResourceInterface
 {
     /**
      * Database versions
@@ -39,7 +39,7 @@ class Resource extends \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('core_resource', 'store_id');
+        $this->_init('core_resource', 'code');
     }
 
     /**

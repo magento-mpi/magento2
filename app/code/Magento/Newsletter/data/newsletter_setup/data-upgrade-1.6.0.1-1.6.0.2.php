@@ -8,29 +8,29 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
+/** @var $installer \Magento\Module\Setup\Migration */
 $installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace(
     'newsletter_template',
     'template_text',
-    \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
-    \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
+    \Magento\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
     array('template_id')
 );
 $installer->appendClassAliasReplace(
     'newsletter_template',
     'template_text_preprocessed',
-    \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
-    \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
+    \Magento\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
     array('template_id')
 );
 $installer->appendClassAliasReplace(
     'newsletter_queue',
     'newsletter_text',
-    \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
-    \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
+    \Magento\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
     array('queue_id')
 );
 

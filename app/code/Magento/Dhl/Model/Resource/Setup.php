@@ -8,7 +8,7 @@
  */
 namespace Magento\Dhl\Model\Resource;
 
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Module\Setup
 {
     /**
      * @var \Magento\Locale\ListsInterface
@@ -16,14 +16,14 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_localeLists;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
      * @param string $moduleName
      * @param \Magento\Locale\ListsInterface $localeLists
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Module\Setup\Context $context,
         $resourceName,
         $moduleName,
         \Magento\Locale\ListsInterface $localeLists,

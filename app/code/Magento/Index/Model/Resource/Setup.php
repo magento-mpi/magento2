@@ -18,7 +18,7 @@
  */
 namespace Magento\Index\Model\Resource;
 
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Module\Setup
 {
     /**
      * @var \Magento\Index\Model\Indexer\ConfigInterface
@@ -26,14 +26,14 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_indexerConfig;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Module\Setup\Context $context,
         $resourceName,
         \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig,
         $moduleName = 'Magento_Index',

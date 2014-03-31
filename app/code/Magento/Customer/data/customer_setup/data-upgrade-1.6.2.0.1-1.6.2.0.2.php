@@ -8,15 +8,15 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Core\Model\Resource\Setup */
+/** @var $this \Magento\Module\Setup */
 $installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace(
     'customer_eav_attribute',
     'data_model',
-    \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL,
-    \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
+    \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL,
+    \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
     array('attribute_id')
 );
 $installer->doUpdateClassAliases();

@@ -82,7 +82,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * Creates setup migration model
      *
      * @param array $data
-     * @return \Magento\Core\Model\Resource\Setup\Migration
+     * @return \Magento\Module\Setup\Migration
      */
     public function createSetupMigration($data = array())
     {

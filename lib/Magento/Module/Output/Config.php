@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Module\Output;
+namespace Magento\Module\Output;
 
 class Config implements \Magento\Module\Output\ConfigInterface
 {

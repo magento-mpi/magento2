@@ -32,7 +32,7 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
         }
 
         // array must contain all data from parent class
-        $parentModules = \Magento\Core\Model\Resource\Setup\Migration::getCompositeModules();
+        $parentModules = \Magento\Module\Setup\Migration::getCompositeModules();
         $this->assertEmpty(array_diff($parentModules, $compositeModules));
     }
 }

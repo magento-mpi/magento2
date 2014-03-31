@@ -392,7 +392,7 @@ class Installer extends \Magento\Object
         /**
          * Saving host information into DB
          */
-        /** @var $setupModel \Magento\Core\Model\Resource\Setup */
+        /** @var $setupModel \Magento\Module\Setup */
         $setupModel = $this->_setupFactory->create('core_setup', 'Magento_Core');
 
         if (!empty($data['use_rewrites'])) {
@@ -457,11 +457,11 @@ class Installer extends \Magento\Object
     /**
      * Set order number prefix
      *
-     * @param \Magento\Core\Model\Resource\Setup $setupModel
+     * @param \Magento\Module\Setup $setupModel
      * @param string $orderIncrementPrefix
      * @return void
      */
-    protected function _setOrderIncrementPrefix(\Magento\Core\Model\Resource\Setup $setupModel, $orderIncrementPrefix)
+    protected function _setOrderIncrementPrefix(\Magento\Module\Setup $setupModel, $orderIncrementPrefix)
     {
         $select = $setupModel->getConnection()->select()->from(
             $setupModel->getTable('eav_entity_type'),

@@ -76,14 +76,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Theme\Collection
-     */
-    public function getThemeCollection()
-    {
-        return $this->_themeResourceFactory->create();
-    }
-
-    /**
      * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
