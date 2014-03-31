@@ -18,7 +18,6 @@ use Magento\Model\Exception;
  * @method \Magento\CustomerBalance\Model\Resource\Balance getResource()
  * @method int getCustomerId()
  * @method \Magento\CustomerBalance\Model\Balance setCustomerId(int $value)
- * @method int getWebsiteId()
  * @method \Magento\CustomerBalance\Model\Balance setWebsiteId(int $value)
  * @method \Magento\CustomerBalance\Model\Balance setAmount(float $value)
  * @method string getBaseCurrencyCode()
