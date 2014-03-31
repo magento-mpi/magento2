@@ -1,5 +1,11 @@
 * Framework Improvements:
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
+* Modularity improvements:
+  * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
+  * Moved resource model to Magento_Install module(MAGETWO-21599)
+  * Eliminated Core\Helper\Js class (MAGETWO-21600)
+  * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
+  * Moved library related logic of Cache from Core module (MAGETWO-21598)
 
 2.0.0.0-dev71
 =============
