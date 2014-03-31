@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Controller\Adminhtml;
+namespace Magento\Review\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 
