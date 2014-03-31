@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Review\Block\Product\Compare\ListCompare\Plugin\Review;
+namespace Magento\Review\Block\Product\Compare\ListCompare\Plugin;
 
 class Review 
 {
