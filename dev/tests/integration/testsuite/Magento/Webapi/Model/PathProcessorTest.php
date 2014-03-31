@@ -13,19 +13,19 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    protected $storeManager;
 
     /**
      * @var \Magento\Webapi\Model\PathProcessor
      */
-    protected $_pathProcessor;
+    protected $pathProcessor;
 
 
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
-        $this->_pathProcessor = $objectManager->get('\Magento\Webapi\Model\PathProcessor');
+        $this->storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $this->pathProcessor = $objectManager->get('\Magento\Webapi\Model\PathProcessor');
 
     }
 
@@ -35,9 +35,10 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     public function testProcessStoreWithValidStoreCode()
     {
         $storeCode = 'fixturestore';
-        $pathInfo = '/' . $storeCode . '/V1/tomerAccounts/createAccount';
-        $this->_pathProcessor->processStore($pathInfo);
-        $this->assertEquals($storeCode, $this->_storeManager->getCurrentStore());
+        $path = '/' . $storeCode . '/V1/customerAccounts/createAccount';
+        $resultPath = $this->pathProcessor->processStore($path);
+        $this->assertEquals(str_replace('/' . $storeCode, "", $path), $resultPath);
+        $this->assertEquals($storeCode, $this->storeManager->getCurrentStore());
     }
 
     /**
@@ -47,7 +48,7 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     public function testProcessStoreInWithValidStoreCode()
     {
         $storeCode = 'InvalidStorecode';
-        $pathInfo = '/' . $storeCode . '/V1/tomerAccounts/createAccount';
-        $this->_pathProcessor->processStore($pathInfo);
+        $path = '/' . $storeCode . '/V1/customerAccounts/createAccount';
+        $this->pathProcessor->processStore($path);
     }
 }

@@ -15,31 +15,32 @@ class PathProcessor
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
-    private $_storeManager;
+    private $storeManager;
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
     {
-        $this->_storeManager = $storeManager;
+        $this->storeManager = $storeManager;
     }
 
     /**
      * Process path info
      *
-     * @param string $pathInfo
+     * @param string $path
      * @return string
+     * @throws NoSuchEntityException
      */
-    public function processStore($pathInfo)
+    public function processStore($path)
     {
-        $pathParts = explode('/', ltrim($pathInfo, '/'), 2);
+        $pathParts = explode('/', ltrim($path, '/'), 2);
         $storeCode = $pathParts[0];
-        $stores = $this->_storeManager->getStores(false, true);
+        $stores = $this->storeManager->getStores(false, true);
         if (isset($stores[$storeCode])) {
-            $this->_storeManager->setCurrentStore($storeCode);
-            $pathInfo = '/' . (isset($pathParts[1]) ? $pathParts[1] : '');
-            return $pathInfo;
+            $this->storeManager->setCurrentStore($storeCode);
+            $path = '/' . (isset($pathParts[1]) ? $pathParts[1] : '');
+            return $path;
         } else {
             // store does not exist
             throw new NoSuchEntityException('storeCode', $storeCode);
