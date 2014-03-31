@@ -428,7 +428,6 @@
         <plugin name="messageBox" type="Magento\Core\App\FrontController\Plugin\MessageBox" sortOrder="0"/>
     </type>
     <type name="Magento\App\Action\Action">
-        <plugin name="installInitializer" type="Magento\Core\App\Action\Plugin\Install" sortOrder="5"/>
         <plugin name="storeCheck" type="Magento\Core\App\Action\Plugin\StoreCheck" sortOrder="10"/>
         <plugin name="designLoader" type="Magento\Core\App\Action\Plugin\Design" sortOrder="30"/>
     </type>
