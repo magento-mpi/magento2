@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Block\Adminhtml\Edit\Tab;
+namespace Magento\Review\Block\Adminhtml\Rating\Edit\Tab;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

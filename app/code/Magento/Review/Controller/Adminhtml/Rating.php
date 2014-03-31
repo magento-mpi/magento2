@@ -66,9 +66,9 @@ class Rating extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Manage Ratings'), __('Manage Ratings'));
 
         $this->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit')
+            $this->_view->getLayout()->createBlock('Magento\Review\Block\Adminhtml\Rating\Edit')
         )->_addLeft(
-            $this->_view->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit\Tabs')
+            $this->_view->getLayout()->createBlock('Magento\Review\Block\Adminhtml\Rating\Edit\Tabs')
         );
         $this->_view->renderLayout();
     }

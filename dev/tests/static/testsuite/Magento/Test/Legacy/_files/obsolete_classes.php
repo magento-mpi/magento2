@@ -2151,4 +2151,11 @@ return array(
     ['Magento\Translate\Inline\ConfigFactory'],
     ['Magento\Rating\Helper\Data', 'Magento\Review\Helper\Data'],
     ['Magento\Rating\Controller\Adminhtml\Index', 'Magento\Review\Controller\Adminhtml\Rating'],
+    ['Magento\Rating\Block\Entity\Detailed', 'Magento\Review\Block\Rating\Entity\Detailed'],
+    ['Magento\Rating\Block\Adminhtml\Rating', 'Magento\Review\Block\Adminhtml\Rating'],
+    ['Magento\Rating\Block\Adminhtml\Edit', 'Magento\Review\Block\Adminhtml\Rating\Edit'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tabs', 'Magento\Review\Block\Adminhtml\Rating\Edit\Tabs'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Form', 'Magento\Review\Block\Adminhtml\Rating\Edit\Form'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tab\Form', 'Magento\Review\Block\Adminhtml\Rating\Edit\Tab\Form'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tab\Options'],
 );

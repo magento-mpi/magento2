@@ -24,7 +24,7 @@
             <argument name="reviewSession" xsi:type="object">Magento\Review\Model\Session</argument>
         </arguments>
     </type>
-    <type name="Magento\Rating\Block\Adminhtml\Edit\Tab\Form">
+    <type name="Magento\Review\Block\Adminhtml\Rating\Edit\Tab\Form">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Backend\Model\Session</argument>
         </arguments>

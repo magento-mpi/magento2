@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Block\Entity;
+namespace Magento\Review\Block\Rating\Entity;
 
 /**
  * Entity rating block

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Block\Adminhtml\Edit;
+namespace Magento\Review\Block\Adminhtml\Rating\Edit;
 
 /**
  * Rating edit form block

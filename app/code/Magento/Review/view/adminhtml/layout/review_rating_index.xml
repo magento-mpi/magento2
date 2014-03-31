@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="rating_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Rating\Block\Adminhtml\Rating" name="adminhtml.rating.container"/>
+        <block class="Magento\Review\Block\Adminhtml\Rating" name="adminhtml.rating.container"/>
     </referenceContainer>
 </layout>

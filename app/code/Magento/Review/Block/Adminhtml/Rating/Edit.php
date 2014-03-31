@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rating\Block\Adminhtml;
+namespace Magento\Review\Block\Adminhtml\Rating;
 
 /**
  * Rating edit form
@@ -31,7 +31,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * @var string
      */
-    protected $_blockGroup = 'Magento_Rating';
+    protected $_blockGroup = 'Magento_Review';
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -58,7 +58,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::_construct();
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml';
-        $this->_blockGroup = 'Magento_Rating';
+        $this->_blockGroup = 'Magento_Review';
 
         $this->_updateButton('save', 'label', __('Save Rating'));
         $this->_updateButton('delete', 'label', __('Delete Rating'));
