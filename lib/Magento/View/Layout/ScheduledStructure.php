@@ -49,6 +49,8 @@ class ScheduledStructure
 
     /**
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(array $data = array())
     {

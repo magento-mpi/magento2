@@ -9,6 +9,8 @@ namespace Magento\View\Layout;
 
 /**
  * Proxy class for \Magento\View\Layout
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Proxy extends \Magento\View\Layout
 {
@@ -645,6 +647,8 @@ class Proxy extends \Magento\View\Layout
      *
      * @param boolean $flag
      * @return $this
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function setCacheSaved($flag)
     {
@@ -895,7 +899,7 @@ class Proxy extends \Magento\View\Layout
     }
 
     /**
-     * Enter description here...
+     * Extend configuration
      *
      * @param \Magento\Simplexml\Config $config
      * @param boolean $overwrite

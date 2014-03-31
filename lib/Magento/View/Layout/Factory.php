@@ -7,8 +7,6 @@
  */
 namespace Magento\View\Layout;
 
-use Magento\ObjectManager;
-
 class Factory
 {
     /**
@@ -17,20 +15,16 @@ class Factory
     const CLASS_NAME = 'Magento\View\Layout';
 
     /**
-     * Object Manager instance
-     *
-     * @var ObjectManager
+     * @var \Magento\ObjectManager
      */
-    protected $_objectManager = null;
+    protected $objectManager;
 
     /**
-     * Factory constructor
-     *
-     * @param ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
-        $this->_objectManager = $objectManager;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -41,6 +35,6 @@ class Factory
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create(self::CLASS_NAME, $data);
+        return $this->objectManager->create(self::CLASS_NAME, $data);
     }
 }
