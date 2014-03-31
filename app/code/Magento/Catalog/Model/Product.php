@@ -1523,16 +1523,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * Returns rating summary
-     *
-     * @return mixed
-     */
-    public function getRatingSummary()
-    {
-        return $this->_getData('rating_summary');
-    }
-
-    /**
      * Check is product composite
      *
      * @return bool
