@@ -10,10 +10,12 @@
 
 namespace Magento\Pricing;
 
+use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Render\Layout;
 use Magento\View\Element\Template;
 use Magento\View\Element\AbstractBlock;
+use Magento\Pricing\Price\PriceInterface;
 
 /**
  * Base price render
@@ -98,16 +100,19 @@ class Render extends AbstractBlock
     /**
      * Render price amount
      *
-     * @param float $amount
-     * @param string $priceCode
+     * @param AmountInterface $amount
+     * @param PriceInterface $price
      * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return string
-     * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function renderAmount($amount, $priceCode = '', SaleableInterface $saleableItem = null, array $arguments = [])
-    {
+    public function renderAmount(
+        AmountInterface $amount,
+        PriceInterface $price,
+        SaleableInterface $saleableItem = null,
+        array $arguments = []
+    ) {
         $useArguments = array_replace($this->_data, $arguments);
 
         /** @var \Magento\Pricing\Render\RendererPool $rendererPool */
@@ -117,7 +122,7 @@ class Render extends AbstractBlock
         }
 
         // obtain concrete Amount Render
-        $amountRender = $rendererPool->createAmountRender($amount, $priceCode, $saleableItem, $useArguments);
+        $amountRender = $rendererPool->createAmountRender($amount, $saleableItem, $price, $useArguments);
         if ($amountRender) {
             $result = $amountRender->toHtml();
         } else {

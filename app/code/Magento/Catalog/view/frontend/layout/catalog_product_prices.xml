@@ -25,15 +25,19 @@
                     <item name="tier_price" xsi:type="array">
                         <item name="render_template" xsi:type="string">Magento_Catalog::product/price/tier_prices.phtml</item>
                     </item>
-                    <item name="link_price" xsi:type="array">
-                        <item name="render_template" xsi:type="string">Magento_Catalog::product/price/link_price.phtml</item>
-                    </item>
                     <item name="final_price" xsi:type="array">
                         <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\FinalPriceBox</item>
                         <item name="render_template" xsi:type="string">Magento_Catalog::product/price/final_price.phtml</item>
                     </item>
                 </item>
                 <!--<item name="adjustments" xsi:type="array"></item>-->
+            </argument>
+            <argument name="downloadable" xsi:type="array">
+                <item name="prices" xsi:type="array">
+                    <item name="link_price" xsi:type="array">
+                        <item name="amount_render_template" xsi:type="string">Magento_Downloadable::catalog/product/price/link_price.phtml</item>
+                    </item>
+                </item>
             </argument>
         </arguments>
     </block>

@@ -233,4 +233,39 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         return $this->getIsLinkChecked($link) ? 'checked' : '';
     }
+
+    /**
+     * Returns Link Amount
+     *
+     * @param Link $link
+     */
+    protected function getLinkAmount($link)
+    {
+        return $this->getPriceType()->getLinkAmount($link);
+    }
+
+    /**
+     * @param Link $link
+     * @return string
+     */
+    public function getLinkPrice($link)
+    {
+        $linkAmount = $this->getLinkAmount($link);
+        return $this->getLayout()->getBlock('product.price.render.default')->renderAmount(
+            $linkAmount,
+            $this->getPriceType(),
+            $this->getProduct()
+        );
+    }
+
+    /**
+     * Get LinkPrice Type
+     *
+     * @return \Magento\Pricing\Price\PriceInterface
+     */
+    protected function getPriceType()
+    {
+        $priceType = $this->getProduct()->getPriceInfo()->getPrice('link_price');
+        return $priceType;
+    }
 }
