@@ -49,7 +49,7 @@ class CustomerPlugin
     }
 
     /**
-     * Plugin after create account that updates any newsletter subscription that may have existed.
+     * Plugin around updating a customer account that updates any newsletter subscription that may have existed.
      *
      * @param CustomerAccountServiceInterface $subject
      * @param callable $updateCustomer
@@ -65,7 +65,7 @@ class CustomerPlugin
     ) {
         $updateCustomer($customerDetails);
 
-        $this->subscriberFactory->create()->updateSubscription($customerDetails->getCustomer()->getid());
+        $this->subscriberFactory->create()->updateSubscription($customerDetails->getCustomer()->getId());
     }
 
     /**
