@@ -1043,6 +1043,8 @@ return array(
     array('copyFieldsetToTarget', 'Magento\Core\Helper\Data', 'Magento\Object\Copy::copyFieldsetToTarget'),
     array('formatDate', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatDate'),
     array('formatTime', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatTime'),
+    array('getCustomer', 'Magento\Backend\Model\Session\Quote', 'Magento\Backend\Model\Session\Quote::getCustomerId'),
+    array('setCustomer', 'Magento\Backend\Model\Session\Quote', 'Magento\Backend\Model\Session\Quote::setCustomerId'),
     array('_getConfigTimezone', '\Magento\Stdlib\DateTime\DateTime', '\Magento\Core\Model\Locale::getConfigTimezone'),
     array('_filterPostData', '\Magento\Checkout\Controller\Onepage'),
     array('_filterPostData', '\Magento\Customer\Controller\Account'),
