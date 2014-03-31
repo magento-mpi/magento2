@@ -222,4 +222,24 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         return ($this->getReviewData()->getCustomerId() == $this->currentCustomer->getCustomerId());
     }
+
+
+    /**
+     * Get product reviews summary
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param bool $templateType
+     * @param bool $displayIfNoReviews
+     * @return string
+     */
+    public function getReviewsSummaryHtml(
+        \Magento\Catalog\Model\Product $product,
+        $templateType = false,
+        $displayIfNoReviews = false
+    ) {
+        if (!$product->getRatingSummary()) {
+            $this->_reviewFactory->create()->getEntitySummary($product, $this->_storeManager->getStore()->getId());
+        }
+        return parent::getReviewsSummaryHtml($product, $templateType, $displayIfNoReviews);
+    }
 }
