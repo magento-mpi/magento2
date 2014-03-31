@@ -61,6 +61,7 @@
     <preference for="Magento\Stdlib\DateTime\DateInterface" type="Magento\Stdlib\DateTime\Date" />
     <preference for="Magento\Locale\ScopeConfigInterface" type="Magento\Core\Model\Store\Config" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
+    <preference for="Magento\Pricing\Amount\AmountInterface" type="Magento\Pricing\Amount\Base" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">
