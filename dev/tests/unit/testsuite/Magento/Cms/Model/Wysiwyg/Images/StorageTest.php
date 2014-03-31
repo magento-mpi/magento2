@@ -32,11 +32,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_viewUrlMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_adapterFactoryMock;
 
     /**
@@ -120,7 +115,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_adapterFactoryMock = $this->getMock(
             'Magento\Image\AdapterFactory', array(), array(), '', false
         );
-        $this->_viewUrlMock = $this->getMock('Magento\View\Service', array(), array(), '', false);
         $this->_imageHelperMock = $this->getMock(
             'Magento\Cms\Helper\Wysiwyg\Images', array('getStorageRoot'), array(), '', false
         );
@@ -148,7 +142,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
                 false),
             'filesystem' => $this->_filesystemMock,
             'imageFactory' => $this->_adapterFactoryMock,
-            'viewUrl' => $this->_viewUrlMock,
+            'viewUrl' => $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false),
             'storageCollectionFactory' => $this->_storageCollectionFactoryMock,
             'storageFileFactory' => $this->_storageFileFactoryMock,
             'storageDatabaseFactory' => $this->_storageDatabaseFactoryMock,

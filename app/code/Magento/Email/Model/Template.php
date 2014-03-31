@@ -116,9 +116,9 @@ class Template extends \Magento\Core\Model\Template
     protected $_filesystem;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\View\FileSystem
@@ -159,7 +159,7 @@ class Template extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
@@ -176,7 +176,7 @@ class Template extends \Magento\Core\Model\Template
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
@@ -186,7 +186,7 @@ class Template extends \Magento\Core\Model\Template
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_filesystem = $filesystem;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_coreConfig = $coreConfig;
         $this->_emailFilterFactory = $emailFilterFactory;
@@ -232,7 +232,7 @@ class Template extends \Magento\Core\Model\Template
      */
     public function getDefaultEmailLogo()
     {
-        return $this->_assetService->getAssetUrlWithParams(
+        return $this->_assetRepo->getUrlWithParams(
             'Magento_Email::logo_email.gif',
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)
         );

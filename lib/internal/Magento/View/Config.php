@@ -39,9 +39,9 @@ class Config implements \Magento\View\ConfigInterface
     /**
      * View service
      *
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $assetService;
+    protected $assetRepo;
 
     /**
      * View file system model
@@ -69,7 +69,7 @@ class Config implements \Magento\View\ConfigInterface
      *
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Asset\Service  $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      * @param string $filename
@@ -77,14 +77,14 @@ class Config implements \Magento\View\ConfigInterface
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Config\FileIteratorFactory $fileIteratorFactory,
         $filename = self::CONFIG_FILE_NAME
     ) {
         $this->moduleReader = $moduleReader;
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->assetService = $assetService;
+        $this->assetRepo = $assetRepo;
         $this->viewFileSystem = $viewFileSystem;
         $this->filename = $filename;
         $this->fileIteratorFactory = $fileIteratorFactory;
@@ -98,7 +98,7 @@ class Config implements \Magento\View\ConfigInterface
      */
     public function getViewConfig(array $params = array())
     {
-        $this->assetService->updateDesignParams($params);
+        $this->assetRepo->updateDesignParams($params);
         /** @var $currentTheme \Magento\View\Design\ThemeInterface */
         $currentTheme = $params['themeModel'];
         $key = $currentTheme->getId();

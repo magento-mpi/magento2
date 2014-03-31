@@ -1327,7 +1327,7 @@ return array(
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
     array('_isStaticFilesSigned', 'Magento\View\FileResolver',
         'Magento\Theme\Model\Url\Plugin\Signature::isUrlSignatureEnabled()'),
-    ['getViewFileUrl', 'Magento\View\Url', 'Magento\View\Asset\Service::getAssetUrl'],
+    ['getViewFileUrl', 'Magento\View\Url', 'Magento\View\Asset\Repository::getUrl'],
     ['getCssFiles', 'Magento\Core\Helper\Theme', 'Magento\Core\Helper\Theme::getCssAssets'],
     ['getGroupedCssFiles', 'Magento\Core\Helper\Theme'],
     ['_detectTheme', 'Magento\Core\Helper\Theme'],

@@ -30,9 +30,9 @@ class Theme extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\App\Filesystem
@@ -43,19 +43,19 @@ class Theme extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\App\Filesystem $appFileSystem
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\App\Filesystem $appFileSystem
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         $this->_appFileSystem = $appFileSystem;
         parent::__construct($context);
     }
@@ -345,7 +345,7 @@ class Theme extends \Magento\Backend\App\Action
             if (!$theme->getId()) {
                 throw new \InvalidArgumentException(sprintf('Theme not found: "%1".', $themeId));
             }
-            $asset = $this->_assetService->createAsset($fileId, array('themeModel' => $theme));
+            $asset = $this->_assetRepo->createAsset($fileId, array('themeModel' => $theme));
             $relPath = $this->_appFileSystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR)
                 ->getRelativePath($asset->getSourceFile());
             return $this->_fileFactory->create(

@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Service\PreProcessing;
+namespace Magento\View\Asset\FileId\Source;
 
 class Cache
 {
     /**
-     * @var \Magento\View\Service\PreProcessing\CacheStorage
+     * @var \Magento\View\Asset\FileId\Source\CacheType
      */
-    private $cacheStorage;
+    private $cache;
 
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
@@ -28,18 +28,18 @@ class Cache
     private $directories = [];
 
     /**
-     * @param CacheStorage $cacheStorage
+     * @param \Magento\View\Asset\FileId\Source\CacheType $cache
      * @param \Magento\Filesystem\Directory\ReadInterface $sourceDir
      * @param array $directories
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\View\Service\PreProcessing\CacheStorage $cacheStorage,
+        \Magento\View\Asset\FileId\Source\CacheType $cache,
         \Magento\Filesystem\Directory\ReadInterface $sourceDir,
         array $directories
     ) {
 
-        $this->cacheStorage = $cacheStorage;
+        $this->cache = $cache;
         $this->sourceDir = $sourceDir;
         foreach ($directories as $dir) {
             if (!($dir instanceof \Magento\Filesystem\Directory\ReadInterface)) {
@@ -60,7 +60,7 @@ class Cache
     {
         $path = false;
         $cacheId = $this->sourceDir->getRelativePath($sourceFile);
-        $data = json_decode($this->cacheStorage->load($cacheId), true);
+        $data = json_decode($this->cache->load($cacheId), true);
         if ($data) {
             if (!isset($data['path']) || !isset($data['mtime'])) {
                 throw new \UnexpectedValueException("Either 'path' or 'mtime' section is not found in cached data");
@@ -85,7 +85,7 @@ class Cache
         $cachedPath = $this->getRelativePath($processedFile);
         $sourceStat = $this->sourceDir->stat($cacheId);
         $value = array('path' => $cachedPath, 'mtime' => $sourceStat['mtime']);
-        return $this->cacheStorage->save(json_encode($value), $cacheId);
+        return $this->cache->save(json_encode($value), $cacheId);
     }
 
     /**

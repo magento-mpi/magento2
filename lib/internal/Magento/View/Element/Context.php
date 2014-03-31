@@ -97,9 +97,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_frontController;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * View config model
@@ -164,7 +164,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
@@ -189,7 +189,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
@@ -210,7 +210,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_sidResolver     = $sidResolver;
         $this->_storeConfig     = $storeConfig;
         $this->_frontController = $frontController;
-        $this->_assetService    = $assetService;
+        $this->_assetRepo       = $assetRepo;
         $this->_viewConfig      = $viewConfig;
         $this->_cacheState      = $cacheState;
         $this->_logger          = $logger;
@@ -333,11 +333,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Get asset service
      *
-     * @return \Magento\View\Asset\Service
+     * @return \Magento\View\Asset\Repository
      */
-    public function getAssetService()
+    public function getAssetRepository()
     {
-        return $this->_assetService;
+        return $this->_assetRepo;
     }
 
     /**

@@ -95,9 +95,9 @@ class Image extends AbstractHelper
     protected $_placeholder;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * Core store config
@@ -116,19 +116,19 @@ class Image extends AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_productImageFactory = $productImageFactory;
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
     }
 
     /**
@@ -406,7 +406,7 @@ class Image extends AbstractHelper
     protected function getDefaultPlaceholderUrl()
     {
         try {
-            $url = $this->_assetService->getAssetUrl($this->getPlaceholder());
+            $url = $this->_assetRepo->getUrl($this->getPlaceholder());
         } catch (\Exception $e) {
             $this->_logger->logException($e);
             $url = $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));

@@ -51,9 +51,9 @@ class Filter extends \Magento\Filter\Template
     protected $_plainTemplateMode = false;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\Logger
@@ -113,7 +113,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -128,7 +128,7 @@ class Filter extends \Magento\Filter\Template
         \Magento\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -138,7 +138,7 @@ class Filter extends \Magento\Filter\Template
         $variables = array()
     ) {
         $this->_escaper = $escaper;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
@@ -345,7 +345,7 @@ class Filter extends \Magento\Filter\Template
     public function viewDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        $url = $this->_assetService->getAssetUrlWithParams($params['url'], $params);
+        $url = $this->_assetRepo->getUrlWithParams($params['url'], $params);
         return $url;
     }
 

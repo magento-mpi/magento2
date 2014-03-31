@@ -30,14 +30,14 @@ class StaticResource implements \Magento\LauncherInterface
     private $request;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\App\View\Asset\Publisher
      */
-    private $viewService;
+    private $publisher;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    private $assetService;
+    private $assetRepo;
 
     /**
      * @var \Magento\Module\ModuleList
@@ -58,8 +58,8 @@ class StaticResource implements \Magento\LauncherInterface
      * @param State $state
      * @param Response\FileInterface $response
      * @param Request\Http $request
-     * @param \Magento\View\Service $viewService
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\App\View\Asset\Publisher $publisher
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\ObjectManager $objectManager
      * @param ObjectManager\ConfigLoader $configLoader
@@ -68,8 +68,8 @@ class StaticResource implements \Magento\LauncherInterface
         State $state,
         Response\FileInterface $response,
         Request\Http $request,
-        \Magento\View\Service $viewService,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\App\View\Asset\Publisher $publisher,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Module\ModuleList $moduleList,
         \Magento\ObjectManager $objectManager,
         ObjectManager\ConfigLoader $configLoader
@@ -77,8 +77,8 @@ class StaticResource implements \Magento\LauncherInterface
         $this->state = $state;
         $this->response = $response;
         $this->request = $request;
-        $this->viewService = $viewService;
-        $this->assetService = $assetService;
+        $this->publisher = $publisher;
+        $this->assetRepo = $assetRepo;
         $this->moduleList = $moduleList;
         $this->objectManager = $objectManager;
         $this->configLoader = $configLoader;
@@ -104,9 +104,9 @@ class StaticResource implements \Magento\LauncherInterface
             unset($params['file']);
 
             try {
-                $asset = $this->assetService->createAsset($file, $params);
+                $asset = $this->assetRepo->createAsset($file, $params);
                 $this->response->setFilePath($asset->getSourceFile());
-                $this->viewService->publish($asset);
+                $this->publisher->publish($asset);
             } catch (\Exception $e) {
                 if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
                     throw $e;

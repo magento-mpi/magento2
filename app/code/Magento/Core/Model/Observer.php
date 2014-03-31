@@ -38,9 +38,9 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\Core\Model\Theme\Registration
@@ -57,7 +57,7 @@ class Observer
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Asset\GroupedCollection $assets
      * @param \Magento\App\ReinitableConfigInterface $config
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Core\Model\Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
@@ -66,7 +66,7 @@ class Observer
         \Magento\View\DesignInterface $design,
         \Magento\View\Asset\GroupedCollection $assets,
         \Magento\App\ReinitableConfigInterface $config,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Logger $logger
     ) {
@@ -74,7 +74,7 @@ class Observer
         $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $assets;
         $this->_config = $config;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         $this->_registration = $registration;
         $this->_logger = $logger;
     }
@@ -127,7 +127,7 @@ class Observer
                 $service = $themeFile->getCustomizationService();
                 if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
                     $identifier = $themeFile->getData('file_path');
-                    $asset = $this->_assetService->createFileAsset($identifier, $themeFile->getFullPath());
+                    $asset = $this->_assetRepo->createFileAsset($identifier, $themeFile->getFullPath());
                     $this->_pageAssets->add($identifier, $asset);
                 }
             } catch (\InvalidArgumentException $e) {

@@ -204,7 +204,7 @@ class Attributes
         if (is_object($this->getAttributeObject())) {
             switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
-                    $element->setImage($this->_assetService->getAssetUrl('images/grid-cal.gif'));
+                    $element->setImage($this->_assetRepo->getUrl('images/grid-cal.gif'));
                     break;
             }
         }

@@ -92,9 +92,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     protected function getDesignParams()
     {
         $designParams = ['area' => 'frontend'];
-        /** @var \Magento\View\Asset\Service $assetService */
-        $assetService = $this->objectManager->get('Magento\View\Asset\Service');
-        $assetService->updateDesignParams($designParams);
+        /** @var \Magento\View\Asset\Repository $assetRepo */
+        $assetRepo = $this->objectManager->get('Magento\View\Asset\Repository');
+        $assetRepo->updateDesignParams($designParams);
 
         return $designParams;
     }

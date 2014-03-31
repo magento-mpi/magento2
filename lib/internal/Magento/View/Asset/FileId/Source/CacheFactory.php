@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Service\PreProcessing;
+namespace Magento\View\Asset\FileId\Source;
 
 class CacheFactory extends \Magento\Cache\Frontend\Decorator\TagScope
 {
@@ -26,12 +26,12 @@ class CacheFactory extends \Magento\Cache\Frontend\Decorator\TagScope
     /**
      * @param \Magento\Filesystem\Directory\ReadInterface $sourceDir
      * @param array $directories
-     * @return \Magento\View\Service\PreProcessing\Cache
+     * @return \Magento\View\Asset\FileId\Source\Cache
      */
     public function create(\Magento\Filesystem\Directory\ReadInterface $sourceDir, array $directories)
     {
         return $this->objectManager->create(
-            'Magento\View\Service\PreProcessing\Cache',
+            'Magento\View\Asset\FileId\Source\Cache',
             array(
                 'sourceDir'   => $sourceDir,
                 'directories' => $directories,

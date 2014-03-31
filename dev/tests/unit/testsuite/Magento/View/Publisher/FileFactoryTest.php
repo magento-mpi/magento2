@@ -23,6 +23,7 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-21654');
         $this->objectManagerMock = $this->getMock('Magento\ObjectManager');
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);

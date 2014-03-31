@@ -16,9 +16,6 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
-    /** @var \Magento\View\Service|\PHPUnit_Framework_MockObject_MockObject */
-    protected $serviceMock;
-
     /** @var \Magento\Module\Dir\Reader|\PHPUnit_Framework_MockObject_MockObject */
     protected $readerMock;
 
@@ -55,7 +52,6 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryWrite')
             ->with($this->equalTo(\Magento\App\Filesystem::ROOT_DIR))
             ->will($this->returnValue($this->rootDirectory));
-        $this->serviceMock = $this->getMock('Magento\View\Service', [], [], '', false);
         $this->readerMock = $this->getMock('Magento\Module\Dir\Reader', [], [], '', false);
         $this->viewFileSystem = $this->getMock('Magento\View\FileSystem', [], [], '', false);
         if ($fallback) {
@@ -75,7 +71,6 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Publisher\FileAbstract',
             [
                 'filesystem' => $this->filesystemMock,
-                'viewService' => $this->serviceMock,
                 'modulesReader' => $this->readerMock,
                 'viewFileSystem' => $this->viewFileSystem,
                 'path' => $this->path,

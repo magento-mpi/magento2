@@ -47,9 +47,9 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     protected $_arrayInputTypes = array();
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\Core\Model\LocaleInterface
@@ -67,7 +67,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
      */
     public function __construct(Context $context, array $data = array())
     {
-        $this->_assetService = $context->getAssetService();
+        $this->_assetRepo = $context->getAssetRepository();
         $this->_locale = $context->getLocale();
         $this->_layout = $context->getLayout();
 
@@ -586,7 +586,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
      */
     public function getAddLinkHtml()
     {
-        $src = $this->_assetService->getAssetUrl('images/rule_component_add.gif');
+        $src = $this->_assetRepo->getUrl('images/rule_component_add.gif');
         $html = '<img src="' . $src . '" class="rule-param-add v-middle" alt="" title="'
             . __('Add') . '"/>';
         return $html;
@@ -597,7 +597,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
      */
     public function getRemoveLinkHtml()
     {
-        $src = $this->_assetService->getAssetUrl('images/rule_component_remove.gif');
+        $src = $this->_assetRepo->getUrl('images/rule_component_remove.gif');
         $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="'
             . __('Remove') . '"><img src="' . $src
             . '"  alt="" class="v-middle" /></a></span>';

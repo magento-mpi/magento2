@@ -10,7 +10,10 @@ namespace Magento\View\Asset;
 
 use \Magento\UrlInterface;
 
-class Service
+/**
+ * A repository service for view assets
+ */
+class Repository
 {
     /**
      * @var \Magento\UrlInterface
@@ -33,29 +36,29 @@ class Service
     private $themeProvider;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\FileId\Source
      */
-    private $viewService;
+    private $assetSource;
 
     /**
      * @param \Magento\UrlInterface $baseUrl
      * @param PathGenerator $pathGenerator
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Design\Theme\Provider $themeProvider
-     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\Asset\FileId\Source $assetSource
      */
     public function __construct(
         \Magento\UrlInterface $baseUrl,
         PathGenerator $pathGenerator,
         \Magento\View\DesignInterface $design,
         \Magento\View\Design\Theme\Provider $themeProvider,
-        \Magento\View\Service $viewService
+        \Magento\View\Asset\FileId\Source $assetSource
     ) {
         $this->baseUrl = $baseUrl;
         $this->pathGenerator = $pathGenerator;
         $this->design = $design;
         $this->themeProvider = $themeProvider;
-        $this->viewService = $viewService;
+        $this->assetSource = $assetSource;
     }
 
     /**
@@ -149,7 +152,7 @@ class Service
         }
         return new FileId(
             $this->pathGenerator,
-            $this->viewService,
+            $this->assetSource,
             $fileId,
             $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure)),
             $params['area'],
@@ -192,7 +195,7 @@ class Service
      * @param string $fileId
      * @return string
      */
-    public function getAssetUrl($fileId)
+    public function getUrl($fileId)
     {
         $asset = $this->createAsset($fileId);
         return $asset->getUrl();
@@ -201,14 +204,14 @@ class Service
     /**
      * A getter for static view file URL with special parameters
      *
-     * To omit parameters and have them automatically determined from application state, use getAssetUrl()
+     * To omit parameters and have them automatically determined from application state, use getUrl()
      *
      * @param string $fileId
      * @param array $params
      * @return string
-     * @see getAssetUrl()
+     * @see getUrl()
      */
-    public function getAssetUrlWithParams($fileId, array $params)
+    public function getUrlWithParams($fileId, array $params)
     {
         $asset = $this->createAsset($fileId, $params);
         return $asset->getUrl();

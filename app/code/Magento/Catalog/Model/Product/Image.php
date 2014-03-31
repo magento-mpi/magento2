@@ -128,9 +128,9 @@ class Image extends \Magento\Core\Model\AbstractModel
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\View\FileSystem
@@ -173,7 +173,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Image\Factory $imageFactory
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -188,7 +188,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\App\Filesystem $filesystem,
         \Magento\Image\Factory $imageFactory,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -202,7 +202,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_mediaDirectory->create($this->_catalogProductMediaConfig->getBaseMediaPath());
         $this->_imageFactory = $imageFactory;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -673,7 +673,7 @@ class Image extends \Magento\Core\Model\AbstractModel
     public function getUrl()
     {
         if ($this->_newFile === true) {
-            $url = $this->_assetService->getAssetUrl(
+            $url = $this->_assetRepo->getUrl(
                 "Magento_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
             );
         } else {

@@ -18,17 +18,17 @@ class CssTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $this->getMock('\Magento\View\Element\Template\Context', array(), array(), '', false );
-        $this->_assetService = $this->getMock('\Magento\View\Asset\Service', array(), array(), '', false );
+        $this->_assetRepo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false );
 
         $context->expects($this->once())
-            ->method('getAssetService')
-            ->will($this->returnValue($this->_assetService));
+            ->method('getAssetRepository')
+            ->will($this->returnValue($this->_assetRepo));
 
         $this->_block = $objectManagerHelper->getObject(
             '\Magento\Theme\Block\Html\Head\Css',
@@ -47,7 +47,7 @@ class CssTest extends \PHPUnit_Framework_TestCase
     {
         $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false );
 
-        $this->_assetService->expects($this->once())
+        $this->_assetRepo->expects($this->once())
             ->method('createAsset')
             ->with('fileValue')
             ->will($this->returnValue($asset));

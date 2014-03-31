@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Service\PreProcessing;
+namespace Magento\View\Asset\FileId\Source;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Service\PreProcessing\CacheStorage|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\FileId\Source\CacheType|\PHPUnit_Framework_MockObject_MockObject
      */
     private $cacheStorage;
 
@@ -26,14 +26,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     private $directory;
 
     /**
-     * @var \Magento\View\Service\PreProcessing\Cache
+     * @var \Magento\View\Asset\FileId\Source\Cache
      */
     private $object;
 
     protected function setUp()
     {
         $this->cacheStorage = $this->getMock(
-            'Magento\View\Service\PreProcessing\CacheStorage', array(), array(), '', false
+            'Magento\View\Asset\FileId\Source\CacheType', array(), array(), '', false
         );
         $this->sourceDir = $this->getMockForAbstractClass('Magento\Filesystem\Directory\ReadInterface');
         $this->sourceDir->expects($this->any())
@@ -41,7 +41,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
         $this->directory = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
 
-        $this->object = new \Magento\View\Service\PreProcessing\Cache(
+        $this->object = new Cache(
             $this->cacheStorage, $this->sourceDir, ['%tmp%' => $this->directory]
         );
     }
@@ -53,7 +53,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testConstructorException()
     {
         $directories = ['string'];
-        new \Magento\View\Service\PreProcessing\Cache($this->cacheStorage, $this->sourceDir, $directories);
+        new Cache($this->cacheStorage, $this->sourceDir, $directories);
     }
 
     public function testGetProcessedFileFromCache()

@@ -6,15 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\View;
+namespace Magento\View\Asset\FileId;
 
-class ServiceTest extends \PHPUnit_Framework_TestCase
+class SourceTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $appState;
-
     /**
      * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -46,9 +41,9 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     private $staticDirWrite;
 
     /**
-     * @var \Magento\View\Service\PreProcessing\Cache|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\FileId\Source\Cache|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $cachePreProcessing;
+    private $cache;
 
     /**
      * @var \Magento\View\Asset\PreProcessor\Factory|\PHPUnit_Framework_MockObject_MockObject
@@ -66,15 +61,14 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     private $theme;
 
     /**
-     * @var \Magento\View\Service
+     * @var Source
      */
     private $object;
 
     protected function setUp()
     {
-        $this->appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->cachePreProcessing = $this->getMock(
-            'Magento\View\Service\PreProcessing\Cache', array(), array(), '', false
+        $this->cache = $this->getMock(
+            'Magento\View\Asset\FileId\Source\Cache', array(), array(), '', false
         );
         $this->preprocessorFactory = $this->getMock(
             'Magento\View\Asset\PreProcessor\Factory', array(), array(), '', false
@@ -84,10 +78,10 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
 
-        $cacheFactory = $this->getMock('Magento\View\Service\PreProcessing\CacheFactory', array(), array(), '', false);
+        $cacheFactory = $this->getMock('Magento\View\Asset\FileId\Source\CacheFactory', array(), array(), '', false);
         $cacheFactory->expects($this->once())
             ->method('create')
-            ->will($this->returnValue($this->cachePreProcessing));
+            ->will($this->returnValue($this->cache));
 
         $themeProvider = $this->getMock('Magento\View\Design\Theme\Provider', array(), array(), '', false);
         $themeProvider->expects($this->any())
@@ -97,42 +91,13 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->initFilesystem();
 
-        $this->object = new \Magento\View\Service(
+        $this->object = new Source(
             $cacheFactory,
-            $this->appState,
             $this->filesystem,
             $this->preprocessorFactory,
             $this->viewFileResolution,
             $themeProvider
         );
-    }
-
-    /**
-     * @param string $mode
-     * @param bool $expected
-     *
-     * @dataProvider isPublishingDisallowedDataProvider
-     */
-    public function testIsPublishingDisallowed($mode, $expected)
-    {
-        $this->appState->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue($mode));
-        $actual = $this->object->isPublishingDisallowed();
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * @return array
-     */
-    public function isPublishingDisallowedDataProvider()
-    {
-        return [
-            'developer mode'   => [\Magento\App\State::MODE_DEVELOPER, true],
-            'default mode'     => [\Magento\App\State::MODE_DEFAULT, false],
-            'production mode'  => [\Magento\App\State::MODE_PRODUCTION, false],
-            'nonexistent mode' => ['nonexistent', false],
-        ];
     }
 
     public function testGetSourceFileNoOriginalFile()
@@ -152,7 +117,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getViewFile')
             ->with('frontend', $this->theme, 'en_US', 'some/file.ext', 'Magento_Module')
             ->will($this->returnValue($originalFile));
-        $this->cachePreProcessing->expects($this->once())
+        $this->cache->expects($this->once())
             ->method('getProcessedFileFromCache')
             ->with($originalFile)
             ->will($this->returnValue($expected));
@@ -192,7 +157,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             ->method('writeFile')
             ->with('view_preprocessed/some/file.ext', $updatedContent);
 
-        $this->cachePreProcessing->expects($this->once())
+        $this->cache->expects($this->once())
             ->method('saveProcessedFileToCache')
             ->with($expected, $originalFile);
 
@@ -219,54 +184,12 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->varDir->expects($this->never())
             ->method('writeFile');
 
-        $this->cachePreProcessing->expects($this->once())
+        $this->cache->expects($this->once())
             ->method('saveProcessedFileToCache')
             ->with($originalFile, $originalFile);
 
         $actual = $this->object->getSourceFile($asset);
         $this->assertSame($originalFile, $actual);
-    }
-
-    public function testPublishNotAllowed()
-    {
-        $this->appState->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_DEVELOPER));
-        $this->assertFalse($this->object->publish($this->getAsset()));
-    }
-
-    public function testPublishExistsBefore()
-    {
-        $this->appState->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_PRODUCTION));
-        $this->staticDirRead->expects($this->once())
-            ->method('isExist')
-            ->with('some/file.ext')
-            ->will($this->returnValue(true));
-        $this->assertTrue($this->object->publish($this->getAsset()));
-    }
-
-    public function testPublish()
-    {
-        $this->appState->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_PRODUCTION));
-        $this->staticDirRead->expects($this->once())
-            ->method('isExist')
-            ->with('some/file.ext')
-            ->will($this->returnValue(false));
-
-        $this->rootDirWrite->expects($this->once())
-            ->method('getRelativePath')
-            ->with('/root/some/file.ext')
-            ->will($this->returnValue('some/file.ext'));
-        $this->rootDirWrite->expects($this->once())
-            ->method('copyFile')
-            ->with('some/file.ext', 'some/file.ext', $this->staticDirWrite)
-            ->will($this->returnValue(true));
-
-        $this->assertTrue($this->object->publish($this->getAsset()));
     }
 
     protected function initFilesystem()
@@ -310,7 +233,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getViewFile')
             ->with('frontend', $this->theme, 'en_US', 'some/file.ext', 'Magento_Module')
             ->will($this->returnValue($originalFile));
-        $this->cachePreProcessing->expects($this->once())
+        $this->cache->expects($this->once())
             ->method('getProcessedFileFromCache')
             ->with($originalFile)
             ->will($this->returnValue(false));
@@ -355,9 +278,6 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $asset->expects($this->any())
             ->method('getRelativePath')
             ->will($this->returnValue('some/file.ext'));
-        $asset->expects($this->any())
-            ->method('getSourceFile')
-            ->will($this->returnValue('/root/some/file.ext'));
         $asset->expects($this->any())
             ->method('getModule')
             ->will($this->returnValue('Magento_Module'));

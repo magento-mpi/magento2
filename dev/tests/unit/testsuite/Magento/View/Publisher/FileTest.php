@@ -21,9 +21,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
-    /** @var \Magento\View\Service|\PHPUnit_Framework_MockObject_MockObject */
-    protected $serviceMock;
-
     /** @var \Magento\Module\Dir\Reader|\PHPUnit_Framework_MockObject_MockObject */
     protected $readerMock;
 
@@ -78,7 +75,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ->method('getPath')
             ->with($this->anything())
             ->will($this->returnCallback(array($this, 'getPathCallback')));
-        $this->serviceMock = $this->getMock('Magento\View\Service', [], [], '', false);
         $this->readerMock = $this->getMock('Magento\Module\Dir\Reader', [], [], '', false);
         $this->viewFileSystem = $this->getMock('Magento\View\FileSystem', [], [], '', false);
 
@@ -99,7 +95,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Publisher\File',
             [
                 'filesystem' => $this->filesystemMock,
-                'viewService' => $this->serviceMock,
                 'modulesReader' => $this->readerMock,
                 'viewFileSystem' => $this->viewFileSystem,
                 'path' => $this->path,

@@ -31,9 +31,9 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
     private $rootDirectory;
 
     /**
-     * @var \Magento\View\Service|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\FileId\Source|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $viewService;
+    private $assetSource;
 
     /**
      * @var \Magento\Less\FileGenerator
@@ -61,13 +61,13 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryRead')
             ->with(\Magento\App\Filesystem::ROOT_DIR)
             ->will($this->returnValue($this->rootDirectory));
-        $this->viewService = $this->getMock('\Magento\View\Service', array(), array(), '', false);
+        $this->assetSource = $this->getMock('\Magento\View\Asset\FileId\Source', array(), array(), '', false);
         $this->magentoImport = $this->getMock(
             '\Magento\Less\PreProcessor\Instruction\MagentoImport', array(), array(), '', false
         );
         $this->import = $this->getMock('\Magento\Less\PreProcessor\Instruction\Import', array(), array(), '', false);
         $this->object = new \Magento\Less\FileGenerator(
-            $filesystem, $this->viewService, $this->magentoImport, $this->import
+            $filesystem, $this->assetSource, $this->magentoImport, $this->import
         );
     }
 
@@ -121,7 +121,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->method('getRelatedFiles')
             ->will($this->returnValue([]));
 
-        $this->viewService->expects($this->exactly(2))
+        $this->assetSource->expects($this->exactly(2))
             ->method('getSourceFile')
             ->will($this->returnCallback(function (\Magento\View\Asset\FileId $asset) {
                 return $asset->getRelativePath();

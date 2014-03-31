@@ -29,9 +29,9 @@ class Merged implements \Iterator
     private $appFileSystem;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    private $assetService;
+    private $assetRepo;
 
     /**
      * @var MergeableInterface[]
@@ -52,7 +52,7 @@ class Merged implements \Iterator
      * @param \Magento\Logger $logger
      * @param MergeStrategyInterface $mergeStrategy
      * @param \Magento\App\Filesystem $appFileSystem
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param array $assets
      * @throws \InvalidArgumentException
      */
@@ -60,13 +60,13 @@ class Merged implements \Iterator
         \Magento\Logger $logger,
         MergeStrategyInterface $mergeStrategy,
         \Magento\App\Filesystem $appFileSystem,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         array $assets
     ) {
         $this->logger = $logger;
         $this->mergeStrategy = $mergeStrategy;
         $this->appFileSystem = $appFileSystem;
-        $this->assetService = $assetService;
+        $this->assetRepo = $assetRepo;
 
         if (!$assets) {
             throw new \InvalidArgumentException('At least one asset has to be passed for merging.');
@@ -124,7 +124,7 @@ class Merged implements \Iterator
         $paths = array_unique($paths);
         $filePath = self::getRelativeDir() . '/' . md5(implode('|', $paths)) . '.' . $this->contentType;
         $sourceFile = $this->appFileSystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/' . $filePath;
-        return $this->assetService->createFileAsset($filePath, $sourceFile);
+        return $this->assetRepo->createFileAsset($filePath, $sourceFile);
     }
 
     /**

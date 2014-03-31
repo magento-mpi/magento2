@@ -71,7 +71,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $session = $objectManager->get('Magento\Backend\Model\Session');
         $backendUrl = $objectManager->get('Magento\Backend\Model\UrlInterface');
         $imageFactory = $objectManager->get('Magento\Image\AdapterFactory');
-        $assetService = $objectManager->get('Magento\View\Asset\Service');
+        $assetRepo = $objectManager->get('Magento\View\Asset\Repository');
         $imageHelper = $objectManager->get('Magento\Cms\Helper\Wysiwyg\Images');
         $coreFileStorageDb = $objectManager->get('Magento\Core\Helper\File\Storage\Database');
         $storageCollectionFactory = $objectManager->get('Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory');
@@ -87,7 +87,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             $coreFileStorageDb,
             $filesystem,
             $imageFactory,
-            $assetService,
+            $assetRepo,
             $storageCollectionFactory,
             $storageFileFactory,
             $storageDatabaseFactory,

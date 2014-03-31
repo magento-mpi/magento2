@@ -20,9 +20,9 @@ namespace Magento\Core\Model\Variable;
 class Config
 {
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\Backend\Model\UrlInterface
@@ -30,12 +30,12 @@ class Config
     protected $_url;
 
     /**
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Backend\Model\UrlInterface $url
      */
-    public function __construct(\Magento\View\Asset\Service $assetService, \Magento\Backend\Model\UrlInterface $url)
+    public function __construct(\Magento\View\Asset\Repository $assetRepo, \Magento\Backend\Model\UrlInterface $url)
     {
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         $this->_url = $url;
     }
 
@@ -74,7 +74,7 @@ class Config
     public function getWysiwygJsPluginSrc()
     {
         $editorPluginJs = 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
-        return $this->_assetService->getAssetUrl($editorPluginJs);
+        return $this->_assetRepo->getUrl($editorPluginJs);
     }
 
     /**

@@ -23,22 +23,22 @@ class FileSystem
     /**
      * View service
      *
-     * @var Asset\Service
+     * @var Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * Constructor
      *
      * @param \Magento\View\Design\FileResolution\Fallback $fallback
-     * @param Asset\Service $assetService
+     * @param Asset\Repository $assetRepo
      */
     public function __construct(
         Design\FileResolution\Fallback $fallback,
-        Asset\Service $assetService
+        Asset\Repository $assetRepo
     ) {
         $this->_viewFileResolution = $fallback;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
     }
 
     /**
@@ -50,8 +50,8 @@ class FileSystem
      */
     public function getFilename($fileId, array $params = array())
     {
-        $filePath = $this->_assetService->extractScope($this->normalizePath($fileId), $params);
-        $this->_assetService->updateDesignParams($params);
+        $filePath = $this->_assetRepo->extractScope($this->normalizePath($fileId), $params);
+        $this->_assetRepo->updateDesignParams($params);
         return $this->_viewFileResolution
             ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
     }
@@ -65,7 +65,7 @@ class FileSystem
      */
     public function getLocaleFileName($file, array $params = array())
     {
-        $this->_assetService->updateDesignParams($params);
+        $this->_assetRepo->updateDesignParams($params);
         return $this->_viewFileResolution
             ->getLocaleFile($params['area'], $params['themeModel'], $params['locale'], $file);
     }
@@ -79,7 +79,7 @@ class FileSystem
      */
     public function getViewFile($fileId, array $params = array())
     {
-        $asset = $this->_assetService->createAsset($fileId, $params);
+        $asset = $this->_assetRepo->createAsset($fileId, $params);
         return $asset->getSourceFile();
     }
 

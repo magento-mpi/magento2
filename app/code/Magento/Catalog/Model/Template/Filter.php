@@ -36,9 +36,9 @@ class Filter extends \Magento\Filter\Template
     protected $_useSessionInUrl = false;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * Store manager
@@ -50,17 +50,17 @@ class Filter extends \Magento\Filter\Template
     /**
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param array $variables
      */
     public function __construct(
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         $variables = array()
     ) {
         $this->_storeManager = $storeManager;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         parent::__construct($string, $variables);
     }
 
@@ -113,7 +113,7 @@ class Filter extends \Magento\Filter\Template
          * To fix the issue, it is better not to maintain the _absolute parameter anymore in undrelying services,
          * but instead just create a different type of directive, for example {{baseUrl path="favicon.ico"}}
          */
-        $url = $this->_assetService->getAssetUrlWithParams($params['url'], $params);
+        $url = $this->_assetRepo->getUrlWithParams($params['url'], $params);
 
         return $url;
     }

@@ -110,7 +110,7 @@ class Daterange
     public function getValueAfterElementHtml()
     {
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . $this->_assetService->getAssetUrl('images/rule_chooser_trigger.gif')
+            . $this->_assetRepo->getUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger"'
             . 'title="' . __('Open Chooser') . '" /></a>';
     }

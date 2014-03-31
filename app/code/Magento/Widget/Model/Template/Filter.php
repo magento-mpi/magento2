@@ -29,7 +29,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -43,7 +43,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         \Magento\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -59,7 +59,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
             $string,
             $logger,
             $escaper,
-            $assetService,
+            $assetRepo,
             $coreStoreConfig,
             $coreVariableFactory,
             $storeManager,

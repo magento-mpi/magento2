@@ -23,9 +23,9 @@ class Js extends \Magento\App\Helper\AbstractHelper
     protected $_translateData = null;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * Core data
@@ -37,16 +37,16 @@ class Js extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Asset\Service $assetService
+        \Magento\View\Asset\Repository $assetRepo
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context);
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
     }
 
     /**
@@ -89,7 +89,7 @@ class Js extends \Magento\App\Helper\AbstractHelper
      */
     public function includeScript($file)
     {
-        return '<script type="text/javascript" src="' . $this->_assetService->getAssetUrl($file) . '"></script>' . "\n";
+        return '<script type="text/javascript" src="' . $this->_assetRepo->getUrl($file) . '"></script>' . "\n";
     }
 
     /**

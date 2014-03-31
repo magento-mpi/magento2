@@ -14,22 +14,6 @@ namespace Magento\GiftCard\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * List of block injection classes
-     *
-     * @var array
-     */
-    protected $_blockInjections = array(
-        'Magento\Core\Model\Context',
-        'Magento\Core\Model\Registry',
-        'Magento\App\Filesystem',
-        'Magento\View\Service',
-        'Magento\View\FileSystem',
-        'Magento\Core\Model\View\Design',
-        'Magento\Core\Model\Store\Config',
-        'Magento\Email\Model\Template\Config',
-    );
-
-    /**
      * @magentoConfigFixture current_store giftcard/general/order_item_status 2
      * @magentoDataFixture Magento/GiftCard/_files/gift_card.php
      * @magentoDataFixture Magento/GiftCard/_files/order_with_gift_card.php
@@ -55,7 +39,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->get('Magento\App\Filesystem'),
-                $objectManager->get('Magento\View\Asset\Service'),
+                $objectManager->get('Magento\View\Asset\Repository'),
                 $objectManager->get('Magento\View\FileSystem'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\App\ConfigInterface'),
@@ -95,20 +79,5 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $options = $orderItem->getProductOptions();
         $this->assertEquals($expectedEmpty, empty($options['email_sent']));
         $this->assertEquals($expectedEmpty, empty($options['giftcard_created_codes']));
-    }
-
-    /**
-     * List of block constructor arguments
-     *
-     * @return array
-     */
-    protected function _prepareConstructorArguments()
-    {
-        $arguments = array();
-        foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create($injectionClass);
-        }
-        return $arguments;
     }
 }

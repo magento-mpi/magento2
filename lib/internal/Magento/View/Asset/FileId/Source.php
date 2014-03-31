@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\View;
+namespace Magento\View\Asset\FileId;
+
+use \Magento\View\Asset;
 
 /**
- * A repository for view assets
- *
- * @see \Magento\View\Asset\AssetInterface
+ * A source file locator service for view assets
  */
-class Service implements Asset\SourceFileInterface, Asset\PublishInterface
+class Source implements Asset\SourceFileInterface
 {
     /**
      * A suffix for temporary materialization directory where pre-processed files will be written (if necessary)
@@ -28,19 +28,9 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     /**#@-*/
 
     /**
-     * @var Service\PreProcessing\Cache
+     * @var \Magento\View\Asset\FileId\Source\Cache
      */
     protected $cachePreProcessing;
-
-    /**
-     * @var \Magento\App\State
-     */
-    protected $appState;
-
-    /**
-     * @var \Magento\App\Filesystem
-     */
-    protected $filesystem;
 
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
@@ -68,25 +58,21 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     protected $themeProvider;
 
     /**
-     * @param Service\PreProcessing\CacheFactory $cacheFactory
-     * @param \Magento\App\State $appState
+     * @param \Magento\View\Asset\FileId\Source\CacheFactory $cacheFactory
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory
      * @param \Magento\View\Design\FileResolution\Fallback $viewFileResolution
-     * @param Design\Theme\Provider $themeProvider
+     * @param \Magento\View\Design\Theme\Provider $themeProvider
      */
     public function __construct(
-        \Magento\View\Service\PreProcessing\CacheFactory $cacheFactory,
-        \Magento\App\State $appState,
+        Source\CacheFactory $cacheFactory,
         \Magento\App\Filesystem $filesystem,
-        Asset\PreProcessor\Factory $preprocessorFactory,
-        Design\FileResolution\Fallback $viewFileResolution,
+        \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory,
+        \Magento\View\Design\FileResolution\Fallback $viewFileResolution,
         \Magento\View\Design\Theme\Provider $themeProvider
     ) {
-        $this->appState = $appState;
-        $this->filesystem = $filesystem;
-        $this->rootDir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->varDir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->rootDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->varDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $this->cachePreProcessing = $cacheFactory->create(
             $this->rootDir,
             array(
@@ -97,16 +83,6 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
         $this->preprocessorFactory = $preprocessorFactory;
         $this->viewFileResolution = $viewFileResolution;
         $this->themeProvider = $themeProvider;
-    }
-
-    /**
-     * Whether it is prohibited publishing view assets
-     *
-     * @return bool
-     */
-    public function isPublishingDisallowed()
-    {
-        return $this->appState->getMode() === \Magento\App\State::MODE_DEVELOPER;
     }
 
     /**
@@ -176,35 +152,5 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
             $this->cachePreProcessing->saveProcessedFileToCache($processedFile, $sourceFile);
         }
         return $processedFile;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function publish(Asset\LocalInterface $asset)
-    {
-        if ($this->isPublishingDisallowed()) {
-            return false;
-        }
-        $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        if ($dir->isExist($asset->getRelativePath())) {
-            return true;
-        }
-        return $this->publishAsset($asset);
-    }
-
-    /**
-     * Publish the asset
-     *
-     * @param Asset\LocalInterface $asset
-     * @return bool
-     */
-    private function publishAsset(Asset\LocalInterface $asset)
-    {
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        $rootDir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
-        $source = $rootDir->getRelativePath($asset->getSourceFile());
-        $destination = $asset->getRelativePath();
-        return $rootDir->copyFile($source, $destination, $dir);
     }
 }

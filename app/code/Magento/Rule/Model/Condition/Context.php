@@ -15,9 +15,9 @@ namespace Magento\Rule\Model\Condition;
 class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\Core\Model\LocaleInterface
@@ -40,20 +40,20 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\View\LayoutInterface $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
         \Magento\Logger $logger
     ) {
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         $this->_locale = $locale;
         $this->_layout = $layout;
         $this->_conditionFactory = $conditionFactory;
@@ -61,11 +61,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\View\Asset\Service
+     * @return \Magento\View\Asset\Repository
      */
-    public function getAssetService()
+    public function getAssetRepository()
     {
-        return $this->_assetService;
+        return $this->_assetRepo;
     }
 
     /**

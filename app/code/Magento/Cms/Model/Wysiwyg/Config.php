@@ -32,9 +32,9 @@ class Config extends \Magento\Object
     protected $_authorization;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\Core\Model\Variable\Config
@@ -82,7 +82,7 @@ class Config extends \Magento\Object
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Cms\Helper\Data $cmsData
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -94,7 +94,7 @@ class Config extends \Magento\Object
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Cms\Helper\Data $cmsData,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
@@ -106,7 +106,7 @@ class Config extends \Magento\Object
         $this->_cmsData = $cmsData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         $this->_variableConfig = $variableConfig;
         $this->_widgetConfig = $widgetConfig;
         $this->_windowSize = $windowSize;
@@ -143,10 +143,10 @@ class Config extends \Magento\Object
             'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
             'directives_url'                => $this->_backendUrl->getUrl('cms/wysiwyg/directive'),
-            'popup_css'                     => $this->_assetService->getAssetUrl(
+            'popup_css'                     => $this->_assetRepo->getUrl(
                 'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'
             ),
-            'content_css'                   => $this->_assetService->getAssetUrl(
+            'content_css'                   => $this->_assetRepo->getUrl(
                 'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'
             ),
             'width'                         => '100%',
@@ -188,7 +188,7 @@ class Config extends \Magento\Object
      */
     public function getSkinImagePlaceholderUrl()
     {
-        return $this->_assetService->getAssetUrl('Magento_Cms::images/wysiwyg_skin_image.png');
+        return $this->_assetRepo->getUrl('Magento_Cms::images/wysiwyg_skin_image.png');
     }
 
     /**

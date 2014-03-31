@@ -275,7 +275,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
                 $items[$params][] = $mergeCallback ? $this->_viewFileSystem->getFilename($name)
-                    : $this->_assetService->getAssetUrl($name);
+                    : $this->_assetRepo->getUrl($name);
             }
         }
 

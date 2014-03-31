@@ -25,14 +25,14 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     private $request;
 
     /**
-     * @var \Magento\View\Service|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\View\Asset\Publisher|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $viewService;
+    private $publisher;
 
     /**
-     * @var \Magento\View\Asset\Service|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $assetService;
+    private $assetRepo;
 
     /**
      * @var \Magento\Module\ModuleList|\PHPUnit_Framework_MockObject_MockObject
@@ -59,8 +59,8 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->state = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->response = $this->getMockForAbstractClass('Magento\App\Response\FileInterface');
         $this->request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
-        $this->viewService = $this->getMock('Magento\View\Service', array(), array(), '', false);
-        $this->assetService = $this->getMock('Magento\View\Asset\Service', array(), array(), '', false);
+        $this->publisher = $this->getMock('Magento\App\View\Asset\Publisher', array(), array(), '', false);
+        $this->assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
         $this->moduleList = $this->getMock('Magento\Module\ModuleList', array(), array(), '', false);
         $this->objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
         $this->configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
@@ -68,8 +68,8 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
             $this->state,
             $this->response,
             $this->request,
-            $this->viewService,
-            $this->assetService,
+            $this->publisher,
+            $this->assetRepo,
             $this->moduleList,
             $this->objectManager,
             $this->configLoader
@@ -130,11 +130,11 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($moduleExists));
         $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
         $asset->expects($this->once())->method('getSourceFile')->will($this->returnValue('resource/file.css'));
-        $this->assetService->expects($this->once())
+        $this->assetRepo->expects($this->once())
             ->method('createAsset')
             ->with($expectedFile, $expectedParams)
             ->will($this->returnValue($asset));
-        $this->viewService->expects($this->once())->method('publish')->with($asset);
+        $this->publisher->expects($this->once())->method('publish')->with($asset);
         $this->response->expects($this->once())
             ->method('setFilePath')
             ->with('resource/file.css');

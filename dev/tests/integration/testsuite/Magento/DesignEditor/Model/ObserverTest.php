@@ -30,8 +30,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\View\Asset\Service $assetService */
-        $assetService = $objectManager->create('Magento\View\Asset\Service');
+        /** @var \Magento\View\Asset\Repository $assetRepo */
+        $assetRepo = $objectManager->create('Magento\View\Asset\Repository');
 
         /** @var $pageAssets \Magento\View\Asset\GroupedCollection */
         $pageAssets = $objectManager->get('Magento\View\Asset\GroupedCollection');
@@ -45,7 +45,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         foreach ($fixtureAssets as $asset) {
             $pageAssets->add(
-                $asset['file'], $assetService->createAsset($asset['file']), $asset['params']
+                $asset['file'], $assetRepo->createAsset($asset['file']), $asset['params']
             );
         }
 

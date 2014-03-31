@@ -23,22 +23,22 @@ class Theme extends \Magento\App\Helper\AbstractHelper
     protected $_layoutProcessorFactory;
 
     /**
-     * @var \Magento\View\Asset\Service
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_assetService;
+    protected $_assetRepo;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
-        \Magento\View\Asset\Service $assetService
+        \Magento\View\Asset\Repository $assetRepo
     ) {
         $this->_layoutProcessorFactory = $layoutProcessorFactory;
-        $this->_assetService = $assetService;
+        $this->_assetRepo = $assetRepo;
         parent::__construct($context);
     }
 
@@ -83,7 +83,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
         $result = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
-            $result[$fileId] = $this->_assetService->createAsset($fileId, $params);
+            $result[$fileId] = $this->_assetRepo->createAsset($fileId, $params);
         }
         ksort($result);
         return $result;

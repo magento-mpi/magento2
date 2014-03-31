@@ -19,13 +19,13 @@ class Collection extends AbstractAction
     protected $_actionFactory;
 
     /**
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ActionFactory $actionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\View\LayoutInterface $layout,
         \Magento\Rule\Model\ActionFactory $actionFactory,
         array $data = array()
@@ -33,7 +33,7 @@ class Collection extends AbstractAction
         $this->_actionFactory = $actionFactory;
         $this->_layout = $layout;
 
-        parent::__construct($assetService, $layout, $data);
+        parent::__construct($assetRepo, $layout, $data);
 
         $this->setActions(array());
         $this->setType('Magento\Rule\Model\Action\Collection');

@@ -28,7 +28,7 @@ class FileGenerator
     protected $rootDirectory;
 
     /**
-     * @var \Magento\View\Service
+     * @var \Magento\View\Asset\FileId\Source
      */
     private $viewService;
 
@@ -44,19 +44,19 @@ class FileGenerator
 
     /**
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\Asset\FileId\Source $assetSource
      * @param PreProcessor\Instruction\MagentoImport $magentoImportProcessor
      * @param PreProcessor\Instruction\Import $importProcessor
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Service $viewService,
+        \Magento\View\Asset\FileId\Source $assetSource,
         \Magento\Less\PreProcessor\Instruction\MagentoImport $magentoImportProcessor,
         \Magento\Less\PreProcessor\Instruction\Import $importProcessor
     ) {
         $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->viewService = $viewService;
+        $this->viewService = $assetSource;
         $this->magentoImportProcessor = $magentoImportProcessor;
         $this->importProcessor = $importProcessor;
     }
@@ -118,7 +118,7 @@ class FileGenerator
      */
     protected function createFile($relativePath, $contents)
     {
-        $filePath = \Magento\View\Service::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/' . $relativePath;
+        $filePath = FileId\Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/' . $relativePath;
         $this->tmpDirectory->writeFile($filePath, $contents);
         return $this->tmpDirectory->getAbsolutePath($filePath);
     }

@@ -14,18 +14,18 @@ namespace Magento\CatalogRule\Model\Rule\Action;
 class Collection extends \Magento\Rule\Model\Action\Collection
 {
     /**
-     * @param \Magento\View\Asset\Service $assetService
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ActionFactory $actionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Asset\Service $assetService,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\View\LayoutInterface $layout,
         \Magento\Rule\Model\ActionFactory $actionFactory,
         array $data = array()
     ) {
-        parent::__construct($assetService, $layout, $actionFactory, $data);
+        parent::__construct($assetRepo, $layout, $actionFactory, $data);
         $this->setType('Magento\CatalogRule\Model\Rule\Action\Collection');
     }
 

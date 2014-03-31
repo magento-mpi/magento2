@@ -263,9 +263,9 @@ abstract class FileAbstract implements FileInterface
         $this->modulesReader = $objectManager->get('\Magento\Module\Dir\Reader');
         $this->viewFileSystem = $objectManager->get('\Magento\View\FileSystem');
 
-        /** @var \Magento\View\Asset\Service $assetService */
-        $assetService = $objectManager->get('\Magento\View\Asset\Service');
-        $assetService->updateDesignParams($this->viewParams);
+        /** @var \Magento\View\Asset\Repository $assetRepo */
+        $assetRepo = $objectManager->get('\Magento\View\Asset\Repository');
+        $assetRepo->updateDesignParams($this->viewParams);
 
         $this->rootDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
     }
