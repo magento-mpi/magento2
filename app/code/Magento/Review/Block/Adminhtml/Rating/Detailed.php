@@ -31,7 +31,7 @@ class Detailed extends \Magento\Backend\Block\Template
      *
      * @var string
      */
-    protected $_template = 'Magento_Rating::rating/detailed.phtml';
+    protected $_template = 'Magento_Review::rating/detailed.phtml';
 
     /**
      * Core registry

@@ -21,7 +21,7 @@ class Summary extends \Magento\Backend\Block\Template
      *
      * @var string
      */
-    protected $_template = 'Magento_Rating::rating/stars/summary.phtml';
+    protected $_template = 'Magento_Review::rating/stars/summary.phtml';
 
     /**
      * Core registry

@@ -14,7 +14,7 @@ use Magento\Backend\App\Action;
 /**
  * Admin ratings controller
  */
-class Index extends \Magento\Backend\App\Action
+class Rating extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -140,7 +140,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You saved the rating.'));
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setRatingData(false);
 
-                $this->_redirect('rating/*/');
+                $this->_redirect('review/rating/');
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -149,11 +149,11 @@ class Index extends \Magento\Backend\App\Action
                 )->setRatingData(
                     $this->getRequest()->getPost()
                 );
-                $this->_redirect('rating/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('review/rating/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_redirect('rating/*/');
+        $this->_redirect('review/rating/');
     }
 
     /**
@@ -167,13 +167,13 @@ class Index extends \Magento\Backend\App\Action
                 /* @var $model \Magento\Rating\Model\Rating */
                 $model->load($this->getRequest()->getParam('id'))->delete();
                 $this->messageManager->addSuccess(__('You deleted the rating.'));
-                $this->_redirect('rating/*/');
+                $this->_redirect('review/rating/');
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('rating/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('review/rating/edit', array('id' => $this->getRequest()->getParam('id')));
             }
         }
-        $this->_redirect('rating/*/');
+        $this->_redirect('review/rating/');
     }
 
     /**
@@ -194,6 +194,6 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_Rating::ratings');
+        return $this->_authorization->isAllowed('Magento_Review::ratings');
     }
 }

@@ -28,7 +28,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             array(
                 'data' => array(
                     'id' => 'edit_form',
-                    'action' => $this->getUrl('rating/*/save', array('id' => $this->getRequest()->getParam('id'))),
+                    'action' => $this->getUrl('review/rating/save', array('id' => $this->getRequest()->getParam('id'))),
                     'method' => 'post'
                 )
             )
