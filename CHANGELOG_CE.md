@@ -1,3 +1,6 @@
+* Framework Improvements:
+  * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
+
 2.0.0.0-dev71
 =============
 * Fixed bugs:
