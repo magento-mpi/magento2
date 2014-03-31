@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +15,7 @@ use Magento\Pricing\Price\PriceInterface;
 use Magento\View\Element\AbstractBlock;
 
 /**
- * Render Factory
+ * RenderPool
  */
 class RendererPool extends AbstractBlock
 {
@@ -58,14 +60,14 @@ class RendererPool extends AbstractBlock
         $renderClassName = $this->findDataByPattern($pattern);
         if (!$renderClassName) {
             throw new \InvalidArgumentException(
-                $priceCode . ' isn\'t registered price type'
+                'Class name for price code "' . $priceCode . '" not registered'
             );
         }
 
         $price = $saleableItem->getPriceInfo()->getPrice($priceCode);
         if (!$price) {
             throw new \InvalidArgumentException(
-                $priceCode . ' is not registered Price Type'
+                'Price model for price code "' . $priceCode . '" not registered'
             );
         }
 
@@ -77,7 +79,7 @@ class RendererPool extends AbstractBlock
         $renderBlock = $this->getLayout()->createBlock($renderClassName, '', $arguments);
         if (!$renderBlock instanceof PriceBoxRenderInterface) {
             throw new \InvalidArgumentException(
-                $renderBlock . ' doesn\'t implement \Magento\Pricing\Render\PriceBoxRenderInterface'
+                'Block "' . $renderClassName . '" must implement \Magento\Pricing\Render\PriceBoxRenderInterface'
             );
         }
         $renderBlock->setTemplate($this->getRenderBlockTemplate($type, $priceCode));
@@ -100,16 +102,15 @@ class RendererPool extends AbstractBlock
         PriceInterface $price = null,
         array $data = []
     ) {
-        if ($saleableItem === null) {
-            $type = self::DEFAULT_PRICE_GROUP_TYPE;
-        } else {
+        $type = self::DEFAULT_PRICE_GROUP_TYPE;
+        if ($saleableItem) {
             $type = $saleableItem->getTypeId();
         }
 
-        if (!$price) {
-            $priceCode = null;
-            $renderClassName = self::AMOUNT_RENDERER_DEFAULT;
-        } else {
+        $priceCode = null;
+        $renderClassName = self::AMOUNT_RENDERER_DEFAULT;
+
+        if ($price) {
             $priceCode = $price->getPriceType();
             // implement class resolving fallback
             $pattern = [
@@ -121,7 +122,7 @@ class RendererPool extends AbstractBlock
             $renderClassName = $this->findDataByPattern($pattern);
             if (!$renderClassName) {
                 throw new \InvalidArgumentException(
-                    "There is no amount render class registered for '{$priceCode}' price type"
+                    'There is no amount render class for price code "' . $priceCode . '"'
                 );
             }
         }
@@ -140,7 +141,7 @@ class RendererPool extends AbstractBlock
         $amountBlock = $this->getLayout()->createBlock($renderClassName, '', $arguments);
         if (!$amountBlock instanceof AmountRenderInterface) {
             throw new \InvalidArgumentException(
-                $renderClassName . ' doesn\'t implement \Magento\Pricing\Render\AmountRenderInterface'
+                'Block "' . $renderClassName . '" must implement \Magento\Pricing\Render\AmountRenderInterface'
             );
         }
         $amountBlock->setTemplate($this->getAmountRenderBlockTemplate($type, $priceCode));
@@ -153,12 +154,33 @@ class RendererPool extends AbstractBlock
     public function getAdjustmentRenders()
     {
         $renders = [];
-        foreach ($this->getData('default/adjustments') as $code => $configuration) {
-            $render = $this->getLayout()->createBlock($configuration['adjustment_render_class']);
-            $render->setTemplate($configuration['adjustment_render_template']);
+        $data = (array)$this->getData('default/adjustments');
+        foreach ($data as $code => $config) {
+            list($class, $template) = $this->validateAdjustmentConfig($code, (array)$config);
+            $render = $this->getLayout()->createBlock($class);
+            $render->setTemplate($template);
             $renders[$code] = $render;
         }
         return $renders;
+    }
+
+    /**
+     * @param string $code
+     * @param array $config
+     * @return array
+     * @throws \Exception
+     */
+    protected function validateAdjustmentConfig($code, array $config)
+    {
+        $class = isset($config['adjustment_render_class']) ? $config['adjustment_render_class'] : false;
+        if (!$class) {
+            throw new \InvalidArgumentException('Adjustment class for code "' . $code . '" not declared');
+        }
+        $template = isset($config['adjustment_render_template']) ? $config['adjustment_render_template'] : false;
+        if (!$template) {
+            throw new \InvalidArgumentException('Adjustment template for code "' . $code . '" not declared');
+        }
+        return [$class, $template];
     }
 
     /**
@@ -178,7 +200,7 @@ class RendererPool extends AbstractBlock
         $template = $this->findDataByPattern($pattern);
         if (!$template) {
             throw new \InvalidArgumentException(
-                $type . ' amount render block isn\'t configured properly'
+                'For type "'. $type . '" amount render block not configured'
             );
         }
         return $template;
@@ -201,7 +223,7 @@ class RendererPool extends AbstractBlock
         $template = $this->findDataByPattern($pattern);
         if (!$template) {
             throw new \InvalidArgumentException(
-                $priceCode . ' render block isn\'t configured properly'
+                'Price code "' . $priceCode . '" render block not configured'
             );
         }
         return $template;
@@ -211,7 +233,7 @@ class RendererPool extends AbstractBlock
      * @param array $pattern
      * @return null|string
      */
-    protected function findDataByPattern($pattern)
+    protected function findDataByPattern(array $pattern)
     {
         $data = null;
         foreach ($pattern as $key) {
