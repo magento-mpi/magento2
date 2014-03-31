@@ -367,20 +367,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $newLinkToken = $this->_mathRandom->getUniqueHash();
         $customerModel->changeResetPasswordLinkToken($newLinkToken);
         $this->_sendEmailConfirmation($customerModel, $customer, $redirectUrl);
-
-        if ($customerModel->isConfirmationRequired()) {
-            $customerModel->sendNewAccountEmail(
-                self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
-                $redirectUrl,
-                $customer->getStoreId()
-            );
-        } else {
-            $customerModel->sendNewAccountEmail(
-                self::NEW_ACCOUNT_EMAIL_REGISTERED,
-                $redirectUrl,
-                $customer->getStoreId()
-            );
-        }
     }
 
     /**
