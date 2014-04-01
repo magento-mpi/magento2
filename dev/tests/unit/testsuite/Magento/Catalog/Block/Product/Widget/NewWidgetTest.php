@@ -42,7 +42,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
         $this->block = null;
     }
 
-    public function testGetProductPrice()
+    public function testGetProductPriceHtml()
     {
         $id = 6;
         $expectedHtml = '
