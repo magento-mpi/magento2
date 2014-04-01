@@ -139,19 +139,21 @@ class Config
         foreach ($this->_config->getServices()[Converter::KEY_ROUTES] as $url => $httpMethods) {
             // skip if baseurl is not null and does not match
             if (!$serviceBaseUrl || strpos(trim($url, '/'), trim($serviceBaseUrl, '/')) !== 0) {
-                // baseurl does not match, just skip this service
+                // base url does not match, just skip this service
                 continue;
             }
             foreach ($httpMethods as $httpMethod => $methodInfo) {
                 if (strtoupper($httpMethod) == strtoupper($requestHttpMethod)) {
                     $aclResources = array_keys($methodInfo[Converter::KEY_ACL_RESOURCES]);
-                    $routes[] = $this->_createRoute([
-                        self::KEY_ROUTE_PATH => $url,
-                        self::KEY_CLASS => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_CLASS],
-                        self::KEY_METHOD => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_METHOD],
-                        self::KEY_IS_SECURE => $methodInfo[Converter::KEY_SECURE],
-                        self::KEY_ACL_RESOURCES => $aclResources
-                    ]);
+                    $routes[] = $this->_createRoute(
+                        [
+                            self::KEY_ROUTE_PATH => $url,
+                            self::KEY_CLASS => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_CLASS],
+                            self::KEY_METHOD => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_METHOD],
+                            self::KEY_IS_SECURE => $methodInfo[Converter::KEY_SECURE],
+                            self::KEY_ACL_RESOURCES => $aclResources,
+                        ]
+                    );
                 }
             }
         }

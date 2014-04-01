@@ -30,6 +30,9 @@ class Converter implements \Magento\Config\ConverterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function convert($source)
     {
