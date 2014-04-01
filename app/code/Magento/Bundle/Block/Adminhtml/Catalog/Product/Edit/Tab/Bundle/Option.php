@@ -28,14 +28,6 @@ class Option extends \Magento\Backend\Block\Widget
     protected $_element = null;
 
     /**
-     * List of customer groups
-     *
-     * @var array|null
-     * @deprecated since 1.7.0.0
-     */
-    protected $_customerGroups = null;
-
-    /**
      * List of websites
      *
      * @var array|null

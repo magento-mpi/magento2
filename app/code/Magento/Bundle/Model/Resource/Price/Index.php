@@ -10,6 +10,8 @@
 namespace Magento\Bundle\Model\Resource\Price;
 
 use Magento\Core\Model\Website;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
 
 /**
  * Bundle Product Price Index Resource model
@@ -37,7 +39,7 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Customer Groups cache
      *
-     * @var array
+     * @var CustomerGroup[]
      */
     protected $_customerGroups;
 
@@ -54,9 +56,9 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
     protected $_config;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var CustomerGroupServiceInterface
      */
-    protected $_customerGroup;
+    protected $_customerGroupService;
 
     /**
      * @var \Magento\CatalogRule\Model\Resource\RuleFactory
@@ -78,7 +80,7 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory
-     * @param \Magento\Customer\Model\GroupFactory $customerGroup
+     * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Event\ManagerInterface $eventManager
      */
@@ -87,14 +89,14 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory,
-        \Magento\Customer\Model\GroupFactory $customerGroup,
+        CustomerGroupServiceInterface $customerGroupService,
         \Magento\Catalog\Model\Config $config,
         \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($resource);
         $this->_config = $config;
-        $this->_customerGroup = $customerGroup;
+        $this->_customerGroupService = $customerGroupService;
         $this->_catalogRuleFactory = $catalogRuleFactory;
         $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
@@ -148,8 +150,8 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
     protected function _getCustomerGroups()
     {
         if (is_null($this->_customerGroups)) {
-            $this->_customerGroups = array();
-            foreach ($this->_customerGroup->create()->getCollection() as $group) {
+            $this->_customerGroups = [];
+            foreach ($this->_customerGroupService->getGroups() as $group) {
                 $this->_customerGroups[$group->getId()] = $group;
             }
         }
@@ -255,7 +257,6 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
 
             /* @var $website Website */
             foreach ($this->_getCustomerGroups() as $group) {
-                /* @var $group \Magento\Customer\Model\Group */
                 if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
                     $basePrice = $this->_getBasePrice($productId, $priceData, $website, $group);
                     $customOptions = $this->getCustomOptions($productId, $website);
@@ -539,7 +540,7 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
      * @param int $productId
      * @param array $priceData
      * @param Website $website
-     * @param \Magento\Customer\Model\Group $customerGroup
+     * @param CustomerGroup $customerGroup
      * @return float
      */
     protected function _getBasePrice($productId, array $priceData, $website, $customerGroup)
