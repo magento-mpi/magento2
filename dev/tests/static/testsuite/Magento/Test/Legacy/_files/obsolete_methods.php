@@ -1551,6 +1551,7 @@ return array(
     array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
     array('loadByCustomer', 'Magento\Wishlist\Model\Wishlist'),
     ['_sessionVarCallback', 'Magento\Url', 'Replaced with inlined closure'],
+    array('processReinitConfig', 'Magento\Core\Model\Observer'),
     array(
         'reviewsAction',
         'Magento\Catalog\Controller\Adminhtml\Product',
@@ -1558,7 +1559,6 @@ return array(
     ),
     ['_insertInlineScriptsHtml', 'Magento\DesignEditor\Model\Translate\Inline', 'addInlineScript'],
     ['initializeTranslation', 'Magento\Backend\Model\Observer'],
-    ['getTranslateJson', 'Magento\Core\Helper\Js'],
     ['_isEmptyTranslateArg', 'Magento\Translate'],
     ['_getTranslatedString', 'Magento\Translate'],
     ['initLocale', 'Magento\Translate'],
