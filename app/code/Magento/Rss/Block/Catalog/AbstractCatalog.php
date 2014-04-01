@@ -129,14 +129,22 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      */
     public function renderPriceHtml(\Magento\Catalog\Model\Product $product, $displayMinimalPrice = false)
     {
-        return $this->getLayout()->getBlock('product.price.render.default')
-            ->render(
-                'final_price',
+        /** @var \Magento\Pricing\Render $priceRender */
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
                 $product,
                 [
-                    'display_minimal_price' => $displayMinimalPrice,
-                    'use_link_for_as_low_as' => $this->_useLinkForAsLowAs
+                    'display_minimal_price'  => $displayMinimalPrice,
+                    'use_link_for_as_low_as' => $this->_useLinkForAsLowAs,
+                    'zone'                   => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
                 ]
             );
+        }
+
+        return $price;
     }
 }

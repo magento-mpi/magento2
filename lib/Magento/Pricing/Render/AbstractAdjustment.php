@@ -17,6 +17,8 @@ use Magento\Pricing\PriceCurrencyInterface;
 
 /**
  * Adjustment render abstract
+ *
+ * @method string getZone()
  */
 abstract class AbstractAdjustment extends Template implements AdjustmentRenderInterface
 {

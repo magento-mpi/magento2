@@ -193,11 +193,7 @@ switch($type = $this->getType()) {
                             <?php echo $this->escapeHtml($_item->getName()) ?></a>
                         </strong>
                         <?php echo $this->getPriceHtml($_item, true, '-' . $type) ?>
-
-                        <?php
-                            $renderBlock = $this->getLayout()->getBlock('product.price.render.default');
-                            echo $renderBlock ? $renderBlock->render('final_price', $_item) : null;
-                        ?>
+                        <?php echo $this->getProductPrice($_item); ?>
                             <?php if ($_item->getRatingSummary() && $rating): ?>
                                 <?php echo $this->getReviewsSummaryHtml($_item,$rating) ?>
                             <?php endif; ?>
