@@ -27,6 +27,13 @@ return [
                 ],
                 'secure' => false,
             ],
+            'deleteCustomer' => [
+                'resources' => [
+                    'Magento_Customer::manage' => true,
+                    'Magento_Customer::delete' => true,
+                ],
+                'secure' => false,
+            ],
         ],
     ],
     'routes' => [
@@ -87,6 +94,19 @@ return [
                 ],
                 'resources' => [
                     'Magento_Customer::read' => true,
+                ],
+                'parameters' => [
+                ],
+            ],
+            'DELETE' => [
+                'secure' => false,
+                'service' => [
+                    'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
+                    'method' => 'deleteCustomer',
+                ],
+                'resources' => [
+                    'Magento_Customer::manage' => true,
+                    'Magento_Customer::delete' => true,
                 ],
                 'parameters' => [
                 ],

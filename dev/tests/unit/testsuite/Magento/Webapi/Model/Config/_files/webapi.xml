@@ -39,4 +39,11 @@
             <resource ref="Magento_Customer::read" />
         </resources>
     </route>
+    <route url="/V1/customers/:id" method="DELETE">
+        <service class="Magento\Customer\Service\V1\CustomerServiceInterface" method="deleteCustomer" />
+        <resources>
+            <resource ref="Magento_Customer::manage" />
+            <resource ref="Magento_Customer::delete" />
+        </resources>
+    </route>
 </routes>
