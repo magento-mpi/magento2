@@ -38,15 +38,15 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected $_wishlistCollectionFactory;
 
     /**
-     * @param \Magento\App\Helper\Context                                 $context
-     * @param \Magento\Core\Helper\Data                                   $coreData
-     * @param \Magento\Registry                                $coreRegistry
-     * @param \Magento\Core\Model\Store\Config                            $coreStoreConfig
-     * @param \Magento\Customer\Model\Session                             $customerSession
-     * @param \Magento\Wishlist\Model\WishlistFactory                     $wishlistFactory
-     * @param \Magento\Core\Model\StoreManagerInterface                   $storeManager
-     * @param \Magento\Core\Helper\PostData                               $postDataHelper
-     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory     $itemCollectionFactory
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\PostData $postDataHelper
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
@@ -131,7 +131,7 @@ class Data extends \Magento\Wishlist\Helper\Data
         }
         if (!isset($this->_defaultWishlistsByCustomer[$customerId])) {
             $this->_defaultWishlistsByCustomer[$customerId] = $this->_wishlistFactory->create();
-            $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomer($customerId, false);
+            $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomerId($customerId, false);
         }
         return $this->_defaultWishlistsByCustomer[$customerId];
     }

@@ -29,6 +29,7 @@
             <module name="Magento_CustomerSegment"/>
             <module name="Magento_Cms"/>
             <module name="Magento_User"/>
+            <module name="Magento_UrlRewrite"/>
         </depends>
     </module>
 </config>
