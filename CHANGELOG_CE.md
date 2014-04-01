@@ -8,6 +8,8 @@
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
+* Customer Service usage:
+  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
 
 2.0.0.0-dev71
 =============
