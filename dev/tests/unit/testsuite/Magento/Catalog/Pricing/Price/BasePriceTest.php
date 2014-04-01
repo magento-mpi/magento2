@@ -28,6 +28,11 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
     protected $salableItemMock;
 
     /**
+     * @var \Magento\Pricing\Adjustment\Calculator
+     */
+    protected $calculatorMock;
+
+    /**
      * @var \Magento\Catalog\Pricing\Price\RegularPrice|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $regularPriceMock;
@@ -57,6 +62,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
         $this->regularPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
         $this->groupPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\GroupPrice', [], [], '', false);
         $this->specialPriceMock= $this->getMock('Magento\Catalog\Pricing\Price\SpecialPrice', [], [], '', false);
+        $this->calculatorMock = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
 
         $this->salableItemMock->expects($this->once())
             ->method('getPriceInfo')
@@ -66,7 +72,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
             'group_price' => $this->groupPriceMock,
             'special_price' => $this->specialPriceMock
         ];
-        $this->basePrice = new BasePrice($this->salableItemMock, 1);
+        $this->basePrice = new BasePrice($this->salableItemMock, 1, $this->calculatorMock);
     }
 
     /**
