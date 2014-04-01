@@ -26,6 +26,16 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
+     * @var | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productMock;
+
+    /**
+     * @var | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceMock;
+
+    /**
      * @var \Magento\Core\Model\Layout | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
@@ -41,6 +51,12 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $this->contextMock->expects($this->any())
             ->method('getLayout')
             ->will($this->returnValue($this->layoutMock));
+        $this->productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->priceMock = $this->getMockBuilder('Magento\Catalog\Pricing\Price\BasePrice')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -55,15 +71,12 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $priceCode = 'price_test';
         $data = [];
         $type = 'simple';
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
 
         $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->createPriceRender($priceCode, $productMock, $methodData);
+        $result = $testedClass->createPriceRender($priceCode, $this->productMock, $methodData);
         $this->assertNull($result);
     }
 
@@ -97,18 +110,15 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('getPrice')
             ->with($this->equalTo($priceCode))
             ->will($this->returnValue($priceModel));
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfoMock));
 
         $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->createPriceRender($priceCode, $productMock, $methodData);
+        $result = $testedClass->createPriceRender($priceCode, $this->productMock, $methodData);
         $this->assertNull($result);
     }
 
@@ -134,23 +144,17 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $priceModelMock = $this->getMockBuilder('Magento\Catalog\Pricing\Price\BasePrice')
-            ->disableOriginalConstructor()
-            ->getMock();
         $priceInfoMock = $this->getMockBuilder('Magento\Pricing\PriceInfo\Base')
             ->disableOriginalConstructor()
             ->getMock();
         $priceInfoMock->expects($this->once())
             ->method('getPrice')
             ->with($this->equalTo($priceCode))
-            ->will($this->returnValue($priceModelMock));
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+            ->will($this->returnValue($this->priceMock));
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfoMock));
 
@@ -164,15 +168,15 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'data' => $methodData,
             'rendererPool' => $testedClass,
-            'price' => $priceModelMock,
-            'saleableItem' => $productMock
+            'price' => $this->priceMock,
+            'saleableItem' => $this->productMock
         ];
         $this->layoutMock->expects($this->once())
             ->method('createBlock')
             ->with($this->equalTo($className), $this->equalTo(''), $this->equalTo($arguments))
             ->will($this->returnValue($block));
 
-        $result = $testedClass->createPriceRender($priceCode, $productMock, $methodData);
+        $result = $testedClass->createPriceRender($priceCode, $this->productMock, $methodData);
         $this->assertNull($result);
     }
 
@@ -197,23 +201,17 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $priceModelMock = $this->getMockBuilder('Magento\Catalog\Pricing\Price\BasePrice')
-            ->disableOriginalConstructor()
-            ->getMock();
         $priceInfoMock = $this->getMockBuilder('Magento\Pricing\PriceInfo\Base')
             ->disableOriginalConstructor()
             ->getMock();
         $priceInfoMock->expects($this->once())
             ->method('getPrice')
             ->with($this->equalTo($priceCode))
-            ->will($this->returnValue($priceModelMock));
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+            ->will($this->returnValue($this->priceMock));
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfoMock));
 
@@ -229,15 +227,15 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'data' => $methodData,
             'rendererPool' => $testedClass,
-            'price' => $priceModelMock,
-            'saleableItem' => $productMock
+            'price' => $this->priceMock,
+            'saleableItem' => $this->productMock
         ];
         $this->layoutMock->expects($this->once())
             ->method('createBlock')
             ->with($this->equalTo($className), $this->equalTo(''), $this->equalTo($arguments))
             ->will($this->returnValue($renderBlock));
 
-        $result = $testedClass->createPriceRender($priceCode, $productMock, $methodData);
+        $result = $testedClass->createPriceRender($priceCode, $this->productMock, $methodData);
         $this->assertInstanceOf('Magento\Pricing\Render\PriceBoxRenderInterface', $result);
     }
 
@@ -257,21 +255,15 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $amountMock = $this->getMockBuilder('Magento\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->getMock();
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
-        $priceModelMock = $this->getMockBuilder('Magento\Catalog\Pricing\Price\BasePrice')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceModelMock->expects($this->once())
+        $this->priceMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue($priceCode));
 
         $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->createAmountRender($amountMock, $productMock, $priceModelMock, $methodData);
+        $result = $testedClass->createAmountRender($amountMock, $this->productMock, $this->priceMock, $methodData);
         $this->assertNull($result);
     }
 
@@ -300,16 +292,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $amountMock = $this->getMockBuilder('Magento\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->getMock();
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
-        $priceModelMock = $this->getMockBuilder('Magento\Catalog\Pricing\Price\BasePrice')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceModelMock->expects($this->once())
+        $this->priceMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue($priceCode));
 
@@ -324,8 +310,8 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'data' => $methodData,
             'rendererPool' => $testedClass,
             'amount' => $amountMock,
-            'saleableItem' => $productMock,
-            'price' => $priceModelMock
+            'saleableItem' => $this->productMock,
+            'price' => $this->priceMock
         ];
 
         $this->layoutMock->expects($this->once())
@@ -333,7 +319,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($amountRenderClass), $this->equalTo(''), $this->equalTo($arguments))
             ->will($this->returnValue($block));
 
-        $result = $testedClass->createAmountRender($amountMock, $productMock, $priceModelMock, $methodData);
+        $result = $testedClass->createAmountRender($amountMock, $this->productMock, $this->priceMock, $methodData);
         $this->assertNull($result);
     }
 
@@ -361,16 +347,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $amountMock = $this->getMockBuilder('Magento\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->getMock();
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
-        $priceModelMock = $this->getMockBuilder('Magento\Catalog\Pricing\Price\BasePrice')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceModelMock->expects($this->once())
+        $this->priceMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue($priceCode));
 
@@ -384,8 +364,8 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'data' => $methodData,
             'rendererPool' => $testedClass,
             'amount' => $amountMock,
-            'saleableItem' => $productMock,
-            'price' => $priceModelMock
+            'saleableItem' => $this->productMock,
+            'price' => $this->priceMock
         ];
 
         $this->layoutMock->expects($this->once())
@@ -397,18 +377,24 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('setTemplate')
             ->with($this->equalTo($template));
 
-        $result = $testedClass->createAmountRender($amountMock, $productMock, $priceModelMock, $methodData);
+        $result = $testedClass->createAmountRender($amountMock, $this->productMock, $this->priceMock, $methodData);
         $this->assertInstanceOf('Magento\Pricing\Render\AmountRenderInterface', $result);
     }
 
     /**
      * Test getAdjustmentRenders() with not existed adjustment render class
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Adjustment class for code "test_code" not declared
      */
     public function testGetAdjustmentRendersNoRenderClass()
     {
+        $typeId = 'simple';
+        $priceCode = 'base_price_test';
+        $this->productMock->expects($this->once())
+            ->method('getTypeId')
+            ->will($this->returnValue($typeId));
+        $this->priceMock->expects($this->once())
+            ->method('getPriceType')
+            ->will($this->returnValue($priceCode));
+
         $code = 'test_code';
         $adjustments = [$code => 'some data'];
         $data = [
@@ -417,18 +403,24 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->getAdjustmentRenders();
+        $result = $testedClass->getAdjustmentRenders($this->productMock, $this->priceMock);
         $this->assertNull($result);
     }
 
     /**
      * Test getAdjustmentRenders() with not existed adjustment render template
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Adjustment template for code "test_code" not declared
      */
     public function testGetAdjustmentRendersNoRenderTemplate()
     {
+        $typeId = 'simple';
+        $priceCode = 'base_price_test';
+        $this->productMock->expects($this->once())
+            ->method('getTypeId')
+            ->will($this->returnValue($typeId));
+        $this->priceMock->expects($this->once())
+            ->method('getPriceType')
+            ->will($this->returnValue($priceCode));
+
         $code = 'test_code';
         $adjustments = [
             $code => [
@@ -440,8 +432,9 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
                 'adjustments' => $adjustments
             ]
         ];
+
         $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->getAdjustmentRenders();
+        $result = $testedClass->getAdjustmentRenders($this->productMock, $this->priceMock);
         $this->assertNull($result);
     }
 
@@ -450,13 +443,18 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdjustmentRenders()
     {
-        $code = 'test_code';
+        $typeId = 'simple';
+        $priceCode = 'base_price_test';
         $class = 'Magento\View\Element\Template';
         $template = 'template.phtml';
+
+        $code = 'tax';
         $adjustments = [
-            $code => [
-                'adjustment_render_class' => $class,
-                'adjustment_render_template' => $template
+            $priceCode => [
+                $code => [
+                    'adjustment_render_class' => $class,
+                    'adjustment_render_template' => $template
+                ]
             ]
         ];
         $data = [
@@ -464,6 +462,14 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
                 'adjustments' => $adjustments
             ]
         ];
+
+        $this->productMock->expects($this->once())
+            ->method('getTypeId')
+            ->will($this->returnValue($typeId));
+        $this->priceMock->expects($this->once())
+            ->method('getPriceType')
+            ->will($this->returnValue($priceCode));
+
         $blockMock = $this->getMockBuilder('Magento\View\Element\Template')
             ->disableOriginalConstructor()
             ->getMock();
@@ -477,7 +483,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($blockMock));
 
         $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->getAdjustmentRenders();
+        $result = $testedClass->getAdjustmentRenders($this->productMock, $this->priceMock);
         $this->assertArrayHasKey($code, $result);
         $this->assertInstanceOf('Magento\View\Element\Template', $result[$code]);
     }
@@ -509,16 +515,11 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $amountMock = $this->getMockBuilder('Magento\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->getMock();
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
-        $priceModelMock = $this->getMockBuilder('Magento\Catalog\Pricing\Price\BasePrice')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceModelMock->expects($this->once())
+        $this->priceMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue($priceCode));
 
@@ -532,8 +533,8 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'data' => $methodData,
             'rendererPool' => $testedClass,
             'amount' => $amountMock,
-            'saleableItem' => $productMock,
-            'price' => $priceModelMock
+            'saleableItem' => $this->productMock,
+            'price' => $this->priceMock
         ];
 
         $this->layoutMock->expects($this->once())
@@ -541,7 +542,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($amountRenderClass), $this->equalTo(''), $this->equalTo($arguments))
             ->will($this->returnValue($blockMock));
 
-        $result = $testedClass->createAmountRender($amountMock, $productMock, $priceModelMock, $methodData);
+        $result = $testedClass->createAmountRender($amountMock, $this->productMock, $this->priceMock, $methodData);
         $this->assertNull($result);
     }
 
@@ -569,23 +570,17 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $priceModelMock = $this->getMockBuilder('Magento\Catalog\Pricing\Price\BasePrice')
-            ->disableOriginalConstructor()
-            ->getMock();
         $priceInfoMock = $this->getMockBuilder('Magento\Pricing\PriceInfo\Base')
             ->disableOriginalConstructor()
             ->getMock();
         $priceInfoMock->expects($this->once())
             ->method('getPrice')
             ->with($this->equalTo($priceCode))
-            ->will($this->returnValue($priceModelMock));
-        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productMock->expects($this->once())
+            ->will($this->returnValue($this->priceMock));
+        $this->productMock->expects($this->once())
             ->method('getTypeId')
             ->will($this->returnValue($type));
-        $productMock->expects($this->once())
+        $this->productMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfoMock));
 
@@ -598,15 +593,15 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'data' => $methodData,
             'rendererPool' => $testedClass,
-            'price' => $priceModelMock,
-            'saleableItem' => $productMock
+            'price' => $this->priceMock,
+            'saleableItem' => $this->productMock
         ];
         $this->layoutMock->expects($this->once())
             ->method('createBlock')
             ->with($this->equalTo($className), $this->equalTo(''), $this->equalTo($arguments))
             ->will($this->returnValue($renderBlock));
 
-        $result = $testedClass->createPriceRender($priceCode, $productMock, $methodData);
+        $result = $testedClass->createPriceRender($priceCode, $this->productMock, $methodData);
         $this->assertInstanceOf('Magento\Pricing\Render\PriceBoxRenderInterface', $result);
     }
 
