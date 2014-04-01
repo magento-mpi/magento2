@@ -67,11 +67,11 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     public function testInitialize()
     {
         $operationData = array(
-            'entity_type'    => 'customer',
-            'behavior'       => 'update',
+            'entity_type' => 'customer',
+            'behavior' => 'update',
             'operation_type' => 'import',
-            'start_time'     => '00:00:00',
-            'id'             => 1
+            'start_time' => '00:00:00',
+            'id' => 1
         );
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
@@ -103,11 +103,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getMappedValue($key)
     {
-        $modelDataMap = array(
-            'entity_type' => 'entity',
-            'start_time'  => 'run_at',
-            'id'          => 'scheduled_operation_id'
-        );
+        $modelDataMap = array('entity_type' => 'entity', 'start_time' => 'run_at', 'id' => 'scheduled_operation_id');
 
         if (array_key_exists($key, $modelDataMap)) {
             return $modelDataMap[$key];

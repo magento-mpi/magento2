@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Model\System\Config\Source;
 
 /**
  * Downloadable Content Disposition Source
@@ -15,22 +16,16 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model\System\Config\Source;
-
 class Contentdisposition implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(
-            array(
-                'value' => 'attachment',
-                'label' => __('attachment')
-            ),
-            array(
-                'value' => 'inline',
-                'label' => __('inline')
-            )
+            array('value' => 'attachment', 'label' => __('attachment')),
+            array('value' => 'inline', 'label' => __('inline'))
         );
     }
 }
-

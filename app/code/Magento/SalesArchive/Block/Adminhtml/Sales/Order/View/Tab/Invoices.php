@@ -7,18 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
 
 /**
  * Invoices tab
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
-
-class Invoices
-     extends \Magento\Sales\Block\Adminhtml\Order\View\Tab\Invoices
+class Invoices extends \Magento\Sales\Block\Adminhtml\Order\View\Tab\Invoices
 {
-
     /**
      * Retrieve collection class
      *

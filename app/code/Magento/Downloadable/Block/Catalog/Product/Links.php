@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Block\Catalog\Product;
+
+use Magento\Downloadable\Model\Link;
 
 /**
  * Downloadable Product Links part block
@@ -15,8 +18,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Block\Catalog\Product;
-
 class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -108,8 +109,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getLinkSelectionRequired()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getLinkSelectionRequired($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getLinkSelectionRequired($this->getProduct());
     }
 
     /**
@@ -117,8 +117,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function hasLinks()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->hasLinks($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->hasLinks($this->getProduct());
     }
 
     /**
@@ -126,12 +125,11 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getLinks()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getLinks($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getLinks($this->getProduct());
     }
 
     /**
-     * @param \Magento\Downloadable\Model\Link $link
+     * @param Link $link
      * @return string
      */
     public function getFormattedLinkPrice($link)
@@ -161,8 +159,12 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         } elseif ($taxHelper->displayBothPrices()) {
             $priceStr .= $coreHelper->currencyByStore($_priceExclTax, $store);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' (+'.$coreHelper
-                    ->currencyByStore($_priceInclTax, $store).' '.__('Incl. Tax').')';
+                $priceStr .= ' (+' . $coreHelper->currencyByStore(
+                    $_priceInclTax,
+                    $store
+                ) . ' ' . __(
+                    'Incl. Tax'
+                ) . ')';
             }
         }
         $priceStr .= '</span>';
@@ -196,6 +198,10 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this->jsonEncoder->encode($config);
     }
 
+    /**
+     * @param Link $link
+     * @return string
+     */
     public function getLinkSamlpeUrl($link)
     {
         $store = $this->getProduct()->getStore();
@@ -212,7 +218,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
+        return $this->_storeConfig->getConfig(Link::XML_PATH_LINKS_TITLE);
     }
 
     /**
@@ -222,13 +228,13 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getIsOpenInNewWindow()
     {
-        return $this->_storeConfig->getConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_storeConfig->getConfigFlag(Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
     /**
      * Returns whether link checked by default or not
      *
-     * @param \Magento\Downloadable\Model\Link $link
+     * @param Link $link
      * @return bool
      */
     public function getIsLinkChecked($link)
@@ -238,13 +244,13 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             return false;
         }
 
-        return $configValue && (in_array($link->getId(), $configValue));
+        return $configValue && in_array($link->getId(), $configValue);
     }
 
     /**
      * Returns value for link's input checkbox - either 'checked' or ''
      *
-     * @param \Magento\Downloadable\Model\Link $link
+     * @param Link $link
      * @return string
      */
     public function getLinkCheckedValue($link)

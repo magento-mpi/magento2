@@ -11,11 +11,17 @@ use PHPParser_Node_Expr_Div;
 
 class DivideOperator extends AbstractMathOperator
 {
+    /**
+     * @param PHPParser_Node_Expr_Div $node
+     */
     public function __construct(PHPParser_Node_Expr_Div $node)
     {
         parent::__construct($node);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function operator()
     {
         return '/';

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order\Pdf\Items;
 
 /**
@@ -97,7 +96,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set order model
      *
      * @param  \Magento\Sales\Model\Order $order
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
@@ -109,7 +108,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set Source model
      *
      * @param  \Magento\Core\Model\AbstractModel $source
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setSource(\Magento\Core\Model\AbstractModel $source)
     {
@@ -121,7 +120,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set item object
      *
      * @param  \Magento\Object $item
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setItem(\Magento\Object $item)
     {
@@ -133,7 +132,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set Pdf model
      *
      * @param  \Magento\Sales\Model\Order\Pdf\AbstractPdf $pdf
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setPdf(\Magento\Sales\Model\Order\Pdf\AbstractPdf $pdf)
     {
@@ -145,7 +144,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set current page
      *
      * @param  \Zend_Pdf_Page $page
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setPage(\Zend_Pdf_Page $page)
     {
@@ -226,13 +225,14 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Draw item line
      *
+     * @return void
      */
     abstract public function draw();
 
     /**
      * Format option value process
      *
-     * @param  $value
+     * @param array|string $value
      * @return string
      */
     protected function _formatOptionValue($value)
@@ -250,7 +250,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
             if (isset($value['price'])) {
                 $resultValue .= " " . $order->formatPrice($value['price']);
             }
-            return  $resultValue;
+            return $resultValue;
         } else {
             return $value;
         }
@@ -259,7 +259,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Get array of arrays with item prices information for display in PDF
      *
-     * array(
+     * Format: array(
      *  $index => array(
      *      'label'    => $label,
      *      'price'    => $price,
@@ -272,30 +272,34 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     public function getItemPricesForDisplay()
     {
         $order = $this->getOrder();
-        $item  = $this->getItem();
+        $item = $this->getItem();
         if ($this->_taxData->displaySalesBothPrices()) {
             $prices = array(
                 array(
-                    'label'    => __('Excl. Tax') . ':',
-                    'price'    => $order->formatPriceTxt($item->getPrice()),
+                    'label' => __('Excl. Tax') . ':',
+                    'price' => $order->formatPriceTxt($item->getPrice()),
                     'subtotal' => $order->formatPriceTxt($item->getRowTotal())
                 ),
                 array(
-                    'label'    => __('Incl. Tax') . ':',
-                    'price'    => $order->formatPriceTxt($item->getPriceInclTax()),
+                    'label' => __('Incl. Tax') . ':',
+                    'price' => $order->formatPriceTxt($item->getPriceInclTax()),
                     'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax())
-                ),
+                )
             );
         } elseif ($this->_taxData->displaySalesPriceInclTax()) {
-            $prices = array(array(
-                'price' => $order->formatPriceTxt($item->getPriceInclTax()),
-                'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax()),
-            ));
+            $prices = array(
+                array(
+                    'price' => $order->formatPriceTxt($item->getPriceInclTax()),
+                    'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax())
+                )
+            );
         } else {
-            $prices = array(array(
-                'price' => $order->formatPriceTxt($item->getPrice()),
-                'subtotal' => $order->formatPriceTxt($item->getRowTotal()),
-            ));
+            $prices = array(
+                array(
+                    'price' => $order->formatPriceTxt($item->getPrice()),
+                    'subtotal' => $order->formatPriceTxt($item->getRowTotal())
+                )
+            );
         }
         return $prices;
     }
@@ -371,7 +375,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Return item Sku
      *
-     * @param  $item
+     * @param mixed $item
      * @return mixed
      */
     public function getSku($item)

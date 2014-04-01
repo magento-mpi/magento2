@@ -1,5 +1,4 @@
 <?php
-
 namespace Magento\Exception;
 
 /**
@@ -7,10 +6,12 @@ namespace Magento\Exception;
  *
  * @copyright   {copyright}
  * @license     {license_link}
- */ 
+ */
 class StateException extends Exception
 {
     const INVALID_STATE = 1;
+
     const EXPIRED = 3;
+
     const INPUT_MISMATCH = 5;
 }

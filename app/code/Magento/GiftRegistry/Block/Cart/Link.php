@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Cart;
 
 /**
@@ -49,12 +48,10 @@ class Link extends \Magento\View\Element\Template
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filterManager->truncate($value, array(
-            'length' => $length,
-            'etc' => $etc,
-            'remainder' => $remainder,
-            'breakWords' => $breakWords
-        ));
+        return $this->filterManager->truncate(
+            $value,
+            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+        );
     }
 
     /**
@@ -74,7 +71,7 @@ class Link extends \Magento\View\Element\Template
      */
     public function getEnabled()
     {
-        return  $this->_giftRegistryData->isEnabled();
+        return $this->_giftRegistryData->isEnabled();
     }
 
     /**

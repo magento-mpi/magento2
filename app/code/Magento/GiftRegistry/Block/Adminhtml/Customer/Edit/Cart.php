@@ -7,15 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
 /**
  * Adminhtml customer cart items grid block
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Cart
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -64,6 +62,9 @@ class Cart
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -73,61 +74,66 @@ class Cart
         $this->setFilterVisibility(false);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $quote = $this->salesQuoteFactory->create();
         $quote->setWebsite($this->_storeManager->getWebsite($this->getEntity()->getWebsiteId()));
         $quote->loadByCustomer($this->getEntity()->getCustomerId());
 
-        $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
+        $collection = $quote ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
-        $this->addColumn('product_id', array(
-            'header' => __('Product ID'),
-            'index'  => 'product_id',
-            'type'   => 'number',
-            'width'  => '100px',
-        ));
+        $this->addColumn(
+            'product_id',
+            array('header' => __('Product ID'), 'index' => 'product_id', 'type' => 'number', 'width' => '100px')
+        );
 
-        $this->addColumn('name', array(
-            'header' => __('Product'),
-            'index' => 'name',
-        ));
+        $this->addColumn('name', array('header' => __('Product'), 'index' => 'name'));
 
-        $this->addColumn('sku', array(
-            'header' => __('SKU'),
-            'index' => 'sku',
-            'width' => '200px',
-        ));
+        $this->addColumn('sku', array('header' => __('SKU'), 'index' => 'sku', 'width' => '200px'));
 
-        $this->addColumn('price', array(
-            'header' => __('Price'),
-            'index' => 'price',
-            'type'  => 'currency',
-            'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'index' => 'price',
+                'type' => 'currency',
+                'width' => '120px',
+                'currency_code' => (string)$this->_storeConfig->getConfig(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE
+                )
+            )
+        );
 
-        $this->addColumn('qty', array(
-            'header' => __('Quantity'),
-            'index' => 'qty',
-            'type'  => 'number',
-            'width' => '120px',
-        ));
+        $this->addColumn(
+            'qty',
+            array('header' => __('Quantity'), 'index' => 'qty', 'type' => 'number', 'width' => '120px')
+        );
 
-        $this->addColumn('total', array(
-            'header' => __('Total'),
-            'index' => 'row_total',
-            'type'  => 'currency',
-            'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
-        ));
+        $this->addColumn(
+            'total',
+            array(
+                'header' => __('Total'),
+                'index' => 'row_total',
+                'type' => 'currency',
+                'width' => '120px',
+                'currency_code' => (string)$this->_storeConfig->getConfig(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE
+                )
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -135,17 +141,20 @@ class Cart
     /**
      * Prepare mass action options for this grid
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart
+     * @return $this
      */
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('item_id');
         $this->getMassactionBlock()->setFormFieldName('products');
-        $this->getMassactionBlock()->addItem('add', array(
-            'label'    => __('Add to Gift Registry'),
-            'url'      => $this->getUrl('adminhtml/*/add', array('id' => $this->getEntity()->getId())),
-            'confirm'  => __('Are you sure you want to add these products?')
-        ));
+        $this->getMassactionBlock()->addItem(
+            'add',
+            array(
+                'label' => __('Add to Gift Registry'),
+                'url' => $this->getUrl('adminhtml/*/add', array('id' => $this->getEntity()->getId())),
+                'confirm' => __('Are you sure you want to add these products?')
+            )
+        );
 
         return $this;
     }
@@ -153,6 +162,7 @@ class Cart
     /**
      * Return grid row url
      *
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

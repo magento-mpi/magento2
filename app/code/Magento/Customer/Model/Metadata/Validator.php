@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata;
 
 class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
@@ -49,11 +48,11 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
 
     /**
      * @param array                                                    $data
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributes
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
      * @param string                                                   $entityType
      * @return bool
      */
-    public function validateData($data, $attributes, $entityType)
+    public function validateData(array $data, array $attributes, $entityType)
     {
         foreach ($attributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
@@ -63,13 +62,11 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
             if (!isset($data[$attributeCode])) {
                 $data[$attributeCode] = null;
             }
-            $dataModel = $this->_attrDataFactory->create(
-                $attribute, $data[$attributeCode], $entityType
-            );
+            $dataModel = $this->_attrDataFactory->create($attribute, $data[$attributeCode], $entityType);
             $dataModel->setExtractedData($data);
-            $value = empty($data[$attributeCode]) && isset($this->_entityData[$attributeCode])
-                ? $this->_entityData[$attributeCode]
-                : $data[$attributeCode];
+            $value = empty($data[$attributeCode]) && isset(
+                $this->_entityData[$attributeCode]
+            ) ? $this->_entityData[$attributeCode] : $data[$attributeCode];
             $result = $dataModel->validateValue($value);
             if (true !== $result) {
                 $this->_addErrorMessages($attributeCode, (array)$result);

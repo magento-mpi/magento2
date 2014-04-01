@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource;
 
 abstract class HelperFactory
@@ -33,6 +32,7 @@ abstract class HelperFactory
     /**
      * Create resource helper instance
      *
+     * @return void
      */
     public function create()
     {

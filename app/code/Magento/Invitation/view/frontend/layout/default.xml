@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="register-link">
         <action method="setIsDisabled" ifconfig="magento_invitation/general/registration_required_invitation">
             <argument name="is_disabled" xsi:type="boolean">true</argument>
         </action>
     </referenceBlock>
     <referenceBlock name="top.links">
-        <block class="Magento\Invitation\Block\Link" name="invitation_link_top" cacheable="false">
+        <block class="Magento\Invitation\Block\Link" name="invitation_link_top">
             <arguments>
                 <argument name="label" xsi:type="string">Send Invitations</argument>
                 <argument name="id" xsi:type="string">invitation-send-link</argument>

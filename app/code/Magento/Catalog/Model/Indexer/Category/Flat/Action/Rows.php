@@ -93,11 +93,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
                     foreach (array_keys($row) as $key) {
                         $updateFields[$key] = $key;
                     }
-                    $this->getWriteAdapter()->insertOnDuplicate(
-                        $tableName,
-                        $row,
-                        $updateFields
-                    );
+                    $this->getWriteAdapter()->insertOnDuplicate($tableName, $row, $updateFields);
                 }
             }
             $this->deleteNonStoreCategories($store, $useTempTable);
@@ -111,6 +107,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      *
      * @param \Magento\Core\Model\Store $store
      * @param bool $useTempTable
+     * @return void
      */
     protected function deleteNonStoreCategories(\Magento\Core\Model\Store $store, $useTempTable)
     {
@@ -121,15 +118,17 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         $catIdExpr = $this->getWriteAdapter()->quote("{$rootId}/{$store->getRootCategoryId()}/%");
 
         /** @var \Magento\DB\Select $select */
-        $select = $this->getWriteAdapter()->select()
-            ->from(array('cf' => $this->getTableNameByStore($store, $useTempTable)))
-            ->joinLeft(
-                array('ce' => $this->getTableName('catalog_category_entity')),
-                'cf.path = ce.path',
-                array()
-            )
-            ->where("cf.path = {$rootIdExpr} OR cf.path = {$rootCatIdExpr} OR cf.path like {$catIdExpr}")
-            ->where('ce.entity_id IS NULL');
+        $select = $this->getWriteAdapter()->select()->from(
+            array('cf' => $this->getTableNameByStore($store, $useTempTable))
+        )->joinLeft(
+            array('ce' => $this->getTableName('catalog_category_entity')),
+            'cf.path = ce.path',
+            array()
+        )->where(
+            "cf.path = {$rootIdExpr} OR cf.path = {$rootCatIdExpr} OR cf.path like {$catIdExpr}"
+        )->where(
+            'ce.entity_id IS NULL'
+        );
 
         $sql = $select->deleteFromSelect('cf');
         $this->getWriteAdapter()->query($sql);
@@ -150,10 +149,15 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         $rootCatIdExpr = $this->getReadAdapter()->quote("{$rootId}/{$store->getRootCategoryId()}");
         $catIdExpr = $this->getReadAdapter()->quote("{$rootId}/{$store->getRootCategoryId()}/%");
 
-        $select = $this->getReadAdapter()->select()
-            ->from($this->getTableName('catalog_category_entity'), array('entity_id'))
-            ->where("path = {$rootIdExpr} OR path = {$rootCatIdExpr} OR path like {$catIdExpr}")
-            ->where('entity_id IN (?)', $ids);
+        $select = $this->getReadAdapter()->select()->from(
+            $this->getTableName('catalog_category_entity'),
+            array('entity_id')
+        )->where(
+            "path = {$rootIdExpr} OR path = {$rootCatIdExpr} OR path like {$catIdExpr}"
+        )->where(
+            'entity_id IN (?)',
+            $ids
+        );
 
         $resultIds = array();
         foreach ($this->getReadAdapter()->fetchAll($select) as $category) {

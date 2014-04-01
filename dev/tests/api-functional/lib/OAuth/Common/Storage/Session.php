@@ -20,7 +20,7 @@ class Session implements TokenStorageInterface
      */
     public function __construct($startSession = true, $sessionVariableName = 'lusitanian_oauth_token')
     {
-        if( $startSession && !isset($_SESSION)) {
+        if ($startSession && !isset($_SESSION)) {
             session_start();
         }
 
@@ -33,8 +33,7 @@ class Session implements TokenStorageInterface
      */
     public function retrieveAccessToken($service)
     {
-        if ($this->hasAccessToken($service))
-        {
+        if ($this->hasAccessToken($service)) {
             return $_SESSION[$this->sessionVariableName][$service];
         }
 
@@ -46,16 +45,10 @@ class Session implements TokenStorageInterface
      */
     public function storeAccessToken($service, TokenInterface $token)
     {
-        if (isset($_SESSION[$this->sessionVariableName]) &&
-            is_array($_SESSION[$this->sessionVariableName]))
-        {
+        if (isset($_SESSION[$this->sessionVariableName]) && is_array($_SESSION[$this->sessionVariableName])) {
             $_SESSION[$this->sessionVariableName][$service] = $token;
-        }
-        else
-        {
-            $_SESSION[$this->sessionVariableName] = array(
-                $service => $token,
-            );
+        } else {
+            $_SESSION[$this->sessionVariableName] = array($service => $token);
         }
 
         // allow chaining
@@ -63,8 +56,8 @@ class Session implements TokenStorageInterface
     }
 
     /**
-    * @return bool
-    */
+     * @return bool
+     */
     public function hasAccessToken($service)
     {
         return isset($_SESSION[$this->sessionVariableName], $_SESSION[$this->sessionVariableName][$service]);
@@ -78,7 +71,7 @@ class Session implements TokenStorageInterface
         return $this;
     }
 
-    public function  __destruct()
+    public function __destruct()
     {
         session_write_close();
     }

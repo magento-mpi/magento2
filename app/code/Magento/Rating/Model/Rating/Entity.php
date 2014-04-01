@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Model\Rating;
 
 /**
  * Ratings entity model
@@ -20,16 +21,20 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Rating\Model\Rating;
-
 class Entity extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Rating\Model\Resource\Rating\Entity');
     }
 
+    /**
+     * @param string $entityCode
+     * @return int
+     */
     public function getIdByCode($entityCode)
     {
         return $this->_getResource()->getIdByCode($entityCode);

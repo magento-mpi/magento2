@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Backend\Model\Config\Source;
 
 class Enabledisable implements \Magento\Option\ArrayInterface
@@ -18,9 +16,6 @@ class Enabledisable implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value'=>1, 'label'=>__('Enable')),
-            array('value'=>0, 'label'=>__('Disable')),
-        );
+        return array(array('value' => 1, 'label' => __('Enable')), array('value' => 0, 'label' => __('Disable')));
     }
 }

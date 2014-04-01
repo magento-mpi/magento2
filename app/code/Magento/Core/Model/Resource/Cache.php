@@ -21,6 +21,7 @@ class Cache extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magen
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -40,8 +41,7 @@ class Cache extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magen
              * Check if table exist (it protect upgrades. cache settings checked before upgrades)
              */
             if ($adapter->isTableExists($this->getMainTable())) {
-                $select = $adapter->select()
-                    ->from($this->getMainTable(), array('code', 'value'));
+                $select = $adapter->select()->from($this->getMainTable(), array('code', 'value'));
                 return $adapter->fetchPairs($select);
             }
         }

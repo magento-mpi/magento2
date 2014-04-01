@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Creditmemo;
 
-class Controls
- extends \Magento\View\Element\Template
+class Controls extends \Magento\View\Element\Template
 {
     /**
      * Core registry
@@ -34,6 +32,9 @@ class Controls
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return bool
+     */
     public function canRefundToCustomerBalance()
     {
         if (!$this->_coreRegistry->registry('current_creditmemo')->getGiftCardsAmount()) {

@@ -11,7 +11,6 @@ namespace Magento\Sales\Block\Order;
 
 class Comments extends \Magento\View\Element\Template
 {
-
     /**
      * @var \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory
      */
@@ -64,13 +63,14 @@ class Comments extends \Magento\View\Element\Template
     /**
      * Sets comments parent model instance
      *
-     * @param \Magento\Sales\Model\AbstractModel
-     * @return \Magento\Sales\Block\Order\Comments
+     * @param \Magento\Sales\Model\AbstractModel $entity
+     * @return $this
      */
     public function setEntity($entity)
     {
         $this->_entity = $entity;
-        $this->_commentCollection = null; // Changing model and resource model can lead to change of comment collection
+        $this->_commentCollection = null;
+        // Changing model and resource model can lead to change of comment collection
         return $this;
     }
 
@@ -104,9 +104,7 @@ class Comments extends \Magento\View\Element\Template
                 throw new \Magento\Core\Exception(__('We found an invalid entity model.'));
             }
 
-            $this->_commentCollection->setParentFilter($entity)
-               ->setCreatedAtOrder()
-               ->addVisibleOnFrontFilter();
+            $this->_commentCollection->setParentFilter($entity)->setCreatedAtOrder()->addVisibleOnFrontFilter();
         }
 
         return $this->_commentCollection;

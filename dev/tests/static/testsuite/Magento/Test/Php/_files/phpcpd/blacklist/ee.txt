@@ -11,7 +11,6 @@ Magento/CustomerBalance/Block/Adminhtml
 Magento/CustomerBalance/Block/Sales/Order
 Magento/CustomerSegment/Model
 Magento/CustomerSegment/Block/Adminhtml
-Magento/FullPageCache/Model/Container
 Magento/GiftRegistry
 Magento/GiftCard/Block/Adminhtml/Renderer
 Magento/GiftCard/Block/Catalog/Product/View/Type
@@ -28,7 +27,7 @@ Magento/Logging/Block
 Magento/MultipleWishlist/Model/Resource/Item
 Magento/Pbridge
 Magento/PbridgePaypal
-Magento/FullPageCache/Model/Container/Sidebar
+Magento/FullPageCache
 Magento/Reminder
 Magento/Reward/Model/Action
 Magento/Reward/Model/Resource

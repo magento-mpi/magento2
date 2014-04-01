@@ -80,6 +80,8 @@
             } else {
                 $(parent).prepend(html);
             }
+            // trigger event to use mage-data-init attribute
+            $(parent).trigger('contentUpdated');
         },
         _ajax: function (placeholders, version) {
             var data = {
@@ -90,8 +92,8 @@
             for (var i = 0; i < placeholders.length; i++) {
                 data.blocks.push(placeholders[i].name);
             }
-            data.blocks.sort();
-            data.handles.sort();
+            data.blocks = JSON.stringify(data.blocks.sort());
+            data.handles = JSON.stringify(data.handles);
             $.ajax({
                 url: this.options.url,
                 data: data,

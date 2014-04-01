@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Log\Model;
 
 /**
@@ -25,8 +24,10 @@ namespace Magento\Log\Model;
 class Visitor extends \Magento\Core\Model\AbstractModel
 {
     const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;
+
     const VISITOR_TYPE_CUSTOMER = 'c';
-    const VISITOR_TYPE_VISITOR  = 'v';
+
+    const VISITOR_TYPE_VISITOR = 'v';
 
     /**
      * @var bool
@@ -112,7 +113,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param string[] $ignoredUserAgents
+     * @param array $ignoredUserAgents
      * @param array $ignores
      * @param array $data
      */
@@ -178,6 +179,17 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Skip request logging
+     *
+     * @param bool $skipRequestLogging
+     * @return void
+     */
+    public function setSkipRequestLogging($skipRequestLogging)
+    {
+        $this->_skipRequestLogging = (bool)$skipRequestLogging;
+    }
+
+    /**
      * Initialize visitor information from server data
      *
      * @return $this
@@ -185,18 +197,20 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function initServerData()
     {
         $clean = true;
-        $this->addData(array(
-            'server_addr'           => $this->_serverAddress->getServerAddress(true),
-            'remote_addr'           => $this->_remoteAddress->getRemoteAddress(true),
-            'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
-            'http_host'             => $this->_httpHeader->getHttpHost($clean),
-            'http_user_agent'       => $this->_httpHeader->getHttpUserAgent($clean),
-            'http_accept_language'  => $this->_httpHeader->getHttpAcceptLanguage($clean),
-            'http_accept_charset'   => $this->_httpHeader->getHttpAcceptCharset($clean),
-            'request_uri'           => $this->_httpHeader->getRequestUri($clean),
-            'session_id'            => $this->_getSession()->getSessionId(),
-            'http_referer'          => $this->_httpHeader->getHttpReferer($clean),
-        ));
+        $this->addData(
+            array(
+                'server_addr' => $this->_serverAddress->getServerAddress(true),
+                'remote_addr' => $this->_remoteAddress->getRemoteAddress(true),
+                'http_secure' => $this->_storeManager->getStore()->isCurrentlySecure(),
+                'http_host' => $this->_httpHeader->getHttpHost($clean),
+                'http_user_agent' => $this->_httpHeader->getHttpUserAgent($clean),
+                'http_accept_language' => $this->_httpHeader->getHttpAcceptLanguage($clean),
+                'http_accept_charset' => $this->_httpHeader->getHttpAcceptCharset($clean),
+                'request_uri' => $this->_httpHeader->getRequestUri($clean),
+                'session_id' => $this->_getSession()->getSessionId(),
+                'http_referer' => $this->_httpHeader->getHttpReferer($clean)
+            )
+        );
 
         return $this;
     }
@@ -209,9 +223,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function getOnlineMinutesInterval()
     {
         $configValue = $this->_coreStoreConfig->getConfig('customer/online_customers/online_minutes_interval');
-        return intval($configValue) > 0
-            ? intval($configValue)
-            : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
+        return intval($configValue) > 0 ? intval($configValue) : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
     }
 
     /**
@@ -222,7 +234,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function getUrl()
     {
         $url = 'http' . ($this->getHttpSecure() ? 's' : '') . '://';
-        $url .= $this->getHttpHost().$this->getRequestUri();
+        $url .= $this->getHttpHost() . $this->getRequestUri();
         return $url;
     }
 
@@ -312,7 +324,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function bindCustomerLogin($observer)
     {
-        if (!$this->getCustomerId() && $customer = $observer->getEvent()->getCustomer()) {
+        if (!$this->getCustomerId() && ($customer = $observer->getEvent()->getCustomer())) {
             $this->setDoCustomerLogin(true);
             $this->setCustomerId($customer->getId());
         }

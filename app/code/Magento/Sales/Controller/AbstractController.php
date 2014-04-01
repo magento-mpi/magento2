@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller;
 
 /**
  * Sales Controller
  */
-namespace Magento\Sales\Controller;
-
 abstract class AbstractController extends \Magento\App\Action\Action
 {
     /**
@@ -26,10 +25,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -44,8 +41,11 @@ abstract class AbstractController extends \Magento\App\Action\Action
     {
         $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
         $availableStates = $this->_objectManager->get('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates();
-        if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
-            && in_array($order->getState(), $availableStates, true)
+        if ($order->getId() && $order->getCustomerId() && $order->getCustomerId() == $customerId && in_array(
+            $order->getState(),
+            $availableStates,
+            true
+        )
         ) {
             return true;
         }
@@ -54,6 +54,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Init layout, messages and set active block for customer
+     *
+     * @return void
      */
     protected function _viewAction()
     {
@@ -80,7 +82,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
     protected function _loadValidOrder($orderId = null)
     {
         if (null === $orderId) {
-            $orderId = (int) $this->getRequest()->getParam('order_id');
+            $orderId = (int)$this->getRequest()->getParam('order_id');
         }
         if (!$orderId) {
             $this->_forward('noroute');
@@ -100,6 +102,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Order view page
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -108,6 +112,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Invoice page
+     *
+     * @return void
      */
     public function invoiceAction()
     {
@@ -116,6 +122,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Shipment page
+     *
+     * @return void
      */
     public function shipmentAction()
     {
@@ -124,6 +132,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Creditmemo page
+     *
+     * @return void
      */
     public function creditmemoAction()
     {
@@ -132,6 +142,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Action for reorder
+     *
+     * @return void
      */
     public function reorderAction()
     {
@@ -165,6 +177,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Print Order Action
+     *
+     * @return void
      */
     public function printAction()
     {
@@ -177,15 +191,17 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Print Invoice Action
+     *
+     * @return void
      */
     public function printInvoiceAction()
     {
-        $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
+        $invoiceId = (int)$this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
             $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
-            $orderId = (int) $this->getRequest()->getParam('order_id');
+            $orderId = (int)$this->getRequest()->getParam('order_id');
             $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         }
 
@@ -207,15 +223,17 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Print Shipment Action
+     *
+     * @return void
      */
     public function printShipmentAction()
     {
-        $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
+        $shipmentId = (int)$this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
             $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
-            $orderId = (int) $this->getRequest()->getParam('order_id');
+            $orderId = (int)$this->getRequest()->getParam('order_id');
             $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         }
         if ($this->_canViewOrder($order)) {
@@ -236,6 +254,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Print Creditmemo Action
+     *
+     * @return void
      */
     public function printCreditmemoAction()
     {

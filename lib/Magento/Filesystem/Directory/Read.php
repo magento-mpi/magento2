@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Filesystem\Directory;
 
 use Magento\Filesystem\FilesystemException;
@@ -61,6 +60,7 @@ class Read implements ReadInterface
      * Set properties from config
      *
      * @param array $config
+     * @return void
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function setProperties(array $config)
@@ -201,7 +201,11 @@ class Read implements ReadInterface
      */
     public function openFile($path, $protocol = null)
     {
-        return $this->fileFactory->create($this->driver->getAbsolutePath($this->path, $path), $protocol, $this->driver);
+        return $this->fileFactory->create(
+            $this->driver->getAbsolutePath($this->path, $path),
+            $protocol,
+            $this->driver
+        );
     }
 
     /**

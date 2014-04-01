@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Tax\Model\Resource\Calculation\Rule;
 
 /**
  * Tax rule collection
@@ -16,12 +16,12 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Model\Resource\Calculation\Rule;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -64,22 +64,23 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
         if (!empty($children)) {
             $joinCondition = sprintf('item.%s = calculation.%s', $secondaryJoinField, $primaryJoinField);
-            $select = $this->getConnection()->select()
-                ->from(
-                    array('calculation' => $this->getTable('tax_calculation')),
-                    array('calculation.tax_calculation_rule_id')
-                )
-                ->join(
-                    array('item' => $this->getTable($itemTable)),
-                    $joinCondition,
-                    array("item.{$titleField}", "item.{$secondaryJoinField}")
-                )
-                ->where('calculation.tax_calculation_rule_id IN (?)', array_keys($children))
-                ->distinct(true);
+            $select = $this->getConnection()->select()->from(
+                array('calculation' => $this->getTable('tax_calculation')),
+                array('calculation.tax_calculation_rule_id')
+            )->join(
+                array('item' => $this->getTable($itemTable)),
+                $joinCondition,
+                array("item.{$titleField}", "item.{$secondaryJoinField}")
+            )->where(
+                'calculation.tax_calculation_rule_id IN (?)',
+                array_keys($children)
+            )->distinct(
+                true
+            );
 
             $data = $this->getConnection()->fetchAll($select);
             foreach ($data as $row) {
-               $children[$row['tax_calculation_rule_id']][$row[$secondaryJoinField]] = $row[$titleField];
+                $children[$row['tax_calculation_rule_id']][$row[$secondaryJoinField]] = $row[$titleField];
             }
         }
 
@@ -119,7 +120,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addRatesToResult()
     {
-        return $this->_add('tax_calculation_rate', 'tax_calculation_rate_id', 'tax_calculation_rate_id', 'code', 'tax_rates');
+        return $this->_add(
+            'tax_calculation_rate',
+            'tax_calculation_rate_id',
+            'tax_calculation_rate_id',
+            'code',
+            'tax_rates'
+        );
     }
 
     /**

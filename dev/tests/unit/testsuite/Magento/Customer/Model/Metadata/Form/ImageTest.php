@@ -18,18 +18,21 @@ class ImageTest extends FileTest
      */
     protected function getClass($value, $isAjax)
     {
-        $imageForm = $this->getMock('Magento\Customer\Model\Metadata\Form\Image',
-            ['_isUploadedFile'], [
+        $imageForm = $this->getMock(
+            'Magento\Customer\Model\Metadata\Form\Image',
+            array('_isUploadedFile'),
+            array(
                 $this->localeMock,
                 $this->loggerMock,
                 $this->attributeMetadataMock,
+                $this->localeResolverMock,
                 $value,
                 0,
                 $isAjax,
                 $this->coreDataMock,
                 $this->fileValidatorMock,
                 $this->fileSystemMock
-            ]
+            )
         );
         return $imageForm;
     }
@@ -37,16 +40,13 @@ class ImageTest extends FileTest
     public function validateValueToUploadDataProvider()
     {
         $imagePath = __DIR__ . '/_files/logo.gif';
-        return [
-            [
-                ['"realFileName" is not a valid file.'],
-                ['tmp_name' => 'tmp_file', 'name' => 'realFileName'],
-                ['valid' => false],
-            ],
-            [
-                true,
-                ['tmp_name' => $imagePath, 'name' => 'logo.gif'],
-            ],
-        ];
+        return array(
+            array(
+                array('"realFileName" is not a valid file.'),
+                array('tmp_name' => 'tmp_file', 'name' => 'realFileName'),
+                array('valid' => false)
+            ),
+            array(true, array('tmp_name' => $imagePath, 'name' => 'logo.gif'))
+        );
     }
 }

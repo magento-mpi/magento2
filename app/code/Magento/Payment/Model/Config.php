@@ -39,9 +39,9 @@ class Config
     /**
      * Locale model
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ListsInterface
      */
-    protected $_locale;
+    protected $_localeLists;
 
     /**
      * Payment method factory
@@ -56,21 +56,21 @@ class Config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ListsInterface $localeLists
      * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\ListsInterface $localeLists,
         \Magento\Config\DataInterface $dataStorage
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dataStorage = $dataStorage;
         $this->_coreConfig = $coreConfig;
         $this->_methodFactory = $paymentMethodFactory;
-        $this->_locale = $locale;
+        $this->_localeLists = $localeLists;
     }
 
     /**
@@ -79,12 +79,12 @@ class Config
      * @param null|string|bool|int|Store $store
      * @return array
      */
-    public function getActiveMethods($store=null)
+    public function getActiveMethods($store = null)
     {
         $methods = array();
         $config = $this->_coreStoreConfig->getConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
-            if ($this->_coreStoreConfig->getConfigFlag('payment/'.$code.'/active', $store)) {
+            if ($this->_coreStoreConfig->getConfigFlag('payment/' . $code . '/active', $store)) {
                 if (array_key_exists('model', $methodConfig)) {
                     $methodModel = $this->_methodFactory->create($methodConfig['model']);
                     if ($methodModel && $methodModel->getConfigData('active', $store)) {
@@ -102,7 +102,7 @@ class Config
      * @param null|string|bool|int|Store $store
      * @return array
      */
-    public function getAllMethods($store=null)
+    public function getAllMethods($store = null)
     {
         $methods = array();
         $config = $this->_coreStoreConfig->getConfig('payment', $store);
@@ -184,9 +184,9 @@ class Config
      */
     public function getMonths()
     {
-        $data = $this->_locale->getTranslationList('month');
+        $data = $this->_localeLists->getTranslationList('month');
         foreach ($data as $key => $value) {
-            $monthNum = ($key < 10) ? '0'.$key : $key;
+            $monthNum = $key < 10 ? '0' . $key : $key;
             $data[$key] = $monthNum . ' - ' . $value;
         }
         return $data;
@@ -202,7 +202,7 @@ class Config
         $years = array();
         $first = date("Y");
 
-        for ($index=0; $index <= 10; $index++) {
+        for ($index = 0; $index <= 10; $index++) {
             $year = $first + $index;
             $years[$year] = $year;
         }

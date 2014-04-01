@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Controller\Adminhtml;
 
- /**
+/**
  * Admin search controller for Ajax Grid in Catalog Search Terms
  *
  * @category   Magento
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Controller\Adminhtml;
-
 class Search extends \Magento\Backend\App\Action
 {
     /**
@@ -52,6 +51,8 @@ class Search extends \Magento\Backend\App\Action
 
     /**
      * Ajax grid action
+     *
+     * @return void
      */
     public function relatedGridAction()
     {
@@ -62,7 +63,7 @@ class Search extends \Magento\Backend\App\Action
 
         if ($id) {
             $model->load($id);
-            if (! $model->getId()) {
+            if (!$model->getId()) {
                 $this->messageManager->addError(__('This search no longer exists.'));
                 $this->_redirect('adminhtml/*');
                 return;

@@ -9,6 +9,4 @@
  * @license     {license_link}
  */
 
-return array(
-    'sku' => 'product-sku',
-);
+return array('sku' => 'product-sku');

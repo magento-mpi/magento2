@@ -17,8 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku;
 
-class Errors
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
+class Errors extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
      * @var \Magento\Backend\Model\Session\Quote

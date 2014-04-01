@@ -17,7 +17,7 @@ use Magento\View\Element\AbstractBlock;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Related extends \Magento\Catalog\Block\Product\AbstractProduct
+class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type
@@ -108,7 +108,6 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
             $data,
             $priceBlockTypes
         );
-        $this->_isScopePrivate = true;
     }
 
     /**
@@ -119,21 +118,14 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
         $product = $this->_coreRegistry->registry('product');
         /* @var $product \Magento\Catalog\Model\Product */
 
-        $this->_itemCollection = $product->getRelatedProductCollection()
-            ->addAttributeToSelect('required_options')
-            ->setPositionOrder()
-            ->addStoreFilter();
+        $this->_itemCollection = $product->getRelatedProductCollection()->addAttributeToSelect(
+            'required_options'
+        )->setPositionOrder()->addStoreFilter();
 
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
-            $this->_checkoutCart->addExcludeProductFilter(
-                $this->_itemCollection,
-                $this->_checkoutSession->getQuoteId()
-            );
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
-        $this->_itemCollection->setVisibility(
-            $this->_catalogProductVisibility->getVisibleInCatalogIds()
-        );
+        $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
         $this->_itemCollection->load();
 
@@ -159,5 +151,19 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getItems()
     {
         return $this->_itemCollection;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->getItems() as $item) {
+            $identities = array_merge($identities, $item->getIdentities());
+        }
+        return $identities;
     }
 }

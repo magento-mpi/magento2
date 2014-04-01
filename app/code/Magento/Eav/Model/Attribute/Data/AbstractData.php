@@ -47,14 +47,14 @@ abstract class AbstractData
      *
      * @var bool
      */
-    protected $_requestScopeOnly    = true;
+    protected $_requestScopeOnly = true;
 
     /**
      * Is AJAX request flag
      *
      * @var bool
      */
-    protected $_isAjax              = false;
+    protected $_isAjax = false;
 
     /**
      * Array of full extracted data
@@ -62,19 +62,24 @@ abstract class AbstractData
      *
      * @var array
      */
-    protected $_extractedData       = array();
+    protected $_extractedData = array();
 
     /**
-     * \Magento\LocaleInterface FORMAT
+     * Date filter format
      *
      * @var string
      */
     protected $_dateFilterFormat;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @var \Magento\Logger
@@ -82,17 +87,18 @@ abstract class AbstractData
     protected $_logger;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
-        \Magento\Logger $logger
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Logger $logger,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_logger = $logger;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -231,7 +237,7 @@ abstract class AbstractData
         if ($filterCode) {
             $filterClass = 'Magento\Data\Form\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $filter = new $filterClass($this->_dateFilterFormat(), $this->_locale->getLocale());
+                $filter = new $filterClass($this->_dateFilterFormat(), $this->_localeResolver->getLocale());
             } else {
                 $filter = new $filterClass();
             }
@@ -251,9 +257,9 @@ abstract class AbstractData
         if (is_null($format)) {
             // get format
             if (is_null($this->_dateFilterFormat)) {
-                $this->_dateFilterFormat = \Magento\LocaleInterface::FORMAT_TYPE_SHORT;
+                $this->_dateFilterFormat = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT;
             }
-            return $this->_locale->getDateFormat($this->_dateFilterFormat);
+            return $this->_localeDate->getDateFormat($this->_dateFilterFormat);
         } else if ($format === false) {
             // reset value
             $this->_dateFilterFormat = null;
@@ -293,35 +299,26 @@ abstract class AbstractData
             return true;
         }
 
-        $label         = $this->getAttribute()->getStoreLabel();
+        $label = $this->getAttribute()->getStoreLabel();
         $validateRules = $this->getAttribute()->getValidateRules();
 
         if (!empty($validateRules['input_validation'])) {
             switch ($validateRules['input_validation']) {
                 case 'alphanumeric':
                     $validator = new \Zend_Validate_Alnum(true);
-                    $validator->setMessage(
-                        __('"%1" invalid type entered.', $label),
-                        \Zend_Validate_Alnum::INVALID
-                    );
+                    $validator->setMessage(__('"%1" invalid type entered.', $label), \Zend_Validate_Alnum::INVALID);
                     $validator->setMessage(
                         __('"%1" contains non-alphabetic or non-numeric characters.', $label),
                         \Zend_Validate_Alnum::NOT_ALNUM
                     );
-                    $validator->setMessage(
-                        __('"%1" is an empty string.', $label),
-                        \Zend_Validate_Alnum::STRING_EMPTY
-                    );
+                    $validator->setMessage(__('"%1" is an empty string.', $label), \Zend_Validate_Alnum::STRING_EMPTY);
                     if (!$validator->isValid($value)) {
                         return $validator->getMessages();
                     }
                     break;
                 case 'numeric':
                     $validator = new \Zend_Validate_Digits();
-                    $validator->setMessage(
-                        __('"%1" invalid type entered.', $label),
-                        \Zend_Validate_Digits::INVALID
-                    );
+                    $validator->setMessage(__('"%1" invalid type entered.', $label), \Zend_Validate_Digits::INVALID);
                     $validator->setMessage(
                         __('"%1" contains non-numeric characters.', $label),
                         \Zend_Validate_Digits::NOT_DIGITS
@@ -336,36 +333,30 @@ abstract class AbstractData
                     break;
                 case 'alpha':
                     $validator = new \Zend_Validate_Alpha(true);
-                    $validator->setMessage(
-                        __('"%1" invalid type entered.', $label),
-                        \Zend_Validate_Alpha::INVALID
-                    );
+                    $validator->setMessage(__('"%1" invalid type entered.', $label), \Zend_Validate_Alpha::INVALID);
                     $validator->setMessage(
                         __('"%1" contains non-alphabetic characters.', $label),
                         \Zend_Validate_Alpha::NOT_ALPHA
                     );
-                    $validator->setMessage(
-                        __('"%1" is an empty string.', $label),
-                        \Zend_Validate_Alpha::STRING_EMPTY
-                    );
+                    $validator->setMessage(__('"%1" is an empty string.', $label), \Zend_Validate_Alpha::STRING_EMPTY);
                     if (!$validator->isValid($value)) {
                         return $validator->getMessages();
                     }
                     break;
                 case 'email':
-        /**
-        __("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded")
-        __("Invalid type given. String expected")
-        __("'%value%' appears to be a DNS hostname but contains a dash in an invalid position")
-        __("'%value%' does not match the expected structure for a DNS hostname")
-        __("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'")
-        __("'%value%' does not appear to be a valid local network name")
-        __("'%value%' does not appear to be a valid URI hostname")
-        __("'%value%' appears to be an IP address, but IP addresses are not allowed")
-        __("'%value%' appears to be a local network name but local network names are not allowed")
-        __("'%value%' appears to be a DNS hostname but cannot extract TLD part")
-        __("'%value%' appears to be a DNS hostname but cannot match TLD against known list")
-        */
+                    /**
+                    __("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded")
+                    __("Invalid type given. String expected")
+                    __("'%value%' appears to be a DNS hostname but contains a dash in an invalid position")
+                    __("'%value%' does not match the expected structure for a DNS hostname")
+                    __("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'")
+                    __("'%value%' does not appear to be a valid local network name")
+                    __("'%value%' does not appear to be a valid URI hostname")
+                    __("'%value%' appears to be an IP address, but IP addresses are not allowed")
+                    __("'%value%' appears to be a local network name but local network names are not allowed")
+                    __("'%value%' appears to be a DNS hostname but cannot extract TLD part")
+                    __("'%value%' appears to be a DNS hostname but cannot match TLD against known list")
+                    */
                     $validator = new \Zend_Validate_EmailAddress();
                     $validator->setMessage(
                         __('"%1" invalid type entered.', $label),
@@ -416,7 +407,9 @@ abstract class AbstractData
                         \Zend_Validate_Hostname::INVALID_DASH
                     );
                     $validator->setMessage(
-                        __("'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'."),
+                        __(
+                            "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'."
+                        ),
                         \Zend_Validate_Hostname::INVALID_HOSTNAME_SCHEMA
                     );
                     $validator->setMessage(
@@ -432,7 +425,9 @@ abstract class AbstractData
                         \Zend_Validate_Hostname::LOCAL_NAME_NOT_ALLOWED
                     );
                     $validator->setMessage(
-                        __("'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded."),
+                        __(
+                            "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded."
+                        ),
                         \Zend_Validate_Hostname::CANNOT_DECODE_PUNYCODE
                     );
                     if (!$validator->isValid($value)) {
@@ -451,20 +446,14 @@ abstract class AbstractData
                     break;
                 case 'date':
                     $validator = new \Zend_Validate_Date(\Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
-                    $validator->setMessage(
-                        __('"%1" invalid type entered.', $label),
-                        \Zend_Validate_Date::INVALID
-                    );
-                    $validator->setMessage(
-                        __('"%1" is not a valid date.', $label),
-                        \Zend_Validate_Date::INVALID_DATE
-                    );
+                    $validator->setMessage(__('"%1" invalid type entered.', $label), \Zend_Validate_Date::INVALID);
+                    $validator->setMessage(__('"%1" is not a valid date.', $label), \Zend_Validate_Date::INVALID_DATE);
                     $validator->setMessage(
                         __('"%1" does not fit the entered date format.', $label),
                         \Zend_Validate_Date::FALSEFORMAT
                     );
                     if (!$validator->isValid($value)) {
-                       return array_unique($validator->getMessages());
+                        return array_unique($validator->getMessages());
                     }
 
                     break;
@@ -503,7 +492,7 @@ abstract class AbstractData
      */
     protected function _getRequestValue(RequestInterface $request)
     {
-        $attrCode  = $this->getAttribute()->getAttributeCode();
+        $attrCode = $this->getAttribute()->getAttributeCode();
         if ($this->_requestScope) {
             if (strpos($this->_requestScope, '/') !== false) {
                 $params = $request->getParams();

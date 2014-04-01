@@ -48,33 +48,26 @@ class TableData implements \Magento\Catalog\Model\Indexer\Product\Flat\TableData
      * @param string $flatTable
      * @param string $flatDropName
      * @param string $temporaryFlatTableName
+     * @return void
      */
     public function move($flatTable, $flatDropName, $temporaryFlatTableName)
     {
         $connection = $this->_resource->getConnection('write');
         if (!$connection->isTableExists($flatTable)) {
             $connection->dropTable($flatDropName);
-            $connection->renameTablesBatch(array(
-                'oldName' => $temporaryFlatTableName,
-                'newName' => $flatTable
-            ));
+            $connection->renameTablesBatch(array('oldName' => $temporaryFlatTableName, 'newName' => $flatTable));
             $connection->dropTable($flatDropName);
         } else {
             $describe = $connection->describeTable($flatTable);
-            $columns  = $this->_productIndexerHelper->getFlatColumns();
-            $columns  = array_keys(array_intersect_key($describe, $columns));
-            $select   = $connection->select();
+            $columns = $this->_productIndexerHelper->getFlatColumns();
+            $columns = array_keys(array_intersect_key($describe, $columns));
+            $select = $connection->select();
 
-            $select->from(
-                array('tf' => sprintf('%s_tmp_indexer', $flatTable)),
-                $columns
-            );
+            $select->from(array('tf' => sprintf('%s_tmp_indexer', $flatTable)), $columns);
             $sql = $select->insertFromSelect($flatTable, $columns);
             $connection->query($sql);
 
-            $connection->dropTable(
-                sprintf('%s_tmp_indexer', $flatTable)
-            );
+            $connection->dropTable(sprintf('%s_tmp_indexer', $flatTable));
         }
     }
 }

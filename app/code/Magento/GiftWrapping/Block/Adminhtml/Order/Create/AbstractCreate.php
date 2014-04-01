@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
 /**
  * Gift wrapping order create abstract block
@@ -15,10 +16,7 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
-
-class AbstractCreate
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
+class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
@@ -74,10 +72,11 @@ class AbstractCreate
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $this->_designCollection = $this->_wrappingCollectionFactory->create()
-                ->addStoreAttributesToResult($this->getStore()->getId())
-                ->applyStatusFilter()
-                ->applyWebsiteFilter($this->getStore()->getWebsiteId());
+            $this->_designCollection = $this->_wrappingCollectionFactory->create()->addStoreAttributesToResult(
+                $this->getStore()->getId()
+            )->applyStatusFilter()->applyWebsiteFilter(
+                $this->getStore()->getWebsiteId()
+            );
         }
         return $this->_designCollection;
     }
@@ -95,14 +94,17 @@ class AbstractCreate
                 $temp['price_incl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), true);
                 $temp['price_excl_tax'] = $this->calculatePrice($item, $item->getBasePrice());
             } else {
-                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(),
-                    $this->getDisplayWrappingPriceInclTax());
+                $temp['price'] = $this->calculatePrice(
+                    $item,
+                    $item->getBasePrice(),
+                    $this->getDisplayWrappingPriceInclTax()
+                );
             }
             $temp['path'] = $item->getImageUrl();
             $temp['design'] = $item->getDesign();
             $data[$item->getId()] = $temp;
         }
-       return new \Magento\Object($data);
+        return new \Magento\Object($data);
     }
 
     /**
@@ -115,13 +117,16 @@ class AbstractCreate
         $data = array();
         if ($this->getAllowPrintedCard()) {
             $price = $this->_giftWrappingData->getPrintedCardPrice($this->getStoreId());
-             if ($this->getDisplayCardBothPrices()) {
-                 $data['price_incl_tax'] = $this->calculatePrice(new \Magento\Object(), $price, true);
-                 $data['price_excl_tax'] = $this->calculatePrice(new \Magento\Object(), $price);
-             } else {
-                $data['price'] = $this->calculatePrice(new \Magento\Object(), $price,
-                    $this->getDisplayCardPriceInclTax());
-             }
+            if ($this->getDisplayCardBothPrices()) {
+                $data['price_incl_tax'] = $this->calculatePrice(new \Magento\Object(), $price, true);
+                $data['price_excl_tax'] = $this->calculatePrice(new \Magento\Object(), $price);
+            } else {
+                $data['price'] = $this->calculatePrice(
+                    new \Magento\Object(),
+                    $price,
+                    $this->getDisplayCardPriceInclTax()
+                );
+            }
         }
         return new \Magento\Object($data);
     }
@@ -130,25 +135,19 @@ class AbstractCreate
      * Calculate price
      *
      * @param \Magento\Object $item
-     * @param mixed $basePrice
+     * @param float $basePrice
      * @param bool $includeTax
      * @return string
      */
     public function calculatePrice($item, $basePrice, $includeTax = false)
     {
         $shippingAddress = $this->getQuote()->getShippingAddress();
-        $billingAddress  = $this->getQuote()->getBillingAddress();
+        $billingAddress = $this->getQuote()->getBillingAddress();
 
         $taxClass = $this->_giftWrappingData->getWrappingTaxClass($this->getStoreId());
         $item->setTaxClassId($taxClass);
 
-        $price = $this->_giftWrappingData->getPrice(
-            $item,
-            $basePrice,
-            $includeTax,
-            $shippingAddress,
-            $billingAddress
-        );
+        $price = $this->_giftWrappingData->getPrice($item, $basePrice, $includeTax, $shippingAddress, $billingAddress);
         return $this->_coreData->currency($price, true, false);
     }
 
@@ -159,8 +158,7 @@ class AbstractCreate
      */
     public function getDisplayWrappingBothPrices()
     {
-        return $this->_giftWrappingData
-            ->displayCartWrappingBothPrices($this->getStoreId());
+        return $this->_giftWrappingData->displayCartWrappingBothPrices($this->getStoreId());
     }
 
     /**
@@ -170,14 +168,13 @@ class AbstractCreate
      */
     public function getDisplayWrappingPriceInclTax()
     {
-        return $this->_giftWrappingData
-            ->displayCartWrappingIncludeTaxPrice($this->getStoreId());
+        return $this->_giftWrappingData->displayCartWrappingIncludeTaxPrice($this->getStoreId());
     }
 
     /**
      * Return quote id
      *
-     * @return array
+     * @return array|null
      */
     public function getEntityId()
     {

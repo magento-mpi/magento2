@@ -7,15 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 
 /**
  * Order Shipments grid
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
-
-class Shipments
-    extends \Magento\Backend\Block\Widget\Grid\Extended
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Shipments extends \Magento\Backend\Block\Widget\Grid\Extended implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -25,6 +23,8 @@ class Shipments
     protected $_coreRegistry = null;
 
     /**
+     * Collection factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\Collection\Factory
      */
     protected $_collectionFactory;
@@ -48,6 +48,11 @@ class Shipments
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -65,51 +70,80 @@ class Shipments
         return 'Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
     }
 
+    /**
+     * Apply sorting and filtering to collection
+     *
+     * @return $this
+     */
     protected function _prepareCollection()
     {
-        $collection = $this->_collectionFactory->create($this->_getCollectionClass())
-            ->addFieldToSelect('entity_id')
-            ->addFieldToSelect('created_at')
-            ->addFieldToSelect('increment_id')
-            ->addFieldToSelect('total_qty')
-            ->addFieldToSelect('shipping_name')
-            ->setOrderFilter($this->getOrder())
-        ;
+        $collection = $this->_collectionFactory->create(
+            $this->_getCollectionClass()
+        )->addFieldToSelect(
+            'entity_id'
+        )->addFieldToSelect(
+            'created_at'
+        )->addFieldToSelect(
+            'increment_id'
+        )->addFieldToSelect(
+            'total_qty'
+        )->addFieldToSelect(
+            'shipping_name'
+        )->setOrderFilter(
+            $this->getOrder()
+        );
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
+    /**
+     * Initialize grid columns
+     *
+     * @return $this
+     */
     protected function _prepareColumns()
     {
-        $this->addColumn('increment_id', array(
-            'header' => __('Shipment'),
-            'index' => 'increment_id',
-            'header_css_class'  => 'col-memo',
-            'column_css_class'  => 'col-memo'
-        ));
+        $this->addColumn(
+            'increment_id',
+            array(
+                'header' => __('Shipment'),
+                'index' => 'increment_id',
+                'header_css_class' => 'col-memo',
+                'column_css_class' => 'col-memo'
+            )
+        );
 
-        $this->addColumn('shipping_name', array(
-            'header' => __('Ship-to Name'),
-            'index' => 'shipping_name',
-            'header_css_class'  => 'col-name',
-            'column_css_class'  => 'col-name'
-        ));
+        $this->addColumn(
+            'shipping_name',
+            array(
+                'header' => __('Ship-to Name'),
+                'index' => 'shipping_name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
+            )
+        );
 
-        $this->addColumn('created_at', array(
-            'header' => __('Ship Date'),
-            'index' => 'created_at',
-            'type' => 'datetime',
-            'header_css_class'  => 'col-period',
-            'column_css_class'  => 'col-period'
-        ));
+        $this->addColumn(
+            'created_at',
+            array(
+                'header' => __('Ship Date'),
+                'index' => 'created_at',
+                'type' => 'datetime',
+                'header_css_class' => 'col-period',
+                'column_css_class' => 'col-period'
+            )
+        );
 
-        $this->addColumn('total_qty', array(
-            'header' => __('Total Quantity'),
-            'index' => 'total_qty',
-            'type'  => 'number',
-            'header_css_class'  => 'col-qty',
-            'column_css_class'  => 'col-qty'
-        ));
+        $this->addColumn(
+            'total_qty',
+            array(
+                'header' => __('Total Quantity'),
+                'index' => 'total_qty',
+                'type' => 'number',
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -124,16 +158,25 @@ class Shipments
         return $this->_coreRegistry->registry('current_order');
     }
 
+    /**
+     * Row URL getter
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl(
             'adminhtml/order_shipment/view',
-            array(
-                'shipment_id'=> $row->getId(),
-                'order_id'  => $row->getOrderId()
-         ));
+            array('shipment_id' => $row->getId(), 'order_id' => $row->getOrderId())
+        );
     }
 
+    /**
+     * Grid URL getter
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('sales/*/shipments', array('_current' => true));
@@ -142,16 +185,26 @@ class Shipments
     /**
      * ######################## TAB settings #################################
      */
+
+    /**
+     * {@inheritdoc}
+     */
     public function getTabLabel()
     {
         return __('Shipments');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTabTitle()
     {
         return __('Order Shipments');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function canShowTab()
     {
         if ($this->getOrder()->getIsVirtual()) {
@@ -160,6 +213,9 @@ class Shipments
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isHidden()
     {
         return false;

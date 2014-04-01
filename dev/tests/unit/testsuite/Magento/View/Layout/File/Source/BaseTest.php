@@ -5,11 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File\Source;
 
-use Magento\Filesystem\Directory\Read,
-    Magento\View\Layout\File\Factory;
+use Magento\Filesystem\Directory\Read;
+use Magento\View\Layout\File\Factory;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,13 +29,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->directory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->directory = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
         $filesystem = $this->getMock(
             'Magento\App\Filesystem',
             array('getDirectoryRead', '__wakeup'),
@@ -44,10 +37,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $filesystem->expects($this->once())
-            ->method('getDirectoryRead')
-            ->with(\Magento\App\Filesystem::MODULES_DIR)
-            ->will($this->returnValue($this->directory));
+        $filesystem->expects(
+            $this->once()
+        )->method(
+            'getDirectoryRead'
+        )->with(
+            \Magento\App\Filesystem::MODULES_DIR
+        )->will(
+            $this->returnValue($this->directory)
+        );
 
         $this->fileFactory = $this->getMock('Magento\View\Layout\File\Factory', array(), array(), '', false);
         $this->model = new Base($filesystem, $this->fileFactory);
@@ -70,27 +68,24 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             $returnKeys[] = sprintf($handlePath, $file['module'], $file['handle']);
         }
 
-        $this->directory->expects($this->once())
-            ->method('search')
-            ->will($this->returnValue($returnKeys));
-        $this->directory->expects($this->any())
-            ->method('getAbsolutePath')
-            ->will($this->returnArgument(0));
+        $this->directory->expects($this->once())->method('search')->will($this->returnValue($returnKeys));
+        $this->directory->expects($this->any())->method('getAbsolutePath')->will($this->returnArgument(0));
 
         $checkResult = array();
         foreach ($files as $key => $file) {
             $moduleName = 'Module_' . $file['module'];
-            $checkResult[$key] = new \Magento\View\Layout\File(
-                $file['handle'] . '.xml',
-                $moduleName,
-                $theme
-            );
+            $checkResult[$key] = new \Magento\View\Layout\File($file['handle'] . '.xml', $moduleName, $theme);
 
-            $this->fileFactory
-                ->expects($this->at($key))
-                ->method('create')
-                ->with(sprintf($handlePath, $file['module'], $file['handle']), $moduleName)
-                ->will($this->returnValue($checkResult[$key]));
+            $this->fileFactory->expects(
+                $this->at($key)
+            )->method(
+                'create'
+            )->with(
+                sprintf($handlePath, $file['module'], $file['handle']),
+                $moduleName
+            )->will(
+                $this->returnValue($checkResult[$key])
+            );
         }
 
         $this->assertSame($checkResult, $this->model->getFiles($theme, $filePath));
@@ -106,16 +101,11 @@ class BaseTest extends \PHPUnit_Framework_TestCase
                 array(
                     array('handle' => '1', 'module' => 'One'),
                     array('handle' => '2', 'module' => 'One'),
-                    array('handle' => '3', 'module' => 'Two'),
+                    array('handle' => '3', 'module' => 'Two')
                 ),
-                '*',
+                '*'
             ),
-            array(
-                array(
-                    array('handle' => 'preset/4', 'module' => 'Four'),
-                ),
-                'preset/4',
-            ),
+            array(array(array('handle' => 'preset/4', 'module' => 'Four')), 'preset/4')
         );
     }
 }

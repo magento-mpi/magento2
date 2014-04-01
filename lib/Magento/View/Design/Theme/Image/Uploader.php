@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme\Image;
 
 /**
@@ -18,7 +17,7 @@ class Uploader
      *
      * @var array
      */
-    protected  $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
+    protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
 
     /**
      * File system

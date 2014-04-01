@@ -14,8 +14,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Information
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging
+class Information extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging
 {
     /**
      * Constructor

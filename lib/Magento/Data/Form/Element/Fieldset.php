@@ -7,6 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Form\Element;
+
+use Magento\Data\Form;
+use Magento\Escaper;
 
 /**
  * Form fieldset
@@ -15,11 +19,6 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element;
-
-use Magento\Data\Form;
-use Magento\Escaper;
-
 class Fieldset extends AbstractElement
 {
     /**
@@ -49,14 +48,15 @@ class Fieldset extends AbstractElement
      */
     public function getElementHtml()
     {
-        $html = '<fieldset id="' . $this->getHtmlId() . '"' . $this->serialize(array('class'))
-            . $this->_getUiId() . '>' . "\n";
+        $html = '<fieldset id="' . $this->getHtmlId() . '"' . $this->serialize(
+            array('class')
+        ) . $this->_getUiId() . '>' . "\n";
         if ($this->getLegend()) {
-            $html.= '<legend ' . $this->_getUiId('legend') . '>' . $this->getLegend() . '</legend>' . "\n";
+            $html .= '<legend ' . $this->_getUiId('legend') . '>' . $this->getLegend() . '</legend>' . "\n";
         }
-        $html.= $this->getChildrenHtml();
-        $html.= '</fieldset>' . "\n";
-        $html.= $this->getAfterElementHtml();
+        $html .= $this->getChildrenHtml();
+        $html .= '</fieldset>' . "\n";
+        $html .= $this->getAfterElementHtml();
         return $html;
     }
 
@@ -125,7 +125,7 @@ class Fieldset extends AbstractElement
     /**
      * Get Advanced elements'
      *
-     * @return string
+     * @return array
      */
     public function getAdvancedChildren()
     {
@@ -197,8 +197,8 @@ class Fieldset extends AbstractElement
     public function getDefaultHtml()
     {
         $html = '<div><h4 class="icon-head head-edit-form fieldset-legend">' . $this->getLegend() . '</h4>' . "\n";
-        $html.= $this->getElementHtml();
-        $html.= '</div>';
+        $html .= $this->getElementHtml();
+        $html .= '</div>';
         return $html;
     }
 
@@ -208,7 +208,8 @@ class Fieldset extends AbstractElement
      * @param string $elementId
      * @param string $type
      * @param array $config
-     * @param boolean $after
+     * @param bool $after
+     * @param bool $isAdvanced
      * @return AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false)

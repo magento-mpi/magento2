@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Search;
 
 /**
  * Gift registry quick search block
@@ -14,8 +15,6 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Search;
-
 class Quick extends \Magento\View\Element\Template
 {
     /**
@@ -54,7 +53,7 @@ class Quick extends \Magento\View\Element\Template
      */
     public function getEnabled()
     {
-        return  $this->_giftRegistryData->isEnabled();
+        return $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -64,26 +63,27 @@ class Quick extends \Magento\View\Element\Template
      */
     public function getTypesCollection()
     {
-        return $this->typeFactory->create()->getCollection()
-            ->addStoreData($this->_storeManager->getStore()->getId())
-            ->applyListedFilter()
-            ->applySortOrder();
+        return $this->typeFactory->create()->getCollection()->addStoreData(
+            $this->_storeManager->getStore()->getId()
+        )->applyListedFilter()->applySortOrder();
     }
 
     /**
      * Select element for choosing registry type
      *
-     * @return array
+     * @return string
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => 'quick_search_type_id',
-                'class' => 'select'
-            ))
-            ->setName('params[type_id]')
-            ->setOptions($this->getTypesCollection()->toOptionArray(true));
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array('id' => 'quick_search_type_id', 'class' => 'select')
+        )->setName(
+            'params[type_id]'
+        )->setOptions(
+            $this->getTypesCollection()->toOptionArray(true)
+        );
         return $select->getHtml();
     }
 

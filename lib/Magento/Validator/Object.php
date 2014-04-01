@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -43,7 +41,7 @@ class Object implements \Zend_Validate_Interface
             $this->_rules[$fieldName] = $validator;
         } else {
             $existingValidator = $this->_rules[$fieldName];
-            if (!($existingValidator instanceof \Zend_Validate)) {
+            if (!$existingValidator instanceof \Zend_Validate) {
                 $compositeValidator = new \Zend_Validate();
                 $compositeValidator->addValidator($existingValidator);
                 $this->_rules[$fieldName] = $compositeValidator;

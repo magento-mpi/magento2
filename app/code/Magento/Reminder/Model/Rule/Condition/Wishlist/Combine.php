@@ -12,8 +12,7 @@ namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 /**
  * Rule conditions container
  */
-class Combine
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Wishlist Sharing Factory
@@ -57,7 +56,8 @@ class Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(
-            parent::getNewChildSelectOptions(), array(
+            parent::getNewChildSelectOptions(),
+            array(
                 $this->_getRecursiveChildSelectOption(),
                 $this->_sharingFactory->create()->getNewChildSelectOptions(),
                 $this->_quantityFactory->create()->getNewChildSelectOptions(),

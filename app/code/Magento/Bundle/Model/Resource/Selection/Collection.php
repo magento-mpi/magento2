@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Model\Resource\Selection;
 
 /**
  * Bundle Selections Resource Collection
@@ -16,8 +16,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Resource\Selection;
-
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
@@ -30,6 +28,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Initialize collection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -41,7 +40,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Set store id for each collection item when collection was loaded
      *
-     * @return void
+     * @return $this
      */
     public function _afterLoad()
     {
@@ -57,11 +56,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Initialize collection select
      *
+     * @return $this|void
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()->join(array('selection' => $this->_selectionTable),
+        $this->getSelect()->join(
+            array('selection' => $this->_selectionTable),
             'selection.product_id = e.entity_id',
             array('*')
         );
@@ -71,7 +72,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Join website scope prices to collection, override default prices
      *
      * @param int $websiteId
-     * @return \Magento\Bundle\Model\Resource\Selection\Collection
+     * @return $this
      */
     public function joinPrices($websiteId)
     {
@@ -86,7 +87,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             'price.selection_price_value',
             'selection.selection_price_value'
         );
-        $this->getSelect()->joinLeft(array('price' => $this->getTable('catalog_product_bundle_selection_price')),
+        $this->getSelect()->joinLeft(
+            array('price' => $this->getTable('catalog_product_bundle_selection_price')),
             'selection.selection_id = price.selection_id AND price.website_id = ' . (int)$websiteId,
             array(
                 'selection_price_type' => $priceType,
@@ -101,7 +103,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Apply option ids filter to collection
      *
      * @param array $optionIds
-     * @return \Magento\Bundle\Model\Resource\Selection\Collection
+     * @return $this
      */
     public function setOptionIdsFilter($optionIds)
     {
@@ -115,7 +117,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Apply selection ids filter to collection
      *
      * @param array $selectionIds
-     * @return \Magento\Bundle\Model\Resource\Selection\Collection
+     * @return $this
      */
     public function setSelectionIdsFilter($selectionIds)
     {
@@ -128,12 +130,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Set position order
      *
-     * @return \Magento\Bundle\Model\Resource\Selection\Collection
+     * @return $this
      */
     public function setPositionOrder()
     {
-        $this->getSelect()->order('selection.position asc')
-            ->order('selection.selection_id asc');
+        $this->getSelect()->order('selection.position asc')->order('selection.selection_id asc');
         return $this;
     }
 }

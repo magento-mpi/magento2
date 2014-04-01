@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block;
 
 /**
  * @deprecated after 1.11.2.0
  * Gift registry view block
  */
-namespace Magento\GiftRegistry\Block;
-
 class View extends \Magento\GiftRegistry\Block\Customer\Items
 {
     /**
@@ -106,7 +105,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getFormattedDate($date)
     {
         if ($date) {
-            return $this->formatDate($date, \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         }
         return '';
     }
@@ -162,33 +161,27 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         $type = $this->typeFactory->create()->load($typeId);
 
         $attributes = array_merge(
-            array(
-                'title' => __('Event'),
-                'registrants' => __('Recipient')
-            ),
+            array('title' => __('Event'), 'registrants' => __('Recipient')),
             $type->getListedAttributes(),
-            array(
-                'customer_name' => __('Registry owner'),
-                'message' => __('Message')
-            )
+            array('customer_name' => __('Registry owner'), 'message' => __('Message'))
         );
 
         $result = array();
         foreach ($attributes as $attributeCode => $attributeTitle) {
-            switch($attributeCode) {
-                case 'customer_name' :
+            switch ($attributeCode) {
+                case 'customer_name':
                     $attributeValue = $this->getEntity()->getCustomer()->getName();
                     break;
-                case 'event_date' :
+                case 'event_date':
                     $attributeValue = $this->getFormattedDate($this->getEntity()->getEventDate());
                     break;
-                 case 'event_country' :
+                case 'event_country':
                     $attributeValue = $this->getCountryName($this->getEntity()->getEventCountry());
                     break;
-                 case 'role' :
+                case 'role':
                     $attributeValue = $this->getRegistrantRoles($attributeCode, $type);
                     break;
-                default :
+                default:
                     $attributeValue = $this->getEntity()->getDataUsingMethod($attributeCode);
                     break;
             }
@@ -196,10 +189,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
             if ((string)$attributeValue == '') {
                 continue;
             }
-            $result[] = array(
-                'title' => $attributeTitle,
-                'value' => $this->escapeHtml($attributeValue)
-            );
+            $result[] = array('title' => $attributeTitle, 'value' => $this->escapeHtml($attributeValue));
         }
         return $result;
     }

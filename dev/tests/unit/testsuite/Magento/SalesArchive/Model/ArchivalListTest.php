@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesArchive\Model;
 
 class ArchivalListTest extends \PHPUnit_Framework_TestCase
@@ -25,8 +24,13 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager',
-            array('get', 'create'), array(), '', false);
+        $this->_objectManagerMock = $this->getMock(
+            'Magento\ObjectManager\ObjectManager',
+            array('get', 'create'),
+            array(),
+            '',
+            false
+        );
 
         $this->_model = new \Magento\SalesArchive\Model\ArchivalList($this->_objectManagerMock);
     }
@@ -38,9 +42,7 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetResourcePositive($entity, $className)
     {
-        $this->_objectManagerMock->expects($this->once())
-            ->method('get')
-            ->will($this->returnArgument(0));
+        $this->_objectManagerMock->expects($this->once())->method('get')->will($this->returnArgument(0));
         $this->assertEquals($className, $this->_model->getResource($entity));
     }
 
@@ -50,7 +52,7 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
             array('order', 'Magento\Sales\Model\Resource\Order'),
             array('invoice', 'Magento\Sales\Model\Resource\Order\Invoice'),
             array('shipment', 'Magento\Sales\Model\Resource\Order\Shipment'),
-            array('creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo'),
+            array('creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo')
         );
     }
 
@@ -78,7 +80,7 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
             array('invoice', 'Magento\Sales\Model\Resource\Order\Invoice'),
             array('shipment', 'Magento\Sales\Model\Resource\Order\Shipment'),
             array('creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo'),
-            array(false, 'Magento\Object'),
+            array(false, 'Magento\Object')
         );
     }
 }

@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Block\System\Config\Form\Field;
+
+use Magento\App\ConfigInterface;
+use Magento\Backend\Block\Template\Context;
 
 /**
  * Class Export
@@ -16,15 +18,17 @@ namespace Magento\PageCache\Block\System\Config\Form\Field;
 class Export extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var ConfigInterface
      */
     protected $config;
 
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\App\ConfigInterface $config,
-        array $data = array()
-    ){
+    /**
+     * @param Context $context
+     * @param ConfigInterface $config
+     * @param array $data
+     */
+    public function __construct(Context $context, ConfigInterface $config, array $data = array())
+    {
         $this->config = $config;
         parent::__construct($context, $data);
     }
@@ -38,19 +42,15 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         /** @var \Magento\Backend\Block\Widget\Button $buttonBlock  */
-        $buttonBlock = $this->getForm()
-            ->getLayout()
-            ->createBlock('Magento\Backend\Block\Widget\Button');
+        $buttonBlock = $this->getForm()->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
 
-        $params = array(
-            'website' => $buttonBlock->getRequest()->getParam('website')
-        );
+        $params = array('website' => $buttonBlock->getRequest()->getParam('website'));
 
         $url = $this->getUrl("*/PageCache/exportVarnishConfig", $params);
         $data = array(
-            'id'        => 'system_full_page_cache_varnish_export_button',
-            'label'     => __('Export VCL'),
-            'onclick'   => "setLocation('" . $url . "')"
+            'id' => 'system_full_page_cache_varnish_export_button',
+            'label' => __('Export VCL'),
+            'onclick' => "setLocation('" . $url . "')"
         );
 
         $html = $buttonBlock->setData($data)->toHtml();

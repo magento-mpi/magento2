@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View;
 
 /**
  * Edit order giftmessage block
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View;
-
 class Giftmessage extends \Magento\Backend\Block\Widget
 {
     /**
@@ -34,11 +33,15 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * Message factory
+     *
      * @var \Magento\GiftMessage\Model\MessageFactory
      */
     protected $_messageFactory;
 
     /**
+     * Message helper
+     *
      * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_messageHelper;
@@ -80,6 +83,11 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      */
     protected $_giftMessage;
 
+    /**
+     * Before rendering html, but after trying to load cache
+     *
+     * @return void
+     */
     protected function _beforeToHtml()
     {
         if ($this->getParentBlock() && ($order = $this->getOrder())) {
@@ -91,14 +99,15 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Prepares layout of block
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'   => __('Save Gift Message'),
-            'class'   => 'save'
-        ));
+        $this->addChild(
+            'save_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Save Gift Message'), 'class' => 'save')
+        );
 
         return $this;
     }
@@ -110,8 +119,10 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      */
     public function getSaveButtonHtml()
     {
-        $this->getChildBlock('save_button')->setOnclick(
-            'giftMessagesController.saveGiftMessage(\''. $this->getHtmlId() .'\')'
+        $this->getChildBlock(
+            'save_button'
+        )->setOnclick(
+            'giftMessagesController.saveGiftMessage(\'' . $this->getHtmlId() . '\')'
         );
 
         return $this->getChildHtml('save_button');
@@ -121,11 +132,11 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      * Set entity for form
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     public function setEntity(\Magento\Object $entity)
     {
-        $this->_entity  = $entity;
+        $this->_entity = $entity;
         return $this;
     }
 
@@ -136,7 +147,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      */
     public function getEntity()
     {
-        if(is_null($this->_entity)) {
+        if (is_null($this->_entity)) {
             $this->setEntity($this->_messageFactory->create()->getEntityModelByType('order'));
             $this->getEntity()->load($this->getRequest()->getParam('entity'));
         }
@@ -150,11 +161,11 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      */
     public function getDefaultSender()
     {
-        if(!$this->getEntity()) {
+        if (!$this->getEntity()) {
             return '';
         }
 
-        if($this->getEntity()->getOrder()) {
+        if ($this->getEntity()->getOrder()) {
             return $this->getEntity()->getOrder()->getCustomerName();
         }
 
@@ -203,7 +214,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Retrieve real html id for field
      *
-     * @param string $name
+     * @param string $id
      * @return string
      */
     public function getFieldId($id)
@@ -224,13 +235,11 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Initialize gift message for entity
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->_messageHelper->getGiftMessage(
-                                   $this->getEntity()->getGiftMessageId()
-                              );
+        $this->_giftMessage = $this->_messageHelper->getGiftMessage($this->getEntity()->getGiftMessageId());
 
         // init default values for giftmessage form
         if (!$this->getMessage()->getSender()) {
@@ -257,14 +266,16 @@ class Giftmessage extends \Magento\Backend\Block\Widget
         return $this->_giftMessage;
     }
 
+    /**
+     * Get save url
+     *
+     * @return string
+     */
     public function getSaveUrl()
     {
-        return $this->getUrl('sales/order_view_giftmessage/save',
-            array(
-                'entity'=>$this->getEntity()->getId(),
-                'type'  =>'order',
-                'reload' => 1
-            )
+        return $this->getUrl(
+            'sales/order_view_giftmessage/save',
+            array('entity' => $this->getEntity()->getId(), 'type' => 'order', 'reload' => 1)
         );
     }
 
@@ -281,12 +292,14 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Indicates that block can display giftmessages form
      *
-     * @return boolean
+     * @return bool
      */
     public function canDisplayGiftmessage()
     {
         return $this->_messageHelper->getIsMessagesAvailable(
-            'order', $this->getEntity(), $this->getEntity()->getStoreId()
+            'order',
+            $this->getEntity(),
+            $this->getEntity()->getStoreId()
         );
     }
 }

@@ -39,12 +39,15 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()
-            ->joinInner(array('b' => $this->getTable('magento_customerbalance')),
-                'main_table.balance_id = b.balance_id', array('customer_id'         => 'b.customer_id',
-                                                              'website_id'          => 'b.website_id',
-                                                              'base_currency_code'  => 'b.base_currency_code'))
-        ;
+        $this->getSelect()->joinInner(
+            array('b' => $this->getTable('magento_customerbalance')),
+            'main_table.balance_id = b.balance_id',
+            array(
+                'customer_id' => 'b.customer_id',
+                'website_id' => 'b.website_id',
+                'base_currency_code' => 'b.base_currency_code'
+            )
+        );
         return $this;
     }
 
@@ -69,9 +72,16 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function loadHistoryData($customerId, $websiteId = null)
     {
-        $this->addFieldToFilter('customer_id', $customerId)
-                ->addOrder('updated_at', 'DESC')
-                ->addOrder('history_id', 'DESC');
+        $this->addFieldToFilter(
+            'customer_id',
+            $customerId
+        )->addOrder(
+            'updated_at',
+            'DESC'
+        )->addOrder(
+            'history_id',
+            'DESC'
+        );
         if (!empty($websiteId)) {
             $this->getSelect()->where('b.website_id IN (?)', $websiteId);
         }

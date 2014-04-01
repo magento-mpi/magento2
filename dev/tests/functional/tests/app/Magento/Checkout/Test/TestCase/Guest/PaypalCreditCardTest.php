@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Test\TestCase\Guest;
 
 use Mtf\Factory\Factory;
@@ -69,7 +68,7 @@ class PaypalCreditCardTest extends Functional
 
         /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
         $formBlock = call_user_func_array(array($this, $formBlockFunction), array($checkoutOnePage));
-        $formBlock->fill($fixture);
+        $formBlock->fill($fixture->getCreditCard());
         $formBlock->pressContinue();
 
         //Verify order in Backend
@@ -77,7 +76,8 @@ class PaypalCreditCardTest extends Functional
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.');
+            'Order success page was not opened.'
+        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
@@ -133,7 +133,8 @@ class PaypalCreditCardTest extends Functional
      * @param CheckoutOnepage $checkoutOnePage
      * @return Cc
      */
-    public function getPayflowAdvancedCcBlock(CheckoutOnepage $checkoutOnePage) {
+    public function getPayflowAdvancedCcBlock(CheckoutOnepage $checkoutOnePage)
+    {
         return $checkoutOnePage->getPayflowAdvancedCcBlock();
     }
 
@@ -143,7 +144,8 @@ class PaypalCreditCardTest extends Functional
      * @param CheckoutOnepage $checkoutOnePage
      * @return Cc
      */
-    public function getPayflowLinkCcBlock(CheckoutOnepage $checkoutOnePage) {
+    public function getPayflowLinkCcBlock(CheckoutOnepage $checkoutOnePage)
+    {
         return $checkoutOnePage->getPayflowLinkCcBlock();
     }
 }

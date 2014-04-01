@@ -7,15 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
-/**
- * Abstract class for form, coumn and fieldset
- *
- * @category   Magento
- * @package    Magento_Data
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Data\Form;
 
 use Magento\Data\Form\Element\AbstractElement;
@@ -25,6 +16,13 @@ use Magento\Data\Form\Element\Column;
 use Magento\Data\Form\Element\Factory;
 use Magento\Data\Form\Element\Fieldset;
 
+/**
+ * Abstract class for form, coumn and fieldset
+ *
+ * @category   Magento
+ * @package    Magento_Data
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class AbstractForm extends \Magento\Object
 {
     /**
@@ -56,11 +54,8 @@ class AbstractForm extends \Magento\Object
      * @param CollectionFactory $factoryCollection
      * @param array $data
      */
-    public function __construct(
-        Factory $factoryElement,
-        CollectionFactory $factoryCollection,
-        $data = array()
-    ) {
+    public function __construct(Factory $factoryElement, CollectionFactory $factoryCollection, $data = array())
+    {
         $this->_factoryElement = $factoryElement;
         $this->_factoryCollection = $factoryCollection;
         parent::__construct($data);
@@ -72,6 +67,7 @@ class AbstractForm extends \Magento\Object
      *
      * Please override this one instead of overriding real __construct constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -203,8 +199,7 @@ class AbstractForm extends \Magento\Object
     public function addColumn($elementId, $config)
     {
         $element = $this->_factoryElement->create('column', array('data' => $config));
-        $element->setForm($this)
-            ->setId($elementId);
+        $element->setForm($this)->setId($elementId);
         $this->addElement($element);
         return $element;
     }
@@ -218,12 +213,11 @@ class AbstractForm extends \Magento\Object
     public function convertToArray(array $arrAttributes = array())
     {
         $res = array();
-        $res['config']  = $this->getData();
-        $res['formElements']= array();
+        $res['config'] = $this->getData();
+        $res['formElements'] = array();
         foreach ($this->getElements() as $element) {
             $res['formElements'][] = $element->toArray();
         }
         return $res;
     }
-
 }

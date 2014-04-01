@@ -11,11 +11,17 @@ use PHPParser_Node_Expr_AssignRef;
 
 class AssignRefOperator extends AbstractAssignmentOperator
 {
+    /**
+     * @param PHPParser_Node_Expr_AssignRef $node
+     */
     public function __construct(PHPParser_Node_Expr_AssignRef $node)
     {
         parent::__construct($node);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function operator()
     {
         return '=&';

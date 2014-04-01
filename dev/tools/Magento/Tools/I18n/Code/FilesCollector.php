@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code;
 
 /**
@@ -43,8 +42,10 @@ class FilesCollector
     protected function _getIterator($path, $fileMask = false)
     {
         try {
-            $directoryIterator = new \RecursiveDirectoryIterator($path,
-                \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS);
+            $directoryIterator = new \RecursiveDirectoryIterator(
+                $path,
+                \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS
+            );
             $iterator = new \RecursiveIteratorIterator($directoryIterator);
         } catch (\UnexpectedValueException $valueException) {
             throw new \InvalidArgumentException(sprintf('Cannot read directory for parse phrase: "%s".', $path));

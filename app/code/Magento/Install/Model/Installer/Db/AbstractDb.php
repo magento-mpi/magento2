@@ -86,7 +86,6 @@ abstract class AbstractDb
         return $this->_configData['db_model'];
     }
 
-
     /**
      * Return the DB type from config
      *

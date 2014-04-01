@@ -7,14 +7,13 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\File\Transfer\Adapter;
 
 /**
  * Csv parse
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\File\Transfer\Adapter;
-
 class Http
 {
     /**
@@ -70,6 +69,7 @@ class Http
      *
      * @param  string|array $options Options for the file(s) to send
      * @return void
+     * @throws \Exception
      */
     public function send($options = null)
     {
@@ -138,5 +138,4 @@ class Http
 
         return $result;
     }
-
 }

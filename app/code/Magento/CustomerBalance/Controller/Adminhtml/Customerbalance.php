@@ -10,6 +10,7 @@
 namespace Magento\CustomerBalance\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Controller for Customer account -> Store Credit ajax tab and all its contents
@@ -104,9 +105,7 @@ class Customerbalance extends \Magento\Backend\App\Action
      */
     public function deleteOrphanBalancesAction()
     {
-        $this->_balance->deleteBalancesByCustomerId(
-            (int)$this->getRequest()->getParam('id')
-        );
+        $this->_balance->deleteBalancesByCustomerId((int)$this->getRequest()->getParam('id'));
         $this->_redirect('customer/index/edit/', array('_current' => true));
     }
 
@@ -123,7 +122,7 @@ class Customerbalance extends \Magento\Backend\App\Action
         if (!$customer->getId()) {
             throw new \Magento\Core\Exception(__('Failed to initialize customer'));
         }
-        $this->_coreRegistry->register('current_customer', $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
     }
 
     /**

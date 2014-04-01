@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\MultipleWishlist\Block\Adminhtml\Report\Customer;
 
 /**
  * Wishlist report block
@@ -15,13 +16,12 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\MultipleWishlist\Block\Adminhtml\Report\Customer;
-
-class Wishlist
-    extends \Magento\Backend\Block\Widget\Grid\Container
+class Wishlist extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

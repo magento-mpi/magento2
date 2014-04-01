@@ -212,8 +212,6 @@ return array(
     'googlebase/attributes' => 'googlebase_attributes',
     'googlebase/items' => 'googlebase_items',
     'googlebase/types' => 'googlebase_types',
-    'googlecheckout/api_debug' => 'googlecheckout_api_debug',
-    'googlecheckout/notification' => 'googlecheckout_notification',
     'googleoptimizer/code' => 'googleoptimizer_code',
     'googleshopping/attributes' => 'googleshopping_attributes',
     'googleshopping/items' => 'googleshopping_items',
@@ -320,8 +318,8 @@ return array(
     'sales/quote_item' => 'sales_flat_quote_item',
     'sales/quote_item_option' => 'sales_flat_quote_item_option',
     'sales/quote_payment' => 'sales_flat_quote_payment',
-    'sales/recurring_profile' => 'recurring_profile',
-    'sales/recurring_profile_order' => 'recurring_profile_order',
+    'sales/recurring_payment' => 'recurring_payment',
+    'sales/recurring_payment_order' => 'recurring_payment_order',
     'sales/refunded_aggregated' => 'sales_refunded_aggregated',
     'sales/refunded_aggregated_order' => 'sales_refunded_aggregated_order',
     'sales/shipment' => 'sales_flat_shipment',
@@ -370,5 +368,5 @@ return array(
     'widget/widget_instance_page_layout' => 'widget_instance_page_layout',
     'wishlist/item' => 'wishlist_item',
     'wishlist/item_option' => 'wishlist_item_option',
-    'wishlist/wishlist' => 'wishlist',
+    'wishlist/wishlist' => 'wishlist'
 );

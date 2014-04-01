@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Reward\Model\Reward;
 
 class HistoryTest extends \PHPUnit_Framework_TestCase
@@ -56,10 +55,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
     public function getAdditionalDataByKeyDataProvider()
     {
-        return array(
-            'existing field' => array('field', 'value'),
-            'unknown field'  => array('unknown', null),
-        );
+        return array('existing field' => array('field', 'value'), 'unknown field' => array('unknown', null));
     }
 
     /**
@@ -79,12 +75,12 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         return array(
             'adding new field' => array(
                 array('field3' => 'value3'),
-                array('field1' => 'value1', 'field2' => 'value2', 'field3' => 'value3'),
+                array('field1' => 'value1', 'field2' => 'value2', 'field3' => 'value3')
             ),
             'overriding existing field' => array(
                 array('field1' => 'overridden_value'),
-                array('field1' => 'overridden_value', 'field2' => 'value2'),
-            ),
+                array('field1' => 'overridden_value', 'field2' => 'value2')
+            )
         );
     }
 }

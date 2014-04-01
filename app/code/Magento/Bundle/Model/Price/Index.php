@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Model\Price;
 
 /**
  * Bundle Product Price Index
@@ -27,8 +27,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Price;
-
 class Index extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -67,6 +65,7 @@ class Index extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -88,7 +87,7 @@ class Index extends \Magento\Core\Model\AbstractModel
      *
      * @param int $productId
      * @param int $priceType
-     * @return \Magento\Bundle\Model\Price\Index
+     * @return $this
      */
     protected function _reindexProduct($productId, $priceType)
     {
@@ -100,7 +99,7 @@ class Index extends \Magento\Core\Model\AbstractModel
      * Reindex Bundle product Price Index
      *
      * @param \Magento\Catalog\Model\Product|\Magento\Catalog\Model\Product\Condition\ConditionInterface|array|int $products
-     * @return \Magento\Bundle\Model\Price\Index
+     * @return $this
      */
     public function reindex($products = null)
     {
@@ -112,12 +111,12 @@ class Index extends \Magento\Core\Model\AbstractModel
      * Add bundle price range index to Product collection
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @return \Magento\Bundle\Model\Price\Index
+     * @return $this
      */
     public function addPriceIndexToCollection($collection)
     {
         $productObjects = array();
-        $productIds     = array();
+        $productIds = array();
         foreach ($collection->getItems() as $product) {
             /* @var $product \Magento\Catalog\Model\Product */
             if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
@@ -125,18 +124,23 @@ class Index extends \Magento\Core\Model\AbstractModel
                 $productObjects[$product->getEntityId()] = $product;
             }
         }
-        $websiteId  = $this->_storeManager->getStore($collection->getStoreId())
-            ->getWebsiteId();
-        $groupId    = $this->_customerSession->getCustomerGroupId();
+        $websiteId = $this->_storeManager->getStore($collection->getStoreId())->getWebsiteId();
+        $groupId = $this->_customerSession->getCustomerGroupId();
 
         $addOptionsToResult = false;
         $prices = $this->_getResource()->loadPriceIndex($productIds, $websiteId, $groupId);
         foreach ($productIds as $productId) {
             if (isset($prices[$productId])) {
-                $productObjects[$productId]
-                    ->setData('_price_index', true)
-                    ->setData('_price_index_min_price', $prices[$productId]['min_price'])
-                    ->setData('_price_index_max_price', $prices[$productId]['max_price']);
+                $productObjects[$productId]->setData(
+                    '_price_index',
+                    true
+                )->setData(
+                    '_price_index_min_price',
+                    $prices[$productId]['min_price']
+                )->setData(
+                    '_price_index_max_price',
+                    $prices[$productId]['max_price']
+                );
             } else {
                 $addOptionsToResult = true;
             }
@@ -153,18 +157,24 @@ class Index extends \Magento\Core\Model\AbstractModel
      * Add price index to bundle product after load
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Bundle\Model\Price\Index
+     * @return $this
      */
     public function addPriceIndexToProduct($product)
     {
-        $websiteId  = $product->getStore()->getWebsiteId();
-        $groupId    = $this->_customerSession->getCustomerGroupId();
-        $prices = $this->_getResource()
-            ->loadPriceIndex($product->getId(), $websiteId, $groupId);
+        $websiteId = $product->getStore()->getWebsiteId();
+        $groupId = $this->_customerSession->getCustomerGroupId();
+        $prices = $this->_getResource()->loadPriceIndex($product->getId(), $websiteId, $groupId);
         if (isset($prices[$product->getId()])) {
-            $product->setData('_price_index', true)
-                ->setData('_price_index_min_price', $prices[$product->getId()]['min_price'])
-                ->setData('_price_index_max_price', $prices[$product->getId()]['max_price']);
+            $product->setData(
+                '_price_index',
+                true
+            )->setData(
+                '_price_index_min_price',
+                $prices[$product->getId()]['min_price']
+            )->setData(
+                '_price_index_max_price',
+                $prices[$product->getId()]['max_price']
+            );
         }
         return $this;
     }

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Controller;
+
+use Magento\App\RequestInterface;
 
 /**
  * Customer account controller
@@ -15,11 +18,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Customer extends \Magento\App\Action\Action
 {
     /**
@@ -31,10 +29,8 @@ class Customer extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Customer\Model\Session $customerSession)
+    {
         $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
@@ -58,6 +54,7 @@ class Customer extends \Magento\App\Action\Action
     /**
      * Display downloadable links bought by customer
      *
+     * @return void
      */
     public function productsAction()
     {
@@ -72,5 +69,4 @@ class Customer extends \Magento\App\Action\Action
         }
         $this->_view->renderLayout();
     }
-
 }

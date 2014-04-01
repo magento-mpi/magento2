@@ -12,4 +12,3 @@
 /* @var $installer \Magento\Core\Model\Resource\Setup */
 
 $installer = $this;
-

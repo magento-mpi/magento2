@@ -5,15 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Model;
 
 class Observer
 {
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_coreLocale;
+    protected $_localeResolver;
 
     /**
      * @var \Magento\Sales\Model\Resource\Report\ShippingFactory
@@ -21,14 +20,14 @@ class Observer
     protected $_shippingFactory;
 
     /**
-     * @param \Magento\LocaleInterface $coreLocale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Sales\Model\Resource\Report\ShippingFactory $shippingFactory
      */
     public function __construct(
-        \Magento\LocaleInterface $coreLocale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Sales\Model\Resource\Report\ShippingFactory $shippingFactory
     ) {
-        $this->_coreLocale = $coreLocale;
+        $this->_localeResolver = $localeResolver;
         $this->_shippingFactory = $shippingFactory;
     }
 
@@ -39,11 +38,11 @@ class Observer
      */
     public function aggregateSalesReportShipmentData()
     {
-        $this->_coreLocale->emulate(0);
+        $this->_localeResolver->emulate(0);
         $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
         $this->_shippingFactory->create()->aggregate($date);
-        $this->_coreLocale->revert();
+        $this->_localeResolver->revert();
         return $this;
     }
 }

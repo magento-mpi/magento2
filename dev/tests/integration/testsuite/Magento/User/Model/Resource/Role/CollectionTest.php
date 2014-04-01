@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Resource\Role;
 
 /**
@@ -23,14 +22,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\Resource\Role\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\User\Model\Resource\Role\Collection'
+        );
     }
 
     public function testSetUserFilter()
     {
-        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
         $user->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
         $this->_collection->setUserFilter($user->getId(), \Magento\Authz\Model\UserIdentifier::USER_TYPE_ADMIN);
 

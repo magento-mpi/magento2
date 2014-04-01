@@ -107,9 +107,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\Locale
+     * @var \Magento\Locale\CurrencyInterface
      */
-    protected $_locale;
+    protected $_localeCurrency;
 
     /**
      * @var \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory
@@ -121,7 +121,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
@@ -129,13 +129,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Locale $locale,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->_storeConfig = $storeConfig;
         $this->_config = $config;
-        $this->_locale = $locale;
+        $this->_localeCurrency = $localeCurrency;
         $this->_ratesFactory = $ratesFactory;
         parent::__construct($context);
     }
@@ -183,7 +183,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($websiteId === null) {
             $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
-        return ($this->isEnabled() && $this->getGeneralConfig('is_enabled_on_front', (int)$websiteId));
+        return $this->isEnabled() && $this->getGeneralConfig('is_enabled_on_front', (int)$websiteId);
     }
 
     /**
@@ -261,11 +261,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $result = array();
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
-                $result[$websiteId] = new \Magento\Object(array(
-                    'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
-                    'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
-                    'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId)
-                ));
+                $result[$websiteId] = new \Magento\Object(
+                    array(
+                        'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
+                        'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
+                        'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId)
+                    )
+                );
             }
             $this->_expiryConfig = $result;
         }
@@ -283,9 +285,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $formatedPoints = $points;
         if ($points > 0) {
-            $formatedPoints = '+'.$points;
+            $formatedPoints = '+' . $points;
         } elseif ($points < 0) {
-            $formatedPoints = '-'.(-1*$points);
+            $formatedPoints = '-' . -1 * $points;
         }
         return $formatedPoints;
     }
@@ -314,7 +316,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function formatReward($points, $amount = null, $storeId = null, $pointsFormat = '%s', $amountFormat = '%s')
     {
         $points = sprintf($pointsFormat, $points);
-        if ((null !== $amount) && $this->getHasRates()) {
+        if (null !== $amount && $this->getHasRates()) {
             $amount = sprintf($amountFormat, $this->formatAmount($amount, true, $storeId));
             return __('%1 Reward points (%2)', $points, $amount);
         }
@@ -332,11 +334,18 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function formatAmount($amount, $asCurrency = true, $storeId = null)
     {
         if (null === $amount) {
-            return  null;
+            return null;
         }
-        return $asCurrency ?
-            $this->_storeManager->getStore($storeId)->convertPrice($amount, true, false) :
-            sprintf('%.2F', $amount);
+        return $asCurrency ? $this->_storeManager->getStore(
+            $storeId
+        )->convertPrice(
+            $amount,
+            true,
+            false
+        ) : sprintf(
+            '%.2F',
+            $amount
+        );
     }
 
     /**
@@ -380,7 +389,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$currencyCode) {
             $amountFormatted = sprintf('%.2F', $amount);
         } else {
-            $amountFormatted = $this->_locale->currency($currencyCode)->toCurrency((float)$amount);
+            $amountFormatted = $this->_localeCurrency->getCurrency($currencyCode)->toCurrency((double)$amount);
         }
         return sprintf($format, $points, $amountFormatted);
     }
@@ -394,8 +403,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected function _loadRatesArray()
     {
         $ratesArray = array();
-        $collection = $this->_ratesFactory->create()
-            ->addFieldToFilter('direction', \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
+        $collection = $this->_ratesFactory->create()->addFieldToFilter(
+            'direction',
+            \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
+        );
         foreach ($collection as $rate) {
             $ratesArray[$rate->getCustomerGroupId()][$rate->getWebsiteId()] = $rate;
         }
@@ -418,13 +429,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (isset($this->_ratesArray[$customerGroupId])) {
             if (isset($this->_ratesArray[$customerGroupId][$websiteId])) {
                 $rate = $this->_ratesArray[$customerGroupId][$websiteId];
-            } else if (isset($this->_ratesArray[$customerGroupId][0])){
+            } elseif (isset($this->_ratesArray[$customerGroupId][0])) {
                 $rate = $this->_ratesArray[$customerGroupId][0];
             }
-        } else if (isset($this->_ratesArray[0])) {
+        } elseif (isset($this->_ratesArray[0])) {
             if (isset($this->_ratesArray[0][$websiteId])) {
                 $rate = $this->_ratesArray[0][$websiteId];
-            } else if (isset($this->_ratesArray[0][0])) {
+            } elseif (isset($this->_ratesArray[0][0])) {
                 $rate = $this->_ratesArray[0][0];
             }
         }

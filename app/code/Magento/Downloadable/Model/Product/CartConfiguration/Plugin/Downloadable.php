@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Model\Product\CartConfiguration\Plugin;
 
-class Downloadable 
+class Downloadable
 {
     /**
      * Decide whether product has been configured for cart or not
@@ -34,4 +33,4 @@ class Downloadable
         }
         return $proceed($product, $config);
     }
-} 
+}

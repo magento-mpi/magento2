@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Install\Model;
 
 /**
  * Installer model
  */
-namespace Magento\Install\Model;
-
 class Installer extends \Magento\Object
 {
     /**
@@ -167,6 +165,16 @@ class Installer extends \Magento\Object
     protected $messageManager;
 
     /**
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\App\ReinitableConfigInterface $config
      * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\App\CacheInterface $cache
@@ -189,6 +197,8 @@ class Installer extends \Magento\Object
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Module\DependencyManagerInterface $dependencyManager
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -214,6 +224,8 @@ class Installer extends \Magento\Object
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Module\DependencyManagerInterface $dependencyManager,
         \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
@@ -238,6 +250,8 @@ class Installer extends \Magento\Object
         $this->moduleList = $moduleList;
         $this->dependencyManager = $dependencyManager;
         $this->messageManager = $messageManager;
+        $this->_localeDate = $localeDate;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($data);
     }
 
@@ -328,6 +342,7 @@ class Installer extends \Magento\Object
     /**
      * Check all necessary extensions are loaded and available
      *
+     * @return void
      * @throws \Exception
      */
     protected function checkExtensionsLoaded()
@@ -354,9 +369,7 @@ class Installer extends \Magento\Object
 
         $data = $this->_installerDb->checkDbConnectionData($data);
 
-        $this->_installerConfig
-            ->setConfigData($data)
-            ->install();
+        $this->_installerConfig->setConfigData($data)->install();
 
         $this->_arguments->reload();
         $this->_resource->setTablePrefix($data['db_prefix']);
@@ -417,20 +430,21 @@ class Installer extends \Magento\Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
-                $locale['locale']);
+            $setupModel->setConfigData($this->_localeResolver->getDefaultLocalePath(), $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(\Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
-                $locale['timezone']);
+            $setupModel->setConfigData($this->_localeDate->getDefaultTimezonePath(), $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
-                $locale['currency']);
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
-                $locale['currency']);
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
-                $locale['currency']);
+            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
+            $setupModel->setConfigData(
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
+                $locale['currency']
+            );
+            $setupModel->setConfigData(
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
+                $locale['currency']
+            );
         }
 
         if (!empty($data['order_increment_prefix'])) {
@@ -449,13 +463,17 @@ class Installer extends \Magento\Object
      */
     protected function _setOrderIncrementPrefix(\Magento\Core\Model\Resource\Setup $setupModel, $orderIncrementPrefix)
     {
-        $select = $setupModel->getConnection()->select()
-            ->from($setupModel->getTable('eav_entity_type'), 'entity_type_id')
-            ->where('entity_type_code=?', 'order');
+        $select = $setupModel->getConnection()->select()->from(
+            $setupModel->getTable('eav_entity_type'),
+            'entity_type_id'
+        )->where(
+            'entity_type_code=?',
+            'order'
+        );
         $data = array(
             'entity_type_id' => $setupModel->getConnection()->fetchOne($select),
             'store_id' => '1',
-            'increment_prefix' => $orderIncrementPrefix,
+            'increment_prefix' => $orderIncrementPrefix
         );
         $setupModel->getConnection()->insert($setupModel->getTable('eav_entity_store'), $data);
     }
@@ -469,16 +487,16 @@ class Installer extends \Magento\Object
     public function createAdministrator($data)
     {
         // \Magento\User\Model\User belongs to adminhtml area
-        $this->_app
-            ->loadAreaPart(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, \Magento\Core\Model\App\Area::PART_CONFIG);
+        $this->_app->loadAreaPart(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
+            \Magento\Core\Model\App\Area::PART_CONFIG
+        );
 
         /** @var $user \Magento\User\Model\User */
         $user = $this->_userModelFactory->create();
         $user->loadByUsername($data['username']);
-        $user->addData($data)
-            ->setForceNewPassword(true) // run-time flag to force saving of the entered password
-            ->setRoleId(1)
-            ->save();
+        // setForceNewPassword(true) - run-time flag to force saving of the entered password
+        $user->addData($data)->setForceNewPassword(true)->setRoleId(1)->save();
         $this->_refreshConfig();
     }
 

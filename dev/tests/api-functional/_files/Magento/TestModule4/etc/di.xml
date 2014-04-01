@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <preference for="Magento\TestModule4\Service\V1\DtoServiceInterface" type="Magento\TestModule4\Service\V1\DtoService" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+    <preference for="Magento\TestModule4\Service\V1\DataObjectServiceInterface" type="Magento\TestModule4\Service\V1\DataObjectService" />
 </config>

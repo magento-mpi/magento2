@@ -10,8 +10,7 @@ namespace Magento\Reward\Model\Resource\Reward\History\Grid\Options;
 
 use Magento\Reward\Model\Source\Website;
 
-class Websites
-    implements \Magento\Option\ArrayInterface
+class Websites implements \Magento\Option\ArrayInterface
 {
     /**
      * System Store Model

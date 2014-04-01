@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview;
 
 class View extends \Magento\Object implements ViewInterface
@@ -130,18 +129,18 @@ class View extends \Magento\Object implements ViewInterface
                 // Create subscriptions
                 foreach ($this->getSubscriptions() as $subscription) {
                     /** @var \Magento\Mview\View\SubscriptionInterface $subscription */
-                    $subscription = $this->subscriptionFactory->create(array(
-                        'view' => $this,
-                        'tableName' => $subscription['name'],
-                        'columnName' => $subscription['column'],
-                    ));
+                    $subscription = $this->subscriptionFactory->create(
+                        array(
+                            'view' => $this,
+                            'tableName' => $subscription['name'],
+                            'columnName' => $subscription['column']
+                        )
+                    );
                     $subscription->create();
                 }
 
                 // Update view state
-                $this->getState()
-                    ->setMode(View\StateInterface::MODE_ENABLED)
-                    ->save();
+                $this->getState()->setMode(View\StateInterface::MODE_ENABLED)->save();
             } catch (\Exception $e) {
                 throw $e;
             }
@@ -163,11 +162,13 @@ class View extends \Magento\Object implements ViewInterface
                 // Remove subscriptions
                 foreach ($this->getSubscriptions() as $subscription) {
                     /** @var \Magento\Mview\View\SubscriptionInterface $subscription */
-                    $subscription = $this->subscriptionFactory->create(array(
-                        'view' => $this,
-                        'tableName' => $subscription['name'],
-                        'columnName' => $subscription['column'],
-                    ));
+                    $subscription = $this->subscriptionFactory->create(
+                        array(
+                            'view' => $this,
+                            'tableName' => $subscription['name'],
+                            'columnName' => $subscription['column']
+                        )
+                    );
                     $subscription->remove();
                 }
 
@@ -175,10 +176,7 @@ class View extends \Magento\Object implements ViewInterface
                 $this->getChangelog()->drop();
 
                 // Update view state
-                $this->getState()
-                    ->setVersionId(null)
-                    ->setMode(View\StateInterface::MODE_DISABLED)
-                    ->save();
+                $this->getState()->setVersionId(null)->setMode(View\StateInterface::MODE_DISABLED)->save();
             } catch (\Exception $e) {
                 throw $e;
             }
@@ -190,39 +188,31 @@ class View extends \Magento\Object implements ViewInterface
     /**
      * Materialize view by IDs in changelog
      *
+     * @return void
      * @throws \Exception
      */
     public function update()
     {
-        if ($this->getState()->getMode() == View\StateInterface::MODE_ENABLED
-            && $this->getState()->getStatus() == View\StateInterface::STATUS_IDLE
+        if ($this->getState()->getMode() == View\StateInterface::MODE_ENABLED &&
+            $this->getState()->getStatus() == View\StateInterface::STATUS_IDLE
         ) {
             $currentVersionId = $this->getChangelog()->getVersion();
             $lastVersionId = $this->getState()->getVersionId();
             $ids = $this->getChangelog()->getList($lastVersionId, $currentVersionId);
             if ($ids) {
                 $action = $this->actionFactory->get($this->getActionClass());
-                $this->getState()
-                    ->setStatus(View\StateInterface::STATUS_WORKING)
-                    ->save();
+                $this->getState()->setStatus(View\StateInterface::STATUS_WORKING)->save();
                 try {
                     $action->execute($ids);
                     $this->getState()->loadByView($this->getId());
-                    $statusToRestore = $this->getState()->getStatus() == View\StateInterface::STATUS_SUSPENDED
-                        ? View\StateInterface::STATUS_SUSPENDED
-                        : View\StateInterface::STATUS_IDLE;
-                    $this->getState()
-                        ->setVersionId($currentVersionId)
-                        ->setStatus($statusToRestore)
-                        ->save();
+                    $statusToRestore = $this->getState()->getStatus() ==
+                        View\StateInterface::STATUS_SUSPENDED ? View\StateInterface::STATUS_SUSPENDED : View\StateInterface::STATUS_IDLE;
+                    $this->getState()->setVersionId($currentVersionId)->setStatus($statusToRestore)->save();
                 } catch (\Exception $exception) {
                     $this->getState()->loadByView($this->getId());
-                    $statusToRestore = $this->getState()->getStatus() == View\StateInterface::STATUS_SUSPENDED
-                        ? View\StateInterface::STATUS_SUSPENDED
-                        : View\StateInterface::STATUS_IDLE;
-                    $this->getState()
-                        ->setStatus($statusToRestore)
-                        ->save();
+                    $statusToRestore = $this->getState()->getStatus() ==
+                        View\StateInterface::STATUS_SUSPENDED ? View\StateInterface::STATUS_SUSPENDED : View\StateInterface::STATUS_IDLE;
+                    $this->getState()->setStatus($statusToRestore)->save();
                     throw $exception;
                 }
             }
@@ -231,6 +221,8 @@ class View extends \Magento\Object implements ViewInterface
 
     /**
      * Suspend view updates and set version ID to changelog's end
+     *
+     * @return void
      */
     public function suspend()
     {
@@ -244,6 +236,8 @@ class View extends \Magento\Object implements ViewInterface
 
     /**
      * Resume view updates
+     *
+     * @return void
      */
     public function resume()
     {
@@ -256,6 +250,8 @@ class View extends \Magento\Object implements ViewInterface
 
     /**
      * Clear precessed changelog entries
+     *
+     * @return void
      */
     public function clearChangelog()
     {

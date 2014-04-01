@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Block;
 
 /**
  * Cms block content block
  */
-class Block extends \Magento\View\Element\AbstractBlock
+class Block extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -69,12 +68,21 @@ class Block extends \Magento\View\Element\AbstractBlock
             $storeId = $this->_storeManager->getStore()->getId();
             /** @var \Magento\Cms\Model\Block $block */
             $block = $this->_blockFactory->create();
-            $block->setStoreId($storeId)
-                ->load($blockId);
+            $block->setStoreId($storeId)->load($blockId);
             if ($block->getIsActive()) {
                 $html = $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent());
             }
         }
         return $html;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Cms\Model\Block::CACHE_TAG . '_' . $this->getBlockId());
     }
 }

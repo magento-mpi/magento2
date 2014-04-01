@@ -12,7 +12,7 @@ use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
 /**
  * Shopping cart item render block for configurable products.
  */
-class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
+class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Path in config to the setting which defines if parent or child product should be used to generate a thumbnail.
@@ -91,13 +91,29 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
          * Show parent product thumbnail if it must be always shown according to the related setting in system config
          * or if child thumbnail is not available
          */
-        if ($this->_storeConfig->getConfig(self::CONFIG_THUMBNAIL_SOURCE) == ThumbnailSource::OPTION_USE_PARENT_IMAGE
-            || !($this->getChildProduct()->getThumbnail() && $this->getChildProduct()->getThumbnail() != 'no_selection')
+        if ($this->_storeConfig->getConfig(
+            self::CONFIG_THUMBNAIL_SOURCE
+        ) == ThumbnailSource::OPTION_USE_PARENT_IMAGE ||
+            !($this->getChildProduct()->getThumbnail() && $this->getChildProduct()->getThumbnail() != 'no_selection')
         ) {
             $product = $this->getProduct();
         } else {
             $product = $this->getChildProduct();
         }
         return $product;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = parent::getIdentities();
+        if ($this->getItem()) {
+            $identities = array_merge($identities, $this->getChildProduct()->getIdentities());
+        }
+        return $identities;
     }
 }

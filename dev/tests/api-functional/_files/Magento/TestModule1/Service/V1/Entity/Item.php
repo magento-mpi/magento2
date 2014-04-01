@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class Item extends \Magento\Service\Entity\AbstractDto
+class Item extends \Magento\Service\Data\AbstractObject
 {
     /**
      * @return int
@@ -25,5 +24,4 @@ class Item extends \Magento\Service\Entity\AbstractDto
     {
         return $this->_data['name'];
     }
-
 }

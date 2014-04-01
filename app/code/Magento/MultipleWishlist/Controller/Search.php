@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Controller;
+
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
@@ -34,11 +34,9 @@ class Search extends \Magento\App\Action\Action
     protected $_coreRegistry;
 
     /**
-     * Locale model
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * Customer session
@@ -109,7 +107,7 @@ class Search extends \Magento\App\Action\Action
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -122,7 +120,7 @@ class Search extends \Magento\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\LocaleInterface $locale
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_itemFactory = $itemFactory;
@@ -133,7 +131,7 @@ class Search extends \Magento\App\Action\Action
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCart = $checkoutCart;
         $this->_customerSession = $customerSession;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context);
     }
 
@@ -147,7 +145,7 @@ class Search extends \Magento\App\Action\Action
     {
         if (!$this->_localFilter) {
             $this->_localFilter = new \Zend_Filter_LocalizedToNormalized(
-                array('locale' => $this->_locale->getLocaleCode())
+                array('locale' => $this->_localeResolver->getLocaleCode())
             );
         }
         $qty = $this->_localFilter->filter($qty);
@@ -202,7 +200,7 @@ class Search extends \Magento\App\Action\Action
             $params = $this->getRequest()->getParam('params');
             if (empty($params) || !is_array($params) || empty($params['search'])) {
                 throw new \Magento\Core\Exception(__('Please specify correct search options.'));
-            };
+            }
 
             $strategy = null;
             switch ($params['search']) {
@@ -253,8 +251,9 @@ class Search extends \Magento\App\Action\Action
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_wishlistFactory->create();
         $wishlist->load($wishlistId);
-        if (!$wishlist->getId()
-            || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId())) {
+        if (!$wishlist->getId() ||
+            !$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId()
+        ) {
             throw new NotFoundException();
         }
         $this->_coreRegistry->register('wishlist', $wishlist);
@@ -275,7 +274,7 @@ class Search extends \Magento\App\Action\Action
      */
     public function addtocartAction()
     {
-        $messages   = array();
+        $messages = array();
         $addedItems = array();
         $notSalable = array();
         $hasOptions = array();
@@ -332,11 +331,14 @@ class Search extends \Magento\App\Action\Action
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = __('Product(s) %1 have required options. Each product can only be added individually.', join(', ', $products));
+            $messages[] = __(
+                'Product(s) %1 have required options. Each product can only be added individually.',
+                join(', ', $products)
+            );
         }
 
         if ($messages) {
-            if ((count($messages) == 1) && count($hasOptions) == 1) {
+            if (count($messages) == 1 && count($hasOptions) == 1) {
                 $item = $hasOptions[0];
                 $redirectUrl = $item->getProductUrl();
             } else {

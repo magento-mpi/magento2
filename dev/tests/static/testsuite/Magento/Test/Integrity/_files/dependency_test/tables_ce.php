@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array (
+return array(
     'admin_assert' => 'Magento_Adminhtml',
     'admin_role' => 'Magento_Adminhtml',
     'admin_rule' => 'Magento_Adminhtml',
@@ -188,7 +188,6 @@ return array (
     'googlebase_attributes' => 'Magento_GoogleShopping',
     'googlebase_items' => 'Magento_GoogleShopping',
     'googlebase_types' => 'Magento_GoogleShopping',
-    'googlecheckout_notification' => 'Magento_GoogleCheckout',
     'googleoptimizer_code' => 'Magento_GoogleOptimizer',
     'googleshopping_attributes' => 'Magento_GoogleShopping',
     'googleshopping_items' => 'Magento_GoogleShopping',
@@ -277,8 +276,8 @@ return array (
     'sales_flat_quote_item' => 'Magento_Sales',
     'sales_flat_quote_item_option' => 'Magento_Sales',
     'sales_flat_quote_payment' => 'Magento_Sales',
-    'recurring_profile' => 'Magento_RecurringProfile',
-    'recurring_profile_order' => 'Magento_RecurringProfile',
+    'recurring_payment' => 'Magento_RecurringPayment',
+    'recurring_payment_order' => 'Magento_RecurringPayment',
     'sales_refunded_aggregated' => 'Magento_Sales',
     'sales_refunded_aggregated_order' => 'Magento_Sales',
     'sales_flat_shipment' => 'Magento_Sales',

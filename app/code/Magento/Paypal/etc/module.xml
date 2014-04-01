@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_Paypal" version="1.6.0.3" active="true">
         <sequence>
             <module name="Magento_Checkout"/>
@@ -25,7 +25,6 @@
             <module name="Magento_Theme"/>
             <module name="Magento_Centinel"/>
             <module name="Magento_Catalog"/>
-            <module name="Magento_RecurringProfile"/>
             <module name="Magento_Eav"/>
         </depends>
     </module>

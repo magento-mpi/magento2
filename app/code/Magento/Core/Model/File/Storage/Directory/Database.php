@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\File\Storage\Directory;
 
 /**
@@ -38,7 +37,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
      * @param \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource
@@ -50,7 +49,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Model\Date $dateModel,
+        \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource,
@@ -86,13 +85,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
          * addData() is used because it's needed to clear only db storaged data
          */
         $this->addData(
-            array(
-                'directory_id'  => null,
-                'name'          => null,
-                'path'          => null,
-                'upload_time'   => null,
-                'parent_id'     => null
-            )
+            array('directory_id' => null, 'name' => null, 'path' => null, 'upload_time' => null, 'parent_id' => null)
         );
 
         $this->_getResource()->loadByPath($this, $path);
@@ -168,8 +161,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function exportDirectories($offset = 0, $count = 100)
     {
-        $offset = ((int)$offset >= 0) ? (int)$offset : 0;
-        $count  = ((int)$count >= 1) ? (int)$count : 1;
+        $offset = (int)$offset >= 0 ? (int)$offset : 0;
+        $count = (int)$count >= 1 ? (int)$count : 1;
 
         $result = $this->_getResource()->exportDirectories($offset, $count);
 

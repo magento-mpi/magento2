@@ -34,7 +34,7 @@ class ConfigurableProduct extends Product
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         parent::__construct($defaultConfig, $defaultData);
         $this->_data[self::CONFIGURABLE]['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
@@ -44,6 +44,7 @@ class ConfigurableProduct extends Product
             'config' => $defaultConfig,
             'data' => $this->buildProductVariations($defaultData)
         );
+        $this->_data['edit_configurable'] = $this->editConfigurable();
     }
 
     /**
@@ -56,7 +57,9 @@ class ConfigurableProduct extends Product
         $pricing = array(
             'data' => array(
                 'fields' => array(
-                    'special_price' => array('value' => '9', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING)
+                    'special_price' => array(
+                        'value' => '9', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING
+                    )
                 )
             )
         );
@@ -143,5 +146,82 @@ class ConfigurableProduct extends Product
             )
         );
         return $data;
+    }
+
+
+    /**
+     * Build product edit data set
+     *
+     * @return array
+     */
+    protected function editConfigurable()
+    {
+        $editData = array(
+            'data' => array(
+                'fields' => array(
+                    'name' => array(
+                        'value' =>
+                            substr(get_class($this), strrpos(get_class($this), '\\') + 1) . ' %isolation%_edit',
+                    ),
+                    'sku' => array(
+                        'value' =>
+                            substr(get_class($this), strrpos(get_class($this), '\\') + 1) . '_sku_%isolation%_edit',
+                    ),
+                    'price' => array(
+                        'value' => '15',
+                    ),
+                    'configurable_attributes_data' => array(
+                        'value' => array(
+                            '0' => array(
+                                '2' => array(
+                                    'option_label' => array(
+                                        'value' => 'Option3_%isolation%'
+                                    ),
+                                    'pricing_value' => array(
+                                        'value' => '4'
+                                    ),
+                                    'is_percent' => array(
+                                        'value' => 'No'
+                                    ),
+                                    'include' => array(
+                                        'value' => 'Yes'
+                                    )
+                                ),
+                            )
+                        ),
+                        'group' => ConfigurableProductFixture::GROUP
+                    ),
+                    'variations-matrix' => array(
+                        'value' => array(
+                            '0' => array(
+                                'configurable_attribute' => array(
+                                    '0' => array(
+                                        'attribute_option' => 'Option3_%isolation%'
+                                    )
+                                ),
+                                'value' => array(
+                                    'display' => array(
+                                        'value' => 'Yes',
+                                        'input' => 'checkbox'
+                                    ),
+                                    'name' => array(
+                                        'value' => 'Variation 2-%isolation%'
+                                    ),
+                                    'sku' => array(
+                                        'value' => 'Variation 2-%isolation%'
+                                    ),
+                                    'qty' => array(
+                                        'value' => '100'
+                                    )
+                                )
+                            ),
+                        ),
+                        'group' => ConfigurableProductFixture::GROUP,
+                    )
+                )
+            )
+        );
+
+        return $editData;
     }
 }

@@ -19,7 +19,6 @@ interface ConfigInterface
      */
     public function isActive($scope = null);
 
-
     /**
      * Check whether allowed client ip for inline translation
      *

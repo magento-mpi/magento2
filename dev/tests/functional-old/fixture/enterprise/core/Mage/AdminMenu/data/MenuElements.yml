@@ -20,7 +20,7 @@ menu:
         manage_rma: ~
         manage_sales_billing_agreements: ~
         manage_sales_transactions: ~
-        manage_sales_recurring_profile: ~
+        manage_sales_recurring_payment: ~
     products:
     #Inventory group
         manage_products: ~

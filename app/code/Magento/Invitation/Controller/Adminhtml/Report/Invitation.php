@@ -55,14 +55,8 @@ class Invitation extends \Magento\Backend\App\Action
     public function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_addBreadcrumb(
-            __('Reports'),
-            __('Reports')
-        );
-        $this->_addBreadcrumb(
-            __('Invitations'),
-            __('Invitations')
-        );
+        $this->_addBreadcrumb(__('Reports'), __('Reports'));
+        $this->_addBreadcrumb(__('Invitations'), __('Invitations'));
         return $this;
     }
 
@@ -75,10 +69,12 @@ class Invitation extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Invitations Report'));
 
-        $this->_initAction()
-            ->_setActiveMenu('Magento_Invitation::report_magento_invitation_general')
-            ->_addBreadcrumb(__('General Report'),
-            __('General Report'));
+        $this->_initAction()->_setActiveMenu(
+            'Magento_Invitation::report_magento_invitation_general'
+        )->_addBreadcrumb(
+            __('General Report'),
+            __('General Report')
+        );
         $this->_view->renderLayout();
     }
 
@@ -90,7 +86,7 @@ class Invitation extends \Magento\Backend\App\Action
     public function exportCsvAction()
     {
         $this->_view->loadLayout();
-        $fileName   = 'invitation_general.csv';
+        $fileName = 'invitation_general.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
@@ -123,10 +119,12 @@ class Invitation extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Invited Customers Report'));
 
-        $this->_initAction()
-            ->_setActiveMenu('Magento_Invitation::report_magento_invitation_customer')
-            ->_addBreadcrumb(__('Invitation Report by Customers'),
-            __('Invitation Report by Customers'));
+        $this->_initAction()->_setActiveMenu(
+            'Magento_Invitation::report_magento_invitation_customer'
+        )->_addBreadcrumb(
+            __('Invitation Report by Customers'),
+            __('Invitation Report by Customers')
+        );
         $this->_view->renderLayout();
     }
 
@@ -171,9 +169,12 @@ class Invitation extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Conversion Rate Report'));
 
-        $this->_initAction()->_setActiveMenu('Magento_Invitation::report_magento_invitation_order')
-            ->_addBreadcrumb(__('Invitation Report by Customers'),
-            __('Invitation Report by Order Conversion Rate'));
+        $this->_initAction()->_setActiveMenu(
+            'Magento_Invitation::report_magento_invitation_order'
+        )->_addBreadcrumb(
+            __('Invitation Report by Customers'),
+            __('Invitation Report by Order Conversion Rate')
+        );
         $this->_view->renderLayout();
     }
 
@@ -216,7 +217,8 @@ class Invitation extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_config->isEnabled() &&
-            $this->_authorization->isAllowed('Magento_Invitation::report_magento_invitation');
+        return $this->_config->isEnabled() && $this->_authorization->isAllowed(
+            'Magento_Invitation::report_magento_invitation'
+        );
     }
 }

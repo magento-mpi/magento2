@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Controller\Adminhtml;
+
+use Magento\Backend\App\Action;
 
 /**
  * Gift Wrapping Controller
@@ -15,16 +18,12 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Controller\Adminhtml;
-
-use Magento\Backend\App\Action;
-
 class Giftwrapping extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -32,10 +31,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -43,7 +40,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Init active menu
      *
-     * @return \Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping
+     * @return $this
      */
     protected function _initAction()
     {
@@ -65,7 +62,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     {
         $model = $this->_coreRegistry->registry('current_giftwrapping_model');
         if ($model) {
-           return $model;
+            return $model;
         }
         $model = $this->_objectManager->create('Magento\GiftWrapping\Model\Wrapping');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
@@ -84,6 +81,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * List of gift wrappings
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -93,6 +92,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Create new gift wrapping
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -104,6 +105,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Edit gift wrapping
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -119,6 +122,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Save gift wrapping
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -146,7 +151,10 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
-                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
+                    $this->_redirect(
+                        'adminhtml/*/edit',
+                        array('id' => $model->getId(), 'store' => $model->getStoreId())
+                    );
                     return;
                 }
             } catch (\Magento\Core\Exception $e) {
@@ -163,6 +171,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Upload temporary gift wrapping image
+     *
+     * @return void
      */
     public function uploadAction()
     {
@@ -196,22 +206,23 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
     /**
      * Change gift wrapping(s) status action
+     *
+     * @return void
      */
     public function changeStatusAction()
     {
         $wrappingIds = (array)$this->getRequest()->getParam('wrapping_ids');
         $status = (int)(bool)$this->getRequest()->getParam('status');
         try {
-            $wrappingCollection = $this->_objectManager
-                ->create('Magento\GiftWrapping\Model\Resource\Wrapping\Collection');
+            $wrappingCollection = $this->_objectManager->create(
+                'Magento\GiftWrapping\Model\Resource\Wrapping\Collection'
+            );
             $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
             foreach ($wrappingCollection as $wrapping) {
                 $wrapping->setStatus($status);
             }
             $wrappingCollection->save();
-            $this->messageManager->addSuccess(
-                __('You updated a total of %1 records.', count($wrappingIds))
-            );
+            $this->messageManager->addSuccess(__('You updated a total of %1 records.', count($wrappingIds)));
         } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
@@ -224,6 +235,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Delete specified gift wrapping(s)
      * This action can be performed on 'Manage Gift Wrappings' page
+     *
+     * @return void
      */
     public function massDeleteAction()
     {
@@ -232,15 +245,14 @@ class Giftwrapping extends \Magento\Backend\App\Action
             $this->messageManager->addError(__('Please select items.'));
         } else {
             try {
-                $wrappingCollection = $this->_objectManager
-                    ->create('Magento\GiftWrapping\Model\Resource\Wrapping\Collection');
+                $wrappingCollection = $this->_objectManager->create(
+                    'Magento\GiftWrapping\Model\Resource\Wrapping\Collection'
+                );
                 $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
                 foreach ($wrappingCollection as $wrapping) {
                     $wrapping->delete();
                 }
-                $this->messageManager->addSuccess(
-                    __('You deleted a total of %1 records.', count($wrappingIds))
-                );
+                $this->messageManager->addSuccess(__('You deleted a total of %1 records.', count($wrappingIds)));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
@@ -252,6 +264,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Delete current gift wrapping
      * This action can be performed on 'Edit Gift Wrapping' page
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -263,7 +277,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You deleted the gift wrapping.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('_current'=>true));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
             }
         }
         $this->_redirect('adminhtml/*/');
@@ -272,7 +286,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Check admin permissions for this controller
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -299,9 +313,11 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Ajax action for GiftWrapping content in backend order creation
      *
+     * @return void
      * @deprecated since 1.12.0.0
      */
-    public function orderOptionsAction() {
+    public function orderOptionsAction()
+    {
         $this->_view->loadLayout();
         $this->_view->renderLayout();
     }

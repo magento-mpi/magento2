@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Sales\Order\Item\Renderer;
 
 class Noquote extends \Magento\GiftCard\Block\Sales\Order\Item\Renderer
@@ -31,10 +30,10 @@ class Noquote extends \Magento\GiftCard\Block\Sales\Order\Item\Renderer
      *
      * @param string $name
      * @param string $email
-     * @return mixed
+     * @return string
      */
     protected function _getNameEmailString($name, $email)
     {
-        return "$name <{$email}>";
+        return "{$name} <{$email}>";
     }
 }

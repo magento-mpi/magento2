@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Helper\File;
 
 /**
@@ -16,7 +15,7 @@ namespace Magento\Core\Helper\File;
 class Media extends \Magento\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -24,17 +23,17 @@ class Media extends \Magento\App\Helper\AbstractHelper
      * @var \Magento\App\Filesystem
      */
     protected $filesystem;
-    
+
     /**
      * Constructor
      *
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\App\Filesystem $filesystem
     ) {
         parent::__construct($context);
@@ -77,10 +76,10 @@ class Media extends \Magento\App\Helper\AbstractHelper
         }
 
         return array(
-            'filename'      => basename($path),
-            'content'       => $dir->readFile($relativePath),
-            'update_time'   => $this->_date->date(),
-            'directory'     => $directory
+            'filename' => basename($path),
+            'content' => $dir->readFile($relativePath),
+            'update_time' => $this->_date->date(),
+            'directory' => $directory
         );
     }
 }

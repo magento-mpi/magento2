@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Adapter;
 
 /**
  * Solr search engine adapter
  */
-class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
-    implements \Magento\Search\Model\AdapterInterface
+class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr implements
+    \Magento\Search\Model\AdapterInterface
 {
     /**
      * Object name used to create solr document object
@@ -32,7 +31,6 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
@@ -45,12 +43,13 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
      * @param array $options
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice,
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
@@ -63,6 +62,8 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         $options = array()
     ) {
@@ -72,9 +73,22 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         }
         $this->_ctlgInventData = $ctlgInventData;
         parent::__construct(
-            $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
-            $logger, $storeManager, $cache, $eavConfig, $searchFactory, $clientHelper, $registry,
-            $coreStoreConfig, $dateTime, $options
+            $customerSession,
+            $resourceIndex,
+            $resourceFulltext,
+            $attributeCollection,
+            $logger,
+            $storeManager,
+            $cache,
+            $eavConfig,
+            $searchFactory,
+            $clientHelper,
+            $registry,
+            $coreStoreConfig,
+            $dateTime,
+            $localeResolver,
+            $localeDate,
+            $options
         );
     }
 
@@ -120,10 +134,10 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
             $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
         }
 
-        $offset = (isset($_params['offset'])) ? (int)$_params['offset'] : 0;
-        $limit  = (isset($_params['limit']))
-            ? (int)$_params['limit']
-            : \Magento\Search\Model\Adapter\Solr\AbstractSolr::DEFAULT_ROWS_LIMIT;
+        $offset = isset($_params['offset']) ? (int)$_params['offset'] : 0;
+        $limit = isset(
+            $_params['limit']
+        ) ? (int)$_params['limit'] : \Magento\Search\Model\Adapter\Solr\AbstractSolr::DEFAULT_ROWS_LIMIT;
 
         /**
          * Now supported search only in fulltext field
@@ -151,9 +165,8 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         if ($limit > 1) {
             $sortFields = $this->_prepareSortFields($_params['sort_by']);
             foreach ($sortFields as $sortField) {
-                $sortField['sortType'] = ($sortField['sortType'] == 'desc')
-                    ? SolrQuery::ORDER_DESC
-                    : SolrQuery::ORDER_ASC;
+                $sortField['sortType'] = $sortField['sortType'] ==
+                    'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
                 $solrQuery->addSortField($sortField['sortField'], $sortField['sortType']);
             }
         }
@@ -179,7 +192,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         /**
          * Facets search
          */
-        $useFacetSearch = (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on');
+        $useFacetSearch = isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on';
         if ($useFacetSearch) {
             $_params['solr_params'] += $this->_prepareFacetConditions($params['facet']);
         }
@@ -187,24 +200,26 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         /**
          * Suggestions search
          */
-        $useSpellcheckSearch = isset($params['solr_params']['spellcheck'])
-            && $params['solr_params']['spellcheck'] == 'true';
+        $useSpellcheckSearch = isset(
+            $params['solr_params']['spellcheck']
+        ) && $params['solr_params']['spellcheck'] == 'true';
 
 
         if ($useSpellcheckSearch) {
-            if (isset($params['solr_params']['spellcheck.count'])
-                && (int) $params['solr_params']['spellcheck.count'] > 0
+            if (isset(
+                $params['solr_params']['spellcheck.count']
+            ) && (int)$params['solr_params']['spellcheck.count'] > 0
             ) {
-                $spellcheckCount = (int) $params['solr_params']['spellcheck.count'];
+                $spellcheckCount = (int)$params['solr_params']['spellcheck.count'];
             } else {
                 $spellcheckCount = self::DEFAULT_SPELLCHECK_COUNT;
             }
 
             $_params['solr_params'] += array(
-                'spellcheck.collate'         => 'true',
-                'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
+                'spellcheck.collate' => 'true',
+                'spellcheck.dictionary' => 'magento_spell' . $languageSuffix,
                 'spellcheck.extendedResults' => 'true',
-                'spellcheck.count'           => $spellcheckCount
+                'spellcheck.count' => $spellcheckCount
             );
         }
 
@@ -262,9 +277,11 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
                 if ($useSpellcheckSearch) {
                     $resultSuggestions = $this->_prepareSuggestionsQueryResponse($data);
                     /* Calc results count for each suggestion */
-                    if (isset($params['spellcheck_result_counts']) && $params['spellcheck_result_counts'] == true
-                        && count($resultSuggestions)
-                        && $spellcheckCount > 0
+                    if (isset(
+                        $params['spellcheck_result_counts']
+                    ) && $params['spellcheck_result_counts'] == true && count(
+                        $resultSuggestions
+                    ) && $spellcheckCount > 0
                     ) {
                         /* Temporary store value for main search query */
                         $tmpLastNumFound = $this->_lastNumFound;
@@ -318,10 +335,9 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     /**
      * Retrieve attribute solr field name
      *
-     * @param   \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
-     * @param   string $target - default|sort|nav
-     *
-     * @return  string|bool
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
+     * @param string $target - default|sort|nav
+     * @return string|bool
      */
     public function getSearchEngineFieldName($attribute, $target = 'default')
     {

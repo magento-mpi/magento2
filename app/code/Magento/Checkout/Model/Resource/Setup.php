@@ -36,7 +36,12 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     ) {
         $this->_customerAddress = $customerAddress;
         parent::__construct(
-            $context, $resourceName, $cache, $attrGroupCollectionFactory, $moduleName, $connectionName
+            $context,
+            $resourceName,
+            $cache,
+            $attrGroupCollectionFactory,
+            $moduleName,
+            $connectionName
         );
     }
 

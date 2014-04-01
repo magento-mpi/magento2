@@ -15,9 +15,7 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
  * @category   Magento
  * @package    Magento_Invitation
  */
-class History
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class History extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -112,10 +110,12 @@ class History
      */
     public function getHistoryCollection()
     {
-        return $this->_historyFactory->create()
-            ->getCollection()
-            ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
-            ->addOrder('history_id');
+        return $this->_historyFactory->create()->getCollection()->addFieldToFilter(
+            'invitation_id',
+            $this->getInvitation()->getId()
+        )->addOrder(
+            'history_id'
+        );
     }
 
     /**
@@ -129,7 +129,7 @@ class History
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = $this->_locale->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -146,7 +146,7 @@ class History
     public function formatTime($date = null, $format = 'short', $showDate = false)
     {
         if (is_string($date)) {
-            $date = $this->_locale->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatTime($date, $format, $showDate);

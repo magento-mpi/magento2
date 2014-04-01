@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Cache\Type;
 
 /**
@@ -67,12 +66,10 @@ class FrontendPool
         if (!isset($this->_instances[$cacheType])) {
             $frontendId = $this->_getCacheFrontendId($cacheType);
             $frontendInstance = $this->_frontendPool->get($frontendId);
-            /** @var $frontendInstance \Magento\App\Cache\Type\AccessProxy */
+            /** @var $frontendInstance AccessProxy */
             $frontendInstance = $this->_objectManager->create(
-                'Magento\App\Cache\Type\AccessProxy', array(
-                    'frontend' => $frontendInstance,
-                    'identifier' => $cacheType,
-                )
+                'Magento\App\Cache\Type\AccessProxy',
+                array('frontend' => $frontendInstance, 'identifier' => $cacheType)
             );
             $this->_instances[$cacheType] = $frontendInstance;
         }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ProductAlert\Block\Email;
 
 /**
  * ProductAlert email back in stock grid
@@ -16,11 +16,11 @@
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Block\Email;
-
 class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'email/stock.phtml';
 
     /**
@@ -50,8 +50,7 @@ class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'thumbnail')
-            ->resize($this->getThumbnailSize());
+        return (string)$this->_imageHelper->init($product, 'thumbnail')->resize($this->getThumbnailSize());
     }
 
     /**

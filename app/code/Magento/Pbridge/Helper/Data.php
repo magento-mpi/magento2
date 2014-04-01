@@ -72,11 +72,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * Store manager
@@ -133,7 +131,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\App\State $appState
@@ -145,7 +143,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\App\State $appState,
@@ -155,7 +153,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_layout = $layout;
         $this->_encryptionFactory = $encryptionFactory;
         $this->_appState = $appState;
@@ -182,9 +180,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function arePaymentProfilesEnables($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag('payment/pbridge/profilestatus', $store)
-            &&
-            $this->isEnabled($store);
+        return $this->_coreStoreConfig->getConfigFlag(
+            'payment/pbridge/profilestatus',
+            $store
+        ) && $this->isEnabled(
+            $store
+        );
     }
 
     /**
@@ -195,9 +196,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAvailable($store = null)
     {
-        return (bool)$this->_coreStoreConfig->getConfig('payment/pbridge/gatewayurl', $store) &&
-            (bool)$this->_coreStoreConfig->getConfig('payment/pbridge/merchantcode', $store) &&
-            (bool)$this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $store);
+        return (bool)$this->_coreStoreConfig->getConfig(
+            'payment/pbridge/gatewayurl',
+            $store
+        ) && (bool)$this->_coreStoreConfig->getConfig(
+            'payment/pbridge/merchantcode',
+            $store
+        ) && (bool)$this->_coreStoreConfig->getConfig(
+            'payment/pbridge/merchantkey',
+            $store
+        );
     }
 
     /**
@@ -245,9 +253,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected function _prepareRequestUrl($params = array(), $encryptParams = true)
     {
-        $storeId = (isset($params['store_id'])) ? $params['store_id']: $this->_storeId;
+        $storeId = isset($params['store_id']) ? $params['store_id'] : $this->_storeId;
         $pbridgeUrl = $this->getBridgeBaseUrl($storeId);
-        $sourceUrl =  rtrim($pbridgeUrl, '/') . '/bridge.php';
+        $sourceUrl = rtrim($pbridgeUrl, '/') . '/bridge.php';
 
         if (!empty($params)) {
             if ($encryptParams) {
@@ -271,14 +279,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRequestParams(array $params = array())
     {
-        $params = array_merge(array(
-            'locale' => $this->_locale->getLocaleCode(),
-        ), $params);
+        $params = array_merge(array('locale' => $this->_localeResolver->getLocaleCode()), $params);
 
-        $params['merchant_key']  = trim($this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $this->_storeId));
+        $params['merchant_key'] = trim(
+            $this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $this->_storeId)
+        );
 
-        $params['scope'] = $this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
-            ? 'backend' : 'frontend';
+        $params['scope'] = $this->_appState->getAreaCode() ==
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE ? 'backend' : 'frontend';
 
         return $params;
     }
@@ -300,13 +308,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
             }
             $reservedOrderId = $quote->getReservedOrderId();
         }
-        $params = array_merge(array(
-            'order_id'      => $reservedOrderId,
-            'amount'        => $quote ? $quote->getBaseGrandTotal() : '0',
-            'currency_code' => $quote ? $quote->getBaseCurrencyCode() : '',
-            'client_identifier' => md5($quote->getId()),
-            'store_id'      => $quote ? $quote->getStoreId() : '0',
-        ), $params);
+        $params = array_merge(
+            array(
+                'order_id' => $reservedOrderId,
+                'amount' => $quote ? $quote->getBaseGrandTotal() : '0',
+                'currency_code' => $quote ? $quote->getBaseCurrencyCode() : '',
+                'client_identifier' => md5($quote->getId()),
+                'store_id' => $quote ? $quote->getStoreId() : '0'
+            ),
+            $params
+        );
 
         if ($quote->getStoreId()) {
             $this->setStoreId($quote->getStoreId());
@@ -391,10 +402,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $decryptData = $this->decrypt($this->_getRequest()->getParam('data', ''));
         $data = json_decode($decryptData, true);
         $data = array(
-            'original_payment_method' => isset($data['original_payment_method'])?$data['original_payment_method']:null,
-            'token'                   => isset($data['token']) ? $data['token'] : null,
-            'cc_last4'                => isset($data['cc_last4']) ? $data['cc_last4'] : null,
-            'cc_type'                 => isset($data['cc_type']) ? $data['cc_type'] : null,
+            'original_payment_method' => isset(
+                $data['original_payment_method']
+            ) ? $data['original_payment_method'] : null,
+            'token' => isset($data['token']) ? $data['token'] : null,
+            'cc_last4' => isset($data['cc_last4']) ? $data['cc_last4'] : null,
+            'cc_type' => isset($data['cc_type']) ? $data['cc_type'] : null
         );
 
         return $data;
@@ -415,6 +428,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Prepare cart line items
      *
      * @param \Magento\Payment\Model\Cart $cart
+     * @return array
      */
     protected function _prepareCart(\Magento\Payment\Model\Cart $cart)
     {

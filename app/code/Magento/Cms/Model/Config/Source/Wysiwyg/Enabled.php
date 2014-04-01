@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 
 /**
@@ -21,18 +20,9 @@ class Enabled implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array(
-                'value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_ENABLED,
-                'label' => __('Enabled by Default')
-            ),
-            array(
-                'value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_HIDDEN,
-                'label' => __('Disabled by Default')
-            ),
-            array(
-                'value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_DISABLED,
-                'label' => __('Disabled Completely')
-            )
+            array('value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_ENABLED, 'label' => __('Enabled by Default')),
+            array('value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_HIDDEN, 'label' => __('Disabled by Default')),
+            array('value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_DISABLED, 'label' => __('Disabled Completely'))
         );
     }
 }

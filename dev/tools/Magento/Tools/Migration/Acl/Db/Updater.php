@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\Acl\Db;
 
 class Updater
@@ -64,6 +63,7 @@ class Updater
      * Migrate old keys to new
      *
      * @param array $map
+     * @return void
      */
     public function migrate($map)
     {

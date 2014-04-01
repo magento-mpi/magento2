@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Block\Adminhtml;
 
 /**
  * Log grid container
  */
-namespace Magento\Logging\Block\Adminhtml;
-
 class Details extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -62,15 +61,19 @@ class Details extends \Magento\Backend\Block\Widget\Container
     /**
      * Add back button
      *
+     * @return void
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->_addButton('back', array(
-            'label'   => __('Back'),
-            'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('adminhtml/*/') . "')",
-            'class'   => 'back'
-        ));
+        $this->_addButton(
+            'back',
+            array(
+                'label' => __('Back'),
+                'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('adminhtml/*/') . "')",
+                'class' => 'back'
+            )
+        );
     }
 
     /**

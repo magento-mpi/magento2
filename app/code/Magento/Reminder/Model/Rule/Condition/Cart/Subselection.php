@@ -14,8 +14,7 @@ use Magento\DB\Select;
 /**
  * Cart items subselection condition
  */
-class Subselection
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Cart Subcombine Factory
@@ -69,10 +68,7 @@ class Subselection
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '==' => __('found'),
-            '!=' => __('not found')
-        ));
+        $this->setOperatorOption(array('==' => __('found'), '!=' => __('not found')));
         return $this;
     }
 
@@ -83,10 +79,11 @@ class Subselection
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If an item is %1 in the shopping cart with %2 of these conditions match:',
-                $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If an item is %1 in the shopping cart with %2 of these conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -104,11 +101,7 @@ class Subselection
 
         $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('quote' => $quoteTable),
-            'item.quote_id = quote.entity_id',
-            array()
-        );
+        $select->joinInner(array('quote' => $quoteTable), 'item.quote_id = quote.entity_id', array());
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');
@@ -125,6 +118,6 @@ class Subselection
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getOperator() == '==');
+        return $this->getOperator() == '==';
     }
 }

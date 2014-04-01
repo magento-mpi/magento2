@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata;
 
 class Form
@@ -16,7 +13,9 @@ class Form
      * Values for ignoreInvisible parameter in constructor
      */
     const IGNORE_INVISIBLE = true;
+
     const DONT_IGNORE_INVISIBLE = false;
+
     /**#@-*/
 
     /**
@@ -47,7 +46,7 @@ class Form
     /**
      * @var array
      */
-    protected $_filterAttributes = [];
+    protected $_filterAttributes = array();
 
     /**
      * @var bool
@@ -55,9 +54,11 @@ class Form
     protected $_isAjax = false;
 
     /**
+     * Attribute values
+     *
      * @var array
      */
-    protected $_attributeValues = [];
+    protected $_attributeValues = array();
 
     /**
      * @var \Magento\App\RequestInterface
@@ -80,7 +81,7 @@ class Form
     protected $_validator;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     * @var \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     protected $_attributes;
 
@@ -107,11 +108,11 @@ class Form
         \Magento\Validator\ConfigFactory $validatorConfigFactory,
         $entityType,
         $formCode,
-        array $attributeValues = [],
+        array $attributeValues = array(),
         $ignoreInvisible = self::IGNORE_INVISIBLE,
-        $filterAttributes = [],
+        $filterAttributes = array(),
         $isAjax = false
-    )  {
+    ) {
         $this->_eavMetadataService = $eavMetadataService;
         $this->_elementFactory = $elementFactory;
         $this->_attributeValues = $attributeValues;
@@ -128,25 +129,39 @@ class Form
     /**
      * Retrieve attributes metadata for the form
      *
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getAttributes()
     {
         if (!isset($this->_attributes)) {
-            $this->_attributes = $this->_eavMetadataService
-                ->getAttributes($this->_entityType, $this->_formCode);
+            $this->_attributes = $this->_eavMetadataService->getAttributes($this->_entityType, $this->_formCode);
         }
         return $this->_attributes;
     }
 
     /**
+     * Return attribute instance by code or false
+     *
+     * @param string $attributeCode
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|false
+     */
+    public function getAttribute($attributeCode)
+    {
+        $attributes = $this->getAttributes();
+        if (isset($attributes[$attributeCode])) {
+            return $attributes[$attributeCode];
+        }
+        return false;
+    }
+
+    /**
      * Retrieve user defined attributes
      *
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getUserAttributes()
     {
-        $result = [];
+        $result = array();
         foreach ($this->getAttributes() as $attribute) {
             if ($attribute->isUserDefined()) {
                 $result[$attribute->getAttributeCode()] = $attribute;
@@ -158,11 +173,11 @@ class Form
     /**
      * Retrieve system required attributes
      *
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getSystemAttributes()
     {
-        $result = [];
+        $result = array();
         foreach ($this->getAttributes() as $attribute) {
             if (!$attribute->isUserDefined()) {
                 $result[$attribute->getAttributeCode()] = $attribute;
@@ -174,15 +189,16 @@ class Form
     /**
      * Retrieve filtered attributes
      *
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getAllowedAttributes()
     {
         $attributes = $this->getAttributes();
         foreach ($attributes as $attributeCode => $attribute) {
-            if (
-                $this->_ignoreInvisible && !$attribute->isVisible()
-                || in_array($attribute->getAttributeCode(), $this->_filterAttributes)
+            if ($this->_ignoreInvisible && !$attribute->isVisible() || in_array(
+                $attribute->getAttributeCode(),
+                $this->_filterAttributes
+            )
             ) {
                 unset($attributes[$attributeCode]);
             }
@@ -211,10 +227,10 @@ class Form
     }
 
     /**
-     * Compact data array to current entity
+     * Compact data array to form attribute values
      *
      * @param array $data
-     * @return array
+     * @return array attribute values
      */
     public function compactData(array $data)
     {
@@ -224,13 +240,15 @@ class Form
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
+            $attributeCode = $attribute->getAttributeCode();
+            $this->_attributeValues[$attributeCode] = $dataModel->compactValue($data[$attributeCode]);
         }
 
-        return $data;
+        return $this->_attributeValues;
     }
 
     /**
-     * Restore data array from SESSION to current entity
+     * Restore data array from SESSION to attribute values
      *
      * @param array $data
      * @return array
@@ -243,29 +261,30 @@ class Form
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
-            $data[$attribute->getAttributeCode()] = $dataModel->restoreValue($data[$attribute->getAttributeCode()]);
+            $attributeCode = $attribute->getAttributeCode();
+            $this->_attributeValues[$attributeCode] = $dataModel->restoreValue($data[$attributeCode]);
         }
-        return $data;
+        return $this->_attributeValues;
     }
 
     /**
      * Return attribute data model by attribute
      *
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
      * @return \Magento\Eav\Model\Attribute\Data\AbstractData
      */
     protected function _getAttributeDataModel($attribute)
     {
         $dataModel = $this->_elementFactory->create(
             $attribute,
-            isset($this->_attributeValues[$attribute->getAttributeCode()])
-                ? $this->_attributeValues[$attribute->getAttributeCode()] : null,
+            isset(
+                $this->_attributeValues[$attribute->getAttributeCode()]
+            ) ? $this->_attributeValues[$attribute->getAttributeCode()] : null,
             $this->_entityType,
             $this->_isAjax
         );
         return $dataModel;
     }
-
 
     /**
      * Prepare request with data and returns it
@@ -299,18 +318,18 @@ class Form
         $validatorFactory = $this->_validatorConfigFactory->create(array('configFiles' => $configFiles));
         $builder = $validatorFactory->createValidatorBuilder('customer', 'form');
 
-        $builder->addConfiguration('metadata_data_validator', array(
-                'method' => 'setAttributes',
-                'arguments' => array($this->getAllowedAttributes())
-            ));
-        $builder->addConfiguration('metadata_data_validator', array(
-                'method' => 'setData',
-                'arguments' => array($data)
-            ));
-        $builder->addConfiguration('metadata_data_validator', array(
-                'method' => 'setEntityType',
-                'arguments' => array($this->_entityType)
-            ));
+        $builder->addConfiguration(
+            'metadata_data_validator',
+            array('method' => 'setAttributes', 'arguments' => array($this->getAllowedAttributes()))
+        );
+        $builder->addConfiguration(
+            'metadata_data_validator',
+            array('method' => 'setData', 'arguments' => array($data))
+        );
+        $builder->addConfiguration(
+            'metadata_data_validator',
+            array('method' => 'setEntityType', 'arguments' => array($this->_entityType))
+        );
         $this->_validator = $builder->createValidator();
 
         return $this->_validator;
@@ -325,7 +344,7 @@ class Form
     public function validateData(array $data)
     {
         $validator = $this->_getValidator($data);
-        if (!$validator->isValid($this->_attributeValues)) {
+        if (!$validator->isValid(false)) {
             $messages = array();
             foreach ($validator->getMessages() as $errorMessages) {
                 $messages = array_merge($messages, (array)$errorMessages);
@@ -349,5 +368,16 @@ class Form
             $result[$attribute->getAttributeCode()] = $dataModel->outputValue($format);
         }
         return $result;
+    }
+
+    /**
+     * Set whether invisible attributes should be ignored.
+     *
+     * @param bool $ignoreInvisible
+     * @return void
+     */
+    public function setInvisibleIgnored($ignoreInvisible)
+    {
+        $this->_ignoreInvisible = $ignoreInvisible;
     }
 }

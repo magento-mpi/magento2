@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Order;
 
 /**
  * Sales order view block
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Order;
-
 class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
 {
     /**
@@ -25,9 +24,9 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
     protected $_template = 'order/creditmemo.phtml';
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @var \Magento\Payment\Helper\Data
@@ -37,33 +36,33 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()
     ) {
         $this->_paymentHelper = $paymentHelper;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $registry, $data);
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
-        $this->setChild(
-            'payment_info',
-            $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment())
-        );
+        $this->setChild('payment_info', $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment()));
     }
 
     /**
@@ -91,7 +90,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
      */
     public function getBackUrl()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->getUrl('*/*/history');
         }
         return $this->getUrl('*/*/form');
@@ -104,7 +103,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
      */
     public function getBackTitle()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return __('Back to My Orders');
         }
         return __('View Another Order');

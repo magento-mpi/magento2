@@ -9,14 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Resource\Product\Type\Grouped;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class AssociatedProductsCollection
-    extends \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
+class AssociatedProductsCollection extends \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
 {
     /**
      * Core registry
@@ -48,7 +46,7 @@ class AssociatedProductsCollection
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Registry $coreRegistry
@@ -73,7 +71,7 @@ class AssociatedProductsCollection
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Registry $coreRegistry,
@@ -98,7 +96,7 @@ class AssociatedProductsCollection
             $coreStoreConfig,
             $productOptionFactory,
             $catalogUrl,
-            $locale,
+            $localeDate,
             $customerSession,
             $dateTime,
             $connection
@@ -121,12 +119,18 @@ class AssociatedProductsCollection
     public function _initSelect()
     {
         parent::_initSelect();
-        $this->setProduct($this->_getProduct())
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('sku')
-            ->addFilterByRequiredOptions()
-            ->addAttributeToFilter('type_id', $this->_config->getComposableTypes());
+        $this->setProduct(
+            $this->_getProduct()
+        )->addAttributeToSelect(
+            'name'
+        )->addAttributeToSelect(
+            'price'
+        )->addAttributeToSelect(
+            'sku'
+        )->addFilterByRequiredOptions()->addAttributeToFilter(
+            'type_id',
+            $this->_config->getComposableTypes()
+        );
 
         return $this;
     }

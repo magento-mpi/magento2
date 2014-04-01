@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Mview\View;
 
 /**
@@ -143,7 +142,7 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
     /**
      * Set state updated time
      *
-     * @param string|int|\Zend_Date $updated
+     * @param string|int|\Magento\Stdlib\DateTime\DateInterface $updated
      * @return $this
      */
     public function setUpdated($updated)

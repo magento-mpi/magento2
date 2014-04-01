@@ -18,7 +18,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\CatalogEvent\Model\Event as ModelEvent;
 use Magento\CatalogEvent\Model\EventFactory;
 use Magento\Core\Exception;
-use Magento\Core\Filter\DateTime;
+use Magento\Stdlib\DateTime\Filter\DateTime;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Registry;
 
@@ -132,8 +132,7 @@ class Event extends Action
         $this->_title->add(__('Events'));
 
         /** @var ModelEvent $event */
-        $event = $this->_eventFactory->create()
-            ->setStoreId($this->getRequest()->getParam('store', 0));
+        $event = $this->_eventFactory->create()->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
         if ($eventId) {
             $event->load($eventId);
@@ -153,12 +152,15 @@ class Event extends Action
         $this->_initAction();
         $layout = $this->_view->getLayout();
         $layout->getBlock('head')->setCanLoadExtJs(true);
-        if (($switchBlock = $layout->getBlock('store_switcher'))) {
+        if ($switchBlock = $layout->getBlock('store_switcher')) {
             if (!$event->getId() || $this->_storeManager->isSingleStoreMode()) {
                 $layout->unsetChild($layout->getParentName('store_switcher'), 'store_switcher');
             } else {
-                $switchBlock->setDefaultStoreName(__('Default Values'))
-                    ->setSwitchUrl($this->getUrl('adminhtml/*/*', array('_current' => true, 'store' => null)));
+                $switchBlock->setDefaultStoreName(
+                    __('Default Values')
+                )->setSwitchUrl(
+                    $this->getUrl('adminhtml/*/*', array('_current' => true, 'store' => null))
+                );
             }
         }
         $this->_view->renderLayout();
@@ -184,25 +186,27 @@ class Event extends Action
         $postData = $this->_filterPostData($this->getRequest()->getPost());
 
         if (!isset($postData['catalogevent'])) {
-            $this->messageManager->addError(
-                __('Something went wrong while saving this event.')
-            );
+            $this->messageManager->addError(__('Something went wrong while saving this event.'));
             $this->_redirect('adminhtml/*/edit', array('_current' => true));
             return;
         }
 
         $data = new \Magento\Object($postData['catalogevent']);
 
-        $event->setDisplayState($data->getDisplayState())
-            ->setStoreDateStart($data->getDateStart())
-            ->setStoreDateEnd($data->getDateEnd())
-            ->setSortOrder($data->getSortOrder());
+        $event->setDisplayState(
+            $data->getDisplayState()
+        )->setStoreDateStart(
+            $data->getDateStart()
+        )->setStoreDateEnd(
+            $data->getDateEnd()
+        )->setSortOrder(
+            $data->getSortOrder()
+        );
 
         $isUploaded = true;
         try {
-            $uploader = $this->_objectManager
-                ->create('Magento\Core\Model\File\Uploader', array('fileId' => 'image'));;
-            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('fileId' => 'image'));
+            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
             $uploader->setFilesDispersion(false);
@@ -234,9 +238,7 @@ class Event extends Action
             }
             $event->save();
 
-            $this->messageManager->addSuccess(
-                __('You saved the event.')
-            );
+            $this->messageManager->addSuccess(__('You saved the event.'));
             if ($this->getRequest()->getParam('back') == 'edit') {
                 $this->_redirect('adminhtml/*/edit', array('_current' => true, 'id' => $event->getId()));
             } else {
@@ -262,9 +264,7 @@ class Event extends Action
         if ($event->getId()) {
             try {
                 $event->delete();
-                $this->messageManager->addSuccess(
-                    __('You deleted the event.')
-                );
+                $this->messageManager->addSuccess(__('You deleted the event.'));
                 if ($this->getRequest()->getParam('category')) {
                     $this->_redirect('adminhtml/category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));
                 } else {
@@ -286,8 +286,13 @@ class Event extends Action
     {
         $id = $this->getRequest()->getParam('id', null);
         $this->getResponse()->setBody(
-            $this->_view->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
-                ->getTreeArray($id, true, 1)
+            $this->_view->getLayout()->createBlock(
+                'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category'
+            )->getTreeArray(
+                $id,
+                true,
+                1
+            )
         );
     }
 
@@ -311,10 +316,7 @@ class Event extends Action
     {
         if (isset($data['catalogevent'])) {
             $inputFilter = new \Zend_Filter_Input(
-                array(
-                    'date_start' => $this->_dateTimeFilter,
-                    'date_end' => $this->_dateTimeFilter,
-                ),
+                array('date_start' => $this->_dateTimeFilter, 'date_end' => $this->_dateTimeFilter),
                 array(),
                 $data['catalogevent']
             );

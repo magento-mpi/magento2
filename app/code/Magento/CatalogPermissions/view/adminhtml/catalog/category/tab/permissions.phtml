@@ -21,15 +21,9 @@
             <span><?php echo __('Category Permissions') ?></span>
         </legend>
         <br />
-
-        <ul class="messages">
-            <li class="notice-msg">
-                <ul>
-                    <li><?php echo __('Permissions do not depend on store views.') ?></li>
-                </ul>
-            </li>
-        </ul>
-
+        <div class="message notice">
+            <div><?php echo __('Permissions do not depend on store views.') ?></div>
+        </div>
         <div class="box items"></div>
         <div class="actions"><?php echo $this->getAddButtonHtml() ?></div>
     </fieldset>

@@ -61,14 +61,14 @@ class CmsIndex extends Page
      *
      * @var string
      */
-    protected $linksBlock = '.header .content .links';
+    protected $linksBlock = '.header .links';
 
     /**
      * Page Top Customer menu block
      *
      * @var string
      */
-    protected $customerBlock = '.header .content .links';
+    protected $customerBlock = '.header .links';
 
     /**
      * Store switcher block path

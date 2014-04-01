@@ -2,22 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Checkout\Block\Onepage\Shipping\Method;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Model\Address\Config as AddressConfig;
 use Magento\Sales\Model\Quote\Address;
 
 /**
  * One page checkout status
- *
- * @category   Magento
- * @category   Magento
- * @package    Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
@@ -46,6 +42,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param CustomerAccountService $customerAccountService
+     * @param CustomerAddressService $customerAddressService
+     * @param AddressConfig $addressConfig
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
@@ -57,6 +57,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        CustomerAccountService $customerAccountService,
+        CustomerAddressService $customerAddressService,
+        AddressConfig $addressConfig,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
@@ -69,6 +73,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
+            $customerAccountService,
+            $customerAddressService,
+            $addressConfig,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;
@@ -81,7 +89,8 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     {
         if (empty($this->_rates)) {
             $this->getAddress()->collectShippingRates()->save();
-            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();        }
+            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();
+        }
 
         return $this->_rates;
     }
@@ -103,7 +112,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/title')) {
             return $name;
         }
         return $carrierCode;

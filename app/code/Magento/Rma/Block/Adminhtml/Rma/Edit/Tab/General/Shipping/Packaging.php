@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
+use Magento\Shipping\Model\Carrier\Source\GenericInterface;
 
 /**
  * Shipment packaging
@@ -30,13 +31,6 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_rmaData = null;
 
     /**
-     * Usa data
-     *
-     * @var \Magento\Usa\Helper\Data
-     */
-    protected $_usaData = null;
-
-    /**
      * Core registry
      *
      * @var \Magento\Registry
@@ -51,35 +45,32 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_orderFactory;
 
     /**
-     * Usps shipping carrier size factory
+     * Source size model
      *
-     * @var \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory
+     * @var \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */
-    protected $_sizeFactory;
+    protected $_sourceSizeModel;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory
+     * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Usa\Helper\Data $usaData,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory,
+        GenericInterface $sourceSizeModel,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_usaData = $usaData;
         $this->_rmaData = $rmaData;
         $this->_orderFactory = $orderFactory;
-        $this->_sizeFactory = $sizeFactory;
+        $this->_sourceSizeModel = $sourceSizeModel;
         parent::__construct($context, $data);
     }
 
@@ -103,10 +94,7 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function getCarrier()
     {
-        return $this->_rmaData->getCarrier(
-            $this->getRequest()->getParam('method'),
-            $this->getRma()->getStoreId()
-        );
+        return $this->_rmaData->getCarrier($this->getRequest()->getParam('method'), $this->getRma()->getStoreId());
     }
 
     /**
@@ -132,18 +120,20 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function getContainers()
     {
-        $order      = $this->getRma()->getOrder();
-        $storeId    = $this->getRma()->getStoreId();
-        $address    = $order->getShippingAddress();
-        $carrier    = $this->getCarrier();
+        $order = $this->getRma()->getOrder();
+        $storeId = $this->getRma()->getStoreId();
+        $address = $order->getShippingAddress();
+        $carrier = $this->getCarrier();
 
         $countryRecipient = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
-            $params = new \Magento\Object(array(
-                'method' => $this->getCarrierMethod(),
-                'country_shipper' => $address->getCountryId(),
-                'country_recipient' => $countryRecipient,
-            ));
+            $params = new \Magento\Object(
+                array(
+                    'method' => $this->getCarrierMethod(),
+                    'country_shipper' => $address->getCountryId(),
+                    'country_recipient' => $countryRecipient
+                )
+            );
             return $carrier->getContainerTypes($params);
         }
         return array();
@@ -156,12 +146,11 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function displayCustomsValue()
     {
-        $storeId    = $this->getRma()->getStoreId();
-        $order      = $this->getRma()->getOrder();
-        $address                        = $order->getShippingAddress();
-        $shipperAddressCountryCode      = $address->getCountryId();
-        $recipientAddressCountryCode    = $this->_rmaData
-            ->getReturnAddressModel($storeId)->getCountryId();
+        $storeId = $this->getRma()->getStoreId();
+        $order = $this->getRma()->getOrder();
+        $address = $order->getShippingAddress();
+        $shipperAddressCountryCode = $address->getCountryId();
+        $recipientAddressCountryCode = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
 
         if ($shipperAddressCountryCode != $recipientAddressCountryCode) {
             return true;
@@ -177,12 +166,12 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function getDeliveryConfirmationTypes()
     {
-        $storeId    = $this->getRma()->getStoreId();
-        $code       = $this->getRequest()->getParam('method');
+        $storeId = $this->getRma()->getStoreId();
+        $code = $this->getRequest()->getParam('method');
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
-            $countryId  = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
+            $carrier = $this->_rmaData->getCarrier($carrierCode, $storeId);
+            $countryId = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
             $params = new \Magento\Object(array('country_recipient' => $countryId));
 
             if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
@@ -199,32 +188,16 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function isGirthAllowed()
     {
-        $storeId    = $this->getRma()->getStoreId();
-        $code       = $this->getRequest()->getParam('method');
-        $girth      = false;
+        $storeId = $this->getRma()->getStoreId();
+        $code = $this->getRequest()->getParam('method');
+        $girth = false;
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
-            $countryId  = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
+            $carrier = $this->_rmaData->getCarrier($carrierCode, $storeId);
+            $countryId = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
 
             $girth = $carrier->isGirthAllowed($countryId);
         }
-        return $girth;
-    }
-
-    /**
-     * Return girth status
-     *
-     * @return bool
-     */
-    public function isGirthEnabled()
-    {
-        $code       = $this->getRequest()->getParam('method');
-        $girth      = false;
-        if (!empty($code)) {
-            $girth = ($this->_usaData->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
-        }
-
         return $girth;
     }
 
@@ -235,22 +208,24 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function getContentTypes()
     {
-        $storeId    = $this->getRma()->getStoreId();
-        $code       = $this->getRequest()->getParam('method');
+        $storeId = $this->getRma()->getStoreId();
+        $code = $this->getRequest()->getParam('method');
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
-            $countryId  = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
+            $carrier = $this->_rmaData->getCarrier($carrierCode, $storeId);
+            $countryId = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
 
             /** @var $order \Magento\Sales\Model\Order */
             $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());
             $shipperAddress = $order->getShippingAddress();
-             if ($carrier) {
-                $params = new \Magento\Object(array(
-                    'method'            => $methodCode,
-                    'country_shipper'   => $shipperAddress->getCountryId(),
-                    'country_recipient' => $countryId,
-                ));
+            if ($carrier) {
+                $params = new \Magento\Object(
+                    array(
+                        'method' => $methodCode,
+                        'country_shipper' => $shipperAddress->getCountryId(),
+                        'country_recipient' => $countryId
+                    )
+                );
                 return $carrier->getContentTypes($params);
             }
         }
@@ -266,12 +241,12 @@ class Packaging extends \Magento\Backend\Block\Template
     public function getCustomizableContainersStatus()
     {
         $storeId = $this->getRma()->getStoreId();
-        $code    = $this->getRequest()->getParam('method');
+        $code = $this->getRequest()->getParam('method');
         $carrier = $this->_rmaData->getCarrier($code, $storeId);
         if ($carrier) {
-            $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
+            $getCustomizableContainers = $carrier->getCustomizableContainerTypes();
 
-            if (in_array(key($this->getContainers()),$getCustomizableContainers)) {
+            if (in_array(key($this->getContainers()), $getCustomizableContainers)) {
                 return true;
             }
         }
@@ -279,15 +254,13 @@ class Packaging extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Return shipping carrier usps source sizes
+     * Get source size model
      *
      * @return array
      */
-    public function getShippingCarrierUspsSourceSize()
+    public function getSourceSizeModel()
     {
-        /** @var $size \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size */
-        $size = $this->_sizeFactory->create();
-        return $size->toOptionArray();
+        return $this->_sourceSizeModel->toOptionArray();
     }
 
     /**
@@ -297,38 +270,6 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function checkSizeAndGirthParameter()
     {
-        $storeId = $this->getRma()->getStoreId();
-        $code    = $this->getRequest()->getParam('method');
-        $carrier = $this->_rmaData->getCarrier($code, $storeId);
-
-        $girthEnabled   = false;
-        $sizeEnabled    = false;
-        $regular        = $this->getShippingCarrierUspsSourceSize();
-        if ($carrier && isset($regular[0]['value'])) {
-            if ($regular[0]['value'] == \Magento\Usa\Model\Shipping\Carrier\Usps::SIZE_LARGE
-                && in_array(
-                    key($this->getContainers()),
-                    array(
-                        \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_NONRECTANGULAR,
-                        \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_VARIABLE,
-                    )
-                )
-            ) {
-                $girthEnabled = true;
-            }
-
-            if (in_array(
-                key($this->getContainers()),
-                array(
-                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_NONRECTANGULAR,
-                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_RECTANGULAR,
-                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_VARIABLE,
-                )
-            )) {
-                $sizeEnabled = true;
-            }
-        }
-
-        return array($girthEnabled, $sizeEnabled);
+        return array(false, false);
     }
 }

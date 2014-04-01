@@ -15,8 +15,7 @@ namespace Magento\TargetRule\Model\Actions\Condition\Product\Special;
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Price
-    extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
+class Price extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -25,6 +24,7 @@ class Price
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      */
     public function __construct(
@@ -34,9 +34,19 @@ class Price
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Locale\FormatInterface $localeFormat,
         array $data = array()
     ) {
-        parent::__construct($context, $backendData, $config, $product, $productResource, $attrSetCollection, $data);
+        parent::__construct(
+            $context,
+            $backendData,
+            $config,
+            $product,
+            $productResource,
+            $attrSetCollection,
+            $localeFormat,
+            $data
+        );
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Special\Price');
         $this->setValue(100);
     }
@@ -50,9 +60,9 @@ class Price
     {
         return array(
             '==' => __('equal to'),
-            '>'  => __('more'),
+            '>' => __('more'),
             '>=' => __('equals or greater than'),
-            '<'  => __('less'),
+            '<' => __('less'),
             '<=' => __('equals or less than')
         );
     }
@@ -76,9 +86,11 @@ class Price
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Product Price is %1 %2% of Matched Product(s) Price', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Product Price is %1 %2% of Matched Product(s) Price',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -92,11 +104,16 @@ class Price
     public function getConditionForCollection($collection, $object, &$bind)
     {
         /* @var $resource \Magento\TargetRule\Model\Resource\Index */
-        $resource       = $object->getResource();
-        $operator       = $this->getOperator();
+        $resource = $object->getResource();
+        $operator = $this->getOperator();
 
-        $where = $resource->getOperatorBindCondition('price_index.min_price', 'final_price', $operator, $bind,
-            array(array('bindPercentOf', $this->getValue())));
+        $where = $resource->getOperatorBindCondition(
+            'price_index.min_price',
+            'final_price',
+            $operator,
+            $bind,
+            array(array('bindPercentOf', $this->getValue()))
+        );
         return new \Zend_Db_Expr(sprintf('(%s)', $where));
     }
 }

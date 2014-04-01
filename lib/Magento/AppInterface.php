@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento;
 
 interface AppInterface
@@ -20,6 +19,7 @@ interface AppInterface
     /**
      * Throw an exception, if the application has not been installed yet
      *
+     * @return void
      * @throws \Magento\Exception
      */
     public function requireInstalledInstance();
@@ -90,7 +90,6 @@ interface AppInterface
      * @return \Magento\App\CacheInterface
      */
     public function getCacheInstance();
-
 
     /**
      * Retrieve cache object

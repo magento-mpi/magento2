@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Wishlist;
 
 /**
  * Wishlist view block
  */
-namespace Magento\GiftRegistry\Block\Wishlist;
-
 class View extends \Magento\Wishlist\Block\Customer\Wishlist
 {
     /**
@@ -39,7 +38,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param \Magento\Data\Form\FormKey $formKey
@@ -62,7 +61,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         \Magento\Data\Form\FormKey $formKey,
@@ -85,7 +84,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $helperPool,
             $formKey,
@@ -97,7 +96,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     /**
      * Prepare block layout, override wishlist block with different template
      *
-     * @return \Magento\GiftRegistry\Block\Wishlist\View
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -132,7 +131,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function getEnabled()
     {
-        return  $this->_giftRegistryData->isEnabled();
+        return $this->_giftRegistryData->isEnabled();
     }
 
     /**

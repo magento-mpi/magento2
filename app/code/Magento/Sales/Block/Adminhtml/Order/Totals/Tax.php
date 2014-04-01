@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Totals;
 
 /**
  * Adminhtml order tax totals block
@@ -15,26 +16,32 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Totals;
-
 class Tax extends \Magento\Tax\Block\Sales\Order\Tax
 {
     /**
+     * Tax helper
+     *
      * @var \Magento\Tax\Helper\Data
      */
     protected $_taxHelper;
 
     /**
+     * Tax calculation
+     *
      * @var \Magento\Tax\Model\Calculation
      */
     protected $_taxCalculation;
 
     /**
+     * Tax factory
+     *
      * @var \Magento\Tax\Model\Sales\Order\TaxFactory
      */
     protected $_taxOrderFactory;
 
     /**
+     * Sales admin helper
+     *
      * @var \Magento\Sales\Helper\Admin
      */
     protected $_salesAdminHelper;
@@ -76,11 +83,11 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
         $taxClassAmount = array();
         if ($source instanceof \Magento\Sales\Model\Order) {
             $taxClassAmount = $this->_taxHelper->getCalculatedTaxes($source);
-            $shippingTax    = $this->_taxHelper->getShippingTax($source);
+            $shippingTax = $this->_taxHelper->getShippingTax($source);
             $taxClassAmount = array_merge($taxClassAmount, $shippingTax);
             if (empty($taxClassAmount)) {
                 $rates = $this->_taxOrderFactory->create()->getCollection()->loadByOrder($source)->toArray();
-                $taxClassAmount =  $this->_taxCalculation->reproduceProcess($rates['items']);
+                $taxClassAmount = $this->_taxCalculation->reproduceProcess($rates['items']);
             }
         }
         return $taxClassAmount;
@@ -95,9 +102,7 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
      */
     public function displayAmount($amount, $baseAmount)
     {
-        return $this->_salesAdminHelper->displayPrices(
-            $this->getSource(), $baseAmount, $amount, false, '<br />'
-        );
+        return $this->_salesAdminHelper->displayPrices($this->getSource(), $baseAmount, $amount, false, '<br />');
     }
 
     /**

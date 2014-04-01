@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftCardAccount\Model;
 
 /**
  * @method \Magento\GiftCardAccount\Model\Resource\History _getResource()
@@ -29,16 +29,19 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model;
-
 class History extends \Magento\Core\Model\AbstractModel
 {
-    const ACTION_CREATED  = 0;
-    const ACTION_USED     = 1;
-    const ACTION_SENT     = 2;
+    const ACTION_CREATED = 0;
+
+    const ACTION_USED = 1;
+
+    const ACTION_SENT = 2;
+
     const ACTION_REDEEMED = 3;
-    const ACTION_EXPIRED  = 4;
-    const ACTION_UPDATED  = 5;
+
+    const ACTION_EXPIRED = 4;
+
+    const ACTION_UPDATED = 5;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -65,21 +68,26 @@ class History extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftCardAccount\Model\Resource\History');
     }
 
+    /**
+     * @return array
+     */
     public function getActionNamesArray()
     {
         return array(
-            self::ACTION_CREATED  => __('Created'),
-            self::ACTION_UPDATED  => __('Updated'),
-            self::ACTION_SENT     => __('Sent'),
-            self::ACTION_USED     => __('Used'),
+            self::ACTION_CREATED => __('Created'),
+            self::ACTION_UPDATED => __('Updated'),
+            self::ACTION_SENT => __('Sent'),
+            self::ACTION_USED => __('Used'),
             self::ACTION_REDEEMED => __('Redeemed'),
-            self::ACTION_EXPIRED  => __('Expired'),
+            self::ACTION_EXPIRED => __('Expired')
         );
     }
 
@@ -98,6 +106,9 @@ class History extends \Magento\Core\Model\AbstractModel
         return '';
     }
 
+    /**
+     * @return string
+     */
     protected function _getUsedAdditionalInfo()
     {
         if ($this->getGiftcardaccount()->getOrder()) {
@@ -107,7 +118,6 @@ class History extends \Magento\Core\Model\AbstractModel
 
         return '';
     }
-
 
     /**
      * Get info about sent mail context
@@ -125,6 +135,9 @@ class History extends \Magento\Core\Model\AbstractModel
         return __('Recipient: %1.', $recipient);
     }
 
+    /**
+     * @return string
+     */
     protected function _getRedeemedAdditionalInfo()
     {
         if ($customerId = $this->getGiftcardaccount()->getCustomerId()) {
@@ -143,6 +156,9 @@ class History extends \Magento\Core\Model\AbstractModel
         return '';
     }
 
+    /**
+     * @return string
+     */
     protected function _getExpiredAdditionalInfo()
     {
         return '';
@@ -151,7 +167,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()

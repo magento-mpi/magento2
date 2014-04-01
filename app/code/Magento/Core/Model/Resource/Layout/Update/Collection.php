@@ -57,6 +57,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Define resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -73,8 +75,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addThemeFilter($themeId)
     {
         $this->_joinWithLink();
-        $this->getSelect()
-            ->where('link.theme_id = ?', $themeId);
+        $this->getSelect()->where('link.theme_id = ?', $themeId);
 
         return $this;
     }
@@ -88,8 +89,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addStoreFilter($storeId)
     {
         $this->_joinWithLink();
-        $this->getSelect()
-            ->where('link.store_id = ?', $storeId);
+        $this->getSelect()->where('link.store_id = ?', $storeId);
 
         return $this;
     }
@@ -103,12 +103,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $flagName = 'joined_with_link_table';
         if (!$this->getFlag($flagName)) {
-            $this->getSelect()
-                ->join(
-                    array('link' => $this->getTable('core_layout_link')),
-                    'link.layout_update_id = main_table.layout_update_id',
-                    array('store_id', 'theme_id')
-                );
+            $this->getSelect()->join(
+                array('link' => $this->getTable('core_layout_link')),
+                'link.layout_update_id = main_table.layout_update_id',
+                array('store_id', 'theme_id')
+            );
 
             $this->setFlag($flagName, true);
         }
@@ -126,12 +125,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $flagName = 'joined_left_with_link_table';
         if (!$this->getFlag($flagName)) {
-            $this->getSelect()
-                ->joinLeft(
-                    array('link' => $this->getTable('core_layout_link')),
-                    'link.layout_update_id = main_table.layout_update_id',
-                    array($fields)
-                );
+            $this->getSelect()->joinLeft(
+                array('link' => $this->getTable('core_layout_link')),
+                'link.layout_update_id = main_table.layout_update_id',
+                array($fields)
+            );
             $this->setFlag($flagName, true);
         }
 
@@ -151,8 +149,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $datetime->sub($storeInterval);
         $formattedDate = $this->dateTime->formatDate($datetime->getTimestamp());
 
-        $this->addFieldToFilter('main_table.updated_at', array('notnull' => true))
-            ->addFieldToFilter('main_table.updated_at', array('lt' => $formattedDate));
+        $this->addFieldToFilter(
+            'main_table.updated_at',
+            array('notnull' => true)
+        )->addFieldToFilter(
+            'main_table.updated_at',
+            array('lt' => $formattedDate)
+        );
 
         return $this;
     }

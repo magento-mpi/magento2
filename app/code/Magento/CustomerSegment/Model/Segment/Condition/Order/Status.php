@@ -74,10 +74,7 @@ class Status extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Order Status')
-        );
+        return array('value' => $this->getType(), 'label' => __('Order Status'));
     }
 
     /**
@@ -97,10 +94,7 @@ class Status extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array_merge(
-            array(self::VALUE_ANY => __('Any')),
-            $this->_orderConfig->getStatuses()
-        ));
+        $this->setValueOption(array_merge(array(self::VALUE_ANY => __('Any')), $this->_orderConfig->getStatuses()));
         return $this;
     }
 
@@ -111,9 +105,11 @@ class Status extends AbstractCondition
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Order Status %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Order Status %1 %2:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**

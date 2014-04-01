@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Sales abstract resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource;
-
 abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -36,10 +34,8 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Stdlib\DateTime $dateTime
-    ) {
+    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    {
         $this->dateTime = $dateTime;
         parent::__construct($resource);
     }
@@ -68,22 +64,21 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      */
     protected function _shouldBeConverted()
     {
-        return (null !== $this->_converter);
+        return null !== $this->_converter;
     }
-
 
     /**
      * Perform actions before object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Sales\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
 
         if (true == $this->_shouldBeConverted()) {
-            foreach($object->getData() as $fieldName => $fieldValue) {
+            foreach ($object->getData() as $fieldName => $fieldValue) {
                 $object->setData($fieldName, $this->_converter->encode($object, $fieldName));
             }
         }
@@ -94,12 +89,12 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      * Perform actions after object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Sales\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (true == $this->_shouldBeConverted()) {
-            foreach($object->getData() as $fieldName => $fieldValue) {
+            foreach ($object->getData() as $fieldName => $fieldValue) {
                 $object->setData($fieldName, $this->_converter->decode($object, $fieldName));
             }
         }
@@ -110,12 +105,12 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      * Perform actions after object load
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Sales\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         if (true == $this->_shouldBeConverted()) {
-            foreach($object->getData() as $fieldName => $fieldValue) {
+            foreach ($object->getData() as $fieldName => $fieldValue) {
                 $object->setData($fieldName, $this->_converter->decode($object, $fieldName));
             }
         }

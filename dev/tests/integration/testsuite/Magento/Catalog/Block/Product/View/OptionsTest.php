@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\View;
 
 /**
@@ -30,23 +29,28 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $this->_product->load(1);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->unregister('current_product');
         $objectManager->get('Magento\Registry')->register('current_product', $this->_product);
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Catalog\Block\Product\View\Options');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Catalog\Block\Product\View\Options'
+        );
     }
 
     public function testSetGetProduct()
     {
         $this->assertSame($this->_product, $this->_block->getProduct());
 
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $this->_block->setProduct($product);
         $this->assertSame($product, $this->_block->getProduct());
     }

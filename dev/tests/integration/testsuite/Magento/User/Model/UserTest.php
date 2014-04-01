@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model;
 
 /**
@@ -33,10 +32,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\User');
-        $this->_dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Stdlib\DateTime');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
+        $this->_dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Stdlib\DateTime'
+        );
     }
 
     /**
@@ -44,11 +43,17 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        $this->_model->setFirstname("John")
-            ->setLastname("Doe")
-            ->setUsername('user2')
-            ->setPassword(\Magento\TestFramework\Bootstrap::ADMIN_PASSWORD)
-            ->setEmail('user@magento.com');
+        $this->_model->setFirstname(
+            "John"
+        )->setLastname(
+            "Doe"
+        )->setUsername(
+            'user2'
+        )->setPassword(
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        )->setEmail(
+            'user@magento.com'
+        );
 
         $crud = new \Magento\TestFramework\Entity($this->_model, array('firstname' => '_New_name_'));
         $crud->testCrud();
@@ -93,11 +98,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\Role');
-        self::$_newRole->setName('admin_role')
-            ->setRoleType('G')
-            ->setPid('1');
+        self::$_newRole = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\User\Model\Role'
+        );
+        self::$_newRole->setName('admin_role')->setRoleType('G')->setPid('1');
         self::$_newRole->save();
     }
 
@@ -164,8 +168,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCollection()
     {
-        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
-            $this->_model->getCollection());
+        $this->assertInstanceOf(
+            'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
+            $this->_model->getCollection()
+        );
     }
 
     public function testGetName()
@@ -177,8 +183,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUninitializedAclRole()
     {
-        $newuser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\User');
+        $newuser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
         $newuser->setUserId(10);
         $this->assertNull($newuser->getAclRole(), "User role was not initialized and is expected to be empty.");
     }
@@ -190,7 +195,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testAuthenticate()
     {
         $this->assertFalse($this->_model->authenticate('User', \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD));
-        $this->assertTrue($this->_model->authenticate(
+        $this->assertTrue(
+            $this->_model->authenticate(
                 \Magento\TestFramework\Bootstrap::ADMIN_NAME,
                 \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
             )
@@ -204,7 +210,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testAuthenticateCaseInsensitive()
     {
         $this->assertTrue($this->_model->authenticate('user', \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD));
-        $this->assertTrue($this->_model->authenticate(
+        $this->assertTrue(
+            $this->_model->authenticate(
                 \Magento\TestFramework\Bootstrap::ADMIN_NAME,
                 \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
             )
@@ -219,8 +226,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->load(1);
         $this->_model->setIsActive(0)->save();
-        $this->_model->authenticate(\Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+        $this->_model->authenticate(
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
     }
 
     /**
@@ -231,8 +240,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->load(1);
         $this->_model->setRoleId(1)->deleteFromRole();
-        $this->_model->authenticate(\Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+        $this->_model->authenticate(
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
     }
 
     /**
@@ -244,20 +255,22 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $lognum = $this->_model->getLognum();
 
         $beforeLogin = time();
-        $this->_model->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD)
-            ->reload();
+        $this->_model->login(
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        )->reload();
         $loginTime = strtotime($this->_model->getLogdate());
 
-        $this->assertTrue($beforeLogin <= $loginTime && $loginTime <= time() );
+        $this->assertTrue($beforeLogin <= $loginTime && $loginTime <= time());
         $this->assertEquals(++$lognum, $this->_model->getLognum());
 
         $beforeLogin = time();
-        $this->_model->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD)
-            ->reload();
+        $this->_model->login(
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        )->reload();
         $loginTime = strtotime($this->_model->getLogdate());
-        $this->assertTrue($beforeLogin <= $loginTime && $loginTime <= time() );
+        $this->assertTrue($beforeLogin <= $loginTime && $loginTime <= time());
         $this->assertEquals(++$lognum, $this->_model->getLognum());
     }
 
@@ -294,8 +307,43 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSaveRequiredFieldsValidation()
     {
-        $this->_model->setSomething('some_value'); // force model change
+        $this->_model->setSomething('some_value');
+        // force model change
         $this->_model->save();
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testBeforeSavePasswordHash()
+    {
+        $this->_model->setUsername(
+            'john.doe'
+        )->setFirstname(
+            'John'
+        )->setLastname(
+            'Doe'
+        )->setEmail(
+            'jdoe@gmail.com'
+        )->setPassword(
+            '123123q'
+        );
+        $this->_model->save();
+        $this->assertNotContains('123123q', $this->_model->getPassword(), 'Password is expected to be hashed');
+        $this->assertRegExp(
+            '/^[0-9a-f]+:[0-9a-zA-Z]{32}$/',
+            $this->_model->getPassword(),
+            'Salt is expected to be saved along with the password'
+        );
+
+        /** @var \Magento\User\Model\User $model */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
+        $model->load($this->_model->getId());
+        $this->assertEquals(
+            $this->_model->getPassword(),
+            $model->getPassword(),
+            'Password data has been corrupted during saving'
+        );
     }
 
     /**
@@ -336,10 +384,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function beforeSavePasswordInsecureDataProvider()
     {
-        return array(
-            'alpha chars only'  => array('aaaaaaaa'),
-            'digits only'       => array('1234567'),
-        );
+        return array('alpha chars only' => array('aaaaaaaa'), 'digits only' => array('1234567'));
     }
 
     /**
@@ -358,12 +403,19 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSaveValidationSuccess()
     {
-        $this->_model->setUsername('user1')
-            ->setFirstname('John')
-            ->setLastname('Doe')
-            ->setEmail('jdoe@gmail.com')
-            ->setPassword('1234abc')
-            ->setPasswordConfirmation('1234abc');
+        $this->_model->setUsername(
+            'user1'
+        )->setFirstname(
+            'John'
+        )->setLastname(
+            'Doe'
+        )->setEmail(
+            'jdoe@gmail.com'
+        )->setPassword(
+            '1234abc'
+        )->setPasswordConfirmation(
+            '1234abc'
+        );
         $this->_model->save();
     }
 

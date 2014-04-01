@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Resource;
+
+use Magento\Catalog\Model\Resource\Eav\Attribute;
 
 /**
  * Advanced Catalog Search resource model
@@ -22,11 +23,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_textFieldTypes = array(
-        'text',
-        'varchar',
-        'int'
-    );
+    protected $_textFieldTypes = array('text', 'varchar', 'int');
 
     /**
      * @var \Magento\Search\Model\Resource\Engine
@@ -34,11 +31,9 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     protected $_resourceEngine;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Stdlib\DateTime
@@ -49,35 +44,35 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      * Construct
      *
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Search\Model\Resource\Engine $resourceEngine,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct();
         $this->_resourceEngine = $resourceEngine;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->dateTime = $dateTime;
     }
 
     /**
      * Empty construct
+     *
+     * @return void
      */
     protected function _construct()
     {
-
     }
 
     /**
      * Add filter by indexable attribute
      *
      * @param \Magento\Search\Model\Resource\Collection $collection
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param Attribute $attribute
      * @param string|array $value
-     *
      * @return bool
      */
     public function addIndexableAttributeModifiedFilter($collection, $attribute, $value)
@@ -96,19 +91,25 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      * Retrieve filter array
      *
      * @param \Magento\Search\Model\Resource\Collection $collection
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param Attribute $attribute
      * @param string|array $value
      * @return array
      */
     protected function _getSearchParam($collection, $attribute, $value)
     {
-        if ((!is_string($value) && empty($value))
-            || (is_string($value) && strlen(trim($value)) == 0)
-            || (is_array($value)
-                && isset($value['from'])
-                && empty($value['from'])
-                && isset($value['to'])
-                && empty($value['to']))
+        if (!is_string(
+            $value
+        ) && empty($value) || is_string(
+            $value
+        ) && strlen(
+            trim($value)
+        ) == 0 || is_array(
+            $value
+        ) && isset(
+            $value['from']
+        ) && empty($value['from']) && isset(
+            $value['to']
+        ) && empty($value['to'])
         ) {
             return array();
         }
@@ -120,10 +121,10 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
         $field = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
-            $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
                 if (!$this->dateTime->isEmptyDate($val)) {
-                    $date = new \Zend_Date($val, $format);
+                    $date = new \Magento\Stdlib\DateTime\Date($val, $format);
                     $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }
@@ -141,11 +142,10 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      * Add filter by attribute rated price
      *
      * @param \Magento\Search\Model\Resource\Collection $collection
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param Attribute $attribute
      * @param string|array $value
      * @param int $rate
-     *
-     * @return bool
+     * @return true
      */
     public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
     {
@@ -159,10 +159,9 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Add not indexable field to search
      *
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param Attribute $attribute
      * @param string|array $value
      * @param \Magento\Search\Model\Resource\Collection $collection
-     *
      * @return bool
      */
     public function prepareCondition($attribute, $value, $collection)

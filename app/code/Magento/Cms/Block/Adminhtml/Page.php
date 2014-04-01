@@ -32,7 +32,6 @@ class Page extends \Magento\Backend\Block\Widget\Grid\Container
         } else {
             $this->_removeButton('add');
         }
-
     }
 
     /**

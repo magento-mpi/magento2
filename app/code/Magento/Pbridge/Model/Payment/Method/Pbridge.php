@@ -59,8 +59,17 @@ class Pbridge extends AbstractMethod
      * @var string[]
      */
     protected $_addressFileds = array(
-        'prefix', 'firstname', 'middlename', 'lastname', 'suffix',
-        'company', 'city', 'country_id', 'telephone', 'fax', 'postcode',
+        'prefix',
+        'firstname',
+        'middlename',
+        'lastname',
+        'suffix',
+        'company',
+        'city',
+        'country_id',
+        'telephone',
+        'fax',
+        'postcode'
     );
 
     /**
@@ -176,16 +185,14 @@ class Pbridge extends AbstractMethod
     public function isDummyMethodAvailable($quote = null)
     {
         $storeId = $quote ? $quote->getStoreId() : null;
-        $checkResult = new \StdClass;
+        $checkResult = new \StdClass();
         $checkResult->isAvailable = (bool)(int)$this->getOriginalMethodInstance()->getConfigData('active', $storeId);
-        $this->_eventManager->dispatch('payment_method_is_active', array(
-            'result'          => $checkResult,
-            'method_instance' => $this->getOriginalMethodInstance(),
-            'quote'           => $quote,
-        ));
+        $this->_eventManager->dispatch(
+            'payment_method_is_active',
+            array('result' => $checkResult, 'method_instance' => $this->getOriginalMethodInstance(), 'quote' => $quote)
+        );
         $usingPbridge = $this->getOriginalMethodInstance()->getConfigData('using_pbridge', $storeId);
-        return $checkResult->isAvailable && $this->_pbridgeData->isEnabled($storeId)
-            && $usingPbridge;
+        return $checkResult->isAvailable && $this->_pbridgeData->isEnabled($storeId) && $usingPbridge;
     }
 
     /**
@@ -277,8 +284,7 @@ class Pbridge extends AbstractMethod
             if (null === $this->_originalMethodCode) {
                 return null;
             }
-            $this->_originalMethodInstance = $this->_paymentData
-                ->getMethodInstance($this->_originalMethodCode);
+            $this->_originalMethodInstance = $this->_paymentData->getMethodInstance($this->_originalMethodCode);
         }
         return $this->_originalMethodInstance;
     }
@@ -328,27 +334,44 @@ class Pbridge extends AbstractMethod
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
-//        parent::authorize($payment, $amount);
+        //        parent::authorize($payment, $amount);
         $order = $payment->getOrder();
         $request = $this->_getApiRequest();
 
-        $request
-            ->setData('magento_payment_action' , $this->getOriginalMethodInstance()->getConfigPaymentAction())
-            ->setData('client_ip', $this->_requestHttp->getClientIp(false))
-            ->setData('amount', (string)$amount)
-            ->setData('currency_code', $order->getBaseCurrencyCode())
-            ->setData('order_id', $order->getIncrementId())
-            ->setData('customer_email', $order->getCustomerEmail())
-            ->setData('is_virtual', $order->getIsVirtual())
-            ->setData('notify_url',
-                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' =>  $order->getStore()->getStoreId()))
-            )
-            ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true);
+        $request->setData(
+            'magento_payment_action',
+            $this->getOriginalMethodInstance()->getConfigPaymentAction()
+        )->setData(
+            'client_ip',
+            $this->_requestHttp->getClientIp(false)
+        )->setData(
+            'amount',
+            (string)$amount
+        )->setData(
+            'currency_code',
+            $order->getBaseCurrencyCode()
+        )->setData(
+            'order_id',
+            $order->getIncrementId()
+        )->setData(
+            'customer_email',
+            $order->getCustomerEmail()
+        )->setData(
+            'is_virtual',
+            $order->getIsVirtual()
+        )->setData(
+            'notify_url',
+            $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' => $order->getStore()->getStoreId()))
+        )->setData(
+            'is_first_capture',
+            $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true
+        );
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
         if ($order->getCustomerId()) {
             $id = $order->getCustomerId();
-            $request->setData('customer_id',
+            $request->setData(
+                'customer_id',
                 $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
             );
         }
@@ -357,7 +380,10 @@ class Pbridge extends AbstractMethod
             $request->setData('shipping_address', $this->_getAddressInfo($order->getShippingAddress()));
         }
 
-        $request->setData('cart', $payment->hasCart() ? $payment->getCart() : $this->_pbridgeData->prepareCart($order));
+        $request->setData(
+            'cart',
+            $payment->hasCart() ? $payment->getCart() : $this->_pbridgeData->prepareCart($order)
+        );
 
         $api = $this->_getApi()->doAuthorize($request);
         $apiResponse = $api->getResponse();
@@ -405,13 +431,22 @@ class Pbridge extends AbstractMethod
         }
 
         $request = $this->_getApiRequest();
-        $request
-            ->setData('transaction_id', $authTransactionId)
-            ->setData('is_capture_complete', (int)$payment->getShouldCloseParentTransaction())
-            ->setData('amount', $amount)
-            ->setData('currency_code', $payment->getOrder()->getBaseCurrencyCode())
-            ->setData('order_id', $payment->getOrder()->getIncrementId())
-        ;
+        $request->setData(
+            'transaction_id',
+            $authTransactionId
+        )->setData(
+            'is_capture_complete',
+            (int)$payment->getShouldCloseParentTransaction()
+        )->setData(
+            'amount',
+            $amount
+        )->setData(
+            'currency_code',
+            $payment->getOrder()->getBaseCurrencyCode()
+        )->setData(
+            'order_id',
+            $payment->getOrder()->getIncrementId()
+        );
 
         $api = $this->_getApi()->doCapture($request);
         $this->_importResultToPayment($payment, $api->getResponse());
@@ -445,18 +480,25 @@ class Pbridge extends AbstractMethod
             $order = $payment->getOrder();
 
             $request = $this->_getApiRequest();
-            $request
-                ->setData('transaction_id', $captureTxnId)
-                ->setData('amount', $amount)
-                ->setData('currency_code', $order->getBaseCurrencyCode())
-                ->setData('cc_number', $payment->getCcLast4())
-            ;
+            $request->setData(
+                'transaction_id',
+                $captureTxnId
+            )->setData(
+                'amount',
+                $amount
+            )->setData(
+                'currency_code',
+                $order->getBaseCurrencyCode()
+            )->setData(
+                'cc_number',
+                $payment->getCcLast4()
+            );
 
             $canRefundMore = $order->canCreditmemo();
-            $allRefunds = (float)$amount
-                + (float)$order->getBaseTotalOnlineRefunded()
-                + (float)$order->getBaseTotalOfflineRefunded();
-            $isFullRefund = !$canRefundMore && (0.0001 > (float)$order->getBaseGrandTotal() - $allRefunds);
+            $allRefunds = (double)$amount +
+                (double)$order->getBaseTotalOnlineRefunded() +
+                (double)$order->getBaseTotalOfflineRefunded();
+            $isFullRefund = !$canRefundMore && 0.0001 > (double)$order->getBaseGrandTotal() - $allRefunds;
             $request->setData('is_full_refund', (int)$isFullRefund);
 
             // whether to close capture transaction
@@ -468,10 +510,10 @@ class Pbridge extends AbstractMethod
             $this->_importResultToPayment($payment, $api->getResponse());
 
             return $api->getResponse();
-
         } else {
             throw new Exception(
-                __("We can't issue a refund transaction because the capture transaction does not exist. "));
+                __("We can't issue a refund transaction because the capture transaction does not exist. ")
+            );
         }
     }
 
@@ -488,11 +530,9 @@ class Pbridge extends AbstractMethod
 
         if ($authTransactionId = $payment->getParentTransactionId()) {
             $request = $this->_getApiRequest();
-            $request
-                ->setData('transaction_id', $authTransactionId);
+            $request->setData('transaction_id', $authTransactionId);
 
             $this->_getApi()->doVoid($request);
-
         } else {
             throw new Exception(__('You need an authorization transaction to void.'));
         }
@@ -516,7 +556,7 @@ class Pbridge extends AbstractMethod
         }
         //Streets must be transfered separately
         $streets = $address->getStreet();
-        $result['street'] = array_shift($streets) ;
+        $result['street'] = array_shift($streets);
         if ($street2 = array_shift($streets)) {
             $result['street2'] = $street2;
         }

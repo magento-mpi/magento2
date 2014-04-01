@@ -29,7 +29,9 @@ class SuggestConfigurableAttributes extends Action
      * @param \Magento\Core\Helper\Data $coreHelper
      */
     public function __construct(
-        Action\Context $context, SuggestedAttributeList $attributeList, \Magento\Core\Helper\Data $coreHelper
+        Action\Context $context,
+        SuggestedAttributeList $attributeList,
+        \Magento\Core\Helper\Data $coreHelper
     ) {
         $this->attributeList = $attributeList;
         $this->coreHelper = $coreHelper;
@@ -48,6 +50,8 @@ class SuggestConfigurableAttributes extends Action
 
     /**
      * Search for attributes by part of attribute's label in admin store
+     *
+     * @return void
      */
     public function indexAction()
     {

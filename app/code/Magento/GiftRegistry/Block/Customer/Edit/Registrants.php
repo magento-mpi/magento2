@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer\Edit;
 
 /**
  * Customer giftregistry list block
@@ -14,9 +15,7 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Customer\Edit;
-
-class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
+class Registrants extends AbstractEdit
 {
     /**
      * Scope Selector 'registry/registrant'
@@ -98,7 +97,8 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      *
      * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
      */
-    public function getRegistrantList() {
+    public function getRegistrantList()
+    {
         return $this->getEntity->getRegistrantCollection();
     }
 
@@ -112,7 +112,7 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
     {
         $grouped = array();
         if (is_array($attributes)) {
-            foreach ($attributes as $field => $fdata){
+            foreach ($attributes as $field => $fdata) {
                 if (is_array($fdata)) {
                     $grouped[$field] = $fdata;
                     $grouped[$field]['id'] = $this->_getElementId($field);
@@ -131,8 +131,8 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      */
     protected function _getElementName($code)
     {
-        $custom = ($this->isAttributeStatic($code)) ? '' : '[custom]';
-        return $this->_prefix . '[${_index_}]'. $custom . '[' . $code . ']';
+        $custom = $this->isAttributeStatic($code) ? '' : '[custom]';
+        return $this->_prefix . '[${_index_}]' . $custom . '[' . $code . ']';
     }
 
     /**
@@ -143,14 +143,14 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      */
     protected function _getElementId($code)
     {
-        $custom = ($this->isAttributeStatic($code)) ? '' : 'custom:';
-        return $this->_prefix . ':'. $custom . $code . '${_index_}';
+        $custom = $this->isAttributeStatic($code) ? '' : 'custom:';
+        return $this->_prefix . ':' . $custom . $code . '${_index_}';
     }
 
     /**
      * Get current registrant info , formatted in php array of JSON data
      *
-     * @param int - id of the giftregistry entity
+     * @param int $entityId id of the giftregistry entity
      * @return array
      */
     public function getRegistrantPresets($entityId)

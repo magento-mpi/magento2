@@ -12,7 +12,7 @@ namespace Magento\App\Config\Initial;
 class Converter implements \Magento\Config\ConverterInterface
 {
     /**
-     * Node pathes to process
+     * Node paths to process
      *
      * @var array
      */
@@ -86,8 +86,9 @@ class Converter implements \Magento\Config\ConverterInterface
                 $nodeData = null;
             }
             $output[$node->nodeName] = $nodeData;
-        } elseif ($node->nodeType == XML_CDATA_SECTION_NODE
-            || ($node->nodeType == XML_TEXT_NODE && trim($node->nodeValue) != '')
+        } elseif ($node->nodeType == XML_CDATA_SECTION_NODE || $node->nodeType == XML_TEXT_NODE && trim(
+            $node->nodeValue
+        ) != ''
         ) {
             return $node->nodeValue;
         }

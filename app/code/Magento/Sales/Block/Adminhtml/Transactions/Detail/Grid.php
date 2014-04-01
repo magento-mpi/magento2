@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Transactions\Detail;
 
 /**
  * Adminhtml transaction details grid
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Transactions\Detail;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -27,6 +26,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry = null;
 
     /**
+     * Collection factory
+     *
      * @var \Magento\Data\CollectionFactory
      */
     protected $_collectionFactory;
@@ -52,6 +53,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Initialize default sorting and html ID
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -63,7 +66,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection for grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -80,28 +83,34 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add columns to grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('key', array(
-            'header'    => __('Key'),
-            'index'     => 'key',
-            'sortable'  => false,
-            'type'      => 'text',
-            'header_css_class'  => 'col-key',
-            'column_css_class'  => 'col-key'
-        ));
+        $this->addColumn(
+            'key',
+            array(
+                'header' => __('Key'),
+                'index' => 'key',
+                'sortable' => false,
+                'type' => 'text',
+                'header_css_class' => 'col-key',
+                'column_css_class' => 'col-key'
+            )
+        );
 
-        $this->addColumn('value', array(
-            'header'    => __('Value'),
-            'index'     => 'value',
-            'sortable'  => false,
-            'type'      => 'text',
-            'escape'    => true,
-            'header_css_class'  => 'col-value',
-            'column_css_class'  => 'col-value'
-        ));
+        $this->addColumn(
+            'value',
+            array(
+                'header' => __('Value'),
+                'index' => 'value',
+                'sortable' => false,
+                'type' => 'text',
+                'escape' => true,
+                'header_css_class' => 'col-value',
+                'column_css_class' => 'col-value'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -113,9 +122,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getTransactionAdditionalInfo()
     {
-        $info = $this->_coreRegistry->registry('current_transaction')->getAdditionalInformation(
+        $info = $this->_coreRegistry->registry(
+            'current_transaction'
+        )->getAdditionalInformation(
             \Magento\Sales\Model\Order\Payment\Transaction::RAW_DETAILS
         );
-        return (is_array($info)) ? $info : array();
+        return is_array($info) ? $info : array();
     }
 }

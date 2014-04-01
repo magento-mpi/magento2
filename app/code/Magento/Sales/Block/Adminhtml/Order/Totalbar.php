@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order;
 
 /**
  * Adminhtml creditmemo bar
@@ -15,15 +16,20 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml\Order;
-
 class Totalbar extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
+    /**
+     * Totals
+     *
+     * @var array
+     */
     protected $_totals = array();
 
     /**
      * Retrieve required options from parent
+     *
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeToHtml()
     {
@@ -41,18 +47,27 @@ class Totalbar extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         parent::_beforeToHtml();
     }
 
+    /**
+     * Get totals
+     *
+     * @return array
+     */
     protected function getTotals()
     {
         return $this->_totals;
     }
 
+    /**
+     * Add total
+     *
+     * @param string $label
+     * @param float $value
+     * @param bool $grand
+     * @return $this
+     */
     public function addTotal($label, $value, $grand = false)
     {
-        $this->_totals[] = array(
-            'label' => $label,
-            'value' => $value,
-            'grand' => $grand
-        );
+        $this->_totals[] = array('label' => $label, 'value' => $value, 'grand' => $grand);
         return $this;
     }
 }

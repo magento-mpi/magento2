@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\Layout\Link;
 
 class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCase
@@ -51,18 +50,22 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
     public function testAddTemporaryFilter($flag)
     {
         $select = $this->getMock('Zend_Db_Select', array(), array('where'), '', false);
-        $select->expects($this->once())
-            ->method('where')
-            ->with(self::TEST_WHERE_CONDITION);
+        $select->expects($this->once())->method('where')->with(self::TEST_WHERE_CONDITION);
 
         $collection = $this->_getCollection($select);
 
         /** @var $connection \PHPUnit_Framework_MockObject_MockObject */
         $connection = $collection->getResource()->getReadConnection();
-        $connection->expects($this->any())
-            ->method('prepareSqlCondition')
-            ->with('main_table.is_temporary', $flag)
-            ->will($this->returnValue(self::TEST_WHERE_CONDITION));
+        $connection->expects(
+            $this->any()
+        )->method(
+            'prepareSqlCondition'
+        )->with(
+            'main_table.is_temporary',
+            $flag
+        )->will(
+            $this->returnValue(self::TEST_WHERE_CONDITION)
+        );
 
         $collection->addTemporaryFilter($flag);
     }
@@ -73,8 +76,8 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
     public function filterFlagDataProvider()
     {
         return array(
-            'Add temporary filter'     => array('$flag' => true),
-            'Disable temporary filter' => array('$flag' => false),
+            'Add temporary filter' => array('$flag' => true),
+            'Disable temporary filter' => array('$flag' => false)
         );
     }
 
@@ -84,24 +87,30 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
     public function testJoinWithUpdate()
     {
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
-        $select->expects($this->once())
-            ->method('join')
-            ->with(
-                array('update' => self::TEST_TABLE),
-                'update.layout_update_id = main_table.layout_update_id',
-                $this->isType('array')
-            );
+        $select->expects(
+            $this->once()
+        )->method(
+            'join'
+        )->with(
+            array('update' => self::TEST_TABLE),
+            'update.layout_update_id = main_table.layout_update_id',
+            $this->isType('array')
+        );
 
         $collection = $this->_getCollection($select);
 
         /** @var $resource \PHPUnit_Framework_MockObject_MockObject */
         $resource = $collection->getResource();
-        $resource->expects($this->once())
-            ->method('getTable')
-            ->with(self::TEST_TABLE)
-            ->will($this->returnValue(self::TEST_TABLE));
+        $resource->expects(
+            $this->once()
+        )->method(
+            'getTable'
+        )->with(
+            self::TEST_TABLE
+        )->will(
+            $this->returnValue(self::TEST_TABLE)
+        );
 
-        $collection->addUpdatedDaysBeforeFilter(1)
-            ->addUpdatedDaysBeforeFilter(2);
+        $collection->addUpdatedDaysBeforeFilter(1)->addUpdatedDaysBeforeFilter(2);
     }
 }

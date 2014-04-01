@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Multishipping\Model\Checkout\Type\Multishipping;
+
+use Magento\Checkout\Model\Session;
+use Magento\Multishipping\Model\Checkout\Type\Multishipping;
 
 /**
  * Multishipping checkout state model
@@ -15,15 +19,17 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Multishipping\Model\Checkout\Type\Multishipping;
-
 class State extends \Magento\Object
 {
     const STEP_SELECT_ADDRESSES = 'multishipping_addresses';
-    const STEP_SHIPPING         = 'multishipping_shipping';
-    const STEP_BILLING          = 'multishipping_billing';
-    const STEP_OVERVIEW         = 'multishipping_overview';
-    const STEP_SUCCESS          = 'multishipping_success';
+
+    const STEP_SHIPPING = 'multishipping_shipping';
+
+    const STEP_BILLING = 'multishipping_billing';
+
+    const STEP_OVERVIEW = 'multishipping_overview';
+
+    const STEP_SUCCESS = 'multishipping_success';
 
     /**
      * Allow steps array
@@ -35,42 +41,32 @@ class State extends \Magento\Object
     /**
      * Checkout model
      *
-     * @var \Magento\Multishipping\Model\Checkout\Type\Multishipping
+     * @var Multishipping
      */
     protected $_multishipping;
 
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var Session
      */
     protected $_checkoutSession;
 
     /**
      * Init model, steps
      *
+     * @param Session $checkoutSession
+     * @param Multishipping $multishipping
      */
-    public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
-    ) {
+    public function __construct(Session $checkoutSession, Multishipping $multishipping)
+    {
         $this->_checkoutSession = $checkoutSession;
         $this->_multishipping = $multishipping;
         parent::__construct();
         $this->_steps = array(
-            self::STEP_SELECT_ADDRESSES => new \Magento\Object(array(
-                'label' => __('Select Addresses')
-            )),
-            self::STEP_SHIPPING => new \Magento\Object(array(
-                'label' => __('Shipping Information')
-            )),
-            self::STEP_BILLING => new \Magento\Object(array(
-                'label' => __('Billing Information')
-            )),
-            self::STEP_OVERVIEW => new \Magento\Object(array(
-                'label' => __('Place Order')
-            )),
-            self::STEP_SUCCESS => new \Magento\Object(array(
-                'label' => __('Order Success')
-            )),
+            self::STEP_SELECT_ADDRESSES => new \Magento\Object(array('label' => __('Select Addresses'))),
+            self::STEP_SHIPPING => new \Magento\Object(array('label' => __('Shipping Information'))),
+            self::STEP_BILLING => new \Magento\Object(array('label' => __('Billing Information'))),
+            self::STEP_OVERVIEW => new \Magento\Object(array('label' => __('Place Order'))),
+            self::STEP_SUCCESS => new \Magento\Object(array('label' => __('Order Success')))
         );
 
         foreach ($this->_steps as $step) {
@@ -82,7 +78,7 @@ class State extends \Magento\Object
     /**
      * Retrieve checkout model
      *
-     * @return \Magento\Multishipping\Model\Checkout\Type\Multishipping
+     * @return Multishipping
      */
     public function getCheckout()
     {
@@ -113,18 +109,21 @@ class State extends \Magento\Object
         return self::STEP_SELECT_ADDRESSES;
     }
 
+    /**
+     * @param string $step
+     * @return $this
+     */
     public function setActiveStep($step)
     {
         if (isset($this->_steps[$step])) {
             $this->getCheckoutSession()->setCheckoutState($step);
-        }
-        else {
+        } else {
             $this->getCheckoutSession()->setCheckoutState(self::STEP_SELECT_ADDRESSES);
         }
 
         // Fix active step changing
-        if(!$this->_steps[$step]->getIsActive()) {
-            foreach($this->getSteps() as $stepObject) {
+        if (!$this->_steps[$step]->getIsActive()) {
+            foreach ($this->getSteps() as $stepObject) {
                 $stepObject->unsIsActive();
             }
             $this->_steps[$step]->setIsActive(true);
@@ -136,7 +135,7 @@ class State extends \Magento\Object
      * Mark step as completed
      *
      * @param string $step
-     * @return \Magento\Multishipping\Model\Checkout\Type\Multishipping\State
+     * @return $this
      */
     public function setCompleteStep($step)
     {
@@ -164,7 +163,7 @@ class State extends \Magento\Object
      * Unset complete status from step
      *
      * @param string $step
-     * @return \Magento\Multishipping\Model\Checkout\Type\Multishipping\State
+     * @return $this
      */
     public function unsCompleteStep($step)
     {
@@ -174,30 +173,38 @@ class State extends \Magento\Object
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function canSelectAddresses()
     {
-
     }
 
+    /**
+     * @return bool
+     */
     public function canInputShipping()
     {
-
     }
 
+    /**
+     * @return bool
+     */
     public function canSeeOverview()
     {
-
     }
 
+    /**
+     * @return bool
+     */
     public function canSuccess()
     {
-
     }
 
     /**
      * Retrieve checkout session
      *
-     * @return \Magento\Checkout\Model\Session
+     * @return Session
      */
     public function getCheckoutSession()
     {

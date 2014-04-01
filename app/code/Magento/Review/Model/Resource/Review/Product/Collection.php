@@ -9,7 +9,7 @@
  */
 namespace Magento\Review\Model\Resource\Review\Product;
 
-use \Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 /**
  * Review Product Collection
@@ -23,7 +23,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @var array
      */
-    protected $_entitiesAlias        = array();
+    protected $_entitiesAlias = array();
 
     /**
      * Review store table
@@ -37,14 +37,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @var bool
      */
-    protected $_addStoreDataFlag     = false;
+    protected $_addStoreDataFlag = false;
 
     /**
      * Filter by stores for the collection
      *
      * @var array
      */
-    protected $_storesIds           = array();
+    protected $_storesIds = array();
 
     /**
      * Rating model
@@ -76,7 +76,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
@@ -101,7 +101,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
@@ -126,7 +126,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $coreStoreConfig,
             $productOptionFactory,
             $catalogUrl,
-            $locale,
+            $localeDate,
             $customerSession,
             $dateTime,
             $connection
@@ -224,20 +224,25 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $select = $this->getSelect();
         }
 
-        if (is_array($storesIds) && (count($storesIds) == 1)) {
+        if (is_array($storesIds) && count($storesIds) == 1) {
             $storesIds = array_shift($storesIds);
         }
 
         if (is_array($storesIds) && !empty($storesIds)) {
             $inCond = $adapter->prepareSqlCondition('store.store_id', array('in' => $storesIds));
-            $select->join(array('store' => $this->_reviewStoreTable),
+            $select->join(
+                array('store' => $this->_reviewStoreTable),
                 'rt.review_id=store.review_id AND ' . $inCond,
-                array())
-            ->group('rt.review_id');
+                array()
+            )->group(
+                'rt.review_id'
+            );
         } else {
-            $select->join(array('store' => $this->_reviewStoreTable),
+            $select->join(
+                array('store' => $this->_reviewStoreTable),
                 $adapter->quoteInto('rt.review_id=store.review_id AND store.store_id = ?', (int)$storesIds),
-                array());
+                array()
+            );
         }
 
         return $this;
@@ -262,8 +267,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addCustomerFilter($customerId)
     {
-        $this->getSelect()
-            ->where('rdt.customer_id = ?', $customerId);
+        $this->getSelect()->where('rdt.customer_id = ?', $customerId);
         return $this;
     }
 
@@ -275,8 +279,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addEntityFilter($entityId)
     {
-        $this->getSelect()
-            ->where('rt.entity_pk_value = ?', $entityId);
+        $this->getSelect()->where('rt.entity_pk_value = ?', $entityId);
         return $this;
     }
 
@@ -288,8 +291,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addStatusFilter($status)
     {
-        $this->getSelect()
-            ->where('rt.status_id = ?', $status);
+        $this->getSelect()->where('rt.status_id = ?', $status);
         return $this;
     }
 
@@ -328,11 +330,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = $this->_voteFactory->create()
-                ->getResourceCollection()
-                ->setEntityPkFilter($item->getEntityId())
-                ->setStoreFilter($this->_storeManager->getStore()->getId())
-                ->load();
+            $votesCollection = $this->_voteFactory->create()->getResourceCollection()->setEntityPkFilter(
+                $item->getEntityId()
+            )->setStoreFilter(
+                $this->_storeManager->getStore()->getId()
+            )->load();
             $item->setRatingVotes($votesCollection);
         }
         return $this;
@@ -348,16 +350,17 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $reviewTable = $this->_resource->getTableName('review');
         $reviewDetailTable = $this->_resource->getTableName('review_detail');
 
-        $this->addAttributeToSelect('name')
-            ->addAttributeToSelect('sku');
+        $this->addAttributeToSelect('name')->addAttributeToSelect('sku');
 
-        $this->getSelect()
-            ->join(array('rt' => $reviewTable),
-                'rt.entity_pk_value = e.entity_id',
-                array('rt.review_id', 'review_created_at'=> 'rt.created_at', 'rt.entity_pk_value', 'rt.status_id'))
-            ->join(array('rdt' => $reviewDetailTable),
-                'rdt.review_id = rt.review_id',
-                array('rdt.title','rdt.nickname', 'rdt.detail', 'rdt.customer_id', 'rdt.store_id'));
+        $this->getSelect()->join(
+            array('rt' => $reviewTable),
+            'rt.entity_pk_value = e.entity_id',
+            array('rt.review_id', 'review_created_at' => 'rt.created_at', 'rt.entity_pk_value', 'rt.status_id')
+        )->join(
+            array('rdt' => $reviewDetailTable),
+            'rdt.review_id = rt.review_id',
+            array('rdt.title', 'rdt.nickname', 'rdt.detail', 'rdt.customer_id', 'rdt.store_id')
+        );
         return $this;
     }
 
@@ -403,9 +406,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function getSelectCountSql()
     {
         $select = parent::getSelectCountSql();
-        $select->reset(\Zend_Db_Select::COLUMNS)
-            ->columns('COUNT(e.entity_id)')
-            ->reset(\Zend_Db_Select::HAVING);
+        $select->reset(\Zend_Db_Select::COLUMNS)->columns('COUNT(e.entity_id)')->reset(\Zend_Db_Select::HAVING);
 
         return $select;
     }
@@ -419,7 +420,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setOrder($attribute, $dir = 'DESC')
     {
-        switch($attribute) {
+        switch ($attribute) {
             case 'rt.review_id':
             case 'rt.created_at':
             case 'rt.status_id':
@@ -451,7 +452,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addAttributeToFilter($attribute, $condition = null, $joinType = 'inner')
     {
-        switch($attribute) {
+        switch ($attribute) {
             case 'rt.review_id':
             case 'rt.created_at':
             case 'rt.status_id':
@@ -536,13 +537,16 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         //$this->_getConditionSql('rdt.customer_id', array('null' => null));
         $reviewsIds = $this->getColumnValues('review_id');
         $storesToReviews = array();
-        if (count($reviewsIds)>0) {
+        if (count($reviewsIds) > 0) {
             $reviewIdCondition = $this->_getConditionSql('review_id', array('in' => $reviewsIds));
             $storeIdCondition = $this->_getConditionSql('store_id', array('gt' => 0));
-            $select = $adapter->select()
-                ->from($this->_reviewStoreTable)
-                ->where($reviewIdCondition)
-                ->where($storeIdCondition);
+            $select = $adapter->select()->from(
+                $this->_reviewStoreTable
+            )->where(
+                $reviewIdCondition
+            )->where(
+                $storeIdCondition
+            );
             $result = $adapter->fetchAll($select);
             foreach ($result as $row) {
                 if (!isset($storesToReviews[$row['review_id']])) {
@@ -558,7 +562,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             } else {
                 $item->setData('stores', array());
             }
-
         }
     }
 

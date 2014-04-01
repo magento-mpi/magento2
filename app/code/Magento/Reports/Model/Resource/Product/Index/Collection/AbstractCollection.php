@@ -18,8 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Product\Index\Collection;
 
-abstract class AbstractCollection
-    extends \Magento\Catalog\Model\Resource\Product\Collection
+abstract class AbstractCollection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Customer id
@@ -49,7 +48,7 @@ abstract class AbstractCollection
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Log\Model\Visitor $logVisitor
@@ -73,7 +72,7 @@ abstract class AbstractCollection
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Log\Model\Visitor $logVisitor,
@@ -95,7 +94,7 @@ abstract class AbstractCollection
             $coreStoreConfig,
             $productOptionFactory,
             $catalogUrl,
-            $locale,
+            $localeDate,
             $customerSession,
             $dateTime,
             $connection
@@ -121,11 +120,7 @@ abstract class AbstractCollection
             $this->joinTable(
                 array('idx_table' => $this->_getTableName()),
                 'product_id=entity_id',
-                array(
-                    'product_id'    => 'product_id',
-                    'item_store_id' => 'store_id',
-                    'added_at'      => 'added_at'
-                ),
+                array('product_id' => 'product_id', 'item_store_id' => 'store_id', 'added_at' => 'added_at'),
                 $this->_getWhereCondition()
             );
             $this->setFlag('is_idx_table_joined', true);

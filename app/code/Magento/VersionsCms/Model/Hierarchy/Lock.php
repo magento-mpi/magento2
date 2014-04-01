@@ -133,7 +133,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLocked()
     {
-        return ($this->isEnabled() && $this->isActual());
+        return $this->isEnabled() && $this->isActual();
     }
 
     /**
@@ -143,7 +143,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLockedByMe()
     {
-        return ($this->isLocked() && $this->isLockOwner());
+        return $this->isLocked() && $this->isLockOwner();
     }
 
     /**
@@ -153,7 +153,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLockedByOther()
     {
-        return ($this->isLocked() && !$this->isLockOwner());
+        return $this->isLocked() && !$this->isLockOwner();
     }
 
     /**
@@ -193,7 +193,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isEnabled()
     {
-        return ($this->getLockLifeTime() > 0);
+        return $this->getLockLifeTime() > 0;
     }
 
     /**
@@ -204,8 +204,11 @@ class Lock extends \Magento\Core\Model\AbstractModel
     public function isLockOwner()
     {
         $this->loadLockData();
-        if ($this->_getData('user_id') == $this->_getSession()->getUser()->getId()
-            && $this->_getData('session_id') == $this->_getSession()->getSessionId()
+        if ($this->_getData(
+            'user_id'
+        ) == $this->_getSession()->getUser()->getId() && $this->_getData(
+            'session_id'
+        ) == $this->_getSession()->getSessionId()
         ) {
             return true;
         }
@@ -224,12 +227,14 @@ class Lock extends \Magento\Core\Model\AbstractModel
             $this->delete();
         }
 
-        $this->setData(array(
-            'user_id' => $this->_getSession()->getUser()->getId(),
-            'user_name' => $this->_getSession()->getUser()->getName(),
-            'session_id' => $this->_getSession()->getSessionId(),
-            'started_at' => time()
-        ));
+        $this->setData(
+            array(
+                'user_id' => $this->_getSession()->getUser()->getId(),
+                'user_name' => $this->_getSession()->getUser()->getName(),
+                'session_id' => $this->_getSession()->getSessionId(),
+                'started_at' => time()
+            )
+        );
         $this->save();
 
         return $this;
@@ -243,6 +248,6 @@ class Lock extends \Magento\Core\Model\AbstractModel
     public function getLockLifeTime()
     {
         $timeout = (int)$this->_coreStoreConfig->getConfig('cms/hierarchy/lock_timeout');
-        return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
+        return $timeout != 0 && $timeout < 120 ? 120 : $timeout;
     }
 }

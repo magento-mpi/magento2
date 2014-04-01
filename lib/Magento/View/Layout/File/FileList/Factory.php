@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File\FileList;
 
 use Magento\ObjectManager;
@@ -48,7 +47,7 @@ class Factory
     {
         $collator = $this->objectManager->get($instanceName);
         if (!$collator instanceof CollateInterface) {
-            throw new \UnexpectedValueException("$instanceName has to implement the collate interface.");
+            throw new \UnexpectedValueException("{$instanceName} has to implement the collate interface.");
         }
         return $this->objectManager->create('Magento\View\Layout\File\FileList', array('collator' => $collator));
     }

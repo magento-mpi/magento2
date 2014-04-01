@@ -7,6 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Form\Element;
+
+use Magento\Escaper;
 
 /**
  * Form select element
@@ -15,10 +18,6 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element;
-
-use Magento\Escaper;
-
 class Checkboxes extends AbstractElement
 {
     /**
@@ -53,19 +52,18 @@ class Checkboxes extends AbstractElement
      *
      * @return array
      */
-    protected function _prepareValues() {
+    protected function _prepareValues()
+    {
         $options = array();
-        $values  = array();
+        $values = array();
 
         if ($this->getValues()) {
             if (!is_array($this->getValues())) {
                 $options = array($this->getValues());
-            }
-            else {
+            } else {
                 $options = $this->getValues();
             }
-        }
-        elseif ($this->getOptions() && is_array($this->getOptions())) {
+        } elseif ($this->getOptions() && is_array($this->getOptions())) {
             $options = $this->getOptions();
         }
         foreach ($options as $k => $v) {
@@ -74,16 +72,10 @@ class Checkboxes extends AbstractElement
                     if (!isset($v['label'])) {
                         $v['label'] = $v['value'];
                     }
-                    $values[] = array(
-                        'label' => $v['label'],
-                        'value' => $v['value']
-                    );
+                    $values[] = array('label' => $v['label'], 'value' => $v['value']);
                 }
             } else {
-                $values[] = array(
-                    'label' => $v,
-                    'value' => $k
-                );
+                $values[] = array('label' => $v, 'value' => $k);
             }
         }
 
@@ -103,33 +95,29 @@ class Checkboxes extends AbstractElement
             return '';
         }
 
-        $html  = '<div class=nested>';
+        $html = '<div class=nested>';
         foreach ($values as $value) {
-            $html.= $this->_optionToHtml($value);
+            $html .= $this->_optionToHtml($value);
         }
-        $html .= '</div>'
-            . $this->getAfterElementHtml();
+        $html .= '</div>' . $this->getAfterElementHtml();
 
         return $html;
     }
 
     /**
      * @param mixed $value
-     * @return string
+     * @return string|void
      */
     public function getChecked($value)
     {
         if ($checked = $this->getValue()) {
-        }
-        elseif ($checked = $this->getData('checked')) {
-        }
-        else {
-            return ;
+        } elseif ($checked = $this->getData('checked')) {
+        } else {
+            return;
         }
         if (!is_array($checked)) {
             $checked = array(strval($checked));
-        }
-        else {
+        } else {
             foreach ($checked as $k => $v) {
                 $checked[$k] = strval($v);
             }
@@ -137,7 +125,7 @@ class Checkboxes extends AbstractElement
         if (in_array(strval($value), $checked)) {
             return 'checked';
         }
-        return ;
+        return;
     }
 
     /**
@@ -149,8 +137,7 @@ class Checkboxes extends AbstractElement
         if ($disabled = $this->getData('disabled')) {
             if (!is_array($disabled)) {
                 $disabled = array(strval($disabled));
-            }
-            else {
+            } else {
                 foreach ($disabled as $k => $v) {
                     $disabled[$k] = strval($v);
                 }
@@ -159,7 +146,7 @@ class Checkboxes extends AbstractElement
                 return 'disabled';
             }
         }
-        return ;
+        return;
     }
 
     /**
@@ -171,7 +158,7 @@ class Checkboxes extends AbstractElement
         if ($onclick = $this->getData('onclick')) {
             return str_replace('$value', $value, $onclick);
         }
-        return ;
+        return;
     }
 
     /**
@@ -183,16 +170,16 @@ class Checkboxes extends AbstractElement
         if ($onchange = $this->getData('onchange')) {
             return str_replace('$value', $value, $onchange);
         }
-        return ;
+        return;
     }
 
-//    public function getName($value)
-//    {
-//        if ($name = $this->getData('name')) {
-//            return str_replace('$value', $value, $name);
-//        }
-//        return ;
-//    }
+    //    public function getName($value)
+    //    {
+    //        if ($name = $this->getData('name')) {
+    //            return str_replace('$value', $value, $name);
+    //        }
+    //        return ;
+    //    }
 
     /**
      * @param array $option
@@ -200,17 +187,23 @@ class Checkboxes extends AbstractElement
      */
     protected function _optionToHtml($option)
     {
-        $id = $this->getHtmlId().'_'.$this->_escape($option['value']);
+        $id = $this->getHtmlId() . '_' . $this->_escape($option['value']);
 
-        $html = '<div class="field choice"><input id="'.$id.'"';
+        $html = '<div class="field choice"><input id="' . $id . '"';
         foreach ($this->getHtmlAttributes() as $attribute) {
             if ($value = $this->getDataUsingMethod($attribute, $option['value'])) {
-                $html .= ' '.$attribute.'="'.$value.'"';
+                $html .= ' ' . $attribute . '="' . $value . '"';
             }
         }
-        $html .= ' value="'.$option['value'].'" />'
-            . ' <label for="'.$id.'">' . $option['label'] . '</label></div>'
-            . "\n";
+        $html .= ' value="' .
+            $option['value'] .
+            '" />' .
+            ' <label for="' .
+            $id .
+            '">' .
+            $option['label'] .
+            '</label></div>' .
+            "\n";
         return $html;
     }
 }

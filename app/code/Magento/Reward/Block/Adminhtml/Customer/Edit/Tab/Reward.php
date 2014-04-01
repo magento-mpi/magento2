@@ -18,9 +18,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab;
 
-class Reward
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Reward extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -81,9 +79,9 @@ class Reward
     public function canShowTab()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
-        return $customer->getId()
-            && $this->_rewardData->isEnabled()
-            && $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_BALANCE);
+        return $customer->getId() && $this->_rewardData->isEnabled() && $this->_authorization->isAllowed(
+            \Magento\Reward\Helper\Data::XML_PATH_PERMISSION_BALANCE
+        );
     }
 
     /**
@@ -105,13 +103,16 @@ class Reward
     protected function _prepareLayout()
     {
         $accordion = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Accordion');
-        $accordion->addItem('reward_points_history', array(
-            'title'       => __('Reward Points History'),
-            'open'        => false,
-            'class'       => '',
-            'ajax'        => true,
-            'content_url' => $this->getUrl('adminhtml/customer_reward/history', array('_current' => true))
-        ));
+        $accordion->addItem(
+            'reward_points_history',
+            array(
+                'title' => __('Reward Points History'),
+                'open' => false,
+                'class' => '',
+                'ajax' => true,
+                'content_url' => $this->getUrl('adminhtml/customer_reward/history', array('_current' => true))
+            )
+        );
         $this->setChild('history_accordion', $accordion);
 
         return parent::_prepareLayout();

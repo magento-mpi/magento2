@@ -9,10 +9,8 @@
  */
 namespace Magento\Connect\Command;
 
-final class Channels
-extends \Magento\Connect\Command
+final class Channels extends \Magento\Connect\Command
 {
-
     /**
      * List available channels
      *
@@ -29,7 +27,7 @@ extends \Magento\Connect\Command
             $aliasT = "Available aliases:";
             $packager = $this->getPackager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
+            if ($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
                 $data = $cache->getData();
                 @unlink($config->getFilename());
@@ -38,8 +36,8 @@ extends \Magento\Connect\Command
                 $cache = $this->getSconfig();
                 $config = $this->config();
                 $data = $cache->getData();
-            }            
-            $out = array($command => array('data'=>$data, 'title'=>$title, 'title_aliases'=>$aliasT));
+            }
+            $out = array($command => array('data' => $data, 'title' => $title, 'title_aliases' => $aliasT));
             $this->ui()->output($out);
         } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
@@ -58,15 +56,15 @@ extends \Magento\Connect\Command
     {
         $this->cleanupParams($params);
         try {
-            if(count($params) != 1) {
+            if (count($params) != 1) {
                 throw new \Exception("Parameters count should be equal to 1");
             }
             $packager = $this->getPackager();
 
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
+            if ($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-                $cache->deleteChannel($params[0]);                
+                $cache->deleteChannel($params[0]);
                 $packager->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
             } else {
@@ -75,7 +73,6 @@ extends \Magento\Connect\Command
                 $cache->deleteChannel($params[0]);
             }
             $this->ui()->output("Successfully deleted");
-
         } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
@@ -93,7 +90,7 @@ extends \Magento\Connect\Command
     {
         $this->cleanupParams($params);
         try {
-            if(count($params) != 1) {
+            if (count($params) != 1) {
                 throw new \Exception("Parameters count should be equal to 1");
             }
             $url = $params[0];
@@ -101,21 +98,21 @@ extends \Magento\Connect\Command
             $rest->setChannel($url);
             $data = $rest->getChannelInfo();
             $data->url = $url;
-                        
+
             $packager = $this->getPackager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-                 $cache->addChannel($data->name, $url);
-                 $packager->writeToRemoteCache($cache, $ftpObj); 
-                 @unlink($config->getFilename());                 
+            if ($ftp) {
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
+                $cache->addChannel($data->name, $url);
+                $packager->writeToRemoteCache($cache, $ftpObj);
+                @unlink($config->getFilename());
             } else {
-                $cache = $this->getSconfig();               
-                $config = $this->config();   
+                $cache = $this->getSconfig();
+                $config = $this->config();
                 $cache->addChannel($data->name, $url);
             }
-            
-            $this->ui()->output("Successfully added: ".$url);
+
+            $this->ui()->output("Successfully added: " . $url);
         } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
@@ -131,7 +128,6 @@ extends \Magento\Connect\Command
      */
     public function doInfo($command, $options, $params)
     {
-
     }
 
     /**
@@ -146,25 +142,25 @@ extends \Magento\Connect\Command
     {
         $this->cleanupParams($params);
         try {
-            if(count($params) != 2) {
+            if (count($params) != 2) {
                 throw new \Exception("Parameters count should be equal to 2");
             }
 
             $packager = $this->getPackager();
             $chanUrl = $params[0];
-            $alias = $params[1];            
+            $alias = $params[1];
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($cache, $config,  $ftpObj) = $packager->getRemoteConf($ftp);
+            if ($ftp) {
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
                 $cache->addChannelAlias($chanUrl, $alias);
                 $packager->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
-            } else {                
+            } else {
                 $cache = $this->getSconfig();
                 $config = $this->config();
-                $cache->addChannelAlias($chanUrl, $alias);                
+                $cache->addChannelAlias($chanUrl, $alias);
             }
-            $this->ui()->output("Successfully added: ".$alias);
+            $this->ui()->output("Successfully added: " . $alias);
         } catch (\Exception $e) {
             $this->doError($command, $e->getMessage());
         }
@@ -178,7 +174,6 @@ extends \Magento\Connect\Command
      */
     public function doLogin($command, $options, $params)
     {
-
     }
 
     /**
@@ -189,7 +184,5 @@ extends \Magento\Connect\Command
      */
     public function doLogout($command, $options, $params)
     {
-
     }
-
 }

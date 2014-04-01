@@ -43,6 +43,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -74,6 +76,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('adminhtml/*/validate', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
     }
 }

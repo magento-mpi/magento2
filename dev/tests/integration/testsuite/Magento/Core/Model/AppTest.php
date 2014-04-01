@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 class AppTest extends \PHPUnit_Framework_TestCase
@@ -124,17 +123,15 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGetResponse()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\ResponseInterface')->headersSentThrowsException = false;
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\ResponseInterface'
+        )->headersSentThrowsException = false;
         $this->assertInstanceOf('Magento\App\ResponseInterface', $this->_model->getResponse());
-        $expectedHeader = array(
-            'name' => 'Content-Type',
-            'value' => 'text/html; charset=UTF-8',
-            'replace' => false
-        );
+        $expectedHeader = array('name' => 'Content-Type', 'value' => 'text/html; charset=UTF-8', 'replace' => false);
         $this->assertContains($expectedHeader, $this->_model->getResponse()->getHeaders());
-        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\ResponseInterface');
+        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\App\ResponseInterface'
+        );
         $this->_model->setResponse($response);
         $this->assertSame($response, $this->_model->getResponse());
         $this->assertEmpty($this->_model->getResponse()->getHeaders());

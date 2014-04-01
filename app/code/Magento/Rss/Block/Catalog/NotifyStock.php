@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block\Catalog;
 
 /**
  * Catalog low stock RSS block
  */
-namespace Magento\Rss\Block\Catalog;
-
 class NotifyStock extends \Magento\Backend\Block\AbstractBlock
 {
     /**
@@ -77,14 +76,11 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
         $title = __('Low Stock Products');
         /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $this->_rssFactory->create();
-        $rssObj->_addHeader(array(
-            'title'       => $title,
-            'description' => $title,
-            'link'        => $newUrl,
-            'charset'     => 'UTF-8',
-        ));
+        $rssObj->_addHeader(
+            array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8')
+        );
 
-        $globalNotifyStockQty = (float)$this->_storeConfig->getConfig(
+        $globalNotifyStockQty = (double)$this->_storeConfig->getConfig(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY
         );
         /* @var $product \Magento\Catalog\Model\Product */
@@ -93,18 +89,23 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
         $collection = $product->getCollection();
         /** @var $resourceStock \Magento\CatalogInventory\Model\Resource\Stock */
         $resourceStock = $this->_stockFactory->create();
-        $resourceStock->addLowStockFilter($collection, array(
-            'qty',
-            'notify_stock_qty',
-            'low_stock_date',
-            'use_config' => 'use_config_notify_stock_qty'
-        ));
-        $collection->addAttributeToSelect('name', true)
-            ->addAttributeToFilter('status', array('in' => $this->_productStatus->getVisibleStatusIds()))
-            ->setOrder('low_stock_date');
-        $this->_eventManager->dispatch('rss_catalog_notify_stock_collection_select', array(
-            'collection' => $collection,
-        ));
+        $resourceStock->addLowStockFilter(
+            $collection,
+            array('qty', 'notify_stock_qty', 'low_stock_date', 'use_config' => 'use_config_notify_stock_qty')
+        );
+        $collection->addAttributeToSelect(
+            'name',
+            true
+        )->addAttributeToFilter(
+            'status',
+            array('in' => $this->_productStatus->getVisibleStatusIds())
+        )->setOrder(
+            'low_stock_date'
+        );
+        $this->_eventManager->dispatch(
+            'rss_catalog_notify_stock_collection_select',
+            array('collection' => $collection)
+        );
 
         /*
         using resource iterator to load the data one by one
@@ -130,16 +131,14 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $args['product'];
         $product->setData($args['row']);
-        $url = $this->getUrl('catalog/product/edit',
-            array('id' => $product->getId(), '_secure' => true, '_nosecret' => true));
+        $url = $this->getUrl(
+            'catalog/product/edit',
+            array('id' => $product->getId(), '_secure' => true, '_nosecret' => true)
+        );
         $qty = 1 * $product->getQty();
         $description = __('%1 has reached a quantity of %2.', $product->getName(), $qty);
         /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $args['rssObj'];
-        $rssObj->_addEntry(array(
-            'title'       => $product->getName(),
-            'link'        => $url,
-            'description' => $description,
-        ));
+        $rssObj->_addEntry(array('title' => $product->getName(), 'link' => $url, 'description' => $description));
     }
 }

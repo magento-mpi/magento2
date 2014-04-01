@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview;
 
 class Processor implements ProcessorInterface
@@ -18,9 +17,8 @@ class Processor implements ProcessorInterface
     /**
      * @param View\CollectionFactory $viewsFactory
      */
-    public function __construct(
-        View\CollectionFactory $viewsFactory
-    ) {
+    public function __construct(View\CollectionFactory $viewsFactory)
+    {
         $this->viewsFactory = $viewsFactory;
     }
 
@@ -40,6 +38,7 @@ class Processor implements ProcessorInterface
      * Materialize all views by group (all views if empty)
      *
      * @param string $group
+     * @return void
      */
     public function update($group = '')
     {
@@ -52,6 +51,7 @@ class Processor implements ProcessorInterface
      * Clear all views' changelogs by group (all views if empty)
      *
      * @param string $group
+     * @return void
      */
     public function clearChangelog($group = '')
     {

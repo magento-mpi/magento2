@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Controller;
 
 /**
  * RSS Controller for Catalog feeds
  */
-namespace Magento\Rss\Controller;
-
 class Catalog extends \Magento\App\Action\Action
 {
     /**
@@ -24,38 +23,49 @@ class Catalog extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Store\Config $storeConfig
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Core\Model\Store\Config $storeConfig)
+    {
         $this->_storeConfig = $storeConfig;
         parent::__construct($context);
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_genericAction('new');
     }
 
+    /**
+     * @return void
+     */
     public function specialAction()
     {
         $this->_genericAction('special');
     }
 
+    /**
+     * @return void
+     */
     public function salesruleAction()
     {
         $this->_genericAction('salesrule');
     }
 
+    /**
+     * @return void
+     */
     public function categoryAction()
     {
-         $this->_genericAction('category');
+        $this->_genericAction('category');
     }
 
     /**
      * Render or forward to "no route" action if this type of RSS is disabled
      *
      * @param string $code
+     * @return void
      */
     protected function _genericAction($code)
     {
@@ -79,6 +89,8 @@ class Catalog extends \Magento\App\Action\Action
 
     /**
      * Render as XML-document using layout handle without inheriting any other handles
+     *
+     * @return void
      */
     protected function _render()
     {

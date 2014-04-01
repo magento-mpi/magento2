@@ -7,7 +7,6 @@
  * @copyright          {copyright}
  * @license            {license_link}
  */
-
 namespace Magento\Outbound\Authentication;
 
 use Magento\Outbound\Authentication\Factory as AuthenticationFactory;
@@ -20,12 +19,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_authFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Outbound\Authentication\Factory', array(
-                    'authenticationMap' => array(
-                        EndpointInterface::AUTH_TYPE_HMAC => 'Magento\Outbound\Authentication\Hmac'
-                    )
-                ));
+        $this->_authFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Outbound\Authentication\Factory',
+            array(
+                'authenticationMap' => array(
+                    EndpointInterface::AUTH_TYPE_HMAC => 'Magento\Outbound\Authentication\Hmac'
+                )
+            )
+        );
     }
 
     public function testGetFormatter()

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="magento_giftcardaccount_save_after">
         <observer name="magento_giftcardaccount_save_after" instance="Magento\GiftCardAccount\Model\Observer" method="giftcardaccountSaveAfter" />
     </event>
@@ -58,12 +58,6 @@
     </event>
     <event name="checkout_type_multishipping_create_orders_single">
         <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="processOrderPlace" />
-    </event>
-    <event name="googlecheckout_save_order_after">
-        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="processOrderPlace" />
-    </event>
-    <event name="googlecheckout_create_order_before">
-        <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="processOrderCreateBefore" />
     </event>
     <event name="checkout_multishipping_refund_all">
         <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="revertGiftCardsForAllOrders" />

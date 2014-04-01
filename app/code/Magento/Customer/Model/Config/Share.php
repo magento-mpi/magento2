@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Config;
 
 /**
  * Customer sharing config model
@@ -15,10 +16,7 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Config;
-
-class Share extends \Magento\Core\Model\Config\Value
-    implements \Magento\Option\ArrayInterface
+class Share extends \Magento\Core\Model\Config\Value implements \Magento\Option\ArrayInterface
 {
     /**
      * Xml config path to customers sharing scope value
@@ -30,7 +28,8 @@ class Share extends \Magento\Core\Model\Config\Value
      * Possible customer sharing scopes
      *
      */
-    const SHARE_GLOBAL  = 0;
+    const SHARE_GLOBAL = 0;
+
     const SHARE_WEBSITE = 1;
 
     /**
@@ -101,16 +100,13 @@ class Share extends \Magento\Core\Model\Config\Value
      */
     public function toOptionArray()
     {
-        return array(
-            self::SHARE_GLOBAL  => __('Global'),
-            self::SHARE_WEBSITE => __('Per Website'),
-        );
+        return array(self::SHARE_GLOBAL => __('Global'), self::SHARE_WEBSITE => __('Per Website'));
     }
 
     /**
-     * Check for email dublicates before saving customers sharing options
+     * Check for email duplicates before saving customers sharing options
      *
-     * @return \Magento\Customer\Model\Config\Share
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function _beforeSave()
@@ -118,13 +114,34 @@ class Share extends \Magento\Core\Model\Config\Value
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
             if ($this->_customerResource->findEmailDuplicates()) {
+                //@codingStandardsIgnoreStart
                 throw new \Magento\Core\Exception(
-                    //@codingStandardsIgnoreStart
-                    __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
-                    //@codingStandardsIgnoreEnd
+                    __(
+                        'Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.'
+                    )
                 );
+                //@codingStandardsIgnoreEnd
             }
         }
         return $this;
+    }
+
+    /**
+     * Returns shared website Ids.
+     *
+     * @param int $websiteId the ID to use if website scope is on
+     * @return int[]
+     */
+    public function getSharedWebsiteIds($websiteId)
+    {
+        $ids = array();
+        if ($this->isWebsiteScope()) {
+            $ids[] = $websiteId;
+        } else {
+            foreach ($this->_storeManager->getWebsites() as $website) {
+                $ids[] = $website->getId();
+            }
+        }
+        return $ids;
     }
 }

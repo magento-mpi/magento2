@@ -30,7 +30,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\App\Resource $coreResource
@@ -54,7 +54,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\App\Resource $coreResource,
@@ -100,10 +100,9 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addCustomerIdFilter($this->_coreRegistry->registry('current_customer')->getId())
-            ->resetSortOrder()
-            ->addDaysInWishlist()
-            ->addStoreData();
+        $this->addCustomerIdFilter(
+            $this->_coreRegistry->registry('current_customer')->getId()
+        )->resetSortOrder()->addDaysInWishlist()->addStoreData();
         return $this;
     }
 }

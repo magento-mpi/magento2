@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount;
 
 /**
  * GiftCardAccount Resource Collection
@@ -16,14 +16,12 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount;
-
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -37,7 +35,7 @@ class Collection
      * Filter collection by specified websites
      *
      * @param array|int $websiteIds
-     * @return \Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection
+     * @return $this
      */
     public function addWebsiteFilter($websiteIds)
     {

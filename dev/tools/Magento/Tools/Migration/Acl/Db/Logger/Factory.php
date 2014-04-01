@@ -7,23 +7,23 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\Acl\Db\Logger;
 
 class Factory
 {
     /**
      * List of allowed logger types
+     *
      * @var array
      */
     protected $_allowedLoggerTypes = array();
 
+    /**
+     * Constructor for Db\Logger\Factory
+     */
     public function __construct()
     {
-        $this->_allowedLoggerTypes = array(
-            'console',
-            'file',
-        );
+        $this->_allowedLoggerTypes = array('console', 'file');
     }
 
     /**

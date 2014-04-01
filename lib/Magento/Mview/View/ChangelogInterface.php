@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview\View;
 
 interface ChangelogInterface
@@ -27,8 +26,8 @@ interface ChangelogInterface
     /**
      * Clear changelog by version_id
      *
-     * @param $versionId
-     * @return boolean
+     * @param int $versionId
+     * @return bool
      */
     public function clear($versionId);
 

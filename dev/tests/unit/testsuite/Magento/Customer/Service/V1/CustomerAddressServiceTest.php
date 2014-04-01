@@ -5,11 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAddressService
@@ -23,21 +24,37 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** Sample values for testing */
     const STREET = 'Parmer';
+
     const CITY = 'Albuquerque';
+
     const POSTCODE = '90014';
+
     const TELEPHONE = '7143556767';
+
     const REGION = 'Alabama';
+
     const REGION_ID = 1;
+
     const COUNTRY_ID = 'US';
+
     const ID = 1;
+
     const FIRSTNAME = 'Jane';
+
     const LASTNAME = 'Doe';
+
     const NAME = 'J';
+
     const EMAIL = 'janedoe@example.com';
+
     const EMAIL_CONFIRMATION_KEY = 'blj487lkjs4confirmation_key';
+
     const PASSWORD = 'password';
+
     const ATTRIBUTE_CODE = 'random_attr_code';
+
     const ATTRIBUTE_VALUE = 'random_attr_value';
+
     const WEBSITE_ID = 1;
 
     /**
@@ -63,7 +80,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Customer\Model\Converter
      */
-    private $_converter;
+    private $_customerConverter;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\Store
@@ -71,7 +88,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private $_storeMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Address\Converter
+     */
+    private $_addressConverterMock;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
      */
     private $_addressBuilder;
 
@@ -87,351 +109,376 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_customerFactoryMock = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('create'))
-            ->getMock();
+        $this->_customerFactoryMock = $this->getMockBuilder(
+            'Magento\Customer\Model\CustomerFactory'
+        )->disableOriginalConstructor()->setMethods(
+            array('create')
+        )->getMock();
 
-        $this->_customerModelMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
-            ->disableOriginalConstructor()
-            ->setMethods(
-                array(
-                    'getId',
-                    'getFirstname',
-                    'getLastname',
-                    'getName',
-                    'getEmail',
-                    'getAttributes',
-                    'getConfirmation',
-                    'setConfirmation',
-                    'save',
-                    'load',
-                    '__wakeup',
-                    'authenticate',
-                    'getData',
-                    'getDefaultBilling',
-                    'getDefaultShipping',
-                    'getDefaultShippingAddress',
-                    'getDefaultBillingAddress',
-                    'getStoreId',
-                    'getAddressById',
-                    'getAddresses',
-                    'getAddressItemById',
-                    'getParentId',
-                    'isConfirmationRequired',
-                    'addAddress',
-                    'loadByEmail',
-                    'sendNewAccountEmail',
-                    'setFirstname',
-                    'setLastname',
-                    'setEmail',
-                    'setPassword',
-                    'setData',
-                    'setWebsiteId',
-                    'getAttributeSetId',
-                    'setAttributeSetId',
-                    'validate',
-                    'getRpToken',
-                    'setRpToken',
-                    'setRpTokenCreatedAt',
-                    'isResetPasswordLinkTokenExpired',
-                    'changeResetPasswordLinkToken',
-                    'sendPasswordResetConfirmationEmail',
-                )
+        $this->_customerModelMock = $this->getMockBuilder(
+            'Magento\Customer\Model\Customer'
+        )->disableOriginalConstructor()->setMethods(
+            array(
+                'getId',
+                'getFirstname',
+                'getLastname',
+                'getName',
+                'getEmail',
+                'getAttributes',
+                'getConfirmation',
+                'setConfirmation',
+                'save',
+                'load',
+                '__wakeup',
+                'authenticate',
+                'getData',
+                'getDefaultBilling',
+                'getDefaultShipping',
+                'getDefaultShippingAddress',
+                'getDefaultBillingAddress',
+                'getStoreId',
+                'getAddressById',
+                'getAddresses',
+                'getAddressItemById',
+                'getParentId',
+                'isConfirmationRequired',
+                'addAddress',
+                'loadByEmail',
+                'sendNewAccountEmail',
+                'setFirstname',
+                'setLastname',
+                'setEmail',
+                'setPassword',
+                'setData',
+                'setWebsiteId',
+                'getAttributeSetId',
+                'setAttributeSetId',
+                'validate',
+                'getRpToken',
+                'setRpToken',
+                'setRpTokenCreatedAt',
+                'isResetPasswordLinkTokenExpired',
+                'changeResetPasswordLinkToken',
+                'sendPasswordResetConfirmationEmail'
             )
-            ->getMock();
+        )->getMock();
 
-        $this->_addressFactoryMock = $this->getMockBuilder('Magento\Customer\Model\AddressFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('create'))
-            ->getMock();
+        $this->_addressFactoryMock = $this->getMockBuilder(
+            'Magento\Customer\Model\AddressFactory'
+        )->disableOriginalConstructor()->setMethods(
+            array('create')
+        )->getMock();
 
-        $this->_directoryData = $this->getMockBuilder('\Magento\Directory\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getCountriesWithOptionalZip'))
-            ->getMock();
+        $this->_directoryData = $this->getMockBuilder(
+            '\Magento\Directory\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array('getCountriesWithOptionalZip')
+        )->getMock();
 
-        $this->_directoryData
-            ->expects($this->any())
-            ->method('getCountriesWithOptionalZip')
-            ->will($this->returnValue([]));
+        $this->_directoryData->expects(
+            $this->any()
+        )->method(
+            'getCountriesWithOptionalZip'
+        )->will(
+            $this->returnValue(array())
+        );
 
-        $this->_customerModelMock
-            ->expects($this->any())
-            ->method('getData')
-            ->with($this->equalTo(self::ATTRIBUTE_CODE))
-            ->will($this->returnValue(self::ATTRIBUTE_VALUE));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getData'
+        )->with(
+            $this->equalTo(self::ATTRIBUTE_CODE)
+        )->will(
+            $this->returnValue(self::ATTRIBUTE_VALUE)
+        );
 
-        $this->_customerModelMock
-            ->expects($this->any())
-            ->method('validate')
-            ->will($this->returnValue(TRUE));
+        $this->_customerModelMock->expects($this->any())->method('validate')->will($this->returnValue(true));
 
         $this->_setupStoreMock();
 
-        $this->_validator = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Validator')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_validator = $this->getMockBuilder(
+            '\Magento\Customer\Model\Metadata\Validator'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_addressBuilder = new Dto\AddressBuilder(new Dto\RegionBuilder());
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $regionBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\RegionBuilder');
 
-        $customerBuilder = new Dto\CustomerBuilder();
+        $metadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
+            array(),
+            '',
+            false
+        );
 
-        $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
+        $metadataService->expects(
+            $this->any()
+        )->method(
+            'getCustomAddressAttributeMetadata'
+        )->will(
+            $this->returnValue(array())
+        );
+
+        $metadataService->expects(
+            $this->any()
+        )->method(
+            'getCustomCustomerAttributeMetadata'
+        )->will(
+            $this->returnValue(array())
+        );
+
+        $this->_addressBuilder = $objectManagerHelper->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            array('regionBuilder' => $regionBuilder, 'metadataService' => $metadataService)
+        );
+
+        $customerBuilder = new CustomerBuilder($metadataService);
+
+        $this->_customerConverter = new \Magento\Customer\Model\Converter(
+            $customerBuilder,
+            $this->_customerFactoryMock
+        );
+
+        $this->_addressConverterMock = $this->getMockBuilder(
+            '\Magento\Customer\Model\Address\Converter'
+        )->disableOriginalConstructor()->getMock();
     }
 
     public function testGetAddressesDefaultBilling()
     {
         $addressMock = $this->_createAddress(1, 'John');
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getDefaultBillingAddress')
-            ->will($this->returnValue($addressMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getDefaultBilling')
-            ->will($this->returnValue(1));
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'load'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getDefaultBillingAddress'
+        )->will(
+            $this->returnValue($addressMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('getDefaultBilling')->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())->method('getDefaultShipping')->will($this->returnValue(0));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_addressConverterMock->expects(
+            $this->once()
+        )->method(
+            'createAddressFromModel'
+        )->with(
+            $addressMock,
+            1,
+            0
+        )->will(
+            $this->returnValue('address')
+        );
 
         $customerService = $this->_createService();
 
         $customerId = 1;
         $address = $customerService->getDefaultBillingAddress($customerId);
 
-        $expected = [
-            'id' => 1,
-            'default_billing' => true,
-            'default_shipping' => false,
-            'customer_id' => self::ID,
-            'region' => [
-                    'region_id' => self::REGION_ID,
-                    'region_code' => '',
-                    'region' => self::REGION
-                ],
-            'country_id' => self::COUNTRY_ID,
-            'street' => [self::STREET],
-            'telephone' => self::TELEPHONE,
-            'postcode' => self::POSTCODE,
-            'city' => self::CITY,
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-        ];
-
-        $this->assertEquals($expected, $address->__toArray());
+        $this->assertEquals('address', $address);
     }
 
     public function testGetAddressesDefaultShipping()
     {
         $addressMock = $this->_createAddress(1, 'John');
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getDefaultShippingAddress')
-            ->will($this->returnValue($addressMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getDefaultShipping')
-            ->will($this->returnValue(1));
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'load'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getDefaultShippingAddress'
+        )->will(
+            $this->returnValue($addressMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('getDefaultShipping')->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())->method('getDefaultBilling')->will($this->returnValue(0));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+
+        $this->_addressConverterMock->expects(
+            $this->once()
+        )->method(
+            'createAddressFromModel'
+        )->with(
+            $addressMock,
+            0,
+            1
+        )->will(
+            $this->returnValue('address')
+        );
 
         $customerService = $this->_createService();
 
         $customerId = 1;
         $address = $customerService->getDefaultShippingAddress($customerId);
 
-        $expected = [
-            'id' => 1,
-            'default_shipping' => true,
-            'default_billing' => false,
-            'customer_id' => self::ID,
-            'region' => [
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ],
-            'country_id' => self::COUNTRY_ID,
-            'street' => [self::STREET],
-            'telephone' => self::TELEPHONE,
-            'postcode' => self::POSTCODE,
-            'city' => self::CITY,
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-        ];
-
-        $this->assertEquals($expected, $address->__toArray());
+        $this->assertEquals('address', $address);
     }
 
     public function testGetAddressById()
     {
         $addressMock = $this->_createAddress(1, 'John');
-        $addressMock->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue(self::ID));
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($addressMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getDefaultShipping')
-            ->will($this->returnValue(1));
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-
+        $addressMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(self::ID));
+        $this->_addressFactoryMock->expects($this->once())->method('create')->will($this->returnValue($addressMock));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'load'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())->method('getDefaultShipping')->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())->method('getDefaultBilling')->will($this->returnValue(0));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_addressConverterMock->expects(
+            $this->once()
+        )->method(
+            'createAddressFromModel'
+        )->with(
+            $addressMock,
+            0,
+            1
+        )->will(
+            $this->returnValue('address')
+        );
 
         $customerService = $this->_createService();
 
         $addressId = 1;
-        $address = $customerService->getAddressById($addressId);
-
-        $expected = [
-            'id' => 1,
-            'default_shipping' => true,
-            'default_billing' => false,
-            'customer_id' => self::ID,
-            'region' => [
-                    'region_id' => self::REGION_ID,
-                    'region_code' => '',
-                    'region' => self::REGION
-                ],
-            'country_id' => self::COUNTRY_ID,
-            'street' => [self::STREET],
-            'telephone' => self::TELEPHONE,
-            'postcode' => self::POSTCODE,
-            'city' => self::CITY,
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-        ];
-
-        $this->assertEquals($expected, $address->__toArray());
+        $address = $customerService->getAddress($addressId);
+        $this->assertEquals('address', $address);
     }
 
     public function testGetAddresses()
     {
         $addressMock = $this->_createAddress(1, 'John');
         $addressMock2 = $this->_createAddress(2, 'Genry');
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getAddresses')
-            ->will($this->returnValue([$addressMock, $addressMock2]));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getDefaultShipping')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getDefaultBilling')
-            ->will($this->returnValue(2));
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'load'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getAddresses'
+        )->will(
+            $this->returnValue(array($addressMock, $addressMock2))
+        );
+        $this->_customerModelMock->expects($this->any())->method('getDefaultShipping')->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())->method('getDefaultBilling')->will($this->returnValue(2));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+
+        $this->_addressConverterMock->expects(
+            $this->at(0)
+        )->method(
+            'createAddressFromModel'
+        )->with(
+            $addressMock,
+            2,
+            1
+        )->will(
+            $this->returnValue('address')
+        );
+
+        $this->_addressConverterMock->expects(
+            $this->at(1)
+        )->method(
+            'createAddressFromModel'
+        )->with(
+            $addressMock2,
+            2,
+            1
+        )->will(
+            $this->returnValue('address2')
+        );
 
         $customerService = $this->_createService();
-
         $addresses = $customerService->getAddresses(1);
 
-        $expected = [
-            [
-                'id' => 1,
-                'default_shipping' => true,
-                'default_billing' => false,
-                'customer_id' => self::ID,
-                'region' => [
-                        'region_id' => self::REGION_ID,
-                        'region_code' => '',
-                        'region' => self::REGION
-                    ],
-                'country_id' => self::COUNTRY_ID,
-                'street' => [self::STREET],
-                'telephone' => self::TELEPHONE,
-                'postcode' => self::POSTCODE,
-                'city' => self::CITY,
-                'firstname' => 'John',
-                'lastname' => 'Doe',
-            ], [
-                'id' => 2,
-                'default_billing' => true,
-                'default_shipping' => false,
-                'customer_id' => self::ID,
-                'region' => [
-                        'region_id' => self::REGION_ID,
-                        'region_code' => '',
-                        'region' => self::REGION
-                    ],
-                'country_id' => self::COUNTRY_ID,
-                'street' => [self::STREET],
-                'telephone' => self::TELEPHONE,
-                'postcode' => self::POSTCODE,
-                'city' => self::CITY,
-                'firstname' => 'Genry',
-                'lastname' => 'Doe',
-            ]
-        ];
-
-        $this->assertEquals($expected[0], $addresses[0]->__toArray());
-        $this->assertEquals($expected[1], $addresses[1]->__toArray());
+        $this->assertEquals(array('address', 'address2'), $addresses);
     }
 
     public function testSaveAddresses()
     {
         // Setup Customer mock
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getAddresses')
-            ->will($this->returnValue([]));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())->method('getAddresses')->will($this->returnValue(array()));
 
         // Setup address mock
         $mockAddress = $this->_createAddress(1, 'John');
-        $mockAddress->expects($this->once())
-            ->method('save');
-        $mockAddress->expects($this->any())
-            ->method('setData');
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockAddress));
+        $mockAddress->expects($this->once())->method('save');
+        $mockAddress->expects($this->any())->method('setData');
+        $this->_addressFactoryMock->expects($this->once())->method('create')->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
-        $this->_addressBuilder->setFirstname('John')
-            ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
-            ->setStreet([self::STREET])
-            ->setTelephone(self::TELEPHONE)
-            ->setCity(self::CITY)
-            ->setCountryId(self::COUNTRY_ID)
-            ->setPostcode(self::POSTCODE);
-        $ids = $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
-        $this->assertEquals([1], $ids);
+        $this->_addressBuilder->setFirstname(
+            'John'
+        )->setLastname(
+            self::LASTNAME
+        )->setRegion(
+            (new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+        )->setStreet(
+            array(self::STREET)
+        )->setTelephone(
+            self::TELEPHONE
+        )->setCity(
+            self::CITY
+        )->setCountryId(
+            self::COUNTRY_ID
+        )->setPostcode(
+            self::POSTCODE
+        );
+        $ids = $customerService->saveAddresses(1, array($this->_addressBuilder->create()));
+        $this->assertEquals(array(1), $ids);
     }
 
     public function testSaveAddressesChanges()
@@ -440,154 +487,171 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $mockAddress = $this->_createAddress(1, 'John');
 
         // Setup Customer mock
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getAddressItemById')
-            ->with(1)
-            ->will($this->returnValue($mockAddress));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getAddressItemById'
+        )->with(
+            1
+        )->will(
+            $this->returnValue($mockAddress)
+        );
 
         // Assert
-        $mockAddress->expects($this->once())
-            ->method('save');
-        $mockAddress->expects($this->any())
-            ->method('setData');
+        $mockAddress->expects($this->once())->method('save');
+        $mockAddress->expects($this->any())->method('setData');
 
         $customerService = $this->_createService();
-        $this->_addressBuilder->setId(1)
-            ->setFirstname('Jane')
-            ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
-            ->setStreet([self::STREET])
-            ->setTelephone(self::TELEPHONE)
-            ->setCity(self::CITY)
-            ->setCountryId(self::COUNTRY_ID)
-            ->setPostcode(self::POSTCODE);
-        $ids = $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
-        $this->assertEquals([1], $ids);
+        $this->_addressBuilder->setId(
+            1
+        )->setFirstname(
+            'Jane'
+        )->setLastname(
+            self::LASTNAME
+        )->setRegion(
+            (new RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+        )->setStreet(
+            array(self::STREET)
+        )->setTelephone(
+            self::TELEPHONE
+        )->setCity(
+            self::CITY
+        )->setCountryId(
+            self::COUNTRY_ID
+        )->setPostcode(
+            self::POSTCODE
+        );
+        $ids = $customerService->saveAddresses(1, array($this->_addressBuilder->create()));
+        $this->assertEquals(array(1), $ids);
     }
 
     public function testSaveAddressesNoAddresses()
     {
         // Setup Customer mock
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $customerService = $this->_createService();
 
-        $ids = $customerService->saveAddresses(1, []);
+        $ids = $customerService->saveAddresses(1, array());
         $this->assertEmpty($ids);
     }
 
     public function testSaveAddressesIdSetButNotAlreadyExisting()
     {
         // Setup Customer mock
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getAddresses')
-            ->will($this->returnValue([]));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getAddressItemById')
-            ->with(1)
-            ->will($this->returnValue(null));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())->method('getAddresses')->will($this->returnValue(array()));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getAddressItemById'
+        )->with(
+            1
+        )->will(
+            $this->returnValue(null)
+        );
 
         // Setup address mock
         $mockAddress = $this->_createAddress(1, 'John');
-        $mockAddress->expects($this->once())
-            ->method('save');
-        $mockAddress->expects($this->any())
-            ->method('setData');
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockAddress));
+        $mockAddress->expects($this->once())->method('save');
+        $mockAddress->expects($this->any())->method('setData');
+        $this->_addressFactoryMock->expects($this->once())->method('create')->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
-        $this->_addressBuilder->setId(1)
-            ->setFirstname('John')
-            ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
-            ->setStreet([self::STREET])
-            ->setTelephone(self::TELEPHONE)
-            ->setCity(self::CITY)
-            ->setCountryId(self::COUNTRY_ID)
-            ->setPostcode(self::POSTCODE);
-        $ids = $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
-        $this->assertEquals([1], $ids);
+        $this->_addressBuilder->setId(
+            1
+        )->setFirstname(
+            'John'
+        )->setLastname(
+            self::LASTNAME
+        )->setRegion(
+            (new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+        )->setStreet(
+            array(self::STREET)
+        )->setTelephone(
+            self::TELEPHONE
+        )->setCity(
+            self::CITY
+        )->setCountryId(
+            self::COUNTRY_ID
+        )->setPostcode(
+            self::POSTCODE
+        );
+        $ids = $customerService->saveAddresses(1, array($this->_addressBuilder->create()));
+        $this->assertEquals(array(1), $ids);
     }
 
     public function testSaveAddressesCustomerIdNotExist()
     {
         // Setup Customer mock
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(0));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getAddresses')
-            ->will($this->returnValue([]));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getAddressItemById')
-            ->with(1)
-            ->will($this->returnValue(null));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(0));
+        $this->_customerModelMock->expects($this->any())->method('getAddresses')->will($this->returnValue(array()));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getAddressItemById'
+        )->with(
+            1
+        )->will(
+            $this->returnValue(null)
+        );
         $customerService = $this->_createService();
-        $this->_addressBuilder->setFirstname('John')
-            ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
-            ->setStreet([self::STREET])
-            ->setTelephone(self::TELEPHONE)
-            ->setCity(self::CITY)
-            ->setCountryId(self::COUNTRY_ID)
-            ->setPostcode(self::POSTCODE);
+        $this->_addressBuilder->setFirstname(
+            'John'
+        )->setLastname(
+            self::LASTNAME
+        )->setRegion(
+            (new RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+        )->setStreet(
+            array(self::STREET)
+        )->setTelephone(
+            self::TELEPHONE
+        )->setCity(
+            self::CITY
+        )->setCountryId(
+            self::COUNTRY_ID
+        )->setPostcode(
+            self::POSTCODE
+        );
 
         try {
-            $customerService->saveAddresses(4200, [$this->_addressBuilder->create()]);
+            $customerService->saveAddresses(4200, array($this->_addressBuilder->create()));
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (\Magento\Exception\NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
-            $this->assertSame(
-                $nsee->getParams(),
-                [
-                    'customerId' => 4200,
-                ]
-            );
+            $this->assertSame($nsee->getParams(), array('customerId' => 4200));
         } catch (\Exception $unexpected) {
             $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
         }
@@ -597,16 +661,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         // Setup address mock
         $mockAddress = $this->_createAddress(1, 'John');
-        $mockAddress->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue(self::ID));
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockAddress));
+        $mockAddress->expects($this->any())->method('getCustomerId')->will($this->returnValue(self::ID));
+        $this->_addressFactoryMock->expects($this->once())->method('create')->will($this->returnValue($mockAddress));
 
         // verify delete is called on the mock address model
-        $mockAddress->expects($this->once())
-            ->method('delete');
+        $mockAddress->expects($this->once())->method('delete');
 
         $customerService = $this->_createService();
         $customerService->deleteAddress(1);
@@ -616,16 +675,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         // Setup address mock
         $mockAddress = $this->_createAddress(0, '');
-        $mockAddress->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue(self::ID));
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockAddress));
+        $mockAddress->expects($this->any())->method('getCustomerId')->will($this->returnValue(self::ID));
+        $this->_addressFactoryMock->expects($this->once())->method('create')->will($this->returnValue($mockAddress));
 
         // verify delete is called on the mock address model
-        $mockAddress->expects($this->never())
-            ->method('delete');
+        $mockAddress->expects($this->never())->method('delete');
 
         $customerService = $this->_createService();
         try {
@@ -633,85 +687,156 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
-            $this->assertSame(
-                $exception->getParams(),
-                [
-                    'addressId' => 2
-                ]
-            );
+            $this->assertSame($exception->getParams(), array('addressId' => 2));
         }
     }
 
     public function testSaveAddressesWithValidatorException()
     {
         // Setup Customer mock
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getAddresses')
-            ->will($this->returnValue([]));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_customerModelMock->expects($this->any())->method('getAddresses')->will($this->returnValue(array()));
 
         // Setup address mock, no first name
         $mockAddress = $this->_createAddress(1, '');
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockAddress));
+        $this->_addressFactoryMock->expects($this->once())->method('create')->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
-        $this->_addressBuilder->setFirstname('John')
-            ->setLastname(self::LASTNAME)
-            ->setRegion(new Dto\Region([
-                'region_id' => self::REGION_ID,
-                'region_code' => '',
-                'region' => self::REGION
-            ]))
-            ->setStreet([self::STREET])
-            ->setTelephone(self::TELEPHONE)
-            ->setCity(self::CITY)
-            ->setCountryId(self::COUNTRY_ID)
-            ->setPostcode(self::POSTCODE);
+        $this->_addressBuilder->setFirstname(
+            'John'
+        )->setLastname(
+            self::LASTNAME
+        )->setRegion(
+            (new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+        )->setStreet(
+            array(self::STREET)
+        )->setTelephone(
+            self::TELEPHONE
+        )->setCity(
+            self::CITY
+        )->setCountryId(
+            self::COUNTRY_ID
+        )->setPostcode(
+            self::POSTCODE
+        );
         try {
-            $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
+            $customerService->saveAddresses(1, array($this->_addressBuilder->create()));
             $this->fail("Expected InputException not caught");
         } catch (InputException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
             $this->assertSame(
                 $exception->getParams(),
-                [
-                    [
+                array(
+                    array(
                         'index' => 0,
                         'fieldName' => 'firstname',
-                        'code'      => \Magento\Exception\InputException::REQUIRED_FIELD,
-                        'value'     => null
-                    ]
-                ]
+                        'code' => \Magento\Exception\InputException::REQUIRED_FIELD,
+                        'value' => null
+                    )
+                )
             );
         }
     }
 
+    public function testValidateAddressesEmpty()
+    {
+        $customerService = $this->_createService();
+        $this->assertTrue($customerService->validateAddresses(array()));
+    }
+
+    public function testValidateAddressesValid()
+    {
+        // Setup address mock
+        $mockAddress = $this->_createAddress(1, 'John');
+
+        $address = $this->_addressBuilder->setFirstname(
+            'John'
+        )->setLastname(
+            self::LASTNAME
+        )->setRegion(
+            (new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+        )->setStreet(
+            array(self::STREET)
+        )->setTelephone(
+            self::TELEPHONE
+        )->setCity(
+            self::CITY
+        )->setCountryId(
+            self::COUNTRY_ID
+        )->setPostcode(
+            self::POSTCODE
+        )->create();
+
+        $this->_addressConverterMock->expects(
+            $this->once()
+        )->method(
+            'createAddressModel'
+        )->with(
+            $address
+        )->will(
+            $this->returnValue($mockAddress)
+        );
+
+        $customerService = $this->_createService();
+
+        $this->assertTrue($customerService->validateAddresses(array($address)));
+    }
+
+    public function testValidateAddressesBoth()
+    {
+        // Setup address mock, no first name
+        $mockBadAddress = $this->_createAddress(1, '');
+
+        // Setup address mock, with first name
+        $mockAddress = $this->_createAddress(1, 'John');
+
+        $addressBad = $this->_addressBuilder->create();
+        $addressGood = $this->_addressBuilder->create();
+
+        $this->_addressConverterMock->expects(
+            $this->any()
+        )->method(
+            'createAddressModel'
+        )->will(
+            $this->returnValueMap(array(array($addressBad, $mockBadAddress), array($addressGood, $mockAddress)))
+        );
+        $customerService = $this->_createService();
+
+        try {
+            $customerService->validateAddresses(array('b' => $addressBad, 'g' => $addressGood));
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'firstname', '', array('index' => 'b'));
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        }
+    }
 
     private function _setupStoreMock()
     {
-        $this->_storeManagerMock =
-            $this->getMockBuilder('\Magento\Core\Model\StoreManagerInterface')
-                ->disableOriginalConstructor()
-                ->getMock();
+        $this->_storeManagerMock = $this->getMockBuilder(
+            '\Magento\Core\Model\StoreManagerInterface'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_storeMock = $this->getMockBuilder('\Magento\Core\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_storeMock = $this->getMockBuilder(
+            '\Magento\Core\Model\Store'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_storeManagerMock
-            ->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_storeMock));
+        $this->_storeManagerMock->expects(
+            $this->any()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($this->_storeMock)
+        );
     }
 
     /**
@@ -721,17 +846,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $customerService = new CustomerAddressService(
             $this->_addressFactoryMock,
-            $this->_converter,
-            new \Magento\Customer\Model\Address\Converter(
-                $this->_addressBuilder,
-                $this->_addressFactoryMock,
-                new Dto\RegionBuilder()
-            ),
+            $this->_customerConverter,
+            $this->_addressConverterMock,
             $this->_directoryData
         );
         return $customerService;
     }
-
 
     /**
      * Helper that returns a mock \Magento\Customer\Model\Address object.
@@ -743,7 +863,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createAddress($addrId, $firstName, $customerId = self::ID)
     {
-        $attributes = [
+        $attributes = array(
             $this->_createAttribute('firstname'),
             $this->_createAttribute('lastname'),
             $this->_createAttribute('street'),
@@ -752,83 +872,78 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_createAttribute('telephone'),
             $this->_createAttribute('region_id'),
             $this->_createAttribute('region'),
-            $this->_createAttribute('country_id'),
-        ];
+            $this->_createAttribute('country_id')
+        );
 
-        $addressMock = $this->getMockBuilder('Magento\Customer\Model\Address')
-            ->disableOriginalConstructor()
-            ->setMethods(
-                [
-                    'getId', 'hasDataChanges', 'getRegion', 'getRegionId',
-                    'addData', 'setData', 'setCustomerId', 'setPostIndex',
-                    'setFirstname', 'load', 'save', '__sleep', '__wakeup',
-                    'getDefaultAttributeCodes', 'getAttributes', 'getData',
-                    'getCustomerId', 'getParentId', 'delete', 'validate',
-                    'getCountryModel', 'getRegionCollection', 'getSize'
-                ]
+        $addressMock = $this->getMockBuilder(
+            'Magento\Customer\Model\Address'
+        )->disableOriginalConstructor()->setMethods(
+            array(
+                'getId',
+                'hasDataChanges',
+                'getRegion',
+                'getRegionId',
+                'addData',
+                'setData',
+                'setCustomerId',
+                'setPostIndex',
+                'setFirstname',
+                'load',
+                'save',
+                '__sleep',
+                '__wakeup',
+                'getDefaultAttributeCodes',
+                'getAttributes',
+                'getData',
+                'getCustomerId',
+                'getParentId',
+                'delete',
+                'validate',
+                'getCountryModel',
+                'getRegionCollection',
+                'getSize'
             )
-            ->getMock();
-        $addressMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($addrId));
-        $addressMock->expects($this->any())
-            ->method('getRegion')
-            ->will($this->returnValue(self::REGION));
-        $addressMock->expects($this->any())
-            ->method('getRegionId')
-            ->will($this->returnValue(self::REGION_ID));
-        $addressMock->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue($customerId));
-        $addressMock->expects($this->never())
-            ->method('validate')
-            ->will($this->returnValue(true));
-        $addressMock->expects($this->any())
-            ->method('getCountryModel')
-            ->will($this->returnSelf());
-        $addressMock->expects($this->any())
-            ->method('getRegionCollection')
-            ->will($this->returnSelf());
-        $addressMock->expects($this->any())
-            ->method('getSize')
-            ->will($this->returnValue(0));
+        )->getMock();
+        $addressMock->expects($this->any())->method('getId')->will($this->returnValue($addrId));
+        $addressMock->expects($this->any())->method('getRegion')->will($this->returnValue(self::REGION));
+        $addressMock->expects($this->any())->method('getRegionId')->will($this->returnValue(self::REGION_ID));
+        $addressMock->expects($this->any())->method('getCustomerId')->will($this->returnValue($customerId));
+        $addressMock->expects($this->never())->method('validate')->will($this->returnValue(true));
+        $addressMock->expects($this->any())->method('getCountryModel')->will($this->returnSelf());
+        $addressMock->expects($this->any())->method('getRegionCollection')->will($this->returnSelf());
+        $addressMock->expects($this->any())->method('getSize')->will($this->returnValue(0));
 
-        $map = [
-            ['firstname', null, $firstName],
-            ['lastname', null, self::LASTNAME],
-            ['street', null, self::STREET],
-            ['city', null, self::CITY],
-            ['postcode', null, self::POSTCODE],
-            ['telephone', null, self::TELEPHONE],
-            ['region', null, self::REGION],
-            ['country_id', null, self::COUNTRY_ID],
-        ];
+        $map = array(
+            array('firstname', null, $firstName),
+            array('lastname', null, self::LASTNAME),
+            array('street', null, self::STREET),
+            array('city', null, self::CITY),
+            array('postcode', null, self::POSTCODE),
+            array('telephone', null, self::TELEPHONE),
+            array('region', null, self::REGION),
+            array('country_id', null, self::COUNTRY_ID)
+        );
 
-        $addressMock->expects($this->any())
-            ->method('getData')
-            ->will($this->returnValueMap($map));
+        $addressMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
 
-        $addressMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $addressMock->expects($this->any())
-            ->method('getDefaultAttributeCodes')
-            ->will($this->returnValue(['entity_id', 'attribute_set_id']));
-        $addressMock->expects($this->any())
-            ->method('getAttributes')
-            ->will($this->returnValue($attributes));
+        $addressMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $addressMock->expects(
+            $this->any()
+        )->method(
+            'getDefaultAttributeCodes'
+        )->will(
+            $this->returnValue(array('entity_id', 'attribute_set_id'))
+        );
+        $addressMock->expects($this->any())->method('getAttributes')->will($this->returnValue($attributes));
         return $addressMock;
     }
 
     private function _createAttribute($attributeCode)
     {
-        $attribute = $this->getMockBuilder('\Magento\Customer\Model\Attribute')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $attribute->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue($attributeCode));
+        $attribute = $this->getMockBuilder(
+            '\Magento\Customer\Model\Attribute'
+        )->disableOriginalConstructor()->getMock();
+        $attribute->expects($this->any())->method('getAttributeCode')->will($this->returnValue($attributeCode));
         return $attribute;
     }
-
 }

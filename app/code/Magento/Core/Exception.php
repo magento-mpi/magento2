@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core;
 
 /**
  * Magento Core \Exception
@@ -17,12 +17,17 @@
  * @category   Magento
  * @package    Magento_Core
  */
-namespace Magento\Core;
-
 class Exception extends \Exception
 {
+    /**
+     * @var array
+     */
     protected $_messages = array();
 
+    /**
+     * @param \Magento\Message\AbstractMessage $message
+     * @return $this
+     */
     public function addMessage(\Magento\Message\AbstractMessage $message)
     {
         if (!isset($this->_messages[$message->getType()])) {
@@ -32,7 +37,11 @@ class Exception extends \Exception
         return $this;
     }
 
-    public function getMessages($type='')
+    /**
+     * @param string $type
+     * @return array
+     */
+    public function getMessages($type = '')
     {
         if ('' == $type) {
             $arrRes = array();

@@ -31,9 +31,11 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_validatorMock = $this->getMockBuilder('Magento\Validator\AbstractValidator')
-            ->setMethods(array('isValid', 'getMessages'))
-            ->getMock();
+        $this->_validatorMock = $this->getMockBuilder(
+            'Magento\Validator\AbstractValidator'
+        )->setMethods(
+            array('isValid', 'getMessages')
+        )->getMock();
         $this->_constraint = new \Magento\Validator\Constraint($this->_validatorMock);
     }
 
@@ -59,21 +61,26 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValid($value, $expectedResult, $expectedMessages = array())
     {
-        $this->_validatorMock
-            ->expects($this->once())
-            ->method('isValid')
-            ->with($value)
-            ->will($this->returnValue($expectedResult));
+        $this->_validatorMock->expects(
+            $this->once()
+        )->method(
+            'isValid'
+        )->with(
+            $value
+        )->will(
+            $this->returnValue($expectedResult)
+        );
 
         if ($expectedResult) {
-            $this->_validatorMock
-                ->expects($this->never())
-                ->method('getMessages');
+            $this->_validatorMock->expects($this->never())->method('getMessages');
         } else {
-            $this->_validatorMock
-                ->expects($this->once())
-                ->method('getMessages')
-                ->will($this->returnValue($expectedMessages));
+            $this->_validatorMock->expects(
+                $this->once()
+            )->method(
+                'getMessages'
+            )->will(
+                $this->returnValue($expectedMessages)
+            );
         }
 
         $this->assertEquals($expectedResult, $this->_constraint->isValid($value));
@@ -87,10 +94,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
      */
     public function isValidDataProvider()
     {
-        return array(
-            array('test', true),
-            array('test', false, array('foo'))
-        );
+        return array(array('test', true), array('test', false, array('foo')));
     }
 
     /**
@@ -99,8 +103,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     public function testSetTranslator()
     {
         /** @var \Magento\Translate\AbstractAdapter $translator */
-        $translator = $this->getMockBuilder('Magento\Translate\AdapterInterface')
-            ->getMockForAbstractClass();
+        $translator = $this->getMockBuilder('Magento\Translate\AdapterInterface')->getMockForAbstractClass();
         $this->_constraint->setTranslator($translator);
         $this->assertEquals($translator, $this->_validatorMock->getTranslator());
         $this->assertEquals($translator, $this->_constraint->getTranslator());

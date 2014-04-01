@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\PreProcessor\File;
 
 use Magento\View;
@@ -130,6 +129,7 @@ class Less
      * Save file content to publication path
      *
      * @param string $content
+     * @return void
      */
     public function saveContent($content)
     {
@@ -155,12 +155,11 @@ class Less
      */
     public function getFileIdentifier()
     {
-        $themeIdentifier = !empty($this->viewParams['themeModel']) && $this->viewParams['themeModel']->getFullPath()
-            ? 'base'
-            : $this->viewParams['themeModel']->getFullPath();
+        $themeIdentifier = !empty($this->viewParams['themeModel']) &&
+            $this->viewParams['themeModel']->getFullPath() ? 'base' : $this->viewParams['themeModel']->getFullPath();
         $module = empty($this->viewParams['module']) ? 'base' : $this->viewParams['module'];
         $locale = empty($this->viewParams['locale']) ? 'base' : $this->viewParams['locale'];
-        return implode('|', [$this->filePath, $module, $themeIdentifier, $locale]);
+        return implode('|', array($this->filePath, $module, $themeIdentifier, $locale));
     }
 
     /**

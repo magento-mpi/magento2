@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\HTTP;
 
 /**
@@ -89,8 +88,14 @@ class Authentication
      */
     public function setAuthenticationFailed($realm)
     {
-        $this->response->setHeader('HTTP/1.1', '401 Unauthorized')
-            ->setHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"')
-            ->setBody('<h1>401 Unauthorized</h1>');
+        $this->response->setHeader(
+            'HTTP/1.1',
+            '401 Unauthorized'
+        )->setHeader(
+            'WWW-Authenticate',
+            'Basic realm="' . $realm . '"'
+        )->setBody(
+            '<h1>401 Unauthorized</h1>'
+        );
     }
 }

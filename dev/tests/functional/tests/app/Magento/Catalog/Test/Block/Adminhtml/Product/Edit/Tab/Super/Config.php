@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super;
 
 use Mtf\Client\Element;
@@ -24,11 +23,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
  */
 class Config extends Tab
 {
-    /**
-     * Tab where bundle options section is placed
-     */
-    const GROUP_PRODUCT_DETAILS = 'product_info_tabs_product-details';
-
     /**
      * 'Generate Variations' button
      *
@@ -51,20 +45,30 @@ class Config extends Tab
     protected $attribute = '//div[*/*/span="%s"]';
 
     /**
-     * Open Variations section
+     * Magento loader
      *
-     * @param Element $context
+     * @var string
      */
-    public function open(Element $context = null)
-    {
-        $element = $context ? : $this->_rootElement;
-        $element->find(static::GROUP_PRODUCT_DETAILS, Locator::SELECTOR_ID)->click();
-    }
+    protected $loader = '[data-role=loader]';
+
+    /**
+     * Attribute Opened
+     *
+     * @var string
+     */
+    protected $attributeOpen = './/*[@class = "title active"]/span[text()="%attributeLabel%"]';
+
+    /**
+     * Attribute tab
+     *
+     * @var string
+     */
+    protected $attributeTab = '//*[@data-role="configurable-attribute"]//*[text()="%attributeTab%"]';
 
     /**
      * Get attribute block
      *
-     * @param $attributeName
+     * @param string $attributeName
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Attribute
      */
     protected function getAttributeBlock($attributeName)
@@ -90,10 +94,20 @@ class Config extends Tab
 
     /**
      * Press 'Generate Variations' button
+     *
+     * @return void
      */
     public function generateVariations()
     {
-        $this->_rootElement->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
+        $browser = $this->_rootElement;
+        $browser->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
+        $loaderSelector = $this->loader;
+        $browser->waitUntil(
+            function () use ($browser, $loaderSelector) {
+                $loaderElement = $browser->find($loaderSelector);
+                return $loaderElement->isVisible() == false ? true : null;
+            }
+        );
     }
 
     /**
@@ -101,9 +115,13 @@ class Config extends Tab
      *
      * @param array $fields
      * @param Element $element
+     * @return $this
      */
     public function fillFormTab(array $fields, Element $element)
     {
+        if (!isset($fields['configurable_attributes_data'])) {
+            return $this;
+        }
         $attributes = $fields['configurable_attributes_data']['value'];
         foreach ($attributes as $attribute) {
             $this->selectAttribute($attribute['label']['value']);
@@ -111,12 +129,15 @@ class Config extends Tab
         $this->fillAttributeOptions($attributes);
         $this->generateVariations();
         $this->fillVariationsMatrix($fields['variations-matrix']['value']);
+
+        return $this;
     }
 
     /**
      * Fill variations matrix
      *
-     * @param $fields
+     * @param array $fields
+     * @return void
      */
     public function fillVariationsMatrix($fields)
     {
@@ -127,8 +148,10 @@ class Config extends Tab
      * Fill attribute options
      *
      * @param array $attributes
+     * @return void
      */
-    public function fillAttributeOptions(array $attributes) {
+    public function fillAttributeOptions(array $attributes)
+    {
         foreach ($attributes as $attribute) {
             $this->getAttributeBlock($attribute['label']['value'])->fillAttributeOptions($attribute);
         }
@@ -138,17 +161,28 @@ class Config extends Tab
      * Select attribute for variations
      *
      * @param string $attributeName
+     * @return void
      */
     private function selectAttribute($attributeName)
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $this->_rootElement->find('#configurable-attribute-selector')->setValue($attributeName);
-        $attributeListLocation = '#variations-search-field .mage-suggest-dropdown';
-        $this->waitForElementVisible($attributeListLocation, Locator::SELECTOR_CSS);
-        $attribute = $this->_rootElement->find("//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
-            Locator::SELECTOR_XPATH);
-        if ($attribute->isVisible()) {
-            $attribute->click();
+        $attributeFieldSet = $this->_rootElement
+            ->find(str_replace('%attributeLabel%', $attributeName, $this->attributeOpen), Locator::SELECTOR_XPATH);
+        $attributeVisible = $this->_rootElement
+            ->find(str_replace('%attributeTab%', $attributeName, $this->attributeTab), Locator::SELECTOR_XPATH);
+        if ($attributeVisible->isVisible()) {
+            if (!$attributeFieldSet->isVisible()) {
+                $attributeVisible->click();
+            }
+        } else {
+            $this->_rootElement->find('#configurable-attribute-selector')->setValue($attributeName);
+            $attributeListLocation = '#variations-search-field .mage-suggest-dropdown';
+            $this->waitForElementVisible($attributeListLocation, Locator::SELECTOR_CSS);
+            $attribute = $this->_rootElement->find("//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
+                Locator::SELECTOR_XPATH);
+            if ($attribute->isVisible()) {
+                $attribute->click();
+            }
         }
     }
 }

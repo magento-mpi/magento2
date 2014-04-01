@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Helper;
 
 /**
@@ -33,10 +32,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServiceNameParts($className, $preserveVersion, $expected)
     {
-        $actual = $this->_helper->getServiceNameParts(
-            $className,
-            $preserveVersion
-        );
+        $actual = $this->_helper->getServiceNameParts($className, $preserveVersion);
         $this->assertEquals($expected, $actual);
     }
 
@@ -76,20 +72,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array('Magento\\Foo\\Service\\BarInterface'), // Version missed
             array('Magento\\Foo\\Service\\BarV1'), // 'Interface' missed
             array('Foo\\Service\\BarV1Interface'), // Module missed
-            array('Foo\\BarV1Interface'), // Module and 'Service' missed
+            array('Foo\\BarV1Interface') // Module and 'Service' missed
         );
     }
 
-    public function testDtoGetterNameToFieldName()
+    public function testDataGetterNameToFieldName()
     {
-        $this->assertEquals('id', $this->_helper->dtoGetterNameToFieldName('getId'));
+        $this->assertEquals('id', $this->_helper->dataObjectGetterNameToFieldName('getId'));
     }
 
-    public function testDtoFieldNameToSetterName()
+    public function testDataFieldNameToSetterName()
     {
-        $this->assertEquals('setId', $this->_helper->dtoFieldNameToSetterName('id'));
+        $this->assertEquals('setId', $this->_helper->dataObjectFieldNameToSetterName('id'));
     }
 }
 
 require_once realpath(__DIR__ . '/../_files/test_interfaces.php');
-

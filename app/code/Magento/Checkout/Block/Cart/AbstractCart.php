@@ -2,22 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Customer\Model\Customer;
 use Magento\Sales\Model\Quote;
 
 /**
  * Shopping cart abstract block
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class AbstractCart extends \Magento\View\Element\Template
 {
@@ -27,14 +20,9 @@ class AbstractCart extends \Magento\View\Element\Template
     const DEFAULT_TYPE = 'default';
 
     /**
-     * @var Customer|null
-     */
-    protected $_customer = null;
-
-    /**
      * @var Quote|null
      */
-    protected $_quote    = null;
+    protected $_quote = null;
 
     /**
      * @var array
@@ -91,20 +79,25 @@ class AbstractCart extends \Magento\View\Element\Template
      */
     protected function _getRendererList()
     {
-        return $this->getRendererListName()
-            ? $this->getLayout()->getBlock($this->getRendererListName())
-            : $this->getChildBlock('renderer.list');
+        return $this->getRendererListName() ? $this->getLayout()->getBlock(
+            $this->getRendererListName()
+        ) : $this->getChildBlock(
+            'renderer.list'
+        );
     }
 
     /**
      * Retrieve item renderer block
      *
-     * @param string $type
+     * @param string|null $type
      * @return \Magento\View\Element\Template
      * @throws \RuntimeException
      */
-    public function getItemRenderer($type)
+    public function getItemRenderer($type = null)
     {
+        if (is_null($type)) {
+            $type = self::DEFAULT_TYPE;
+        }
         $rendererList = $this->_getRendererList();
         if (!$rendererList) {
             throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
@@ -112,19 +105,6 @@ class AbstractCart extends \Magento\View\Element\Template
         $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
         $template = isset($overriddenTemplates[$type]) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
         return $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
-    }
-
-    /**
-     * Get logged in customer
-     *
-     * @return Customer
-     */
-    public function getCustomer()
-    {
-        if (null === $this->_customer) {
-            $this->_customer = $this->_customerSession->getCustomer();
-        }
-        return $this->_customer;
     }
 
     /**

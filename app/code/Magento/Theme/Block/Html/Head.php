@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -62,12 +61,18 @@ class Head extends \Magento\View\Element\Template
     protected $_fileStorageDatabase;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\Asset\GroupedCollection $assets
      * @param \Magento\View\Asset\MergeService $assetMergeService
      * @param \Magento\View\Asset\MinifyService $assetMinifyService
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -77,6 +82,7 @@ class Head extends \Magento\View\Element\Template
         \Magento\View\Asset\GroupedCollection $assets,
         \Magento\View\Asset\MergeService $assetMergeService,
         \Magento\View\Asset\MinifyService $assetMinifyService,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -85,7 +91,9 @@ class Head extends \Magento\View\Element\Template
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $assets;
+        $this->_localeResolver = $localeResolver;
     }
+
     /**
      * Add RSS element to HEAD entity
      *
@@ -95,13 +103,13 @@ class Head extends \Magento\View\Element\Template
      */
     public function addRss($title, $href)
     {
-        $asset = $this->_objectManager->create(
-            'Magento\View\Asset\Remote', array('url' => (string)$href)
-        );
+        $asset = $this->_objectManager->create('Magento\View\Asset\Remote', array('url' => (string)$href));
 
-        $this->_pageAssets->add("link/$href", $asset, array(
-            'attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"',
-        ));
+        $this->_pageAssets->add(
+            "link/{$href}",
+            $asset,
+            array('attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"')
+        );
 
         return $this;
     }
@@ -156,7 +164,7 @@ class Head extends \Magento\View\Element\Template
                 }
             }
 
-            if ($contentType == \Magento\View\Publisher::CONTENT_TYPE_JS ) {
+            if ($contentType == \Magento\View\Publisher::CONTENT_TYPE_JS) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
                 if ($contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS) {
@@ -252,9 +260,11 @@ class Head extends \Magento\View\Element\Template
             $this->_pureTitle = $title;
         }
 
-        $this->_data['title'] = $this->_storeConfig->getConfig('design/head/title_prefix')
-            . ' ' . $title
-            . ' ' . $this->_storeConfig->getConfig('design/head/title_suffix');
+        $this->_data['title'] = $this->_storeConfig->getConfig(
+            'design/head/title_prefix'
+        ) . ' ' . $title . ' ' . $this->_storeConfig->getConfig(
+            'design/head/title_suffix'
+        );
 
         return $this;
     }
@@ -371,8 +381,7 @@ class Head extends \Magento\View\Element\Template
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
         $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
         $path = $folderName . '/' . $storeConfig;
-        $faviconFile = $this->_storeManager->getStore()
-            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $path;
+        $faviconFile = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $path;
 
         if (!is_null($storeConfig) && $this->_isFile($path)) {
             $url = $faviconFile;
@@ -403,6 +412,6 @@ class Head extends \Magento\View\Element\Template
      */
     public function getLocale()
     {
-        return substr($this->_locale->getLocaleCode(), 0, 2);
+        return substr($this->_localeResolver->getLocaleCode(), 0, 2);
     }
 }

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Theme\Model\Config;
 
 /**
  * Theme customization config model
  */
-namespace Magento\Theme\Model\Config;
-
 class Customization
 {
     /**
@@ -33,16 +32,16 @@ class Customization
     /**
      * Theme customizations which are assigned to store views or as default
      *
-     * @see self::_prepareThemeCustomizations()
      * @var array
+     * @see self::_prepareThemeCustomizations()
      */
     protected $_assignedTheme;
 
     /**
      * Theme customizations which are not assigned to store views or as default
      *
-     * @see self::_prepareThemeCustomizations()
      * @var array
+     * @see self::_prepareThemeCustomizations()
      */
     protected $_unassignedTheme;
 
@@ -57,7 +56,7 @@ class Customization
         \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
     ) {
         $this->_storeManager = $storeManager;
-        $this->_design       = $design;
+        $this->_design = $design;
         $this->themeProvider = $themeProvider;
     }
 
@@ -122,7 +121,7 @@ class Customization
             $assignedThemes = $this->getAssignedThemeCustomizations();
             return isset($assignedThemes[$theme->getId()]);
         }
-        return  $this->_isThemeAssignedToSpecificStore($theme, $store);
+        return $this->_isThemeAssignedToSpecificStore($theme, $store);
     }
 
     /**
@@ -150,7 +149,7 @@ class Customization
     /**
      * Get configuration theme id
      *
-     * @param $store
+     * @param \Magento\Core\Model\Store $store
      * @return int
      */
     protected function _getConfigurationThemeId($store)

@@ -1,0 +1,455 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Webapi;
+
+use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Exception\NoSuchEntityException;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+
+/**
+ * Class CustomerGroupServiceTest
+ */
+class CustomerGroupServiceTest extends WebapiAbstract
+{
+    const SERVICE_NAME = "customerCustomerGroupServiceV1";
+
+    const SERVICE_VERSION = "V1";
+
+    const RESOURCE_PATH = "/V1/customerGroup";
+
+    /**
+     * @var CustomerGroupServiceInterface
+     */
+    private $groupService;
+
+    /**
+     * Execute per test initialization.
+     */
+    public function setUp()
+    {
+        $this->_markTestAsRestOnly();
+
+        $objectManager = Bootstrap::getObjectManager();
+        $this->groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+    }
+
+    /**
+     * Execute per test cleanup.
+     */
+    public function tearDown()
+    {
+        unset($this->groupService);
+    }
+
+    /**
+     * Cleaning up the extra groups that might have been created as part of the testing.
+     */
+    public static function tearDownAfterClass()
+    {
+        /** @var CustomerGroupServiceInterface $groupService */
+        $groupService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerGroupServiceInterface'
+        );
+        foreach ($groupService->getGroups() as $group) {
+            if ($group->getId() > 3) {
+                $groupService->deleteGroup($group->getId());
+            }
+        }
+    }
+
+    /**
+     * Verify the retrieval of a customer group by Id.
+     *
+     * @param array $testGroup The group data for the group being retrieved.
+     *
+     * @dataProvider getGroupDataProvider
+     */
+    public function testGetGroup($testGroup)
+    {
+        $groupId = $testGroup['id'];
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . "/{$groupId}",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1GetGroup'
+            )
+        );
+        $requestData = array('groupId' => $groupId);
+        $groupData = $this->decamelize($this->_webApiCall($serviceInfo, $requestData));
+
+        $this->assertEquals($testGroup, $groupData, "The group data does not match.");
+    }
+
+    /**
+     * The testGetGroup data provider.
+     *
+     * @return array
+     */
+    public function getGroupDataProvider()
+    {
+        return array(
+            'NOT LOGGED IN' => array(array('id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3)),
+            'General' => array(array('id' => 1, 'code' => 'General', 'tax_class_id' => 3)),
+            'Wholesale' => array(array('id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3)),
+            'Retailer' => array(array('id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3))
+        );
+    }
+
+    /**
+     * Verify the retrieval of all customer groups.
+     */
+    public function testGetGroups()
+    {
+        $expectedGroups = array(
+            array('id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3),
+            array('id' => 1, 'code' => 'General', 'tax_class_id' => 3),
+            array('id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3),
+            array('id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3)
+        );
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1GetGroups'
+            )
+        );
+
+        $groups = array_map(
+            function ($array) {
+                return $this->decamelize($array);
+            },
+            $this->_webApiCall($serviceInfo)
+        );
+
+        $this->assertCount(count($expectedGroups), $groups, "The number of groups returned is wrong.");
+        $this->assertEquals($expectedGroups, $groups, "The list of groups does not match.");
+    }
+
+    /**
+     * Verify the retrieval of the default group for storeId equal to 1.
+     *
+     * @param int $storeId The store Id
+     * @param array $defaultGroupData The default group data for the store with the specified Id.
+     *
+     * @dataProvider getDefaultGroupDataProvider
+     */
+    public function testGetDefaultGroup($storeId, $defaultGroupData)
+    {
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . "/default/{$storeId}",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1GetDefaultGroup'
+            )
+        );
+        $requestData = array('storeId' => $storeId);
+        $groupData = $this->decamelize($this->_webApiCall($serviceInfo, $requestData));
+
+        $this->assertEquals($defaultGroupData, $groupData, "The default group does not match.");
+    }
+
+    /**
+     * The testGetDefaultGroup data provider.
+     *
+     * @return array
+     */
+    public function getDefaultGroupDataProvider()
+    {
+        return array(
+            'admin' => array(0, array('id' => 1, 'code' => 'General', 'tax_class_id' => 3)),
+            'base' => array(1, array('id' => 1, 'code' => 'General', 'tax_class_id' => 3))
+        );
+    }
+
+    /**
+     * Verify that the group with the specified Id can or cannot be deleted.
+     *
+     * @param int $groupId The group Id
+     * @param bool $isDeleteable Whether the group can or cannot be deleted.
+     *
+     * @dataProvider canDeleteDataProvider
+     */
+    public function testCanDelete($groupId, $isDeleteable)
+    {
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . "/canDelete/{$groupId}",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1CanDelete'
+            )
+        );
+
+        $requestData = array('groupId' => $groupId);
+        $canDelete = $this->_webApiCall($serviceInfo, $requestData);
+
+        $failureMessage = $isDeleteable ? 'The group should be deleteable.' : 'The group should not be deleteable.';
+        $this->assertEquals($isDeleteable, $canDelete, $failureMessage);
+    }
+
+    /**
+     * The testCanDelete data provider.
+     *
+     * @return array
+     */
+    public function canDeleteDataProvider()
+    {
+        return array(
+            'NOT LOGGED IN' => array(0, false),
+            'General' => array(1, false),
+            'Wholesale' => array(2, true),
+            'Retailer' => array(3, true)
+        );
+    }
+
+    /**
+     * Verify that creating a new group works via REST.
+     */
+    public function testCreateGroupRest()
+    {
+        $this->_markTestAsRestOnly();
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            )
+        );
+
+        $groupData = array('id' => null, 'code' => 'Create Group REST', 'tax_class_id' => 4);
+        $requestData = array('group' => $groupData);
+
+        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertNotNull($groupId);
+
+        $newGroup = $this->groupService->getGroup($groupId);
+        $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
+        $this->assertEquals($groupData['code'], $newGroup->getCode(), 'The group code does not match.');
+        $this->assertEquals(
+            $groupData['tax_class_id'],
+            $newGroup->getTaxClassId(),
+            'The group tax class id does not match.'
+        );
+    }
+
+    /**
+     * Verify that updating an existing group works via REST.
+     */
+    public function testUpdateGroupRest()
+    {
+        $this->_markTestAsRestOnly();
+
+        $groupId = $this->createGroup(
+            new CustomerGroup(
+                (new CustomerGroupBuilder())->populateWithArray(
+                    array('id' => null, 'code' => 'New Group REST', 'tax_class_id' => 4)
+                )
+            )
+        );
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            )
+        );
+
+        $groupData = array('id' => $groupId, 'code' => 'Updated Group REST', 'tax_class_id' => 2);
+        $requestData = array('group' => $groupData);
+
+        $newGroupId = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
+
+        $group = $this->groupService->getGroup($newGroupId);
+        $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
+        $this->assertEquals(
+            $groupData['tax_class_id'],
+            $group->getTaxClassId(),
+            'The group tax class id did not change'
+        );
+    }
+
+    /**
+     * Verify that creating a new group works via SOAP.
+     */
+    public function testCreateGroupSoap()
+    {
+        $this->_markTestAsSoapOnly();
+
+        $serviceInfo = array(
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+            )
+        );
+
+        $groupData = array('id' => null, 'code' => 'Create Group SOAP', 'taxClassId' => 4);
+        $requestData = array('group' => $groupData);
+
+        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertNotNull($groupId);
+
+        $newGroup = $this->groupService->getGroup($groupId);
+        $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
+        $this->assertEquals($groupData['code'], $newGroup->getCode(), "The group code does not match.");
+        $this->assertEquals(
+            $groupData['taxClassId'],
+            $newGroup->getTaxClassId(),
+            "The group tax class id does not match."
+        );
+    }
+
+    /**
+     * Verify that updating an existing group works via SOAP.
+     */
+    public function testUpdateGroupSoap()
+    {
+        $this->_markTestAsSoapOnly();
+
+        $groupId = $this->createGroup(
+            new CustomerGroup(array('id' => null, 'code' => 'New Group SOAP', 'tax_class_id' => 4))
+        );
+
+        $serviceInfo = array(
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+            )
+        );
+
+        $groupData = array('id' => $groupId, 'code' => 'Updated Group SOAP', 'taxClassId' => 2);
+        $requestData = array('group' => $groupData);
+
+        $newGroupId = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
+
+        $group = $this->groupService->getGroup($newGroupId);
+        $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
+        $this->assertEquals(
+            $groupData['taxClassId'],
+            $group->getTaxClassId(),
+            'The group tax class id did not change'
+        );
+    }
+
+    /**
+     * Verify that deleting an existing group works.
+     */
+    public function testDeleteGroupExists()
+    {
+        $groupId = $this->createGroup(
+            new CustomerGroup(
+                (new CustomerGroupBuilder())->populateWithArray(
+                    array('id' => null, 'code' => 'Delete Group', 'tax_class_id' => 4)
+                )
+            )
+        );
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . "/{$groupId}",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1DeleteGroup'
+            )
+        );
+
+        $requestData = array('groupId' => $groupId);
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($response, 'Expected response should be true.');
+
+        try {
+            $this->groupService->getGroup($groupId);
+            $this->fail('An expected NoSuchEntityException was not thrown.');
+        } catch (NoSuchEntityException $e) {
+            $this->assertEquals(
+                "No such entity with groupId = {$groupId}",
+                $e->getMessage(),
+                'Exception message does not match expected message.'
+            );
+        }
+    }
+
+    /**
+     * Verify that deleting an non-existing group works.
+     */
+    public function testDeleteGroupNotExists()
+    {
+        $groupId = 4200;
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . "/{$groupId}",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1DeleteGroup'
+            )
+        );
+
+        $requestData = array('groupId' => $groupId);
+        $expectedMessage = "No such entity with groupId = {$groupId}";
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch (\SoapFault $e) {
+            $this->assertContains($expectedMessage, $e->getMessage(), "SoapFault does not contain expected message.");
+        } catch (\Exception $e) {
+            $this->assertContains($expectedMessage, $e->getMessage(), "Exception does not contain expected message.");
+        }
+    }
+
+    /**
+     * Create a test group.
+     *
+     * @param CustomerGroup $group The group to create and save.
+     * @return int The group Id of the group that was created.
+     */
+    private function createGroup($group)
+    {
+        $groupId = $this->groupService->saveGroup($group);
+        $this->assertNotNull($groupId);
+
+        $newGroup = $this->groupService->getGroup($groupId);
+        $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
+        $this->assertEquals($group->getCode(), $newGroup->getCode(), 'The group code does not match.');
+        $this->assertEquals(
+            $group->getTaxClassId(),
+            $newGroup->getTaxClassId(),
+            'The group tax class id does not match.'
+        );
+
+        return $groupId;
+    }
+}

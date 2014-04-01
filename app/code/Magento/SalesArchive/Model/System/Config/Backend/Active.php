@@ -9,9 +9,9 @@
  */
 namespace Magento\SalesArchive\Model\System\Config\Backend;
 
-class Active
-    extends \Magento\Backend\Model\Config\Backend\Cache
-    implements \Magento\Backend\Model\Config\CommentInterface
+class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
+    \Magento\Backend\Model\Config\CommentInterface,
+    \Magento\Object\IdentityInterface
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -55,13 +55,12 @@ class Active
      *
      * @var array
      */
-    protected $_cacheTags = array(
-        \Magento\Backend\Block\Menu::CACHE_TAGS
-    );
+    protected $_cacheTags = array(\Magento\Backend\Block\Menu::CACHE_TAGS);
 
     /**
      * Clean cache, value was changed
      *
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -83,9 +82,22 @@ class Active
         if ($currentValue) {
             $ordersCount = $this->_orderCollection->getSize();
             if ($ordersCount) {
-                return __('There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled.', $ordersCount);
+                return __(
+                    'There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled.',
+                    $ordersCount
+                );
             }
         }
         return '';
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Backend\Block\Menu::CACHE_TAGS);
     }
 }

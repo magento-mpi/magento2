@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Wishlist\Model;
 
 /**
  * Wishlist item model
@@ -23,22 +21,17 @@
  * @method \Magento\Wishlist\Model\Item setAddedAt(string $value)
  * @method string getDescription()
  * @method \Magento\Wishlist\Model\Item setDescription(string $value)
- *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Model;
-
 use Magento\Wishlist\Model\Item\Option;
 use Magento\Wishlist\Model\Item\OptionFactory;
 use Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory;
 
-class Item extends \Magento\Core\Model\AbstractModel
-    implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
+class Item extends \Magento\Core\Model\AbstractModel implements
+    \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
-    const EXCEPTION_CODE_NOT_SALABLE            = 901;
-    const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS   = 902;
+    const EXCEPTION_CODE_NOT_SALABLE = 901;
+
+    const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS = 902;
 
     /**
      * Custom path to download attached file
@@ -46,11 +39,11 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected $_customOptionDownloadUrl = 'wishlist/index/downloadCustomOption';
 
-   /**
-    * Prefix of model events names
-    *
-    * @var string
-    */
+    /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
     protected $_eventPrefix = 'wishlist_item';
 
     /**
@@ -67,14 +60,14 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @var Option[]
      */
-    protected $_options             = array();
+    protected $_options = array();
 
     /**
      * Item options by code cache
      *
      * @var array
      */
-    protected $_optionsByCode       = array();
+    protected $_optionsByCode = array();
 
     /**
      * Not Represent options
@@ -96,7 +89,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -129,7 +122,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param OptionFactory $wishlistOptFactory
@@ -143,7 +136,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         OptionFactory $wishlistOptFactory,
@@ -181,7 +174,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function setQty($qty)
     {
-        $this->setData('qty', ($qty >= 0) ? $qty : 1 );
+        $this->setData('qty', $qty >= 0 ? $qty : 1);
         return $this;
     }
 
@@ -265,7 +258,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             }
         }
 
-        $this->_flagOptionsSaved = true; // Report to watchers that options were saved
+        $this->_flagOptionsSaved = true;
+        // Report to watchers that options were saved
 
         return $this;
     }
@@ -302,8 +296,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Validate wish list item data
      *
-     * @throws \Magento\Core\Exception
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function validate()
     {
@@ -342,7 +336,6 @@ class Item extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
-
     /**
      * Load item by product, wishlist and shared stores
      *
@@ -374,9 +367,7 @@ class Item extends \Magento\Core\Model\AbstractModel
                 throw new \Magento\Core\Exception(__('Cannot specify product.'));
             }
 
-            $product = $this->_productFactory->create()
-                ->setStoreId($this->getStoreId())
-                ->load($this->getProductId());
+            $product = $this->_productFactory->create()->setStoreId($this->getStoreId())->load($this->getProductId());
 
             $this->setData('product', $product);
         }
@@ -414,8 +405,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = $this->_catalogUrl
-                ->getRewriteByProductStore(array($product->getId() => $storeId));
+            $urlData = $this->_catalogUrl->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
@@ -454,7 +444,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getProductUrl()
     {
         $product = $this->getProduct();
-        $query   = array();
+        $query = array();
 
         if ($product->getTypeInstance()->hasRequiredOptions($product)) {
             $query['options'] = 'cart';
@@ -479,8 +469,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         $buyRequest = new \Magento\Object($initialData);
-        $buyRequest->setOriginalQty($buyRequest->getQty())
-            ->setQty($this->getQty() * 1);
+        $buyRequest->setOriginalQty($buyRequest->getQty())->setQty($this->getQty() * 1);
         return $buyRequest;
     }
 
@@ -500,18 +489,14 @@ class Item extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $oldBuyRequest = $this->getBuyRequest()
-            ->getData();
+        $oldBuyRequest = $this->getBuyRequest()->getData();
         $sBuyRequest = serialize($buyRequest + $oldBuyRequest);
 
         $option = $this->getOptionByCode('info_buyRequest');
         if ($option) {
             $option->setValue($sBuyRequest);
         } else {
-            $this->addOption(array(
-                'code'  => 'info_buyRequest',
-                'value' => $sBuyRequest
-            ));
+            $this->addOption(array('code' => 'info_buyRequest', 'value' => $sBuyRequest));
         }
 
         return $this;
@@ -520,6 +505,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Set buy request - object, holding request received from
      * product view page with keys and options for configured product
+     *
      * @param \Magento\Object $buyRequest
      * @return $this
      */
@@ -582,7 +568,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return false;
         }
 
-        $itemOptions    = $this->getOptionsByCode();
+        $itemOptions = $this->getOptionsByCode();
         $productOptions = $product->getCustomOptions();
 
         if (!$this->compareOptions($itemOptions, $productOptions)) {
@@ -607,12 +593,12 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         foreach ($options1 as $option) {
             $code = $option->getCode();
-            if (in_array($code, $this->_notRepresentOptions )) {
+            if (in_array($code, $this->_notRepresentOptions)) {
                 continue;
             }
-            if ( !isset($options2[$code])
-                || ($options2[$code]->getValue() === null)
-                || $options2[$code]->getValue() != $option->getValue()
+            if (!isset(
+                $options2[$code]
+            ) || $options2[$code]->getValue() === null || $options2[$code]->getValue() != $option->getValue()
             ) {
                 return false;
             }
@@ -664,11 +650,10 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = $this->_wishlistOptFactory->create()->setData($option)
-                ->setItem($this);
-        } else if ($option instanceof Option) {
+            $option = $this->_wishlistOptFactory->create()->setData($option)->setItem($this);
+        } elseif ($option instanceof Option) {
             $option->setItem($this);
-        } else if ($option instanceof \Magento\Object) {
+        } elseif ($option instanceof \Magento\Object) {
             $option = $this->_wishlistOptFactory->create()->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);

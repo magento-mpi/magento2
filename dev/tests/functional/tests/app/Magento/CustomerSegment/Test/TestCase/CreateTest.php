@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Test\TestCase;
 
 use Mtf\Factory\Factory;
@@ -60,19 +59,17 @@ class CreateTest extends Functional
         $newCustomerSegmentForm->clickSaveAndContinueEdit();
         $messagesBlock->assertSuccessMessage();
         // open conditions tab
-        $tabsWidget = $customerSegmentCreatePage->getConditionsTab();
-        $tabsWidget->openTab('magento_customersegment_segment_tabs_conditions_section');
+        $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('conditions');
         // add condition
         $addWidget = $customerSegmentCreatePage->getConditions();
-        $addWidget->addCustomerGroupCondition($conditionType,$conditionValue);
+        $addWidget->addCustomerGroupCondition($conditionType, $conditionValue);
         $saveWidget = $customerSegmentCreatePage->getSave();
         $saveWidget->clickSaveAndContinue();
 
         $conditionMessageBlock = $customerSegmentCreatePage->getMessageBlock();
         $conditionMessageBlock->assertSuccessMessage();
         // open matched customers tab
-        $customerTabWidget = $customerSegmentCreatePage->getCustomersTab();
-        $customerTabWidget->openTab('magento_customersegment_segment_tabs_customers_tab');
+        $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('matched_customers');
         // verify matched customers
         $customerGridBlock = $customerSegmentCreatePage->getCustomerGridBlock();
         $customerGridBlock->search(array('email' => $customerFixture->getEmail()));

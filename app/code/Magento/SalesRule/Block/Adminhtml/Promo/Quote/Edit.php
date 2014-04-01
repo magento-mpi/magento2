@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote;
 
 /**
  * Shopping cart rule edit form block
  */
-
-namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -41,6 +39,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Initialize form
      * Add standard buttons
      * Add "Save and Continue" button
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -50,15 +50,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        $this->_addButton('save_and_continue_edit', array(
-            'class'   => 'save',
-            'label'   => __('Save and Continue Edit'),
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'save_and_continue_edit',
+            array(
+                'class' => 'save',
+                'label' => __('Save and Continue Edit'),
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
-        ), 10);
+            10
+        );
     }
 
     /**

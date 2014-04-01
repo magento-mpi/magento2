@@ -9,7 +9,6 @@
  */
 namespace Magento\Core\Model\Resource\Entity;
 
-
 /**
  * Class describing db table resource entity
  *
@@ -21,7 +20,7 @@ class Table extends \Magento\Core\Model\Resource\Entity\AbstractEntity
      *
      * @return String
      */
-    function getTable()
+    public function getTable()
     {
         return $this->getConfig('table');
     }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Entity;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
@@ -53,7 +52,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             array('select', 'int'),
             array('boolean', 'int'),
             array('price', 'decimal'),
-            array('weight', 'decimal'),
+            array('weight', 'decimal')
         );
     }
 
@@ -81,7 +80,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             array('weight', 'default_value_text'),
             array('textarea', 'default_value_textarea'),
             array('date', 'default_value_date'),
-            array('boolean', 'default_value_yesno'),
+            array('boolean', 'default_value_yesno')
         );
     }
 
@@ -103,29 +102,13 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     public function getSortWeightDataProvider()
     {
         return array(
-            'empty set info' => array(
-                'sortWeights' => null,
-                'expectedWeight' => 0
-            ),
-            'no group sort' => array(
-                'sortWeights' => array(
-                    'sort' => 5
-                ),
-                'expectedWeight' => 0.0005
-            ),
-            'no sort' => array(
-                'sortWeights' => array(
-                    'group_sort' => 7
-                ),
-                'expectedWeight' => 7000
-            ),
+            'empty set info' => array('sortWeights' => null, 'expectedWeight' => 0),
+            'no group sort' => array('sortWeights' => array('sort' => 5), 'expectedWeight' => 0.0005),
+            'no sort' => array('sortWeights' => array('group_sort' => 7), 'expectedWeight' => 7000),
             'group sort and sort' => array(
-                'sortWeights' => array(
-                    'group_sort' => 7,
-                    'sort' => 5
-                ),
+                'sortWeights' => array('group_sort' => 7, 'sort' => 5),
                 'expectedWeight' => 7000.0005
-            ),
+            )
         );
     }
 }

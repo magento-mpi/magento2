@@ -23,4 +23,28 @@ return array(
     array('_app', 'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content'),
     array('_backendSession', 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Messages', 'backendSession'),
     array('_coreMessage', 'Magento\AdvancedCheckout\Model\Cart', 'messageFactory'),
+    array('_coreConfig', 'Magento\CatalogPermissions\App\Backend\Config', 'coreConfig'),
+    array('_coreStoreConfig', 'Magento\CatalogPermissions\App\Config', 'coreStoreConfig'),
+    array('_coreStoreConfig', 'Magento\CatalogPermissions\Helper\Data', 'config'),
+    array('_customerSession', 'Magento\CatalogPermissions\Helper\Data', 'customerSession'),
+    array('_storeIds', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('_insertData', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('_tableFields', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array(
+        '_permissionCache',
+        'Magento\CatalogPermissions\Model\Resource\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::indexCategoryPermissions'
+    ),
+    array(
+        '_grantsInheritance',
+        'Magento\CatalogPermissions\Model\Resource\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::grantsInheritance'
+    ),
+    array('_storeManager', 'Magento\CatalogPermissions\Model\Resource\Permission\Index', 'storeManager'),
+    array('_coreStoreConfig', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('_websiteCollectionFactory', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('_groupCollectionFactory', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('_catalogPermData', 'Magento\CatalogPermissions\Model\Resource\Permission\Index', 'helper'),
+    array('_matchedEntities', 'Magento\CatalogPermissions\Model\Permission\Index'),
+    array('_isVisible', 'Magento\CatalogPermissions\Model\Permission\Index')
 );

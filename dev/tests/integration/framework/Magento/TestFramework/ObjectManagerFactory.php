@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework;
 
 /**
@@ -21,14 +20,14 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      *
      * @var string
      */
-    protected $_locatorClassName = '\Magento\TestFramework\ObjectManager';
+    protected $_locatorClassName = 'Magento\TestFramework\ObjectManager';
 
     /**
      * Config class name
      *
      * @var string
      */
-    protected $_configClassName = '\Magento\TestFramework\ObjectManager\Config';
+    protected $_configClassName = 'Magento\TestFramework\ObjectManager\Config';
 
     /**
      * @var array
@@ -72,9 +71,9 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      */
     public function restore(ObjectManager $objectManager, $rootDir, array $arguments)
     {
-        $directories = isset($arguments[\Magento\App\Filesystem::PARAM_APP_DIRS])
-            ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
-            : array();
+        $directories = isset(
+            $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
+        ) ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS] : array();
         $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList($rootDir, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
@@ -82,36 +81,13 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $objectManager->configure($this->_primaryConfigData);
         $objectManager->addSharedInstance($directoryList, 'Magento\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
-        $objectManager->configure(array(
-            'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
-                'arguments' => array(
-                    'canSaveMap' => array(
-                        \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
-                        'value' => false
-                    ),
-                )
-            ),
-            'default_setup' => array(
-                'type' => 'Magento\TestFramework\Db\ConnectionAdapter'
-            ),
-            'preferences' => array(
-                'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
-                'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
-                'Magento\App\Request\Http' => 'Magento\TestFramework\Request',
-                'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
-                'Magento\App\Response\Http' => 'Magento\TestFramework\Response',
-                'Magento\Interception\PluginList\PluginList' => 'Magento\TestFramework\Interception\PluginList'
-            ),
-        ));
 
         $appArguments = parent::createAppArguments($directoryList, $arguments);
         $this->appArgumentsProxy->setSubject($appArguments);
         $objectManager->addSharedInstance($appArguments, 'Magento\App\Arguments');
 
         $objectManager->get('Magento\Interception\PluginList')->reset();
-        $objectManager->configure(
-            $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
-        );
+        $objectManager->configure($objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global'));
 
         return $objectManager;
     }
@@ -127,7 +103,33 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     protected function _loadPrimaryConfig($configDirectoryPath, $appMode)
     {
         if (null === $this->_primaryConfigData) {
-            $this->_primaryConfigData = parent::_loadPrimaryConfig($configDirectoryPath, $appMode);
+            $this->_primaryConfigData = array_replace(
+                parent::_loadPrimaryConfig($configDirectoryPath, $appMode),
+                array(
+                    'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
+                        'arguments' => array(
+                            'canSaveMap' => array(
+                                \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
+                                'value' => false
+                            )
+                        )
+                    ),
+                    'default_setup' => array('type' => 'Magento\TestFramework\Db\ConnectionAdapter')
+                )
+            );
+            $this->_primaryConfigData['preferences'] = array_replace(
+                $this->_primaryConfigData['preferences'],
+                array(
+                    'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
+                    'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
+                    'Magento\App\Request\Http' => 'Magento\TestFramework\Request',
+                    'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
+                    'Magento\App\Response\Http' => 'Magento\TestFramework\Response',
+                    'Magento\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
+                    'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
+                    'Magento\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
+                )
+            );
         }
         return $this->_primaryConfigData;
     }

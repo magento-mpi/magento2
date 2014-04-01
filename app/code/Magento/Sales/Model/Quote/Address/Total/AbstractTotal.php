@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address\Total;
 
 /**
  * Sales Quote Address Total  abstract model
  */
-namespace Magento\Sales\Model\Quote\Address\Total;
-
 abstract class AbstractTotal
 {
     /**
@@ -21,14 +20,25 @@ abstract class AbstractTotal
      * @var string
      */
     protected $_code;
+
+    /**
+     * @var string
+     */
     protected $_address = null;
 
     /**
      * Various abstract abilities
+     *
      * @var bool
      */
     protected $_canAddAmountToAddress = true;
-    protected $_canSetAddressAmount   = true;
+
+    /**
+     * Various abstract abilities
+     *
+     * @var bool
+     */
+    protected $_canSetAddressAmount = true;
 
     /**
      * Key for item row total getting
@@ -41,7 +51,7 @@ abstract class AbstractTotal
      * Set total code code name
      *
      * @param string $code
-     * @return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     public function setCode($code)
     {
@@ -73,7 +83,7 @@ abstract class AbstractTotal
      * Collect totals process.
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -102,7 +112,7 @@ abstract class AbstractTotal
      * Set address which can be used inside totals calculation
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     protected function _setAddress(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -119,9 +129,7 @@ abstract class AbstractTotal
     protected function _getAddress()
     {
         if ($this->_address === null) {
-            throw new \Magento\Core\Exception(
-                __('The address model is not defined.')
-            );
+            throw new \Magento\Core\Exception(__('The address model is not defined.'));
         }
         return $this->_address;
     }
@@ -130,7 +138,7 @@ abstract class AbstractTotal
      * Set total model amount value to address
      *
      * @param   float $amount
-     * @return  \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     protected function _setAmount($amount)
     {
@@ -145,7 +153,7 @@ abstract class AbstractTotal
      *
      * @param float $baseAmount
      * @internal param float $amount
-     * @return  \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     protected function _setBaseAmount($baseAmount)
     {
@@ -159,12 +167,12 @@ abstract class AbstractTotal
      * Add total model amount value to address
      *
      * @param   float $amount
-     * @return  \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     protected function _addAmount($amount)
     {
         if ($this->_canAddAmountToAddress) {
-            $this->_getAddress()->addTotalAmount($this->getCode(),$amount);
+            $this->_getAddress()->addTotalAmount($this->getCode(), $amount);
         }
         return $this;
     }
@@ -173,7 +181,7 @@ abstract class AbstractTotal
      * Add total model base amount value to address
      *
      * @param float $baseAmount
-     * @return  \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @return $this
      */
     protected function _addBaseAmount($baseAmount)
     {
@@ -198,7 +206,7 @@ abstract class AbstractTotal
      * Getter for row default total
      *
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return float
+     * @return float|int
      */
     public function getItemRowTotal(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
@@ -212,7 +220,7 @@ abstract class AbstractTotal
      * Getter for row default base total
      *
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return float
+     * @return float|int
      */
     public function getItemBaseRowTotal(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {

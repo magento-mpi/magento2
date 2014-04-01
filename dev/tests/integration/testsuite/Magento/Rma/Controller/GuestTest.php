@@ -8,7 +8,6 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-
 namespace Magento\Rma\Controller;
 
 class GuestTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -23,8 +22,7 @@ class GuestTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testIsResponseContain($uri, $content)
     {
         /** @var $rma \Magento\Rma\Model\Rma */
-        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Rma\Model\Rma');
+        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
 
         $this->getRequest()->setParam('entity_id', $rma->getEntityId());
@@ -42,7 +40,7 @@ class GuestTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         return array(
             array('rma/guest/addlabel', '<td class="col carrier">CarrierTitle</td>'),
-            array('rma/guest/dellabel', '<td class="col carrier">CarrierTitle</td>'),
+            array('rma/guest/dellabel', '<td class="col carrier">CarrierTitle</td>')
         );
     }
 }

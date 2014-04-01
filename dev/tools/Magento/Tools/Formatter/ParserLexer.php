@@ -50,6 +50,8 @@ class ParserLexer extends PHPParser_Lexer
 
     /**
      * Map of comments indexed by the line number containing the comment
+     *
+     * @var array
      */
     public $commentMap;
 
@@ -61,6 +63,7 @@ class ParserLexer extends PHPParser_Lexer
 
     /**
      * This member holds an array of tokens that should just capture the original value.
+     *
      * @var array $simpleOriginalValueTokens
      */
     protected $simpleOriginalValueTokens = array(
@@ -72,7 +75,8 @@ class ParserLexer extends PHPParser_Lexer
 
     /**
      * This method returns the comment map.
-     * @return mixed
+     *
+     * @return array
      */
     public function getCommentMap()
     {
@@ -82,9 +86,10 @@ class ParserLexer extends PHPParser_Lexer
     /**
      * This method retrieves the next available token. Original values are stored for strings and numbers so that they
      * can be used in the pretty printer.
-     * @param null $value
-     * @param null $startAttributes
-     * @param null $endAttributes
+     *
+     * @param string|null &$value
+     * @param array|null &$startAttributes
+     * @param array|null &$endAttributes
      * @return int
      */
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null)
@@ -144,9 +149,12 @@ class ParserLexer extends PHPParser_Lexer
     /**
      * This method takes tokenId, value, and endAttributes reference and then does substitution to perserve the original
      * number or strings that were in the code.
-     * @param $tokenId
-     * @param $value
-     * @param $endAttributes
+     *
+     * @param int $tokenId
+     * @param string $value
+     * @param array &$startAttributes
+     * @param array &$endAttributes
+     * @return void
      */
     private function handleStrings($tokenId, $value, &$startAttributes, &$endAttributes)
     {
@@ -176,9 +184,11 @@ class ParserLexer extends PHPParser_Lexer
     /**
      * This method takes newlineCount, token, and startAttributes reference and adds any blank lines that are likely
      * developer added spacing to the list of startAttributes.
-     * @param $newlineCount
-     * @param $token
-     * @param $startAttributes
+     *
+     * @param int $newlineCount
+     * @param array $token
+     * @param array &$startAttributes
+     * @return void
      */
     private function handleBlankLines($newlineCount, $token, &$startAttributes)
     {

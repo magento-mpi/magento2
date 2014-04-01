@@ -18,8 +18,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
-class Eway
-    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
+class Eway extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Cybersource payment code

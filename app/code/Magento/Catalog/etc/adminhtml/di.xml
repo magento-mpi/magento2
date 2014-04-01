@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite" />
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Attribute">
         <arguments>
@@ -58,6 +58,11 @@
     <type name="Magento\Catalog\Model\Product\Copier">
         <arguments>
             <argument name="copyConstructor" xsi:type="object">Magento\Catalog\Model\Product\CopyConstructor\Composite</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Option\UrlBuilder">
+        <arguments>
+            <argument name="frontendUrlBuilder" xsi:type="object">Magento\Url</argument>
         </arguments>
     </type>
 </config>

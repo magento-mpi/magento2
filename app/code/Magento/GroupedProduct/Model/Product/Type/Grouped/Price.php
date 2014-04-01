@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Product\Type\Grouped;
 
 class Price extends \Magento\Catalog\Model\Product\Type\Price
@@ -17,9 +16,9 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Returns product final price depending on options chosen
      *
-     * @param   double $qty
+     * @param   float $qty
      * @param   \Magento\Catalog\Model\Product $product
-     * @return  double
+     * @return  float
      */
     public function getFinalPrice($qty, $product)
     {
@@ -31,8 +30,12 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         if ($product->hasCustomOptions()) {
             /* @var $typeInstance \Magento\GroupedProduct\Model\Product\Type\Grouped */
             $typeInstance = $product->getTypeInstance();
-            $associatedProducts = $typeInstance->setStoreFilter($product->getStore(), $product)
-                ->getAssociatedProducts($product);
+            $associatedProducts = $typeInstance->setStoreFilter(
+                $product->getStore(),
+                $product
+            )->getAssociatedProducts(
+                $product
+            );
             foreach ($associatedProducts as $childProduct) {
                 /* @var $childProduct \Magento\Catalog\Model\Product */
                 $option = $product->getCustomOption('associated_product_' . $childProduct->getId());

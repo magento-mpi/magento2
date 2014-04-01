@@ -29,9 +29,10 @@ namespace Magento\Core\Model;
  * @method int getIsDefault()
  * @method \Magento\Core\Model\Website setIsDefault(int $value)
  */
-class Website extends \Magento\Core\Model\AbstractModel
+class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
-    const ENTITY    = 'core_website';
+    const ENTITY = 'core_website';
+
     const CACHE_TAG = 'website';
 
     /**
@@ -267,7 +268,7 @@ class Website extends \Magento\Core\Model\AbstractModel
             if ($this->getDefaultGroupId() == $group->getId()) {
                 $this->_defaultGroup = $group;
             }
-            $this->_groupsCount ++;
+            $this->_groupsCount++;
         }
     }
 
@@ -299,9 +300,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     public function getGroupCollection()
     {
-        return $this->_storeGroupFactory->create()
-            ->getCollection()
-            ->addWebsiteFilter($this->getId());
+        return $this->_storeGroupFactory->create()->getCollection()->addWebsiteFilter($this->getId());
     }
 
     /**
@@ -375,7 +374,7 @@ class Website extends \Magento\Core\Model\AbstractModel
             if ($this->getDefaultGroup() && $this->getDefaultGroup()->getDefaultStoreId() == $store->getId()) {
                 $this->_defaultStore = $store;
             }
-            $this->_storesCount ++;
+            $this->_storesCount++;
         }
     }
 
@@ -396,7 +395,7 @@ class Website extends \Magento\Core\Model\AbstractModel
             if ($this->getDefaultGroup() && $this->getDefaultGroup()->getDefaultStoreId() == $store->getId()) {
                 $this->_defaultStore = $store;
             }
-            $this->_storesCount ++;
+            $this->_storesCount++;
         }
     }
 
@@ -407,9 +406,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     public function getStoreCollection()
     {
-        return $this->_storeFactory->create()
-            ->getCollection()
-            ->addWebsiteFilter($this->getId());
+        return $this->_storeFactory->create()->getCollection()->addWebsiteFilter($this->getId());
     }
 
     /**
@@ -475,8 +472,8 @@ class Website extends \Magento\Core\Model\AbstractModel
             return false;
         }
         if (is_null($this->_isCanDelete)) {
-            $this->_isCanDelete = ($this->_websiteFactory->create()->getCollection()->getSize() > 1)
-                && !$this->getIsDefault();
+            $this->_isCanDelete = $this->_websiteFactory->create()->getCollection()->getSize() > 1 &&
+                !$this->getIsDefault();
         }
         return $this->_isCanDelete;
     }
@@ -536,8 +533,9 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     public function getBaseCurrencyCode()
     {
-        if ($this->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE)
-            == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL
+        if ($this->getConfig(
+            \Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE
+        ) == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL
         ) {
             return $this->_app->getBaseCurrencyCode();
         } else {
@@ -596,5 +594,15 @@ class Website extends \Magento\Core\Model\AbstractModel
             $this->_isReadOnly = (bool)$value;
         }
         return $this->_isReadOnly;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

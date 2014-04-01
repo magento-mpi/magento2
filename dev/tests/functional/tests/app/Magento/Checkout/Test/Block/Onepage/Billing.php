@@ -39,23 +39,6 @@ class Billing extends Form
     protected $useForShipping = '[id="billing:use_for_shipping_no"]';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'firstname' => '[id="billing:firstname"]',
-        'lastname' => '[id="billing:lastname"]',
-        'email' => '[id="billing:email"]',
-        'company' => '[id="billing:company"]',
-        'telephone' => '[id="billing:telephone"]',
-        'street_1' => '[id="billing:street1"]',
-        'city' => '[id="billing:city"]',
-        'region' => '[id="billing:region_id"]',
-        'postcode' => '[id="billing:postcode"]',
-        'country' => '[id="billing:country_id"]',
-        'address_id' => '[name="billing_address_id"]',
-    );
-
-    /**
      * Fill billing address
      *
      * @param Checkout $fixture

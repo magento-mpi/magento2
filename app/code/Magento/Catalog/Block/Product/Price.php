@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class Price extends \Magento\View\Element\Template
+class Price extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
     /**
      * @var null
@@ -172,7 +172,7 @@ class Price extends \Magento\View\Element\Template
                 }
 
                 if ($price['price'] < $productPrice) {
-                    $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
+                    $price['savePercent'] = ceil(100 - 100 / $productPrice * $price['price']);
 
                     $tierPrice = $this->_storeManager->getStore()->convertPrice(
                         $this->_taxData->getPrice($product, $price['website_price'])
@@ -263,5 +263,15 @@ class Price extends \Magento\View\Element\Template
     public function getRandomString($length, $chars = null)
     {
         return $this->mathRandom->getRandomString($length, $chars);
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getProduct()->getIdentities();
     }
 }

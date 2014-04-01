@@ -48,4 +48,4 @@ class InterfacePlugin
     {
         return '<IP:aG>' . $result . '</IP:aG>';
     }
-} 
+}

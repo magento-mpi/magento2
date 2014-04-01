@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Catalog\Product\Price;
 
 class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
@@ -34,21 +33,20 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);
+        parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager);
     }
-
 
     /**
      * Return price of the specified product
@@ -68,7 +66,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Retrieve product final price
      *
-     * @param integer $qty
+     * @param int $qty
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
@@ -91,6 +89,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * Load and set gift card amounts into product object
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return array
      */
     public function getAmounts($product)
     {
@@ -104,9 +103,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
             }
         }
 
-        return ($prices) ? $prices : array();
+        return $prices ? $prices : array();
     }
-
 
     /**
      * Return minimal amount for Giftcard product
@@ -197,7 +195,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
                 }
             }
 
-            $this->_minMaxCache[$product->getId()] = array('min'=>$min, 'max'=>$max);
+            $this->_minMaxCache[$product->getId()] = array('min' => $min, 'max' => $max);
         }
         return $this->_minMaxCache[$product->getId()];
     }

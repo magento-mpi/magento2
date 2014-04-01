@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\File\Storage;
 
 /**
@@ -50,7 +49,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Helper\File\Media $mediaHelper
      * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
@@ -63,7 +62,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Model\Date $dateModel,
+        \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Core\Model\App $app,
         \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Resource\File\Storage\Database $resource,
@@ -96,7 +95,9 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     public function getDirectoryModel()
     {
         if (is_null($this->_directoryModel)) {
-            $this->_directoryModel = $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()));
+            $this->_directoryModel = $this->_directoryFactory->create(
+                array('connectionName' => $this->getConnectionName())
+            );
         }
 
         return $this->_directoryModel;
@@ -146,7 +147,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function hasErrors()
     {
-        return (!empty($this->_errors) || $this->getDirectoryModel()->hasErrors());
+        return !empty($this->_errors) || $this->getDirectoryModel()->hasErrors();
     }
 
     /**
@@ -193,8 +194,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function exportFiles($offset = 0, $count = 100)
     {
-        $offset = ((int) $offset >= 0) ? (int) $offset : 0;
-        $count  = ((int) $count >= 1) ? (int) $count : 1;
+        $offset = (int)$offset >= 0 ? (int)$offset : 0;
+        $count = (int)$count >= 1 ? (int)$count : 1;
 
         $result = $this->_getResource()->getFiles($offset, $count);
         if (empty($result)) {
@@ -224,10 +225,15 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
 
             try {
                 $file['update_time'] = $dateSingleton->date();
-                $file['directory_id'] = (isset($file['directory']) && strlen($file['directory']))
-                    ? $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()))
-                        ->loadByPath($file['directory'])->getId()
-                    : null;
+                $file['directory_id'] = isset(
+                    $file['directory']
+                ) && strlen(
+                    $file['directory']
+                ) ? $this->_directoryFactory->create(
+                    array('connectionName' => $this->getConnectionName())
+                )->loadByPath(
+                    $file['directory']
+                )->getId() : null;
 
                 $this->_getResource()->saveFile($file);
             } catch (\Exception $e) {

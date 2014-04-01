@@ -8,11 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\TestAsset;
 
-class ConstructorFiveArguments
-    extends \Magento\ObjectManager\TestAsset\ConstructorFourArguments
+class ConstructorFiveArguments extends \Magento\ObjectManager\TestAsset\ConstructorFourArguments
 {
     /**
      * @var \Magento\ObjectManager\TestAsset\Basic

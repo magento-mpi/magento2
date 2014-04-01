@@ -63,11 +63,7 @@ class Main extends \Magento\View\Element\Template
      */
     public function addDatabaseBlock($type, $block, $template)
     {
-        $this->_databases[$type] = array(
-            'block'     => $block,
-            'template'  => $template,
-            'instance'  => null
-        );
+        $this->_databases[$type] = array('block' => $block, 'template' => $template, 'instance' => null);
 
         return $this;
     }
@@ -85,9 +81,13 @@ class Main extends \Magento\View\Element\Template
             if ($this->_databases[$type]['instance']) {
                 $block = $this->_databases[$type]['instance'];
             } else {
-                $block = $this->getLayout()->createBlock($this->_databases[$type]['block'])
-                    ->setTemplate($this->_databases[$type]['template'])
-                    ->setIdPrefix($type);
+                $block = $this->getLayout()->createBlock(
+                    $this->_databases[$type]['block']
+                )->setTemplate(
+                    $this->_databases[$type]['template']
+                )->setIdPrefix(
+                    $type
+                );
                 $this->_databases[$type]['instance'] = $block;
             }
         }
@@ -127,5 +127,4 @@ class Main extends \Magento\View\Element\Template
         }
         return $data;
     }
-
 }

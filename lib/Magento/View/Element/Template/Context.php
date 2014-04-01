@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\View\Element\Template;
 
 /**
@@ -78,7 +77,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEnginePool $enginePool
@@ -105,7 +104,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\App\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,
@@ -130,7 +129,7 @@ class Context extends \Magento\View\Element\Context
             $logger,
             $escaper,
             $filterManager,
-            $locale,
+            $localeDate,
             $data
         );
 

@@ -53,6 +53,7 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      * @param array $priceBlockTypes
@@ -78,6 +79,7 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         array $data = array(),
         array $priceBlockTypes = array()
@@ -102,6 +104,7 @@ class View extends \Magento\Catalog\Block\Product\View
             $string,
             $productHelper,
             $productTypeConfig,
+            $localeFormat,
             $data,
             $priceBlockTypes
         );
@@ -133,15 +136,16 @@ class View extends \Magento\Catalog\Block\Product\View
         $templateType = false,
         $displayIfNoReviews = false
     ) {
-        return
-            $this->getLayout()->createBlock('Magento\Rating\Block\Entity\Detailed')
-                ->setEntityId($this->getProduct()->getId())
-                ->toHtml()
-            .
-            $this->getLayout()->getBlock('product_review_list.count')
-                ->assign('count', $this->getReviewsCollection()->getSize())
-                ->toHtml()
-            ;
+        return $this->getLayout()->createBlock(
+            'Magento\Rating\Block\Entity\Detailed'
+        )->setEntityId(
+            $this->getProduct()->getId()
+        )->toHtml() . $this->getLayout()->getBlock(
+            'product_review_list.count'
+        )->assign(
+            'count',
+            $this->getReviewsCollection()->getSize()
+        )->toHtml();
     }
 
     /**
@@ -152,11 +156,14 @@ class View extends \Magento\Catalog\Block\Product\View
     public function getReviewsCollection()
     {
         if (null === $this->_reviewsCollection) {
-            $this->_reviewsCollection = $this->_reviewsColFactory->create()
-                ->addStoreFilter($this->_storeManager->getStore()->getId())
-                ->addStatusFilter(\Magento\Review\Model\Review::STATUS_APPROVED)
-                ->addEntityFilter('product', $this->getProduct()->getId())
-                ->setDateOrder();
+            $this->_reviewsCollection = $this->_reviewsColFactory->create()->addStoreFilter(
+                $this->_storeManager->getStore()->getId()
+            )->addStatusFilter(
+                \Magento\Review\Model\Review::STATUS_APPROVED
+            )->addEntityFilter(
+                'product',
+                $this->getProduct()->getId()
+            )->setDateOrder();
         }
         return $this->_reviewsCollection;
     }

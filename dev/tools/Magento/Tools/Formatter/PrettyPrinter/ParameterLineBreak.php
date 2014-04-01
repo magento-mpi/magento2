@@ -32,6 +32,9 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
  */
 class ParameterLineBreak extends ConditionalLineBreak
 {
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         parent::__construct(array());
@@ -39,6 +42,7 @@ class ParameterLineBreak extends ConditionalLineBreak
 
     /**
      * This method returns a sort order indication as to the order in which breaks should be processed.
+     *
      * @return int Order relative to other classes overriding this method.
      */
     public function getSortOrder()
@@ -48,10 +52,12 @@ class ParameterLineBreak extends ConditionalLineBreak
 
     /**
      * This method returns the value for the break based on the passed in information.
+     *
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
-     * @param array $lineBreakData Data that the line break can use.
+     * @param array &$lineBreakData Data that the line break can use.
+     * @return HardIndentLineBreak|HardLineBreak|string|false
      */
     public function getValue($level, $index, $total, array &$lineBreakData)
     {
@@ -101,6 +107,7 @@ class ParameterLineBreak extends ConditionalLineBreak
     /**
      * This method returns a flag indicating that when placed in a list, an additional instance is
      * required after the list.
+     *
      * @return bool
      */
     public function isAfterListRequired()

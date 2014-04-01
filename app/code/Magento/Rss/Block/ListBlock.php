@@ -7,22 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block;
 
 /**
  * Review form block
  */
-namespace Magento\Rss\Block;
-
 class ListBlock extends \Magento\View\Element\Template
 {
     const XML_PATH_RSS_METHODS = 'rss';
 
+    /**
+     * @var array
+     */
     protected $_rssFeeds = array();
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @var \Magento\Catalog\Model\CategoryFactory
@@ -31,17 +33,17 @@ class ListBlock extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         $this->_categoryFactory = $categoryFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -50,12 +52,12 @@ class ListBlock extends \Magento\View\Element\Template
     /**
      * Add Link elements to head
      *
-     * @return \Magento\Rss\Block\ListBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
-        $head   = $this->getLayout()->getBlock('head');
-        $feeds  = $this->getRssMiscFeeds();
+        $head = $this->getLayout()->getBlock('head');
+        $feeds = $this->getRssMiscFeeds();
         if ($head && !empty($feeds)) {
             foreach ($feeds as $feed) {
                 $head->addRss($feed['label'], $feed['url']);
@@ -67,7 +69,7 @@ class ListBlock extends \Magento\View\Element\Template
     /**
      * Retrieve rss feeds
      *
-     * @return array
+     * @return bool|array
      */
     public function getRssFeeds()
     {
@@ -81,7 +83,7 @@ class ListBlock extends \Magento\View\Element\Template
      * @param string $label
      * @param array $param
      * @param bool $customerGroup
-     * @return  \Magento\App\Helper\AbstractHelper
+     * @return $this
      */
     public function addRssFeed($url, $label, $param = array(), $customerGroup = false)
     {
@@ -90,27 +92,39 @@ class ListBlock extends \Magento\View\Element\Template
             $param = array_merge($param, array('cid' => $this->getCurrentCustomerGroupId()));
         }
         $this->_rssFeeds[] = new \Magento\Object(
-            array(
-                'url'   => $this->_urlBuilder->getUrl($url, $param),
-                'label' => $label
-            )
+            array('url' => $this->_urlBuilder->getUrl($url, $param), 'label' => $label)
         );
         return $this;
     }
 
+    /**
+     * Rest rss feed
+     *
+     * @return void
+     */
     public function resetRssFeed()
     {
         $this->_rssFeeds = array();
     }
 
+    /**
+     * Get current store id
+     *
+     * @return int
+     */
     public function getCurrentStoreId()
     {
         return $this->_storeManager->getStore()->getId();
     }
 
+    /**
+     * Get current customer group id
+     *
+     * @return int
+     */
     public function getCurrentCustomerGroupId()
     {
-        return $this->_customerSession->getCustomerGroupId();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP);
     }
 
     /**
@@ -118,7 +132,7 @@ class ListBlock extends \Magento\View\Element\Template
      *
      * array structure:
      *
-     * @return  array
+     * @return array
      */
     public function getRssCatalogFeeds()
     {
@@ -127,6 +141,11 @@ class ListBlock extends \Magento\View\Element\Template
         return $this->getRssFeeds();
     }
 
+    /**
+     * Get rss misc feeds
+     *
+     * @return array|bool
+     */
     public function getRssMiscFeeds()
     {
         $this->resetRssFeed();
@@ -136,6 +155,11 @@ class ListBlock extends \Magento\View\Element\Template
         return $this->getRssFeeds();
     }
 
+    /**
+     * New product rss feed
+     *
+     * @return void
+     */
     public function newProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/new';
@@ -144,6 +168,11 @@ class ListBlock extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * Special product rss feed
+     *
+     * @return void
+     */
     public function specialProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/special';
@@ -152,6 +181,11 @@ class ListBlock extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * Sales rule product rss feed
+     *
+     * @return void
+     */
     public function salesRuleProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/salesrule';
@@ -160,6 +194,11 @@ class ListBlock extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * Categories rss feed
+     *
+     * @return void
+     */
     public function categoriesRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/category';
@@ -176,13 +215,20 @@ class ListBlock extends \Magento\View\Element\Template
 
             /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
             $collection = $category->getCollection();
-            $collection->addIdFilter($nodeIds)
-                ->addAttributeToSelect('url_key')
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('is_anchor')
-                ->addAttributeToFilter('is_active', 1)
-                ->addAttributeToSort('name')
-                ->load();
+            $collection->addIdFilter(
+                $nodeIds
+            )->addAttributeToSelect(
+                'url_key'
+            )->addAttributeToSelect(
+                'name'
+            )->addAttributeToSelect(
+                'is_anchor'
+            )->addAttributeToFilter(
+                'is_active',
+                1
+            )->addAttributeToSort(
+                'name'
+            )->load();
 
             foreach ($collection as $category) {
                 $this->addRssFeed('rss/catalog/category', $category->getName(), array('cid' => $category->getId()));

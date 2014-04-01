@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V2\Entity;
 
-class Item extends \Magento\Service\Entity\AbstractDto
+class Item extends \Magento\Service\Data\AbstractObject
 {
     /**
      * @return int

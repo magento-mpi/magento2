@@ -52,6 +52,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Define resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,9 +88,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function filterAllByProductId($productId)
     {
-        $this->getSelect()
-            ->where('id_path = ?', "product/{$productId}")
-            ->orWhere('id_path LIKE ?', "product/{$productId}/%");
+        $this->getSelect()->where(
+            'id_path = ?',
+            "product/{$productId}"
+        )->orWhere(
+            'id_path LIKE ?',
+            "product/{$productId}/%"
+        );
 
         return $this;
     }
@@ -101,8 +106,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function filterAllByCategory()
     {
-        $this->getSelect()
-            ->where('id_path LIKE ?', "category/%");
+        $this->getSelect()->where('id_path LIKE ?', "category/%");
         return $this;
     }
 }

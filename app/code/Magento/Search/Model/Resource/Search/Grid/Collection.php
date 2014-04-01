@@ -7,10 +7,11 @@
  */
 namespace Magento\Search\Model\Resource\Search\Grid;
 
-class Collection
-    extends \Magento\CatalogSearch\Model\Resource\Query\Collection
+class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
 {
     /**
+     * Registry manager
+     *
      * @var \Magento\Registry
      */
     protected $_registryManager;
@@ -51,7 +52,9 @@ class Collection
     }
 
     /**
-     * @return \Magento\Search\Model\Resource\Search\Grid\Collection
+     * Initialize select
+     *
+     * @return $this
      */
     protected function _initSelect()
     {

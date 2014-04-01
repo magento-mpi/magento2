@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -19,11 +19,10 @@ class Output
     {
         $formattedData = array();
         $length = max(array_map('strlen', array_keys($data)));
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $formattedData[str_pad($key, $length, ' ', STR_PAD_RIGHT)] = $value;
         }
         return $formattedData;
-
     }
 
     /**
@@ -48,14 +47,15 @@ class Output
     /**
      * Make output human readable
      *
-     * @param $var
+     * @param mixed $var
+     * @return void
      */
     public function readableOutput($var)
     {
-        switch(true) {
+        switch (true) {
             case is_array($var):
                 $eol = '';
-                foreach($var as $key => $value) {
+                foreach ($var as $key => $value) {
                     if (is_array($value) || !is_scalar($value)) {
                         echo $eol . $key . ' => ' . var_export($value, true);
                     } else {

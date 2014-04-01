@@ -35,7 +35,7 @@ class Config extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -72,8 +72,8 @@ class Config extends AbstractRepository
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
-        $this->_data['shipping_carrier_dhlint_eu'] = $this->_getShippingCarrierDhlIntEU();
-        $this->_data['shipping_carrier_dhlint_uk'] = $this->_getShippingCarrierDhlIntUK();
+        $this->_data['shipping_carrier_dhl_eu'] = $this->_getShippingCarrierDhlEU();
+        $this->_data['shipping_carrier_dhl_uk'] = $this->_getShippingCarrierDhlUK();
         $this->_data['shipping_carrier_fedex'] = $this->_getShippingCarrierFedex();
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
@@ -82,8 +82,8 @@ class Config extends AbstractRepository
         $this->_data['check_money_order'] = $this->getCheckmo();
         $this->_data['show_out_of_stock'] = $this->_getShowOutOfStock();
         $this->_data['enable_product_flat'] = $this->_getProductFlatEnabled();
-        $this->_data['manual_layered_navigation_mysql'] = $this->_getManualPriceLayeredNavigationMysql();
         $this->_data['disable_product_flat'] = $this->_getProductFlatDisabled();
+        $this->_data['manual_layered_navigation_mysql'] = $this->_getManualPriceLayeredNavigationMysql();
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
@@ -94,6 +94,9 @@ class Config extends AbstractRepository
         $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
         //Currency Setup
         $this->_data['allowed_currencies'] = $this->_getAllowedCurrencies();
+        // Startup Page
+        $this->_data['startup_page_dashboard'] = $this->_getStartupPage('Magento_Backend::dashboard');
+        $this->_data['startup_page_products'] = $this->_getStartupPage('Magento_Catalog::catalog_products');
     }
 
     /**
@@ -245,7 +248,7 @@ class Config extends AbstractRepository
      *
      * @return array
      */
-    protected function _getShippingCarrierDhlIntEU()
+    protected function _getShippingCarrierDhlEU()
     {
         return array(
             'data' => array(
@@ -255,7 +258,7 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => array(
-                            'dhlint' => array(
+                            'dhl' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
                                         'value' => self::YES_VALUE
@@ -336,7 +339,7 @@ class Config extends AbstractRepository
      *
      * @return array
      */
-    protected function _getShippingCarrierDhlIntUK()
+    protected function _getShippingCarrierDhlUK()
     {
         return array(
             'data' => array(
@@ -346,7 +349,7 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => array(
-                            'dhlint' => array(
+                            'dhl' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
                                         'value' => self::YES_VALUE
@@ -648,13 +651,6 @@ class Config extends AbstractRepository
                                         'value' => self::NO_VALUE
                                     )
                                 )
-                            ),
-                            'dhlint' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
-                                        'value' => self::NO_VALUE
-                                    )
-                                )
                             )
                         )
                     )
@@ -701,6 +697,9 @@ class Config extends AbstractRepository
                                     ),
                                     'centinel' => array( //3D Secure Card Validation
                                         'value' => self::NO_VALUE
+                                    ),
+                                    'debug' => array( // Debug Mode
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -861,6 +860,9 @@ class Config extends AbstractRepository
                                                         'fields' => array(
                                                             'centinel' => array( //3D Secure Card Validation
                                                                 'value' => 0
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )
@@ -937,6 +939,17 @@ class Config extends AbstractRepository
                                                         'value' => 'Authorization' //Authorization
                                                     )
                                                 ),
+                                            ),
+                                            'settings_express_checkout' => array(
+                                                'groups' => array(
+                                                    'settings_express_checkout_advanced' => array( // Advanced Settings
+                                                        'fields' => array(
+                                                            'debug' => array(
+                                                                'value' => self::YES_VALUE // Debug Mode
+                                                            )
+                                                        )
+                                                    )
+                                                )
                                             )
                                         )
                                     )
@@ -1000,6 +1013,9 @@ class Config extends AbstractRepository
                                                             ),
                                                             'verify_peer' => array( //Enable SSL verification
                                                                 'value' => 0 //No
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )
@@ -1074,8 +1090,8 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'settings_ec_advanced' => array(
                                                         'fields' => array(
-                                                            'debug' => array(
-                                                                'value' => 0
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         ),
                                                     )
@@ -1122,10 +1138,10 @@ class Config extends AbstractRepository
                                                                 'value' => 'PayPal'
                                                             ),
                                                             'user' => array( // API User
-                                                                'value' => 'rlpayflowlinknew'
+                                                                'value' => 'mpiteamlink'
                                                             ),
                                                             'vendor' => array( // Vendor
-                                                                'value' => 'rlpayflowlinknew'
+                                                                'value' => 'mpiteamlink'
                                                             ),
                                                             'pwd' => array( // API Password
                                                                 'value' => 'Temp1234'
@@ -1159,6 +1175,15 @@ class Config extends AbstractRepository
                                                 'fields' => array(
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
+                                                    )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_payflow_link_express_checkout_advanced' => array(
+                                                        'fields' => array(
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
+                                                            )
+                                                        )
                                                     )
                                                 )
                                             )
@@ -1237,6 +1262,9 @@ class Config extends AbstractRepository
                                                         'fields' => array(
                                                             'centinel' => array( //3D Secure Card Validation
                                                                 'value' => 0
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )
@@ -2030,35 +2058,6 @@ class Config extends AbstractRepository
     }
 
     /**
-     * Enable 'Display out of Stock' option for catalog
-     *
-     * @return array
-     */
-    protected function _getShowOutOfStock()
-    {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'cataloginventory' => array(
-                        'section' => 'cataloginventory',
-                        'website' => null,
-                        'store' => null,
-                        'groups' => array(
-                            'options' => array( //Stock Options
-                                'fields' => array(
-                                    'show_out_of_stock' => array(
-                                        'value' => 1, //Yes
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
-    }
-
-    /**
      * Setup manual price layered navigation via Mysql
      *
      * @return array
@@ -2090,5 +2089,65 @@ class Config extends AbstractRepository
         );
 
         return array_replace_recursive($this->_getMysqlSearchEnabled(), $config);
+    }
+
+    /**
+     * Enable 'Display out of Stock' option for catalog
+     *
+     * @return array
+     */
+    protected function _getShowOutOfStock()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'cataloginventory' => array(
+                        'section' => 'cataloginventory',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array( //Stock Options
+                                'fields' => array(
+                                    'show_out_of_stock' => array(
+                                        'value' => 1, //Yes
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Change Startup Page for admin user
+     *
+     * @param string $page
+     *
+     * @return array
+     */
+    protected function _getStartupPage($page)
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'admin' => array(
+                        'section' => 'admin',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'startup' => array(
+                                'fields' => array(
+                                    'menu_item_id' => array(
+                                        'value' => $page
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 }

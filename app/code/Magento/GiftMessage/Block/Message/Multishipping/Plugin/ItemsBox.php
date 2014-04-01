@@ -5,9 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftMessage\Block\Message\Multishipping\Plugin;
-
 
 /**
  * Multishipping items box plugin

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -15,7 +14,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -47,20 +46,24 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->_removeButton('reset');
 
-        $this->_addButton('save_and_continue_edit', array(
-            'class'   => 'save',
-            'label'   => __('Save and Continue Edit'),
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'save_and_continue_edit',
+            array(
+                'class' => 'save',
+                'label' => __('Save and Continue Edit'),
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
-        ), 3);
+            3
+        );
 
         $giftWrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
         if ($giftWrapping && $giftWrapping->getId()) {
             $confirmMessage = __('Are you sure you want to delete this gift wrapping?');
-            $this->_updateButton('delete', 'onclick',
+            $this->_updateButton(
+                'delete',
+                'onclick',
                 'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
         }
@@ -79,7 +82,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                         fform.find('[type=\"file\"]').removeClass('required-entry');
                         fform.off('invalid-form.validate');
                     });
-                    fform.triggerHandler('save', [{action: '" . $this->getUploadUrl()  . "'}]);
+                    fform.triggerHandler('save', [{action: '" .
+            $this->getUploadUrl() .
+            "'}]);
                 }
             ";
     }
@@ -110,7 +115,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $wrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
 
         if ($wrapping) {
-            $url = $this->getUrl('adminhtml/*/save', array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()));
+            $url = $this->getUrl(
+                'adminhtml/*/save',
+                array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId())
+            );
         } else {
             $url = $this->getUrl('adminhtml/*/save');
         }

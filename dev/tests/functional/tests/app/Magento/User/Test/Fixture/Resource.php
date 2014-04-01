@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Test\Fixture;
 
 use Mtf\Fixture\DataFixture;
@@ -57,13 +56,15 @@ class Resource extends DataFixture
         'Magento_Paypal::use' => 'Magento_Paypal::billing_agreement_actions',
         'Magento_Sales::transactions' => 'Magento_Sales::sales_operation',
         'Magento_Sales::transactions_fetch' => 'Magento_Sales::transactions',
-        'Magento_Sales::recurring_profile' => 'Magento_Sales::sales_operation',
+        'Magento_Sales::recurring_payment' => 'Magento_Sales::sales_operation',
     );
 
     /**
      * {@inheritdoc}
      */
-    protected function _initData() {}
+    protected function _initData()
+    {
+    }
 
     /**
      * Just a stub of inherited method

@@ -26,7 +26,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
     /**
      * Date
      *
-     * @var \Magento\Core\Model\Date|null
+     * @var \Magento\Stdlib\DateTime\DateTime|null
      */
     protected $_date;
 
@@ -35,7 +35,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Gdata\Gshopping\ContentFactory $contentFactory
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param array $data
      */
@@ -44,7 +44,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
         \Magento\Registry $coreRegistry,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Gdata\Gshopping\ContentFactory $contentFactory,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\GoogleShopping\Helper\Data $gsData,
         array $data = array()
     ) {
@@ -83,8 +83,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
         $entry = $service->insertItem($entry);
         $published = $this->convertContentDateToTimestamp($entry->getPublished()->getText());
 
-        $item->setGcontentItemId($entry->getId())
-            ->setPublished($published);
+        $item->setGcontentItemId($entry->getId())->setPublished($published);
 
         $expires = $this->_getAttributeValue($entry, 'expiration_date');
         if ($expires) {
@@ -153,9 +152,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
     protected function _getAttributeValue($entry, $name)
     {
         $attribute = $entry->getContentAttributeByName($name);
-        return ($attribute instanceof \Magento\Gdata\Gshopping\Extension\Attribute)
-            ? $attribute->text
-            : null;
+        return $attribute instanceof \Magento\Gdata\Gshopping\Extension\Attribute ? $attribute->text : null;
     }
 
     /**
@@ -172,10 +169,13 @@ class Item extends \Magento\GoogleShopping\Model\Service
         $countryInfo = $this->getConfig()->getTargetCountryInfo($storeId);
         $itemId = $this->_gsData->buildContentProductId($item->getProductId(), $item->getStoreId());
 
-        $query = $service->newItemQuery()
-            ->setId($itemId)
-            ->setTargetCountry($this->getConfig()->getTargetCountry($storeId))
-            ->setLanguage($countryInfo['language']);
+        $query = $service->newItemQuery()->setId(
+            $itemId
+        )->setTargetCountry(
+            $this->getConfig()->getTargetCountry($storeId)
+        )->setLanguage(
+            $countryInfo['language']
+        );
 
         return $query;
     }

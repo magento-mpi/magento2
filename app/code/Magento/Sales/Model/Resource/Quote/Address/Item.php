@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Quote\Address;
 
 /**
  * Quote address item resource model
@@ -16,13 +16,12 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Quote\Address;
-
 class Item extends \Magento\Sales\Model\Resource\AbstractResource
 {
     /**
      * Main table and field initialization
      *
+     * @return void
      */
     protected function _construct()
     {

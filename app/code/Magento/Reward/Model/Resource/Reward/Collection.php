@@ -34,8 +34,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addWebsiteFilter($websiteId)
     {
-        $this->getSelect()
-            ->where(is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId);
+        $this->getSelect()->where(
+            is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?',
+            $websiteId
+        );
         return $this;
     }
 }

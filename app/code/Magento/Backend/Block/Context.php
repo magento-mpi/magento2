@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -39,7 +38,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $data
      *
@@ -62,14 +61,30 @@ class Context extends \Magento\View\Element\Context
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\AuthorizationInterface $authorization,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $sidResolver,
-            $storeConfig, $viewUrl, $viewConfig, $cacheState, $logger, $escaper, $filterManager, $locale, $data
+            $request,
+            $layout,
+            $eventManager,
+            $urlBuilder,
+            $translator,
+            $cache,
+            $design,
+            $session,
+            $sidResolver,
+            $storeConfig,
+            $viewUrl,
+            $viewConfig,
+            $cacheState,
+            $logger,
+            $escaper,
+            $filterManager,
+            $localeDate,
+            $data
         );
     }
 

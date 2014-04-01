@@ -38,36 +38,51 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      */
     private $_transportBuilderMock;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
         $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
 
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getStore'))
-            ->getMockForAbstractClass();
-        $this->_storeManagerMock->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $this->_storeManagerMock = $this->getMockBuilder(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array('getStore')
+        )->getMockForAbstractClass();
+        $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $this->_transportBuilderMock = $this->getMock(
-            '\Magento\Mail\Template\TransportBuilder', array(), array(), '', false
+            '\Magento\Mail\Template\TransportBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->_transportBuilderMock->expects($this->any())->method('setTemplateOptions')->will($this->returnSelf());
         $this->_transportBuilderMock->expects($this->any())->method('setTemplateVars')->will($this->returnSelf());
         $this->_transportBuilderMock->expects($this->any())->method('addTo')->will($this->returnSelf());
         $this->_transportBuilderMock->expects($this->any())->method('setFrom')->will($this->returnSelf());
-        $this->_transportBuilderMock->expects($this->any())->method('setTemplateIdentifier')->will($this->returnSelf());
-        $this->_transportBuilderMock->expects($this->any())->method('getTransport')->will(
+        $this->_transportBuilderMock->expects(
+            $this->any()
+        )->method(
+            'setTemplateIdentifier'
+        )->will(
+            $this->returnSelf()
+        );
+        $this->_transportBuilderMock->expects(
+            $this->any()
+        )->method(
+            'getTransport'
+        )->will(
             $this->returnValue($this->getMock('Magento\Mail\TransportInterface'))
         );
 
-        $this->_store->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
+        $this->_store->expects($this->any())->method('getId')->will($this->returnValue(1));
 
 
         $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
@@ -77,11 +92,15 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $context = new \Magento\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
-        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
-            array(), '', false, false);
-        $giftRegistryData->expects($this->any())
-            ->method('getRegistryLink')
-            ->will($this->returnArgument(0));
+        $giftRegistryData = $this->getMock(
+            'Magento\GiftRegistry\Helper\Data',
+            array('getRegistryLink'),
+            array(),
+            '',
+            false,
+            false
+        );
+        $giftRegistryData->expects($this->any())->method('getRegistryLink')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
@@ -96,21 +115,44 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $itemFactory = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', array(), array(), '', false);
         $addressFactory = $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false);
         $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
-        $dateFactory = $this->getMock('Magento\Core\Model\DateFactory', array(), array(), '', false);
+        $dateFactory = $this->getMock('Magento\Stdlib\DateTime\DateTimeFactory', array(), array(), '', false);
         $loggingEventFactory = $this->getMock(
-            'Magento\Logging\Model\Event\ChangesFactory', array(), array(), '', false);
-        $request = $this->getMock(
-            'Magento\App\RequestInterface', array(), array(), '', false);
+            'Magento\Logging\Model\Event\ChangesFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $escaper = $this->getMock('Magento\Escaper', array('escapeHtml'), array(), '', false, false);
-        $escaper->expects($this->any())
-            ->method('escapeHtml')
-            ->will($this->returnArgument(0));
+        $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $context, $coreRegistry, $giftRegistryData, $this->_storeManagerMock, $translate,
-            $this->_transportBuilderMock, $type, $attributeConfig, $item, $inventoryStockItem, $session,
-            $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
-            $dateFactory, $loggingEventFactory, $request, $escaper, $mathRandom, $resource, null, array()
+            $context,
+            $coreRegistry,
+            $giftRegistryData,
+            $this->_storeManagerMock,
+            $translate,
+            $this->_transportBuilderMock,
+            $type,
+            $attributeConfig,
+            $item,
+            $inventoryStockItem,
+            $session,
+            $quoteFactory,
+            $customerFactory,
+            $personFactory,
+            $itemFactory,
+            $addressFactory,
+            $productFactory,
+            $dateFactory,
+            $loggingEventFactory,
+            $request,
+            $escaper,
+            $mathRandom,
+            $resource,
+            null,
+            array()
         );
     }
 
@@ -119,7 +161,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedResult
      * @dataProvider invalidSenderAndRecipientInfoDataProvider
      */
-    public function testSendShareRegistryEmailsWithInvalidSenderAndRecipientInfoReturnsError($arguments,
+    public function testSendShareRegistryEmailsWithInvalidSenderAndRecipientInfoReturnsError(
+        $arguments,
         $expectedResult
     ) {
         $this->_initSenderInfo($arguments['sender_name'], $arguments['sender_message'], $arguments['sender_email']);
@@ -132,10 +175,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
     public function invalidSenderAndRecipientInfoDataProvider()
     {
-        return array_merge(
-            $this->_invalidRecipientInfoDataProvider(),
-            $this->_invalidSenderInfoDataProvider()
-        );
+        return array_merge($this->_invalidRecipientInfoDataProvider(), $this->_invalidSenderInfoDataProvider());
     }
 
     /**
@@ -153,10 +193,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
                     'sender_email' => 'email',
                     'recipients' => array()
                 ),
-                array(
-                    'success' => false,
-                    'error_message' => 'You need to enter sender data.'
-                )
+                array('success' => false, 'error_message' => 'You need to enter sender data.')
             ),
             array(
                 array(
@@ -165,10 +202,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
                     'sender_email' => 'email',
                     'recipients' => array()
                 ),
-                array(
-                    'success' => false,
-                    'error_message' => 'You need to enter sender data.'
-                )
+                array('success' => false, 'error_message' => 'You need to enter sender data.')
             ),
             array(
                 array(
@@ -177,10 +211,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
                     'sender_email' => null,
                     'recipients' => array()
                 ),
-                array(
-                    'success' => false,
-                    'error_message' => 'You need to enter sender data.'
-                )
+                array('success' => false, 'error_message' => 'You need to enter sender data.')
             ),
             array(
                 array(
@@ -189,10 +220,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
                     'sender_email' => 'invalid_email',
                     'recipients' => array()
                 ),
-                array(
-                    'success' => false,
-                    'error_message' => 'Please enter a valid sender email address.'
-                )
+                array('success' => false, 'error_message' => 'Please enter a valid sender email address.')
             )
         );
     }
@@ -210,29 +238,18 @@ class EntityTest extends \PHPUnit_Framework_TestCase
                     'sender_name' => 'John Doe',
                     'sender_message' => 'Hello world',
                     'sender_email' => 'john.doe@example.com',
-                    'recipients' => array(array(
-                        'email' => 'invalid_email'
-                    ))
+                    'recipients' => array(array('email' => 'invalid_email'))
                 ),
-                array(
-                    'success' => false,
-                    'error_message' => 'Please enter a valid recipient email address.'
-                )
+                array('success' => false, 'error_message' => 'Please enter a valid recipient email address.')
             ),
             array(
                 array(
                     'sender_name' => 'John Doe',
                     'sender_message' => 'Hello world',
                     'sender_email' => 'john.doe@example.com',
-                    'recipients' => array(array(
-                        'email' => 'john.doe@example.com',
-                        'name' => ''
-                    ))
+                    'recipients' => array(array('email' => 'john.doe@example.com', 'name' => ''))
                 ),
-                array(
-                    'success' => false,
-                    'error_message' => 'Please enter a recipient name.'
-                )
+                array('success' => false, 'error_message' => 'Please enter a recipient name.')
             ),
             array(
                 array(
@@ -241,10 +258,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
                     'sender_email' => 'john.doe@example.com',
                     'recipients' => array()
                 ),
-                array(
-                    'success' => false,
-                    'error_message' => null
-                )
+                array('success' => false, 'error_message' => null)
             )
         );
     }
@@ -259,9 +273,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      */
     protected function _initSenderInfo($senderName, $senderMessage, $senderEmail)
     {
-        $this->_model
-            ->setSenderName($senderName)
-            ->setSenderMessage($senderMessage)
-            ->setSenderEmail($senderEmail);
+        $this->_model->setSenderName($senderName)->setSenderMessage($senderMessage)->setSenderEmail($senderEmail);
     }
 }

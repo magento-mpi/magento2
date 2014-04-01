@@ -7,21 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners;
 
 use Magento\Backend\Block\Widget\Grid\Column;
 
-class Grid
-    extends \Magento\Banner\Block\Adminhtml\Banner\Grid
+class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
      * Banner model
      *
      * @var \Magento\Banner\Model\BannerFactory
      */
-
     protected $_bannerFactory = null;
+
     /**
      * Core registry
      *
@@ -74,14 +72,17 @@ class Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('in_banners', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'name'      => 'in_banners',
-            'values'    => $this->_getSelectedBanners(),
-            'align'     => 'center',
-            'index'     => 'banner_id'
-        ));
+        $this->addColumn(
+            'in_banners',
+            array(
+                'header_css_class' => 'a-center',
+                'type' => 'checkbox',
+                'name' => 'in_banners',
+                'values' => $this->_getSelectedBanners(),
+                'align' => 'center',
+                'index' => 'banner_id'
+            )
+        );
         parent::_prepareColumns();
     }
 

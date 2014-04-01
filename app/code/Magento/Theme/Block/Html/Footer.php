@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
  * Html page footer block
  */
-class Footer extends \Magento\View\Element\Template
+class Footer extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Copyright information
@@ -21,21 +20,21 @@ class Footer extends \Magento\View\Element\Template
     protected $_copyright;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
     }
 
@@ -46,13 +45,12 @@ class Footer extends \Magento\View\Element\Template
      */
     protected function _construct()
     {
-        $this->addData(array(
-            'cache_lifetime'=> false,
-            'cache_tags' => array(
-                \Magento\Core\Model\Store::CACHE_TAG,
-                \Magento\Cms\Model\Block::CACHE_TAG,
+        $this->addData(
+            array(
+                'cache_lifetime' => false,
+                'cache_tags' => array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
             )
-        ));
+        );
     }
 
     /**
@@ -67,7 +65,7 @@ class Footer extends \Magento\View\Element\Template
             $this->_storeManager->getStore()->getId(),
             (int)$this->_storeManager->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            $this->_customerSession->isLoggedIn(),
+            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH),
         );
     }
 
@@ -82,5 +80,15 @@ class Footer extends \Magento\View\Element\Template
             $this->_copyright = $this->_storeConfig->getConfig('design/footer/copyright');
         }
         return $this->_copyright;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
     }
 }

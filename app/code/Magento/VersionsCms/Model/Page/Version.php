@@ -35,7 +35,9 @@ class Version extends \Magento\Core\Model\AbstractModel
      * Access level constants
      */
     const ACCESS_LEVEL_PRIVATE = 'private';
+
     const ACCESS_LEVEL_PROTECTED = 'protected';
+
     const ACCESS_LEVEL_PUBLIC = 'public';
 
     /**
@@ -59,7 +61,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     protected $_cmsIncrementFactory;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -82,7 +84,7 @@ class Version extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsResourceIncrement
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
@@ -96,7 +98,7 @@ class Version extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
-        \Magento\Core\Model\Date $coreDate,
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\VersionsCms\Model\Resource\Increment $cmsResourceIncrement,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
@@ -182,12 +184,15 @@ class Version extends \Magento\Core\Model\AbstractModel
             if ($this->getInitialRevisionData()) {
                 $revision->setData($this->getInitialRevisionData());
             } else {
-                $revision->loadWithRestrictions($accessLevel, $userId, $this->getOrigData($this->getIdFieldName()), 'version_id');
+                $revision->loadWithRestrictions(
+                    $accessLevel,
+                    $userId,
+                    $this->getOrigData($this->getIdFieldName()),
+                    'version_id'
+                );
             }
 
-            $revision->setVersionId($this->getId())
-                ->setUserId($userId)
-                ->save();
+            $revision->setVersionId($this->getId())->setUserId($userId)->save();
 
             $this->setLastRevision($revision);
         }

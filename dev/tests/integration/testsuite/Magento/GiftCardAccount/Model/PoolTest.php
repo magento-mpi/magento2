@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model;
 
 class PoolTest extends \PHPUnit_Framework_TestCase
@@ -17,8 +16,9 @@ class PoolTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftCardAccount\Model\Pool');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\GiftCardAccount\Model\Pool'
+        );
     }
 
     /**

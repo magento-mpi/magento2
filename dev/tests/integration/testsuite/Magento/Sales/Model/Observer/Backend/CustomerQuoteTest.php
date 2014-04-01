@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Observer\Backend;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -40,7 +39,7 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
         );
 
         /**
-         * 'customer_save_after_dto' event is expected to be dispatched when customer save is invoked.
+         * 'customer_save_after_data_object' event is expected to be dispatched when customer save is invoked.
          * \Magento\Sales\Model\Observer\Backend\CustomerQuote::dispatch() is an observer of this event.
          */
         $newCustomerGroupId = 2;
@@ -50,8 +49,8 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $newCustomerGroupId,
             $quote->getCustomerGroupId(),
-            'Customer group in quote was not updated on "customer_save_after_dto" event '
-                . 'by Magento\Sales\Model\Observer\Backend\CustomerQuote::dispatch().'
+            'Customer group in quote was not updated on "customer_save_after_data_object" event ' .
+            'by Magento\Sales\Model\Observer\Backend\CustomerQuote::dispatch().'
         );
     }
 }

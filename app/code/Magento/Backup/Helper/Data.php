@@ -52,7 +52,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
-        $this->_filesystem = $filesystem;        
+        $this->_filesystem = $filesystem;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_processFactory = $processFactory;
     }
@@ -65,9 +65,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getBackupTypes()
     {
         return array(
-            \Magento\Backup\Factory::TYPE_DB                     => __('Database'),
-            \Magento\Backup\Factory::TYPE_MEDIA                  => __('Database and Media'),
-            \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT        => __('System'),
+            \Magento\Backup\Factory::TYPE_DB => __('Database'),
+            \Magento\Backup\Factory::TYPE_MEDIA => __('Database and Media'),
+            \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => __('System'),
             \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => __('System (excluding Media)')
         );
     }
@@ -143,8 +143,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function generateBackupDownloadName(\Magento\Backup\Model\Backup $backup)
     {
         $additionalExtension = $backup->getType() == \Magento\Backup\Factory::TYPE_DB ? '.sql' : '';
-        return $backup->getType() . '-' . date('YmdHis', $backup->getTime()) . $additionalExtension . '.'
-            . $this->getExtensionByType($backup->getType());
+        return $backup->getTime() .
+            '_' .
+            $backup->getType() .
+            '_' .
+            $backup->getName() .
+            $additionalExtension .
+            '.' .
+            $this->getExtensionByType(
+                $backup->getType()
+            );
     }
 
     /**
@@ -154,7 +162,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isRollbackAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_Backup::rollback' );
+        return $this->_authorization->isAllowed('Magento_Backup::rollback');
     }
 
     /**
@@ -173,7 +181,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $this->_filesystem->getPath(\Magento\App\Filesystem::LOG_DIR),
             $this->_filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . '/full_page_cache',
             $this->_filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . '/locks',
-            $this->_filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . '/report',
+            $this->_filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . '/report'
         );
     }
 
@@ -193,7 +201,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $this->_filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . '/locks',
             $this->_filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . '/report',
             $this->_filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/errors',
-            $this->_filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/index.php',
+            $this->_filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/index.php'
         );
     }
 
@@ -205,9 +213,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function turnOnMaintenanceMode()
     {
         $maintenanceFlagFile = $this->getMaintenanceFlagFilePath();
-        $result = $this->_filesystem
-            ->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR)
-            ->writeFile($maintenanceFlagFile, 'maintenance');
+        $result = $this->_filesystem->getDirectoryWrite(
+            \Magento\App\Filesystem::ROOT_DIR
+        )->writeFile(
+            $maintenanceFlagFile,
+            'maintenance'
+        );
 
         return $result !== false;
     }
@@ -233,7 +244,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $messagesMap = array(
             \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => __('The system backup has been created.'),
-            \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => __('The system backup (excluding media) has been created.'),
+            \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => __(
+                'The system backup (excluding media) has been created.'
+            ),
             \Magento\Backup\Factory::TYPE_MEDIA => __('The database and media backup has been created.'),
             \Magento\Backup\Factory::TYPE_DB => __('The database backup has been created.')
         );
@@ -306,7 +319,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $filenameWithoutExtension = $filename;
 
         foreach ($extensions as $extension) {
-            $filenameWithoutExtension = preg_replace('/' . preg_quote($extension, '/') . '$/', '',
+            $filenameWithoutExtension = preg_replace(
+                '/' . preg_quote($extension, '/') . '$/',
+                '',
                 $filenameWithoutExtension
             );
         }
@@ -322,11 +337,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
 
         $result = new \Magento\Object();
-        $result->addData(array(
-            'name' => $name,
-            'type' => $type,
-            'time' => $time
-        ));
+        $result->addData(array('name' => $name, 'type' => $type, 'time' => $time));
 
         return $result;
     }

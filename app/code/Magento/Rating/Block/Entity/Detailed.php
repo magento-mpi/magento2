@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Block\Entity;
 
 /**
  * Entity rating block
@@ -15,8 +16,6 @@
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rating\Block\Entity;
-
 class Detailed extends \Magento\View\Element\Template
 {
     /**
@@ -53,21 +52,20 @@ class Detailed extends \Magento\View\Element\Template
             return '';
         }
 
-        $reviewsCount = $this->_ratingFactory->create()
-            ->getTotalReviews($entityId, true);
+        $reviewsCount = $this->_ratingFactory->create()->getTotalReviews($entityId, true);
         if ($reviewsCount == 0) {
             #return __('Be the first to review this product');
             $this->setTemplate('empty.phtml');
             return parent::_toHtml();
         }
 
-        $ratingCollection = $this->_ratingFactory->create()
-            ->getResourceCollection()
-            ->addEntityFilter('product') # TOFIX
-            ->setPositionOrder()
-            ->setStoreFilter($this->_storeManager->getStore()->getId())
-            ->addRatingPerStoreName($this->_storeManager->getStore()->getId())
-            ->load();
+        $ratingCollection = $this->_ratingFactory->create()->getResourceCollection()->addEntityFilter(
+            'product' # TOFIX
+        )->setPositionOrder()->setStoreFilter(
+            $this->_storeManager->getStore()->getId()
+        )->addRatingPerStoreName(
+            $this->_storeManager->getStore()->getId()
+        )->load();
 
         if ($entityId) {
             $ratingCollection->addEntitySummaryToItem($entityId, $this->_storeManager->getStore()->getId());

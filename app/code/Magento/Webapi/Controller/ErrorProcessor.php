@@ -14,13 +14,16 @@ class ErrorProcessor
     const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
 
     const DEFAULT_ERROR_HTTP_CODE = 500;
+
     const DEFAULT_RESPONSE_CHARSET = 'UTF-8';
 
     /**#@+
      * Error data representation formats.
      */
     const DATA_FORMAT_JSON = 'json';
+
     const DATA_FORMAT_XML = 'xml';
+
     /**#@-*/
 
     /** @var \Magento\Core\Helper\Data */
@@ -54,7 +57,7 @@ class ErrorProcessor
      */
     public function __construct(
         \Magento\Core\Helper\Data $helper,
-        \Magento\Core\Model\App $app,
+        \Magento\AppInterface $app,
         \Magento\Logger $logger,
         \Magento\App\Filesystem $filesystem
     ) {
@@ -136,7 +139,7 @@ class ErrorProcessor
                 $httpCode
             );
         }
-        die();
+        exit;
     }
 
     /**
@@ -151,7 +154,7 @@ class ErrorProcessor
         $reportId = uniqid("webapi-");
         $exceptionForLog = new $exceptionClass(
             /** Trace is added separately by logException. */
-            "Report ID: $reportId; Message: {$exception->getMessage()}",
+            "Report ID: {$reportId}; Message: {$exception->getMessage()}",
             $exception->getCode()
         );
         $this->_logger->logException($exceptionForLog);
@@ -208,18 +211,24 @@ class ErrorProcessor
                 $errorData = $this->_coreHelper->jsonEncode($errorData);
                 break;
             case self::DATA_FORMAT_XML:
-                $errorData = '<?xml version="1.0"?>'
-                    . '<error>'
-                    . '<messages>'
-                    . '<error>'
-                    . '<data_item>'
-                    . '<code>' . $httpCode . '</code>'
-                    . '<message><![CDATA[' . $errorMessage . ']]></message>'
-                    . ($this->_app->isDeveloperMode() ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
-                    . '</data_item>'
-                    . '</error>'
-                    . '</messages>'
-                    . '</error>';
+                $errorData = '<?xml version="1.0"?>' .
+                    '<error>' .
+                    '<messages>' .
+                    '<error>' .
+                    '<data_item>' .
+                    '<code>' .
+                    $httpCode .
+                    '</code>' .
+                    '<message><![CDATA[' .
+                    $errorMessage .
+                    ']]></message>' .
+                    ($this->_app->isDeveloperMode() ? '<trace><![CDATA[' .
+                    $trace .
+                    ']]></trace>' : '') .
+                    '</data_item>' .
+                    '</error>' .
+                    '</messages>' .
+                    '</error>';
                 break;
         }
         return $errorData;
@@ -245,7 +254,7 @@ class ErrorProcessor
     {
         $fatalErrorFlag = E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR;
         $error = error_get_last();
-        if ($error && ($error['type'] & $fatalErrorFlag)) {
+        if ($error && $error['type'] & $fatalErrorFlag) {
             $errorMessage = "Fatal Error: '{$error['message']}' in '{$error['file']}' on line {$error['line']}";
             $reportId = $this->_saveFatalErrorReport($errorMessage);
             if ($this->_app->isDeveloperMode()) {

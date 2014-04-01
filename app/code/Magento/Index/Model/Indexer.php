@@ -84,7 +84,6 @@ class Indexer
         return $this->_processesCollection;
     }
 
-
     /**
      * Get index process by specific id
      *
@@ -126,7 +125,7 @@ class Indexer
      * @return  $this
      * @throws \Exception
      */
-    public function indexEvents($entity=null, $type=null)
+    public function indexEvents($entity = null, $type = null)
     {
         $this->_eventManager->dispatch('start_index_events' . $this->_getEventTypeName($entity, $type));
         $this->_resourceProcess->beginTransaction();
@@ -174,13 +173,17 @@ class Indexer
      * @param   bool $doSave
      * @return  Event
      */
-    public function logEvent(\Magento\Object $entity, $entityType, $eventType, $doSave=true)
+    public function logEvent(\Magento\Object $entity, $entityType, $eventType, $doSave = true)
     {
-        $event = $this->_indexEventFactory->create()
-            ->setEntity($entityType)
-            ->setType($eventType)
-            ->setDataObject($entity)
-            ->setEntityPk($entity->getId());
+        $event = $this->_indexEventFactory->create()->setEntity(
+            $entityType
+        )->setType(
+            $eventType
+        )->setDataObject(
+            $entity
+        )->setEntityPk(
+            $entity->getId()
+        );
 
         $this->registerEvent($event);
         if ($doSave) {
@@ -285,7 +288,8 @@ class Indexer
                             $hasLocks = true;
                         } else {
                             call_user_func_array(array($dependProcess, $method), $args);
-                            if ($checkLocks && $dependProcess->getMode() == \Magento\Index\Model\Process::MODE_MANUAL) {
+                            if ($checkLocks && $dependProcess->getMode() == \Magento\Index\Model\Process::MODE_MANUAL
+                            ) {
                                 $hasLocks = true;
                             } else {
                                 $processed[] = $processCode;

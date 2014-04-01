@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -75,7 +74,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare edit form
      *
-     * @return \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -86,73 +85,85 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $actionParams['id'] = $model->getId();
         }
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'edit_form',
-                'action' => $this->getUrl('adminhtml/*/save', $actionParams),
-                'method' => 'post',
-                'field_name_suffix' => 'wrapping',
-                'enctype'=> 'multipart/form-data',
-            ))
+        $form = $this->_formFactory->create(
+            array(
+                'data' => array(
+                    'id' => 'edit_form',
+                    'action' => $this->getUrl('adminhtml/*/save', $actionParams),
+                    'method' => 'post',
+                    'field_name_suffix' => 'wrapping',
+                    'enctype' => 'multipart/form-data'
+                )
+            )
         );
 
-        $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'=>__('Gift Wrapping Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Gift Wrapping Information')));
         $this->_addElementTypes($fieldset);
 
-        $fieldset->addField('design', 'text', array(
-            'label'    => __('Gift Wrapping Design'),
-            'name'     => 'design',
-            'required' => true,
-            'value'    => $model->getDesign(),
-            'scope'    => 'store'
-        ));
+        $fieldset->addField(
+            'design',
+            'text',
+            array(
+                'label' => __('Gift Wrapping Design'),
+                'name' => 'design',
+                'required' => true,
+                'value' => $model->getDesign(),
+                'scope' => 'store'
+            )
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $field = $fieldset->addField('website_ids', 'multiselect', array(
-                'name'     => 'website_ids',
-                'required' => true,
-                'label'    => __('Websites'),
-                'values'   => $this->_systemStore->getWebsiteValuesForForm(),
-                'value'    => $model->getWebsiteIds(),
-            ));
+            $field = $fieldset->addField(
+                'website_ids',
+                'multiselect',
+                array(
+                    'name' => 'website_ids',
+                    'required' => true,
+                    'label' => __('Websites'),
+                    'values' => $this->_systemStore->getWebsiteValuesForForm(),
+                    'value' => $model->getWebsiteIds()
+                )
+            );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
             );
             $field->setRenderer($renderer);
         }
 
-        $fieldset->addField('status', 'select', array(
-            'label'    => __('Status'),
-            'name'     => 'status',
-            'required' => true,
-            'options'  => array(
-                '1' => __('Enabled'),
-                '0' => __('Disabled'),
+        $fieldset->addField(
+            'status',
+            'select',
+            array(
+                'label' => __('Status'),
+                'name' => 'status',
+                'required' => true,
+                'options' => array('1' => __('Enabled'), '0' => __('Disabled'))
             )
-        ));
+        );
 
         $fieldset->addType('price', 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price');
-        $fieldset->addField('base_price', 'price', array(
-            'label'    => __('Price'),
-            'name'     => 'base_price',
-            'required' => true,
-            'class'    => 'validate-not-negative-number',
-            'after_element_html' => '<strong>[' .  $this->_directoryHelper->getBaseCurrencyCode() . ']</strong>'
-        ));
+        $fieldset->addField(
+            'base_price',
+            'price',
+            array(
+                'label' => __('Price'),
+                'name' => 'base_price',
+                'required' => true,
+                'class' => 'validate-not-negative-number',
+                'after_element_html' => '<strong>[' . $this->_directoryHelper->getBaseCurrencyCode() . ']</strong>'
+            )
+        );
 
-        $uploadButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label' => __('Upload File'),
-                'id' => 'upload_image_button',
-                'onclick' => 'uploadImagesForPreview()'
-            ));
+        $uploadButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('Upload File'), 'id' => 'upload_image_button', 'onclick' => 'uploadImagesForPreview()')
+        );
 
-        $fieldset->addField('image', 'image', array(
-                'label' => __('Image'),
-                'name'  => 'image_name',
-                'after_element_html' => $uploadButton->toHtml()
-             )
+        $fieldset->addField(
+            'image',
+            'image',
+            array('label' => __('Image'), 'name' => 'image_name', 'after_element_html' => $uploadButton->toHtml())
         );
 
         if (!$model->getId()) {
@@ -160,9 +171,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         if ($model->hasTmpImage()) {
-            $fieldset->addField('tmp_image', 'hidden', array(
-                'name' => 'tmp_image',
-            ));
+            $fieldset->addField('tmp_image', 'hidden', array('name' => 'tmp_image'));
         }
         $this->setForm($form);
         $form->setValues($model->getData());

@@ -37,10 +37,8 @@ class Data extends AbstractHelper
      * @param Context $context
      * @param Config $coreStoreConfig
      */
-    public function __construct(
-        Context $context,
-        Config $coreStoreConfig
-    ) {
+    public function __construct(Context $context, Config $coreStoreConfig)
+    {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }

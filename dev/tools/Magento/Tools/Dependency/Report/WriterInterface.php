@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report;
 
 use Magento\Tools\Dependency\Report\Data\ConfigInterface;
@@ -20,6 +19,7 @@ interface WriterInterface
      *
      * @param array $options
      * @param \Magento\Tools\Dependency\Report\Data\ConfigInterface $config
+     * @return void
      */
     public function write(array $options, ConfigInterface $config);
 }

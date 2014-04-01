@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address\Total;
 
 /**
  * Address Total Collector model
  */
-namespace Magento\Sales\Model\Quote\Address\Total;
-
 class Collector extends \Magento\Sales\Model\Config\Ordered
 {
     /**
@@ -126,16 +125,15 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
         $model = $this->_totalFactory->create($class);
         if (!$model instanceof \Magento\Sales\Model\Quote\Address\Total\AbstractTotal) {
             throw new \Magento\Core\Exception(
-                __('The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal.')
+                __(
+                    'The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal.'
+                )
             );
         }
 
         $model->setCode($totalCode);
-        $this->_modelsConfig[$totalCode]= $this->_prepareConfigArray($totalCode, $totalConfig);
-        $this->_modelsConfig[$totalCode]= $model->processConfigArray(
-            $this->_modelsConfig[$totalCode],
-            $this->_store
-        );
+        $this->_modelsConfig[$totalCode] = $this->_prepareConfigArray($totalCode, $totalConfig);
+        $this->_modelsConfig[$totalCode] = $model->processConfigArray($this->_modelsConfig[$totalCode], $this->_store);
 
         return $model;
     }
@@ -143,7 +141,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Initialize retrievers array
      *
-     * @return \Magento\Sales\Model\Quote\Address\Total\Collector
+     * @return $this
      */
     protected function _initRetrievers()
     {
@@ -151,7 +149,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
         foreach ($sorts as $code => $sortOrder) {
             if (isset($this->_models[$code])) {
                 // Reserve enough space for collisions
-                $retrieverId = 100 * (int) $sortOrder;
+                $retrieverId = 100 * (int)$sortOrder;
                 // Check if there is a retriever with such id and find next available position if needed
                 while (isset($this->_retrievers[$retrieverId])) {
                     $retrieverId++;

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source\Locale\Currency;
 
 class All implements \Magento\Option\ArrayInterface
@@ -18,16 +17,16 @@ class All implements \Magento\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\ListsInterface
      */
-    protected $_locale;
+    protected $_localeLists;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\ListsInterface $localeLists
      */
-    public function __construct(\Magento\LocaleInterface $locale)
+    public function __construct(\Magento\Locale\ListsInterface $localeLists)
     {
-        $this->_locale = $locale;
+        $this->_localeLists = $localeLists;
     }
 
     /**
@@ -37,11 +36,11 @@ class All implements \Magento\Option\ArrayInterface
     public function toOptionArray($isMultiselect = false)
     {
         if (!$this->_options) {
-            $this->_options = $this->_locale->getOptionAllCurrencies();
+            $this->_options = $this->_localeLists->getOptionAllCurrencies();
         }
         $options = $this->_options;
         if (!$isMultiselect) {
-            array_unshift($options, array('value'=>'', 'label'=>''));
+            array_unshift($options, array('value' => '', 'label' => ''));
         }
 
         return $options;

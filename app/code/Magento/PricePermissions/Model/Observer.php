@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PricePermissions\Model;
 
 use Magento\Backend\Block\Template;
@@ -64,18 +63,34 @@ class Observer
     protected $_filterRules = array(
         '_removeStatusMassaction' => array('product.grid', 'admin.product.grid'),
         '_removeColumnPrice' => array(
-            'catalog.product.edit.tab.related', 'catalog.product.edit.tab.upsell',
-            'catalog.product.edit.tab.crosssell', 'category.product.grid', 'products', 'wishlist', 'compared',
-            'rcompared', 'rviewed', 'ordered', 'checkout.accordion.products', 'checkout.accordion.wishlist',
-            'checkout.accordion.compared', 'checkout.accordion.rcompared', 'checkout.accordion.rviewed',
-            'checkout.accordion.ordered', 'adminhtml.catalog.product.edit.tab.bundle.option.search.grid',
-            'admin.product.edit.tab.super.config.grid', 'catalog.product.edit.tab.super.group', 'product.grid',
-            'admin.product.grid'),
+            'catalog.product.edit.tab.related',
+            'catalog.product.edit.tab.upsell',
+            'catalog.product.edit.tab.crosssell',
+            'category.product.grid',
+            'products',
+            'wishlist',
+            'compared',
+            'rcompared',
+            'rviewed',
+            'ordered',
+            'checkout.accordion.products',
+            'checkout.accordion.wishlist',
+            'checkout.accordion.compared',
+            'checkout.accordion.rcompared',
+            'checkout.accordion.rviewed',
+            'checkout.accordion.ordered',
+            'adminhtml.catalog.product.edit.tab.bundle.option.search.grid',
+            'admin.product.edit.tab.super.config.grid',
+            'catalog.product.edit.tab.super.group',
+            'product.grid',
+            'admin.product.grid'
+        ),
         '_removeColumnsPriceTotal' => array('admin.customer.view.cart'),
         '_setCanReadPriceFalse' => array('checkout.items', 'items'),
         '_setCanEditReadPriceFalse' => array(
             'catalog.product.edit.tab.downloadable.links',
-            'adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
+            'adminhtml.catalog.product.bundle.edit.tab.attributes.price'
+        ),
         '_setOptionsEditReadFalse' => array('admin.product.options'),
         '_setCanEditReadDefaultPrice' => array('adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
         '_setCanEditReadChildBlock' => array('adminhtml.catalog.product.edit.tab.bundle.option'),
@@ -132,7 +147,7 @@ class Observer
         \Magento\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\ProductFactory  $productFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -374,12 +389,12 @@ class Observer
      */
     public function viewBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block \Magento\View\Element\AbstractBlock */
+        /** @var $block \Magento\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
-            // Handle product Recurring Profile tab
-            case 'adminhtml_recurring_profile_edit_form' :
+            // Handle product Recurring Payment tab
+            case 'adminhtml_recurring_payment_edit_form':
                 if (!$this->_coreRegistry->registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
                         $block->setProductEntity($this->_productFactory->create());
@@ -389,26 +404,28 @@ class Observer
                     $block->setIsReadonly(true);
                 }
                 break;
-            case 'adminhtml_recurring_profile_edit_form_dependence' :
+            case 'adminhtml_recurring_payment_edit_form_dependence':
                 if (!$this->_canEditProductPrice) {
                     $block->addConfigOptions(array('can_edit_price' => false));
                     if (!$this->_canReadProductPrice) {
-                        $dependenceValue = ($this->_coreRegistry->registry('product')->getIsRecurring()) ? '0' : '1';
+                        $dependenceValue = $this->_coreRegistry->registry('product')->getIsRecurring() ? '0' : '1';
                         // Override previous dependence value
-                        $block->addFieldDependence('product[recurring_profile]', 'product[is_recurring]',
-                            $dependenceValue);
+                        $block->addFieldDependence(
+                            'product[recurring_payment]',
+                            'product[is_recurring]',
+                            $dependenceValue
+                        );
                     }
                 }
                 break;
-            // Handle MAP functionality for bundle products
-            case 'adminhtml.catalog.product.edit.tab.attributes' :
+                // Handle MAP functionality for bundle products
+            case 'adminhtml.catalog.product.edit.tab.attributes':
                 if (!$this->_canEditProductPrice) {
                     $block->setCanEditPrice(false);
                 }
                 break;
         }
     }
-
 
     /**
      * Handle catalog_product_load_after event
@@ -500,9 +517,22 @@ class Observer
 
         if (!$this->_canEditProductPrice) {
             $excludedFieldList = array(
-                'price', 'special_price', 'tier_price', 'group_price', 'special_from_date', 'special_to_date',
-                'is_recurring', 'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount',
-                'giftcard_amounts', 'msrp_enabled', 'msrp_display_actual_price_type', 'msrp'
+                'price',
+                'special_price',
+                'tier_price',
+                'group_price',
+                'special_from_date',
+                'special_to_date',
+                'is_recurring',
+                'cost',
+                'price_type',
+                'open_amount_max',
+                'open_amount_min',
+                'allow_open_amount',
+                'giftcard_amounts',
+                'msrp_enabled',
+                'msrp_display_actual_price_type',
+                'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -526,9 +556,22 @@ class Observer
 
         if (!$this->_canEditProductPrice) {
             $excludedAttributes = array(
-                'price', 'special_price', 'tier_price', 'group_price', 'special_from_date', 'special_to_date',
-                'is_recurring', 'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount',
-                'giftcard_amounts', 'msrp_enabled', 'msrp_display_actual_price_type', 'msrp'
+                'price',
+                'special_price',
+                'tier_price',
+                'group_price',
+                'special_from_date',
+                'special_to_date',
+                'is_recurring',
+                'cost',
+                'price_type',
+                'open_amount_max',
+                'open_amount_min',
+                'allow_open_amount',
+                'giftcard_amounts',
+                'msrp_enabled',
+                'msrp_display_actual_price_type',
+                'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -598,10 +641,17 @@ class Observer
             }
 
             if (!$this->_canEditProductPrice) {
-                // Handle Recurring Profile tab
-                if ($form->getElement('recurring_profile')) {
-                    $form->getElement('recurring_profile')->setReadonly(true, true)->getForm()
-                        ->setReadonly(true, true);
+                // Handle Recurring Payment tab
+                if ($form->getElement('recurring_payment')) {
+                    $form->getElement(
+                        'recurring_payment'
+                    )->setReadonly(
+                        true,
+                        true
+                    )->getForm()->setReadonly(
+                        true,
+                        true
+                    );
                 }
             }
 
@@ -609,24 +659,26 @@ class Observer
                 if (!$this->_canEditProductPrice) {
                     // For each type of products accept except Bundle products, set default value for price if allowed
                     $priceElement = $form->getElement('price');
-                    if (!is_null($priceElement)
-                        && $this->_canReadProductPrice
-                        && ($typeId != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
+                    if (!is_null(
+                        $priceElement
+                    ) && $this->_canReadProductPrice && $typeId != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
                     ) {
                         $priceElement->setValue($this->_defaultProductPriceString);
                     }
                     // For giftcard products set default amount
                     $amountsElement = $form->getElement('giftcard_amounts');
                     if (!is_null($amountsElement)) {
-                        $storeId = (int) $this->_request->getParam('store', 0);
+                        $storeId = (int)$this->_request->getParam('store', 0);
                         $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
-                        $amountsElement->setValue(array(
+                        $amountsElement->setValue(
                             array(
-                                'website_id'    => $websiteId,
-                                'value'         => $this->_defaultProductPriceString,
-                                'website_value' => (float) $this->_defaultProductPriceString
+                                array(
+                                    'website_id' => $websiteId,
+                                    'value' => $this->_defaultProductPriceString,
+                                    'website_value' => (double)$this->_defaultProductPriceString
+                                )
                             )
-                        ));
+                        );
                     }
                 }
             }

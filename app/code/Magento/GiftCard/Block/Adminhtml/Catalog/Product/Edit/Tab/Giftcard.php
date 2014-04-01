@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
-class Giftcard
- extends \Magento\Backend\Block\Widget
- implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
 
     /**
@@ -133,9 +133,9 @@ class Giftcard
     public function getCardTypes()
     {
         return array(
-            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL => __('Virtual'),
             \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
-            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined')
         );
     }
 
@@ -155,6 +155,10 @@ class Giftcard
         return $result;
     }
 
+    /**
+     * @param string $field
+     * @return null|string
+     */
     public function getConfigValue($field)
     {
         return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);

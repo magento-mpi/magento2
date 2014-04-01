@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block\Adminhtml\Search;
 
 /**
  * Search queries relations grid container
@@ -15,13 +16,12 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Adminhtml\Search;
-
 class Edit extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Enable grid container
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,5 +32,4 @@ class Edit extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

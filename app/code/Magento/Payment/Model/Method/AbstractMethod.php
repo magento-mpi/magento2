@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Payment\Model\Method;
+
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Payment;
 
@@ -14,27 +15,38 @@ use Magento\Sales\Model\Order\Payment;
  */
 abstract class AbstractMethod extends \Magento\Object implements \Magento\Payment\Model\MethodInterface
 {
-    const ACTION_ORDER             = 'order';
-    const ACTION_AUTHORIZE         = 'authorize';
+    const ACTION_ORDER = 'order';
+
+    const ACTION_AUTHORIZE = 'authorize';
+
     const ACTION_AUTHORIZE_CAPTURE = 'authorize_capture';
 
-    const STATUS_UNKNOWN    = 'UNKNOWN';
-    const STATUS_APPROVED   = 'APPROVED';
-    const STATUS_ERROR      = 'ERROR';
-    const STATUS_DECLINED   = 'DECLINED';
-    const STATUS_VOID       = 'VOID';
-    const STATUS_SUCCESS    = 'SUCCESS';
+    const STATUS_UNKNOWN = 'UNKNOWN';
+
+    const STATUS_APPROVED = 'APPROVED';
+
+    const STATUS_ERROR = 'ERROR';
+
+    const STATUS_DECLINED = 'DECLINED';
+
+    const STATUS_VOID = 'VOID';
+
+    const STATUS_SUCCESS = 'SUCCESS';
 
     /**
-     * Bit masks to specify different payment method checks.
-     * @see \Magento\Payment\Model\Method\AbstractMethod::isApplicableToQuote
+     * Different payment method checks.
      */
-    const CHECK_USE_FOR_COUNTRY       = 1;
-    const CHECK_USE_FOR_CURRENCY      = 2;
-    const CHECK_USE_CHECKOUT          = 4;
-    const CHECK_USE_INTERNAL          = 16;
-    const CHECK_ORDER_TOTAL_MIN_MAX   = 32;
-    const CHECK_ZERO_TOTAL            = 64;
+    const CHECK_USE_FOR_COUNTRY = 'country';
+
+    const CHECK_USE_FOR_CURRENCY = 'currency';
+
+    const CHECK_USE_CHECKOUT = 'checkout';
+
+    const CHECK_USE_INTERNAL = 'internal';
+
+    const CHECK_ORDER_TOTAL_MIN_MAX = 'total';
+
+    const CHECK_ZERO_TOTAL = 'zero_total';
 
     /**
      * @var string
@@ -56,105 +68,98 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
      *
      * @var bool
      */
-    protected $_isGateway                   = false;
+    protected $_isGateway = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canOrder                    = false;
+    protected $_canOrder = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canAuthorize                = false;
+    protected $_canAuthorize = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canCapture                  = false;
+    protected $_canCapture = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canCapturePartial           = false;
+    protected $_canCapturePartial = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canRefund                   = false;
+    protected $_canRefund = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canRefundInvoicePartial     = false;
+    protected $_canRefundInvoicePartial = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canVoid                     = false;
+    protected $_canVoid = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canUseInternal              = true;
+    protected $_canUseInternal = true;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canUseCheckout              = true;
+    protected $_canUseCheckout = true;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_isInitializeNeeded          = false;
+    protected $_isInitializeNeeded = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canFetchTransactionInfo     = false;
+    protected $_canFetchTransactionInfo = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canReviewPayment            = false;
-
-    /**
-     * Payment Method feature
-     *
-     * @var bool
-     */
-    protected $_canManageRecurringProfiles  = true;
+    protected $_canReviewPayment = false;
 
     /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
      * @var bool
      */
-    protected $_canCancelInvoice        = false;
+    protected $_canCancelInvoice = false;
 
     /**
      * Fields that should be replaced in debug with '***'
@@ -374,7 +379,6 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
             if (!in_array($country, $availableCountries)) {
                 return false;
             }
-
         }
         return true;
     }
@@ -433,7 +437,7 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     public function getInfoInstance()
     {
         $instance = $this->getData('info_instance');
-        if (!($instance instanceof \Magento\Payment\Model\Info)) {
+        if (!$instance instanceof \Magento\Payment\Model\Info) {
             throw new \Magento\Core\Exception(__('We cannot retrieve the payment information object instance.'));
         }
         return $instance;
@@ -447,21 +451,21 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
      */
     public function validate()
     {
-         /**
-          * to validate payment method is allowed for billing country or not
-          */
-         $paymentInfo = $this->getInfoInstance();
-         if ($paymentInfo instanceof Payment) {
-             $billingCountry = $paymentInfo->getOrder()->getBillingAddress()->getCountryId();
-         } else {
-             $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
-         }
-         if (!$this->canUseForCountry($billingCountry)) {
-             throw new \Magento\Core\Exception(
-                 __('You can\'t use the payment type you selected to make payments to the billing country.')
-             );
-         }
-         return $this;
+        /**
+         * to validate payment method is allowed for billing country or not
+         */
+        $paymentInfo = $this->getInfoInstance();
+        if ($paymentInfo instanceof Payment) {
+            $billingCountry = $paymentInfo->getOrder()->getBillingAddress()->getCountryId();
+        } else {
+            $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
+        }
+        if (!$this->canUseForCountry($billingCountry)) {
+            throw new \Magento\Core\Exception(
+                __('You can\'t use the payment type you selected to make payments to the billing country.')
+            );
+        }
+        return $this;
     }
 
     /**
@@ -705,65 +709,17 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
      */
     public function isAvailable($quote = null)
     {
-        $checkResult = new \StdClass;
+        $checkResult = new \StdClass();
         $isActive = (bool)(int)$this->getConfigData('active', $quote ? $quote->getStoreId() : null);
         $checkResult->isAvailable = $isActive;
-        $checkResult->isDeniedInConfig = !$isActive; // for future use in observers
-        $this->_eventManager->dispatch('payment_method_is_active', array(
-            'result'          => $checkResult,
-            'method_instance' => $this,
-            'quote'           => $quote,
-        ));
+        $checkResult->isDeniedInConfig = !$isActive;
+        // for future use in observers
+        $this->_eventManager->dispatch(
+            'payment_method_is_active',
+            array('result' => $checkResult, 'method_instance' => $this, 'quote' => $quote)
+        );
 
         return $checkResult->isAvailable;
-    }
-
-    /**
-     * Check whether payment method is applicable to quote
-     * Purposed to allow use in controllers some logic that was implemented in blocks only before
-     *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @param int|null $checksBitMask
-     * @return bool
-     */
-    public function isApplicableToQuote($quote, $checksBitMask)
-    {
-        if ($checksBitMask & self::CHECK_USE_FOR_COUNTRY) {
-            if (!$this->canUseForCountry($quote->getBillingAddress()->getCountry())) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_USE_FOR_CURRENCY) {
-            if (!$this->canUseForCurrency($quote->getStore()->getBaseCurrencyCode())) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_USE_CHECKOUT) {
-            if (!$this->canUseCheckout()) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_USE_INTERNAL) {
-            if (!$this->canUseInternal()) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_ORDER_TOTAL_MIN_MAX) {
-            $total = $quote->getBaseGrandTotal();
-            $minTotal = $this->getConfigData('min_order_total');
-            $maxTotal = $this->getConfigData('max_order_total');
-            if (!empty($minTotal) && $total < $minTotal || !empty($maxTotal) && $total > $maxTotal) {
-                return false;
-            }
-        }
-
-        if ($checksBitMask & self::CHECK_ZERO_TOTAL) {
-            $total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
-            if ($total < 0.0001 && $this->getCode() != 'free') {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -800,10 +756,13 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            $this->_logAdapterFactory
-                ->create(array('fileName' => 'payment_' . $this->getCode() . '.log'))
-               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
-               ->log($debugData);
+            $this->_logAdapterFactory->create(
+                array('fileName' => 'payment_' . $this->getCode() . '.log')
+            )->setFilterDataKeys(
+                $this->_debugReplacePrivateDataKeys
+            )->log(
+                $debugData
+            );
         }
     }
 

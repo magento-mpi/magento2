@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller\Adminhtml;
+
+use Magento\Backend\App\Action;
 
 /**
  * Adminhtml sales transactions controller
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml;
-
-use Magento\Backend\App\Action;
-
 class Transactions extends \Magento\Backend\App\Action
 {
     /**
@@ -30,10 +29,8 @@ class Transactions extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -41,11 +38,13 @@ class Transactions extends \Magento\Backend\App\Action
     /**
      * Initialize payment transaction model
      *
-     * @return \Magento\Sales\Model\Order\Payment\Transaction | bool
+     * @return \Magento\Sales\Model\Order\Payment\Transaction|bool
      */
     protected function _initTransaction()
     {
-        $txn = $this->_objectManager->create('Magento\Sales\Model\Order\Payment\Transaction')->load(
+        $txn = $this->_objectManager->create(
+            'Magento\Sales\Model\Order\Payment\Transaction'
+        )->load(
             $this->getRequest()->getParam('txn_id')
         );
 
@@ -57,15 +56,16 @@ class Transactions extends \Magento\Backend\App\Action
         }
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $txn->setOrderUrl(
-                $this->getUrl('sales/order/view', array('order_id' => $orderId))
-            );
+            $txn->setOrderUrl($this->getUrl('sales/order/view', array('order_id' => $orderId)));
         }
 
         $this->_coreRegistry->register('current_transaction', $txn);
         return $txn;
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Transactions'));
@@ -77,6 +77,8 @@ class Transactions extends \Magento\Backend\App\Action
 
     /**
      * Ajax grid action
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -86,6 +88,8 @@ class Transactions extends \Magento\Backend\App\Action
 
     /**
      * View Transaction Details action
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -103,6 +107,8 @@ class Transactions extends \Magento\Backend\App\Action
 
     /**
      * Fetch transaction details action
+     *
+     * @return void
      */
     public function fetchAction()
     {
@@ -111,9 +117,7 @@ class Transactions extends \Magento\Backend\App\Action
             return;
         }
         try {
-            $txn->getOrderPaymentObject()
-                ->setOrder($txn->getOrder())
-                ->importTransactionInfo($txn);
+            $txn->getOrderPaymentObject()->setOrder($txn->getOrder())->importTransactionInfo($txn);
             $txn->save();
             $this->messageManager->addSuccess(__('The transaction details have been updated.'));
         } catch (\Magento\Core\Exception $e) {
@@ -128,6 +132,7 @@ class Transactions extends \Magento\Backend\App\Action
     /**
      * Check currently called action by permissions for current user
      *
+     * @return bool
      */
     protected function _isAllowed()
     {

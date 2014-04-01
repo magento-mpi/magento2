@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
 /**
  * "Manage Coupons Codes" Tab
@@ -15,11 +16,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
-
-class Coupons
-    extends \Magento\Backend\Block\Text\ListText
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Coupons extends \Magento\Backend\Block\Text\ListText implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -29,8 +26,8 @@ class Coupons
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Registry $registry
      * @param \Magento\View\Element\Context $context
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -43,9 +40,7 @@ class Coupons
     }
 
     /**
-     * Prepare content for tab
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -53,9 +48,7 @@ class Coupons
     }
 
     /**
-     * Prepare title for tab
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -63,9 +56,7 @@ class Coupons
     }
 
     /**
-     * Returns status flag about this tab can be shown or not
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -73,9 +64,7 @@ class Coupons
     }
 
     /**
-     * Returns status flag about this tab hidden or not
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isHidden()
     {

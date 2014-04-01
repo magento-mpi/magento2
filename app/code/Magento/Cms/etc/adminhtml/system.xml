@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
     <system>
         <section id="web">
             <group id="default">
@@ -38,6 +38,10 @@
                 </field>
                 <field id="javascript" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Notice if JavaScript is Disabled</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="local_storage" translate="label" type="select" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Notice if Local Storage is Disabled</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>

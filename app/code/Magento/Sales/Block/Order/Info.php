@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Order;
 
 /**
  * Invoice view  comments form
@@ -16,10 +16,11 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Order;
-
 class Info extends \Magento\View\Element\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'order/info.phtml';
 
     /**
@@ -51,17 +52,20 @@ class Info extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
-        $this->setChild(
-            'payment_info',
-            $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment())
-        );
+        $this->setChild('payment_info', $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment()));
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentInfoHtml()
     {
         return $this->getChildHtml('payment_info');
@@ -76,5 +80,4 @@ class Info extends \Magento\View\Element\Template
     {
         return $this->_coreRegistry->registry('current_order');
     }
-
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -126,7 +124,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/title')) {
             return $name;
         }
         return $carrierCode;
@@ -199,20 +197,17 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getCityActive()
     {
-        return (bool)$this->_storeConfig->getConfig('carriers/dhl/active')
-            || (bool)$this->_storeConfig->getConfig('carriers/dhlint/active');
+        return false;
     }
 
     /**
-     * Show State in Shipping Estimation
+     * Show State in Shipping Estimation. Result updated using plugins
      *
      * @return bool
      */
     public function getStateActive()
     {
-        return (bool)$this->_storeConfig->getConfig('carriers/dhl/active')
-            || (bool)$this->_storeConfig->getConfig('carriers/tablerate/active')
-            || (bool)$this->_storeConfig->getConfig('carriers/dhlint/active');
+        return false;
     }
 
     /**
@@ -235,12 +230,14 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getShippingPrice($price, $flag)
     {
-        return $this->formatPrice($this->_taxHelper->getShippingPrice(
-            $price,
-            $flag,
-            $this->getAddress(),
-            $this->getQuote()->getCustomerTaxClassId()
-        ));
+        return $this->formatPrice(
+            $this->_taxHelper->getShippingPrice(
+                $price,
+                $flag,
+                $this->getAddress(),
+                $this->getQuote()->getCustomerTaxClassId()
+            )
+        );
     }
 
     /**

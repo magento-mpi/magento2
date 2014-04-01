@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View;
+
+use Magento\Sales\Model\Order;
 
 /**
  * Order view messages
@@ -15,8 +18,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View;
-
 class Messages extends \Magento\View\Element\Messages
 {
     /**
@@ -46,11 +47,21 @@ class Messages extends \Magento\View\Element\Messages
         parent::__construct($context, $messageFactory, $collectionFactory, $messageManager, $data);
     }
 
+    /**
+     * Retrieve order model instance
+     *
+     * @return Order
+     */
     protected function _getOrder()
     {
         return $this->coreRegistry->registry('sales_order');
     }
 
+    /**
+     * Preparing global layout
+     *
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         /**
@@ -63,5 +74,4 @@ class Messages extends \Magento\View\Element\Messages
 
         return parent::_prepareLayout();
     }
-
 }

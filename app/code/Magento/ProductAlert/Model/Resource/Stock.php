@@ -7,27 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Model\Resource;
 
 /**
  * Product alert for back in stock resource model
  */
-namespace Magento\ProductAlert\Model\Resource;
-
 class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
 {
     /**
-     * @var \Magento\Core\Model\DateFactory
+     * @var \Magento\Stdlib\DateTime\DateTimeFactory
      */
     protected $_dateFactory;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\DateFactory $dateFactory
-    ) {
+    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory)
+    {
         $this->_dateFactory = $dateFactory;
         parent::__construct($resource);
     }
@@ -35,6 +32,7 @@ class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
     /**
      * Initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -45,12 +43,12 @@ class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
      * Before save action
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
-        if (is_null($object->getId()) && $object->getCustomerId()
-                && $object->getProductId() && $object->getWebsiteId()) {
+        if (is_null($object->getId()) && $object->getCustomerId() && $object->getProductId() && $object->getWebsiteId()
+        ) {
             if ($row = $this->_getAlertRow($object)) {
                 $object->addData($row);
                 $object->setStatus(0);

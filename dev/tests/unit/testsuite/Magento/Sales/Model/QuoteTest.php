@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model;
 
 use Magento\TestFramework\Helper\ObjectManager;
@@ -38,20 +37,43 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->quoteAddressFactoryMock = $this->getMock('Magento\Sales\Model\Quote\AddressFactory', array('create'),
-            array(), '', false);
+        $this->quoteAddressFactoryMock = $this->getMock(
+            'Magento\Sales\Model\Quote\AddressFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $this->quoteAddressMock = $this->getMock('Magento\Sales\Model\Quote\Address', array(), array(), '', false);
-        $this->quoteAddressCollectionMock = $this->getMock('Magento\Sales\Model\Resource\Quote\Address\Collection',
-            array(), array(), '', false);
+        $this->quoteAddressCollectionMock = $this->getMock(
+            'Magento\Sales\Model\Resource\Quote\Address\Collection',
+            array(),
+            array(),
+            '',
+            false
+        );
 
-        $this->quoteAddressFactoryMock->expects($this->any())->method('create')
-            ->will($this->returnValue($this->quoteAddressMock));
-        $this->quoteAddressMock->expects($this->any())->method('getCollection')
-            ->will($this->returnValue($this->quoteAddressCollectionMock));
+        $this->quoteAddressFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->quoteAddressMock)
+        );
+        $this->quoteAddressMock->expects(
+            $this->any()
+        )->method(
+            'getCollection'
+        )->will(
+            $this->returnValue($this->quoteAddressCollectionMock)
+        );
 
-        $this->quote = (new ObjectManager($this))->getObject('Magento\Sales\Model\Quote', array(
-            'quoteAddressFactory' => $this->quoteAddressFactoryMock,
-        ));
+        $this->quote = (new ObjectManager(
+            $this
+        ))->getObject(
+            'Magento\Sales\Model\Quote',
+            array('quoteAddressFactory' => $this->quoteAddressFactoryMock)
+        );
     }
 
     /**
@@ -61,12 +83,47 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsMultipleShippingAddresses($addresses, $expected)
     {
-        $this->quoteAddressCollectionMock->expects($this->any())->method('setQuoteFilter')
-            ->will($this->returnValue($this->quoteAddressCollectionMock));
-        $this->quoteAddressCollectionMock->expects($this->once())->method('getIterator')
-            ->will($this->returnValue(new \ArrayIterator($addresses)));
+        $this->quoteAddressCollectionMock->expects(
+            $this->any()
+        )->method(
+            'setQuoteFilter'
+        )->will(
+            $this->returnValue($this->quoteAddressCollectionMock)
+        );
+        $this->quoteAddressCollectionMock->expects(
+            $this->once()
+        )->method(
+            'getIterator'
+        )->will(
+            $this->returnValue(new \ArrayIterator($addresses))
+        );
 
         $this->assertEquals($expected, $this->quote->isMultipleShippingAddresses());
+    }
+
+    /**
+     * Customer group ID is not set to quote object and customer data is not available.
+     */
+    public function testGetCustomerGroupIdNotSet()
+    {
+        $this->assertEquals(
+            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            $this->quote->getCustomerGroupId(),
+            "Customer group ID is invalid"
+        );
+    }
+
+    /**
+     * Customer group ID is set to quote object.
+     */
+    public function testGetCustomerGroupId()
+    {
+        /** Preconditions */
+        $customerGroupId = 33;
+        $this->quote->setCustomerGroupId($customerGroupId);
+
+        /** SUT execution */
+        $this->assertEquals($customerGroupId, $this->quote->getCustomerGroupId(), "Customer group ID is invalid");
     }
 
     /**
@@ -77,12 +134,12 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 array($this->getAddressMock(Address::TYPE_SHIPPING), $this->getAddressMock(Address::TYPE_SHIPPING)),
-                true,
+                true
             ),
             array(
                 array($this->getAddressMock(Address::TYPE_SHIPPING), $this->getAddressMock(Address::TYPE_BILLING)),
-                false,
-            ),
+                false
+            )
         );
     }
 
@@ -92,13 +149,16 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     protected function getAddressMock($type)
     {
-        $shippingAddressMock = $this->getMock('Magento\Sales\Model\Quote\Address', array('getAddressType', '__wakeup'),
-            array(), '', false);
+        $shippingAddressMock = $this->getMock(
+            'Magento\Sales\Model\Quote\Address',
+            array('getAddressType', '__wakeup'),
+            array(),
+            '',
+            false
+        );
 
-        $shippingAddressMock->expects($this->any())->method('getAddressType')
-            ->will($this->returnValue($type));
-        $shippingAddressMock->expects($this->any())->method('isDeleted')
-            ->will($this->returnValue(false));
+        $shippingAddressMock->expects($this->any())->method('getAddressType')->will($this->returnValue($type));
+        $shippingAddressMock->expects($this->any())->method('isDeleted')->will($this->returnValue(false));
         return $shippingAddressMock;
     }
 }

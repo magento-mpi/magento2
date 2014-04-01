@@ -15,10 +15,8 @@ namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Actions
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
-
+class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\Backend\Block\Widget\Form\Renderer\Fieldset
@@ -59,25 +57,24 @@ class Actions
     protected function _prepareForm()
     {
         /* @var $model \Magento\TargetRule\Model\Rule */
-        $model  = $this->_coreRegistry->registry('current_target_rule');
+        $model = $this->_coreRegistry->registry('current_target_rule');
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset   = $form->addFieldset('actions_fieldset', array(
-            'legend' => __('Product Result Conditions (leave blank for matching all products)'))
+        $fieldset = $form->addFieldset(
+            'actions_fieldset',
+            array('legend' => __('Product Result Conditions (leave blank for matching all products)'))
         );
-        $newCondUrl = $this->getUrl('adminhtml/targetrule/newActionsHtml/', array(
-            'form'  => $fieldset->getHtmlId()
-        ));
-        $renderer   = $this->_fieldset->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')
-            ->setNewChildUrl($newCondUrl);
+        $newCondUrl = $this->getUrl('adminhtml/targetrule/newActionsHtml/', array('form' => $fieldset->getHtmlId()));
+        $renderer = $this->_fieldset->setTemplate(
+            'Magento_TargetRule::edit/conditions/fieldset.phtml'
+        )->setNewChildUrl(
+            $newCondUrl
+        );
         $fieldset->setRenderer($renderer);
 
-        $element    = $fieldset->addField('actions', 'text', array(
-            'name'      => 'actions',
-            'required'  => true
-        ));
+        $element = $fieldset->addField('actions', 'text', array('name' => 'actions', 'required' => true));
         $element->setRule($model);
         $element->setRenderer($this->_conditions);
 

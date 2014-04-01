@@ -27,7 +27,7 @@ class Observer
      * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory;
-    
+
     /**
      * @var \Magento\App\ReinitableConfigInterface
      */
@@ -87,7 +87,7 @@ class Observer
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -100,7 +100,7 @@ class Observer
         \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -130,22 +130,8 @@ class Observer
     public function catalogCheckIsUsingStaticUrlsAllowed(\Magento\Event\Observer $observer)
     {
         $storeId = $observer->getEvent()->getData('store_id');
-        $result  = $observer->getEvent()->getData('result');
+        $result = $observer->getEvent()->getData('result');
         $result->isAllowed = $this->_catalogData->setStoreId($storeId)->isUsingStaticUrlsAllowed();
-    }
-
-    /**
-     * Cron job method for product prices to reindex
-     *
-     * @param \Magento\Cron\Model\Schedule $schedule
-     * @return void
-     */
-    public function reindexProductPrices(\Magento\Cron\Model\Schedule $schedule)
-    {
-        $indexProcess = $this->_indexIndexer->getProcessByCode('catalog_product_price');
-        if ($indexProcess) {
-            $indexProcess->reindexAll();
-        }
     }
 
     /**
@@ -156,10 +142,9 @@ class Observer
      */
     public function addCatalogToTopmenuItems(\Magento\Event\Observer $observer)
     {
-        $this->_addCategoriesToMenu(
-            $this->_catalogCategory->getStoreCategories(),
-            $observer->getMenu()
-        );
+        $block = $observer->getEvent()->getBlock();
+        $block->addIdentity(\Magento\Catalog\Model\Category::CACHE_TAG);
+        $this->_addCategoriesToMenu($this->_catalogCategory->getStoreCategories(), $observer->getMenu(), $block);
     }
 
     /**
@@ -167,9 +152,10 @@ class Observer
      *
      * @param \Magento\Data\Tree\Node\Collection|array $categories
      * @param \Magento\Data\Tree\Node $parentCategoryNode
+     * @param \Magento\Theme\Block\Html\Topmenu $block
      * @return void
      */
-    protected function _addCategoriesToMenu($categories, $parentCategoryNode)
+    protected function _addCategoriesToMenu($categories, $parentCategoryNode, $block)
     {
         foreach ($categories as $category) {
             if (!$category->getIsActive()) {
@@ -177,6 +163,8 @@ class Observer
             }
 
             $nodeId = 'category-node-' . $category->getId();
+
+            $block->addIdentity(\Magento\Catalog\Model\Category::CACHE_TAG . '_' . $category->getId());
 
             $tree = $parentCategoryNode->getTree();
             $categoryData = array(
@@ -194,7 +182,7 @@ class Observer
                 $subcategories = $category->getChildren();
             }
 
-            $this->_addCategoriesToMenu($subcategories, $categoryNode);
+            $this->_addCategoriesToMenu($subcategories, $categoryNode, $block);
         }
     }
 

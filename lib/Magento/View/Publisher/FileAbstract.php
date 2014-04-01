@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Publisher;
 
 use Magento\Filesystem\Directory\WriteInterface;
@@ -207,8 +206,7 @@ abstract class FileAbstract implements FileInterface
      */
     protected function setSourcePath($sourcePath)
     {
-        if ($sourcePath === null
-            || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))
+        if ($sourcePath === null || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))
         ) {
             $this->sourcePath = null;
         } else {
@@ -261,9 +259,15 @@ abstract class FileAbstract implements FileInterface
             $designPath = self::PUBLIC_VIEW_DIR;
         }
 
-        $publicFile = $this->getViewParams()['area'] . '/' . $designPath . '/' . $this->getViewParams()['locale']
-            . ($this->getViewParams()['module'] ? '/' . $this->getViewParams()['module'] : '')
-            . '/' . $this->getFilePath();
+        $publicFile = $this->getViewParams()['area'] .
+            '/' .
+            $designPath .
+            '/' .
+            $this->getViewParams()['locale'] .
+            ($this->getViewParams()['module'] ? '/' .
+            $this->getViewParams()['module'] : '') .
+            '/' .
+            $this->getFilePath();
 
         return $publicFile;
     }
@@ -299,7 +303,7 @@ abstract class FileAbstract implements FileInterface
             unset($this->viewParams['themeModel']);
         }
 
-        return [
+        return array(
             'filePath',
             'extension',
             'viewParams',
@@ -308,11 +312,11 @@ abstract class FileAbstract implements FileInterface
             'isPublicationAllowed',
             'isFallbackUsed',
             'isSourcePathProvided'
-        ];
+        );
     }
 
     /**
-     * return void
+     * @return void
      */
     public function __wakeup()
     {

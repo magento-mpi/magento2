@@ -6,8 +6,9 @@
  * @license   {license_link}
  */
 namespace Magento\Tools\Di\Compiler;
-use \Zend\Code\Scanner\FileScanner,
-    Magento\Tools\Di\Compiler\Log\Log;
+
+use Zend\Code\Scanner\FileScanner;
+use Magento\Tools\Di\Compiler\Log\Log;
 
 class Directory
 {
@@ -55,7 +56,7 @@ class Directory
     /**
      * @param int $errno
      * @param string $errstr
-     *
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function errorHandler($errno, $errstr)
@@ -68,6 +69,7 @@ class Directory
      *
      * @param string $path
      * @param bool $validate
+     * @return void
      */
     public function compile($path, $validate = true)
     {

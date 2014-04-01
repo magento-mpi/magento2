@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View;
 
 /**
  * Order view tabs
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View;
-
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
@@ -44,6 +43,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * Retrieve available order
      *
      * @return \Magento\Sales\Model\Order
+     * @throws \Magento\Core\Exception
      */
     public function getOrder()
     {
@@ -59,6 +59,11 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         throw new \Magento\Core\Exception(__('We cannot get the order instance.'));
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

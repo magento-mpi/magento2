@@ -43,18 +43,18 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $dir = Operation::LOG_DIRECTORY . date('Y/m/d') . '/' . Operation::FILE_HISTORY_DIRECTORY;
         return array(
             'empty file name' => array(
-                '$fileInfo'     => array('file_format' => 'csv'),
-                '$lastRunDate'  => null,
+                '$fileInfo' => array('file_format' => 'csv'),
+                '$lastRunDate' => null,
                 '$expectedPath' => $dir . $this->_date . '_export_catalog_product.csv'
             ),
             'filled file name' => array(
-                '$fileInfo'     => array('file_name' => 'test.xls'),
-                '$lastRunDate'  => null,
+                '$fileInfo' => array('file_name' => 'test.xls'),
+                '$lastRunDate' => null,
                 '$expectedPath' => $dir . $this->_date . '_export_catalog_product.xls'
             ),
             'set last run date' => array(
-                '$fileInfo'     => array('file_name' => 'test.xls'),
-                '$lastRunDate'  => '11-11-11',
+                '$fileInfo' => array('file_name' => 'test.xls'),
+                '$lastRunDate' => '11-11-11',
                 '$expectedPath' => $dir . '11-11-11_export_catalog_product.xls'
             )
         );
@@ -70,64 +70,53 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $dateModelMock = $this->getMock('Magento\Core\Model\Date', array('date'), array(), '', false);
-        $dateModelMock->expects($this->any())
-            ->method('date')
-            ->will($this->returnCallback(array($this, 'getDateCallback')));
+        $dateModelMock = $this->getMock('Magento\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
+        $dateModelMock->expects(
+            $this->any()
+        )->method(
+            'date'
+        )->will(
+            $this->returnCallback(array($this, 'getDateCallback'))
+        );
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
         $operationFactory = $this->getMOck(
-            'Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory', array(), array(), '', false
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory',
+            array(),
+            array(),
+            '',
+            false
         );
 
-        $directory = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $directory->expects($this->once())
-            ->method('getAbsolutePath')
-            ->will($this->returnArgument(0));
-        $filesystem = $this->getMockBuilder('Magento\App\Filesystem')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $filesystem->expects($this->once())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directory));
+        $directory = $this->getMockBuilder(
+            'Magento\Filesystem\Directory\Write'
+        )->disableOriginalConstructor()->getMock();
+        $directory->expects($this->once())->method('getAbsolutePath')->will($this->returnArgument(0));
+        $filesystem = $this->getMockBuilder('Magento\App\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem->expects($this->once())->method('getDirectoryWrite')->will($this->returnValue($directory));
 
-        $params = array(
-            'operationFactory' => $operationFactory,
-            'filesystem' => $filesystem
-        );
+        $params = array('operationFactory' => $operationFactory, 'filesystem' => $filesystem);
         $arguments = $objectManagerHelper->getConstructArguments(
-            'Magento\ScheduledImportExport\Model\Scheduled\Operation', $params
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation',
+            $params
         );
         $arguments['dateModel'] = $dateModelMock;
         $model = $this->getMock(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
-            array(
-                'getOperationType',
-                'getEntityType',
-                'getFileInfo',
-                '_init'
-            ),
+            array('getOperationType', 'getEntityType', 'getFileInfo', '_init'),
             $arguments
         );
 
-        $model->expects($this->once())
-            ->method('getOperationType')
-            ->will($this->returnValue('export'));
-        $model->expects($this->once())
-            ->method('getEntityType')
-            ->will($this->returnValue('catalog_product'));
-        $model->expects($this->once())
-            ->method('getFileInfo')
-            ->will($this->returnValue($fileInfo));
+        $model->expects($this->once())->method('getOperationType')->will($this->returnValue('export'));
+        $model->expects($this->once())->method('getEntityType')->will($this->returnValue('catalog_product'));
+        $model->expects($this->once())->method('getFileInfo')->will($this->returnValue($fileInfo));
 
         return $model;
     }
 
     /**
-     * Callback to use instead of \Magento\Core\Model\Date::date()
+     * Callback to use instead of \Magento\Stdlib\DateTime\DateTime::date()
      *
      * @param string $format
      * @param int|string $input

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Image;
 
 class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
@@ -21,17 +20,27 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->configMock = $this->getMock(
-            'Magento\Image\Adapter\ConfigInterface', array('getAdapterAlias', 'getAdapters'), array(), '', false
+            'Magento\Image\Adapter\ConfigInterface',
+            array('getAdapterAlias', 'getAdapters'),
+            array(),
+            '',
+            false
         );
 
-        $this->configMock->expects($this->once())
-            ->method('getAdapters')
-            ->will($this->returnValue(array(
-                'GD2'           => array('class' => 'Magento\Image\Adapter\Gd2'),
-                'IMAGEMAGICK'   => array('class' => 'Magento\Image\Adapter\ImageMagick'),
-                'wrongInstance' => array('class' => 'stdClass'),
-                'test'          => array(),
-            )));
+        $this->configMock->expects(
+            $this->once()
+        )->method(
+            'getAdapters'
+        )->will(
+            $this->returnValue(
+                array(
+                    'GD2' => array('class' => 'Magento\Image\Adapter\Gd2'),
+                    'IMAGEMAGICK' => array('class' => 'Magento\Image\Adapter\ImageMagick'),
+                    'wrongInstance' => array('class' => 'stdClass'),
+                    'test' => array()
+                )
+            )
+        );
     }
 
     /**
@@ -41,15 +50,25 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($alias, $class)
     {
-        $objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array('create'), array(), '', false);
+        $objectManagerMock = $this->getMock(
+            'Magento\ObjectManager\ObjectManager',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $imageAdapterMock = $this->getMock($class, array('checkDependencies'), array(), '', false);
-        $imageAdapterMock->expects($this->once())
-            ->method('checkDependencies');
+        $imageAdapterMock->expects($this->once())->method('checkDependencies');
 
-        $objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with($class)
-            ->will($this->returnValue($imageAdapterMock));
+        $objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $class
+        )->will(
+            $this->returnValue($imageAdapterMock)
+        );
 
         $adapterFactory = new AdapterFactory($objectManagerMock, $this->configMock);
         $imageAdapter = $adapterFactory->create($alias);
@@ -64,7 +83,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('GD2', 'Magento\Image\Adapter\Gd2'),
-            array('IMAGEMAGICK', 'Magento\Image\Adapter\ImageMagick'),
+            array('IMAGEMAGICK', 'Magento\Image\Adapter\ImageMagick')
         );
     }
 
@@ -76,19 +95,27 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
         $adapterAlias = 'IMAGEMAGICK';
         $adapterClass = 'Magento\Image\Adapter\ImageMagick';
 
-        $this->configMock->expects($this->once())
-            ->method('getAdapterAlias')
-            ->will($this->returnValue($adapterAlias));
+        $this->configMock->expects($this->once())->method('getAdapterAlias')->will($this->returnValue($adapterAlias));
 
-        $objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array('create'), array(), '', false);
+        $objectManagerMock = $this->getMock(
+            'Magento\ObjectManager\ObjectManager',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $imageAdapterMock = $this->getMock($adapterClass, array('checkDependencies'), array(), '', false);
-        $imageAdapterMock->expects($this->once())
-            ->method('checkDependencies');
+        $imageAdapterMock->expects($this->once())->method('checkDependencies');
 
-        $objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with($adapterClass)
-            ->will($this->returnValue($imageAdapterMock));
+        $objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $adapterClass
+        )->will(
+            $this->returnValue($imageAdapterMock)
+        );
 
         $adapterFactory = new AdapterFactory($objectManagerMock, $this->configMock);
         $imageAdapter = $adapterFactory->create();
@@ -102,10 +129,14 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidArgumentException()
     {
-        $this->configMock->expects($this->once())
-            ->method('getAdapterAlias')
-            ->will($this->returnValue(''));
-        $objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array('create'), array(), '', false);
+        $this->configMock->expects($this->once())->method('getAdapterAlias')->will($this->returnValue(''));
+        $objectManagerMock = $this->getMock(
+            'Magento\ObjectManager\ObjectManager',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $adapterFactory = new AdapterFactory($objectManagerMock, $this->configMock);
         $adapterFactory->create();
     }
@@ -118,7 +149,13 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     public function testNonAdapterClass()
     {
         $alias = 'test';
-        $objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array('create'), array(), '', false);
+        $objectManagerMock = $this->getMock(
+            'Magento\ObjectManager\ObjectManager',
+            array('create'),
+            array(),
+            '',
+            false
+        );
 
         $adapterFactory = new AdapterFactory($objectManagerMock, $this->configMock);
         $adapterFactory->create($alias);
@@ -133,13 +170,24 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $alias = 'wrongInstance';
         $class = 'stdClass';
-        $objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array('create'), array(), '', false);
+        $objectManagerMock = $this->getMock(
+            'Magento\ObjectManager\ObjectManager',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $imageAdapterMock = $this->getMock($class, array('checkDependencies'), array(), '', false);
 
-        $objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with($class)
-            ->will($this->returnValue($imageAdapterMock));
+        $objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $class
+        )->will(
+            $this->returnValue($imageAdapterMock)
+        );
 
         $adapterFactory = new AdapterFactory($objectManagerMock, $this->configMock);
         $adapterFactory->create($alias);

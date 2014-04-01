@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="payment_method_is_active">
         <observer name="magento_pbridge" instance="Magento\Pbridge\Model\Observer" method="isPaymentMethodAvailable" />
     </event>

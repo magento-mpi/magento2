@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -33,6 +32,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'id';
@@ -47,34 +49,41 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->_updateButton('save', 'label', __('Save'));
         $this->_updateButton('save', 'onclick', $clickSave);
-        $this->_updateButton('save', 'data_attribute', array(
-            'mage-init' => array(
-                'button' => array('event' => 'save', 'target' => '#edit_form'),
-            ),
-        ));
+        $this->_updateButton(
+            'save',
+            'data_attribute',
+            array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
+        );
         $this->_updateButton('delete', 'label', __('Delete'));
 
         $clickSend = "\$('_sendrecipient_email').addClassName('required-entry');";
         $clickSend .= "\$('_sendrecipient_name').addClassName('required-entry');";
         $clickSend .= "\$('_sendaction').value = 1;";
 
-        $this->_addButton('send', array(
-            'label'     => __('Save & Send Email'),
-            'onclick'   => $clickSend,
-            'class'     => 'save',
-            'data_attribute' => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'save', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'send',
+            array(
+                'label' => __('Save & Send Email'),
+                'onclick' => $clickSend,
+                'class' => 'save',
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form'))
+                )
             )
-        ));
+        );
     }
 
+    /**
+     * @return mixed
+     */
     public function getGiftcardaccountId()
     {
         return $this->_coreRegistry->registry('current_giftcardaccount')->getId();
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         if ($this->_coreRegistry->registry('current_giftcardaccount')->getId()) {
@@ -84,5 +93,4 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             return __('New Gift Card Account');
         }
     }
-
 }

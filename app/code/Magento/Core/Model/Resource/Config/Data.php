@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 namespace Magento\Core\Model\Resource\Config;
-use Magento\Core\Model\Website;
 
+use Magento\Core\Model\Website;
 
 /**
  * Core config data resource model
@@ -23,6 +23,7 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -56,15 +57,20 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _checkUnique(\Magento\Core\Model\AbstractModel $object)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), array($this->getIdFieldName()))
-            ->where('scope = :scope')
-            ->where('scope_id = :scope_id')
-            ->where('path = :path');
-        $bind   = array(
-            'scope'     => $object->getScope(),
-            'scope_id'  => $object->getScopeId(),
-            'path'      => $object->getPath()
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            array($this->getIdFieldName())
+        )->where(
+            'scope = :scope'
+        )->where(
+            'scope_id = :scope_id'
+        )->where(
+            'path = :path'
+        );
+        $bind = array(
+            'scope' => $object->getScope(),
+            'scope_id' => $object->getScopeId(),
+            'path' => $object->getPath()
         );
 
         $configId = $this->_getReadAdapter()->fetchOne($select, $bind);
@@ -84,7 +90,8 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function clearWebsiteData(Website $website)
     {
         $this->_getWriteAdapter()->delete(
-            $this->getMainTable(), array('scope = ?' => 'websites', 'scope_id' => $website->getId())
+            $this->getMainTable(),
+            array('scope = ?' => 'websites', 'scope_id' => $website->getId())
         );
         $this->clearStoreData($website->getStoreIds());
     }
@@ -98,7 +105,8 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function clearStoreData(array $storeIds)
     {
         $this->_getWriteAdapter()->delete(
-            $this->getMainTable(), array('scope = ?' => 'stores', 'scope_id IN (?)' => $storeIds)
+            $this->getMainTable(),
+            array('scope = ?' => 'stores', 'scope_id IN (?)' => $storeIds)
         );
     }
 }

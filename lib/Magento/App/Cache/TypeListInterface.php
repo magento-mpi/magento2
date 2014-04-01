@@ -27,6 +27,7 @@ interface TypeListInterface
      * Mark specific cache type(s) as invalidated
      *
      * @param string|array $typeCode
+     * @return void
      */
     public function invalidate($typeCode);
 
@@ -34,6 +35,7 @@ interface TypeListInterface
      * Clean cached data for specific cache type
      *
      * @param string $typeCode
+     * @return void
      */
     public function cleanType($typeCode);
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesArchive\Model\Resource;
 
 /**
  * Enterprise SalesArchive Mysql resource helper model
@@ -16,18 +16,14 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesArchive\Model\Resource;
-
 class Helper extends \Magento\Core\Model\Resource\Helper
 {
     /**
      * @param \Magento\App\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        $modulePrefix = 'SalesArchive'
-    ) {
+    public function __construct(\Magento\App\Resource $resource, $modulePrefix = 'SalesArchive')
+    {
         parent::__construct($resource, $modulePrefix);
     }
 
@@ -36,9 +32,9 @@ class Helper extends \Magento\Core\Model\Resource\Helper
      *
      * @param string $table
      * @param string $column
-     * @param boolean $after
-     * @param boolean $first
-     * @return \Magento\SalesArchive\Model\Resource\Helper
+     * @param bool $after
+     * @param bool $first
+     * @return $this
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
@@ -61,7 +57,9 @@ class Helper extends \Magento\Core\Model\Resource\Helper
         $adapter = $this->_getWriteAdapter();
         $description = $adapter->describeTable($table);
         foreach ($description as $columnDescription) {
-            $columns[$columnDescription['COLUMN_NAME']] = $adapter->getColumnDefinitionFromDescribe($columnDescription);
+            $columns[$columnDescription['COLUMN_NAME']] = $adapter->getColumnDefinitionFromDescribe(
+                $columnDescription
+            );
         }
 
         if (!isset($columns[$column])) {

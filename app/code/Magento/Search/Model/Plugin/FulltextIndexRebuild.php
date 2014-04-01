@@ -12,21 +12,29 @@ namespace Magento\Search\Model\Plugin;
 class FulltextIndexRebuild
 {
     /**
+     * Search helper
+     *
      * @var \Magento\Search\Helper\Data
      */
     protected $_searchHelper;
 
     /**
-     * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
+     * Layer filter price
+     *
+     * @var \Magento\Search\Model\Layer\Category\Filter\Price
      */
     protected $_layerFilterPrice;
 
     /**
+     * Cache
+     *
      * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
     /**
+     * Engine provider
+     *
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
     protected $_engineProvider = null;
@@ -34,13 +42,13 @@ class FulltextIndexRebuild
     /**
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchHelper
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice
+     * @param \Magento\Search\Model\Layer\Category\Filter\Price $layerFilterPrice
      * @param \Magento\App\CacheInterface $cache
      */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchHelper,
-        \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice,
+        \Magento\Search\Model\Layer\Category\Filter\Price $layerFilterPrice,
         \Magento\App\CacheInterface $cache
     ) {
         $this->_engineProvider = $engineProvider;
@@ -60,7 +68,9 @@ class FulltextIndexRebuild
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeRebuildIndex(
-        \Magento\CatalogSearch\Model\Fulltext $subject, $storeId = null, $productIds = null
+        \Magento\CatalogSearch\Model\Fulltext $subject,
+        $storeId = null,
+        $productIds = null
     ) {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
             $engine = $this->_engineProvider->get();

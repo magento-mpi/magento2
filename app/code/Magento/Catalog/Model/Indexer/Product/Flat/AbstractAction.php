@@ -19,7 +19,7 @@ abstract class AbstractAction
     /**
      * Path to maximum available amount of indexes for flat indexer
      */
-    const XML_NODE_MAX_INDEX_COUNT  = 'catalog/product/flat/max_index_count';
+    const XML_NODE_MAX_INDEX_COUNT = 'catalog/product/flat/max_index_count';
 
     /**
      * Maximum size of attributes chunk
@@ -174,7 +174,6 @@ abstract class AbstractAction
      * Return temporary table name by regular table name
      *
      * @param string $tableName
-     *
      * @return string
      */
     protected function _getTemporaryTableName($tableName)
@@ -187,6 +186,7 @@ abstract class AbstractAction
      *
      * @param array $tablesList
      * @param int|string $storeId
+     * @return void
      */
     protected function _cleanOnFailure(array $tablesList, $storeId)
     {
@@ -202,7 +202,7 @@ abstract class AbstractAction
      *
      * @param int $storeId
      * @param array $changedIds
-     *
+     * @return void
      * @throws \Exception
      */
     protected function _reindex($storeId, array $changedIds = array())
@@ -210,7 +210,11 @@ abstract class AbstractAction
         try {
             $this->_tableBuilder->build($storeId, $changedIds, $this->_valueFieldSuffix);
             $this->_flatTableBuilder->build(
-                $storeId, $changedIds, $this->_valueFieldSuffix, $this->_tableDropSuffix, true
+                $storeId,
+                $changedIds,
+                $this->_valueFieldSuffix,
+                $this->_tableDropSuffix,
+                true
             );
 
             $this->_updateRelationProducts($storeId, $changedIds);
@@ -228,16 +232,20 @@ abstract class AbstractAction
      *
      * @param array $ids
      * @param int $storeId
+     * @return void
      */
     protected function _removeDeletedProducts(array &$ids, $storeId)
     {
-        $select = $this->_connection->select()
-            ->from($this->_productIndexerHelper->getTable('catalog_product_entity'))
-            ->where('entity_id IN(?)', $ids);
+        $select = $this->_connection->select()->from(
+            $this->_productIndexerHelper->getTable('catalog_product_entity')
+        )->where(
+            'entity_id IN(?)',
+            $ids
+        );
         $result = $this->_connection->query($select);
 
-        $existentProducts = [];
-        foreach ($result->fetchAll()as $product) {
+        $existentProducts = array();
+        foreach ($result->fetchAll() as $product) {
             $existentProducts[] = $product['entity_id'];
         }
 
@@ -257,7 +265,7 @@ abstract class AbstractAction
     {
         if ($this->_productTypes === null) {
             $this->_productTypes = array();
-            $productEmulator     = new \Magento\Object();
+            $productEmulator = new \Magento\Object();
             foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
                 $this->_productTypes[$typeId] = $this->_productType->factory($productEmulator);
@@ -285,26 +293,22 @@ abstract class AbstractAction
                 continue;
             }
             $relation = $typeInstance->getRelationInfo();
-            if ($relation
-                && $relation->getTable()
-                && $relation->getParentFieldName()
-                && $relation->getChildFieldName()
+            if ($relation && $relation->getTable() && $relation->getParentFieldName() && $relation->getChildFieldName()
             ) {
-                $columns   = $this->_productIndexerHelper->getFlatColumns();
+                $columns = $this->_productIndexerHelper->getFlatColumns();
                 $fieldList = array_keys($columns);
                 unset($columns['entity_id']);
                 unset($columns['child_id']);
                 unset($columns['is_child']);
                 /** @var $select \Magento\DB\Select */
-                $select = $this->_connection->select()
-                    ->from(
-                        array('t' => $this->_productIndexerHelper->getTable($relation->getTable())),
-                        array($relation->getParentFieldName(), $relation->getChildFieldName(), new \Zend_Db_Expr('1')))
-                    ->join(
-                        array('e' => $this->_productIndexerHelper->getFlatTableName($storeId)),
-                        "e.entity_id = t.{$relation->getChildFieldName()}",
-                        array_keys($columns)
-                    );
+                $select = $this->_connection->select()->from(
+                    array('t' => $this->_productIndexerHelper->getTable($relation->getTable())),
+                    array($relation->getParentFieldName(), $relation->getChildFieldName(), new \Zend_Db_Expr('1'))
+                )->join(
+                    array('e' => $this->_productIndexerHelper->getFlatTableName($storeId)),
+                    "e.entity_id = t.{$relation->getChildFieldName()}",
+                    array_keys($columns)
+                );
                 if ($relation->getWhere() !== null) {
                     $select->where($relation->getWhere());
                 }
@@ -342,17 +346,14 @@ abstract class AbstractAction
                 continue;
             }
             $relation = $typeInstance->getRelationInfo();
-            if ($relation
-                && $relation->getTable()
-                && $relation->getParentFieldName()
-                && $relation->getChildFieldName()
+            if ($relation && $relation->getTable() && $relation->getParentFieldName() && $relation->getChildFieldName()
             ) {
-                $select = $this->_connection->select()
-                    ->distinct(true)
-                    ->from(
-                        $this->_productIndexerHelper->getTable($relation->getTable()),
-                        "{$relation->getParentFieldName()}"
-                    );
+                $select = $this->_connection->select()->distinct(
+                    true
+                )->from(
+                    $this->_productIndexerHelper->getTable($relation->getTable()),
+                    "{$relation->getParentFieldName()}"
+                );
                 $joinLeftCond = array(
                     "e.entity_id = t.{$relation->getParentFieldName()}",
                     "e.child_id = t.{$relation->getChildFieldName()}"
@@ -364,16 +365,22 @@ abstract class AbstractAction
 
                 $entitySelect = new \Zend_Db_Expr($select->__toString());
                 /** @var $select \Magento\DB\Select */
-                $select = $this->_connection->select()
-                    ->from(array('e' => $this->_productIndexerHelper->getFlatTableName($storeId)), null)
-                    ->joinLeft(
-                        array('t' => $this->_productIndexerHelper->getTable($relation->getTable())),
-                        implode(' AND ', $joinLeftCond),
-                        array()
-                    )
-                    ->where('e.is_child = ?', 1)
-                    ->where('e.entity_id IN(?)', $entitySelect)
-                    ->where("t.{$relation->getChildFieldName()} IS NULL");
+                $select = $this->_connection->select()->from(
+                    array('e' => $this->_productIndexerHelper->getFlatTableName($storeId)),
+                    null
+                )->joinLeft(
+                    array('t' => $this->_productIndexerHelper->getTable($relation->getTable())),
+                    implode(' AND ', $joinLeftCond),
+                    array()
+                )->where(
+                    'e.is_child = ?',
+                    1
+                )->where(
+                    'e.entity_id IN(?)',
+                    $entitySelect
+                )->where(
+                    "t.{$relation->getChildFieldName()} IS NULL"
+                );
 
                 $sql = $select->deleteFromSelect('e');
                 $this->_connection->query($sql);
@@ -396,30 +403,34 @@ abstract class AbstractAction
 
         if (!$this->_connection->isTableExists($flatTable)) {
             $this->_flatTableBuilder->build(
-                $storeId, array($productId), $this->_valueFieldSuffix, $this->_tableDropSuffix, false
+                $storeId,
+                array($productId),
+                $this->_valueFieldSuffix,
+                $this->_tableDropSuffix,
+                false
             );
         }
 
-        $attributes    = $this->_productIndexerHelper->getAttributes();
+        $attributes = $this->_productIndexerHelper->getAttributes();
         $eavAttributes = $this->_productIndexerHelper->getTablesStructure($attributes);
-        $updateData    = array();
-        $describe      = $this->_connection->describeTable($flatTable);
+        $updateData = array();
+        $describe = $this->_connection->describeTable($flatTable);
 
         foreach ($eavAttributes as $tableName => $tableColumns) {
             $columnsChunks = array_chunk($tableColumns, self::ATTRIBUTES_CHUNK_SIZE, true);
 
             foreach ($columnsChunks as $columns) {
-                $select      = $this->_connection->select();
+                $select = $this->_connection->select();
                 $selectValue = $this->_connection->select();
-                $keyColumns  = array(
-                    'entity_id'    => 'e.entity_id',
+                $keyColumns = array(
+                    'entity_id' => 'e.entity_id',
                     'attribute_id' => 't.attribute_id',
-                    'value'        =>  $this->_connection->getIfNullSql('`t2`.`value`', '`t`.`value`'),
+                    'value' => $this->_connection->getIfNullSql('`t2`.`value`', '`t`.`value`')
                 );
 
                 if ($tableName != $this->_productIndexerHelper->getTable('catalog_product_entity')) {
                     $valueColumns = array();
-                    $ids          = array();
+                    $ids = array();
                     $select->from(
                         array('e' => $this->_productIndexerHelper->getTable('catalog_product_entity')),
                         $keyColumns
@@ -439,21 +450,25 @@ abstract class AbstractAction
 
                     $select->joinLeft(
                         array('t' => $tableName),
-                        'e.entity_id = t.entity_id '
-                        . $this->_connection->quoteInto(' AND t.attribute_id IN (?)', array_keys($ids))
-                        . ' AND t.store_id = 0',
+                        'e.entity_id = t.entity_id ' . $this->_connection->quoteInto(
+                            ' AND t.attribute_id IN (?)',
+                            array_keys($ids)
+                        ) . ' AND t.store_id = 0',
                         array()
                     )->joinLeft(
-                            array('t2' => $tableName),
-                            't.entity_id = t2.entity_id '
-                            . ' AND t.attribute_id = t2.attribute_id  '
-                            . $this->_connection->quoteInto(' AND t2.store_id = ?', $storeId),
-                            array()
-                        )->where(
-                            'e.entity_id = ' . $productId
-                        )->where(
-                            't.attribute_id IS NOT NULL'
-                        );
+                        array('t2' => $tableName),
+                        't.entity_id = t2.entity_id ' .
+                        ' AND t.attribute_id = t2.attribute_id  ' .
+                        $this->_connection->quoteInto(
+                            ' AND t2.store_id = ?',
+                            $storeId
+                        ),
+                        array()
+                    )->where(
+                        'e.entity_id = ' . $productId
+                    )->where(
+                        't.attribute_id IS NOT NULL'
+                    );
                     $cursor = $this->_connection->query($select);
                     while ($row = $cursor->fetch(\Zend_Db::FETCH_ASSOC)) {
                         $updateData[$ids[$row['attribute_id']]] = $row['value'];
@@ -467,13 +482,12 @@ abstract class AbstractAction
                     if (!empty($valueColumns)) {
                         $valueIds = array_keys($valueColumns);
 
-                        $select = $this->_connection->select()
-                            ->from(
-                                array('t' => $this->_productIndexerHelper->getTable('eav_attribute_option_value')),
-                                array('t.option_id', 't.value')
-                            )->where(
-                                $this->_connection->quoteInto('t.option_id IN (?)', $valueIds)
-                            );
+                        $select = $this->_connection->select()->from(
+                            array('t' => $this->_productIndexerHelper->getTable('eav_attribute_option_value')),
+                            array('t.option_id', 't.value')
+                        )->where(
+                            $this->_connection->quoteInto('t.option_id IN (?)', $valueIds)
+                        );
                         $cursor = $this->_connection->query($select);
                         while ($row = $cursor->fetch(\Zend_Db::FETCH_ASSOC)) {
                             $valueColumnName = $valueColumns[$row['option_id']];
@@ -482,19 +496,18 @@ abstract class AbstractAction
                             }
                         }
                     }
-
                 } else {
-                    $columnNames   = array_keys($columns);
+                    $columnNames = array_keys($columns);
                     $columnNames[] = 'attribute_set_id';
                     $columnNames[] = 'type_id';
                     $select->from(
                         array('e' => $this->_productIndexerHelper->getTable('catalog_product_entity')),
                         $columnNames
                     )->where(
-                            'e.entity_id = ' . $productId
-                        );
+                        'e.entity_id = ' . $productId
+                    );
                     $cursor = $this->_connection->query($select);
-                    $row    = $cursor->fetch(\Zend_Db::FETCH_ASSOC);
+                    $row = $cursor->fetch(\Zend_Db::FETCH_ASSOC);
                     if (!empty($row)) {
                         foreach ($row as $columnName => $value) {
                             $updateData[$columnName] = $value;
@@ -521,6 +534,7 @@ abstract class AbstractAction
      *
      * @param int|array $productId
      * @param null|int $storeId
+     * @return void
      */
     public function deleteProductsFromStore($productId, $storeId = null)
     {
@@ -551,62 +565,12 @@ abstract class AbstractAction
     protected function _isFlatTableExists($storeId)
     {
         if (!isset($this->_flatTablesExist[$storeId])) {
-            $tableName     = $this->getFlatTableName($storeId);
+            $tableName = $this->getFlatTableName($storeId);
             $isTableExists = $this->_connection->isTableExists($tableName);
 
             $this->_flatTablesExist[$storeId] = $isTableExists ? true : false;
         }
 
         return $this->_flatTablesExist[$storeId];
-    }
-
-    /**
-     * set valid state
-     *
-     * @param $versionId
-     */
-    protected function _setValidState($versionId)
-    {
-        $this->_flatProductProcessor
-            ->getIndexer()
-            ->getView()
-            ->getState()
-            ->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_VALID)
-            ->setVersionId($versionId)
-            ->save();
-        $this->_flatProductProcessor
-            ->getIndexer()
-            ->getView()
-            ->getChangelog()
-            ->clear($versionId);
-    }
-
-    /**
-     * Set invalid state
-     */
-    protected function _setInvalidState()
-    {
-        $this->_flatProductProcessor->markIndexerAsInvalid();
-    }
-
-    /**
-     * set processing state
-     */
-    protected function _setProcessingState()
-    {
-        $this->_flatProductProcessor
-            ->getIndexer()
-            ->getState()
-            ->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_WORKING);
-    }
-
-    /**
-     * Is indexer processing
-     *
-     * @return bool
-     */
-    protected function _isProcessing()
-    {
-        return $this->_flatProductProcessor->getIndexer()->isWorking();
     }
 }

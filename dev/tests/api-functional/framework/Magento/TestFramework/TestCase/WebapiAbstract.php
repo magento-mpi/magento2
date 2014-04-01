@@ -16,15 +16,20 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * Auto tear down options in setFixture
      */
     const AUTO_TEAR_DOWN_DISABLED = 0;
+
     const AUTO_TEAR_DOWN_AFTER_METHOD = 1;
+
     const AUTO_TEAR_DOWN_AFTER_CLASS = 2;
+
     /**#@-*/
 
     /**#@+
      * Web API adapters that are used to perform actual calls.
      */
     const ADAPTER_SOAP = 'soap';
+
     const ADAPTER_REST = 'rest';
+
     /**#@-*/
 
     /**
@@ -115,8 +120,11 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         }
 
         $fixtureNamespace = self::_getFixtureNamespace();
-        if (isset(self::$_classLevelFixtures[$fixtureNamespace])
-            && count(self::$_classLevelFixtures[$fixtureNamespace])
+        if (isset(
+            self::$_classLevelFixtures[$fixtureNamespace]
+        ) && count(
+            self::$_classLevelFixtures[$fixtureNamespace]
+        )
         ) {
             self::_deleteFixtures(self::$_classLevelFixtures[$fixtureNamespace]);
         }
@@ -136,8 +144,11 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $fixtureNamespace = self::_getFixtureNamespace();
-        if (isset(self::$_methodLevelFixtures[$fixtureNamespace])
-            && count(self::$_methodLevelFixtures[$fixtureNamespace])
+        if (isset(
+            self::$_methodLevelFixtures[$fixtureNamespace]
+        ) && count(
+            self::$_methodLevelFixtures[$fixtureNamespace]
+        )
         ) {
             self::_deleteFixtures(self::$_methodLevelFixtures[$fixtureNamespace]);
         }
@@ -234,7 +245,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * @param bool $secure
      * @return \Magento\TestFramework\TestCase\WebapiAbstract
      */
-    static public function callModelDelete($model, $secure = false)
+    public static function callModelDelete($model, $secure = false)
     {
         if ($model instanceof \Magento\Core\Model\AbstractModel && $model->getId()) {
             if ($secure) {
@@ -256,10 +267,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      */
     public function addModelToDelete($model, $secure = false)
     {
-        $this->_modelsToDelete[] = array(
-            'model' => $model,
-            'secure' => $secure
-        );
+        $this->_modelsToDelete[] = array('model' => $model, 'secure' => $secure);
         return $this;
     }
 
@@ -274,12 +282,11 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     {
         if (!isset($this->_webApiAdapters[$webApiAdapterCode])) {
             if (!isset($this->_webApiAdaptersMap[$webApiAdapterCode])) {
-                throw new \LogicException(sprintf(
-                    'Declaration of the requested Web API adapter "%s" was not found.',
-                    $webApiAdapterCode
-                ));
+                throw new \LogicException(
+                    sprintf('Declaration of the requested Web API adapter "%s" was not found.', $webApiAdapterCode)
+                );
             }
-            $this->_webApiAdapters[$webApiAdapterCode] = new $this->_webApiAdaptersMap[$webApiAdapterCode];
+            $this->_webApiAdapters[$webApiAdapterCode] = new $this->_webApiAdaptersMap[$webApiAdapterCode]();
         }
         return $this->_webApiAdapters[$webApiAdapterCode];
     }
@@ -328,7 +335,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * @param bool $flag
      * @return void
      */
-    static protected function _enableSecureArea($flag = true)
+    protected static function _enableSecureArea($flag = true)
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -366,7 +373,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     protected function _assertMessagesEqual($expectedMessages, $receivedMessages)
     {
         foreach ($receivedMessages as $message) {
-            $this->assertContains($message, $expectedMessages, "Unexpected message: '$message'");
+            $this->assertContains($message, $expectedMessages, "Unexpected message: '{$message}'");
         }
         $expectedErrorsCount = count($expectedMessages);
         $this->assertCount($expectedErrorsCount, $receivedMessages, 'Invalid messages quantity received');
@@ -462,23 +469,24 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         list($section, $group, $node) = explode('/', $path);
 
         if (!$section || !$group || !$node) {
-            throw new \RuntimeException(sprintf(
-                'Config path must have view as "section/group/node" but now it "%s"',
-                $path
-            ));
+            throw new \RuntimeException(
+                sprintf('Config path must have view as "section/group/node" but now it "%s"', $path)
+            );
         }
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $config \Magento\Backend\Model\Config */
         $config = $objectManager->create('Magento\Backend\Model\Config');
         $data[$group]['fields'][$node]['value'] = $value;
-        $config->setSection($section)
-            ->setGroups($data)
-            ->save();
+        $config->setSection($section)->setGroups($data)->save();
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
-            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento\App\ConfigInterface')
-                ->getNode($path, 'default');
+            $this->_origConfigValues[$path] = (string)$objectManager->get(
+                'Magento\App\ConfigInterface'
+            )->getNode(
+                $path,
+                'default'
+            );
         }
 
         //refresh local cache
@@ -504,5 +512,20 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         foreach ($this->_origConfigValues as $configPath => $origValue) {
             $this->_updateAppConfig($configPath, $origValue, true, true);
         }
+    }
+
+    /**
+     * Transform an array. Convert all camelCase keys to snake_case.
+     *
+     * @param array $objectData An array of data.
+     * @return array The array with all camelCase keys converted to snake_case.
+     */
+    protected function decamelize($objectData)
+    {
+        $data = array();
+        foreach ($objectData as $key => $value) {
+            $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
+        }
+        return $data;
     }
 }

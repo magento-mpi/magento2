@@ -8,8 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Backend\Controller\Adminhtml\System;
 
 /**

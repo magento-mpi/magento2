@@ -23,12 +23,12 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/success',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
+            )
         );
 
         $item = $this->_webApiCall($serviceInfo);
 
-         // TODO: check Http Status = 200, cannot do yet due to missing header info returned
+        // TODO: check Http Status = 200, cannot do yet due to missing header info returned
 
         $this->assertEquals('a good id', $item['value'], 'Success case is correct');
     }
@@ -39,7 +39,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/notfound',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
+            )
         );
 
         // \Magento\Service\ResourceNotFoundException
@@ -58,7 +58,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/unauthorized',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
+            )
         );
 
         // \Magento\Service\AuthorizationException
@@ -77,7 +77,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/serviceexception',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
+            )
         );
 
         // \Magento\Service\Exception
@@ -101,7 +101,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         $arguments = array(
             'parameters' => array(
                 array('name' => 'key1', 'value' => 'value1'),
-                array('name' => 'key2', 'value' => 'value2'),
+                array('name' => 'key2', 'value' => 'value2')
             )
         );
         $expectedExceptionParameters = array('key1' => 'value1', 'key2' => 'value2');
@@ -122,13 +122,13 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/otherexception',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
+            )
         );
 
         $expectedCodes = array(5678, null);
         $expectedMessages = array(
             'Non service exception',
-            'Internal Error. Details are available in Magento log file. Report ID: %1'
+            'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX'
         );
         $this->_errorTest(
             $serviceInfo,
@@ -149,14 +149,8 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
      * @param string|array $errorMessage - \Exception error message
      * @param array $parameters - Optional parameters array, or null if no parameters
      */
-    protected function _errorTest(
-        $serviceInfo,
-        $data,
-        $httpStatus,
-        $errorCode,
-        $errorMessage,
-        $parameters = array()
-    ) {
+    protected function _errorTest($serviceInfo, $data, $httpStatus, $errorCode, $errorMessage, $parameters = array())
+    {
         // TODO: need to get header info instead of catching the exception
         try {
             $this->_webApiCall($serviceInfo, $data);
@@ -168,10 +162,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             $errorCodes = is_array($errorCode) ? $errorCode : array($errorCode);
             if (isset($body['errors'][0]['code'])) {
                 $this->assertTrue(
-                    in_array(
-                        $body['errors'][0]['code'],
-                        $errorCodes
-                    ),
+                    in_array($body['errors'][0]['code'], $errorCodes),
                     sprintf(
                         "Error code is invalid. Actual: {$body['errors'][0]['code']}, Expected one of: \n%s",
                         implode("\n", $errorCodes)
@@ -182,10 +173,19 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             }
 
             $errorMessages = is_array($errorMessage) ? $errorMessage : array($errorMessage);
-            $this->assertTrue(
-                in_array($body['errors'][0]['message'], $errorMessages),
-                "Message is invalid. Actual: {$body['errors'][0]['message']}. Expected one of:" .
-                implode("\n", $errorMessages)
+            $actualMessage = $body['errors'][0]['message'];
+            $matches = array();
+            //Report ID was created dynamically, so we need to replace it with some static value in order to test
+            if (preg_match('/.*Report\sID\:\s([a-zA-Z0-9\-]*)/', $actualMessage, $matches)) {
+                $actualMessage = str_replace($matches[1], 'webapi-XXX', $actualMessage);
+            }
+            $this->assertContains(
+                $actualMessage,
+                $errorMessages,
+                "Message is invalid. Actual: '{$actualMessage}'. Expected one of: {'" . implode(
+                    "', '",
+                    $errorMessages
+                ) . "'}"
             );
 
             if ($parameters) {

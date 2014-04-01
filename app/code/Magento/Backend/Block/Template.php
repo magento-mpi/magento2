@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -21,11 +20,6 @@ class Template extends \Magento\View\Element\Template
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
-
-    /**
-     * @var \Magento\LocaleInterface
-     */
-    protected $_locale;
 
     /**
      * @var \Magento\Math\Random
@@ -51,11 +45,9 @@ class Template extends \Magento\View\Element\Template
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        array $data = array()
-    ) {
-        $this->_locale = $context->getLocale();
+    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = array())
+    {
+        $this->_localeDate = $context->getLocaleDate();
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
         $this->_backendSession = $context->getBackendSession();

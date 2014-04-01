@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
 use Magento\DB\Select;
@@ -15,8 +14,7 @@ use Magento\DB\Select;
 /**
  * Cart items quantity condition
  */
-class Itemsquantity
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Itemsquantity extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -45,8 +43,7 @@ class Itemsquantity
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Cart Line Items'));
+        return array('value' => $this->getType(), 'label' => __('Cart Line Items'));
     }
 
     /**
@@ -56,9 +53,11 @@ class Itemsquantity
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Number of shopping cart line items %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Number of shopping cart line items %1 %2:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**

@@ -51,7 +51,7 @@ class Factory implements \Magento\ObjectManager\Factory
         $this->_config = $config;
         $this->_argInterpreter = $argInterpreter;
         $this->_argObjectFactory = $argObjectFactory;
-        $this->_definitions = $definitions ? : new \Magento\ObjectManager\Definition\Runtime();
+        $this->_definitions = $definitions ?: new \Magento\ObjectManager\Definition\Runtime();
     }
 
     /**
@@ -78,9 +78,13 @@ class Factory implements \Magento\ObjectManager\Factory
             } else if (array_key_exists($paramName, $arguments)) {
                 $argumentData = $arguments[$paramName];
                 if (!is_array($argumentData)) {
-                    throw new \UnexpectedValueException(sprintf(
-                        'Invalid parameter configuration provided for $%s argument of %s.', $paramName, $requestedType
-                    ));
+                    throw new \UnexpectedValueException(
+                        sprintf(
+                            'Invalid parameter configuration provided for $%s argument of %s.',
+                            $paramName,
+                            $requestedType
+                        )
+                    );
                 }
                 try {
                     $value = $this->_argInterpreter->evaluate($argumentData);
@@ -89,9 +93,9 @@ class Factory implements \Magento\ObjectManager\Factory
                 }
             } else if ($paramRequired) {
                 if (!$paramType) {
-                    throw new \BadMethodCallException(sprintf(
-                        'Missing required argument $%s of %s.', $paramName, $requestedType
-                    ));
+                    throw new \BadMethodCallException(
+                        sprintf('Missing required argument $%s of %s.', $paramName, $requestedType)
+                    );
                 }
                 $value = $this->_argObjectFactory->create($paramType);
             } else {
@@ -156,6 +160,7 @@ class Factory implements \Magento\ObjectManager\Factory
      *
      * @param string $type
      * @throws \LogicException
+     * @return void
      */
     private function _assertNoCircularDependency($type)
     {

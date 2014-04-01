@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System\Configuration;
 
 class Formatter
@@ -15,6 +14,7 @@ class Formatter
     /**
      * @param string $string
      * @param string $parameters
+     * @return string
      */
     public function parseString($string, $parameters)
     {

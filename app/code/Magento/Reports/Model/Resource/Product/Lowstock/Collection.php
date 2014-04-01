@@ -25,14 +25,14 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      *
      * @var bool
      */
-    protected $_inventoryItemJoined        = false;
+    protected $_inventoryItemJoined = false;
 
     /**
      * Alias for CatalogInventory Stock Item Table
      *
      * @var string
      */
-    protected $_inventoryItemTableAlias    = 'lowstock_inventory_item';
+    protected $_inventoryItemTableAlias = 'lowstock_inventory_item';
 
     /**
      * Catalog inventory data
@@ -62,7 +62,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Resource\Product $product
@@ -90,7 +90,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Resource\Product $product,
@@ -116,7 +116,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             $coreStoreConfig,
             $productOptionFactory,
             $catalogUrl,
-            $locale,
+            $localeDate,
             $customerSession,
             $dateTime,
             $product,
@@ -175,10 +175,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             return $this;
         }
 
-        $this->_joinFields[$alias] = array(
-            'table' => $this->_getInventoryItemTableAlias(),
-            'field' => $field
-        );
+        $this->_joinFields[$alias] = array('table' => $this->_getInventoryItemTableAlias(), 'field' => $field);
 
         $this->getSelect()->columns(array($alias => $field), $this->_getInventoryItemTableAlias());
         return $this;
@@ -206,7 +203,8 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         if (!$this->_inventoryItemJoined) {
             $this->getSelect()->join(
                 array($this->_getInventoryItemTableAlias() => $this->_getInventoryItemTable()),
-                sprintf('e.%s = %s.product_id',
+                sprintf(
+                    'e.%s = %s.product_id',
                     $this->getEntity()->getEntityIdField(),
                     $this->_getInventoryItemTableAlias()
                 ),
@@ -255,9 +253,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      */
     public function filterByIsQtyProductTypes()
     {
-        $this->filterByProductType(
-            array_keys(array_filter($this->_inventoryData->getIsQtyTypeIds()))
-        );
+        $this->filterByProductType(array_keys(array_filter($this->_inventoryData->getIsQtyTypeIds())));
         return $this;
     }
 
@@ -272,7 +268,10 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem();
         $manageStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_manage_stock') . ' = 1',
-            (int) $this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, $storeId),
+            (int)$this->_coreStoreConfig->getConfig(
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
+                $storeId
+            ),
             $this->_getInventoryItemField('manage_stock')
         );
         $this->getSelect()->where($manageStockExpr . ' = ?', 1);
@@ -290,7 +289,10 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem(array('qty'));
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
-            (int)$this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY, $storeId),
+            (int)$this->_coreStoreConfig->getConfig(
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY,
+                $storeId
+            ),
             $this->_getInventoryItemField('notify_stock_qty')
         );
         $this->getSelect()->where('qty < ?', $notifyStockExpr);

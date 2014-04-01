@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Menu\Builder\Command;
 
 class AddTest extends \PHPUnit_Framework_TestCase
@@ -40,7 +39,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testExecuteDoesntRewriteDataInFilledItem()
     {
         $params = $this->_model->execute(array('title' => 'newitem'));
-        $this->_params['title'] =  'newitem';
+        $this->_params['title'] = 'newitem';
         $this->assertEquals($this->_params, $params);
     }
 

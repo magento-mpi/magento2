@@ -60,11 +60,9 @@ class Manager
     {
         $this->_session->setSessionLocale(null);
 
-        $this->_authSession->getUser()
-            ->setInterfaceLocale($localeCode);
+        $this->_authSession->getUser()->setInterfaceLocale($localeCode);
 
-        $this->_translator->setLocale($localeCode)
-            ->init(null, true);
+        $this->_translator->setLocale($localeCode)->init(null, true);
 
         return $this;
     }
@@ -76,7 +74,7 @@ class Manager
      */
     public function getUserInterfaceLocale()
     {
-        $interfaceLocale = \Magento\LocaleInterface::DEFAULT_LOCALE;
+        $interfaceLocale = \Magento\Locale\ResolverInterface::DEFAULT_LOCALE;
 
         $userData = $this->_authSession->getUser();
         if ($userData && $userData->getInterfaceLocale()) {

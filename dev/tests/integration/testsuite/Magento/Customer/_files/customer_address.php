@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /** @var \Magento\Customer\Model\Address $customerAddress */
-$customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Address');
+$customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Customer\Model\Address'
+);
 $customerAddress->isObjectNew(true);
-$customerAddress
-    ->setData(array(
+$customerAddress->setData(
+    array(
         'entity_id' => 1,
         'attribute_set_id' => 2,
         'telephone' => 3468676,
@@ -25,6 +25,8 @@ $customerAddress
         'firstname' => 'John',
         'parent_id' => 1,
         'region_id' => 1
-    ))
-    ->setCustomerId(1);
+    )
+)->setCustomerId(
+    1
+);
 $customerAddress->save();

@@ -18,14 +18,13 @@
  */
 namespace Magento\Invitation\Model\Resource\Report\Invitation;
 
-class Collection
-    extends \Magento\Invitation\Model\Resource\Invitation\Collection
+class Collection extends \Magento\Invitation\Model\Resource\Invitation\Collection
 {
     /**
      * Joins Invitation report data, and filter by date
      *
-     * @param \Zend_Date|string $fromDate
-     * @param \Zend_Date|string $toDate
+     * @param \Magento\Stdlib\DateTime\Date|string $fromDate
+     * @param \Magento\Stdlib\DateTime\Date|string $toDate
      * @return $this
      */
     public function setDateRange($fromDate, $toDate)
@@ -33,9 +32,11 @@ class Collection
         $this->_reset();
 
         $canceledField = $this->getConnection()->getCheckSql(
-            'main_table.status = '
-                . $this->getConnection()->quote(\Magento\Invitation\Model\Invitation::STATUS_CANCELED),
-            '1', '0'
+            'main_table.status = ' . $this->getConnection()->quote(
+                \Magento\Invitation\Model\Invitation::STATUS_CANCELED
+            ),
+            '1',
+            '0'
         );
 
         $canceledRate = $this->getConnection()->getCheckSql(
@@ -50,16 +51,20 @@ class Collection
             'COUNT(DISTINCT main_table.referral_id) / COUNT(main_table.invitation_id) * 100'
         );
 
-        $this->addFieldToFilter('invitation_date', array('from' => $fromDate, 'to' => $toDate, 'time' => true))
-            ->getSelect()
-            ->reset(\Zend_Db_Select::COLUMNS)
-            ->columns(array(
+        $this->addFieldToFilter(
+            'invitation_date',
+            array('from' => $fromDate, 'to' => $toDate, 'time' => true)
+        )->getSelect()->reset(
+            \Zend_Db_Select::COLUMNS
+        )->columns(
+            array(
                 'sent' => new \Zend_Db_Expr('COUNT(main_table.invitation_id)'),
                 'accepted' => new \Zend_Db_Expr('COUNT(DISTINCT main_table.referral_id)'),
                 'canceled' => new \Zend_Db_Expr('SUM(' . $canceledField . ') '),
                 'canceled_rate' => $canceledRate,
                 'accepted_rate' => $acceptedRate
-            ));
+            )
+        );
 
         $this->_joinFields($fromDate, $toDate);
 

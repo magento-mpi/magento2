@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloader\Model\Connect;
 
 /**
  * Class request
@@ -15,10 +16,11 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloader\Model\Connect;
-
 class Request extends \Magento\Downloader\Model
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

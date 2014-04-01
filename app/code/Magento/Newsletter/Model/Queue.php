@@ -67,9 +67,13 @@ class Queue extends \Magento\Core\Model\Template
     protected $_stores = array();
 
     const STATUS_NEVER = 0;
+
     const STATUS_SENDING = 1;
+
     const STATUS_CANCEL = 2;
+
     const STATUS_SENT = 3;
+
     const STATUS_PAUSE = 4;
 
     /**
@@ -82,16 +86,14 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Date
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Problem factory
@@ -119,8 +121,8 @@ class Queue extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Newsletter\Model\Template\Filter $templateFilter
-     * @param \Magento\LocaleInterface $locale
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Newsletter\Model\ProblemFactory $problemFactory
      * @param \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory
@@ -134,8 +136,8 @@ class Queue extends \Magento\Core\Model\Template
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Newsletter\Model\Template\Filter $templateFilter,
-        \Magento\LocaleInterface $locale,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Newsletter\Model\ProblemFactory $problemFactory,
         \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory,
@@ -145,7 +147,7 @@ class Queue extends \Magento\Core\Model\Template
         parent::__construct($context, $design, $registry, $appEmulation, $storeManager, $data);
         $this->_templateFilter = $templateFilter;
         $this->_date = $date;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_templateFactory = $templateFactory;
         $this->_problemFactory = $problemFactory;
         $this->_subscribersCollection = $subscriberCollectionFactory->create();
@@ -170,7 +172,7 @@ class Queue extends \Magento\Core\Model\Template
      */
     public function isNew()
     {
-        return (is_null($this->getQueueStatus()));
+        return is_null($this->getQueueStatus());
     }
 
     /**
@@ -184,8 +186,10 @@ class Queue extends \Magento\Core\Model\Template
         if (is_null($startAt) || $startAt == '') {
             $this->setQueueStartAt(null);
         } else {
-            $format = $this->_locale->getDateTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
-            $time = $this->_locale->date($startAt, $format)->getTimestamp();
+            $format = $this->_localeDate->getDateTimeFormat(
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+            );
+            $time = $this->_localeDate->date($startAt, $format)->getTimestamp();
             $this->setQueueStartAt($this->_date->gmtDate(null, $time));
         }
         return $this;
@@ -199,8 +203,9 @@ class Queue extends \Magento\Core\Model\Template
      */
     public function sendPerSubscriber($count = 20)
     {
-        if ($this->getQueueStatus() != self::STATUS_SENDING
-           && ($this->getQueueStatus() != self::STATUS_NEVER && $this->getQueueStartAt())
+        if ($this->getQueueStatus() != self::STATUS_SENDING &&
+            ($this->getQueueStatus() != self::STATUS_NEVER &&
+            $this->getQueueStartAt())
         ) {
             return $this;
         }
@@ -214,32 +219,34 @@ class Queue extends \Magento\Core\Model\Template
             return $this;
         }
 
-        $collection = $this->_subscribersCollection
-            ->useOnlyUnsent()
-            ->showCustomerInfo()
-            ->setPageSize($count)
-            ->setCurPage(1)
-            ->load();
+        $collection = $this->_subscribersCollection->useOnlyUnsent()->showCustomerInfo()->setPageSize(
+            $count
+        )->setCurPage(
+            1
+        )->load();
 
-        $this->_transportBuilder->setTemplateData(array(
-            'template_subject' => $this->getNewsletterSubject(),
-            'template_text' => $this->getNewsletterText(),
-            'template_styles' => $this->getNewsletterStyles(),
-            'template_filter' => $this->_templateFilter,
-            'template_type' => self::TYPE_HTML,
-        ));
+        $this->_transportBuilder->setTemplateData(
+            array(
+                'template_subject' => $this->getNewsletterSubject(),
+                'template_text' => $this->getNewsletterText(),
+                'template_styles' => $this->getNewsletterStyles(),
+                'template_filter' => $this->_templateFilter,
+                'template_type' => self::TYPE_HTML
+            )
+        );
 
         /** @var \Magento\Newsletter\Model\Subscriber $item */
         foreach ($collection->getItems() as $item) {
-            $transport = $this->_transportBuilder
-                ->setTemplateOptions(array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $item->getStoreId()
-                ))
-                ->setTemplateVars(array('subscriber' => $item))
-                ->setFrom(['name' => $this->getNewsletterSenderEmail(), 'email' => $this->getNewsletterSenderName()])
-                ->addTo($item->getSubscriberEmail(), $item->getSubscriberFullName())
-                ->getTransport();
+            $transport = $this->_transportBuilder->setTemplateOptions(
+                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+            )->setTemplateVars(
+                array('subscriber' => $item)
+            )->setFrom(
+                array('name' => $this->getNewsletterSenderEmail(), 'email' => $this->getNewsletterSenderName())
+            )->addTo(
+                $item->getSubscriberEmail(),
+                $item->getSubscriberFullName()
+            )->getTransport();
 
             try {
                 $transport->sendMessage();
@@ -254,7 +261,7 @@ class Queue extends \Magento\Core\Model\Template
             $item->received($this);
         }
 
-        if (count($collection->getItems()) < $count-1 || count($collection->getItems()) == 0) {
+        if (count($collection->getItems()) < $count - 1 || count($collection->getItems()) == 0) {
             $this->_finishQueue();
         }
         return $this;
@@ -309,7 +316,7 @@ class Queue extends \Magento\Core\Model\Template
      */
     public function setSaveStoresFlag($value)
     {
-        $this->_saveStoresFlag = (boolean)$value;
+        $this->_saveStoresFlag = (bool)$value;
         return $this;
     }
 
@@ -358,8 +365,7 @@ class Queue extends \Magento\Core\Model\Template
     public function getTemplate()
     {
         if (is_null($this->_template)) {
-            $this->_template = $this->_templateFactory->create()
-                ->load($this->getTemplateId());
+            $this->_template = $this->_templateFactory->create()->load($this->getTemplateId());
         }
         return $this->_template;
     }

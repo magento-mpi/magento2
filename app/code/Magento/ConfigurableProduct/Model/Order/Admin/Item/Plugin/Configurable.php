@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin;
 
 class Configurable
@@ -18,7 +17,7 @@ class Configurable
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      */
-    public  function __construct(\Magento\Catalog\Model\ProductFactory $productFactory)
+    public function __construct(\Magento\Catalog\Model\ProductFactory $productFactory)
     {
         $this->productFactory = $productFactory;
     }
@@ -85,7 +84,7 @@ class Configurable
         \Magento\Sales\Model\Order\Item $item
     ) {
         if ($item->getProductType() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
-            $productOptions     = $item->getProductOptions();
+            $productOptions = $item->getProductOptions();
             $product = $this->productFactory->create();
             return $product->getIdBySku($productOptions['simple_sku']);
         }

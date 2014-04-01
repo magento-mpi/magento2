@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 
 /**
@@ -29,10 +28,12 @@ class RowsTest extends \Magento\TestFramework\Indexer\TestCase
 
     protected function setUp()
     {
-        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
-        $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Model\Indexer\Product\Flat\Processor');
+        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Model\Indexer\Product\Flat\Processor'
+        );
     }
 
     /**
@@ -47,10 +48,12 @@ class RowsTest extends \Magento\TestFramework\Indexer\TestCase
 
         $this->_processor->reindexList(array($this->_product->getId()));
 
-        $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Model\CategoryFactory');
-        $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Block\Product\ListProduct');
+        $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Model\CategoryFactory'
+        );
+        $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Block\Product\ListProduct'
+        );
 
         $category = $categoryFactory->create()->load(2);
         $layer = $listProduct->getLayer();

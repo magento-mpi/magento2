@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Acl;
 
 class BuilderTest extends \PHPUnit_Framework_TestCase
@@ -58,7 +57,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->_ruleLoader = $this->getMock('Magento\Acl\Loader\DefaultLoader');
         $this->_resourceLoader = $this->getMock('Magento\Acl\Loader\DefaultLoader');
         $this->_model = new \Magento\Acl\Builder(
-            $this->_aclFactoryMock, $this->_aclCacheMock, $this->_roleLoader, $this->_resourceLoader, $this->_ruleLoader
+            $this->_aclFactoryMock,
+            $this->_aclCacheMock,
+            $this->_roleLoader,
+            $this->_resourceLoader,
+            $this->_ruleLoader
         );
     }
 
@@ -79,17 +82,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->_aclCacheMock->expects($this->at(2))->method('has')->will($this->returnValue(true));
         $this->_aclCacheMock->expects($this->once())->method('get')->will($this->returnValue($this->_aclMock));
         $this->_aclCacheMock->expects($this->exactly(1))->method('save')->with($this->_aclMock);
-        $this->_ruleLoader->expects($this->once())
-            ->method('populateAcl')
-            ->with($this->equalTo($this->_aclMock));
+        $this->_ruleLoader->expects($this->once())->method('populateAcl')->with($this->equalTo($this->_aclMock));
 
-        $this->_roleLoader->expects($this->once())
-            ->method('populateAcl')
-            ->with($this->equalTo($this->_aclMock));
+        $this->_roleLoader->expects($this->once())->method('populateAcl')->with($this->equalTo($this->_aclMock));
 
-        $this->_resourceLoader->expects($this->once())
-            ->method('populateAcl')
-            ->with($this->equalTo($this->_aclMock));
+        $this->_resourceLoader->expects($this->once())->method('populateAcl')->with($this->equalTo($this->_aclMock));
 
         $this->assertEquals($this->_aclMock, $this->_model->getAcl());
         $this->assertEquals($this->_aclMock, $this->_model->getAcl());
@@ -109,9 +106,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAclRethrowsException()
     {
-        $this->_aclCacheMock->expects($this->once())
-            ->method('has')
-            ->will($this->throwException(new \InvalidArgumentException()));
+        $this->_aclCacheMock->expects(
+            $this->once()
+        )->method(
+            'has'
+        )->will(
+            $this->throwException(new \InvalidArgumentException())
+        );
         $this->_model->getAcl();
     }
 }

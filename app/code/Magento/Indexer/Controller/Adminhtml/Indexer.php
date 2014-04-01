@@ -13,6 +13,8 @@ class Indexer extends \Magento\Backend\App\Action
 {
     /**
      * Display processes grid action
+     *
+     * @return void
      */
     public function listAction()
     {
@@ -25,6 +27,8 @@ class Indexer extends \Magento\Backend\App\Action
 
     /**
      * Turn mview off for the given indexers
+     *
+     * @return void
      */
     public function massOnTheFlyAction()
     {
@@ -35,8 +39,11 @@ class Indexer extends \Magento\Backend\App\Action
             try {
                 foreach ($indexerIds as $indexer_id) {
                     /** @var \Magento\Indexer\Model\IndexerInterface $model */
-                    $model = $this->_objectManager->create('Magento\Indexer\Model\IndexerInterface')
-                        ->load($indexer_id);
+                    $model = $this->_objectManager->create(
+                        'Magento\Indexer\Model\IndexerInterface'
+                    )->load(
+                        $indexer_id
+                    );
                     $model->setScheduled(false);
                 }
                 $this->messageManager->addSuccess(
@@ -56,6 +63,8 @@ class Indexer extends \Magento\Backend\App\Action
 
     /**
      * Turn mview on for the given indexers
+     *
+     * @return void
      */
     public function massChangelogAction()
     {
@@ -66,8 +75,11 @@ class Indexer extends \Magento\Backend\App\Action
             try {
                 foreach ($indexerIds as $indexer_id) {
                     /** @var \Magento\Indexer\Model\IndexerInterface $model */
-                    $model = $this->_objectManager->create('Magento\Indexer\Model\IndexerInterface')
-                        ->load($indexer_id);
+                    $model = $this->_objectManager->create(
+                        'Magento\Indexer\Model\IndexerInterface'
+                    )->load(
+                        $indexer_id
+                    );
                     $model->setScheduled(true);
                 }
                 $this->messageManager->addSuccess(

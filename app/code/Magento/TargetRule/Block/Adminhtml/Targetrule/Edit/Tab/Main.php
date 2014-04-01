@@ -16,9 +16,7 @@ namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
  * @package    Magento_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Main
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\TargetRule\Model\Rule
@@ -43,7 +41,6 @@ class Main
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
-
     /**
      * Prepare Mail Target Rule Edit form
      *
@@ -59,74 +56,79 @@ class Main
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => __('General Rule Information')
-        ));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('General Rule Information')));
 
         if ($model->getId()) {
-            $fieldset->addField('rule_id', 'hidden', array(
-                'name' => 'rule_id',
-            ));
+            $fieldset->addField('rule_id', 'hidden', array('name' => 'rule_id'));
         }
 
-        $fieldset->addField('name', 'text', array(
-            'name' => 'name',
-            'label' => __('Rule Name'),
-            'required' => true,
-        ));
+        $fieldset->addField('name', 'text', array('name' => 'name', 'label' => __('Rule Name'), 'required' => true));
 
-        $fieldset->addField('sort_order', 'text', array(
-            'name' => 'sort_order',
-            'label' => __('Priority'),
-        ));
+        $fieldset->addField('sort_order', 'text', array('name' => 'sort_order', 'label' => __('Priority')));
 
-        $fieldset->addField('is_active', 'select', array(
-            'label'     => __('Status'),
-            'name'      => 'is_active',
-            'required'  => true,
-            'options'   => array(
-                '1' => __('Active'),
-                '0' => __('Inactive'),
-            ),
-        ));
+        $fieldset->addField(
+            'is_active',
+            'select',
+            array(
+                'label' => __('Status'),
+                'name' => 'is_active',
+                'required' => true,
+                'options' => array('1' => __('Active'), '0' => __('Inactive'))
+            )
+        );
         if (!$model->getId()) {
             $model->setData('is_active', '1');
         }
 
-        $fieldset->addField('apply_to', 'select', array(
-            'label'     => __('Apply To'),
-            'name'      => 'apply_to',
-            'required'  => true,
-            'options'   => $this->_rule->getAppliesToOptions(true),
-        ));
+        $fieldset->addField(
+            'apply_to',
+            'select',
+            array(
+                'label' => __('Apply To'),
+                'name' => 'apply_to',
+                'required' => true,
+                'options' => $this->_rule->getAppliesToOptions(true)
+            )
+        );
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
-        $fieldset->addField('from_date', 'date', array(
-            'name'         => 'from_date',
-            'label'        => __('From Date'),
-            'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
-            'date_format'  => $dateFormat
-        ));
-        $fieldset->addField('to_date', 'date', array(
-            'name'         => 'to_date',
-            'label'        => __('To Date'),
-            'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
-            'date_format'  => $dateFormat
-        ));
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $fieldset->addField(
+            'from_date',
+            'date',
+            array(
+                'name' => 'from_date',
+                'label' => __('From Date'),
+                'image' => $this->getViewFileUrl('images/grid-cal.gif'),
+                'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                'date_format' => $dateFormat
+            )
+        );
+        $fieldset->addField(
+            'to_date',
+            'date',
+            array(
+                'name' => 'to_date',
+                'label' => __('To Date'),
+                'image' => $this->getViewFileUrl('images/grid-cal.gif'),
+                'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                'date_format' => $dateFormat
+            )
+        );
 
-        $fieldset->addField('positions_limit', 'text', array(
-            'name'  => 'positions_limit',
-            'label' => __('Result Limit'),
-            'note'  => __('Maximum number of products that can be matched by this Rule. Capped to 20.'),
-        ));
+        $fieldset->addField(
+            'positions_limit',
+            'text',
+            array(
+                'name' => 'positions_limit',
+                'label' => __('Result Limit'),
+                'note' => __('Maximum number of products that can be matched by this Rule. Capped to 20.')
+            )
+        );
 
-        $this->_eventManager->dispatch('targetrule_edit_tab_main_after_prepare_form', array(
-            'model' => $model,
-            'form' => $form,
-            'block' => $this,
-        ));
+        $this->_eventManager->dispatch(
+            'targetrule_edit_tab_main_after_prepare_form',
+            array('model' => $model, 'form' => $form, 'block' => $this)
+        );
 
         $form->setValues($model->getData());
 

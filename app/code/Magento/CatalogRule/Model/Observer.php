@@ -22,7 +22,7 @@ use Magento\CatalogRule\Model\Resource\Rule\Collection;
 use Magento\CatalogRule\Model\Rule\Product\Price;
 use Magento\Registry;
 use Magento\Core\Model\StoreManagerInterface;
-use Magento\LocaleInterface;
+use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Event\Observer as EventObserver;
@@ -83,9 +83,9 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\CatalogRule\Model\Resource\RuleFactory
@@ -110,7 +110,7 @@ class Observer
      * @param RuleFactory $ruleFactory
      * @param FlagFactory $flagFactory
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param TimezoneInterface $localeDate
      * @param CustomerModelSession $customerSession
      * @param BackendModelSession $backendSession
      * @param Registry $coreRegistry
@@ -127,7 +127,7 @@ class Observer
         RuleFactory $ruleFactory,
         FlagFactory $flagFactory,
         StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        TimezoneInterface $localeDate,
         CustomerModelSession $customerSession,
         BackendModelSession $backendSession,
         Registry $coreRegistry,
@@ -141,7 +141,7 @@ class Observer
         $this->_ruleFactory = $ruleFactory;
         $this->_flagFactory = $flagFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_customerSession = $customerSession;
         $this->_backendSession = $backendSession;
         $this->_coreRegistry = $coreRegistry;
@@ -164,8 +164,7 @@ class Observer
 
         $productWebsiteIds = $product->getWebsiteIds();
 
-        $rules = $this->_ruleCollectionFactory->create()
-            ->addFieldToFilter('is_active', 1);
+        $rules = $this->_ruleCollectionFactory->create()->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
             $websiteIds = array_intersect($productWebsiteIds, $rule->getWebsiteIds());
@@ -184,11 +183,8 @@ class Observer
      */
     public function applyAllRules($observer)
     {
-        $this->_resourceRule->applyAllRulesForDateRange($this->dateTime->formatDate(mktime(0,0,0)));
-        $this->_flagFactory->create()
-            ->loadSelf()
-            ->setState(0)
-            ->save();
+        $this->_resourceRule->applyAllRulesForDateRange($this->dateTime->formatDate(mktime(0, 0, 0)));
+        $this->_flagFactory->create()->loadSelf()->setState(0)->save();
 
         return $this;
     }
@@ -205,10 +201,7 @@ class Observer
     public function processApplyAll(EventObserver $observer)
     {
         $this->_ruleFactory->create()->applyAll();
-        $this->_flagFactory->create()
-            ->loadSelf()
-            ->setState(0)
-            ->save();
+        $this->_flagFactory->create()->loadSelf()->setState(0)->save();
         return $this;
     }
 
@@ -220,14 +213,14 @@ class Observer
      */
     public function processFrontFinalPrice($observer)
     {
-        $product    = $observer->getEvent()->getProduct();
-        $pId        = $product->getId();
-        $storeId    = $product->getStoreId();
+        $product = $observer->getEvent()->getProduct();
+        $pId = $product->getId();
+        $storeId = $product->getStoreId();
 
         if ($observer->hasDate()) {
             $date = $observer->getEvent()->getDate();
         } else {
-            $date = $this->_locale->storeTimeStamp($storeId);
+            $date = $this->_localeDate->scopeTimeStamp($storeId);
         }
 
         if ($observer->hasWebsiteId()) {
@@ -244,13 +237,12 @@ class Observer
             $gId = $this->_customerSession->getCustomerGroupId();
         }
 
-        $key = "$date|$wId|$gId|$pId";
+        $key = "{$date}|{$wId}|{$gId}|{$pId}";
         if (!isset($this->_rulePrices[$key])) {
-            $rulePrice = $this->_resourceRuleFactory->create()
-                ->getRulePrice($date, $wId, $gId, $pId);
+            $rulePrice = $this->_resourceRuleFactory->create()->getRulePrice($date, $wId, $gId, $pId);
             $this->_rulePrices[$key] = $rulePrice;
         }
-        if ($this->_rulePrices[$key]!==false) {
+        if ($this->_rulePrices[$key] !== false) {
             $finalPrice = min($product->getData('final_price'), $this->_rulePrices[$key]);
             $product->setFinalPrice($finalPrice);
         }
@@ -267,7 +259,7 @@ class Observer
     {
         $product = $observer->getEvent()->getProduct();
         $storeId = $product->getStoreId();
-        $date = $this->_locale->storeDate($storeId);
+        $date = $this->_localeDate->scopeDate($storeId);
         $key = false;
 
         $ruleData = $this->_coreRegistry->registry('rule_data');
@@ -276,21 +268,20 @@ class Observer
             $gId = $ruleData->getCustomerGroupId();
             $pId = $product->getId();
 
-            $key = "$date|$wId|$gId|$pId";
+            $key = "{$date}|{$wId}|{$gId}|{$pId}";
         } elseif (!is_null($product->getWebsiteId()) && !is_null($product->getCustomerGroupId())) {
             $wId = $product->getWebsiteId();
             $gId = $product->getCustomerGroupId();
             $pId = $product->getId();
-            $key = "$date|$wId|$gId|$pId";
+            $key = "{$date}|{$wId}|{$gId}|{$pId}";
         }
 
         if ($key) {
             if (!isset($this->_rulePrices[$key])) {
-                $rulePrice = $this->_resourceRuleFactory->create()
-                    ->getRulePrice($date, $wId, $gId, $pId);
+                $rulePrice = $this->_resourceRuleFactory->create()->getRulePrice($date, $wId, $gId, $pId);
                 $this->_rulePrices[$key] = $rulePrice;
             }
-            if ($this->_rulePrices[$key]!==false) {
+            if ($this->_rulePrices[$key] !== false) {
                 $finalPrice = min($product->getData('final_price'), $this->_rulePrices[$key]);
                 $product->setFinalPrice($finalPrice);
             }
@@ -333,17 +324,23 @@ class Observer
      */
     public function prepareCatalogProductPriceIndexTable(EventObserver $observer)
     {
-        $select             = $observer->getEvent()->getSelect();
+        $select = $observer->getEvent()->getSelect();
 
-        $indexTable         = $observer->getEvent()->getIndexTable();
-        $entityId           = $observer->getEvent()->getEntityId();
-        $customerGroupId    = $observer->getEvent()->getCustomerGroupId();
-        $websiteId          = $observer->getEvent()->getWebsiteId();
-        $websiteDate        = $observer->getEvent()->getWebsiteDate();
-        $updateFields       = $observer->getEvent()->getUpdateFields();
+        $indexTable = $observer->getEvent()->getIndexTable();
+        $entityId = $observer->getEvent()->getEntityId();
+        $customerGroupId = $observer->getEvent()->getCustomerGroupId();
+        $websiteId = $observer->getEvent()->getWebsiteId();
+        $websiteDate = $observer->getEvent()->getWebsiteDate();
+        $updateFields = $observer->getEvent()->getUpdateFields();
 
         $this->_productPrice->applyPriceRuleToIndexTable(
-            $select, $indexTable, $entityId, $customerGroupId, $websiteId, $updateFields, $websiteDate
+            $select,
+            $indexTable,
+            $entityId,
+            $customerGroupId,
+            $websiteId,
+            $updateFields,
+            $websiteDate
         );
 
         return $this;
@@ -359,8 +356,7 @@ class Observer
     protected function _checkCatalogRulesAvailability($attributeCode)
     {
         /* @var $collection Collection */
-        $collection = $this->_ruleCollectionFactory->create()
-            ->addAttributeInConditionFilter($attributeCode);
+        $collection = $this->_ruleCollectionFactory->create()->addAttributeInConditionFilter($attributeCode);
 
         $disabledRulesCount = 0;
         foreach ($collection as $rule) {
@@ -450,8 +446,8 @@ class Observer
     {
         /* @var $collection ProductCollection */
         $collection = $observer->getEvent()->getCollection();
-        $store      = $this->_storeManager->getStore($observer->getEvent()->getStoreId());
-        $websiteId  = $store->getWebsiteId();
+        $store = $this->_storeManager->getStore($observer->getEvent()->getStoreId());
+        $websiteId = $store->getWebsiteId();
         if ($observer->getEvent()->hasCustomerGroupId()) {
             $groupId = $observer->getEvent()->getCustomerGroupId();
         } else {
@@ -464,7 +460,7 @@ class Observer
         if ($observer->getEvent()->hasDate()) {
             $date = $observer->getEvent()->getDate();
         } else {
-            $date = $this->_locale->storeTimeStamp($store);
+            $date = $this->_localeDate->scopeTimeStamp($store);
         }
 
         $productIds = array();
@@ -477,8 +473,12 @@ class Observer
         }
 
         if ($productIds) {
-            $rulePrices = $this->_resourceRuleFactory->create()
-                ->getRulePrices($date, $websiteId, $groupId, $productIds);
+            $rulePrices = $this->_resourceRuleFactory->create()->getRulePrices(
+                $date,
+                $websiteId,
+                $groupId,
+                $productIds
+            );
             foreach ($productIds as $productId) {
                 $key = implode('|', array($date, $websiteId, $groupId, $productId));
                 $this->_rulePrices[$key] = isset($rulePrices[$productId]) ? $rulePrices[$productId] : false;
@@ -503,8 +503,7 @@ class Observer
             return;
         }
 
-        $rules = $this->_ruleCollectionFactory->create()
-            ->addFieldToFilter('is_active', 1);
+        $rules = $this->_ruleCollectionFactory->create()->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
             $rule->setProductsFilter($affectedEntityIds);

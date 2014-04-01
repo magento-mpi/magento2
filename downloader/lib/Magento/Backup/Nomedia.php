@@ -38,10 +38,7 @@ class Nomedia extends \Magento\Backup\Media
     protected function _prepareIgnoreList()
     {
         $rootDir = $this->getRootDir();
-        $this->addIgnorePaths(array(
-            $rootDir . '/media',
-            $rootDir . '/pub/media',
-        ));
+        $this->addIgnorePaths(array($rootDir . '/media', $rootDir . '/pub/media'));
         return $this;
     }
 }

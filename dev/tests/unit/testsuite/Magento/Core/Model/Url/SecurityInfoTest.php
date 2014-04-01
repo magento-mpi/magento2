@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Core\Model\Url;
 
 class SecurityInfoTest extends \PHPUnit_Framework_TestCase
@@ -31,9 +30,7 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
         );
         $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
-        $this->_model = new \Magento\Core\Model\Url\SecurityInfo(
-            $storeManagerMock, array('/account', '/cart')
-        );
+        $this->_model = new \Magento\Core\Model\Url\SecurityInfo($storeManagerMock, array('/account', '/cart'));
     }
 
     public function testIsSecureReturnsFalseIfDisabledInConfig()
@@ -60,7 +57,7 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
             array('/product', false),
             array('/product/12312', false),
             array('/cart', true),
-            array('/cart/add', true),
+            array('/cart/add', true)
         );
     }
 }

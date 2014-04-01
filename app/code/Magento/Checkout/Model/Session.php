@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Model;
 
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Sales\Model\Quote;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use \Magento\Customer\Service\V1\Dto\CustomerBuilder;
 
 class Session extends \Magento\Session\SessionManager
 {
@@ -29,14 +28,14 @@ class Session extends \Magento\Session\SessionManager
     protected $_quote;
 
     /**
-     * Customer DTO
+     * Customer Data Object
      *
-     * @var null|CustomerDto
+     * @var null|CustomerDataObject
      */
     protected $_customer;
 
     /**
-     * Customer DTO builder
+     * Customer Data Object  builder
      *
      * @var CustomerBuilder
      */
@@ -142,7 +141,7 @@ class Session extends \Magento\Session\SessionManager
     {
         if ($customer instanceof \Magento\Customer\Model\Customer) {
             $this->_customerBuilder->populateWithArray($customer->getData());
-            $this->_customerBuilder->setCustomerId($customer->getId());
+            $this->_customerBuilder->setId($customer->getId());
             $this->_customer = $this->_customerBuilder->create();
         } else {
             $this->_customer = $customer;
@@ -153,7 +152,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Set customer data.
      *
-     * @param CustomerDto|null $customer
+     * @param CustomerDataObject|null $customer
      * @return \Magento\Checkout\Model\Session
      */
     public function setCustomerData($customer)
@@ -225,14 +224,16 @@ class Session extends \Magento\Session\SessionManager
 
             if (!$this->getQuoteId()) {
                 if ($this->_customerSession->isLoggedIn() || $this->_customer) {
-                    $customerId = $this->_customer
-                        ? $this->_customer->getCustomerId()
-                        : $this->_customerSession->getCustomerId();
+                    $customerId = $this->_customer ? $this
+                        ->_customer
+                        ->getId() : $this
+                        ->_customerSession
+                        ->getCustomerId();
                     $quote->loadByCustomer($customerId);
                     $this->setQuoteId($quote->getId());
                 } else {
                     $quote->setIsCheckoutCart(true);
-                    $this->_eventManager->dispatch('checkout_quote_init', array('quote'=>$quote));
+                    $this->_eventManager->dispatch('checkout_quote_init', array('quote' => $quote));
                 }
             }
 
@@ -240,7 +241,7 @@ class Session extends \Magento\Session\SessionManager
                 if ($this->_customer) {
                     $quote->setCustomerData($this->_customer);
                 } else if ($this->_customerSession->isLoggedIn()) {
-                    $quote->setCustomerData($this->_customerSession->getCustomerData());
+                    $quote->setCustomerData($this->_customerSession->getCustomerDataObject());
                 }
             }
 
@@ -294,15 +295,15 @@ class Session extends \Magento\Session\SessionManager
 
         $this->_eventManager->dispatch('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = $this->_quoteFactory->create()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->loadByCustomer($this->_customerSession->getCustomerId());
+        $customerQuote = $this->_quoteFactory->create()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->loadByCustomer(
+            $this->_customerSession->getCustomerId()
+        );
 
         if ($customerQuote->getId() && $this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
-                $customerQuote->merge($this->getQuote())
-                    ->collectTotals()
-                    ->save();
+                $customerQuote->merge($this->getQuote())->collectTotals()->save();
             }
 
             $this->setQuoteId($customerQuote->getId());
@@ -314,10 +315,11 @@ class Session extends \Magento\Session\SessionManager
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomerData($this->_customerSession->getCustomerData())
-                ->setTotalsCollectedFlag(false)
-                ->collectTotals()
-                ->save();
+            $this->getQuote()->setCustomerData(
+                $this->_customerSession->getCustomerDataObject()
+            )->setTotalsCollectedFlag(
+                false
+            )->collectTotals()->save();
         }
         return $this;
     }
@@ -328,7 +330,7 @@ class Session extends \Magento\Session\SessionManager
      * @param bool|string|null $value
      * @return $this
      */
-    public function setStepData($step, $data, $value=null)
+    public function setStepData($step, $data, $value = null)
     {
         $steps = $this->getSteps();
         if (is_null($value)) {
@@ -353,7 +355,7 @@ class Session extends \Magento\Session\SessionManager
      * @param string|null $data
      * @return array|string|bool
      */
-    public function getStepData($step=null, $data=null)
+    public function getStepData($step = null, $data = null)
     {
         $steps = $this->getSteps();
         if (is_null($step)) {
@@ -405,12 +407,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function clearHelperData()
     {
-        $this->setRedirectUrl(null)
-            ->setLastOrderId(null)
-            ->setLastRealOrderId(null)
-            ->setLastRecurringProfileIds(null)
-            ->setAdditionalMessages(null)
-        ;
+        $this->setRedirectUrl(null)->setLastOrderId(null)->setLastRealOrderId(null)->setAdditionalMessages(null);
     }
 
     /**
@@ -464,18 +461,9 @@ class Session extends \Magento\Session\SessionManager
             /** @var \Magento\Sales\Model\Quote $quote */
             $quote = $this->_quoteFactory->create()->load($order->getQuoteId());
             if ($quote->getId()) {
-                $quote->setIsActive(1)
-                    ->setReservedOrderId(null)
-                    ->save();
-                $this->replaceQuote($quote)
-                    ->unsLastRealOrderId();
-                $this->_eventManager->dispatch(
-                    'restore_quote',
-                    array(
-                        'order' => $order,
-                        'quote' => $quote
-                    )
-                );
+                $quote->setIsActive(1)->setReservedOrderId(null)->save();
+                $this->replaceQuote($quote)->unsLastRealOrderId();
+                $this->_eventManager->dispatch('restore_quote', array('order' => $order, 'quote' => $quote));
                 return true;
             }
         }

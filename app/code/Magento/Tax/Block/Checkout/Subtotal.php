@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Block\Checkout;
 
 /**
  * Subtotal Total Row Renderer
  */
-namespace Magento\Tax\Block\Checkout;
-
 class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**

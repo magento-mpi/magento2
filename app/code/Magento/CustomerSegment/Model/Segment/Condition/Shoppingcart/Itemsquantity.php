@@ -65,9 +65,11 @@ class Itemsquantity extends AbstractCondition
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Number of Shopping Cart Line Items %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Number of Shopping Cart Line Items %1 %2:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**

@@ -28,8 +28,8 @@ class Statuses implements \Magento\Option\ArrayInterface
     {
         return array(
             \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
-            \Magento\CatalogEvent\Model\Event::STATUS_OPEN 	  => __('Open'),
-            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED   => __('Closed'),
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Open'),
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
         );
     }
 }

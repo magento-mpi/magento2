@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block;
 
- /**
+/**
  * Enterprise search suggestions block
  *
  * @category   Magento
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block;
-
 class Suggestions extends \Magento\View\Element\Template
 {
     /**
@@ -74,11 +73,10 @@ class Suggestions extends \Magento\View\Element\Template
     /**
      * Retrieve search suggestions count results enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function isCountResultsEnabled()
     {
-        return (bool)$this->_searchData
-            ->getSolrConfigData('server_suggestion_count_results_enabled');
+        return (bool)$this->_searchData->getSolrConfigData('server_suggestion_count_results_enabled');
     }
 }

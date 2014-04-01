@@ -6,15 +6,15 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- */ 
+ */
 namespace Magento\App\Resource;
 
-class Config extends \Magento\Config\Data\Scoped
-    implements \Magento\App\Resource\ConfigInterface
+class Config extends \Magento\Config\Data\Scoped implements ConfigInterface
 {
     const DEFAULT_SETUP_CONNECTION = 'default';
 
     const PARAM_INITIAL_RESOURCES = 'resource';
+
     /**
      * List of connection names per resource
      *

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Parser\Adapter\Php;
 
 /**
@@ -45,6 +44,7 @@ class Tokenizer
      * Parse given file
      *
      * @param string $filePath
+     * @return void
      */
     public function parse($filePath)
     {
@@ -98,11 +98,13 @@ class Tokenizer
      */
     private function _isInnerArgumentClosed()
     {
-        return ($this->_openBrackets - 1) == $this->_closeBrackets;
+        return $this->_openBrackets - 1 == $this->_closeBrackets;
     }
 
     /**
      * Skip invoke the inner argument of function
+     *
+     * @return void
      */
     private function _skipInnerArgumentInvoke()
     {
@@ -140,10 +142,12 @@ class Tokenizer
 
     /**
      * Check is it last token
+     *
+     * @return bool
      */
     public function isLastToken()
     {
-        return 0 == $this->_tokensCount || ((key($this->_tokens) + 1) == $this->_tokensCount);
+        return 0 == $this->_tokensCount || key($this->_tokens) + 1 == $this->_tokensCount;
     }
 
     /**

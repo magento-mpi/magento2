@@ -6,8 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Controller;
+
+use Magento\TestFramework\Helper\Bootstrap;
 
 class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
 {
@@ -17,12 +18,15 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function _login()
     {
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Session', array($logger));
-        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerAccountService');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Session',
+            array($logger)
+        );
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\CustomerAccountService'
+        );
         $customer = $service->authenticate('customer@example.com', 'password');
-        $session->setCustomerDtoAsLoggedIn($customer);
+        $session->setCustomerDataAsLoggedIn($customer);
     }
 
     /**
@@ -31,13 +35,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testIndexAction()
     {
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Session', array($logger));
-        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerAccountService');
-        $customer = $service->authenticate('customer@example.com', 'password');
-        $session->setCustomerDtoAsLoggedIn($customer);
+        $this->_login();
         $this->dispatch('customer/account/index');
 
         $body = $this->getResponse()->getBody();
@@ -74,11 +72,15 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testCreatepasswordAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Customer')->load(1);
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Customer'
+        )->load(
+            1
+        );
 
-        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
-            ->generateResetPasswordLinkToken();
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Helper\Data'
+        )->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', $token);
@@ -95,11 +97,15 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testCreatepasswordActionInvalidToken()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Customer')->load(1);
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Customer'
+        )->load(
+            1
+        );
 
-        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
-            ->generateResetPasswordLinkToken();
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Helper\Data'
+        )->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', 'INVALIDTOKEN');
@@ -119,8 +125,11 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testConfirmActionAlreadyActive()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Customer')->load(1);
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Customer'
+        )->load(
+            1
+        );
 
         $this->getRequest()->setParam('key', 'abc');
         $this->getRequest()->setParam('id', $customer->getId());
@@ -137,30 +146,65 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testNoConfirmCreatePostAction()
     {
         // Setting data for request
-        $this->getRequest()
-            ->setServer(array('REQUEST_METHOD' => 'POST'))
-            ->setParam('firstname', 'firstname1')
-            ->setParam('lastname', 'lastname1')
-            ->setParam('company', '')
-            ->setParam('email', 'test1@email.com')
-            ->setParam('password', 'password')
-            ->setParam('confirmation', 'password')
-            ->setParam('telephone', '5123334444')
-            ->setParam('street', array('1234 fake street', ''))
-            ->setParam('city', 'Austin')
-            ->setParam('region_id', 57)
-            ->setParam('region', '')
-            ->setParam('postcode', '78701')
-            ->setParam('country_id', 'US')
-            ->setParam('default_billing', '1')
-            ->setParam('default_shipping', '1')
-            ->setParam('is_subscribed', '0')
-            ->setPost('create_address', true);
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setParam(
+            'firstname',
+            'firstname1'
+        )->setParam(
+            'lastname',
+            'lastname1'
+        )->setParam(
+            'company',
+            ''
+        )->setParam(
+            'email',
+            'test1@email.com'
+        )->setParam(
+            'password',
+            'password'
+        )->setParam(
+            'confirmation',
+            'password'
+        )->setParam(
+            'telephone',
+            '5123334444'
+        )->setParam(
+            'street',
+            array('1234 fake street', '')
+        )->setParam(
+            'city',
+            'Austin'
+        )->setParam(
+            'region_id',
+            57
+        )->setParam(
+            'region',
+            ''
+        )->setParam(
+            'postcode',
+            '78701'
+        )->setParam(
+            'country_id',
+            'US'
+        )->setParam(
+            'default_billing',
+            '1'
+        )->setParam(
+            'default_shipping',
+            '1'
+        )->setParam(
+            'is_subscribed',
+            '0'
+        )->setPost(
+            'create_address',
+            true
+        );
 
         $this->dispatch('customer/account/createPost');
         $this->assertRedirect($this->stringContains('customer/account/index/'));
         $this->assertSessionMessages(
-            $this->equalTo(['Thank you for registering with Main Website Store.']),
+            $this->equalTo(array('Thank you for registering with Main Website Store.')),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -174,35 +218,73 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         // Setting data for request
         $email = 'test2@email.com';
-        $this->getRequest()
-            ->setServer(array('REQUEST_METHOD' => 'POST'))
-            ->setParam('firstname', 'firstname2')
-            ->setParam('lastname', 'lastname2')
-            ->setParam('company', '')
-            ->setParam('email', $email)
-            ->setParam('password', 'password')
-            ->setParam('confirmation', 'password')
-            ->setParam('telephone', '5123334444')
-            ->setParam('street', array('1234 fake street', ''))
-            ->setParam('city', 'Austin')
-            ->setParam('region_id', 57)
-            ->setParam('region', '')
-            ->setParam('postcode', '78701')
-            ->setParam('country_id', 'US')
-            ->setParam('default_billing', '1')
-            ->setParam('default_shipping', '1')
-            ->setParam('is_subscribed', '1')
-            ->setPost('create_address', true);
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setParam(
+            'firstname',
+            'firstname2'
+        )->setParam(
+            'lastname',
+            'lastname2'
+        )->setParam(
+            'company',
+            ''
+        )->setParam(
+            'email',
+            $email
+        )->setParam(
+            'password',
+            'password'
+        )->setParam(
+            'confirmation',
+            'password'
+        )->setParam(
+            'telephone',
+            '5123334444'
+        )->setParam(
+            'street',
+            array('1234 fake street', '')
+        )->setParam(
+            'city',
+            'Austin'
+        )->setParam(
+            'region_id',
+            57
+        )->setParam(
+            'region',
+            ''
+        )->setParam(
+            'postcode',
+            '78701'
+        )->setParam(
+            'country_id',
+            'US'
+        )->setParam(
+            'default_billing',
+            '1'
+        )->setParam(
+            'default_shipping',
+            '1'
+        )->setParam(
+            'is_subscribed',
+            '1'
+        )->setPost(
+            'create_address',
+            true
+        );
 
         $this->dispatch('customer/account/createPost');
         $this->assertRedirect($this->stringContains('customer/account/index/'));
         $this->assertSessionMessages(
-            $this->equalTo([
-                'Account confirmation is required. Please, check your email for the confirmation link. ' .
-                'To resend the confirmation email please ' .
-                '<a href="http://localhost/index.php/customer/account/confirmation/email/' .
-                $email . '/">click here</a>.'
-            ]),
+            $this->equalTo(
+                array(
+                    'Account confirmation is required. Please, check your email for the confirmation link. ' .
+                    'To resend the confirmation email please ' .
+                    '<a href="http://localhost/index.php/customer/account/confirmation/email/' .
+                    $email .
+                    '/">click here</a>.'
+                )
+            ),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -213,33 +295,72 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testExistingEmailCreatePostAction()
     {
         // Setting data for request
-        $this->getRequest()
-            ->setServer(array('REQUEST_METHOD' => 'POST'))
-            ->setParam('firstname', 'firstname')
-            ->setParam('lastname', 'lastname')
-            ->setParam('company', '')
-            ->setParam('email', 'customer@example.com')
-            ->setParam('password', 'password')
-            ->setParam('confirmation', 'password')
-            ->setParam('telephone', '5123334444')
-            ->setParam('street', array('1234 fake street', ''))
-            ->setParam('city', 'Austin')
-            ->setParam('region_id', 57)
-            ->setParam('region', '')
-            ->setParam('postcode', '78701')
-            ->setParam('country_id', 'US')
-            ->setParam('default_billing', '1')
-            ->setParam('default_shipping', '1')
-            ->setParam('is_subscribed', '1')
-            ->setPost('create_address', true);
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setParam(
+            'firstname',
+            'firstname'
+        )->setParam(
+            'lastname',
+            'lastname'
+        )->setParam(
+            'company',
+            ''
+        )->setParam(
+            'email',
+            'customer@example.com'
+        )->setParam(
+            'password',
+            'password'
+        )->setParam(
+            'confirmation',
+            'password'
+        )->setParam(
+            'telephone',
+            '5123334444'
+        )->setParam(
+            'street',
+            array('1234 fake street', '')
+        )->setParam(
+            'city',
+            'Austin'
+        )->setParam(
+            'region_id',
+            57
+        )->setParam(
+            'region',
+            ''
+        )->setParam(
+            'postcode',
+            '78701'
+        )->setParam(
+            'country_id',
+            'US'
+        )->setParam(
+            'default_billing',
+            '1'
+        )->setParam(
+            'default_shipping',
+            '1'
+        )->setParam(
+            'is_subscribed',
+            '1'
+        )->setPost(
+            'create_address',
+            true
+        );
 
         $this->dispatch('customer/account/createPost');
         $this->assertRedirect($this->stringContains('customer/account/create/'));
         $this->assertSessionMessages(
-            $this->equalTo(['There is already an account with this email address. ' .
-                'If you are sure that it is your email address, ' .
-                '<a href="http://localhost/index.php/customer/account/forgotpassword/">click here</a>' .
-                ' to get your password and access your account.']),
+            $this->equalTo(
+                array(
+                    'There is already an account with this email address. ' .
+                    'If you are sure that it is your email address, ' .
+                    '<a href="http://localhost/index.php/customer/account/forgotpassword/">click here</a>' .
+                    ' to get your password and access your account.'
+                )
+            ),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
@@ -250,11 +371,15 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testOpenActionCreatepasswordAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Customer')->load(1);
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Customer'
+        )->load(
+            1
+        );
 
-        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
-            ->generateResetPasswordLinkToken();
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Helper\Data'
+        )->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', $token);
@@ -279,14 +404,16 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testInactiveUserConfirmationAction()
     {
-        $this->getRequest()
-            ->setServer(['REQUEST_METHOD' => 'POST'])
-            ->setPost(['email' => 'customer@needAconfirmation.com']);
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setPost(
+            array('email' => 'customer@needAconfirmation.com')
+        );
 
         $this->dispatch('customer/account/confirmation');
         $this->assertRedirect($this->stringContains('customer/account/index'));
         $this->assertSessionMessages(
-            $this->equalTo(['Please, check your email for confirmation key.']),
+            $this->equalTo(array('Please, check your email for confirmation key.')),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -296,16 +423,16 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testActiveUserConfirmationAction()
     {
-        $this->getRequest()
-            ->setServer(['REQUEST_METHOD' => 'POST'])
-            ->setPost([
-                'email' => 'customer@example.com'
-            ]);
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setPost(
+            array('email' => 'customer@example.com')
+        );
 
         $this->dispatch('customer/account/confirmation');
         $this->assertRedirect($this->stringContains('customer/account/index'));
         $this->assertSessionMessages(
-            $this->equalTo(['This email does not require confirmation.']),
+            $this->equalTo(array('This email does not require confirmation.')),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -314,33 +441,29 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $email = 'customer@example.com';
 
-        $this->getRequest()
-            ->setPost([
-                'email' => $email
-            ]);
+        $this->getRequest()->setPost(array('email' => $email));
 
         $this->dispatch('customer/account/forgotPasswordPost');
         $this->assertRedirect($this->stringContains('customer/account/'));
         $this->assertSessionMessages(
-            $this->equalTo([
-                "If there is an account associated with {$email} you will receive an email " .
-                'with a link to reset your password.'
-            ]),
+            $this->equalTo(
+                array(
+                    "If there is an account associated with {$email} you will receive an email " .
+                    'with a link to reset your password.'
+                )
+            ),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 
     public function testForgotPasswordPostWithBadEmailAction()
     {
-        $this->getRequest()
-            ->setPost([
-                'email' => 'bad@email'
-            ]);
+        $this->getRequest()->setPost(array('email' => 'bad@email'));
 
         $this->dispatch('customer/account/forgotPasswordPost');
         $this->assertRedirect($this->stringContains('customer/account/forgotpassword'));
         $this->assertSessionMessages(
-            $this->equalTo(['Please correct the email address.']),
+            $this->equalTo(array('Please correct the email address.')),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
@@ -350,18 +473,20 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testResetPasswordPostNoTokenAction()
     {
-        $this->getRequest()
-            ->setParam('id', 1)
-            ->setParam('token', '8ed8677e6c79e68b94e61658bd756ea5')
-            ->setPost([
-                'password' => 'new-password',
-                'confirmation' => 'new-password'
-            ]);
+        $this->getRequest()->setParam(
+            'id',
+            1
+        )->setParam(
+            'token',
+            '8ed8677e6c79e68b94e61658bd756ea5'
+        )->setPost(
+            array('password' => 'new-password', 'confirmation' => 'new-password')
+        );
 
         $this->dispatch('customer/account/resetPasswordPost');
         $this->assertRedirect($this->stringContains('customer/account/'));
         $this->assertSessionMessages(
-            $this->equalTo(['There was an error saving the new password.']),
+            $this->equalTo(array('There was an error saving the new password.')),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
@@ -372,19 +497,236 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testResetPasswordPostAction()
     {
-        $this->getRequest()
-            ->setQuery('id', 1)
-            ->setQuery('token', '8ed8677e6c79e68b94e61658bd756ea5')
-            ->setPost([
-                'password' => 'new-password',
-                'confirmation' => 'new-password'
-            ]);
+        $this->getRequest()->setQuery(
+            'id',
+            1
+        )->setQuery(
+            'token',
+            '8ed8677e6c79e68b94e61658bd756ea5'
+        )->setPost(
+            array('password' => 'new-password', 'confirmation' => 'new-password')
+        );
 
         $this->dispatch('customer/account/resetPasswordPost');
         $this->assertRedirect($this->stringContains('customer/account/login'));
         $this->assertSessionMessages(
-            $this->equalTo(['Your password has been updated.']),
+            $this->equalTo(array('Your password has been updated.')),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testEditAction()
+    {
+        $this->_login();
+
+        $this->dispatch('customer/account/edit');
+
+        $body = $this->getResponse()->getBody();
+        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode(), $body);
+        $this->assertContains('<div class="field name firstname required">', $body);
+        // Verify the password check box is not checked
+        $this->assertContains(
+            '<input type="checkbox" name="change_password" id="change-password" value="1" ' .
+            'title="Change Password" class="checkbox"/>',
+            $body
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testChangePasswordEditAction()
+    {
+        $this->_login();
+
+        $this->dispatch('customer/account/edit/changepass/1');
+
+        $body = $this->getResponse()->getBody();
+        $this->assertEquals(200, $this->getResponse()->getHttpResponseCode(), $body);
+        $this->assertContains('<div class="field name firstname required">', $body);
+        // Verify the password check box is checked
+        $this->assertContains(
+            '<input type="checkbox" name="change_password" id="change-password" value="1" ' .
+            'title="Change Password" checked="checked" class="checkbox"/>',
+            $body
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testEditPostAction()
+    {
+        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+        $customerAccountService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
+        $customer = $customerAccountService->getCustomer(1);
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
+
+        $this->_login();
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setPost(
+            array(
+                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'johndoe@email.com'
+            )
+        );
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/'));
+        $this->assertSessionMessages(
+            $this->equalTo(array('The account information has been saved.')),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+
+        $customer = $customerAccountService->getCustomer(1);
+        $this->assertEquals('John', $customer->getFirstname());
+        $this->assertEquals('Doe', $customer->getLastname());
+        $this->assertEquals('johndoe@email.com', $customer->getEmail());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testChangePasswordEditPostAction()
+    {
+        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+        $customerAccountService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
+        $customer = $customerAccountService->getCustomer(1);
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
+
+        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+        $customerAccountService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
+
+        $this->_login();
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setPost(
+            array(
+                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'johndoe@email.com',
+                'change_password' => 1,
+                'current_password' => 'password',
+                'password' => 'new-password',
+                'confirmation' => 'new-password'
+            )
+        );
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/'));
+        $this->assertSessionMessages(
+            $this->equalTo(array('The account information has been saved.')),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+
+        $customer = $customerAccountService->getCustomer(1);
+        $this->assertEquals('John', $customer->getFirstname());
+        $this->assertEquals('Doe', $customer->getLastname());
+        $this->assertEquals('johndoe@email.com', $customer->getEmail());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testMissingDataEditPostAction()
+    {
+        $this->_login();
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setPost(
+            array(
+                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'bad-email'
+            )
+        );
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/edit/'));
+        $this->assertSessionMessages(
+            $this->equalTo(array('Invalid input')),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testWrongPasswordEditPostAction()
+    {
+        $this->_login();
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setPost(
+            array(
+                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'johndoe@email.com',
+                'change_password' => 1,
+                'current_password' => 'wrong-password',
+                'password' => 'new-password',
+                'confirmation' => 'new-password'
+            )
+        );
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/edit/'));
+        $this->assertSessionMessages(
+            $this->equalTo(array("Password doesn't match for this account.")),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testWrongConfirmationEditPostAction()
+    {
+        $this->_login();
+        $this->getRequest()->setServer(
+            array('REQUEST_METHOD' => 'POST')
+        )->setPost(
+            array(
+                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'johndoe@email.com',
+                'change_password' => 1,
+                'current_password' => 'password',
+                'password' => 'new-password',
+                'confirmation' => 'new-password-no-match'
+            )
+        );
+
+        $this->dispatch('customer/account/editPost');
+
+        $this->assertRedirect($this->stringEndsWith('customer/account/edit/'));
+        $this->assertSessionMessages(
+            $this->equalTo(array('Confirm your new password')),
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
 }

@@ -7,16 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment;
 
 /**
  * Archive shipments grid block
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment;
-
-class Grid
-    extends \Magento\Sales\Block\Adminhtml\Shipment\Grid
+class Grid extends \Magento\Sales\Block\Adminhtml\Shipment\Grid
 {
     /**
      * Core url
@@ -43,6 +39,9 @@ class Grid
         parent::__construct($context, $backendHelper, $collectionFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -67,7 +66,7 @@ class Grid
      */
     public function getGridUrl()
     {
-         return $this->getUrl('adminhtml/*/shipmentsgrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/shipmentsgrid', array('_current' => true));
     }
 
     /**
@@ -80,8 +79,7 @@ class Grid
         if (!empty($this->_exportTypes)) {
             foreach ($this->_exportTypes as $exportType) {
                 $url = $this->_coreUrl->removeRequestParam($exportType->getUrl(), 'action');
-                $exportType->setUrl($this->_coreUrl
-                    ->addRequestParam($url, array('action' => 'shipment')));
+                $exportType->setUrl($this->_coreUrl->addRequestParam($url, array('action' => 'shipment')));
             }
             return $this->_exportTypes;
         }
@@ -91,14 +89,17 @@ class Grid
     /**
      * Prepare and set options for massaction
      *
-     * @return \Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
         parent::_prepareMassaction();
 
-        $this->getMassactionBlock()->getItem('print_shipping_label')
-            ->setUrl($this->getUrl('adminhtml/sales_archive/massPrintShippingLabel'));
+        $this->getMassactionBlock()->getItem(
+            'print_shipping_label'
+        )->setUrl(
+            $this->getUrl('adminhtml/sales_archive/massPrintShippingLabel')
+        );
 
         return $this;
     }

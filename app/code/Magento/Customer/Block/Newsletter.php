@@ -2,50 +2,69 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer front  newsletter manage block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block;
-
 class Newsletter extends \Magento\Customer\Block\Account\Dashboard
 {
+    /**
+     * @var string
+     */
     protected $_template = 'form/newsletter.phtml';
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerAddressServiceInterface $addressService
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerAccountServiceInterface $customerAccountService,
+        CustomerAddressServiceInterface $addressService,
         array $data = array()
     ) {
-        parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        parent::__construct(
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
+        );
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+     */
     public function getIsSubscribed()
     {
         return $this->getSubscriptionObject()->isSubscribed();
     }
 
+    /**
+     * Return the save action Url.
+     *
+     * @return string
+     */
     public function getAction()
     {
         return $this->getUrl('*/*/save');
     }
-
 }

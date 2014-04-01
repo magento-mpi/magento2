@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\Backend;
 
 /**
@@ -88,7 +87,7 @@ class History extends \Magento\GiftCardAccount\Model\History
         $sender = $this->_getAdminUsername();
         if ($sender) {
             $suffix = __('By admin: %1.', $sender);
-            return $info ? ($info . ' ' . $suffix) : $suffix;
+            return $info ? $info . ' ' . $suffix : $suffix;
         }
         return $info;
     }

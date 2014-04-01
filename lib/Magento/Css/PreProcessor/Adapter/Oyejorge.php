@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Adapter;
 
 /**
@@ -19,7 +18,8 @@ class Oyejorge implements \Magento\Css\PreProcessor\AdapterInterface
      */
     public function process($sourceFilePath)
     {
-        $parser = new \Less_Parser();
+        $options = array('relativeUrls' => false);
+        $parser = new \Less_Parser($options);
         $parser->parseFile($sourceFilePath, '');
         return $parser->getCss();
     }

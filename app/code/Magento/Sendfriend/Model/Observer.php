@@ -28,9 +28,8 @@ class Observer
     /**
      * @param \Magento\Sendfriend\Model\SendfriendFactory $sendfriendFactory
      */
-    public function __construct(
-        \Magento\Sendfriend\Model\SendfriendFactory $sendfriendFactory
-    ) {
+    public function __construct(\Magento\Sendfriend\Model\SendfriendFactory $sendfriendFactory)
+    {
         $this->_sendfriendFactory = $sendfriendFactory;
     }
 

@@ -29,7 +29,7 @@ class Generator implements NonceGeneratorInterface
     protected $_nonceLength;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -41,13 +41,13 @@ class Generator implements NonceGeneratorInterface
     /**
      * @param \Magento\Oauth\Helper\Oauth $oauthHelper
      * @param \Magento\Integration\Model\Oauth\Nonce\Factory $nonceFactory
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param int $nonceLength - Length of the generated nonce
      */
     public function __construct(
         \Magento\Oauth\Helper\Oauth $oauthHelper,
         \Magento\Integration\Model\Oauth\Nonce\Factory $nonceFactory,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         $nonceLength = \Magento\Oauth\Helper\Oauth::LENGTH_NONCE
     ) {
         $this->_oauthHelper = $oauthHelper;
@@ -79,7 +79,7 @@ class Generator implements NonceGeneratorInterface
     {
         try {
             $timestamp = (int)$timestamp;
-            if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
+            if ($timestamp <= 0 || $timestamp > time() + self::TIME_DEVIATION) {
                 throw new \Magento\Oauth\Exception(
                     __('Incorrect timestamp value in the oauth_timestamp parameter'),
                     OauthInterface::ERR_TIMESTAMP_REFUSED
@@ -96,10 +96,7 @@ class Generator implements NonceGeneratorInterface
                 );
             }
 
-            $nonceObj->setNonce($nonce)
-                ->setConsumerId($consumer->getId())
-                ->setTimestamp($timestamp)
-                ->save();
+            $nonceObj->setNonce($nonce)->setConsumerId($consumer->getId())->setTimestamp($timestamp)->save();
         } catch (\Magento\Oauth\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {

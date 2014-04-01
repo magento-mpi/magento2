@@ -7,19 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Source\Cybersource;
 
 /**
  * Cybersource Payment Action Dropdown source
  */
-namespace Magento\Pbridge\Model\Source\Cybersource;
-
 class PaymentAction implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(
-            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE, 'label' => __('Authorization')),
-            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Sale')),
+            array(
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
+                'label' => __('Authorization')
+            ),
+            array(
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
+                'label' => __('Sale')
+            )
         );
     }
 }

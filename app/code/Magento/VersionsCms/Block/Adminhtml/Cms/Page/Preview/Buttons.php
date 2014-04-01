@@ -42,20 +42,26 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
     {
         parent::_construct();
 
-        $this->_addButton('preview', array(
+        $this->_addButton(
+            'preview',
+            array(
                 'id' => 'preview-buttons-preview',
                 'label' => 'Preview',
                 'class' => 'preview',
                 'onclick' => 'preview()'
-            ));
+            )
+        );
 
         if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
-            $this->_addButton('publish', array(
-                'id' => 'preview-buttons-publish',
-                'label' => 'Publish',
-                'class' => 'publish',
-                'onclick' => 'publish()'
-            ));
+            $this->_addButton(
+                'publish',
+                array(
+                    'id' => 'preview-buttons-publish',
+                    'label' => 'Publish',
+                    'class' => 'publish',
+                    'onclick' => 'publish()'
+                )
+            );
         }
     }
 

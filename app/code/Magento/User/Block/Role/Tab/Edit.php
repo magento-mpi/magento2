@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block\Role\Tab;
 
 /**
@@ -13,8 +12,7 @@ namespace Magento\User\Block\Role\Tab;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Edit extends \Magento\Backend\Block\Widget\Form
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -120,6 +118,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

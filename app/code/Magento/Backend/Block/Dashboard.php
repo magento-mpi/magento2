@@ -7,16 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 class Dashboard extends \Magento\Backend\Block\Template
 {
-    /**
-     * @var \Magento\LocaleInterface
-     */
-    protected $_locale;
-
     /**
      * Location of the "Enable Chart" config param
      */
@@ -45,9 +39,13 @@ class Dashboard extends \Magento\Backend\Block\Template
         if ($this->_storeConfig->getConfig(self::XML_PATH_ENABLE_CHARTS)) {
             $block = $this->getLayout()->createBlock('Magento\Backend\Block\Dashboard\Diagrams');
         } else {
-            $block = $this->getLayout()->createBlock('Magento\Backend\Block\Template')
-                ->setTemplate('dashboard/graph/disabled.phtml')
-                ->setConfigUrl($this->getUrl('adminhtml/system_config/edit', array('section'=>'admin')));
+            $block = $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Template'
+            )->setTemplate(
+                'dashboard/graph/disabled.phtml'
+            )->setConfigUrl(
+                $this->getUrl('adminhtml/system_config/edit', array('section' => 'admin'))
+            );
         }
         $this->setChild('diagrams', $block);
 
@@ -64,6 +62,6 @@ class Dashboard extends \Magento\Backend\Block\Template
         if ($url = $this->getData('switch_url')) {
             return $url;
         }
-        return $this->getUrl('adminhtml/*/*', array('_current'=>true, 'period'=>null));
+        return $this->getUrl('adminhtml/*/*', array('_current' => true, 'period' => null));
     }
 }

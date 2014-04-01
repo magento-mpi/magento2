@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\MultipleWishlist\Model\Search\Strategy;
 
 /**
  * Wishlist search by email strategy
@@ -15,8 +16,6 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\MultipleWishlist\Model\Search\Strategy;
-
 class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface
 {
     /**
@@ -58,6 +57,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
      * Set search fields required by search strategy
      *
      * @param array $params
+     * @return void
      * @throws \InvalidArgumentException
      */
     public function setSearchParams(array $params)
@@ -78,11 +78,10 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
     {
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_customerFactory->create();
-        $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
-            ->loadByEmail($this->_email);
+        $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($this->_email);
 
         $collection->filterByCustomer($customer);
-        foreach ($collection as $item){
+        foreach ($collection as $item) {
             $item->setCustomer($customer);
         }
         return $collection;

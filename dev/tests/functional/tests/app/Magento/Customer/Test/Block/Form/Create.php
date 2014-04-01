@@ -31,20 +31,6 @@ class Create extends Form
     protected $submitButton = '.action.submit';
 
     /**
-     * Mapping for field locator
-     *
-     * @var array
-     */
-    protected $_mapping = array(
-        'firstname' => '#firstname',
-        'lastname' => '#lastname',
-        'email' => '#email_address',
-        'password' => '#password',
-        'confirmation' => '#confirmation'
-    );
-
-
-    /**
      * Fill form with customer data and submit
      *
      * @param Customer $fixture

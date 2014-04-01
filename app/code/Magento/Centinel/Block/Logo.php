@@ -15,7 +15,6 @@ namespace Magento\Centinel\Block;
 
 class Logo extends \Magento\View\Element\Template
 {
-
     /**
      * @var string
      */

@@ -9,6 +9,8 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Adminhtml catalog product composite helper
  *
@@ -25,11 +27,11 @@ class Composite extends \Magento\App\Helper\AbstractHelper
      */
     protected $_coreRegistry = null;
 
-     /**
-      * Catalog product
-      *
-      * @var \Magento\Catalog\Helper\Product
-      */
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
     protected $_catalogProduct = null;
 
     /**
@@ -122,8 +124,11 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     {
         $update = $this->_view->getLayout()->getUpdate();
         if ($isOk) {
-            $update->addHandle('CATALOG_PRODUCT_COMPOSITE_CONFIGURE')
-                ->addHandle('catalog_product_view_type_' . $productType);
+            $update->addHandle(
+                'CATALOG_PRODUCT_COMPOSITE_CONFIGURE'
+            )->addHandle(
+                'catalog_product_view_type_' . $productType
+            );
         } else {
             $update->addHandle('CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR');
         }
@@ -148,16 +153,18 @@ class Composite extends \Magento\App\Helper\AbstractHelper
         try {
             if (!$configureResult->getOk()) {
                 throw new \Magento\Core\Exception($configureResult->getMessage());
-            };
+            }
 
-            $currentStoreId = (int) $configureResult->getCurrentStoreId();
+            $currentStoreId = (int)$configureResult->getCurrentStoreId();
             if (!$currentStoreId) {
                 $currentStoreId = $this->_storeManager->getStore()->getId();
             }
 
-            $product = $this->_productFactory->create()
-                ->setStoreId($currentStoreId)
-                ->load($configureResult->getProductId());
+            $product = $this->_productFactory->create()->setStoreId(
+                $currentStoreId
+            )->load(
+                $configureResult->getProductId()
+            );
             if (!$product->getId()) {
                 throw new \Magento\Core\Exception(__('The product is not loaded.'));
             }
@@ -167,13 +174,13 @@ class Composite extends \Magento\App\Helper\AbstractHelper
             // Register customer we're working with
             $currentCustomer = $configureResult->getCurrentCustomer();
             if (!$currentCustomer) {
-                $currentCustomerId = (int) $configureResult->getCurrentCustomerId();
+                $currentCustomerId = (int)$configureResult->getCurrentCustomerId();
                 if ($currentCustomerId) {
                     $currentCustomer = $this->_customerFactory->create()->load($currentCustomerId);
                 }
             }
             if ($currentCustomer) {
-                $this->_coreRegistry->register('current_customer', $currentCustomer);
+                $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $currentCustomer);
             }
 
             // Prepare buy request values

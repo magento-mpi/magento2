@@ -38,7 +38,6 @@ class View extends \Magento\App\View
         parent::__construct($layout, $request, $response, $configScope, $eventManager, $translateInline, $actionFlag);
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -54,4 +53,13 @@ class View extends \Magento\App\View
         return $this;
     }
 
+    /**
+     * Returns is layout loaded
+     *
+     * @return bool
+     */
+    public function isLayoutLoaded()
+    {
+        return $this->_isLayoutLoaded;
+    }
 }

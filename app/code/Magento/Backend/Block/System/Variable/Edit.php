@@ -67,15 +67,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     protected function _preparelayout()
     {
-        $this->_addButton('save_and_edit', array(
-            'label'     => __('Save and Continue Edit'),
-            'class'     => 'save',
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'save_and_edit',
+            array(
+                'label' => __('Save and Continue Edit'),
+                'class' => 'save',
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
-        ), 100);
+            100
+        );
         if (!$this->getVariable()->getId()) {
             $this->removeButton('delete');
         }
@@ -91,9 +93,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         $formHtml = parent::getFormHtml();
         if (!$this->_storeManager->isSingleStoreMode() && $this->getVariable()->getId()) {
-            $storeSwitcher = $this->getLayout()
-                ->createBlock('Magento\Backend\Block\Store\Switcher')->toHtml();
-            $formHtml = $storeSwitcher.$formHtml;
+            $storeSwitcher = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher')->toHtml();
+            $formHtml = $storeSwitcher . $formHtml;
         }
         return $formHtml;
     }
@@ -119,7 +120,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('adminhtml/*/validate', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
     }
 
     /**

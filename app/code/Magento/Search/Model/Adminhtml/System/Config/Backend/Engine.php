@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
 
 /**
  * Catalog search backend model
@@ -16,8 +16,6 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
-
 class Engine extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -53,15 +51,18 @@ class Engine extends \Magento\Core\Model\Config\Value
      * After save call
      * Invalidate catalog search index if engine was changed
      *
-     * @return \Magento\Search\Model\Adminhtml\System\Config\Backend\Engine
+     * @return $this
      */
     protected function _afterSave()
     {
         parent::_afterSave();
 
         if ($this->isValueChanged()) {
-            $this->_indexer->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
+            $this->_indexer->getProcessByCode(
+                'catalogsearch_fulltext'
+            )->changeStatus(
+                \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
+            );
         }
 
         return $this;

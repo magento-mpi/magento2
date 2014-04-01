@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Creditmemo\Attribute\Backend;
 
 /**
  * Invoice backend model for child attribute
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Creditmemo\Attribute\Backend;
-
-class Child
-    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Child extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Method is invoked before save

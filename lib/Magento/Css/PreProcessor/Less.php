@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor;
 
-use \Magento\View\Asset\PreProcessor\PreProcessorInterface;
+use Magento\View\Asset\PreProcessor\PreProcessorInterface;
 
 /**
  * Css pre-processor less
@@ -78,12 +77,21 @@ class Less implements PreProcessorInterface
                 $publisherFile->getViewParams()
             );
             $cssContent = $this->adapter->process($processedFiles->getPublicationPath());
+            $cssTrimmedContent = trim($cssContent);
+            if (empty($cssTrimmedContent)) {
+                return $publisherFile;
+            }
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
-            return $publisherFile; // It has 'null' source path
+            // It has 'null' source path
+            return $publisherFile;
         } catch (Adapter\AdapterException $e) {
             $this->logger->logException($e);
-            return $publisherFile; // It has 'null' source path
+            // It has 'null' source path
+            return $publisherFile;
+        } catch (\Less_Exception_Compiler $e) {
+            $this->logger->logException($e);
+            return $publisherFile;
         }
 
         $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->buildUniquePath();

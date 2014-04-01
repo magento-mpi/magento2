@@ -47,10 +47,7 @@ define('BP', dirname(__DIR__));
 require_once BP . '/app/functions.php';
 
 require_once __DIR__ . '/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(array(
-    BP . '/app/code',
-    BP . '/lib',
-));
+\Magento\Autoload\IncludePath::addIncludePath(array(BP . '/app/code', BP . '/lib'));
 $classMapPath = BP . '/var/classmap.ser';
 if (file_exists($classMapPath)) {
     require_once BP . '/lib/Magento/Autoload/ClassMap.php';
@@ -76,4 +73,4 @@ if (!defined('BARE_BOOTSTRAP')) {
         \Magento\Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
     }
 }
-date_default_timezone_set(Magento\LocaleInterface::DEFAULT_TIMEZONE);
+date_default_timezone_set(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);

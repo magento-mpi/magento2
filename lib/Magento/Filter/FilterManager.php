@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter;
 
 /**
@@ -27,6 +26,8 @@ namespace Magento\Filter;
  * @method string truncate(string $value, $params = array())
  * @method string encrypt(string $value, $params = array())
  * @method string decrypt(string $value, $params = array())
+ * @method string translit(string $value)
+ * @method string translitUrl(string $value)
  */
 class FilterManager
 {
@@ -49,10 +50,8 @@ class FilterManager
      * @param \Magento\ObjectManager $objectManger
      * @param FilterManager\Config $config
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManger,
-        FilterManager\Config $config
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManger, FilterManager\Config $config)
+    {
         $this->objectManager = $objectManger;
         $this->config = $config;
     }
@@ -69,8 +68,9 @@ class FilterManager
     {
         $filter = $this->createFilterInstance($filterAlias, $arguments);
         if (!$filter instanceof \Zend_Filter_Interface) {
-            throw new \UnexpectedValueException('Filter object must implement Zend_Filter_Interface interface, '
-                . get_class($filter) . ' was given.');
+            throw new \UnexpectedValueException(
+                'Filter object must implement Zend_Filter_Interface interface, ' . get_class($filter) . ' was given.'
+            );
         }
         return $filter;
     }
@@ -107,8 +107,9 @@ class FilterManager
                 $factory = $this->objectManager->create($class);
                 if (!$factory instanceof FactoryInterface) {
                     throw new \UnexpectedValueException(
-                        'Filter factory must implement FilterFactoryInterface interface, '
-                            . get_class($factory) . ' was given.'
+                        'Filter factory must implement FilterFactoryInterface interface, ' . get_class(
+                            $factory
+                        ) . ' was given.'
                     );
                 }
                 $this->factoryInstances[] = $factory;

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Tax\Model\Resource\Calculation;
 
 /**
  * Tax rate resource model
@@ -16,12 +16,12 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Model\Resource\Calculation;
-
 class Rule extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -35,10 +35,7 @@ class Rule extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array(
-            'field' => array('code'),
-            'title' => __('Code'),
-        ));
+        $this->_uniqueFields = array(array('field' => array('code'), 'title' => __('Code')));
         return $this;
     }
 }

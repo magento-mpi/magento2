@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Checkout\Cart\Item;
 
 class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
@@ -41,7 +40,13 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     ) {
         $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;
         parent::__construct(
-            $context, $productConfig, $checkoutSession, $imageHelper, $urlHelper, $messageManager, $data
+            $context,
+            $productConfig,
+            $checkoutSession,
+            $imageHelper,
+            $urlHelper,
+            $messageManager,
+            $data
         );
     }
 
@@ -53,8 +58,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _prepareCustomOption($code)
     {
-        return $this->_giftCardCtlgProdConfigur
-            ->prepareCustomOption($this->getItem(), $code);
+        return $this->_giftCardCtlgProdConfigur->prepareCustomOption($this->getItem(), $code);
     }
 
     /**
@@ -64,8 +68,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _getGiftcardOptions()
     {
-        return $this->_giftCardCtlgProdConfigur
-            ->getGiftcardOptions($this->getItem());
+        return $this->_giftCardCtlgProdConfigur->getGiftcardOptions($this->getItem());
     }
 
     /**
@@ -75,7 +78,6 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function getOptionList()
     {
-        return $this->_giftCardCtlgProdConfigur
-            ->getOptions($this->getItem());
+        return $this->_giftCardCtlgProdConfigur->getOptions($this->getItem());
     }
 }

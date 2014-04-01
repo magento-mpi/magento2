@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer gift registry view items block
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
 class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -85,6 +84,8 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * Return gift registry form header
+     *
+     * @return string
      */
     public function getFormHeader()
     {
@@ -99,8 +100,9 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getItemCollection()
     {
         if (!$this->hasItemCollection()) {
-            $collection = $this->itemFactory->create()->getCollection()
-                ->addRegistryFilter($this->getEntity()->getId());
+            $collection = $this->itemFactory->create()->getCollection()->addRegistryFilter(
+                $this->getEntity()->getId()
+            );
             $this->setData('item_collection', $collection);
         }
         return $this->_getData('item_collection');
@@ -114,7 +116,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getAddedAt(), \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getAddedAt(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**
@@ -136,7 +138,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getItemQty($item)
     {
-        return $item->getQty()*1;
+        return $item->getQty() * 1;
     }
 
     /**
@@ -147,7 +149,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getItemQtyFulfilled($item)
     {
-        return $item->getQtyFulfilled()*1;
+        return $item->getQtyFulfilled() * 1;
     }
 
     /**
@@ -184,7 +186,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      * Returns product price
      *
      * @param \Magento\GiftRegistry\Model\Item $item
-     * @return mixed
+     * @return float|string
      */
     public function getPrice($item)
     {

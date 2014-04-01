@@ -50,6 +50,7 @@ class Lister extends AbstractEvent
 
     /**
      * @param Context $context
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param Data $catalogEventData
      * @param CollectionFactory $eventCollectionFactory
      * @param HelperCategory $categoryHelper
@@ -57,6 +58,7 @@ class Lister extends AbstractEvent
      */
     public function __construct(
         Context $context,
+        \Magento\Locale\ResolverInterface $localeResolver,
         Data $catalogEventData,
         CollectionFactory $eventCollectionFactory,
         HelperCategory $categoryHelper,
@@ -65,7 +67,7 @@ class Lister extends AbstractEvent
         $this->_categoryHelper = $categoryHelper;
         $this->_catalogEventData = $catalogEventData;
         $this->_eventCollectionFactory = $eventCollectionFactory;
-        parent::__construct($context, $data);
+        parent::__construct($context, $localeResolver, $data);
     }
 
     /**
@@ -89,9 +91,11 @@ class Lister extends AbstractEvent
      */
     public function canDisplay()
     {
-        return $this->_catalogEventData->isEnabled()
-            && $this->_storeConfig->getConfigFlag('catalog/magento_catalogevent/lister_output')
-            && (count($this->getEvents()) > 0);
+        return $this->_catalogEventData->isEnabled() && $this->_storeConfig->getConfigFlag(
+            'catalog/magento_catalogevent/lister_output'
+        ) && count(
+            $this->getEvents()
+        ) > 0;
     }
 
     /**
@@ -104,8 +108,9 @@ class Lister extends AbstractEvent
         if ($this->_events === null) {
             $this->_events = array();
             $categories = $this->_categoryHelper->getStoreCategories('position', true, false);
-            if (($categories instanceof \Magento\Eav\Model\Entity\Collection\AbstractCollection) ||
-                ($categories instanceof \Magento\Core\Model\Resource\Db\Collection\AbstractCollection)) {
+            if ($categories instanceof \Magento\Eav\Model\Entity\Collection\AbstractCollection ||
+                $categories instanceof \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+            ) {
                 $allIds = $categories->getAllIds();
             } else {
                 $allIds = array();
@@ -114,15 +119,12 @@ class Lister extends AbstractEvent
             if (!empty($allIds)) {
                 /** @var Collection $eventCollection */
                 $eventCollection = $this->_eventCollectionFactory->create();
-                $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
-                    ->addVisibilityFilter()
-                    ->addImageData()
-                    ->addSortByStatus()
-                ;
+                $eventCollection->addFieldToFilter(
+                    'category_id',
+                    array('in' => $allIds)
+                )->addVisibilityFilter()->addImageData()->addSortByStatus();
 
-                $categories->addIdFilter(
-                    $eventCollection->getColumnValues('category_id')
-                );
+                $categories->addIdFilter($eventCollection->getColumnValues('category_id'));
 
                 foreach ($categories as $category) {
                     $event = $eventCollection->getItemByColumnValue('category_id', $category->getId());
@@ -172,7 +174,7 @@ class Lister extends AbstractEvent
     public function getPageSize()
     {
         if ($this->hasData('limit') && is_numeric($this->getData('limit'))) {
-            $pageSize = (int) $this->_getData('limit');
+            $pageSize = (int)$this->_getData('limit');
         } else {
             $pageSize = (int)$this->_storeConfig->getConfig('catalog/magento_catalogevent/lister_widget_limit');
         }
@@ -187,11 +189,11 @@ class Lister extends AbstractEvent
     public function getScrollSize()
     {
         if ($this->hasData('scroll') && is_numeric($this->getData('scroll'))) {
-            $scrollSize = (int) $this->_getData('scroll');
+            $scrollSize = (int)$this->_getData('scroll');
         } else {
             $scrollSize = (int)$this->_storeConfig->getConfig('catalog/magento_catalogevent/lister_widget_scroll');
         }
-        return  min(max($scrollSize, 1), $this->getPageSize());
+        return min(max($scrollSize, 1), $this->getPageSize());
     }
 
     /**

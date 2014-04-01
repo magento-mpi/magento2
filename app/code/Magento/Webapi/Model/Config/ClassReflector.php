@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Config;
 
 use Zend\Server\Reflection;
@@ -96,18 +95,18 @@ class ClassReflector
             $parameterData = array(
                 'type' => $this->_typeProcessor->process($parameter->getType()),
                 'required' => !$parameter->isOptional(),
-                'documentation' => $parameter->getDescription(),
+                'documentation' => $parameter->getDescription()
             );
             if ($parameter->isOptional()) {
                 $parameterData['default'] = $parameter->getDefaultValue();
             }
             $methodData['interface']['in']['parameters'][$parameter->getName()] = $parameterData;
         }
-        if ($prototype->getReturnType() != 'void') {
+        if ($prototype->getReturnType() != 'void' && $prototype->getReturnType() != 'null') {
             $methodData['interface']['out']['parameters']['result'] = array(
                 'type' => $this->_typeProcessor->process($prototype->getReturnType()),
                 'documentation' => $prototype->getReturnValue()->getDescription(),
-                'required' => true,
+                'required' => true
             );
         }
 

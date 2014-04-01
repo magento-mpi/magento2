@@ -12,7 +12,8 @@ interface LineCondition
     /**
      * This method checks the current condition for the next token being added to the line and
      * determines if the current token should be removed.
-     * @param array $tokens Array of existing tokens
+     *
+     * @param array &$tokens Array of existing tokens
      * @param string $nextToken String containing the next token being added to the line.
      * @return mixed
      */

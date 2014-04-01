@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Sales\Order\Item;
 
 class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
@@ -16,7 +15,7 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
      * Prepare custom option for display, returns false if there's no value
      *
      * @param string $code
-     * @return mixed
+     * @return string|false
      */
     protected function _prepareCustomOption($code)
     {
@@ -31,11 +30,11 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
      *
      * @param string $name
      * @param string $email
-     * @return mixed
+     * @return string
      */
     protected function _getNameEmailString($name, $email)
     {
-        return "$name &lt;{$email}&gt;";
+        return "{$name} &lt;{$email}&gt;";
     }
 
     /**
@@ -50,25 +49,16 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
             if ($email = $this->_prepareCustomOption('giftcard_sender_email')) {
                 $value = $this->_getNameEmailString($value, $email);
             }
-            $result[] = array(
-                'label'=>__('Gift Card Sender'),
-                'value'=>$value,
-            );
+            $result[] = array('label' => __('Gift Card Sender'), 'value' => $value);
         }
         if ($value = $this->_prepareCustomOption('giftcard_recipient_name')) {
             if ($email = $this->_prepareCustomOption('giftcard_recipient_email')) {
                 $value = $this->_getNameEmailString($value, $email);
             }
-            $result[] = array(
-                'label'=>__('Gift Card Recipient'),
-                'value'=>$value,
-            );
+            $result[] = array('label' => __('Gift Card Recipient'), 'value' => $value);
         }
         if ($value = $this->_prepareCustomOption('giftcard_message')) {
-            $result[] = array(
-                'label'=>__('Gift Card Message'),
-                'value'=>$value,
-            );
+            $result[] = array('label' => __('Gift Card Message'), 'value' => $value);
         }
         return $result;
     }

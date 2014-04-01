@@ -1,11 +1,10 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model\Config;
 
 class Data extends \Magento\Config\Data
@@ -40,6 +39,8 @@ class Data extends \Magento\Config\Data
 
     /**
      * Delete all states that are not in configuration
+     *
+     * @return void
      */
     protected function deleteNonexistentStates()
     {

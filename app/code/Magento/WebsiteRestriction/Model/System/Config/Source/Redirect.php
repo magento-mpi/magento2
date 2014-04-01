@@ -25,12 +25,12 @@ class Redirect extends \Magento\Object implements \Magento\Option\ArrayInterface
         return array(
             array(
                 'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_302_LOGIN,
-                'label' => __('To login form (302 Found)'),
+                'label' => __('To login form (302 Found)')
             ),
             array(
                 'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_302_LANDING,
-                'label' => __('To landing page (302 Found)'),
-            ),
+                'label' => __('To landing page (302 Found)')
+            )
         );
     }
 }

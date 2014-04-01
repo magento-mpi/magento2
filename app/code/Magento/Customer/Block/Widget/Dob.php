@@ -7,15 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
-class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
+class Dob extends AbstractWidget
 {
     /**
      * Constants for borders of date-type customer attributes
      */
     const MIN_DATE_RANGE_KEY = 'date_range_min';
+
     const MAX_DATE_RANGE_KEY = 'date_range_max';
 
     /**
@@ -25,24 +25,37 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     protected $_dateInputs = array();
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
         $this->setTemplate('widget/dob.phtml');
     }
 
+    /**
+     * @return bool
+     */
     public function isEnabled()
     {
         $attributeMetadata = $this->_getAttribute('dob');
         return $attributeMetadata ? (bool)$attributeMetadata->isVisible() : false;
     }
 
+    /**
+     * @return bool
+     */
     public function isRequired()
     {
         $attributeMetadata = $this->_getAttribute('dob');
         return $attributeMetadata ? (bool)$attributeMetadata->isRequired() : false;
     }
 
+    /**
+     * @param string $date
+     * @return $this
+     */
     public function setDate($date)
     {
         $this->setTime($date ? strtotime($date) : false);
@@ -50,16 +63,25 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
         return $this;
     }
 
+    /**
+     * @return string|bool
+     */
     public function getDay()
     {
         return $this->getTime() ? date('d', $this->getTime()) : '';
     }
 
+    /**
+     * @return string|bool
+     */
     public function getMonth()
     {
         return $this->getTime() ? date('m', $this->getTime()) : '';
     }
 
+    /**
+     * @return string|bool
+     */
     public function getYear()
     {
         return $this->getTime() ? date('Y', $this->getTime()) : '';
@@ -72,7 +94,7 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getDateFormat()
     {
-        return $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
@@ -80,6 +102,7 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
      *
      * @param string $code
      * @param string $html
+     * @return void
      */
     public function setDateInput($code, $html)
     {
@@ -98,17 +121,12 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
             '/m{1,5}/i' => '%1$s',
             '/e{1,5}/i' => '%2$s',
             '/d{1,5}/i' => '%2$s',
-            '/y{1,5}/i' => '%3$s',
+            '/y{1,5}/i' => '%3$s'
         );
 
-        $dateFormat = preg_replace(
-            array_keys($mapping),
-            array_values($mapping),
-            $this->getDateFormat()
-        );
+        $dateFormat = preg_replace(array_keys($mapping), array_values($mapping), $this->getDateFormat());
 
-        return sprintf($dateFormat,
-            $this->_dateInputs['m'], $this->_dateInputs['d'], $this->_dateInputs['y']);
+        return sprintf($dateFormat, $this->_dateInputs['m'], $this->_dateInputs['d'], $this->_dateInputs['y']);
     }
 
     /**

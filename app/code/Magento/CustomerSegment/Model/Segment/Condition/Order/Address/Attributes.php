@@ -83,16 +83,10 @@ class Attributes extends AbstractCondition
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array(
-                'value' => $this->getType() . '|' . $code,
-                'label' => $label
-            );
+            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
         }
 
-        return array(
-            'value' => $conditions,
-            'label' => __('Order Address Attributes')
-        );
+        return array('value' => $conditions, 'label' => __('Order Address Attributes'));
     }
 
     /**
@@ -103,7 +97,7 @@ class Attributes extends AbstractCondition
     public function loadAttributeOptions()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = array();
+            $this->_attributes = array();
 
             $attributes = array();
             foreach ($this->_eavConfig->getEntityAttributeCodes('customer_address') as $attributeCode) {
@@ -135,13 +129,11 @@ class Attributes extends AbstractCondition
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = $this->_countryFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_countryFactory->create()->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = $this->_allregionFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_allregionFactory->create()->toOptionArray();
                     break;
 
                 default:
@@ -172,7 +164,8 @@ class Attributes extends AbstractCondition
     public function getInputType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
+            case 'country_id':
+            case 'region_id':
                 return 'select';
         }
         return 'string';
@@ -186,7 +179,8 @@ class Attributes extends AbstractCondition
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
+            case 'country_id':
+            case 'region_id':
                 return 'select';
         }
         return 'text';

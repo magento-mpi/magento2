@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Model\Installer;
 
 /**
@@ -19,7 +18,9 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
      * @deprecated since 1.7.1.0
      */
     const MODE_WRITE = 'write';
-    const MODE_READ  = 'read';
+
+    const MODE_READ = 'read';
+
     /**#@- */
 
     /**
@@ -74,7 +75,7 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     {
         if (!$this->_checkFilesystem()) {
             throw new \Exception();
-        };
+        }
         return $this;
     }
 

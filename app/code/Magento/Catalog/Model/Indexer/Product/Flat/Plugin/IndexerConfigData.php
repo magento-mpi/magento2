@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
 class IndexerConfigData
@@ -20,9 +19,8 @@ class IndexerConfigData
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $state
      */
-    public function __construct(
-        \Magento\Catalog\Model\Indexer\Product\Flat\State $state
-    ) {
+    public function __construct(\Magento\Catalog\Model\Indexer\Product\Flat\State $state)
+    {
         $this->_state = $state;
     }
 
@@ -53,7 +51,7 @@ class IndexerConfigData
             } elseif ($path) {
                 list($firstKey, ) = explode('/', $path);
                 if ($firstKey == $indexerId) {
-                    $data = $default ?: null;
+                    $data = $default;
                 }
             }
         }

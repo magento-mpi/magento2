@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Translate;
 
 class AdapterTest extends \PHPUnit_Framework_TestCase
@@ -22,18 +21,19 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranslate($method, $strToTranslate, $translatedStr)
     {
-        $translatorMock = $this->getMockBuilder('stdClass')
-            ->setMethods(array('translate'))
-            ->getMock();
-        $translatorMock->expects($this->once())
-            ->method('translate')
-            ->with($strToTranslate)
-            ->will($this->returnValue($translatedStr));
-        $translator = new \Magento\Translate\Adapter(array(
-            'translator' => array($translatorMock, 'translate')
-        ));
+        $translatorMock = $this->getMockBuilder('stdClass')->setMethods(array('translate'))->getMock();
+        $translatorMock->expects(
+            $this->once()
+        )->method(
+            'translate'
+        )->with(
+            $strToTranslate
+        )->will(
+            $this->returnValue($translatedStr)
+        );
+        $translator = new \Magento\Translate\Adapter(array('translator' => array($translatorMock, 'translate')));
 
-        $this->assertEquals($translatedStr, $translator->$method($strToTranslate));
+        $this->assertEquals($translatedStr, $translator->{$method}($strToTranslate));
     }
 
     /**
@@ -41,9 +41,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function translateDataProvider()
     {
-        return array(
-            array('translate', 'Translate me!', 'Translated string'),
-        );
+        return array(array('translate', 'Translate me!', 'Translated string'));
     }
 
     /**

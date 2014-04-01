@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\DB\Statement;
 
 /**
  * Magento DB Statement Parameter
@@ -21,8 +21,6 @@
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\DB\Statement;
-
 class Parameter
 {
     /**
@@ -70,7 +68,6 @@ class Parameter
      * Inits instance
      *
      * @param mixed $value
-     * @return $this
      */
     public function __construct($value)
     {
@@ -226,7 +223,7 @@ class Parameter
      */
     public function __toString()
     {
-        return (string) $this->_value;
+        return (string)$this->_value;
     }
 
     /**

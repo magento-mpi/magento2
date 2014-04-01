@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Invoice;
 
 /**
  * Adminhtml invoice create
  */
-
-namespace Magento\Sales\Block\Adminhtml\Order\Invoice;
-
 class Create extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -37,6 +35,11 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'order_id';
@@ -66,9 +69,13 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        return ($this->getInvoice()->getOrder()->getForcedShipmentWithInvoice())
-            ? __('New Invoice and Shipment for Order #%1', $this->getInvoice()->getOrder()->getRealOrderId())
-            : __('New Invoice for Order #%1', $this->getInvoice()->getOrder()->getRealOrderId());
+        return $this->getInvoice()->getOrder()->getForcedShipmentWithInvoice() ? __(
+            'New Invoice and Shipment for Order #%1',
+            $this->getInvoice()->getOrder()->getRealOrderId()
+        ) : __(
+            'New Invoice for Order #%1',
+            $this->getInvoice()->getOrder()->getRealOrderId()
+        );
     }
 
     /**

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\Config\Price;
 
 class IncludePrice extends \Magento\Core\Model\Config\Value

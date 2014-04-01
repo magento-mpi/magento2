@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Config\Converter;
 
 /**
@@ -82,7 +81,7 @@ class Xml implements \Magento\Config\ConverterInterface
     /**
      * Convert schedule cron configurations
      *
-     * @param $jobConfig
+     * @param \DOMElement $jobConfig
      * @return array
      */
     protected function convertCronSchedule(\DOMElement $jobConfig)

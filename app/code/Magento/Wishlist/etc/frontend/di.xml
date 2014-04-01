@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <virtualType name="Magento\Wishlist\Model\Session\Storage" type="Magento\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">wishlist</argument>
@@ -30,15 +30,5 @@
                 <item name="wishlist" xsi:type="string">/wishlist/</item>
             </argument>
         </arguments>
-    </type>
-    <virtualType name="wishlistInitSession" type="Magento\Core\App\Action\Plugin\Session">
-        <arguments>
-            <argument name="cookieCheckActions" xsi:type="array">
-                <item name="wishlistAdd" xsi:type="string">add</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <type name="Magento\Wishlist\Controller\Index">
-        <plugin name="sessionInitializer" type="wishlistInitSession" />
     </type>
 </config>

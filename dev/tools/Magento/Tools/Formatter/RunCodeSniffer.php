@@ -16,9 +16,11 @@ if (file_exists($fileUtilsFile)) {
 }
 /**
  * This method adds the options specified in the array.
- * @param $optionMarker string used to deliniate the option
- * @param $options array of options to add to the command line
- * @param $commandLine string containing the command line to execute
+ *
+ * @param string $optionMarker String used to deliniate the option
+ * @param array $options Array of options to add to the command line
+ * @param string &$commandLine String containing the command line to execute
+ * @return void
  */
 function addOptions($optionMarker, $options, &$commandLine)
 {

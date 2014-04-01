@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
- /**
-  * Totals item block
-  */
 namespace Magento\Sales\Block\Adminhtml\Order\Totals;
 
+/**
+ * Totals item block
+ */
 class Item extends \Magento\Sales\Block\Adminhtml\Order\Totals
 {
     /**
      * Determine display parameters before rendering HTML
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Totals\Item
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -34,16 +33,18 @@ class Item extends \Magento\Sales\Block\Adminhtml\Order\Totals
     /**
      * Initialize totals object
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Totals\Item
+     * @return $this
      */
     public function initTotals()
     {
-        $total = new \Magento\Object(array(
-            'code'      => $this->getNameInLayout(),
-            'block_name'=> $this->getNameInLayout(),
-            'area'      => $this->getDisplayArea(),
-            'strong'    => $this->getStrong()
-        ));
+        $total = new \Magento\Object(
+            array(
+                'code' => $this->getNameInLayout(),
+                'block_name' => $this->getNameInLayout(),
+                'area' => $this->getDisplayArea(),
+                'strong' => $this->getStrong()
+            )
+        );
         if ($this->getBeforeCondition()) {
             $this->getParentBlock()->addTotalBefore($total, $this->getBeforeCondition());
         } else {

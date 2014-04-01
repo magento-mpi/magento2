@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data;
 
 /**
@@ -42,10 +41,15 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $className = 'Magento\Data\Form';
         $formMock = $this->getMock($className, array(), array(), '', false);
-        $this->_objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with($className)
-            ->will($this->returnValue($formMock));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $className
+        )->will(
+            $this->returnValue($formMock)
+        );
 
         $formFactory = new FormFactory($this->_objectManagerMock, $className);
         $this->assertSame($formMock, $formFactory->create());

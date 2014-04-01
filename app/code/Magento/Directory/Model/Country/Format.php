@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Directory\Model\Country;
 
 /**
  * \Directory country format model
@@ -25,14 +25,13 @@
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Directory\Model\Country;
-
 class Format extends \Magento\Core\Model\AbstractModel
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Directory\Model\Resource\Country\Format');
     }
-
 }

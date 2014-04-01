@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Adminhtml\Order\Invoice\View;
 
 /**
  * Adminhtml sales item renderer
@@ -16,8 +16,6 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Invoice\View;
-
 class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {
     /**
@@ -52,6 +50,8 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 
     /**
      * Retrieve order url
+     *
+     * @return string
      */
     public function getOrderUrl()
     {

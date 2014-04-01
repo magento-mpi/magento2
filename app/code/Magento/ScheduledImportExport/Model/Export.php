@@ -22,13 +22,13 @@ namespace Magento\ScheduledImportExport\Model;
  * @method \Magento\ScheduledImportExport\Model\Export setEntity() setEntity(string $value)
  * @method \Magento\ScheduledImportExport\Model\Export setOperationType() setOperationType(string $value)
  */
-class Export extends \Magento\ImportExport\Model\Export
-    implements \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
+class Export extends \Magento\ImportExport\Model\Export implements
+    \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
     /**
      * Date model instance
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
@@ -39,7 +39,7 @@ class Export extends \Magento\ImportExport\Model\Export
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
      * @param \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param array $data
      */
     public function __construct(
@@ -49,7 +49,7 @@ class Export extends \Magento\ImportExport\Model\Export
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
         \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
-        \Magento\Core\Model\Date $coreDate,
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         array $data = array()
     ) {
         $this->_dateModel = $coreDate;
@@ -67,7 +67,7 @@ class Export extends \Magento\ImportExport\Model\Export
     /**
      * Date model instance getter
      *
-     * @return \Magento\Core\Model\Date
+     * @return \Magento\Stdlib\DateTime\DateTime
      */
     public function getDateModel()
     {
@@ -96,14 +96,14 @@ class Export extends \Magento\ImportExport\Model\Export
      */
     public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
-        $fileInfo  = $operation->getFileInfo();
+        $fileInfo = $operation->getFileInfo();
         $attributes = $operation->getEntityAttributes();
         $data = array(
-            'entity'                 => $operation->getEntityType(),
-            'file_format'            => $fileInfo['file_format'],
-            'export_filter'          => $attributes['export_filter'],
-            'operation_type'         => $operation->getOperationType(),
-            'run_at'                 => $operation->getStartTime(),
+            'entity' => $operation->getEntityType(),
+            'file_format' => $fileInfo['file_format'],
+            'export_filter' => $attributes['export_filter'],
+            'operation_type' => $operation->getOperationType(),
+            'run_at' => $operation->getStartTime(),
             'scheduled_operation_id' => $operation->getId()
         );
         if (isset($attributes['skip_attr'])) {
@@ -121,7 +121,9 @@ class Export extends \Magento\ImportExport\Model\Export
     public function getScheduledFileName()
     {
         $runDate = $this->getRunDate() ? $this->getRunDate() : null;
-        return $this->getDateModel()->date('Y-m-d_H-i-s', $runDate) . '_' . $this->getOperationType() . '_'
-            . $this->getEntity();
+        return $this->getDateModel()->date(
+            'Y-m-d_H-i-s',
+            $runDate
+        ) . '_' . $this->getOperationType() . '_' . $this->getEntity();
     }
 }

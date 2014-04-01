@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+    <type name="Magento\Core\Model\Layout">
+        <plugin name="customer-segment-session-depersonalize"
+                type="Magento\CustomerSegment\Model\Layout\DepersonalizePlugin" sortOrder="15"/>
+    </type>
+    <type name="Magento\App\Action\Action">
+        <plugin name="customer-segment-app-action-dispatchController-context-plugin"
+                type="Magento\CustomerSegment\Model\App\Action\ContextPlugin" sortOrder="10"/>
+    </type>
+</config>

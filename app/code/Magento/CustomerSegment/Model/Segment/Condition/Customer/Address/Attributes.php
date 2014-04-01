@@ -91,14 +91,13 @@ class Attributes extends AbstractCondition
     {
         $conditions = array();
         foreach ($this->loadAttributeOptions()->getAttributeOption() as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
+            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
         }
-        $conditions = array_merge($conditions,
-            $this->_conditionFactory->create('Customer\Address\Region')->getNewChildSelectOptions());
-        return array(
-            'value' => $conditions,
-            'label' => __('Address Attributes'),
+        $conditions = array_merge(
+            $conditions,
+            $this->_conditionFactory->create('Customer\Address\Region')->getNewChildSelectOptions()
         );
+        return array('value' => $conditions, 'label' => __('Address Attributes'));
     }
 
     /**
@@ -108,8 +107,7 @@ class Attributes extends AbstractCondition
      */
     public function loadAttributeOptions()
     {
-        $customerAttributes = $this->_resourceAddress->loadAllAttributes()
-            ->getAttributesByCode();
+        $customerAttributes = $this->_resourceAddress->loadAllAttributes()->getAttributesByCode();
 
         $attributes = array();
         foreach ($customerAttributes as $attribute) {
@@ -137,13 +135,11 @@ class Attributes extends AbstractCondition
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = $this->_countryFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_countryFactory->create()->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = $this->_allregionFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_allregionFactory->create()->toOptionArray();
                     break;
 
                 default:
@@ -263,13 +259,16 @@ class Attributes extends AbstractCondition
         $select = $this->getResource()->createSelect();
         $attribute = $this->getAttributeObject();
 
-        $select->from(array('val'=>$attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
-        $condition = $this->getResource()->createConditionSql(
-            'val.value', $this->getOperator(), $this->getValue()
+        $select->from(array('val' => $attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
+        $condition = $this->getResource()->createConditionSql('val.value', $this->getOperator(), $this->getValue());
+        $select->where(
+            'val.attribute_id = ?',
+            $attribute->getId()
+        )->where(
+            "val.entity_id = customer_address.entity_id"
+        )->where(
+            $condition
         );
-        $select->where('val.attribute_id = ?', $attribute->getId())
-            ->where("val.entity_id = customer_address.entity_id")
-            ->where($condition);
         $select->limit(1);
         return $select;
     }

@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model\Order\Status;
 
 /**
  * Order archive model
  *
  */
-namespace Magento\SalesArchive\Model\Order\Status;
-
 class Source extends \Magento\Sales\Model\Config\Source\Order\Status
 {
     /**
@@ -25,7 +24,8 @@ class Source extends \Magento\Sales\Model\Config\Source\Order\Status
     public function toOptionArray()
     {
         $options = parent::toOptionArray();
-        array_shift($options); // Remove '--please select--' option
+        array_shift($options);
+        // Remove '--please select--' option
         return $options;
     }
 }

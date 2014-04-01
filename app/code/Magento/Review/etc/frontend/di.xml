@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <virtualType name="Magento\Review\Model\Session\Storage" type="Magento\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">review</argument>
@@ -25,7 +25,6 @@
         </arguments>
     </type>
     <type name="Magento\Review\Controller\Product">
-        <plugin name="sessionInitializer" type="reviewProductInitSession" />
         <arguments>
             <argument name="reviewSession" xsi:type="object">Magento\Review\Model\Session</argument>
         </arguments>
@@ -37,11 +36,4 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="reviewProductInitSession" type="Magento\Core\App\Action\Plugin\Session">
-        <arguments>
-            <argument name="cookieCheckActions" xsi:type="array">
-                <item name="productReviewPost" xsi:type="string">post</item>
-            </argument>
-        </arguments>
-    </virtualType>
 </config>

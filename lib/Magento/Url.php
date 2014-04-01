@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -69,14 +67,14 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      *
      * @var array
      */
-    static protected $_configDataCache;
+    protected static $_configDataCache;
 
     /**
      * Encrypted session identifier
      *
      * @var string|null
      */
-    static protected $_encryptedSessionId;
+    protected static $_encryptedSessionId;
 
     /**
      * Reserved Route parameter keys
@@ -84,8 +82,18 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @var array
      */
     protected $_reservedRouteParams = array(
-        '_scope', '_type', '_secure', '_forced_secure', '_use_rewrite', '_nosid',
-        '_absolute', '_current', '_direct', '_fragment', '_escape', '_query',
+        '_scope',
+        '_type',
+        '_secure',
+        '_forced_secure',
+        '_use_rewrite',
+        '_nosid',
+        '_absolute',
+        '_current',
+        '_direct',
+        '_fragment',
+        '_escape',
+        '_query',
         '_scope_to_url'
     );
 
@@ -191,22 +199,23 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @param   string $url
      * @return  \Magento\UrlInterface
      */
-    protected  function _parseUrl($url)
+    protected function _parseUrl($url)
     {
         $data = parse_url($url);
         $parts = array(
-            'scheme'   => 'setScheme',
-            'host'     => 'setHost',
-            'port'     => 'setPort',
-            'user'     => 'setUser',
-            'pass'     => 'setPassword',
-            'path'     => 'setPath',
-            'query'    => 'setQuery',
-            'fragment' => 'setFragment');
+            'scheme' => 'setScheme',
+            'host' => 'setHost',
+            'port' => 'setPort',
+            'user' => 'setUser',
+            'pass' => 'setPassword',
+            'path' => 'setPath',
+            'query' => 'setQuery',
+            'fragment' => 'setFragment'
+        );
 
         foreach ($parts as $component => $method) {
             if (isset($data[$component])) {
-                $this->$method($data[$component]);
+                $this->{$method}($data[$component]);
             }
         }
         return $this;
@@ -230,7 +239,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function setUseSession($useSession)
     {
-        $this->_useSession = (bool) $useSession;
+        $this->_useSession = (bool)$useSession;
         return $this;
     }
 
@@ -279,7 +288,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getConfigData($key, $prefix = null)
     {
         if (is_null($prefix)) {
-            $prefix = 'web/' . ($this->_isSecure() ? 'secure' : 'unsecure').'/';
+            $prefix = 'web/' . ($this->_isSecure() ? 'secure' : 'unsecure') . '/';
         }
         $path = $prefix . $key;
 
@@ -434,12 +443,15 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         /**
          * Add availability support urls without scope code
          */
-        if ($this->_getType() == \Magento\UrlInterface::URL_TYPE_LINK
-            && $this->_getRequest()->isDirectAccessFrontendName($this->_getRouteFrontName())) {
+        if ($this->_getType() == \Magento\UrlInterface::URL_TYPE_LINK &&
+            $this->_getRequest()->isDirectAccessFrontendName(
+                $this->_getRouteFrontName()
+            )
+        ) {
             $this->_routeParamsResolver->setType(\Magento\UrlInterface::URL_TYPE_DIRECT_LINK);
         }
 
-        $result =  $this->_getScope()->getBaseUrl($this->_getType(), $this->_isSecure());
+        $result = $this->_getScope()->getBaseUrl($this->_getType(), $this->_isSecure());
         $this->_routeParamsResolver->setType($this->_getDefaultUrlType());
         return $result;
     }
@@ -507,7 +519,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             return '';
         }
 
-        $hasParams = (bool) $this->_getRouteParams();
+        $hasParams = (bool)$this->_getRouteParams();
         $path = $this->_getRouteFrontName() . '/';
 
         if ($this->_getControllerName()) {
@@ -534,13 +546,13 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     {
         if (!$this->hasData('route_path')) {
             $routePath = $this->_getRequest()->getAlias(self::REWRITE_REQUEST_PATH_ALIAS);
-            if (!empty($routeParams['_use_rewrite']) && ($routePath !== null)) {
+            if (!empty($routeParams['_use_rewrite']) && $routePath !== null) {
                 $this->setData('route_path', $routePath);
                 return $routePath;
             }
             $routePath = $this->_getActionPath();
             if ($this->_getRouteParams()) {
-                foreach ($this->_getRouteParams() as $key=>$value) {
+                foreach ($this->_getRouteParams() as $key => $value) {
                     if (is_null($value) || false === $value || '' === $value || !is_scalar($value)) {
                         continue;
                     }
@@ -566,11 +578,17 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         if ($this->_getData('route_name') == $data) {
             return $this;
         }
-        $this->unsetData('route_front_name')
-            ->unsetData('route_path')
-            ->unsetData('controller_name')
-            ->unsetData('action_name')
-            ->unsetData('secure');
+        $this->unsetData(
+            'route_front_name'
+        )->unsetData(
+            'route_path'
+        )->unsetData(
+            'controller_name'
+        )->unsetData(
+            'action_name'
+        )->unsetData(
+            'secure'
+        );
         return $this->setData('route_name', $data);
     }
 
@@ -864,7 +882,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
 
         $query = $this->_getQuery($escapeQuery);
         if ($query) {
-            $mark = (strpos($url, '?') === false) ? '?' : ($escapeQuery ? '&amp;' : '&');
+            $mark = strpos($url, '?') === false ? '?' : ($escapeQuery ? '&amp;' : '&');
             $url .= $mark . $query;
             $this->_queryParamsResolver->unsetData('query');
             $this->_queryParamsResolver->unsetData('query_params');
@@ -905,7 +923,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $sessionId = $this->_session->getSessionIdForHost($url);
         if ($this->_sidResolver->getUseSessionVar() && !$sessionId) {
             $this->setQueryParam('___SID', $this->_isSecure() ? 'S' : 'U'); // Secure/Unsecure
-        } else if ($sessionId) {
+        } elseif ($sessionId) {
             $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam($this->_session), $sessionId);
         }
         return $this;
@@ -979,8 +997,11 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function sessionUrlVar($html)
     {
-        return preg_replace_callback('#(\?|&amp;|&)___SID=([SU])(&amp;|&)?#',
-            array($this, "_sessionVarCallback"), $html);
+        return preg_replace_callback(
+            '#(\?|&amp;|&)___SID=([SU])(&amp;|&)?#',
+            array($this, "_sessionVarCallback"),
+            $html
+        );
     }
 
     /**
@@ -991,11 +1012,13 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function useSessionIdForUrl($secure = false)
     {
-        $key = 'use_session_id_for_url_' . (int) $secure;
+        $key = 'use_session_id_for_url_' . (int)$secure;
         if (is_null($this->getData($key))) {
             $httpHost = $this->_request->getHttpHost();
-            $urlHost = parse_url($this->_getScope()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, $secure),
-                PHP_URL_HOST);
+            $urlHost = parse_url(
+                $this->_getScope()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, $secure),
+                PHP_URL_HOST
+            );
 
             if ($httpHost != $urlHost) {
                 $this->setData($key, true);
@@ -1015,10 +1038,11 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected function _sessionVarCallback($match)
     {
         if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
-            return $match[1]
-                . $this->_sidResolver->getSessionIdQueryParam($this->_session)
-                . '=' . $this->_session->getSessionId()
-                . (isset($match[3]) ? $match[3] : '');
+            return $match[1] . $this->_sidResolver->getSessionIdQueryParam(
+                $this->_session
+            ) . '=' . $this->_session->getSessionId() . (isset(
+                $match[3]
+            ) ? $match[3] : '');
         } else {
             if ($match[1] == '?' && isset($match[3])) {
                 return '?';
@@ -1044,9 +1068,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $referer = parse_url($this->_request->getServer('HTTP_REFERER'), PHP_URL_HOST);
         foreach ($this->_scopeResolver->getScopes() as $scope) {
             $scopeDomains[] = parse_url($scope->getBaseUrl(), PHP_URL_HOST);
-            $scopeDomains[] = parse_url($scope->getBaseUrl(
-                \Magento\UrlInterface::URL_TYPE_LINK, true), PHP_URL_HOST
-            );
+            $scopeDomains[] = parse_url($scope->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true), PHP_URL_HOST);
         }
         $scopeDomains = array_unique($scopeDomains);
         if (empty($referer) || in_array($referer, $scopeDomains)) {
@@ -1064,9 +1086,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function getRedirectUrl($url)
     {
-        $this->_prepareSessionUrlWithParams($url, array(
-            'name' => self::SESSION_NAMESPACE
-        ));
+        $this->_prepareSessionUrlWithParams($url, array('name' => self::SESSION_NAMESPACE));
 
         $query = $this->_getQuery(false);
         if ($query) {
@@ -1089,11 +1109,10 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
                 \Magento\App\Request\Http::DEFAULT_HTTP_PORT,
                 \Magento\App\Request\Http::DEFAULT_HTTPS_PORT
             );
-            $port = (in_array($port, $defaultPorts)) ? '' : ':' . $port;
+            $port = in_array($port, $defaultPorts) ? '' : ':' . $port;
         }
         $requestUri = $this->_request->getServer('REQUEST_URI');
-        $url = $this->_request->getScheme() . '://' . $this->_request->getHttpHost()
-            . $port . $requestUri;
+        $url = $this->_request->getScheme() . '://' . $this->_request->getHttpHost() . $port . $requestUri;
         return $url;
     }
 }

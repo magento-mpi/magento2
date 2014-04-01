@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 class AbstractDataTest extends \PHPUnit_Framework_TestCase
@@ -17,31 +16,39 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\Form\ExtendsAbstractData */
     protected $_model;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\LocaleInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Stdlib\DateTime\TimezoneInterface */
     protected $_localeMock;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Locale\ResolverInterface */
+    protected $_localeResolverMock;
+
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
     protected $_loggerMock;
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
     protected $_attributeMock;
 
     /** @var string */
     protected $_value;
+
     /** @var string */
     protected $_entityTypeCode;
+
     /** @var string */
     protected $_isAjax;
 
     protected function setUp()
     {
-        $this->_localeMock = $this->getMockBuilder('Magento\LocaleInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_attributeMock = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_localeMock = $this->getMockBuilder(
+            'Magento\Stdlib\DateTime\TimezoneInterface'
+        )->disableOriginalConstructor()->getMock();
+        $this->_localeResolverMock = $this->getMockBuilder(
+            'Magento\Locale\ResolverInterface'
+        )->disableOriginalConstructor()->getMock();
+        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
+        $this->_attributeMock = $this->getMockBuilder(
+            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata'
+        )->disableOriginalConstructor()->getMock();
         $this->_value = 'VALUE';
         $this->_entityTypeCode = 'ENTITY_TYPE_CODE';
         $this->_isAjax = false;
@@ -50,6 +57,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $this->_localeMock,
             $this->_loggerMock,
             $this->_attributeMock,
+            $this->_localeResolverMock,
             $this->_value,
             $this->_entityTypeCode,
             $this->_isAjax
@@ -89,12 +97,12 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     public function trueFalseDataProvider()
     {
-        return [[true], [false]];
+        return array(array(true), array(false));
     }
 
     public function testGetSetExtractedData()
     {
-        $data = ['KEY' => 'VALUE'];
+        $data = array('KEY' => 'VALUE');
         $this->assertSame($this->_model, $this->_model->setExtractedData($data));
         $this->assertSame($data, $this->_model->getExtractedData());
         $this->assertSame('VALUE', $this->_model->getExtractedData('KEY'));
@@ -110,23 +118,20 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     public function testApplyInputFilter($input, $output, $filter)
     {
         if ($input) {
-            $this->_attributeMock
-                ->expects($this->once())
-                ->method('getInputFilter')
-                ->will($this->returnValue($filter));
+            $this->_attributeMock->expects($this->once())->method('getInputFilter')->will($this->returnValue($filter));
         }
         $this->assertEquals($output, $this->_model->applyInputFilter($input));
     }
 
     public function applyInputFilterProvider()
     {
-        return [
-            [false, false, false],
-            [true, true, false],
-            ['string', 'string', false],
-            ['2014/01/23', '2014-01-23', 'date'],
-            ['<tag>internal text</tag>', 'internal text', 'striptags']
-        ];
+        return array(
+            array(false, false, false),
+            array(true, true, false),
+            array('string', 'string', false),
+            array('2014/01/23', '2014-01-23', 'date'),
+            array('<tag>internal text</tag>', 'internal text', 'striptags')
+        );
     }
 
     /**
@@ -142,11 +147,15 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $output = $this->_model;
         }
         if (is_null($format)) {
-            $this->_localeMock
-                ->expects($this->once())
-                ->method('getDateFormat')
-                ->with($this->equalTo(\Magento\LocaleInterface::FORMAT_TYPE_SHORT))
-                ->will($this->returnValue($output));
+            $this->_localeMock->expects(
+                $this->once()
+            )->method(
+                'getDateFormat'
+            )->with(
+                $this->equalTo(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+            )->will(
+                $this->returnValue($output)
+            );
         }
         $actual = $this->_model->dateFilterFormat($format);
         $this->assertEquals($output, $actual);
@@ -154,11 +163,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     public function dateFilterFormatProvider()
     {
-        return [
-            [null, 'Whatever I put'],
-            [false, self::MODEL],
-            ['something else', self::MODEL]
-        ];
+        return array(array(null, 'Whatever I put'), array(false, self::MODEL), array('something else', self::MODEL));
     }
 
     /**
@@ -170,10 +175,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     public function testApplyOutputFilter($input, $output, $filter)
     {
         if ($input) {
-            $this->_attributeMock
-                ->expects($this->once())
-                ->method('getInputFilter')
-                ->will($this->returnValue($filter));
+            $this->_attributeMock->expects($this->once())->method('getInputFilter')->will($this->returnValue($filter));
         }
         $this->assertEquals($output, $this->_model->applyOutputFilter($input));
     }
@@ -185,13 +187,13 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
      */
     public function applyOutputFilterDataProvider()
     {
-        return [
-            [false, false, false],
-            [true, true, false],
-            ['string', 'string', false],
-            ['2014/01/23', '2014-01-23', 'date'],
-            ['internal text', 'internal text', 'striptags']
-        ];
+        return array(
+            array(false, false, false),
+            array(true, true, false),
+            array('string', 'string', false),
+            array('2014/01/23', '2014-01-23', 'date'),
+            array('internal text', 'internal text', 'striptags')
+        );
     }
 
     /**
@@ -203,72 +205,66 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateInputRule($value, $label, $inputValidation, $expectedOutput)
     {
-        $this->_attributeMock
-            ->expects($this->any())
-            ->method('getStoreLabel')
-            ->will($this->returnValue($label));
-        $this->_attributeMock
-            ->expects($this->any())
-            ->method('getValidationRules')
-            ->will($this->returnValue(['input_validation' => $inputValidation]));
+        $this->_attributeMock->expects($this->any())->method('getStoreLabel')->will($this->returnValue($label));
+        $this->_attributeMock->expects(
+            $this->any()
+        )->method(
+            'getValidationRules'
+        )->will(
+            $this->returnValue(array('input_validation' => $inputValidation))
+        );
 
         $this->assertEquals($expectedOutput, $this->_model->validateInputRule($value));
     }
 
     public function validateInputRuleDataProvider()
     {
-        return [
-            [null, null, null, true],
-            ['value', null, null, true],
-            [
+        return array(
+            array(null, null, null, true),
+            array('value', null, null, true),
+            array(
                 '!@#$',
                 'mylabel',
                 'alphanumeric',
-                [\Zend_Validate_Alnum::NOT_ALNUM => '"mylabel" contains non-alphabetic or non-numeric characters.']
-            ],
-            [
+                array(
+                    \Zend_Validate_Alnum::NOT_ALNUM => '"mylabel" contains non-alphabetic or non-numeric characters.'
+                )
+            ),
+            array(
                 '!@#$',
                 'mylabel',
                 'numeric',
-                [\Zend_Validate_Digits::NOT_DIGITS => '"mylabel" contains non-numeric characters.']
-            ],
-            [
+                array(\Zend_Validate_Digits::NOT_DIGITS => '"mylabel" contains non-numeric characters.')
+            ),
+            array(
                 '1234',
                 'mylabel',
                 'alpha',
-                [\Zend_Validate_Alpha::NOT_ALPHA => '"mylabel" contains non-alphabetic characters.']
-            ],
-            [
+                array(\Zend_Validate_Alpha::NOT_ALPHA => '"mylabel" contains non-alphabetic characters.')
+            ),
+            array(
                 '!@#$',
                 'mylabel',
                 'email',
-                [
+                array(
                     // @codingStandardsIgnoreStart
                     \Zend_Validate_EmailAddress::INVALID_HOSTNAME => '"mylabel" is not a valid hostname.',
-                    \Zend_Validate_Hostname::INVALID_HOSTNAME     => "'#\$' does not match the expected structure for a DNS hostname",
-                    \Zend_Validate_Hostname::INVALID_LOCAL_NAME   => "'#\$' does not appear to be a valid local network name."
+                    \Zend_Validate_Hostname::INVALID_HOSTNAME =>
+                        "'#\$' does not match the expected structure for a DNS hostname",
+                    \Zend_Validate_Hostname::INVALID_LOCAL_NAME =>
+                        "'#\$' does not appear to be a valid local network name."
                     // @codingStandardsIgnoreEnd
-                ]
-            ],
-            [
-                '1234',
-                'mylabel',
-                'url',
-                ['"mylabel" is not a valid URL.']
-            ],
-            [
-                'http://.com',
-                'mylabel',
-                'url',
-                ['"mylabel" is not a valid URL.']
-            ],
-            [
+                )
+            ),
+            array('1234', 'mylabel', 'url', array('"mylabel" is not a valid URL.')),
+            array('http://.com', 'mylabel', 'url', array('"mylabel" is not a valid URL.')),
+            array(
                 '1234',
                 'mylabel',
                 'date',
-                [\Zend_Validate_Date::INVALID_DATE => '"mylabel" is not a valid date.']
-            ],
-        ];
+                array(\Zend_Validate_Date::INVALID_DATE => '"mylabel" is not a valid date.')
+            )
+        );
     }
 
     /**
@@ -281,6 +277,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $this->_localeMock,
             $this->_loggerMock,
             $this->_attributeMock,
+            $this->_localeResolverMock,
             $this->_value,
             $this->_entityTypeCode,
             $ajaxRequest
@@ -298,10 +295,13 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRequestValue($request, $attributeCode, $requestScope, $requestScopeOnly, $expectedValue)
     {
-        $this->_attributeMock
-            ->expects($this->once())
-            ->method('getAttributeCode')
-            ->will($this->returnValue($attributeCode));
+        $this->_attributeMock->expects(
+            $this->once()
+        )->method(
+            'getAttributeCode'
+        )->will(
+            $this->returnValue($attributeCode)
+        );
         $this->_model->setRequestScope($requestScope);
         $this->_model->setRequestScopeOnly($requestScopeOnly);
         $this->assertEquals($expectedValue, $this->_model->getRequestValue($request));
@@ -310,35 +310,52 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     public function getRequestValueDataProvider()
     {
         $expectedValue = 'EXPECTED_VALUE';
-        $requestMockOne = $this->getMockBuilder('\Magento\App\RequestInterface')
-            ->getMock();
-        $requestMockOne->expects($this->any())
-            ->method('getParam')
-            ->with('ATTR_CODE')
-            ->will($this->returnValue($expectedValue));
+        $requestMockOne = $this->getMockBuilder('\Magento\App\RequestInterface')->getMock();
+        $requestMockOne->expects(
+            $this->any()
+        )->method(
+            'getParam'
+        )->with(
+            'ATTR_CODE'
+        )->will(
+            $this->returnValue($expectedValue)
+        );
 
-        $requestMockTwo = $this->getMockBuilder('\Magento\App\RequestInterface')
-            ->getMock();
-        $requestMockTwo->expects($this->at(0))
-            ->method('getParam')
-            ->with('REQUEST_SCOPE')
-            ->will($this->returnValue(['ATTR_CODE' => $expectedValue]));
-        $requestMockTwo->expects($this->at(1))
-            ->method('getParam')
-            ->with('REQUEST_SCOPE')
-            ->will($this->returnValue([]));
+        $requestMockTwo = $this->getMockBuilder('\Magento\App\RequestInterface')->getMock();
+        $requestMockTwo->expects(
+            $this->at(0)
+        )->method(
+            'getParam'
+        )->with(
+            'REQUEST_SCOPE'
+        )->will(
+            $this->returnValue(array('ATTR_CODE' => $expectedValue))
+        );
+        $requestMockTwo->expects(
+            $this->at(1)
+        )->method(
+            'getParam'
+        )->with(
+            'REQUEST_SCOPE'
+        )->will(
+            $this->returnValue(array())
+        );
 
-        $requestMockThree = $this->getMockBuilder('\Magento\App\Request\Http')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $requestMockThree->expects($this->once())
-            ->method('getParams')
-            ->will($this->returnValue(['REQUEST' => ['SCOPE' => ['ATTR_CODE' => $expectedValue]]]));
-        return [
-            [$requestMockOne, 'ATTR_CODE', false, false, $expectedValue],
-            [$requestMockTwo, 'ATTR_CODE', 'REQUEST_SCOPE', false, $expectedValue],
-            [$requestMockTwo, 'ATTR_CODE', 'REQUEST_SCOPE', false, false],
-            [$requestMockThree, 'ATTR_CODE', 'REQUEST/SCOPE', false, $expectedValue],
-        ];
+        $requestMockThree = $this->getMockBuilder(
+            '\Magento\App\Request\Http'
+        )->disableOriginalConstructor()->getMock();
+        $requestMockThree->expects(
+            $this->once()
+        )->method(
+            'getParams'
+        )->will(
+            $this->returnValue(array('REQUEST' => array('SCOPE' => array('ATTR_CODE' => $expectedValue))))
+        );
+        return array(
+            array($requestMockOne, 'ATTR_CODE', false, false, $expectedValue),
+            array($requestMockTwo, 'ATTR_CODE', 'REQUEST_SCOPE', false, $expectedValue),
+            array($requestMockTwo, 'ATTR_CODE', 'REQUEST_SCOPE', false, false),
+            array($requestMockThree, 'ATTR_CODE', 'REQUEST/SCOPE', false, $expectedValue)
+        );
     }
 }

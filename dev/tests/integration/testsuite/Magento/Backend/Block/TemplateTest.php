@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -26,8 +25,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Backend\Block\Template');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Backend\Block\Template'
+        );
     }
 
     /**
@@ -44,12 +46,20 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testIsOutputEnabled()
     {
         $this->_block->setData('module_name', 'dummy');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig('advanced/modules_disable_output/dummy', 'true');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getStore()->setConfig(
+            'advanced/modules_disable_output/dummy',
+            'true'
+        );
         $this->assertFalse($this->_block->isOutputEnabled());
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig('advanced/modules_disable_output/dummy', 'false');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getStore()->setConfig(
+            'advanced/modules_disable_output/dummy',
+            'false'
+        );
         $this->assertTrue($this->_block->isOutputEnabled('dummy'));
     }
 }

@@ -7,17 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Shipment;
 
 /**
  * Adminhtml sales orders grid
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Shipment;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * Collection factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\Collection\Factory
      */
     protected $_collectionFactory;
@@ -38,9 +39,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
-
     /**
      * Initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -63,7 +65,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare and set collection of grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -75,58 +77,77 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare and add columns to grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('increment_id', array(
-            'header' => __('Shipment'),
-            'index' => 'increment_id',
-            'type' => 'text',
-            'header_css_class' => 'col-shipment-number',
-            'column_css_class' => 'col-shipment-number'
-        ));
+        $this->addColumn(
+            'increment_id',
+            array(
+                'header' => __('Shipment'),
+                'index' => 'increment_id',
+                'type' => 'text',
+                'header_css_class' => 'col-shipment-number',
+                'column_css_class' => 'col-shipment-number'
+            )
+        );
 
-        $this->addColumn('created_at', array(
-            'header' => __('Ship Date'),
-            'index' => 'created_at',
-            'type' => 'datetime',
-            'header_css_class' => 'col-period',
-            'column_css_class' => 'col-period'
-        ));
+        $this->addColumn(
+            'created_at',
+            array(
+                'header' => __('Ship Date'),
+                'index' => 'created_at',
+                'type' => 'datetime',
+                'header_css_class' => 'col-period',
+                'column_css_class' => 'col-period'
+            )
+        );
 
-        $this->addColumn('order_increment_id', array(
-            'header' => __('Order'),
-            'index' => 'order_increment_id',
-            'type' => 'text',
-            'header_css_class' => 'col-order-number',
-            'column_css_class' => 'col-order-number'
-        ));
+        $this->addColumn(
+            'order_increment_id',
+            array(
+                'header' => __('Order'),
+                'index' => 'order_increment_id',
+                'type' => 'text',
+                'header_css_class' => 'col-order-number',
+                'column_css_class' => 'col-order-number'
+            )
+        );
 
-        $this->addColumn('order_created_at', array(
-            'header' => __('Order Date'),
-            'index' => 'order_created_at',
-            'type' => 'datetime',
-            'header_css_class' => 'col-period',
-            'column_css_class' => 'col-period'
-        ));
+        $this->addColumn(
+            'order_created_at',
+            array(
+                'header' => __('Order Date'),
+                'index' => 'order_created_at',
+                'type' => 'datetime',
+                'header_css_class' => 'col-period',
+                'column_css_class' => 'col-period'
+            )
+        );
 
-        $this->addColumn('shipping_name', array(
-            'header' => __('Ship-to Name'),
-            'index' => 'shipping_name',
-            'header_css_class' => 'col-memo',
-            'column_css_class' => 'col-memo'
-        ));
+        $this->addColumn(
+            'shipping_name',
+            array(
+                'header' => __('Ship-to Name'),
+                'index' => 'shipping_name',
+                'header_css_class' => 'col-memo',
+                'column_css_class' => 'col-memo'
+            )
+        );
 
-        $this->addColumn('total_qty', array(
-            'header' => __('Total Quantity'),
-            'index' => 'total_qty',
-            'type' => 'number',
-            'header_css_class' => 'col-qty',
-            'column_css_class' => 'col-qty'
-        ));
+        $this->addColumn(
+            'total_qty',
+            array(
+                'header' => __('Total Quantity'),
+                'index' => 'total_qty',
+                'type' => 'number',
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty'
+            )
+        );
 
-        $this->addColumn('action',
+        $this->addColumn(
+            'action',
             array(
                 'header' => __('Action'),
                 'type' => 'action',
@@ -143,7 +164,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'is_system' => true,
                 'header_css_class' => 'col-actions',
                 'column_css_class' => 'col-actions'
-            ));
+            )
+        );
 
         $this->addExportType('*/*/exportCsv', __('CSV'));
         $this->addExportType('*/*/exportExcel', __('Excel XML'));
@@ -163,17 +185,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             return false;
         }
 
-        return $this->getUrl('sales/shipment/view',
-            array(
-                'shipment_id' => $row->getId(),
-            )
-        );
+        return $this->getUrl('sales/shipment/view', array('shipment_id' => $row->getId()));
     }
 
     /**
      * Prepare and set options for massaction
      *
-     * @return \Magento\Sales\Block\Adminhtml\Shipment\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -181,15 +199,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->getMassactionBlock()->setFormFieldName('shipment_ids');
         $this->getMassactionBlock()->setUseSelectAll(false);
 
-        $this->getMassactionBlock()->addItem('pdfshipments_order', array(
-            'label' => __('PDF Packing Slips'),
-            'url' => $this->getUrl('sales/shipment/pdfshipments'),
-        ));
+        $this->getMassactionBlock()->addItem(
+            'pdfshipments_order',
+            array('label' => __('PDF Packing Slips'), 'url' => $this->getUrl('sales/shipment/pdfshipments'))
+        );
 
-        $this->getMassactionBlock()->addItem('print_shipping_label', array(
-            'label' => __('Print Shipping Labels'),
-            'url' => $this->getUrl('adminhtml/order_shipment/massPrintShippingLabel'),
-        ));
+        $this->getMassactionBlock()->addItem(
+            'print_shipping_label',
+            array(
+                'label' => __('Print Shipping Labels'),
+                'url' => $this->getUrl('adminhtml/order_shipment/massPrintShippingLabel')
+            )
+        );
 
         return $this;
     }
@@ -203,5 +224,4 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl('sales/*/*', array('_current' => true));
     }
-
 }

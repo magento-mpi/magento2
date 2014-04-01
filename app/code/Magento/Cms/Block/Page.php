@@ -12,7 +12,7 @@ namespace Magento\Cms\Block;
 /**
  * Cms page content block
  */
-class Page extends \Magento\View\Element\AbstractBlock
+class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -75,8 +75,7 @@ class Page extends \Magento\View\Element\AbstractBlock
             if ($this->getPageId()) {
                 /** @var \Magento\Cms\Model\Page $page */
                 $page = $this->_pageFactory->create();
-                $page->setStoreId($this->_storeManager->getStore()->getId())
-                    ->load($this->getPageId(), 'identifier');
+                $page->setStoreId($this->_storeManager->getStore()->getId())->load($this->getPageId(), 'identifier');
             } else {
                 $page = $this->_page;
             }
@@ -95,18 +94,30 @@ class Page extends \Magento\View\Element\AbstractBlock
         $page = $this->getPage();
 
         // show breadcrumbs
-        if ($this->_storeConfig->getConfig('web/default/show_cms_breadcrumbs')
-            && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
-            && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_home_page'))
-            && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_no_route'))) {
-                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'),
-                    'link' => $this->_storeManager->getStore()->getBaseUrl()));
-                $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
+        if ($this->_storeConfig->getConfig(
+            'web/default/show_cms_breadcrumbs'
+        ) && ($breadcrumbs = $this->getLayout()->getBlock(
+            'breadcrumbs'
+        )) && $page->getIdentifier() !== $this->_storeConfig->getConfig(
+            'web/default/cms_home_page'
+        ) && $page->getIdentifier() !== $this->_storeConfig->getConfig(
+            'web/default/cms_no_route'
+        )
+        ) {
+            $breadcrumbs->addCrumb(
+                'home',
+                array(
+                    'label' => __('Home'),
+                    'title' => __('Go to Home Page'),
+                    'link' => $this->_storeManager->getStore()->getBaseUrl()
+                )
+            );
+            $breadcrumbs->addCrumb('cms_page', array('label' => $page->getTitle(), 'title' => $page->getTitle()));
         }
 
         $root = $this->getLayout()->getBlock('root');
         if ($root) {
-            $root->addBodyClass('cms-'.$page->getIdentifier());
+            $root->addBodyClass('cms-' . $page->getIdentifier());
         }
 
         $head = $this->getLayout()->getBlock('head');
@@ -119,7 +130,7 @@ class Page extends \Magento\View\Element\AbstractBlock
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
         if ($pageMainTitle) {
             // Setting empty page title if content heading is absent
-            $cmsTitle = $page->getContentHeading() ? : ' ';
+            $cmsTitle = $page->getContentHeading() ?: ' ';
             $pageMainTitle->setPageTitle($this->escapeHtml($cmsTitle));
         }
 
@@ -136,5 +147,15 @@ class Page extends \Magento\View\Element\AbstractBlock
         $html = $this->_filterProvider->getPageFilter()->filter($this->getPage()->getContent());
         $html = $this->getLayout()->renderElement('messages') . $html;
         return $html;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPage()->getId());
     }
 }

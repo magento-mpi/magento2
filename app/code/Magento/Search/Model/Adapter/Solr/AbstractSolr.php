@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Adapter\Solr;
 
 /**
@@ -18,17 +17,17 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Default number of rows to select
      */
-    const DEFAULT_ROWS_LIMIT        = 9999;
+    const DEFAULT_ROWS_LIMIT = 9999;
 
     /**
      * Default suggestions count
      */
-    const DEFAULT_SPELLCHECK_COUNT  = 1;
+    const DEFAULT_SPELLCHECK_COUNT = 1;
 
     /**
      * Define ping status
      *
-     * @var float | bool
+     * @var float|bool
      */
     protected $_ping = null;
 
@@ -90,8 +89,17 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected $dateTime;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
@@ -104,13 +112,14 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param array $options
      *
      * @throws \Magento\Core\Exception
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice,
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
@@ -123,6 +132,8 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         $options = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -131,9 +142,16 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         $this->_clientHelper = $clientHelper;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->dateTime = $dateTime;
+        $this->_localeResolver = $localeResolver;
+        $this->_localeDate = $localeDate;
         parent::__construct(
-            $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
-            $logger, $storeManager, $cache
+            $customerSession,
+            $resourceIndex,
+            $resourceFulltext,
+            $attributeCollection,
+            $logger,
+            $storeManager,
+            $cache
         );
         try {
             $this->_connect($options);
@@ -148,7 +166,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Connect to Solr Client by specified options that will be merged with default
      *
-     * @param  array $options
+     * @param array $options
      * @throws \RuntimeException
      * @return SolrClient|\Magento\Search\Model\Client\Solr
      */
@@ -171,6 +189,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Set advanced index fields prefix
      *
      * @param string $prefix
+     * @return void
      */
     public function setAdvancedIndexFieldPrefix($prefix)
     {
@@ -192,7 +211,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Prepare language suffix for text fields.
      * For not supported languages prefix _def will be returned.
      *
-     * @param  string $localeCode
+     * @param string $localeCode
      * @return string
      */
     protected function _getLanguageSuffix($localeCode)
@@ -205,22 +224,17 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Example: 1995-12-31T23:59:59Z
      *
      * @param int $storeId
-     * @param string $date
-     *
+     * @param string|null $date
      * @return string|null
      */
     protected function _getSolrDate($storeId, $date = null)
     {
         if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = $this->_coreStoreConfig->getConfig(
-                \Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
-            );
-            $locale   = $this->_coreStoreConfig->getConfig(
-                \Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
-            );
-            $locale   = new \Zend_Locale($locale);
+            $timezone = $this->_coreStoreConfig->getConfig($this->_localeDate->getDefaultTimezonePath(), $storeId);
+            $locale = $this->_coreStoreConfig->getConfig($this->_localeResolver->getDefaultLocalePath(), $storeId);
+            $locale = new \Zend_Locale($locale);
 
-            $dateObj  = new \Zend_Date(null, null, $locale);
+            $dateObj = new \Magento\Stdlib\DateTime\Date(null, null, $locale);
             $dateObj->setTimezone($timezone);
             $this->_dateFormats[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }
@@ -239,7 +253,6 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Prepare search conditions from query
      *
      * @param string|array $query
-     *
      * @return string
      */
     protected function prepareSearchConditions($query)
@@ -249,26 +262,34 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             foreach ($query as $field => $value) {
                 if (is_array($value)) {
                     if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
-                        $from = (isset($value['from']) && strlen(trim($value['from'])))
-                            ? $this->_prepareQueryText($value['from'])
-                            : '*';
-                        $to = (isset($value['to']) && strlen(trim($value['to'])))
-                            ? $this->_prepareQueryText($value['to'])
-                            : '*';
-                        $fieldCondition = "$field:[$from TO $to]";
+                        $from = isset(
+                            $value['from']
+                        ) && strlen(
+                            trim($value['from'])
+                        ) ? $this->_prepareQueryText(
+                            $value['from']
+                        ) : '*';
+                        $to = isset(
+                            $value['to']
+                        ) && strlen(
+                            trim($value['to'])
+                        ) ? $this->_prepareQueryText(
+                            $value['to']
+                        ) : '*';
+                        $fieldCondition = "{$field}:[{$from} TO {$to}]";
                     } else {
                         $fieldCondition = array();
                         foreach ($value as $part) {
                             $part = $this->_prepareFilterQueryText($part);
-                            $fieldCondition[] = $field .':'. $part;
+                            $fieldCondition[] = $field . ':' . $part;
                         }
-                        $fieldCondition = '('. implode(' OR ', $fieldCondition) .')';
+                        $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
                     }
                 } else {
                     if ($value != '*') {
                         $value = $this->_prepareQueryText($value);
                     }
-                    $fieldCondition = $field .':'. $value;
+                    $fieldCondition = $field . ':' . $value;
                 }
 
                 $searchConditions[] = $fieldCondition;
@@ -299,16 +320,11 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
                     $result['facet.field'][] = $facetField;
                 } else {
                     foreach ($facetFieldConditions as $facetCondition) {
-                        if (is_array($facetCondition) && isset($facetCondition['from'])
-                            && isset($facetCondition['to'])
+                        if (is_array($facetCondition) && isset($facetCondition['from']) && isset($facetCondition['to'])
                         ) {
-                            $from = strlen(trim($facetCondition['from']))
-                                ? $facetCondition['from']
-                                : '*';
-                            $to = strlen(trim($facetCondition['to']))
-                                ? $facetCondition['to']
-                                : '*';
-                            $fieldCondition = "$facetField:[$from TO $to]";
+                            $from = strlen(trim($facetCondition['from'])) ? $facetCondition['from'] : '*';
+                            $to = strlen(trim($facetCondition['to'])) ? $facetCondition['to'] : '*';
+                            $fieldCondition = "{$facetField}:[{$from} TO {$to}]";
                         } else {
                             $facetCondition = $this->_prepareQueryText($facetCondition);
                             $fieldCondition = $this->_prepareFieldCondition($facetField, $facetCondition);
@@ -327,7 +343,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Prepare fq filter conditions
      *
      * @param array $filters
-     * @return array
+     * @return string[]
      */
     protected function _prepareFilters($filters)
     {
@@ -337,13 +353,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             foreach ($filters as $field => $value) {
                 if (is_array($value)) {
                     if (isset($value['from']) || isset($value['to'])) {
-                        $from = (isset($value['from']) && !empty($value['from']))
-                            ? $value['from']
-                            : '*';
-                        $to = (isset($value['to']) && !empty($value['to']))
-                            ? $value['to']
-                            : '*';
-                        $fieldCondition = "$field:[$from TO $to]";
+                        $from = isset($value['from']) && !empty($value['from']) ? $value['from'] : '*';
+                        $to = isset($value['to']) && !empty($value['to']) ? $value['to'] : '*';
+                        $fieldCondition = "{$field}:[{$from} TO {$to}]";
                     } else {
                         $fieldCondition = array();
                         foreach ($value as $part) {
@@ -374,8 +386,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     {
         $result = array();
 
-        $localeCode = $this->_storeManager->getStore()
-            ->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $localeCode = $this->_storeManager->getStore()->getConfig($this->_localeResolver->getDefaultLocalePath());
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         /**
@@ -389,10 +400,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             } elseif ($sortBy == 'position') {
                 $sortBy = 'position_category_' . $this->_coreRegistry->registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
-                $websiteId       = $this->_storeManager->getStore()->getWebsiteId();
+                $websiteId = $this->_storeManager->getStore()->getWebsiteId();
                 $customerGroupId = $this->_customerSession->getCustomerGroupId();
 
-                $sortBy = 'price_'. $customerGroupId .'_'. $websiteId;
+                $sortBy = 'price_' . $customerGroupId . '_' . $websiteId;
             }
 
             $sortBy = array(array($sortBy => 'asc'));
@@ -421,7 +432,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Retrieve Solr server status
      *
-     * @return  float|bool Actual time taken to ping the server, FALSE if timeout or HTTP error status occurs
+     * @return float|bool Actual time taken to ping the server, FALSE if timeout or HTTP error status occurs
      */
     public function ping()
     {
@@ -439,15 +450,18 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Prepare name for system text fields.
      *
-     * @param   string $filed
-     * @param   string $suffix
-     * @param   int  $storeId
-     * @return  string
+     * @param string $filed
+     * @param string $suffix
+     * @param int|null $storeId
+     * @return string
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
-        $localeCode     = $this->_storeManager->getStore($storeId)
-            ->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $localeCode = $this->_storeManager->getStore(
+            $storeId
+        )->getConfig(
+            $this->_localeResolver->getDefaultLocalePath()
+        );
         $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
 
         if ($suffix) {
@@ -460,10 +474,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Retrieve attribute solr field name
      *
-     * @param   \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
-     * @param   string $target - default|sort|nav
-     *
-     * @return  string|bool
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
+     * @param string $target - default|sort|nav
+     * @return string|bool
      */
     public function getSearchEngineFieldName($attribute, $target = 'default')
     {
@@ -473,7 +486,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             }
 
             $entityType = $this->_eavConfig->getEntityType('catalog_product');
-            $attribute  = $this->_eavConfig->getAttribute($entityType, $attribute);
+            $attribute = $this->_eavConfig->getAttribute($entityType, $attribute);
         }
 
         // Field type defining
@@ -486,8 +499,8 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             return $this->getPriceFieldName();
         }
 
-        $backendType    = $attribute->getBackendType();
-        $frontendInput  = $attribute->getFrontendInput();
+        $backendType = $attribute->getBackendType();
+        $frontendInput = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
             $fieldType = 'multi';
@@ -510,20 +523,19 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         }
 
         if ($fieldType == 'text') {
-            $localeCode     = $this->_storeManager->getStore($attribute->getStoreId())
-                ->getConfig(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            $localeCode = $this->_storeManager->getStore(
+                $attribute->getStoreId()
+            )->getConfig(
+                $this->_localeResolver->getDefaultLocalePath()
+            );
             $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
-            $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
+            $fieldName = $fieldPrefix . $attributeCode . $languageSuffix;
         } else {
-            $fieldName      = $fieldPrefix . $fieldType . '_' . $attributeCode;
+            $fieldName = $fieldPrefix . $fieldType . '_' . $attributeCode;
         }
 
         return $fieldName;
     }
-
-
-
-
 
     // Deprecated methods
 
@@ -532,18 +544,16 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Add language code suffix to text fields and type suffix for not text dynamic fields.
      * Prepare sorting fields.
      *
+     * @param array $data
+     * @param array $attributesParams
+     * @param string|null $localeCode
+     * @return array
      * @deprecated after 1.11.2.0
-     *
-     * @param   array $data
-     * @param   array $attributesParams
-     * @param   string|null $localeCode
-     *
-     * @return  array
      */
     protected function _prepareIndexData($data, $attributesParams = array(), $localeCode = null)
     {
-        $productId  = $data['id'];
-        $storeId    = $data['store_id'];
+        $productId = $data['id'];
+        $storeId = $data['store_id'];
 
         if ($productId && $storeId) {
             return $this->_prepareIndexProductData($data, $productId, $storeId);
@@ -555,11 +565,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Retrieve attribute field's name for sorting
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param string $attributeCode
-     *
      * @return string
+     * @deprecated after 1.11.2.0
      */
     public function getAttributeSolrFieldName($attributeCode)
     {

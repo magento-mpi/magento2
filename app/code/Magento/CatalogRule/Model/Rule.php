@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Model;
 
 use Magento\Catalog\Model\Product;
@@ -155,7 +154,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory
@@ -176,7 +175,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory,
@@ -205,7 +204,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_cacheTypesList = $cacheTypesList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
         $this->dateTime = $dateTime;
-        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -303,7 +302,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => $this->_productFactory->create(),
+                        'product' => $this->_productFactory->create()
                     )
                 );
             }
@@ -373,20 +372,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     {
         $this->_getResource()->applyAllRulesForDateRange(null, null, $product);
         $this->_invalidateCache();
-
-        if ($product instanceof Product) {
-            $productId = $product->getId();
-        } else {
-            $productId = $product;
-        }
-
-        if ($productId) {
-            $this->_indexer->processEntityAction(
-                new \Magento\Object(array('id' => $productId)),
-                Product::ENTITY,
-                \Magento\Catalog\Model\Product\Indexer\Price::EVENT_TYPE_REINDEX_PRICE
-            );
-        }
     }
 
     /**
@@ -399,16 +384,16 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function calcProductPriceRule(Product $product, $price)
     {
         $priceRules = null;
-        $productId  = $product->getId();
-        $storeId    = $product->getStoreId();
-        $websiteId  = $this->_storeManager->getStore($storeId)->getWebsiteId();
+        $productId = $product->getId();
+        $storeId = $product->getStoreId();
+        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
             $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
-        $dateTs     = $this->_locale->storeTimeStamp($storeId);
-        $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
+        $dateTs = $this->_localeDate->scopeTimeStamp($storeId);
+        $cacheKey = date('Y-m-d', $dateTs) . "|{$websiteId}|{$customerGroupId}|{$productId}|{$price}";
 
         if (!array_key_exists($cacheKey, self::$_priceRulesData)) {
             $rulesData = $this->_getRulesFromProduct($dateTs, $websiteId, $customerGroupId, $productId);

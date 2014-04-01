@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model;
 
 /**
@@ -18,21 +17,30 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Store address
      */
-    const XML_PATH_ADDRESS1             = 'sales/magento_rma/address';
-    const XML_PATH_ADDRESS2             = 'sales/magento_rma/address1';
-    const XML_PATH_CITY                 = 'sales/magento_rma/city';
-    const XML_PATH_REGION_ID            = 'sales/magento_rma/region_id';
-    const XML_PATH_ZIP                  = 'sales/magento_rma/zip';
-    const XML_PATH_COUNTRY_ID           = 'sales/magento_rma/country_id';
-    const XML_PATH_CONTACT_NAME         = 'sales/magento_rma/store_name';
+    const XML_PATH_ADDRESS1 = 'sales/magento_rma/address';
+
+    const XML_PATH_ADDRESS2 = 'sales/magento_rma/address1';
+
+    const XML_PATH_CITY = 'sales/magento_rma/city';
+
+    const XML_PATH_REGION_ID = 'sales/magento_rma/region_id';
+
+    const XML_PATH_ZIP = 'sales/magento_rma/zip';
+
+    const XML_PATH_COUNTRY_ID = 'sales/magento_rma/country_id';
+
+    const XML_PATH_CONTACT_NAME = 'sales/magento_rma/store_name';
 
     /**
      * Constants - value of is_admin field in table
      */
-    const IS_ADMIN_STATUS_USER_TRACKING_NUMBER          = 0;
-    const IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER         = 1;
-    const IS_ADMIN_STATUS_ADMIN_LABEL                   = 2;
-    const IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER   = 3;
+    const IS_ADMIN_STATUS_USER_TRACKING_NUMBER = 0;
+
+    const IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER = 1;
+
+    const IS_ADMIN_STATUS_ADMIN_LABEL = 2;
+
+    const IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER = 3;
 
     /**
      * Code of custom carrier
@@ -140,7 +148,6 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         \Magento\App\Filesystem $filesystem,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
-
     ) {
         $this->_rmaData = $rmaData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -205,18 +212,20 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $recipientRegionCode = $recipientAddress->getRegionId();
         $recipientContactName = $this->_rmaData->getReturnContactName($this->getRma()->getStoreId());
 
-        if (!$recipientContactName->getName()
-            || !$recipientContactName->getLastName()
-            || !$recipientAddress->getCompany()
-            || !$storeInfo->getPhone()
-            || !$recipientAddress->getStreetFull()
-            || !$recipientAddress->getCity()
-            || !$shipperRegionCode
-            || !$recipientAddress->getPostcode()
-            || !$recipientAddress->getCountryId()
+        if (!$recipientContactName->getName() ||
+            !$recipientContactName->getLastName() ||
+            !$recipientAddress->getCompany() ||
+            !$storeInfo->getPhone() ||
+            !$recipientAddress->getStreetFull() ||
+            !$recipientAddress->getCity() ||
+            !$shipperRegionCode ||
+            !$recipientAddress->getPostcode() ||
+            !$recipientAddress->getCountryId()
         ) {
             throw new \Magento\Core\Exception(
-                __('We need more information to create your shipping label(s). Please verify your store information and shipping settings.')
+                __(
+                    'We need more information to create your shipping label(s). Please verify your store information and shipping settings.'
+                )
             );
         }
 
@@ -264,7 +273,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $request->setBaseCurrencyCode($baseCurrencyCode);
         $request->setStoreId($shipmentStoreId);
 
-        $referenceData = 'RMA #'. $request->getOrderShipment()->getRma()->getIncrementId(). ' P';
+        $referenceData = 'RMA #' . $request->getOrderShipment()->getRma()->getIncrementId() . ' P';
         $request->setReferenceData($referenceData);
 
         return $shipmentCarrier->returnOfShipment($request);
@@ -280,14 +289,14 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $carrierInstance = $this->_carrierFactory->create($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
-            $custom['title']  = $this->getCarierTitle();
+            $custom['title'] = $this->getCarierTitle();
             $custom['number'] = $this->getTrackNumber();
             return $custom;
         } else {
             $carrierInstance->setStore($this->getStore());
         }
 
-        if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getTrackNumber())) {
+        if (!($trackingInfo = $carrierInstance->getTrackingInfo($this->getTrackNumber()))) {
             return __('No detail for number "%1"', $this->getTrackNumber());
         }
 
@@ -312,17 +321,20 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * Retrieves shipping label for current rma
      *
      * @param Rma|int $rma
-     * @return string
+     * @return \Magento\Object
      */
     public function getShippingLabelByRma($rma)
     {
         if (!is_int($rma)) {
             $rma = $rma->getId();
         }
-        $label = $this->getCollection()
-            ->addFieldToFilter('rma_entity_id', $rma)
-            ->addFieldToFilter('is_admin', self::IS_ADMIN_STATUS_ADMIN_LABEL)
-            ->getFirstItem();
+        $label = $this->getCollection()->addFieldToFilter(
+            'rma_entity_id',
+            $rma
+        )->addFieldToFilter(
+            'is_admin',
+            self::IS_ADMIN_STATUS_ADMIN_LABEL
+        )->getFirstItem();
 
         if ($label->getShippingLabel()) {
             $label->setShippingLabel(

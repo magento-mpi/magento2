@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Cache;
+
+use Magento\View\Publisher\FileInterface;
 
 class CacheManager
 {
@@ -18,20 +19,19 @@ class CacheManager
     /**
      * @var CacheInterface[]
      */
-    protected $cacheByType = [];
+    protected $cacheByType = array();
 
     /**
      * @param CacheFactory $cacheFactory
      */
-    public function __construct(
-        CacheFactory $cacheFactory
-    ) {
+    public function __construct(CacheFactory $cacheFactory)
+    {
         $this->cacheFactory = $cacheFactory;
     }
 
     /**
      * @param string $cacheType
-     * @param \Magento\View\Publisher\FileInterface $publisherFile
+     * @param FileInterface $publisherFile
      * @return $this
      */
     public function initializeCacheByType($cacheType, $publisherFile)
@@ -62,7 +62,7 @@ class CacheManager
 
     /**
      * @param string $cacheType
-     * @param string $cacheFile
+     * @param FileInterface $cacheFile
      * @return $this
      */
     public function saveCache($cacheType, $cacheFile)

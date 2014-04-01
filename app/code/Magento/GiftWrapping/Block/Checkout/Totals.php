@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Block\Checkout;
 
 /**
  * Gift wrapping total block for checkout
  *
  */
-namespace Magento\GiftWrapping\Block\Checkout;
-
 class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
@@ -26,7 +25,7 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
     /**
      * Gift wrapping data
      *
-     * @var \Magento\GiftWrapping\Helper\Data
+     * @var \Magento\GiftWrapping\Helper\Data|null
      */
     protected $_giftWrappingData = null;
 

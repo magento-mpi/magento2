@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Resource;
 
 /**
@@ -34,7 +33,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -46,7 +45,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -58,7 +57,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
             $resource,
             $eavConfig,
             $attrSetEntity,
-            $locale,
+            $localeFormat,
             $resourceHelper,
             $universalFactory,
             $data
@@ -73,7 +72,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Retrieve customer entity default attributes
      *
-     * @return array
+     * @return string[]
      */
     protected function _getDefaultAttributes()
     {
@@ -92,9 +91,9 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Check customer scope, email and confirmation key before saving
      *
      * @param \Magento\Object $customer
+     * @return $this
      * @throws \Magento\Customer\Exception
      * @throws \Magento\Core\Exception
-     * @return \Magento\Customer\Model\Resource\Customer
      */
     protected function _beforeSave(\Magento\Object $customer)
     {
@@ -106,11 +105,14 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         }
 
         $adapter = $this->_getWriteAdapter();
-        $bind    = array('email' => $customer->getEmail());
+        $bind = array('email' => $customer->getEmail());
 
-        $select = $adapter->select()
-            ->from($this->getEntityTable(), array($this->getEntityIdField()))
-            ->where('email = :email');
+        $select = $adapter->select()->from(
+            $this->getEntityTable(),
+            array($this->getEntityIdField())
+        )->where(
+            'email = :email'
+        );
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             $bind['website_id'] = (int)$customer->getWebsiteId();
             $select->where('website_id = :website_id');
@@ -148,7 +150,8 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Validate customer entity
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @throws \Magento\Validator\ValidatorException when validation failed
+     * @return void
+     * @throws \Magento\Validator\ValidatorException When validation failed
      */
     protected function _validate($customer)
     {
@@ -162,8 +165,8 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Save customer addresses and set default addresses in attributes backend
      *
-     * @param \Magento\Object $customer
-     * @return \Magento\Eav\Model\Entity\AbstractEntity
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return $this
      */
     protected function _afterSave(\Magento\Object $customer)
     {
@@ -175,12 +178,12 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Save/delete customer address
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
      */
     protected function _saveAddresses(\Magento\Customer\Model\Customer $customer)
     {
-        $defaultBillingId   = $customer->getData('default_billing');
-        $defaultShippingId  = $customer->getData('default_shipping');
+        $defaultBillingId = $customer->getData('default_billing');
+        $defaultShippingId = $customer->getData('default_shipping');
         /** @var \Magento\Customer\Model\Address $address */
         foreach ($customer->getAddresses() as $address) {
             if ($address->getData('_deleted')) {
@@ -195,17 +198,20 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
                 // Remove deleted address from customer address collection
                 $customer->getAddressesCollection()->removeItemByKey($removedAddressId);
             } else {
-                $address->setParentId($customer->getId())
-                    ->setStoreId($customer->getStoreId())
-                    ->setIsCustomerSaveTransaction(true)
-                    ->save();
-                if (($address->getIsPrimaryBilling() || $address->getIsDefaultBilling())
-                    && $address->getId() != $defaultBillingId
+                $address->setParentId(
+                    $customer->getId()
+                )->setStoreId(
+                    $customer->getStoreId()
+                )->setIsCustomerSaveTransaction(
+                    true
+                )->save();
+                if (($address->getIsPrimaryBilling() ||
+                    $address->getIsDefaultBilling()) && $address->getId() != $defaultBillingId
                 ) {
                     $customer->setData('default_billing', $address->getId());
                 }
-                if (($address->getIsPrimaryShipping() || $address->getIsDefaultShipping())
-                    && $address->getId() != $defaultShippingId
+                if (($address->getIsPrimaryShipping() ||
+                    $address->getIsDefaultShipping()) && $address->getId() != $defaultShippingId
                 ) {
                     $customer->setData('default_shipping', $address->getId());
                 }
@@ -225,7 +231,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Retrieve select object for loading base entity row
      *
      * @param \Magento\Object $object
-     * @param mixed $rowId
+     * @param string|int $rowId
      * @return \Magento\DB\Select
      */
     protected function _getLoadRowSelect($object, $rowId)
@@ -241,19 +247,21 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Load customer by email
      *
-     * @throws \Magento\Core\Exception
-     *
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $email
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function loadByEmail(\Magento\Customer\Model\Customer $customer, $email)
     {
         $adapter = $this->_getReadAdapter();
-        $bind    = array('customer_email' => $email);
-        $select  = $adapter->select()
-            ->from($this->getEntityTable(), array($this->getEntityIdField()))
-            ->where('email = :customer_email');
+        $bind = array('customer_email' => $email);
+        $select = $adapter->select()->from(
+            $this->getEntityTable(),
+            array($this->getEntityIdField())
+        )->where(
+            'email = :customer_email'
+        );
 
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
@@ -280,7 +288,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $newPassword
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
      */
     public function changePassword(\Magento\Customer\Model\Customer $customer, $newPassword)
     {
@@ -297,11 +305,16 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     public function findEmailDuplicates()
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getTable('customer_entity'), array('email', 'cnt' => 'COUNT(*)'))
-            ->group('email')
-            ->order('cnt DESC')
-            ->limit(1);
+        $select = $adapter->select()->from(
+            $this->getTable('customer_entity'),
+            array('email', 'cnt' => 'COUNT(*)')
+        )->group(
+            'email'
+        )->order(
+            'cnt DESC'
+        )->limit(
+            1
+        );
         $lookup = $adapter->fetchRow($select);
         if (empty($lookup)) {
             return false;
@@ -318,11 +331,15 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     public function checkCustomerId($customerId)
     {
         $adapter = $this->_getReadAdapter();
-        $bind    = array('entity_id' => (int)$customerId);
-        $select  = $adapter->select()
-            ->from($this->getTable('customer_entity'), 'entity_id')
-            ->where('entity_id = :entity_id')
-            ->limit(1);
+        $bind = array('entity_id' => (int)$customerId);
+        $select = $adapter->select()->from(
+            $this->getTable('customer_entity'),
+            'entity_id'
+        )->where(
+            'entity_id = :entity_id'
+        )->limit(
+            1
+        );
 
         $result = $adapter->fetchOne($select, $bind);
         if ($result) {
@@ -340,10 +357,13 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     public function getWebsiteId($customerId)
     {
         $adapter = $this->_getReadAdapter();
-        $bind    = array('entity_id' => (int)$customerId);
-        $select  = $adapter->select()
-            ->from($this->getTable('customer_entity'), 'website_id')
-            ->where('entity_id = :entity_id');
+        $bind = array('entity_id' => (int)$customerId);
+        $select = $adapter->select()->from(
+            $this->getTable('customer_entity'),
+            'website_id'
+        )->where(
+            'entity_id = :entity_id'
+        );
 
         return $adapter->fetchOne($select, $bind);
     }
@@ -352,11 +372,12 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * Custom setter of increment ID if its needed
      *
      * @param \Magento\Object $object
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
      */
     public function setNewIncrementId(\Magento\Object $object)
     {
-        if ($this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
+        if ($this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)
+        ) {
             parent::setNewIncrementId($object);
         }
         return $this;
@@ -369,7 +390,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $passwordLinkToken
-     * @return \Magento\Customer\Model\Resource\Customer
+     * @return $this
      */
     public function changeResetPasswordLinkToken(\Magento\Customer\Model\Customer $customer, $passwordLinkToken)
     {

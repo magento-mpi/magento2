@@ -1,0 +1,82 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.widget.block.addbysku {
+    .column.sidebar & {
+      &:extend(.form-fields-for-widgets all);
+
+      .field {
+          display: inline-block;
+          vertical-align: top;
+      }
+
+      .fieldset {
+          margin-bottom: 0;
+      }
+
+      .fields {
+          position: relative;
+          margin-right: 30px;
+      }
+
+      .field.sku {
+          width: 100%;
+          .box-sizing();
+          padding-right: 54px;
+          margin-right: -54px;
+      }
+
+      .field.qty {
+          width: 50px;
+      }
+
+      .action.remove {
+          .button(
+                @_button-icon-use: true,
+                @_button-font-content: @icon-remove,
+                @_button-icon-font-text-hide: true,
+                @_button-icon-font-size: 26px,
+                @_button-icon-font-color: #303030,
+                @_button-icon-font-color-hover: #303030,
+                @_button-icon-font-color-active: #303030
+            );
+          .button-as-link();
+
+          position: absolute;
+          right: -27px;
+          top: 23px;
+
+          &:hover,
+          &:active,
+          &:focus {
+              box-shadow: none;
+              text-decoration: none;
+          }
+      }
+
+      .actions.toolbar {
+          position: relative;
+          padding-top: 50px;
+          margin-left: 0;
+
+          .action.add {
+              .button(
+                   @_button-icon-use: true,
+                   @_button-font-content: @icon-expand,
+                   @_button-icon-font-text-hide: true,
+                   @_button-icon-font-size: 31px
+               );
+
+              position: absolute;
+              top: 0;
+              left: 0;
+              padding: 0 3px;
+          }
+      }
+    }
+}

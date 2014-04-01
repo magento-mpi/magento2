@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\Argument\Interpreter\Decorator;
 
 class UpdaterTest extends \PHPUnit_Framework_TestCase
@@ -39,21 +38,36 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $updatedValue = 'some text (updated)';
 
 
-        $this->_interpreter->expects($this->once())
-            ->method('evaluate')
-            ->with(array('value' => 'some text'))
-            ->will($this->returnValue($evaluatedValue));
+        $this->_interpreter->expects(
+            $this->once()
+        )->method(
+            'evaluate'
+        )->with(
+            array('value' => 'some text')
+        )->will(
+            $this->returnValue($evaluatedValue)
+        );
 
         $updater = $this->getMockForAbstractClass('Magento\View\Layout\Argument\UpdaterInterface');
-        $updater->expects($this->once())
-            ->method('update')
-            ->with($evaluatedValue)
-            ->will($this->returnValue($updatedValue));
+        $updater->expects(
+            $this->once()
+        )->method(
+            'update'
+        )->with(
+            $evaluatedValue
+        )->will(
+            $this->returnValue($updatedValue)
+        );
 
-        $this->_objectManager->expects($this->once())
-            ->method('get')
-            ->with('Magento\View\Layout\Argument\UpdaterInterface')
-            ->will($this->returnValue($updater));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            'Magento\View\Layout\Argument\UpdaterInterface'
+        )->will(
+            $this->returnValue($updater)
+        );
 
         $actual = $this->_model->evaluate($input);
         $this->assertSame($updatedValue, $actual);
@@ -64,12 +78,16 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $input = array('value' => 'some text');
         $expected = array('value' => 'new text');
 
-        $this->_interpreter->expects($this->once())
-            ->method('evaluate')
-            ->with($input)
-            ->will($this->returnValue($expected));
-        $this->_objectManager->expects($this->never())
-            ->method('get');
+        $this->_interpreter->expects(
+            $this->once()
+        )->method(
+            'evaluate'
+        )->with(
+            $input
+        )->will(
+            $this->returnValue($expected)
+        );
+        $this->_objectManager->expects($this->never())->method('get');
 
         $actual = $this->_model->evaluate($input);
         $this->assertSame($expected, $actual);
@@ -93,17 +111,16 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     {
         $input = array(
             'value' => 'some text',
-            'updater' => array(
-                'Magento\View\Layout\Argument\UpdaterInterface',
-                'Magento\ObjectManager',
-            )
+            'updater' => array('Magento\View\Layout\Argument\UpdaterInterface', 'Magento\ObjectManager')
         );
         $self = $this;
-        $this->_objectManager->expects($this->exactly(2))
-            ->method('get')
-            ->will($this->returnCallback(function ($className) use ($self) {
-                return $self->getMockForAbstractClass($className);
-            }));
+        $this->_objectManager->expects($this->exactly(2))->method('get')->will(
+            $this->returnCallback(
+                function ($className) use ($self) {
+                    return $self->getMockForAbstractClass($className);
+                }
+            )
+        );
 
         $this->_model->evaluate($input);
     }

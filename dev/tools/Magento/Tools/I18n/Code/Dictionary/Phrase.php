@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Dictionary;
 
 /**
@@ -84,6 +83,7 @@ class Phrase
      * Set phrase
      *
      * @param string $phrase
+     * @return void
      * @throws \DomainException
      */
     public function setPhrase($phrase)
@@ -108,10 +108,11 @@ class Phrase
      * Set quote type
      *
      * @param string $quote
+     * @return void
      */
     public function setQuote($quote)
     {
-        if (in_array($quote, [self::QUOTE_SINGLE, self::QUOTE_DOUBLE])) {
+        if (in_array($quote, array(self::QUOTE_SINGLE, self::QUOTE_DOUBLE))) {
             $this->_quote = $quote;
         }
     }
@@ -130,6 +131,7 @@ class Phrase
      * Set translation
      *
      * @param string $translation
+     * @return void
      * @throws \DomainException
      */
     public function setTranslation($translation)
@@ -154,6 +156,7 @@ class Phrase
      * Set context type
      *
      * @param string $contextType
+     * @return void
      */
     public function setContextType($contextType)
     {
@@ -174,6 +177,7 @@ class Phrase
      * Add context value
      *
      * @param string $contextValue
+     * @return void
      * @throws \DomainException
      */
     public function addContextValue($contextValue)
@@ -190,6 +194,7 @@ class Phrase
      * Set context type
      *
      * @param string $contextValue
+     * @return void
      * @throws \DomainException
      */
     public function setContextValue($contextValue)

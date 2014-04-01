@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute;
 
 /**
  * Quote address attribute frontend resource model
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Quote\Address\Attribute;
-
-class Frontend
-    extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
+class Frontend extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
 {
     /**
      * Fetch totals
@@ -30,7 +27,7 @@ class Frontend
     public function fetchTotals(\Magento\Sales\Model\Quote\Address $address)
     {
         $arr = array();
-        
+
         return $arr;
     }
 }

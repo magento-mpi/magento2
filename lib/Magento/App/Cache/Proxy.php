@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,12 +18,12 @@ class Proxy implements CacheInterface
     /**
      * @var \Magento\ObjectManager
      */
-    protected  $_objectManager;
+    protected $_objectManager;
 
     /**
      * @var CacheInterface
      */
-    protected  $_cache;
+    protected $_cache;
 
     /**
      * @param \Magento\ObjectManager $objectManager

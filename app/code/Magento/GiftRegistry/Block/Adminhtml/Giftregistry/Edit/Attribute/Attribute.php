@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
 
-class Attribute
-    extends \Magento\Backend\Block\Widget\Form
+class Attribute extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Instance of gift registry type model
+     *
+     * @var \Magento\GiftRegistry\Model\Type
      */
     protected $_typeInstance;
 
@@ -78,16 +78,21 @@ class Attribute
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Add Attribute'),
-            'class' => 'action-add',
-            'id'    => $this->getFieldPrefix() . '_add_new_attribute'
-        ));
+        $this->addChild(
+            'add_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add Attribute'),
+                'class' => 'action-add',
+                'id' => $this->getFieldPrefix() . '_add_new_attribute'
+            )
+        );
 
-        $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Delete Attribute'),
-            'class' => 'action-delete delete-attribute-option'
-        ));
+        $this->addChild(
+            'delete_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Delete Attribute'), 'class' => 'action-delete delete-attribute-option')
+        );
         return parent::_prepareLayout();
     }
 
@@ -170,13 +175,18 @@ class Attribute
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_type',
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array(
+                'id' => $this->getFieldPrefix() . '_attribute_{{id}}_type',
                 'class' => 'select required-entry attribute-type global-scope'
-            ))
-            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][type]')
-            ->setOptions($this->getConfig()->getAttributeTypesOptions());
+            )
+        )->setName(
+            'attributes[' . $this->getFieldPrefix() . '][{{id}}][type]'
+        )->setOptions(
+            $this->getConfig()->getAttributeTypesOptions()
+        );
 
         return $select->getHtml();
     }
@@ -188,13 +198,18 @@ class Attribute
      */
     public function getGroupSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_group',
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array(
+                'id' => $this->getFieldPrefix() . '_attribute_{{id}}_group',
                 'class' => 'select required-entry global-scope'
-            ))
-            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][group]')
-            ->setOptions($this->getConfig()->getAttributeGroupsOptions());
+            )
+        )->setName(
+            'attributes[' . $this->getFieldPrefix() . '][{{id}}][group]'
+        )->setOptions(
+            $this->getConfig()->getAttributeGroupsOptions()
+        );
 
         return $select->getHtml();
     }
@@ -206,13 +221,18 @@ class Attribute
      */
     public function getSearcheableSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
-                 'class' => 'select required-entry global-scope'
-            ))
-            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]')
-            ->setOptions($this->sourceYesNo->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array(
+                'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
+                'class' => 'select required-entry global-scope'
+            )
+        )->setName(
+            'attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]'
+        )->setOptions(
+            $this->sourceYesNo->toOptionArray()
+        );
 
         return $select->getHtml();
     }
@@ -224,13 +244,18 @@ class Attribute
      */
     public function getListedSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
-                 'class' => 'select required-entry global-scope'
-            ))
-            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]')
-            ->setOptions($this->sourceYesNo->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array(
+                'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
+                'class' => 'select required-entry global-scope'
+            )
+        )->setName(
+            'attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]'
+        )->setOptions(
+            $this->sourceYesNo->toOptionArray()
+        );
 
         return $select->getHtml();
     }
@@ -242,13 +267,18 @@ class Attribute
      */
     public function getRequiredSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
-                 'class' => 'select required-entry global-scope'
-            ))
-            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]')
-            ->setOptions($this->sourceYesNo->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array(
+                'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
+                'class' => 'select required-entry global-scope'
+            )
+        )->setName(
+            'attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]'
+        )->setOptions(
+            $this->sourceYesNo->toOptionArray()
+        );
 
         return $select->getHtml();
     }
@@ -274,7 +304,7 @@ class Attribute
     /**
      * Prepare and return attribute values
      *
-     * @return array
+     * @return \Magento\Object[]
      */
     public function getAttributeValues()
     {
@@ -299,23 +329,32 @@ class Attribute
             $value['prefix'] = $this->getFieldPrefix();
 
             if ($this->getType()->getStoreId() != '0') {
-                $value['checkbox_scope'] = $this->getCheckboxScopeHtml($innerId, 'label', !isset($value['default_label']));
+                $value['checkbox_scope'] = $this->getCheckboxScopeHtml(
+                    $innerId,
+                    'label',
+                    !isset($value['default_label'])
+                );
                 $value['label_disabled'] = isset($value['default_label']) ? false : true;
             }
             if (isset($value['options']) && is_array($value['options'])) {
                 $selectId = 0;
-                $defaultCode = (isset($value['default'])) ? $value['default'] : '';
-                foreach($value['options'] as $option) {
+                $defaultCode = isset($value['default']) ? $value['default'] : '';
+                foreach ($value['options'] as $option) {
                     $optionData = array(
-                        'code'  => $option['code'],
+                        'code' => $option['code'],
                         'label' => $option['label'],
                         'id' => $innerId,
                         'select_id' => $selectId,
-                        'checked' => ($option['code'] == $defaultCode) ? 'checked="checked"' : ''
+                        'checked' => $option['code'] == $defaultCode ? 'checked="checked"' : ''
                     );
 
                     if ($this->getType()->getStoreId() != '0') {
-                        $optionData['checkbox_scope'] = $this->getCheckboxScopeHtml($innerId, 'label', !isset($option['default_label']), $selectId);
+                        $optionData['checkbox_scope'] = $this->getCheckboxScopeHtml(
+                            $innerId,
+                            'label',
+                            !isset($option['default_label']),
+                            $selectId
+                        );
                         $optionData['label_disabled'] = isset($option['default_label']) ? false : true;
                     }
                     $value['items'][] = $optionData;
@@ -323,7 +362,7 @@ class Attribute
                 }
             }
             if (isset($value['frontend']) && is_array($value['frontend'])) {
-                foreach($value['frontend'] as $param => $paramValue) {
+                foreach ($value['frontend'] as $param => $paramValue) {
                     $value[$param] = $paramValue;
                 }
             }
@@ -343,31 +382,53 @@ class Attribute
      * @param int|null $selectId
      * @return string
      */
-    public function getCheckboxScopeHtml($id, $name, $checked=true, $selectId=null)
+    public function getCheckboxScopeHtml($id, $name, $checked = true, $selectId = null)
     {
         $selectNameHtml = '';
         $selectIdHtml = '';
-        $checkedHtml = ($checked) ? ' checked="checked"' : '';
+        $checkedHtml = $checked ? ' checked="checked"' : '';
         $elementLabel = __('Use Default Value');
 
         if (!is_null($selectId)) {
-            $selectNameHtml = '[options]['.$selectId.']';
+            $selectNameHtml = '[options][' . $selectId . ']';
             $selectIdHtml = 'select_' . $selectId . '_';
         }
 
-        $checkbox = '<div><input type="checkbox" id="' . $this->getFieldPrefix() . '_attribute_' . $id
-            . '_' . $selectIdHtml . $name . '_use_default" class="attribute-option-scope-checkbox" name="attributes['
-            . $this->getFieldPrefix() . '][' . $id . ']' . $selectNameHtml . '[use_default][' . $name . ']" value="1" '
-            . $checkedHtml . '/>'
-            . '<label class="normal" for="' . $this->getFieldPrefix() . '_attribute_' . $id
-            . '_' . $selectIdHtml . $name . '_use_default"> ' . $elementLabel . '</label></div>';
+        $checkbox = '<div><input type="checkbox" id="' .
+            $this->getFieldPrefix() .
+            '_attribute_' .
+            $id .
+            '_' .
+            $selectIdHtml .
+            $name .
+            '_use_default" class="attribute-option-scope-checkbox" name="attributes[' .
+            $this->getFieldPrefix() .
+            '][' .
+            $id .
+            ']' .
+            $selectNameHtml .
+            '[use_default][' .
+            $name .
+            ']" value="1" ' .
+            $checkedHtml .
+            '/>' .
+            '<label class="normal" for="' .
+            $this->getFieldPrefix() .
+            '_attribute_' .
+            $id .
+            '_' .
+            $selectIdHtml .
+            $name .
+            '_use_default"> ' .
+            $elementLabel .
+            '</label></div>';
         return $checkbox;
     }
 
     /**
      * Prepare and return static types as \Magento\Object
      *
-     * @return array
+     * @return \Magento\Object
      */
     public function getStaticTypes()
     {

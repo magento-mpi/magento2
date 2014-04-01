@@ -24,10 +24,11 @@ namespace Magento\Core\Model\Store;
 
 use Magento\Core\Model\Website;
 
-class Group extends \Magento\Core\Model\AbstractModel
+class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
-    const ENTITY         = 'store_group';
-    const CACHE_TAG      = 'store_group';
+    const ENTITY = 'store_group';
+
+    const CACHE_TAG = 'store_group';
 
     /**
      * @var bool
@@ -125,7 +126,6 @@ class Group extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-
     /**
      * Init model
      *
@@ -152,7 +152,7 @@ class Group extends \Magento\Core\Model\AbstractModel
             if ($this->getDefaultStoreId() == $store->getId()) {
                 $this->_defaultStore = $store;
             }
-            $this->_storesCount ++;
+            $this->_storesCount++;
         }
     }
 
@@ -173,7 +173,7 @@ class Group extends \Magento\Core\Model\AbstractModel
             if ($this->getDefaultStoreId() == $store->getId()) {
                 $this->_defaultStore = $store;
             }
-            $this->_storesCount ++;
+            $this->_storesCount++;
         }
     }
 
@@ -184,9 +184,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     public function getStoreCollection()
     {
-        return $this->_store
-            ->getCollection()
-            ->addGroupFilter($this->getId());
+        return $this->_store->getCollection()->addGroupFilter($this->getId());
     }
 
     /**
@@ -379,5 +377,15 @@ class Group extends \Magento\Core\Model\AbstractModel
             $this->_isReadOnly = (bool)$value;
         }
         return $this->_isReadOnly;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

@@ -12,25 +12,28 @@
     <div class="title">
         <strong><?php echo __('Balance History'); ?></strong>
     </div>
-    <table id="customerbalance-history" class="data table balance history">
-        <thead>
-            <tr>
-                <th class="col actions"><?php echo __('Action'); ?></th>
-                <th class="col change"><?php echo __('Balance Change'); ?></th>
-                <th class="col balance"><?php echo __('Balance'); ?></th>
-                <th class="col date"><?php echo __('Date'); ?></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($this->getEvents() as $event): ?>
-            <tr>
-                <td class="col actions"><?php echo $this->getActionLabel($event->getAction()); ?></td>
-                <td class="col change"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($event->getBalanceDelta()); ?></td>
-                <td class="col balance"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($event->getBalanceAmount()); ?></td>
-                <td class="col date"><?php echo $this->formatDate($event->getUpdatedAt(), 'short', true); ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+    <div class="wrapper table balance history">
+        <table id="customerbalance-history" class="data table balance history">
+            <caption class="table caption"><?php echo __('Balance History') ?></caption>
+            <thead>
+                <tr>
+                    <th class="col actions"><?php echo __('Action'); ?></th>
+                    <th class="col change"><?php echo __('Balance Change'); ?></th>
+                    <th class="col balance"><?php echo __('Balance'); ?></th>
+                    <th class="col date"><?php echo __('Date'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->getEvents() as $event): ?>
+                <tr>
+                    <td class="col actions"><?php echo $this->getActionLabel($event->getAction()); ?></td>
+                    <td class="col change"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($event->getBalanceDelta()); ?></td>
+                    <td class="col balance"><?php echo $this->helper('Magento\Core\Helper\Data')->currency($event->getBalanceAmount()); ?></td>
+                    <td class="col date"><?php echo $this->formatDate($event->getUpdatedAt(), 'short', true); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 <?php endif; ?>

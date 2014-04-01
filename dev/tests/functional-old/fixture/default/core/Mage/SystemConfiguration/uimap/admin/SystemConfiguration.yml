@@ -435,85 +435,6 @@ system_configuration:
                                         google_product_search: //select[@id='google_googleshopping_product_search']
                                         product_ads: //select[@id='google_googleshopping_product_ads']
                                         commerce_search: //select[@id='google_googleshopping_commerce_search']
-                            -
-                                google_checkout:
-                                    xpath: //fieldset[@id='google_checkout']
-                                    links:
-                                        google_checkout_link: //parent::div//a[@id='google_checkout-head']
-                                        signup_for_google_checkout: //a[text()='Signup for Google Checkout']
-                                    fields:
-                                        title: //input[@name='groups[checkout][fields][title][value]']
-                                        merchant_id: //input[@name='groups[checkout][fields][merchant_id][value]']
-                                        merchant_key: //input[@name='groups[checkout][fields][merchant_key][value]']
-                                        continue_shopping_url: //input[@name='groups[checkout][fields][continue_shopping_url][value]']
-                                    dropdowns:
-                                        gc_enable: //select[@name='groups[checkout][fields][active][value]']
-                                        sandbox: //select[@name='groups[checkout][fields][sandbox][value]']
-                                        secure_callback_url: //select[@name='groups[checkout][fields][use_secure_callback_url][value]']
-                                        gc_debug: //select[@name='groups[checkout][fields][debug][value]']
-                                        checkout_image_style: //select[@name='groups[checkout][fields][checkout_image][value]']
-                                        location: //select[@name='groups[checkout][fields][locale][value]']
-                                        new_order_status: //select[@name='groups[checkout][fields][order_status][value]']
-                                        hide_cart_contents: //select[@name='groups[checkout][fields][hide_cart_contents][value]']
-                                        disable_default_tax_tables: //select[@name='groups[checkout][fields][disable_default_tax_tables][value]']
-                            -
-                                google_checkout_shipping_merchant_calculated:
-                                    xpath: //fieldset[@id='google_checkout_shipping_merchant']
-                                    links:
-                                        google_checkout_shipping_merchant_calculated_link: //parent::div//a[@id='google_checkout_shipping_merchant-head']
-                                    fields:
-                                        default_price: //*[@id='merchant_allowed_methods_container']/tr[%id%]//input
-                                    dropdowns:
-                                        enable_merchant_calculated: //select[@id='google_checkout_shipping_merchant_active']
-                                        allowed_methods: //*[@id='merchant_allowed_methods_container']/tr[%id%]//select
-                                    buttons:
-                                        add_shipping_method: //button[span='Add Shipping Method']
-                                        remove: //*[@id='merchant_allowed_methods_container']/tr[%id%]//button[span='Remove']
-                            -
-                                google_checkout_shipping_carrier_calculated:
-                                    xpath: //fieldset[@id='google_checkout_shipping_carrier']
-                                    links:
-                                        google_checkout_shipping_carrier_calculated_link: //parent::div//a[@id='google_checkout_shipping_carrier-head']
-                                    fields:
-                                        default_price_for_methods: //input[@name='groups[checkout_shipping_carrier][fields][default_price][value]']
-                                        default_package_width: //input[@name='groups[checkout_shipping_carrier][fields][default_width][value]']
-                                        default_package_height: //input[@name='groups[checkout_shipping_carrier][fields][default_height][value]']
-                                        default_package_length: //input[@name='groups[checkout_shipping_carrier][fields][default_length][value]']
-                                    dropdowns:
-                                        enable_carrier_calculated: //select[@name='groups[checkout_shipping_carrier][fields][active][value]']
-                                        delivery_address_category: //select[@name='groups[checkout_shipping_carrier][fields][address_category][value]']
-                                    multiselects:
-                                        carrier_calculated_methods: //select[@name='groups[checkout_shipping_carrier][fields][methods][value][]']
-                            -
-                                google_checkout_shipping_flat_rate:
-                                    xpath: //fieldset[@id='google_checkout_shipping_flatrate']
-                                    links:
-                                        google_checkout_shipping_flat_rate_link: //parent::div//a[@id='google_checkout_shipping_flatrate-head']
-                                    fields:
-                                        rate_1_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_1][value]']
-                                        rate_1_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_1][value]']
-                                        rate_2_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_2][value]']
-                                        rate_2_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_2][value]']
-                                        rate_3_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_3][value]']
-                                        rate_3_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_3][value]']
-                                    dropdowns:
-                                        enable_flat_rate: //select[@name='groups[checkout_shipping_flatrate][fields][active][value]']
-                                        rate_1_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_1][value]']
-                                        rate_2_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_2][value]']
-                                        rate_3_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_3][value]']
-                                    multiselects:
-                                        rate_1_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_1][value][]']
-                                        rate_2_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_2][value][]']
-                                        rate_3_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_3][value][]']
-                            -
-                                google_checkout_shipping_digital_delivery:
-                                    xpath: //fieldset[@id='google_checkout_shipping_virtual']
-                                    links:
-                                        google_checkout_shipping_digital_delivery_link: //parent::div//a[@id='google_checkout_shipping_virtual-head']
-                                    dropdowns:
-                                        enable_digital_delivery: //select[@name='groups[checkout_shipping_virtual][fields][active][value]']
-                                        delivery_schedule: //select[@name='groups[checkout_shipping_virtual][fields][schedule][value]']
-                                        method: //select[@name='groups[checkout_shipping_virtual][fields][method][value]']
                 -
                     general_reports:
                         xpath: //a[contains(@href, 'edit/section/reports/')]
@@ -2818,7 +2739,6 @@ system_configuration:
                                         magento_giftmessage: //select[@id='Magento_GiftMessage']
                                         magento_googleadwords: //select[@id='Magento_GoogleAdwords']
                                         magento_googleanalytics: //select[@id='Magento_GoogleAnalytics']
-                                        magento_googlecheckout: //select[@id='Magento_GoogleCheckout']
                                         magento_googleoptimizer: //select[@id='Magento_GoogleOptimizer']
                                         magento_googleshopping: //select[@id='Magento_GoogleShopping']
                                         magento_groupedproduct: //select[@id='Magento_GroupedProduct']
@@ -2848,7 +2768,6 @@ system_configuration:
                                         magento_sitemap: //select[@id='Magento_Sitemap']
                                         magento_tax: //select[@id='Magento_Tax']
                                         magento_theme: //select[@id='Magento_Theme']
-                                        magento_usa: //select[@id='Magento_Usa']
                                         magento_user: //select[@id='Magento_User']
                                         magento_webapi: //select[@id='Magento_Webapi']
                                         magento_weee: //select[@id='Magento_Weee']

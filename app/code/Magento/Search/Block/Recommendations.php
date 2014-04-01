@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block;
 
- /**
+/**
  * Enterprise search suggestions block
  *
  * @category   Magento
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block;
-
 class Recommendations extends \Magento\View\Element\Template
 {
     /**
@@ -57,8 +56,9 @@ class Recommendations extends \Magento\View\Element\Template
      */
     public function getRecommendations()
     {
-        $searchRecommendationsEnabled = (boolean)$this->_searchData
-            ->getSearchConfigData('search_recommendations_enabled');
+        $searchRecommendationsEnabled = (bool)$this->_searchData->getSearchConfigData(
+            'search_recommendations_enabled'
+        );
 
         if (!$searchRecommendationsEnabled) {
             return array();
@@ -75,9 +75,9 @@ class Recommendations extends \Magento\View\Element\Template
 
         foreach ($recommendations as $recommendation) {
             $result[] = array(
-                'word'        => $this->escapeHtml($recommendation['query_text']),
+                'word' => $this->escapeHtml($recommendation['query_text']),
                 'num_results' => $recommendation['num_results'],
-                'link'        => $this->getUrl("*/*/") . "?q=" . urlencode($recommendation['query_text'])
+                'link' => $this->getUrl("*/*/") . "?q=" . urlencode($recommendation['query_text'])
             );
         }
         return $result;
@@ -86,11 +86,10 @@ class Recommendations extends \Magento\View\Element\Template
     /**
      * Retrieve search recommendations count results enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function isCountResultsEnabled()
     {
-        return (boolean)$this->_searchData
-            ->getSearchConfigData('search_recommendations_count_results_enabled');
+        return (bool)$this->_searchData->getSearchConfigData('search_recommendations_count_results_enabled');
     }
 }

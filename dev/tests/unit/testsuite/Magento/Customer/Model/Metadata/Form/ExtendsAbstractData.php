@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 /**
@@ -51,7 +50,7 @@ class ExtendsAbstractData extends AbstractData
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
      */
     public function setAttribute($attribute)
     {

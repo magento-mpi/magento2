@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Status\Grid\Column;
 
 class State extends \Magento\Backend\Block\Widget\Grid\Column

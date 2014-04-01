@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote;
 
 /**
  * Quote payment information
@@ -46,17 +47,58 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Quote;
-
 class Payment extends \Magento\Payment\Model\Info
 {
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_quote_payment';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'payment';
 
+    /**
+     * Quote model object
+     *
+     * @var \Magento\Sales\Model\Quote
+     */
     protected $_quote;
 
     /**
+     * @var \Magento\Payment\Model\Checks\SpecificationFactory
+     */
+    protected $methodSpecificationFactory;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->methodSpecificationFactory = $methodSpecificationFactory;
+        parent::__construct($context, $registry, $paymentData, $encryptor, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -66,8 +108,8 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * Declare quote model instance
      *
-     * @param   \Magento\Sales\Model\Quote $quote
-     * @return  \Magento\Sales\Model\Quote\Payment
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return $this
      */
     public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -91,19 +133,16 @@ class Payment extends \Magento\Payment\Model\Info
      * Method calls quote totals collect because payment method availability
      * can be related to quote totals
      *
-     * @param   array $data
-     * @throws  \Magento\Core\Exception
-     * @return  \Magento\Sales\Model\Quote\Payment
+     * @param array $data
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function importData(array $data)
     {
         $data = new \Magento\Object($data);
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_import_data_before',
-            array(
-                $this->_eventObject=>$this,
-                'input'=>$data,
-            )
+            array($this->_eventObject => $this, 'input' => $data)
         );
 
         $this->setMethod($data->getMethod());
@@ -115,16 +154,22 @@ class Payment extends \Magento\Payment\Model\Info
          */
         $this->getQuote()->collectTotals();
 
-        if (!$method->isAvailable($this->getQuote())
-            || !$method->isApplicableToQuote($this->getQuote(), $data->getChecks())
+        if (!$method->isAvailable(
+            $this->getQuote()
+        ) || !$this->methodSpecificationFactory->create(
+            $data->getChecks()
+        )->isApplicable(
+            $method,
+            $this->getQuote()
+        )
         ) {
             throw new \Magento\Core\Exception(__('The requested Payment Method is not available.'));
         }
 
         $method->assignData($data);
         /*
-        * validating the payment data
-        */
+         * validating the payment data
+         */
         $method->validate();
         return $this;
     }
@@ -132,7 +177,7 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * Prepare object for save
      *
-     * @return \Magento\Sales\Model\Quote\Payment
+     * @return $this
      */
     protected function _beforeSave()
     {

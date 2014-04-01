@@ -47,18 +47,19 @@ class TableBuilder
     /**
      * Prepare temporary tables only for first call of reindex all
      *
-     * @param $storeId
-     * @param $changedIds
-     * @param $valueFieldSuffix
+     * @param int $storeId
+     * @param array $changedIds
+     * @param string $valueFieldSuffix
+     * @return void
      */
     public function build($storeId, $changedIds, $valueFieldSuffix)
     {
         if ($this->_isExecuted) {
             return;
         }
-        $entityTableName    = $this->_productIndexerHelper->getTable('catalog_product_entity');
-        $attributes         = $this->_productIndexerHelper->getAttributes();
-        $eavAttributes      = $this->_productIndexerHelper->getTablesStructure($attributes);
+        $entityTableName = $this->_productIndexerHelper->getTable('catalog_product_entity');
+        $attributes = $this->_productIndexerHelper->getAttributes();
+        $eavAttributes = $this->_productIndexerHelper->getTablesStructure($attributes);
         $entityTableColumns = $eavAttributes[$entityTableName];
 
         $temporaryEavAttributes = $eavAttributes;
@@ -113,30 +114,18 @@ class TableBuilder
     {
         $valueTables = array();
         if (!empty($columns)) {
-            $valueTableName      = $tableName . $valueFieldSuffix;
-            $temporaryTable      = $this->_connection->newTable($tableName);
+            $valueTableName = $tableName . $valueFieldSuffix;
+            $temporaryTable = $this->_connection->newTable($tableName);
             $valueTemporaryTable = $this->_connection->newTable($valueTableName);
-            $flatColumns         = $this->_productIndexerHelper->getFlatColumns();
+            $flatColumns = $this->_productIndexerHelper->getFlatColumns();
 
-            $temporaryTable->addColumn(
-                'entity_id',
-                \Magento\DB\Ddl\Table::TYPE_INTEGER
-            );
+            $temporaryTable->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER);
 
-            $temporaryTable->addColumn(
-                'type_id',
-                \Magento\DB\Ddl\Table::TYPE_TEXT
-            );
+            $temporaryTable->addColumn('type_id', \Magento\DB\Ddl\Table::TYPE_TEXT);
 
-            $temporaryTable->addColumn(
-                'attribute_set_id',
-                \Magento\DB\Ddl\Table::TYPE_INTEGER
-            );
+            $temporaryTable->addColumn('attribute_set_id', \Magento\DB\Ddl\Table::TYPE_INTEGER);
 
-            $valueTemporaryTable->addColumn(
-                'entity_id',
-                \Magento\DB\Ddl\Table::TYPE_INTEGER
-            );
+            $valueTemporaryTable->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER);
 
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             foreach ($columns as $columnName => $attribute) {
@@ -193,26 +182,21 @@ class TableBuilder
      * @param string $tableName
      * @param array  $columns
      * @param array  $changedIds
+     * @return void
      */
     protected function _fillTemporaryEntityTable($tableName, array $columns, array $changedIds = array())
     {
         if (!empty($columns)) {
             $select = $this->_connection->select();
             $temporaryEntityTable = $this->_getTemporaryTableName($tableName);
-            $idsColumns = array(
-                'entity_id',
-                'type_id',
-                'attribute_set_id',
-            );
+            $idsColumns = array('entity_id', 'type_id', 'attribute_set_id');
 
             $columns = array_merge($idsColumns, array_keys($columns));
 
             $select->from(array('e' => $tableName), $columns);
             $onDuplicate = false;
             if (!empty($changedIds)) {
-                $select->where(
-                    $this->_connection->quoteInto('e.entity_id IN (?)', $changedIds)
-                );
+                $select->where($this->_connection->quoteInto('e.entity_id IN (?)', $changedIds));
                 $onDuplicate = true;
             }
             $sql = $select->insertFromSelect($temporaryEntityTable, $columns, $onDuplicate);
@@ -225,6 +209,7 @@ class TableBuilder
      *
      * @param string $tableName
      * @param string $columnName
+     * @return void
      */
     protected function _addPrimaryKeyToTable($tableName, $columnName = 'entity_id')
     {
@@ -244,43 +229,44 @@ class TableBuilder
      * @param array  $changedIds
      * @param string $valueFieldSuffix
      * @param int $storeId
+     * @return void
      */
     protected function _fillTemporaryTable(
-        $tableName, array $tableColumns, array $changedIds, $valueFieldSuffix, $storeId
+        $tableName,
+        array $tableColumns,
+        array $changedIds,
+        $valueFieldSuffix,
+        $storeId
     ) {
         if (!empty($tableColumns)) {
 
             $columnsChunks = array_chunk(
-                $tableColumns, \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction::ATTRIBUTES_CHUNK_SIZE, true
+                $tableColumns,
+                \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction::ATTRIBUTES_CHUNK_SIZE,
+                true
             );
             foreach ($columnsChunks as $columnsList) {
-                $select                  = $this->_connection->select();
-                $selectValue             = $this->_connection->select();
-                $entityTableName         = $this->_getTemporaryTableName(
+                $select = $this->_connection->select();
+                $selectValue = $this->_connection->select();
+                $entityTableName = $this->_getTemporaryTableName(
                     $this->_productIndexerHelper->getTable('catalog_product_entity')
                 );
-                $temporaryTableName      = $this->_getTemporaryTableName($tableName);
+                $temporaryTableName = $this->_getTemporaryTableName($tableName);
                 $temporaryValueTableName = $temporaryTableName . $valueFieldSuffix;
-                $keyColumn               = array('entity_id');
-                $columns                 = array_merge($keyColumn, array_keys($columnsList));
-                $valueColumns            = $keyColumn;
-                $flatColumns             = $this->_productIndexerHelper->getFlatColumns();
-                $iterationNum            = 1;
+                $keyColumn = array('entity_id');
+                $columns = array_merge($keyColumn, array_keys($columnsList));
+                $valueColumns = $keyColumn;
+                $flatColumns = $this->_productIndexerHelper->getFlatColumns();
+                $iterationNum = 1;
 
-                $select->from(
-                    array('e' => $entityTableName),
-                    $keyColumn
-                );
+                $select->from(array('e' => $entityTableName), $keyColumn);
 
-                $selectValue->from(
-                    array('e' => $temporaryTableName),
-                    $keyColumn
-                );
+                $selectValue->from(array('e' => $temporaryTableName), $keyColumn);
 
                 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
                 foreach ($columnsList as $columnName => $attribute) {
                     $countTableName = 't' . $iterationNum++;
-                    $joinCondition  = sprintf(
+                    $joinCondition = sprintf(
                         'e.entity_id = %1$s.entity_id AND %1$s.attribute_id = %2$d AND %1$s.store_id = 0',
                         $countTableName,
                         $attribute->getId()
@@ -293,7 +279,7 @@ class TableBuilder
                     );
 
                     if ($attribute->getFlatUpdateSelect($storeId) instanceof \Magento\DB\Select) {
-                        $attributeCode   = $attribute->getAttributeCode();
+                        $attributeCode = $attribute->getAttributeCode();
                         $columnValueName = $attributeCode . $valueFieldSuffix;
                         if (isset($flatColumns[$columnValueName])) {
                             $valueJoinCondition = sprintf(
@@ -302,8 +288,10 @@ class TableBuilder
                                 $countTableName
                             );
                             $selectValue->joinLeft(
-                                array($countTableName => $this->_productIndexerHelper
-                                        ->getTable('eav_attribute_option_value')
+                                array(
+                                    $countTableName => $this->_productIndexerHelper->getTable(
+                                        'eav_attribute_option_value'
+                                    )
                                 ),
                                 $valueJoinCondition,
                                 array($columnValueName => $countTableName . '.value')
@@ -314,9 +302,7 @@ class TableBuilder
                 }
 
                 if (!empty($changedIds)) {
-                    $select->where(
-                        $this->_connection->quoteInto('e.entity_id IN (?)', $changedIds)
-                    );
+                    $select->where($this->_connection->quoteInto('e.entity_id IN (?)', $changedIds));
                 }
 
                 $sql = $select->insertFromSelect($temporaryTableName, $columns, true);
@@ -324,9 +310,7 @@ class TableBuilder
 
                 if (count($valueColumns) > 1) {
                     if (!empty($changedIds)) {
-                        $selectValue->where(
-                            $this->_connection->quoteInto('e.entity_id IN (?)', $changedIds)
-                        );
+                        $selectValue->where($this->_connection->quoteInto('e.entity_id IN (?)', $changedIds));
                     }
                     $sql = $selectValue->insertFromSelect($temporaryValueTableName, $valueColumns, true);
                     $this->_connection->query($sql);

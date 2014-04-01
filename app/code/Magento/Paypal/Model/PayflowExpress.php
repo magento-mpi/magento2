@@ -20,11 +20,6 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
     protected $_formBlockType = 'Magento\Paypal\Block\PayflowExpress\Form';
 
     /**
-     * @var bool
-     */
-    protected $_canManageRecurringProfiles = false;
-
-    /**
      * Website Payments Pro instance type
      *
      * @var $_proType string
@@ -93,8 +88,9 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
             return false;
         }
         if (!$this->_ecInstance) {
-            $this->_ecInstance = $this->_paymentData
-                ->getMethodInstance(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
+            $this->_ecInstance = $this->_paymentData->getMethodInstance(
+                \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS
+            );
         }
         if ($quote && $this->_ecInstance) {
             $this->_ecInstance->setStore($quote->getStoreId());
@@ -111,14 +107,19 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
      */
     protected function _importToPayment($api, $payment)
     {
-        $payment->setTransactionId($api->getPaypalTransactionId())->setIsTransactionClosed(0)
-            ->setAdditionalInformation(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
-                $api->getRedirectRequired() || $api->getRedirectRequested()
-            )
-            ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(\Magento\Paypal\Model\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID,
-                $api->getTransactionId())
-        ;
+        $payment->setTransactionId(
+            $api->getPaypalTransactionId()
+        )->setIsTransactionClosed(
+            0
+        )->setAdditionalInformation(
+            \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
+            $api->getRedirectRequired() || $api->getRedirectRequested()
+        )->setIsTransactionPending(
+            $api->getIsPaymentPending()
+        )->setTransactionAdditionalInfo(
+            \Magento\Paypal\Model\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID,
+            $api->getTransactionId()
+        );
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
         $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
     }

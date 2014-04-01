@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 class File extends AbstractData
@@ -37,28 +36,30 @@ class File extends AbstractData
     protected $_fileSystem;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param null $value
-     * @param $entityTypeCode
+     * @param string $entityTypeCode
      * @param bool $isAjax
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
      * @param \Magento\App\Filesystem $fileSystem
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
-        \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
-        $value = null,
+        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        $value,
         $entityTypeCode,
-        $isAjax = false,
+        $isAjax,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
         \Magento\App\Filesystem $fileSystem
     ) {
-        parent::__construct($locale, $logger, $attribute, $value, $entityTypeCode, $isAjax);
+        parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
         $this->_coreData = $coreData;
         $this->_fileValidator = $fileValidator;
         $this->_fileSystem = $fileSystem;
@@ -75,15 +76,15 @@ class File extends AbstractData
 
         $extend = $this->_getRequestValue($request);
 
-        $attrCode  = $this->getAttribute()->getAttributeCode();
+        $attrCode = $this->getAttribute()->getAttributeCode();
         if ($this->_requestScope) {
-            $value  = array();
+            $value = array();
             if (strpos($this->_requestScope, '/') !== false) {
                 $scopes = explode('/', $this->_requestScope);
-                $mainScope  = array_shift($scopes);
+                $mainScope = array_shift($scopes);
             } else {
-                $mainScope  = $this->_requestScope;
-                $scopes     = array();
+                $mainScope = $this->_requestScope;
+                $scopes = array();
             }
 
             if (!empty($_FILES[$mainScope])) {
@@ -123,21 +124,19 @@ class File extends AbstractData
      * Return array of errors
      *
      * @param array $value
-     * @return array
+     * @return string[]
      */
     protected function _validateByRules($value)
     {
-        $label  = $value['name'];
-        $rules  = $this->getAttribute()->getValidationRules();
-        $extension  = pathinfo($value['name'], PATHINFO_EXTENSION);
+        $label = $value['name'];
+        $rules = $this->getAttribute()->getValidationRules();
+        $extension = pathinfo($value['name'], PATHINFO_EXTENSION);
 
         if (!empty($rules['file_extensions'])) {
             $extensions = explode(',', $rules['file_extensions']);
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
-                return array(
-                    __('"%1" is not a valid file extension.', $extension)
-                );
+                return array(__('"%1" is not a valid file extension.', $extension));
             }
         }
 
@@ -149,18 +148,14 @@ class File extends AbstractData
         }
 
         if (!$this->_isUploadedFile($value['tmp_name'])) {
-            return array(
-                __('"%1" is not a valid file.', $label)
-            );
+            return array(__('"%1" is not a valid file.', $label));
         }
 
         if (!empty($rules['max_file_size'])) {
             $size = $value['size'];
             if ($rules['max_file_size'] < $size) {
-                return array(
-                    __('"%1" exceeds the allowed file size.', $label)
-                );
-            };
+                return array(__('"%1" exceeds the allowed file size.', $label));
+            }
         }
 
         return array();
@@ -188,12 +183,12 @@ class File extends AbstractData
             return true;
         }
 
-        $errors     = array();
-        $attribute  = $this->getAttribute();
-        $label      = $attribute->getStoreLabel();
+        $errors = array();
+        $attribute = $this->getAttribute();
+        $label = $attribute->getStoreLabel();
 
-        $toDelete   = !empty($value['delete']) ? true : false;
-        $toUpload   = !empty($value['tmp_name']) ? true : false;
+        $toDelete = !empty($value['delete']) ? true : false;
+        $toUpload = !empty($value['tmp_name']) ? true : false;
 
         if (!$toUpload && !$toDelete && $this->_value) {
             return true;
@@ -220,6 +215,8 @@ class File extends AbstractData
 
     /**
      * {@inheritdoc}
+     *
+     * @return $this|string
      */
     public function compactValue($value)
     {
@@ -228,14 +225,14 @@ class File extends AbstractData
         }
 
         $attribute = $this->getAttribute();
-        $original  = $this->_value;
-        $toDelete  = false;
+        $original = $this->_value;
+        $toDelete = false;
         if ($original) {
             if (!$attribute->isRequired() && !empty($value['delete'])) {
-                $toDelete  = true;
+                $toDelete = true;
             }
             if (!empty($value['tmp_name'])) {
-                $toDelete  = true;
+                $toDelete = true;
             }
         }
 
@@ -286,10 +283,7 @@ class File extends AbstractData
         if ($this->_value) {
             switch ($format) {
                 case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
-                    $output = array(
-                        'value'     => $this->_value,
-                        'url_key'   => $this->_coreData->urlEncode($this->_value)
-                    );
+                    $output = array('value' => $this->_value, 'url_key' => $this->_coreData->urlEncode($this->_value));
                     break;
             }
         }

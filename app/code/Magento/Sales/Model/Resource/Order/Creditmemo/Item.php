@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Creditmemo;
 
 /**
  * Flat sales order creditmemo item resource
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Creditmemo;
-
 class Item extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
@@ -25,11 +23,12 @@ class Item extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_creditmemo_item_resource';
+    protected $_eventPrefix = 'sales_order_creditmemo_item_resource';
 
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {

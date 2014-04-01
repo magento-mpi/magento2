@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Wishlist\Controller;
 
 class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -27,16 +26,19 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         parent::setUp();
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Model\Session', array($logger));
-        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerAccountService');
+        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Model\Session',
+            array($logger)
+        );
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\CustomerAccountService'
+        );
         $customer = $service->authenticate('customer@example.com', 'password');
-        $this->_customerSession->setCustomerDtoAsLoggedIn($customer);
+        $this->_customerSession->setCustomerDataAsLoggedIn($customer);
 
-        $this->_messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Message\ManagerInterface');
-
+        $this->_messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Message\ManagerInterface'
+        );
     }
 
     protected function tearDown()

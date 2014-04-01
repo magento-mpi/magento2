@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -26,10 +25,8 @@ class AbstractBlock extends \Magento\View\Element\AbstractBlock
      * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\Backend\Block\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Backend\Block\Context $context, array $data = array())
+    {
         parent::__construct($context, $data);
         $this->_authorization = $context->getAuthorization();
     }

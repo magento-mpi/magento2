@@ -41,7 +41,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -62,7 +62,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Logger $logger,
         \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -84,7 +84,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
             $logAdapterFactory,
             $logger,
             $moduleList,
-            $locale,
+            $localeDate,
             $centinelService,
             $proTypeFactory,
             $storeManager,
@@ -104,8 +104,11 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      */
     public function isAvailable($quote = null)
     {
-        return $this->_paypal->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(\Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT);
+        return $this->_paypal->getPbridgeMethodInstance()->isDummyMethodAvailable(
+            $quote
+        ) && $this->_pro->getConfig()->isMethodAvailable(
+            \Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT
+        );
     }
 
     /**
@@ -184,12 +187,17 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      */
     protected function _importResultToPayment($api, $payment)
     {
-        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
-            ->setIsTransactionPending($api->getIsPaymentPending());
-        $payflowTrxid = $api->getData(\Magento\PbridgePaypal\Model\Payment\Method\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID);
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $payflowTrxid)
+        $payment->setTransactionId(
+            $api->getTransactionId()
+        )->setIsTransactionClosed(
+            0
+        )->setIsTransactionPending(
+            $api->getIsPaymentPending()
         );
+        $payflowTrxid = $api->getData(
+            \Magento\PbridgePaypal\Model\Payment\Method\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID
+        );
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $payflowTrxid));
 
         $this->_pro->importPaymentInfo($api, $payment);
     }

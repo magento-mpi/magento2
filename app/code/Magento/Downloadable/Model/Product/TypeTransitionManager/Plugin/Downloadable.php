@@ -1,7 +1,5 @@
 <?php
 /**
- * Plugin for product type transition manager
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,8 +7,12 @@
  */
 namespace Magento\Downloadable\Model\Product\TypeTransitionManager\Plugin;
 
+use Closure;
 use Magento\App\RequestInterface;
 
+/**
+ * Plugin for product type transition manager
+ */
 class Downloadable
 {
     /**
@@ -23,9 +25,8 @@ class Downloadable
     /**
      * @param RequestInterface $request
      */
-    public function __construct(
-        RequestInterface $request
-    ) {
+    public function __construct(RequestInterface $request)
+    {
         $this->request = $request;
     }
 
@@ -33,22 +34,24 @@ class Downloadable
      * Change product type to downloadable if needed
      *
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $subject
-     * @param callable $proceed
+     * @param Closure $proceed
      * @param \Magento\Catalog\Model\Product $product
-     *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundProcessProduct(
         \Magento\Catalog\Model\Product\TypeTransitionManager $subject,
-        \Closure $proceed,
+        Closure $proceed,
         \Magento\Catalog\Model\Product $product
     ) {
-        $isTypeCompatible = in_array($product->getTypeId(), array(
-            \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-            \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
-            \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
-        ));
+        $isTypeCompatible = in_array(
+            $product->getTypeId(),
+            array(
+                \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+                \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
+                \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+            )
+        );
         $hasDownloadableData = $this->request->getPost('downloadable');
         if ($isTypeCompatible && $hasDownloadableData && $product->hasIsVirtual()) {
             $product->setTypeId(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE);

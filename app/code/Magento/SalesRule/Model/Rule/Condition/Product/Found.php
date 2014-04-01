@@ -7,12 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Rule\Condition\Product;
 
-class Found
-    extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
+class Found extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -31,18 +28,17 @@ class Found
     /**
      * Load value options
      *
-     * @return \Magento\SalesRule\Model\Rule\Condition\Product\Found
+     * @return $this
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            1 => __('FOUND'),
-            0 => __('NOT FOUND')
-        ));
+        $this->setValueOption(array(1 => __('FOUND'), 0 => __('NOT FOUND')));
         return $this;
     }
 
     /**
+     * Return as html
+     *
      * @return string
      */
     public function asHtml()
@@ -59,10 +55,10 @@ class Found
     }
 
     /**
-     * validate
+     * Validate
      *
      * @param \Magento\Object $object Quote
-     * @return boolean
+     * @return bool
      */
     public function validate(\Magento\Object $object)
     {
@@ -73,19 +69,20 @@ class Found
             $found = $all;
             foreach ($this->getConditions() as $cond) {
                 $validated = $cond->validate($item);
-                if (($all && !$validated) || (!$all && $validated)) {
+                if ($all && !$validated || !$all && $validated) {
                     $found = $validated;
                     break;
                 }
             }
-            if (($found && $true) || (!$true && $found)) {
+            if ($found && $true || !$true && $found) {
                 break;
             }
         }
         // found an item and we're looking for existing one
         if ($found && $true) {
             return true;
-        } elseif (!$found && !$true) { // not found and we're making sure it doesn't exist
+        } elseif (!$found && !$true) {
+            // not found and we're making sure it doesn't exist
             return true;
         }
         return false;
