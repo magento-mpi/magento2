@@ -12,7 +12,6 @@ namespace Magento\Tax\Pricing\Render;
 
 use Magento\View\Element\Template;
 use Magento\Pricing\Render\AbstractAdjustment;
-use Magento\Catalog\Helper\Product\Price as PriceHelper;
 use Magento\Pricing\PriceCurrencyInterface;
 
 /**

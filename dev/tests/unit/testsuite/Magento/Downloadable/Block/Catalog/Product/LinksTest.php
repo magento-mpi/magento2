@@ -104,13 +104,6 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             ->with($this->amountMock, $this->linkPriceMock, $this->salableItemMock, $arguments)
             ->will($this->returnValue($expectedHtml));
 
-//        $linkAmount = $this->getLinkAmount($link);
-//        return $this->getLayout()->getBlock('product.price.render.default')->renderAmount(
-//            $linkAmount,
-//            $this->getPriceType(),
-//            $this->getProduct()
-//        );
-
         $result = $this->linksBlock->getLinkPrice($this->linkMock);
         $this->assertEquals($expectedHtml, $result);
     }
