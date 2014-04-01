@@ -32,7 +32,7 @@ class ShellBackground implements ShellInterface
      * @param OsInfo $osInfo
      * @param \Zend_Log $logger Logger instance to be used to log commands and their output
      */
-    public function __construct(OsInfo $osInfo, \Zend_Log $logger)
+    public function __construct(OsInfo $osInfo, \Zend_Log $logger = null)
     {
         $this->_logger = $logger;
         $this->_osInfo = $osInfo;
@@ -55,7 +55,19 @@ class ShellBackground implements ShellInterface
         } else {
             $command .= ' > /dev/null 2>1 &';
         }
-        $this->_logger->log($command, \Zend_Log::INFO);
+        $this->log($command);
         pclose(popen($command, 'r'));
+    }
+
+    /**
+     * Log a message, if a logger is specified
+     *
+     * @param string $message
+     */
+    protected function log($message)
+    {
+        if ($this->_logger) {
+            $this->_logger->log($message, \Zend_Log::INFO);
+        }
     }
 }

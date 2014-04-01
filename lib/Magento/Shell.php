@@ -31,7 +31,7 @@ class Shell
     /**
      * @param \Zend_Log $logger Logger instance to be used to log commands and their output
      */
-    public function __construct(\Zend_Log $logger)
+    public function __construct(\Zend_Log $logger = null)
     {
         $this->_logger = $logger;
     }
@@ -50,14 +50,26 @@ class Shell
         $command = preg_replace('/\s?\||$/', ' 2>&1$0', $command);
         // Output errors to STDOUT instead of STDERR
         $command = vsprintf($command, $arguments);
-        $this->_logger->log($command, \Zend_Log::INFO);
+        $this->log($command);
         exec($command, $output, $exitCode);
         $output = implode(PHP_EOL, $output);
-        $this->_logger->log($output, \Zend_Log::INFO);
+        $this->log($output);
         if ($exitCode) {
             $commandError = new \Exception($output, $exitCode);
             throw new \Magento\Exception("Command `{$command}` returned non-zero exit code.", 0, $commandError);
         }
         return $output;
+    }
+
+    /**
+     * Log a message, if a logger is specified
+     *
+     * @param string $message
+     */
+    protected function log($message)
+    {
+        if ($this->_logger) {
+            $this->_logger->log($message, \Zend_Log::INFO);
+        }
     }
 }
