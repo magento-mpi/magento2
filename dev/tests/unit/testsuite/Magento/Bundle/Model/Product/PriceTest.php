@@ -74,8 +74,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param float $finalPrice
      * @param float $specialPrice
-     * @param string $from
-     * @param string $to
      * @param int $callsNumber
      * @param bool $dateInInterval
      * @param float $expected
@@ -84,9 +82,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\Bundle\Model\Product\Price::__construct
      * @dataProvider calculateSpecialPrice
      */
-    public function testCalculateSpecialPrice(
-        $finalPrice, $specialPrice, $from, $to, $callsNumber, $dateInInterval, $expected
-    ) {
+    public function testCalculateSpecialPrice($finalPrice, $specialPrice, $callsNumber, $dateInInterval, $expected)
+    {
         $this->localeDateMock->expects($this->exactly($callsNumber))
             ->method('isScopeDateInInterval')->will($this->returnValue($dateInInterval));
 
@@ -96,7 +93,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->any())
             ->method('roundPrice')->will($this->returnArgument(0));
 
-        $this->assertEquals($expected, $this->model->calculateSpecialPrice($finalPrice, $specialPrice, $from, $to));
+        $this->assertEquals(
+            $expected,
+            $this->model->calculateSpecialPrice($finalPrice, $specialPrice, date('Y-m-d'), date('Y-m-d'))
+        );
     }
 
     /**
@@ -104,15 +104,13 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     public function calculateSpecialPrice()
     {
-        $dateFrom = $dateTo = date('Y-m-d');
-
         return array(
-            array(10, null, $dateFrom, $dateTo, 0, true, 10),
-            array(10, false, $dateFrom, $dateTo, 0, true, 10),
-            array(10, 50, $dateFrom, $dateTo, 1, false, 10),
-            array(10, 50, $dateFrom, $dateTo, 1, true, 5),
-            array(0, 50, $dateFrom, $dateTo, 1, true, 0),
-            array(10, 100, $dateFrom, $dateTo, 1, true, 10),
+            array(10, null, 0, true, 10),
+            array(10, false, 0, true, 10),
+            array(10, 50, 1, false, 10),
+            array(10, 50, 1, true, 5),
+            array(0, 50, 1, true, 0),
+            array(10, 100, 1, true, 10),
         );
     }
 }
