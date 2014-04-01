@@ -31,7 +31,7 @@
     <UrlRewriteCategory module="Magento_Backend">
         <type>virtual</type>
         <entity_type>core_url_rewrite</entity_type>
-        <collection>Magento\Core\Model\Resource\Url\Rewrite\Collection</collection>
+        <collection>Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection</collection>
         <identifier>request_path</identifier>
         <fields>
             <id>
