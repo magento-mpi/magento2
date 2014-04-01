@@ -32,13 +32,6 @@
                 </item>
                 <!--<item name="adjustments" xsi:type="array"></item>-->
             </argument>
-            <argument name="downloadable" xsi:type="array">
-                <item name="prices" xsi:type="array">
-                    <item name="link_price" xsi:type="array">
-                        <item name="amount_render_template" xsi:type="string">Magento_Downloadable::catalog/product/price/link_price.phtml</item>
-                    </item>
-                </item>
-            </argument>
         </arguments>
     </block>
 </layout>
