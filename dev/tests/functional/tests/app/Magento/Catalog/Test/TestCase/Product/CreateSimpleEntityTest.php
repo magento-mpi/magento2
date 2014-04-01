@@ -76,7 +76,7 @@ class CreateSimpleEntityTest extends Injectable
      * @param CatalogProductSimple $product
      * @param Category $category
      */
-    public function testCreate(CatalogProductSimple $product, Category $category)
+    protected function testCreate(CatalogProductSimple $product, Category $category)
     {
         // Steps
         $this->productPageGrid->open();
@@ -85,5 +85,15 @@ class CreateSimpleEntityTest extends Injectable
         $productBlockForm->setCategory($category);
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
+    }
+
+    /**
+     * @param CatalogProductSimple $product
+     * @param Category $category
+     */
+    public function testCreatePrice(CatalogProductSimple $product, Category $category)
+    {
+        $category->persist();
+        $this->testCreate($product, $category);
     }
 }

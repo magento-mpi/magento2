@@ -81,6 +81,11 @@
         <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab</class>
         <selector>#product_info_tabs_customer_options</selector>
         <strategy>css selector</strategy>
+        <fields>
+            <custom_options>
+                <input>select</input>
+            </custom_options>
+        </fields>
     </customer-options>
     <related-products>
         <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related</class>

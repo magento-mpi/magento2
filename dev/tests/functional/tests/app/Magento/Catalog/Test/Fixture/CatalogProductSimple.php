@@ -155,7 +155,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'enable_googlecheckout',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '1',
+        'default_value' => 'No',
         'input' => 'select',
     ];
 
@@ -275,7 +275,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'msrp_display_actual_price_type',
         'backend_type' => 'varchar',
         'is_required' => '0',
-        'default_value' => '4',
+        'default_value' => '',
         'input' => 'select',
     ];
 
@@ -283,7 +283,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'msrp_enabled',
         'backend_type' => 'varchar',
         'is_required' => '0',
-        'default_value' => '2',
+        'default_value' => '',
         'input' => 'select',
     ];
 
@@ -324,7 +324,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'options_container',
         'backend_type' => 'varchar',
         'is_required' => '0',
-        'default_value' => 'container2',
+        'default_value' => '',
         'input' => 'select',
     ];
 
@@ -349,7 +349,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'quantity_and_stock_status',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '1',
+        'default_value' => '',
         'input' => 'select',
         'group' => 'product-details',
     ];
@@ -431,7 +431,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'status',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '1',
+        'default_value' => '',
         'input' => 'select',
     ];
 
@@ -439,7 +439,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'tax_class_id',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '2',
+        'default_value' => 'Taxable Goods',
         'input' => 'select',
     ];
 
@@ -495,7 +495,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'visibility',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '4',
+        'default_value' => 'Catalog, Search',
         'input' => 'select',
         'group' => 'autosettings',
     ];
@@ -528,6 +528,14 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'qty',
         'input' => 'input',
         'group' => 'product-details',
+    ];
+
+    protected $custom_options = [
+        'attribute_code' => 'custom_options',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'customer-options',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
     public function getCategoryIds()
@@ -813,5 +821,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getQty()
     {
         return $this->getData('qty');
+    }
+
+    public function getCustomOptions()
+    {
+        return $this->getData('custom_options');
     }
 }

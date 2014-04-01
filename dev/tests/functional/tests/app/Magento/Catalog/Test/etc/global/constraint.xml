@@ -52,4 +52,12 @@
             <simple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
         </require>
     </assertProductSearchableBySku>
+    <assertProductPrices module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <category class="Magento\Catalog\Test\Fixture\Category" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        </require>
+    </assertProductPrices>
 </constraint>

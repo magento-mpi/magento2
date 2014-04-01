@@ -409,6 +409,11 @@
             <input>input</input>
             <group>product_info_tabs_product-details</group>
         </qty>
+        <custom_options>
+            <attribute_code>custom_options</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>product_info_tabs_customer_options</group>
+        </custom_options>
     </fields>
     <data_set>
         <sku></sku>
