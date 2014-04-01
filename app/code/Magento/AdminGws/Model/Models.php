@@ -897,7 +897,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Prevent loading disallowed urlrewrites
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
+     * @param \Magento\UrlRewrite\Model\UrlRewrite $model
      * @return void
      */
     public function coreUrlRewriteLoadAfter($model)
