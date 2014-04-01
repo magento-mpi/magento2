@@ -461,12 +461,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_service->saveAddresses(4200, [$proposedAddress]);
             $this->fail('Expected exception not thrown');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'customerId' => '4200',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = 4200', $nsee->getMessage());
+            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('No such entity with customerId = 4200', $e->getMessage());
         }
     }
 
@@ -476,12 +476,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_service->saveAddresses('this_is_not_a_valid_id', [$proposedAddress]);
             $this->fail('Expected exception not thrown');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'customerId' => 'this_is_not_a_valid_id',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $nsee->getMessage());
+            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $e->getMessage());
         }
     }
 
