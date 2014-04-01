@@ -19,6 +19,16 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected $objectManager;
 
     /**
+     * @var \Magento\View\Design\Theme\FlyweightFactory
+     */
+    protected $themeRepo;
+
+    /**
+     * @var \Magento\View\Design\FileResolution\Fallback
+     */
+    protected $fallback;
+
+    /**
      * @var \Magento\View\Asset\Repository
      */
     protected $assetRepo;
@@ -26,6 +36,8 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager();
+        $this->themeRepo = $this->objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
+        $this->fallback = $this->objectManager->get('Magento\View\Design\FileResolution\Fallback');
         $this->assetRepo = $this->objectManager->get('Magento\View\Asset\Repository');
         $this->objectManager->configure(array(
             'preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data')
@@ -39,36 +51,54 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $file
-             * @param string $area
-             */
-            function ($file, $area, $themeId) {
-                if (substr($file, -4) == '.css') {
-                    $lessFile = substr($file, 0, -4) . '.less';
-                    $params = array('area' => $area, 'themeId' => $themeId);
-
-                    $cssAsset = $this->assetRepo->createAsset($file, $params);
-                    $cssSourceFile = $cssAsset->getSourceFile();
-                    $cssSourceFileExists = $cssSourceFile && file_exists($cssSourceFile);
-
-                    $lessAsset = $this->assetRepo->createAsset($lessFile, $params);
-                    $lessSourceFile = $lessAsset->getSourceFile();
-                    $lessSourceFileExists = $lessSourceFile && file_exists($lessSourceFile);
-
-                    $this->assertTrue(
-                        $cssSourceFileExists || $lessSourceFileExists,
-                        "At least one resource file (css or less) must exist for resource '$file'"
-                    );
-                    $this->assertFalse(
-                        $cssSourceFileExists && $lessSourceFileExists,
-                        "Only one resource file must exist. Both found: '$cssSourceFile' and '$lessSourceFile'"
-                    );
-
-                }
-            },
+            array($this, 'assertCssLessFiles'),
             $this->viewFilesFromThemesDataProvider($this->_getDesignThemes())
         );
+    }
+
+    /**
+     * A callback for asserting that there can be one and only one either CSS or LESS file must exist by the same name
+     *
+     * @param string $fileId
+     * @param string $area
+     * @param string $themeId
+     */
+    public function assertCssLessFiles($fileId, $area, $themeId)
+    {
+        if (substr($fileId, -4) == '.css') {
+            $cssSourceFile = $this->resolveFileUsingFallback($fileId, $area, $themeId);
+            $cssSourceFileExists = $cssSourceFile && file_exists($cssSourceFile);
+
+            $lessFile = substr($fileId, 0, -4) . '.less';
+            $lessSourceFile = $this->resolveFileUsingFallback($lessFile, $area, $themeId);
+            $lessSourceFileExists = $lessSourceFile && file_exists($lessSourceFile);
+
+            $this->assertTrue(
+                $cssSourceFileExists || $lessSourceFileExists,
+                "At least one resource file (css or less) must exist for resource '$fileId'"
+            );
+            $this->assertFalse(
+                $cssSourceFileExists && $lessSourceFileExists,
+                "Only one resource file must exist. Both found: '$cssSourceFile' and '$lessSourceFile'"
+            );
+        }
+    }
+
+    /**
+     * Resolve a file by specified parameters using fallback and asset repository services
+     *
+     * @param string $fileId
+     * @param string $area
+     * @param string $themeId
+     * @return bool|string
+     */
+    private function resolveFileUsingFallback($fileId, $area, $themeId)
+    {
+        $params = array('area' => $area, 'themeId' => $themeId);
+        list($params['module'], $fileId) = \Magento\View\Asset\FileId::extractModule($fileId);
+        $this->assetRepo->updateDesignParams($params);
+        $themeModel = $this->themeRepo->create($themeId, $area);
+        return $this->fallback->getViewFile($area, $themeModel, $params['locale'], $fileId, $params['module']);
     }
 
     /**
@@ -76,9 +106,6 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     public function testViewFilesFromThemes()
     {
-        /** @var \Magento\View\Design\FileResolution\Fallback $fallback */
-        $fallback = $this->objectManager->get('Magento\View\Design\FileResolution\Fallback');
-
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**
@@ -86,11 +113,11 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
              * @param string $area
              * @param string $themeId
              */
-            function ($file, $area, $themeId) use ($fallback) {
+            function ($file, $area, $themeId) {
                 $params = array('area' => $area, 'themeId' => $themeId);
                 list($params['module'], $file) = \Magento\View\Asset\FileId::extractModule($file);
                 $this->assetRepo->updateDesignParams($params);
-                $originalViewFile = $fallback->getViewFile(
+                $originalViewFile = $this->fallback->getViewFile(
                     $params['area'], $params['themeModel'], $params['locale'], $file, $params['module']
                 );
                 $this->assertNotEmpty($originalViewFile);
@@ -108,7 +135,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                         if (!empty($module)) {
                             $relatedParams['module'] = $module;
                         }
-                        $relatedViewFile = $fallback->getViewFile(
+                        $relatedViewFile = $this->fallback->getViewFile(
                             $relatedParams['area'],
                             $relatedParams['themeModel'],
                             $relatedParams['locale'],

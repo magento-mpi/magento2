@@ -26,7 +26,7 @@ class File implements MergeableInterface
     /**
      * @var string
      */
-    private $sourceFile;
+    protected $file;
 
     /**
      * @var string
@@ -47,7 +47,7 @@ class File implements MergeableInterface
             throw new \LogicException("An extension is expected in file path: {$filePath}");
         }
         $this->contentType = $extension;
-        $this->sourceFile = $sourceFile;
+        $this->file = $sourceFile;
         $this->baseUrl = $baseUrl;
     }
 
@@ -72,7 +72,7 @@ class File implements MergeableInterface
      */
     public function getSourceFile()
     {
-        return $this->sourceFile;
+        return $this->file;
     }
 
     /**

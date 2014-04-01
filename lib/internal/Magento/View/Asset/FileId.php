@@ -33,11 +33,6 @@ class FileId extends File
     /**
      * @var string
      */
-    private $file;
-
-    /**
-     * @var string
-     */
     protected $module;
 
     /**

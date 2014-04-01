@@ -35,7 +35,7 @@ class Asset extends \Magento\View\Asset\FileId
      * Create a fake File ID asset that can only resolve relative path
      *
      * @param string $fileId
-     * @return Asset|\Magento\View\Asset\FileId
+     * @return Asset
      */
     public function createRelative($fileId)
     {

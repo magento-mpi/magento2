@@ -29,7 +29,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-21654');
+        $this->markTestIncomplete('MAGETWO-21944');
     }
 
     /**
