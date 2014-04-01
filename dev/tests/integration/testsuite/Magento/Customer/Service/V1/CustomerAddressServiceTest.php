@@ -79,6 +79,14 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_expectedAddresses = [$address, $address2];
     }
 
+    protected function tearDown()
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Customer\Model\AddressRegistry $addressRegistry */
+        $customerRegistry = $objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        $customerRegistry->remove(1);
+    }
+
     /**
      * @magentoDataFixture  Magento/Customer/_files/customer.php
      * @magentoDataFixture  Magento/Customer/_files/customer_address.php

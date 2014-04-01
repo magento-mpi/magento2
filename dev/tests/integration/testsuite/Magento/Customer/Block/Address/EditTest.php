@@ -60,6 +60,11 @@ class EditTest extends \PHPUnit_Framework_TestCase
         //Cleanup address from registry
         $addressRegistry->remove(1);
         $addressRegistry->remove(2);
+
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
     }
 
     /**
