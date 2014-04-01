@@ -6,6 +6,7 @@
   * Fixed problem with update failed registration message & provide resend confirmation email button for registrations failing to complete (MAGETWO-22021)
   * Fixed problem with Magento Catalog module resource Setup Upgrade logic is broken (MAGETWO-22414)
   * Fixed problem with reset customer password from frontend (MAGETWO-22860)
+  * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
 * Modularity improvements:
   * Moved abstract Core models and related logic into Magento/Model library (MAGETWO-21588)
   * Moved abstract DB logic and Core resource helpers into Magento/DB library (MAGETWO-21588)
