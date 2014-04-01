@@ -52,6 +52,29 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->_model->createBlock('type', 'blockname', array());
     }
 
+    /**
+     * Test _getBlockInstance() with Exception
+     *
+     * @expectedException \Exception
+     * @expectedExceptionMessage Exception during block creating
+     */
+    public function testGetBlockInstanceException()
+    {
+        $type = 'test.block';
+        $name = 'test-block';
+        $attributes = [];
+
+        $this->_structureMock->expects($this->once())
+            ->method('createElement')
+            ->with($this->equalTo($name), $this->equalTo(['type' => 'block']));
+        $this->_blockFactoryMock->expects($this->once())
+            ->method('createBlock')
+            ->with($this->equalTo($type), $this->equalTo($attributes))
+            ->will($this->throwException(new \ReflectionException('Exception during block creating')));
+        $result = $this->_model->createBlock($type, $name, $attributes);
+        $this->assertNull($result);
+    }
+
     public function testCreateBlockSuccess()
     {
         $blockMock = $this->getMockBuilder(

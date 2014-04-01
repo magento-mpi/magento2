@@ -66,6 +66,11 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
     protected $coreStoreMock;
 
     /**
+     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $calculator;
+
+    /**
      * Set up
      */
     public function setUp()
@@ -123,13 +128,18 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->catalogRuleResourceMock));
 
+        $this->calculator = $this->getMockBuilder('Magento\Pricing\Adjustment\Calculator')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $qty = 1;
         $this->object = new CatalogRulePrice(
             $this->salableItemMock,
+            $qty,
+            $this->calculator,
             $this->dataTimeMock,
             $this->storeManagerMock,
             $this->customerSessionMock,
-            $this->catalogRuleResourceFactoryMock,
-            1.
+            $this->catalogRuleResourceFactoryMock
         );
     }
 
