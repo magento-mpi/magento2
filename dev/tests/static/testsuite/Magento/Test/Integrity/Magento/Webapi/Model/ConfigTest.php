@@ -1,15 +1,18 @@
 <?php
 /**
- * Find "payment.xml" files and validate them
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Integrity\Magento\Payment\Model;
 
-class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
+namespace Magento\Test\Integrity\Magento\Webapi\Model;
+use Magento\TestFramework\Integrity\AbstractConfig;
+
+/**
+ * Find webapi xml files and validate them
+ */
+class ConfigTest extends AbstractConfig
 {
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
