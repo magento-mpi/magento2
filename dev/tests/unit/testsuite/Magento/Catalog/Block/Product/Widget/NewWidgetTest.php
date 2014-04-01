@@ -59,7 +59,8 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'price_id' => 'old-price-' . $id . '-' . $type,
             'display_minimal_price' => true,
-            'include_container' => true
+            'include_container' => true,
+            'zone' => 'product_list'
         ];
 
         $priceBoxMock = $this->getMock('Magento\Pricing\Render', ['render'], [], '', false, false);
@@ -74,7 +75,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
             ->with('final_price', $productMock, $arguments)
             ->will($this->returnValue($expectedHtml));
 
-        $result = $this->block->getProductPrice($productMock, $type);
+        $result = $this->block->getProductPriceHtml($productMock, $type);
         $this->assertEquals($expectedHtml, $result);
     }
 }

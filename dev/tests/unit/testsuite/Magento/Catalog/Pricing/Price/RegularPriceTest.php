@@ -24,7 +24,7 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
     protected $priceInfoMock;
 
     /**
-     * @var \Magento\Pricing\Amount|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $amountMock;
 
