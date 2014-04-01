@@ -1,5 +1,6 @@
 * Framework Improvements:
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
+  * Renamed 3DSecure library into CardinalCommerce and removed flex library as unused (MAGETWO-23143)
 * Modularity improvements:
   * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
   * Moved resource model to Magento_Install module(MAGETWO-21599)

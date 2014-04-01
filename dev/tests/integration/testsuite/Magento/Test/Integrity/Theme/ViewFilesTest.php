@@ -343,11 +343,6 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     public function staticLibsDataProvider()
     {
-        return array(
-            array('media/editor.swf'),
-            array('media/flex.swf'), // looks like this one is not used anywhere
-            array('media/uploader.swf'),
-            array('media/uploaderSingle.swf')
-        );
+        return array();
     }
 }
