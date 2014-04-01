@@ -1384,7 +1384,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string|\Magento\View\Element\AbstractBlock $block
      * @param array $attributes
-     * @throws \Magento\Model\Exception
+     * @throws \Exception
      * @return \Magento\View\Element\AbstractBlock
      */
     protected function _getBlockInstance($block, array $attributes = array())

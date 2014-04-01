@@ -92,7 +92,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                     $priceGroup = $price['cust_group'];
                 }
             }
-            $this->value = (float) $tierPrice;
+            $this->value = $tierPrice;
         }
         return $this->value;
     }

@@ -153,8 +153,8 @@ class RendererPool extends AbstractBlock
      */
     public function getAdjustmentRenders(SaleableInterface $saleableItem = null, PriceInterface $price = null)
     {
-        $itemType = $saleableItem->getTypeId(); // simple, configurable
-        $priceType = $price->getPriceType();
+        $itemType = is_null($saleableItem) ? 'default' : $saleableItem->getTypeId();
+        $priceType = is_null($price) ? 'default' : $price->getPriceType();
 
         $fallbackPattern = [
             "{$itemType}/adjustments/{$priceType}",
@@ -172,25 +172,6 @@ class RendererPool extends AbstractBlock
         }
 
         return $renders;
-    }
-
-    /**
-     * @param string $code
-     * @param array $config
-     * @return array
-     * @throws \Exception
-     */
-    protected function validateAdjustmentConfig($code, array $config)
-    {
-        $class = isset($config['adjustment_render_class']) ? $config['adjustment_render_class'] : false;
-        if (!$class) {
-            throw new \InvalidArgumentException('Adjustment class for code "' . $code . '" not declared');
-        }
-        $template = isset($config['adjustment_render_template']) ? $config['adjustment_render_template'] : false;
-        if (!$template) {
-            throw new \InvalidArgumentException('Adjustment template for code "' . $code . '" not declared');
-        }
-        return [$class, $template];
     }
 
     /**
