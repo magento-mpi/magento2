@@ -9,6 +9,9 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Model\Group;
+use Magento\TestFramework\Helper\Bootstrap;
+
 class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,7 +27,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
 
-        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_objectManager = Bootstrap::getObjectManager();
         $this->_groupService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
     }
 
@@ -40,7 +43,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService */
-        $customerGroupService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        $customerGroupService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerGroupServiceInterface'
         );
         foreach ($customerGroupService->getGroups() as $group) {
@@ -156,43 +159,54 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($updates->getTaxClassId(), $updatedGroup->getTaxClassId());
     }
 
-    /**
-     * @param $testGroup
-     * @dataProvider getDefaultGroupDataProvider
-     */
-    public function testGetDefaultGroupWithoutStoreId($testGroup)
-    {
-        $group = $this->_groupService->getDefaultGroup();
-        $this->assertEquals($testGroup['id'], $group->getId());
-        $this->assertEquals($testGroup['code'], $group->getCode());
-        $this->assertEquals($testGroup['tax_class_id'], $group->getTaxClassId());
-    }
 
     /**
      * @param $testGroup
+     * @param $storeId
+     *
      * @dataProvider getDefaultGroupDataProvider
-     * @expectedException \Magento\Core\Model\Store\Exception
      */
-    public function testGetDefaultGroupWithStoreId($testGroup)
+    public function testGetDefaultGroupWithStoreId($testGroup, $storeId)
     {
-        $group = $this->_groupService->getDefaultGroup($testGroup['storeId']);
-        $this->assertEquals($testGroup['id'], $group->getId());
-        $this->assertEquals($testGroup['code'], $group->getCode());
-        $this->assertEquals($testGroup['tax_class_id'], $group->getTaxClassId());
-        //Invalid storeId
-        $storeId = 1234567;
-        $this->_groupService->getDefaultGroup($storeId);
+        $this->assertDefaultGroupMatches($testGroup, $storeId);
     }
 
 
     /**
      * @return array
+     *
      */
     public function getDefaultGroupDataProvider()
     {
+        /** @var \Magento\Core\Model\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface');
+        $defaultStoreId = $storeManager->getStore()->getId();
         return [
-            [['storeId' => 1, 'id' => 1, 'code' => 'General', 'tax_class_id' => 3]]
+            'no store id' => [['id' => 1, 'code' => 'General', 'tax_class_id' => 3], null],
+            'default store id' => [['id' => 1, 'code' => 'General', 'tax_class_id' => 3], $defaultStoreId],
         ];
+    }
+
+    /**
+     * @magentoDataFixture Magento/Core/_files/second_third_store.php
+     */
+    public function testGetDefaultGroupWithNonDefaultStoreId()
+    {        /** @var \Magento\Core\Model\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface');
+        $nonDefaultStore = $storeManager->getStores()[1];
+        $nonDefaultStoreId = $nonDefaultStore->getId();
+        $nonDefaultStore->setConfig(Group::XML_PATH_DEFAULT_ID, 2);
+        $testGroup = ['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3];
+        $this->assertDefaultGroupMatches($testGroup, $nonDefaultStoreId);
+    }
+
+    /**
+     * @expectedException \Magento\Core\Model\Store\Exception
+     */
+    public function testGetDefaultGroupWithInvalidStoreId()
+    {
+        $storeId = 1234567;
+        $this->_groupService->getDefaultGroup($storeId);
     }
 
     /**
@@ -214,7 +228,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
         $searchResults = $this->_groupService->searchGroups($searchBuilder->create());
 
-        /** @var $item Data\CustomerGroup */
+        /** @var $item Data\CustomerGroup*/
         foreach ($searchResults->getItems() as $item) {
             $this->assertEquals($expectedResult[$item->getId()]['code'], $item->getCode());
             $this->assertEquals($expectedResult[$item->getId()]['tax_class_id'], $item->getTaxClassId());
@@ -261,5 +275,17 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
+    }
+
+    /**
+     * @param $testGroup
+     * @param $storeId
+     */
+    private function assertDefaultGroupMatches($testGroup, $storeId)
+    {
+        $group = $this->_groupService->getDefaultGroup($storeId);
+        $this->assertEquals($testGroup['id'], $group->getId());
+        $this->assertEquals($testGroup['code'], $group->getCode());
+        $this->assertEquals($testGroup['tax_class_id'], $group->getTaxClassId());
     }
 }
