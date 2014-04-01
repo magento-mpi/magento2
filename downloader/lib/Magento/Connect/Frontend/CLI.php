@@ -395,7 +395,7 @@ extends \Magento\Connect\Frontend
         if($this->isSilent()) {
             return;
         }
-        print $data;
+        echo $data;
     }
 
     /**

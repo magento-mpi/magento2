@@ -20,9 +20,9 @@ use Magento\CatalogRule\Model\Rule\Condition\Combine;
 use Magento\CatalogRule\Model\Rule;
 use Magento\CatalogRule\Model\Resource\Rule\Collection;
 use Magento\CatalogRule\Model\Rule\Product\Price;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Core\Model\StoreManagerInterface;
-use Magento\Core\Model\LocaleInterface;
+use Magento\LocaleInterface;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Event\Observer as EventObserver;
@@ -83,7 +83,7 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -110,7 +110,7 @@ class Observer
      * @param RuleFactory $ruleFactory
      * @param FlagFactory $flagFactory
      * @param StoreManagerInterface $storeManager
-     * @param LocaleInterface $locale
+     * @param \Magento\LocaleInterface $locale
      * @param CustomerModelSession $customerSession
      * @param BackendModelSession $backendSession
      * @param Registry $coreRegistry
@@ -127,7 +127,7 @@ class Observer
         RuleFactory $ruleFactory,
         FlagFactory $flagFactory,
         StoreManagerInterface $storeManager,
-        LocaleInterface $locale,
+        \Magento\LocaleInterface $locale,
         CustomerModelSession $customerSession,
         BackendModelSession $backendSession,
         Registry $coreRegistry,

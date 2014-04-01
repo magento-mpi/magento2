@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
+
+use Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine;
 
 /**
  * Order address attribute conditions combine
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
 
-class Combine
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class Combine extends AbstractCombine
 {
 
     /**

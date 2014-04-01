@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Checkout\Onepage\Success;
 
 /**
  * Billing agreement information on Order success page
  */
-namespace Magento\Paypal\Block\Checkout\Onepage\Success;
-
 class BillingAgreement extends \Magento\View\Element\Template
 {
     /**

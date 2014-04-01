@@ -10,6 +10,7 @@
 
 namespace Magento\Checkout\Model;
 
+use Magento\Sales\Model\Quote;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 use \Magento\Customer\Service\V1\Dto\CustomerBuilder;
 
@@ -23,7 +24,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Quote instance
      *
-     * @var \Magento\Sales\Model\Quote
+     * @var Quote
      */
     protected $_quote;
 
@@ -133,9 +134,9 @@ class Session extends \Magento\Session\SessionManager
      *
      * TODO: Remove after elimination of dependencies from \Magento\Persistent\Model\Observer
      *
-     * @deprecated Use \Magento\Checkout\Model\Session::setCustomerData() instead
      * @param \Magento\Customer\Model\Customer|null $customer
-     * @return \Magento\Checkout\Model\Session
+     * @return $this
+     * @deprecated Use \Magento\Checkout\Model\Session::setCustomerData() instead
      */
     public function setCustomer($customer)
     {
@@ -175,7 +176,7 @@ class Session extends \Magento\Session\SessionManager
      * Set quote to be loaded even if inactive
      *
      * @param bool $load
-     * @return \Magento\Checkout\Model\Session
+     * @return $this
      */
     public function setLoadInactive($load = true)
     {
@@ -186,14 +187,14 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Get checkout quote instance by current session
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return Quote
      */
     public function getQuote()
     {
         $this->_eventManager->dispatch('custom_quote_process', array('checkout_session' => $this));
 
         if ($this->_quote === null) {
-            /** @var $quote \Magento\Sales\Model\Quote */
+            /** @var $quote Quote */
             $quote = $this->_quoteFactory->create()->setStoreId($this->_storeManager->getStore()->getId());
             if ($this->getQuoteId()) {
                 if ($this->_loadInactive) {
@@ -255,16 +256,26 @@ class Session extends \Magento\Session\SessionManager
         return $this->_quote;
     }
 
+    /**
+     * @return string
+     */
     protected function _getQuoteIdKey()
     {
         return 'quote_id_' . $this->_storeManager->getStore()->getWebsiteId();
     }
 
+    /**
+     * @param int $quoteId
+     * @return void
+     */
     public function setQuoteId($quoteId)
     {
         $this->storage->setData($this->_getQuoteIdKey(), $quoteId);
     }
 
+    /**
+     * @return int
+     */
     public function getQuoteId()
     {
         return $this->getData($this->_getQuoteIdKey());
@@ -273,7 +284,7 @@ class Session extends \Magento\Session\SessionManager
     /**
      * Load data for customer quote and merge with current quote
      *
-     * @return \Magento\Checkout\Model\Session
+     * @return $this
      */
     public function loadCustomerQuote()
     {
@@ -311,6 +322,12 @@ class Session extends \Magento\Session\SessionManager
         return $this;
     }
 
+    /**
+     * @param string $step
+     * @param array|string $data
+     * @param bool|string|null $value
+     * @return $this
+     */
     public function setStepData($step, $data, $value=null)
     {
         $steps = $this->getSteps();
@@ -331,6 +348,11 @@ class Session extends \Magento\Session\SessionManager
         return $this;
     }
 
+    /**
+     * @param string|null $step
+     * @param string|null $data
+     * @return array|string|bool
+     */
     public function getStepData($step=null, $data=null)
     {
         $steps = $this->getSteps();
@@ -378,6 +400,8 @@ class Session extends \Magento\Session\SessionManager
 
     /**
      * Clear misc checkout parameters
+     *
+     * @return void
      */
     public function clearHelperData()
     {
@@ -389,12 +413,19 @@ class Session extends \Magento\Session\SessionManager
         ;
     }
 
+    /**
+     * @return $this
+     */
     public function resetCheckout()
     {
         $this->setCheckoutState(self::CHECKOUT_STATE_BEGIN);
         return $this;
     }
 
+    /**
+     * @param Quote $quote
+     * @return $this
+     */
     public function replaceQuote($quote)
     {
         $this->_quote = $quote;

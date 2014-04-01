@@ -56,7 +56,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Integration\Service\OauthV1|\PHPUnit_Framework_MockObject_MockObject */
     protected $_oauthSvcMock;
 
-    /** @var \Magento\Core\Model\Registry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $_registryMock;
 
     /** @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject */
@@ -133,7 +133,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock = $this->getMockBuilder('Magento\App\Response\Http')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_registryMock = $this->getMockBuilder('Magento\Core\Model\Registry')
+        $this->_registryMock = $this->getMockBuilder('Magento\Registry')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_configScopeMock = $this->getMockBuilder('Magento\Config\ScopeInterface')

@@ -29,7 +29,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $eventManagerMock;
 
-    /** @var \Magento\Core\Model\Registry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $registryMock;
 
     /** @var \Magento\Sales\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
@@ -66,7 +66,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->eventManagerMock = $this->getMock('Magento\Event\ManagerInterface');
-        $this->registryMock = $this->getMock('Magento\Core\Model\Registry');
+        $this->registryMock = $this->getMock('Magento\Registry');
         $this->configMock = $this->getMock('Magento\Sales\Model\Config', [], [], '', false);
         $this->sessionQuoteMock = $this->getMock('Magento\Backend\Model\Session\Quote', [], [], '', false);
         $this->loggerMock = $this->getMock('Magento\Logger', [], [], '', false);

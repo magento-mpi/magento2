@@ -43,7 +43,7 @@ class Methods extends \Magento\Payment\Block\Form\Container
     }
 
     /**
-     * @return \Magento\Sales\Model\Quote|\Magento\Sales\Model\Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -77,6 +77,7 @@ class Methods extends \Magento\Payment\Block\Form\Container
 
     /**
      * Payment method form html getter
+     *
      * @param \Magento\Payment\Model\MethodInterface $method
      * @return string
      */
@@ -102,7 +103,9 @@ class Methods extends \Magento\Payment\Block\Form\Container
 
     /**
      * Payment method additional label part getter
+     *
      * @param \Magento\Payment\Model\MethodInterface $method
+     * @return string
      */
     public function getMethodLabelAfterHtml(\Magento\Payment\Model\MethodInterface $method)
     {

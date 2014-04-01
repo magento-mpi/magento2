@@ -28,7 +28,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\View\DesignInterface')
             ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
             ->setDefaultDesignTheme();
-        $objectManager->get('Magento\Core\Model\Registry')
+        $objectManager->get('Magento\Registry')
             ->register('current_target_rule', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\TargetRule\Model\Rule'));
 

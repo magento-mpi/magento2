@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Helper;
 
 /**
  * Shopping cart helper
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Helper;
-
 class Cart extends \Magento\Core\Helper\Url
 {
     const XML_PATH_REDIRECT_TO_CART = 'checkout/cart/redirect_to_cart';
@@ -133,7 +132,7 @@ class Cart extends \Magento\Core\Helper\Url
     /**
      * Retrieve shopping cart url
      *
-     * @return unknown
+     * @return string
      */
     public function getCartUrl()
     {
@@ -163,7 +162,7 @@ class Cart extends \Magento\Core\Helper\Url
     /**
      * Get shopping cart summary qty
      *
-     * @return decimal
+     * @return int|float
      */
     public function getItemsQty()
     {
@@ -171,9 +170,9 @@ class Cart extends \Magento\Core\Helper\Url
     }
 
     /**
-     * Get shopping cart items summary (inchlude config settings)
+     * Get shopping cart items summary (include config settings)
      *
-     * @return decimal
+     * @return int|float
      */
     public function getSummaryCount()
     {
@@ -181,7 +180,7 @@ class Cart extends \Magento\Core\Helper\Url
     }
 
     /**
-     * Check qoute for virtual products only
+     * Check quote for virtual products only
      *
      * @return bool
      */

@@ -18,8 +18,8 @@ $profile = \PHPUnit_Framework_MockObject_Generator::getMock(
     'Magento\RecurringProfile\Model\Profile',
     ['isValid'],
     [
-        $objectManager->get('Magento\Core\Model\Context'),
-        $objectManager->get('Magento\Core\Model\Registry'),
+        $objectManager->get('Magento\Model\Context'),
+        $objectManager->get('Magento\Registry'),
         $objectManager->get('Magento\Payment\Helper\Data'),
         $objectManager->get('Magento\RecurringProfile\Model\PeriodUnits'),
         $objectManager->get('Magento\RecurringProfile\Block\Fields'),

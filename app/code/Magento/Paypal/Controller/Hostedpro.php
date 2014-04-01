@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller;
 
 /**
  * Hosted Pro Checkout Controller
@@ -13,8 +14,6 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Controller;
-
 class Hostedpro extends \Magento\App\Action\Action
 {
     /**
@@ -34,6 +33,8 @@ class Hostedpro extends \Magento\App\Action\Action
 
     /**
      * When a customer return to website from gateway.
+     *
+     * @return void
      */
     public function returnAction()
     {
@@ -46,6 +47,8 @@ class Hostedpro extends \Magento\App\Action\Action
 
     /**
      * When a customer cancel payment from gateway.
+     *
+     * @return void
      */
     public function cancelAction()
     {
@@ -61,7 +64,7 @@ class Hostedpro extends \Magento\App\Action\Action
      * Cancel order, return quote to customer
      *
      * @param string $errorMsg
-     * @return mixed
+     * @return false|string
      */
     protected function _cancelPayment($errorMsg = '')
     {

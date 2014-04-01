@@ -10,4 +10,4 @@
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Core\Model\Registry')->unregister('quote');
+$objectManager->get('Magento\Registry')->unregister('quote');

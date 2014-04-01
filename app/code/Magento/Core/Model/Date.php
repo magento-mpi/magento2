@@ -1,18 +1,15 @@
 <?php
 /**
+ * Date conversion model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * Date conversion model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model;
+
+use Magento\LocaleInterface;
 
 class Date
 {

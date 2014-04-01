@@ -26,14 +26,14 @@ class Templates
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         array $data = array()
@@ -52,7 +52,7 @@ class Templates
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
-        
+
         $fieldset = $form->addFieldset('email_fieldset', array(
             'legend' => __('Email Templates'),
             'class'  => 'tree-store-scope',

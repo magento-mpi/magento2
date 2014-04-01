@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Config\Source;
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class GridPerPage implements \Magento\Core\Model\Option\ArrayInterface
+class GridPerPage implements \Magento\Option\ArrayInterface
 {
     /**
      * Options

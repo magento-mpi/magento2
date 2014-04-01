@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 /**
  * Accordion grid for recently ordered products
@@ -15,12 +18,7 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
-
-class Ordered
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Ordered extends AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -30,11 +28,15 @@ class Ordered
 
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'ordered';
 
     /**
      * Url to configure this grid's items
+     *
+     * @var string
      */
     protected $_configureRoute = '*/checkout/configureOrderedItem';
 
@@ -49,7 +51,6 @@ class Ordered
     protected $_productFactory;
 
     /**
-     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
@@ -68,21 +69,21 @@ class Ordered
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
@@ -101,6 +102,7 @@ class Ordered
     /**
      * Initialize Grid
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -116,7 +118,7 @@ class Ordered
     /**
      * Returns custom last ordered products renderer for price column content
      *
-     * @return null|string
+     * @return string
      */
     protected function _getPriceRenderer()
     {

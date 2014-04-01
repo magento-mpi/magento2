@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 
 /**
  * Form Types Grid Block
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
-
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -48,6 +47,7 @@ class Grid
     /**
      * Initialize Grid Block
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -60,7 +60,7 @@ class Grid
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -73,7 +73,7 @@ class Grid
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

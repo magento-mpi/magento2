@@ -14,18 +14,18 @@ class Popup extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -65,7 +65,7 @@ class Popup extends \Magento\View\Element\Template
      */
     public function formatDeliveryDate($date)
     {
-        $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $format = $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
         return $this->_locale->date(strtotime($date), \Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
@@ -83,7 +83,7 @@ class Popup extends \Magento\View\Element\Template
             $time = $date . ' ' . $time;
         }
 
-        $format = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $format = $this->_locale->getTimeFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT);
         return $this->_locale->date(strtotime($time), \Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }

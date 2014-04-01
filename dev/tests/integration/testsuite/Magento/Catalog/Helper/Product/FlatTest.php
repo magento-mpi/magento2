@@ -14,20 +14,27 @@ namespace Magento\Catalog\Helper\Product;
 class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Helper\Product\Flat
+     * @var \Magento\Catalog\Helper\Product\Flat\Indexer
      */
     protected $_helper;
+
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\State
+     */
+    protected $_state;
 
     protected function setUp()
     {
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Helper\Product\Flat');
+            ->get('Magento\Catalog\Helper\Product\Flat\Indexer');
+        $this->_state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('\Magento\Catalog\Model\Indexer\Product\Flat\State');
     }
 
     public function testIsEnabledDefault()
     {
 
-        $this->assertFalse($this->_helper->isEnabled());
+        $this->assertFalse($this->_state->isFlatEnabled());
     }
 
     /**
@@ -35,7 +42,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabled()
     {
-        $this->assertTrue($this->_helper->isEnabled());
+        $this->assertTrue($this->_state->isFlatEnabled());
     }
 
     public function testIsAddFilterableAttributesDefault()
@@ -46,7 +53,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     public function testIsAddFilterableAttributes()
     {
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Helper\Product\Flat', array('addFilterableAttrs' => 1));
+            ->create('Magento\Catalog\Helper\Product\Flat\Indexer', array('addFilterableAttrs' => 1));
         $this->assertEquals(1, $helper->isAddFilterableAttributes());
     }
 
@@ -58,7 +65,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     public function testIsAddChildData()
     {
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Helper\Product\Flat', array('addChildData' => 1));
+            ->create('Magento\Catalog\Helper\Product\Flat\Indexer', array('addChildData' => 1));
         $this->assertEquals(1, $helper->isAddChildData());
     }
 }
