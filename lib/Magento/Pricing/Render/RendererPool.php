@@ -153,8 +153,8 @@ class RendererPool extends AbstractBlock
      */
     public function getAdjustmentRenders(SaleableInterface $saleableItem = null, PriceInterface $price = null)
     {
-        $itemType = $saleableItem->getTypeId(); // simple, configurable
-        $priceType = $price->getPriceType();
+        $itemType = is_null($saleableItem) ? 'default' : $saleableItem->getTypeId();
+        $priceType = is_null($price) ? 'default' : $price->getPriceType();
 
         $fallbackPattern = [
             "{$itemType}/adjustments/{$priceType}",
