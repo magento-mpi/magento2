@@ -34,6 +34,11 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
     protected $salableItemMock;
 
     /**
+     * @var \Magento\Pricing\Adjustment\Calculator
+     */
+    protected $calculatorMock;
+
+    /**
      * Test setUp
      */
     protected function setUp()
@@ -41,39 +46,62 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
         $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
         $this->amountMock = $this->getMock('Magento\Pricing\Amount', [], [], '', false);
+        $this->calculatorMock = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
+
         $this->salableItemMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
-        $this->regularPrice = new RegularPrice($this->salableItemMock, 1);
+        $this->regularPrice = new RegularPrice($this->salableItemMock, 1, $this->calculatorMock);
     }
 
     /**
      * Test method testGetValue
+     *
+     * @param float|bool $price
+     * @dataProvider testGetValueDataProvider
      */
-    public function testGetValue()
+    public function testGetValue($price)
     {
         $this->salableItemMock->expects($this->once())
             ->method('getPrice')
-            ->will($this->returnValue(100));
-        $this->assertEquals(100, $this->regularPrice->getValue());
+            ->will($this->returnValue($price));
+        $this->assertEquals($price, $this->regularPrice->getValue());
+    }
+
+    /**
+     * Data provider for testGetValue
+     *
+     * @return array
+     */
+    public function testGetValueDataProvider()
+    {
+        return [
+            'With price' => [100.00],
+            'Without price' => [false]
+        ];
     }
 
     /**
      * Test method testGetDisplayValue
      */
-    public function testGetDisplayValue()
+    public function testGetAmount()
     {
+        $this->calculatorMock->expects($this->once())
+            ->method('getAmount')
+            ->with($this->equalTo(77))
+            ->will($this->returnValue(77));
         $this->salableItemMock->expects($this->once())
             ->method('getPrice')
             ->will($this->returnValue(77));
-        $this->priceInfoMock->expects($this->once())
-            ->method('getAmount')
-            ->with($this->equalTo(77))
-            ->will($this->returnValue($this->amountMock));
-        $this->amountMock->expects($this->once())
-            ->method('getDisplayAmount')
-            ->with($this->equalTo('excluded-code'))
-            ->will($this->returnValue(77));
-        $this->assertEquals(77, $this->regularPrice->getDisplayValue(null, 'excluded-code'));
+
+        $this->assertEquals(77, $this->regularPrice->getAmount());
+    }
+
+    /**
+     * Test method getPriceType
+     */
+    public function testGetPriceType()
+    {
+        $this->assertEquals(RegularPrice::PRICE_TYPE_PRICE_DEFAULT, $this->regularPrice->getPriceType());
     }
 }

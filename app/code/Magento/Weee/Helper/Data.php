@@ -185,22 +185,22 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param Store                          $store
      * @return bool|int
      */
-    public function typeOfDisplay($compareTo = null, $zone = null, $store = null)
+    public function typeOfDisplay($compareTo = null, $zone = \Magento\Pricing\Render::ZONE_DEFAULT, $store = null)
     {
         if (!$this->isEnabled($store)) {
             return false;
         }
         switch ($zone) {
-            case 'product_view':
+            case \Magento\Pricing\Render::ZONE_PRODUCT_VIEW:
                 $type = $this->getPriceDisplayType($store);
                 break;
-            case 'product_list':
+            case \Magento\Pricing\Render::ZONE_PRODUCT_LIST:
                 $type = $this->getListPriceDisplayType($store);
                 break;
-            case 'sales':
+            case \Magento\Pricing\Render::ZONE_SALES:
                 $type = $this->getSalesPriceDisplayType($store);
                 break;
-            case 'email':
+            case \Magento\Pricing\Render::ZONE_EMAIL:
                 $type = $this->getEmailPriceDisplayType($store);
                 break;
             default:

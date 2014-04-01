@@ -109,13 +109,12 @@ class Adjustment extends AbstractAdjustment
      * Returns display type for price accordingly to current zone
      *
      * @param int|int[]|null $compareTo
-     * @param string|null $zone
      * @param \Magento\Core\Model\Store|null $store
      * @return bool|int
      */
-    protected function typeOfDisplay($compareTo = null, $zone = null, $store = null)
+    protected function typeOfDisplay($compareTo = null, $store = null)
     {
-        return $this->weeeHelper->typeOfDisplay($compareTo, $zone, $store);
+        return $this->weeeHelper->typeOfDisplay($compareTo, $this->getZone(), $store);
     }
 
     /**

@@ -17,6 +17,10 @@ use Magento\Pricing\Render as PricingRender;
 
 /**
  * Catalog Price Render
+ *
+ * @method string getPriceRender()
+ * @method string getPriceTypeCode()
+ * @method string getDisplayMsrpHelpMessage()
  */
 class Render extends Template
 {

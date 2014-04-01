@@ -28,28 +28,41 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     protected $basePriceMock;
 
     /**
+     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $saleableMock;
+
+    /**
+     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $calculatorMock;
+
+    /**
      * Set up function
      */
     public function setUp()
     {
-        $saleableMock = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
+        $this->saleableMock = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
         $this->priceInfoMock = $this->getMockForAbstractClass('Magento\Pricing\PriceInfoInterface');
         $this->basePriceMock = $this->getMock(
             'Magento\Catalog\Pricing\Price\BasePrice',
-            ['getDisplayValue', 'getMaxValue'],
+            [],
             [],
             '',
             false
         );
 
-        $saleableMock->expects($this->once())
+        $this->saleableMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
         $this->priceInfoMock->expects($this->once())
             ->method('getPrice')
-            ->with('base_price')
+            ->with($this->equalTo(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE))
             ->will($this->returnValue($this->basePriceMock));
-        $this->model = new \Magento\Catalog\Pricing\Price\FinalPrice($saleableMock, 1);
+        $this->calculatorMock = $this->getMockBuilder('Magento\Pricing\Adjustment\Calculator')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->model = new \Magento\Catalog\Pricing\Price\FinalPrice($this->saleableMock, 1, $this->calculatorMock);
     }
 
     /**
@@ -57,14 +70,12 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMaxValue()
     {
-        $this->basePriceMock->expects($this->exactly(3))
-            ->method('getDisplayValue')
-            ->will($this->returnArgument(0));
-        $this->basePriceMock->expects($this->exactly(3))
+        $price = 10;
+        $this->basePriceMock->expects($this->once())
             ->method('getMaxValue')
-            ->will($this->returnValue(10));
-        $this->assertEquals(10, $this->model->getMaxValue());
-        $this->assertEquals($this->model->getMaxValue(), $this->model->getMaximalPrice());
+            ->will($this->returnValue($price));
+        $result = $this->model->getMaxValue();
+        $this->assertEquals(10, $result);
     }
 
     /**
@@ -72,24 +83,47 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue()
     {
-        $this->basePriceMock->expects($this->exactly(3))
-            ->method('getDisplayValue')
-            ->will($this->returnValue(10));
-        $this->assertEquals(10, $this->model->getValue());
-        $this->assertEquals($this->model->getValue(), $this->model->getMinimalPrice());
+        $price = 10;
+        $this->basePriceMock->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue($price));
+        $result = $this->model->getValue();
+        $this->assertEquals($price, $result);
     }
 
+    /**
+     * Test getMinimalPrice()
+     */
+    public function testGetMinimalPrice()
+    {
+        $basePrice = 10;
+        $minimalPrice = 5;
+        $this->basePriceMock->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue($basePrice));
+        $this->calculatorMock->expects($this->once())
+            ->method('getAmount')
+            ->with($this->equalTo($basePrice), $this->equalTo($this->saleableMock))
+            ->will($this->returnValue($minimalPrice));
+        $result = $this->model->getMinimalPrice();
+        $this->assertEquals($minimalPrice, $result);
+    }
 
     /**
-     * test for getDisplayValue
+     * Test getMaximalPrice()
      */
-    public function testGetDisplayValue()
+    public function testGetMaximalPrice()
     {
-        $expected = 'based on "10" and "code" args';
+        $basePrice = 10;
+        $minimalPrice = 5;
         $this->basePriceMock->expects($this->once())
-            ->method('getDisplayValue')
-            ->with(10, 'code')
-            ->will($this->returnValue($expected));
-        $this->assertEquals($expected, $this->model->getDisplayValue(10, 'code'));
+            ->method('getMaxValue')
+            ->will($this->returnValue($basePrice));
+        $this->calculatorMock->expects($this->once())
+            ->method('getAmount')
+            ->with($this->equalTo($basePrice), $this->equalTo($this->saleableMock))
+            ->will($this->returnValue($minimalPrice));
+        $result = $this->model->getMaximalPrice();
+        $this->assertEquals($minimalPrice, $result);
     }
 }

@@ -103,8 +103,10 @@ class PriceBox extends Template implements PriceBoxRenderInterface
      */
     public function renderAmount(AmountInterface $amount, array $arguments = [])
     {
-        return $this->getAmountRender($amount, $arguments)
-            ->toHtml();
+        $arguments = array_replace($this->getData(), $arguments);
+
+        //@TODO AmountInterface does not contain toHtml() method
+        return $this->getAmountRender($amount, $arguments)->toHtml();
     }
 
     /**

@@ -316,4 +316,36 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct impleme
         }
         return array_merge($this->getLayer()->getCurrentCategory()->getIdentities(), $identities);
     }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    public function getProductPrice(\Magento\Catalog\Model\Product $product)
+    {
+        $priceRender = $this->getPriceRender();
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                $product,
+                [
+                   'include_container'     => true,
+                   'display_minimal_price' => true,
+                   'zone'                  => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                ]
+            );
+        }
+
+        return  $price;
+    }
+
+    /**
+     * @return \Magento\Pricing\Render
+     */
+    protected function getPriceRender()
+    {
+        return $this->getLayout()->getBlock('product.price.render.default');
+    }
 }
