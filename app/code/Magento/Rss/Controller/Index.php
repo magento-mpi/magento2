@@ -14,23 +14,19 @@ use Magento\App\Action\NotFoundException;
 class Index extends \Magento\App\Action\Action
 {
     /**
-     * Current wishlist
-     *
-     * @var \Magento\Wishlist\Model\Wishlist
+     * @var \Magento\Core\Model\Store\Config
      */
-    protected $_wishlist;
+    protected $_storeConfig;
 
     /**
-     * Current customer
-     *
-     * @var \Magento\Customer\Model\Customer
+     * @var \Magento\Rss\Helper\WishlistRss
      */
-    protected $_customer;
+    protected $_wishlistHelper;
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_customerSession;
 
     /**
      * @param \Magento\App\Action\Context $context
@@ -38,9 +34,13 @@ class Index extends \Magento\App\Action\Action
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\Rss\Helper\WishlistRss $wishlistHelper,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_storeConfig = $storeConfig;
+        $this->_wishlistHelper = $wishlistHelper;
+        $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
 
@@ -89,7 +89,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function wishlistAction()
     {
-        if ($this->_storeConfig->getValue('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->_storeConfig->getConfig('rss/wishlist/active')) {
             $wishlist = $this->_getWishlist();
             if ($wishlist && ($wishlist->getVisibility() || $this->_objectManager->get(
                 'Magento\Customer\Model\Session'
@@ -104,52 +104,5 @@ class Index extends \Magento\App\Action\Action
             }
         }
         $this->nofeedAction();
-    }
-
-    /**
-     * Retrieve Wishlist model
-     *
-     * @return \Magento\Wishlist\Model\Wishlist
-     */
-    protected function _getWishlist()
-    {
-        if (is_null($this->_wishlist)) {
-            $this->_wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist');
-            $wishlistId = $this->getRequest()->getParam('wishlist_id');
-            if ($wishlistId) {
-                $this->_wishlist->load($wishlistId);
-            } else {
-                if ($this->_getCustomer()->getId()) {
-                    $this->_wishlist->loadByCustomer($this->_getCustomer());
-                }
-            }
-        }
-        return $this->_wishlist;
-    }
-
-    /**
-     * Retrieve Customer instance
-     *
-     * @return \Magento\Customer\Model\Customer
-     */
-    protected function _getCustomer()
-    {
-        if (is_null($this->_customer)) {
-            $this->_customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
-            $params = $this->_objectManager->get(
-                'Magento\Core\Helper\Data'
-            )->urlDecode(
-                $this->getRequest()->getParam('data')
-            );
-            $data = explode(',', $params);
-            $customerId = abs(intval($data[0]));
-            if ($customerId && $customerId == $this->_objectManager->get(
-                'Magento\Customer\Model\Session'
-            )->getCustomerId()
-            ) {
-                $this->_customer->load($customerId);
-            }
-        }
-        return $this->_customer;
     }
 }

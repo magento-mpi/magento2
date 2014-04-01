@@ -142,6 +142,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *      'entity_type_id' => $entityTypeId,
      *      'attribute_id' => $attributeId,
      *      'attribute_table' => $attributeTable
+     *      'backend_type' => $backendType
      * ]</pre>
      */
     public function getAttributeMetadata($entityTypeCode, $attributeCode)
@@ -150,7 +151,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return array(
             'entity_type_id' => $attribute->getEntityTypeId(),
             'attribute_id' => $attribute->getAttributeId(),
-            'attribute_table' => $attribute->getBackend()->getTable()
+            'attribute_table' => $attribute->getBackend()->getTable(),
+            'backend_type' => $attribute->getBackendType()
         );
     }
 }

@@ -57,7 +57,7 @@ class Observer
      * @param \Magento\View\Asset\GroupedCollection $assets
      * @param \Magento\App\Config\ReinitableConfigInterface $config
      * @param \Magento\View\Asset\PublicFileFactory $assetFileFactory
-     * @param \Magento\Core\Model\Theme\Registration $registration
+     * @param Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
     public function __construct(
@@ -72,7 +72,6 @@ class Observer
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $assets;
-        $this->_config = $config;
         $this->_assetFileFactory = $assetFileFactory;
         $this->_registration = $registration;
         $this->_logger = $logger;
@@ -134,18 +133,5 @@ class Observer
                 $this->_logger->logException($e);
             }
         }
-    }
-
-    /**
-     * Rebuild whole config and save to fast storage
-     *
-     * @param  \Magento\Event\Observer $observer
-     * @return $this
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function processReinitConfig(\Magento\Event\Observer $observer)
-    {
-        $this->_config->reinit();
-        return $this;
     }
 }

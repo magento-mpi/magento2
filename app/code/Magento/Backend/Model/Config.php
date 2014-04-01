@@ -155,7 +155,7 @@ class Config extends \Magento\Object
             $saveTransaction->save();
 
             // re-init configuration
-            $this->_eventManager->dispatch('application_process_reinit_config');
+            $this->_appConfig->reinit();
             $this->_storeManager->reinitStores();
 
             // website and store codes can be used in event implementation, so set them as well
@@ -165,7 +165,7 @@ class Config extends \Magento\Object
             );
         } catch (\Exception $e) {
             // re-init configuration
-            $this->_eventManager->dispatch('application_process_reinit_config');
+            $this->_appConfig->reinit();
             $this->_storeManager->reinitStores();
             throw $e;
         }

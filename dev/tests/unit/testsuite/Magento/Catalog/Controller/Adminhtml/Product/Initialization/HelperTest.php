@@ -17,11 +17,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $jsHelperMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $storeManagerMock;
 
     /**
@@ -119,7 +114,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         $this->helper = new Helper(
             $this->requestMock,
-            $this->jsHelperMock,
             $this->storeManagerMock,
             $this->stockFilterMock,
             $this->productLinksMock

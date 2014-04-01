@@ -36,7 +36,7 @@ namespace Magento\Newsletter\Model;
  * @method \Magento\Newsletter\Model\Queue setQueueFinishAt(string $value)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Queue extends \Magento\Core\Model\Template
+class Queue extends \Magento\Email\Model\AbstractTemplate
 {
     /**
      * Newsletter Template object

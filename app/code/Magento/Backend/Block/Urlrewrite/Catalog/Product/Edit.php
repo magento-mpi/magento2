@@ -37,7 +37,7 @@ class Edit extends \Magento\Backend\Block\Urlrewrite\Edit
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -45,7 +45,7 @@ class Edit extends \Magento\Backend\Block\Urlrewrite\Edit
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,

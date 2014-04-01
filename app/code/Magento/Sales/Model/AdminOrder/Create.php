@@ -575,7 +575,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerId = (int)$this->getSession()->getCustomerId();
         if ($customerId) {
             $this->_wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist');
-            $this->_wishlist->loadByCustomer($customerId, true);
+            $this->_wishlist->loadByCustomerId($customerId, true);
             $this->_wishlist->setStore(
                 $this->getSession()->getStore()
             )->setSharedStoreIds(
@@ -726,7 +726,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                     if (!isset($moveTo[1])) {
                         $wishlist = $this->_objectManager->create(
                             'Magento\Wishlist\Model\Wishlist'
-                        )->loadByCustomer(
+                        )->loadByCustomerId(
                             $this->getSession()->getCustomerId(),
                             true
                         );

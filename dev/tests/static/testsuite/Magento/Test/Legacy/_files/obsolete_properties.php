@@ -286,6 +286,7 @@ return array(
     array('_directionVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_modeVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_limitVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('_encryptedSessionId', 'Magento\Url'),
     ['_tokenRegex', 'Magento\Translate\Inline'],
     ['_translator', 'Magento\Translate\Inline'],
     ['_appState', 'Magento\Translate\Inline'],

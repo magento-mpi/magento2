@@ -262,7 +262,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit core URL rewrites
      *
-     * @param \Magento\Core\Model\Resource\Url\Rewrite\Collection $collection
+     * @param \Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection $collection
      * @return void
      */
     public function limitCoreUrlRewrites($collection)

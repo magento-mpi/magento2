@@ -28,7 +28,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
-    /** @var \Magento\Core\Model\Layout\Filter\Acl|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Backend\Model\Layout\Filter\Acl|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutFilterMock;
 
     /** @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -105,7 +105,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'Magento\Event\ManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_layoutFilterMock = $this->getMockBuilder(
-            'Magento\Core\Model\Layout\Filter\Acl'
+            'Magento\Backend\Model\Layout\Filter\Acl'
         )->disableOriginalConstructor()->getMock();
         $this->_backendSessionMock = $this->getMockBuilder(
             'Magento\Backend\Model\Session'

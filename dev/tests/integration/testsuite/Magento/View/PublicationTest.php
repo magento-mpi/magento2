@@ -333,9 +333,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 'Magento\View\Design\Fallback\Factory' => array(
                     'arguments' => array(
                         'filesystem' => array(
-                            'value' => 'Magento\View\MockedFilesystem',
-                            'name' => 'filesystem',
-                            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'object'
+                            'instance' => 'Magento\View\MockedFilesystem',
                         )
                     )
                 )
@@ -582,20 +580,12 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 array(
                     'Magento\View\Publisher\CssFile' => array(
                         'arguments' => array(
-                            'allowDuplication' => array(
-                                'name' => 'allowDuplication',
-                                \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
-                                'value' => $allowDuplication
-                            )
+                            'allowDuplication' => $allowDuplication
                         )
                     ),
                     'Magento\View\Publisher\File' => array(
                         'arguments' => array(
-                            'allowDuplication' => array(
-                                'name' => 'allowDuplication',
-                                \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
-                                'value' => $allowDuplication
-                            )
+                            'allowDuplication' => $allowDuplication
                         )
                     )
                 )

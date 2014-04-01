@@ -792,6 +792,7 @@ return array(
     array('Magento\Core\Model\Resource\Entity\Table', 'Magento\Model\Resource\Entity\Table'),
     array('Magento\Core\Model\Resource\Flag', 'Magento\Flag\Resource'),
     array('Magento\Core\Model\Resource\Iterator', 'Magento\Model\Resource\Iterator'),
+    array('Magento\Core\Model\Resource\Resource', 'Magento\Install\Model\Resource\Resource'),
     array('Magento\Core\Model\Resource\Type\AbstractType', 'Magento\Model\Resource\Type\AbstractType'),
     array('Magento\Core\Model\Resource\Type\Db', 'Magento\Model\Resource\Type\Db'),
     array('Magento\Core\Model\Resource\Type\Db\Pdo\Mysql', 'Magento\Model\Resource\Type\Db\Pdo\Mysql'),
@@ -1958,6 +1959,7 @@ return array(
     ),
     array('Magento\Core\Model\Layout\Argument\Updater', 'Magento\View\Layout\Argument\Interpreter\Decorator\Updater'),
     array('Magento\Core\Model\Layout\Argument\UpdaterInterface', 'Magento\View\Layout\Argument\UpdaterInterface'),
+    array('Magento\Core\Model\Layout\Filter\Acl', 'Magento\Backend\Model\Layout\Filter\Acl'),
     array('Magento\View\Layout\Argument\HandlerInterface', 'Magento\Data\Argument\InterpreterInterface'),
     array('Magento\View\Layout\Argument\HandlerFactory', 'Magento\Data\Argument\Interpreter\Composite'),
     array('Magento\Phrase\Renderer\Factory'),
@@ -2010,6 +2012,7 @@ return array(
     array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),
     array('Magento\Catalog\Helper\Flat\AbstractFlat'),
+    array('Magento\Core\App\Action\Plugin\Install', 'Magento\Install\App\Action\Plugin\Install'),
     array('Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'),
     array(
         'Magento\Core\Model\LocaleInterface',
@@ -2120,4 +2123,78 @@ return array(
     array('Magento\App\Locale\ScopeConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
     array('Magento\BaseScopeInterface', 'Magento\App\Config\ScopeInterface'),
     array('Magento\BaseScopeResolverInterface', 'Magento\App\ScopeResolverInterface'),
+    ['Magento\PubSub'], // unused library code which was removed
+    ['Magento\Outbound'], // unused library code which was removed
+    array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
+        'Magento\Review\Block\Adminhtml\Product\Edit\Tab\Reviews'
+    ),
+    array(
+        'Magento\Catalog\Controller\Adminhtml\Product\Review',
+        'Magento\Review\Controller\Adminhtml\Product'
+    ),
+    array(
+        'Magento\Review\Block\Helper',
+        'Magento\Review\Block\Product\ReviewRenderer'
+    ),
+    array(
+        'Magento\LauncherInterface',
+        'Magento\AppInterface',
+    ),
+    array('Magento\Convert\ConvertException'),
+    array('Magento\Convert\Container\AbstractContainer'),
+    array('Magento\Convert\Mapper\Column'),
+    array('Magento\Convert\Mapper\MapperInterface'),
+    ['Magento\Core\Controller\Ajax', 'Magento\Translation\Controller\Ajax'],
+    ['Magento\Core\Helper\Translate', 'Magento\Translation\Helper\Data'],
+    ['Magento\Core\Model\Translate\Inline\Config', 'Magento\Translation\Model\Inline\Config'],
+    ['Magento\Core\Model\Translate\Inline\Parser', 'Magento\Translation\Model\Inline\Parser'],
+    ['Magento\Core\Model\Resource\Translate\String', 'Magento\Translation\Model\Resource\String'],
+    ['Magento\Core\Model\Resource\Translate', 'Magento\Translation\Model\Resource\Translate'],
+    ['Magento\Core\Model\Translate\String', 'Magento\Translation\Model\String'],
+    ['Magento\Translation\Helper\Data'],
+    ['Magento\Translate\Factory'],
+    ['Magento\Backend\Model\Translate'],
+    ['Magento\Backend\Model\Resource\Translate'],
+    ['Magento\Backend\Model\Resource\Translate\String'],
+    ['Magento\DesignEditor\Model\Translate\InlineVde', 'Magento\DesignEditor\Model\Translate\Inline'],
+    ['Magento\Backend\Model\Translate\Inline'],
+    ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
+    ['Magento\Translate\Inline\ConfigFactory'],
+    array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
+    array('Magento\Core\Helper\Js'),
+    array('Magento\Backend\Helper\Media\Js'),
+    array(
+        'Magento\Core\Model\Resource\Url\Rewrite\Collection',
+        'Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection'
+    ),
+    array(
+        'Magento\Core\Model\Resource\Url\Rewrite',
+        'Magento\UrlRewrite\Model\Resource\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\Model\Url\Rewrite',
+        'Magento\UrlRewrite\Model\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\Model\Source\Urlrewrite\Options',
+        'Magento\UrlRewrite\Model\UrlRewrite\OptionProvider'
+    ),
+    array(
+        'Magento\Core\Model\Source\Urlrewrite\Types',
+        'Magento\UrlRewrite\Model\UrlRewrite\TypeProvider'
+    ),
+    array(
+        'Magento\Core\Helper\Url\Rewrite',
+        'Magento\UrlRewrite\Helper\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\App\FrontController\Plugin\UrlRewrite',
+        'Magento\UrlRewrite\App\FrontController\Plugin\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\App\Request\RewriteService',
+        'Magento\UrlRewrite\App\Request\RewriteService'
+    ),
 );
