@@ -367,6 +367,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $newLinkToken = $this->_mathRandom->getUniqueHash();
         $customerModel->changeResetPasswordLinkToken($newLinkToken);
         $this->_sendEmailConfirmation($customerModel, $customer, $redirectUrl);
+
+        return $this->_converter->createCustomerFromModel($customerModel);
     }
 
     /**
