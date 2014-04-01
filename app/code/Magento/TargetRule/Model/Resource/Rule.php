@@ -9,6 +9,11 @@
  */
 namespace Magento\TargetRule\Model\Resource;
 
+use Magento\Catalog\Model\Product;
+use Magento\Event\Manager as EventManager;
+use Magento\Indexer\Model\CacheContext;
+use Magento\Module\Manager as ModuleManager;
+
 /**
  * TargetRule Rule Resource Model
  *
@@ -37,12 +42,38 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_indexer;
 
     /**
+     * @var ModuleManager
+     */
+    protected $moduleManager;
+
+    /**
+     * @var EventManager
+     */
+    protected $eventManager;
+
+    /**
+     * @var CacheContext
+     */
+    protected $context;
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Index\Model\Indexer $indexer
+     * @param ModuleManager $moduleManager
+     * @param EventManager $eventManager
+     * @param CacheContext $context
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Index\Model\Indexer $indexer)
-    {
+    public function __construct(
+        \Magento\App\Resource $resource,
+        \Magento\Index\Model\Indexer $indexer,
+        ModuleManager $moduleManager,
+        EventManager $eventManager,
+        CacheContext $context
+    ) {
         $this->_indexer = $indexer;
+        $this->moduleManager = $moduleManager;
+        $this->eventManager = $eventManager;
+        $this->context = $context;
         parent::__construct($resource);
     }
 
@@ -123,7 +154,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     }
 
     /**
-     * Save matched products for current rule and clean index
+     * Save matched products for current rule and clean index, clean full page cache
      *
      * @param \Magento\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
      * @return $this
@@ -134,8 +165,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
         $this->saveCustomerSegments($object->getId(), $segmentIds);
 
+        $productIdsBeforeUnbind = $this->getAssociatedEntityIds($object->getId(), 'product');
         $this->unbindRuleFromEntity($object->getId(), array(), 'product');
-        $this->bindRuleToEntity($object->getId(), $object->getMatchingProductIds(), 'product');
+
+        $matchedProductIds = $object->getMatchingProductIds();
+        $this->bindRuleToEntity($object->getId(), $matchedProductIds, 'product');
 
         $typeId = !$object->isObjectNew() && $object->getOrigData(
             'apply_to'
@@ -151,7 +185,32 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
 
+        if ($this->isPageCacheEnabled()) {
+            $this->cleanProductPagesCache(\array_unique(\array_merge($productIdsBeforeUnbind, $matchedProductIds)));
+        }
         return $this;
+    }
+
+    /**
+     * Check is page cache enabled
+     *
+     * @return bool
+     */
+    protected function isPageCacheEnabled()
+    {
+        return $this->moduleManager->isEnabled('Magento_PageCache');
+    }
+
+    /**
+     * Clean product full page cache
+     *
+     * @param [] $productIds
+     */
+    protected function cleanProductPagesCache($productIds)
+    {
+        $this->context->registerEntities(Product::CACHE_TAG, $productIds);
+
+        $this->eventManager->dispatch('clean_cache_by_tags', array('object' => $this->context));
     }
 
     /**
