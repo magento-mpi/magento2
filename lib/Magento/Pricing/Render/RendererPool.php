@@ -175,25 +175,6 @@ class RendererPool extends AbstractBlock
     }
 
     /**
-     * @param string $code
-     * @param array $config
-     * @return array
-     * @throws \Exception
-     */
-    protected function validateAdjustmentConfig($code, array $config)
-    {
-        $class = isset($config['adjustment_render_class']) ? $config['adjustment_render_class'] : false;
-        if (!$class) {
-            throw new \InvalidArgumentException('Adjustment class for code "' . $code . '" not declared');
-        }
-        $template = isset($config['adjustment_render_template']) ? $config['adjustment_render_template'] : false;
-        if (!$template) {
-            throw new \InvalidArgumentException('Adjustment template for code "' . $code . '" not declared');
-        }
-        return [$class, $template];
-    }
-
-    /**
      * @param string $type
      * @param string $priceCode
      * @return string

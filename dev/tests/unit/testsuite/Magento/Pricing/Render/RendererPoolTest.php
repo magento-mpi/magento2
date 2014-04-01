@@ -402,68 +402,36 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getAdjustmentRenders() with not existed adjustment render class
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Adjustment class for code "test_code" not declared
-     */
-    public function testGetAdjustmentRendersNoRenderClass()
-    {
-        $code = 'test_code';
-        $adjustments = [$code => 'some data'];
-        $data = [
-            'default' => [
-                'adjustments' => $adjustments
-            ]
-        ];
-        $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->getAdjustmentRenders();
-        $this->assertNull($result);
-    }
-
-    /**
-     * Test getAdjustmentRenders() with not existed adjustment render template
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Adjustment template for code "test_code" not declared
-     */
-    public function testGetAdjustmentRendersNoRenderTemplate()
-    {
-        $code = 'test_code';
-        $adjustments = [
-            $code => [
-                'adjustment_render_class' => 'Test'
-            ]
-        ];
-        $data = [
-            'default' => [
-                'adjustments' => $adjustments
-            ]
-        ];
-        $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->getAdjustmentRenders();
-        $this->assertNull($result);
-    }
-
-    /**
      * Test getAdjustmentRenders()
      */
     public function testGetAdjustmentRenders()
     {
-        $code = 'test_code';
+        $saleableTypeId = 'test_type';
+        $priceType = 'test_price_type';
+        $code = 'tax';
         $class = 'Magento\View\Element\Template';
         $template = 'template.phtml';
         $adjustments = [
-            $code => [
-                'adjustment_render_class' => $class,
-                'adjustment_render_template' => $template
-            ]
+            'adjustment_render_class' => $class,
+            'adjustment_render_template' => $template
         ];
-        $data = [
-            'default' => [
-                'adjustments' => $adjustments
+        $data = [$saleableTypeId => [
+            'adjustments' => [
+                $priceType => [
+                    $code => $adjustments
+                ]
             ]
-        ];
+        ]];
+        $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
+        $saleable->expects($this->once())
+            ->method('getTypeId')
+            ->will($this->returnValue($saleableTypeId));
+
+        $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
+        $price->expects($this->once())
+            ->method('getPriceType')
+            ->will($this->returnValue($priceType));
+
         $blockMock = $this->getMockBuilder('Magento\View\Element\Template')
             ->disableOriginalConstructor()
             ->getMock();
@@ -477,7 +445,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($blockMock));
 
         $testedClass = $this->createTestedEntity($data);
-        $result = $testedClass->getAdjustmentRenders();
+        $result = $testedClass->getAdjustmentRenders($saleable, $price);
         $this->assertArrayHasKey($code, $result);
         $this->assertInstanceOf('Magento\View\Element\Template', $result[$code]);
     }
