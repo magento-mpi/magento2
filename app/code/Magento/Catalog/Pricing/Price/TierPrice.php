@@ -86,7 +86,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                 if (!$this->canApplyTierPrice($price, $priceGroup, $prevQty)) {
                     continue;
                 }
-                if (false === $prevPrice || $price['website_price'] < $prevPrice) {
+                if (false === $prevPrice || $this->isFirstPriceBetter($price['website_price'], $prevPrice)) {
                     $tierPrice = $prevPrice = $price['website_price'];
                     $prevQty = $price['price_qty'];
                     $priceGroup = $price['cust_group'];
@@ -95,6 +95,20 @@ class TierPrice extends RegularPrice implements TierPriceInterface
             $this->value = $tierPrice;
         }
         return $this->value;
+    }
+
+    /**
+     * Returns true if first price is better
+     *
+     * Method filters tiers price values, lower tier price value is better
+     *
+     * @param float $firstPrice
+     * @param float $secondPrice
+     * @return bool
+     */
+    protected function isFirstPriceBetter($firstPrice, $secondPrice)
+    {
+        return $firstPrice < $secondPrice;
     }
 
     /**
@@ -113,14 +127,12 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         if (null === $this->priceList) {
             $prices = $this->getStoredTierPrices();
             $qtyCache = [];
-            /** @var float $productPrice is a minimal available price */
-            $productPrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
             foreach ($prices as $priceKey => $price) {
                 if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
                     unset($prices[$priceKey]);
                 } elseif (isset($qtyCache[$price['price_qty']])) {
                     $priceQty = $qtyCache[$price['price_qty']];
-                    if ($prices[$priceQty]['website_price'] > $price['website_price']) {
+                    if ($this->isFirstPriceBetter($price['website_price'], $prices[$priceQty]['website_price'])) {
                         unset($prices[$priceQty]);
                         $qtyCache[$price['price_qty']] = $priceKey;
                     } else {
@@ -130,21 +142,32 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                     $qtyCache[$price['price_qty']] = $priceKey;
                 }
             }
-
-            $applicablePrices = [];
-            foreach ($prices as $price) {
-                // convert string value to float
-                $price['price_qty'] = $price['price_qty'] * 1;
-
-                if ($price['price'] < $productPrice) {
-                    $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
-                    $price['price'] = $this->applyAdjustment($price['price']);
-                    $applicablePrices[] = $price;
-                }
-            }
-            $this->priceList = $applicablePrices;
+            $this->priceList = $this->filterByBasePrice($prices);
         }
         return $this->priceList;
+    }
+
+    /**
+     * @param array $priceList
+     * @return array
+     */
+    protected function filterByBasePrice($priceList)
+    {
+        /** @var float $productPrice is a minimal available price */
+        $productPrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
+
+        $applicablePrices = [];
+        foreach ($priceList as $price) {
+            // convert string value to float
+            $price['price_qty'] = $price['price_qty'] * 1;
+
+            if ($price['price'] < $productPrice) {
+                $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
+                $price['price'] = $this->applyAdjustment($price['price']);
+                $applicablePrices[] = $price;
+            }
+        }
+        return $applicablePrices;
     }
 
     /**

@@ -20,6 +20,7 @@ class View extends \Magento\Catalog\Block\Product\View
      *
      * @param \Magento\Catalog\Model\Product|null $product
      * @return array
+     * @deprecated
      */
     public function getTierPrices($product = null)
     {

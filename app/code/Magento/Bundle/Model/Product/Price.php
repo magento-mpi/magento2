@@ -18,8 +18,14 @@ namespace Magento\Bundle\Model\Product;
  */
 class Price extends \Magento\Catalog\Model\Product\Type\Price
 {
+    /**
+     * Fixed bundle price type
+     */
     const PRICE_TYPE_FIXED = 1;
 
+    /**
+     * Dynamic bundle price type
+     */
     const PRICE_TYPE_DYNAMIC = 0;
 
     /**
