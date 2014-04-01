@@ -11,7 +11,9 @@
     $_product = $this->getProduct();
 ?>
 <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
-<div id="bundleSummary" class="block bundle summary">
+<div id="bundleSummary"
+     class="block bundle summary"
+     data-mage-init='{"sticky":{"container": ".product.add.form"}}'>
     <div class="title">
         <strong><?php echo __('Your Customization'); ?></strong>
     </div>
@@ -52,12 +54,6 @@
 <script>
     //<![CDATA[
     (function ($) {
-        head.js("<?php echo $this->getViewFileUrl('mage/sticky.js') ?>",function() {
-            $('#bundleSummary').sticky({
-                container: '.product.add.form'
-            });
-        });
-
         head.js("<?php echo $this->getViewFileUrl('Magento_Bundle::js/slide.js')?>", function() {
             $('.product.add.form').slide({
                     slideSpeed: 1500,

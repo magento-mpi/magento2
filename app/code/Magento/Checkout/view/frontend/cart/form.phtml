@@ -11,7 +11,10 @@
 <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
 <div class="cart table wrapper<?php echo $mergedCells == 2 ? ' detailed' : ''; ?>">
     <?php echo $this->getChildHtml('form_before') ?>
-    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post" id="form-validate" >
+    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>"
+          method="post"
+          id="form-validate"
+          data-mage-init='{"validation":{}}'>
         <?php echo $this->getBlockHtml('formkey'); ?>
         <table id="shopping-cart-table"
                class="cart items data"
@@ -60,12 +63,7 @@
         (function($) {
             head.js(
                 "<?php echo $this->getViewFileUrl('mage/sticky.js') ?>",
-                "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
-                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
-                "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-                "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
                 function() {
-                    $('#form-validate').validation();
                     $('.cart.summary').sticky({
                         container: '.cart.container'
                 });
