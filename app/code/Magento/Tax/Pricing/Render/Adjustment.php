@@ -22,23 +22,23 @@ use Magento\Pricing\PriceCurrencyInterface;
 class Adjustment extends AbstractAdjustment
 {
     /**
-     * @var \Magento\Catalog\Helper\Product\Price
+     * @var \Magento\Tax\Helper\Data
      */
-    protected $priceHelper;
+    protected $taxHelper;
 
     /**
      * @param Template\Context $context
-     * @param PriceHelper $helper
+     * @param \Magento\Tax\Helper\Data $helper
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         PriceCurrencyInterface $priceCurrency,
-        PriceHelper $helper,
+        \Magento\Tax\Helper\Data $helper,
         array $data = []
     ) {
-        $this->priceHelper = $helper;
+        $this->taxHelper = $helper;
         parent::__construct($context, $priceCurrency, $data);
     }
 
@@ -60,7 +60,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function displayBothPrices()
     {
-        return $this->priceHelper->displayBothPrices();
+        return $this->taxHelper->displayBothPrices();
     }
 
     /**
@@ -103,7 +103,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function displayPriceIncludingTax()
     {
-        return $this->priceHelper->displayPriceIncludingTax();
+        return $this->taxHelper->displayPriceIncludingTax();
     }
 
     /**
@@ -113,6 +113,6 @@ class Adjustment extends AbstractAdjustment
      */
     public function displayPriceExcludingTax()
     {
-        return $this->priceHelper->displayPriceExcludingTax();
+        return $this->taxHelper->displayPriceExcludingTax();
     }
 }
