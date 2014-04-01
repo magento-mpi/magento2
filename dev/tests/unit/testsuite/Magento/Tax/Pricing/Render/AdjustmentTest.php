@@ -222,4 +222,51 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ['some_prefix_', 123, false, 'some_prefix_123'],
         ];
     }
+
+    public function testDisplayPriceIncludingTax()
+    {
+        $expectedResult = true;
+
+        /** @var \Magento\Catalog\Helper\Product\Price $helper */
+        $helper = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
+            ->disableOriginalConstructor()
+            ->setMethods(['displayPriceIncludingTax'])
+            ->getMock();
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $model = $objectManager->getObject('Magento\Tax\Pricing\Render\Adjustment', array('helper' => $helper));
+
+        // Avoid executing irrelevant functionality
+        $helper->expects($this->any())->method('displayPriceIncludingTax')->will($this->returnValue($expectedResult));
+
+        // Run tested method
+        $result = $model->displayPriceIncludingTax();
+
+        // Check expectations
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testDisplayPriceExcludingTax()
+    {
+        $expectedResult = true;
+
+        /** @var \Magento\Catalog\Helper\Product\Price $helper */
+        $helper = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
+            ->disableOriginalConstructor()
+            ->setMethods(['displayPriceExcludingTax'])
+            ->getMock();
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $model = $objectManager->getObject('Magento\Tax\Pricing\Render\Adjustment', array('helper' => $helper));
+
+        // Avoid executing irrelevant functionality
+        $helper->expects($this->any())->method('displayPriceExcludingTax')->will($this->returnValue($expectedResult));
+
+        // Run tested method
+        $result = $model->displayPriceExcludingTax();
+
+        // Check expectations
+        $this->assertEquals($expectedResult, $result);
+    }
+
 }
