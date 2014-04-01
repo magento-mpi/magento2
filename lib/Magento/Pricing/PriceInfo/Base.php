@@ -94,7 +94,11 @@ class Base implements PriceInfoInterface
         $prices = $this->prices->getPriceCodes();
         foreach ($prices as $code) {
             if (!isset($this->priceInstances[$code])) {
-                $this->priceInstances[$code] = $this->prices->createPriceObject($this->saleableItem, $code, $this->quantity);
+                $this->priceInstances[$code] = $this->prices->createPriceObject(
+                    $this->saleableItem,
+                    $code,
+                    $this->quantity
+                );
             }
         }
         return $this;
@@ -158,7 +162,7 @@ class Base implements PriceInfoInterface
         foreach ($this->prices->getMetadata() as $code => $price) {
             if (isset($price['include_in_base_price']) && $price['include_in_base_price']) {
                 $priceModel = $this->getPrice($code, $this->quantity);
-                if ($priceModel->getValue()) {
+                if ($priceModel->getValue() !== false) {
                     $prices[] = $priceModel;
                 }
             }

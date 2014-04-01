@@ -38,7 +38,7 @@ class Render extends Template
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Registry $registry,
+        Registry $registry,
         array $data = []
     ) {
         $this->registry = $registry;
