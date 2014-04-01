@@ -102,7 +102,7 @@ class Fallback
             list($params['namespace'], $params['module']) = explode('_', $module, 2);
         }
         $result = $this->getFromCache('file', $file, $params);
-        if (!$result) {
+        if (!$result || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($result))) {
             $result = $this->resolveFile($this->getFileRule(), $file, $params);
             $this->saveToCache($result, 'file', $file, $params);
         }
@@ -122,7 +122,7 @@ class Fallback
     {
         $params = array('area' => $area, 'theme' => $themeModel, 'locale' => $locale);
         $result = $this->getFromCache('locale', $file, $params);
-        if (!$result) {
+        if (!$result || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($result))) {
             $result = $this->resolveFile($this->getLocaleFileRule(), $file, $params);
             $this->saveToCache($result, 'locale', $file, $params);
         }
@@ -148,7 +148,7 @@ class Fallback
             list($params['namespace'], $params['module']) = explode('_', $module, 2);
         }
         $result = $this->getFromCache('view', $file, $params);
-        if (!$result) {
+        if (!$result || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($result))) {
             $rule = $this->getViewFileRule();
             $result = $this->resolveFile($rule, $file, $params);
             if (!$result) {
@@ -180,15 +180,15 @@ class Fallback
     /**
      * Save calculated file path
      *
-     * @param string $relativePath
+     * @param string $path
      * @param string $type
      * @param string $file
      * @param array $params
      * @return bool
      */
-    protected function saveToCache($relativePath, $type, $file, array $params)
+    protected function saveToCache($path, $type, $file, array $params)
     {
-        $relativePath = $this->rootDirectory->getRelativePath($relativePath);
+        $relativePath = $this->rootDirectory->getRelativePath($path);
         $cacheId = $this->getCacheId($type, $file, $params);
         return $this->cache->save($relativePath, $cacheId);
     }
