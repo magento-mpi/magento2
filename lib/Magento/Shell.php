@@ -24,7 +24,7 @@ class Shell
     /**
      * Operation system info
      *
-     * @var OSInfo
+     * @var OsInfo
      */
     protected $_osInfo;
 
