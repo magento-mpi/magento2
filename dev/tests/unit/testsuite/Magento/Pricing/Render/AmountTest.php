@@ -25,14 +25,44 @@ class AmountTest extends \PHPUnit_Framework_TestCase
      */
     protected $priceCurrency;
 
+    /**
+     * @var RendererPool $rendererPool|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $rendererPool;
+
     public function setUp()
     {
         $this->priceCurrency = $this->getMock('Magento\Pricing\PriceCurrencyInterface');
+        $data = [
+            'default' => [
+                'adjustments' => [
+                    'base_price_test' => [
+                        'tax' => [
+                            'adjustment_render_class' => 'Magento\View\Element\Template',
+                            'adjustment_render_template' => 'template.phtml'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $this->rendererPool = $this->getMock(
+            'Magento\Pricing\Render\RendererPool',
+            [],
+            ['data' => $data],
+            '',
+            false,
+            false
+        );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Pricing\Render\Amount', array(
-            'priceCurrency' => $this->priceCurrency
-        ));
+        $this->model = $objectManager->getObject(
+            'Magento\Pricing\Render\Amount',
+            [
+                'priceCurrency' => $this->priceCurrency,
+                'rendererPool' => $this->rendererPool
+            ]
+        );
     }
 
     public function testConvertAndFormatCurrency()
