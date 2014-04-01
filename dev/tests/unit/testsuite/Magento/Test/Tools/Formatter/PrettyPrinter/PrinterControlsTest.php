@@ -62,7 +62,7 @@ class PrinterControlsTest extends TestBase
                 "<?php\nclass L2\n{\n    public function a()\n    {\n        try {\n" .
                 "            echo 'hi';\n        } catch (\\Exception \$e) {\n            echo 'lo';\n        }\n" .
                 "    }\n}\n"
-            ),
+            )
         );
     }
 
@@ -90,7 +90,7 @@ protected function alpha() {
             throw new \Magento\SomeModule\Exception(__('You cannot void a verification transaction.'));
         }elseif($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
-        ){throw new \Magento\Core\Exception($response->getRespmsg());}}}
+        ){throw new \Magento\Model\Exception($response->getRespmsg());}}}
 ORIGINALIF5;
         $formattedIf5 = <<<'FORMATTEDIF5'
 <?php
@@ -103,7 +103,7 @@ class If5
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Core\Exception($response->getRespmsg());
+            throw new \Magento\Model\Exception($response->getRespmsg());
         }
     }
 }
@@ -164,7 +164,7 @@ FORMATTEDIF6;
                 "        }\n    }\n}\n"
             ),
             array($originalIf5, $formattedIf5),
-            array($originalIf6, $formattedIf6),
+            array($originalIf6, $formattedIf6)
         );
     }
 
@@ -732,7 +732,7 @@ FS0;
             array($originalMethodCall2, $formattedMethodCall2),
             array($originalMethodCall3, $formattedMethodCall3),
             array($originalMethodCall4, $formattedMethodCall4),
-            array($originalSwitch, $formattedSwitch),
+            array($originalSwitch, $formattedSwitch)
         );
     }
 }

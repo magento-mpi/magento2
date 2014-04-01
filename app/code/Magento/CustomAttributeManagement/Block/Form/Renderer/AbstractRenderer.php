@@ -28,7 +28,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * EAV Entity Model
      *
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Model\AbstractModel
      */
     protected $_entity;
 
@@ -37,7 +37,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
      *
      * @var string
      */
-    protected $_fieldIdFormat   = '%1$s';
+    protected $_fieldIdFormat = '%1$s';
 
     /**
      * Format for HTML elements name attribute
@@ -71,10 +71,10 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Set Entity object
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
+     * @param \Magento\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Core\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -83,7 +83,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Return Entity object
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     public function getEntity()
     {
@@ -101,7 +101,9 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
         if ($filterCode) {
             $filterClass = 'Magento\\Data\\Form\\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_localeDate->getDateFormat(
+                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                );
                 $filter = new $filterClass($format);
             } else {
                 $filter = new $filterClass();
@@ -134,8 +136,8 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
      */
     protected function _getInputValidateClass()
     {
-        $class          = false;
-        $validateRules  = $this->getAttributeObject()->getValidateRules();
+        $class = false;
+        $validateRules = $this->getAttributeObject()->getValidateRules();
         if (!empty($validateRules['input_validation'])) {
             switch ($validateRules['input_validation']) {
                 case 'alphanumeric':

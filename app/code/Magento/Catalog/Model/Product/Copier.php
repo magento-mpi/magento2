@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product;
 
-class Copier 
+class Copier
 {
     /**
      * @var CopyConstructorInterface
@@ -30,7 +29,7 @@ class Copier
         CopyConstructorInterface $copyConstructor,
         \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
-        $this->productFactory  = $productFactory;
+        $this->productFactory = $productFactory;
         $this->copyConstructor = $copyConstructor;
     }
 
@@ -62,4 +61,4 @@ class Copier
         $product->getResource()->duplicate($product->getId(), $duplicate->getId());
         return $duplicate;
     }
-} 
+}

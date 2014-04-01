@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 /**
  * Catalog breadcrumbs
  *
@@ -35,11 +35,8 @@ class Breadcrumbs extends \Magento\View\Element\Template
      * @param Data $catalogData
      * @param array $data
      */
-    public function __construct(
-        Context $context,
-        Data $catalogData,
-        array $data = array()
-    ) {
+    public function __construct(Context $context, Data $catalogData, array $data = array())
+    {
         $this->_catalogData = $catalogData;
         parent::__construct($context, $data);
     }
@@ -64,14 +61,17 @@ class Breadcrumbs extends \Magento\View\Element\Template
     protected function _prepareLayout()
     {
         if ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs')) {
-            $breadcrumbsBlock->addCrumb('home', array(
-                'label'=>__('Home'),
-                'title'=>__('Go to Home Page'),
-                'link'=>$this->_storeManager->getStore()->getBaseUrl()
-            ));
+            $breadcrumbsBlock->addCrumb(
+                'home',
+                array(
+                    'label' => __('Home'),
+                    'title' => __('Go to Home Page'),
+                    'link' => $this->_storeManager->getStore()->getBaseUrl()
+                )
+            );
 
             $title = array();
-            $path  = $this->_catalogData->getBreadcrumbPath();
+            $path = $this->_catalogData->getBreadcrumbPath();
 
             foreach ($path as $name => $breadcrumb) {
                 $breadcrumbsBlock->addCrumb($name, $breadcrumb);

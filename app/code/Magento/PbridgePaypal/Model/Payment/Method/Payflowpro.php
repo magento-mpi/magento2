@@ -95,8 +95,11 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
         $storeId = $this->_storeManager->getStore($this->getStore())->getId();
         $config = $this->_configFactory->create()->setStoreId($storeId);
 
-        return $this->_paypal->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $config->isMethodAvailable($this->_paypal->getOriginalCode());
+        return $this->_paypal->getPbridgeMethodInstance()->isDummyMethodAvailable(
+            $quote
+        ) && $config->isMethodAvailable(
+            $this->_paypal->getOriginalCode()
+        );
     }
 
     /**

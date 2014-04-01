@@ -106,7 +106,7 @@ class Related extends Extended
         $this->setId('related_product_grid');
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
-        if ($this->getProduct()&& $this->getProduct()->getId()) {
+        if ($this->getProduct() && $this->getProduct()->getId()) {
             $this->setDefaultFilter(array('in_products' => 1));
         }
         if ($this->isReadonly()) {
@@ -141,7 +141,7 @@ class Related extends Extended
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
             } else {
-                if($productIds) {
+                if ($productIds) {
                     $this->getCollection()->addFieldToFilter('entity_id', array('nin' => $productIds));
                 }
             }
@@ -158,10 +158,11 @@ class Related extends Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_linkFactory->create()->useRelatedLinks()
-            ->getProductCollection()
-            ->setProduct($this->getProduct())
-            ->addAttributeToSelect('*');
+        $collection = $this->_linkFactory->create()->useRelatedLinks()->getProductCollection()->setProduct(
+            $this->getProduct()
+        )->addAttributeToSelect(
+            '*'
+        );
 
         if ($this->isReadonly()) {
             $productIds = $this->_getSelectedProducts();
@@ -193,15 +194,18 @@ class Related extends Extended
     protected function _prepareColumns()
     {
         if (!$this->isReadonly()) {
-            $this->addColumn('in_products', array(
-                'type'              => 'checkbox',
-                'name'              => 'in_products',
-                'values'            => $this->_getSelectedProducts(),
-                'align'             => 'center',
-                'index'             => 'entity_id',
-                'header_css_class'  => 'col-select',
-                'column_css_class'  => 'col-select'
-            ));
+            $this->addColumn(
+                'in_products',
+                array(
+                    'type' => 'checkbox',
+                    'name' => 'in_products',
+                    'values' => $this->_getSelectedProducts(),
+                    'align' => 'center',
+                    'index' => 'entity_id',
+                    'header_css_class' => 'col-select',
+                    'column_css_class' => 'col-select'
+                )
+            );
         }
 
         $this->addColumn('entity_id', array(
@@ -298,9 +302,14 @@ class Related extends Extended
      */
     public function getGridUrl()
     {
-        return $this->getData('grid_url')
-            ? $this->getData('grid_url')
-            : $this->getUrl('catalog/*/relatedGrid', array('_current' => true));
+        return $this->getData(
+            'grid_url'
+        ) ? $this->getData(
+            'grid_url'
+        ) : $this->getUrl(
+            'catalog/*/relatedGrid',
+            array('_current' => true)
+        );
     }
 
     /**

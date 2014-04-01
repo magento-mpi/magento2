@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array (
+return array(
     'admin_assert' => 'Magento_Adminhtml',
     'admin_role' => 'Magento_Adminhtml',
     'admin_rule' => 'Magento_Adminhtml',
@@ -316,6 +316,7 @@ return array (
     'tax_class' => 'Magento_Tax',
     'tax_order_aggregated_created' => 'Magento_Tax',
     'tax_order_aggregated_updated' => 'Magento_Tax',
+    'translation' => 'Magento_Translation',
     'weee_discount' => 'Magento_Weee',
     'weee_tax' => 'Magento_Weee',
     'widget' => 'Magento_Widget',

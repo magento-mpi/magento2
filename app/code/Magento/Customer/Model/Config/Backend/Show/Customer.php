@@ -34,7 +34,7 @@ class Customer extends \Magento\Core\Model\Config\Value
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -44,7 +44,7 @@ class Customer extends \Magento\Core\Model\Config\Value
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -70,9 +70,7 @@ class Customer extends \Magento\Core\Model\Config\Value
      */
     protected function _getAttributeObjects()
     {
-        return array(
-            $this->_eavConfig->getAttribute('customer', $this->_getAttributeCode())
-        );
+        return array($this->_eavConfig->getAttribute('customer', $this->_getAttributeCode()));
     }
 
     /**
@@ -85,10 +83,10 @@ class Customer extends \Magento\Core\Model\Config\Value
         $result = parent::_afterSave();
 
         $valueConfig = array(
-            ''    => array('is_required' => 0, 'is_visible' => 0),
+            '' => array('is_required' => 0, 'is_visible' => 0),
             'opt' => array('is_required' => 0, 'is_visible' => 1),
-            '1'   => array('is_required' => 0, 'is_visible' => 1),
-            'req' => array('is_required' => 1, 'is_visible' => 1),
+            '1' => array('is_required' => 0, 'is_visible' => 1),
+            'req' => array('is_required' => 1, 'is_visible' => 1)
         );
 
         $value = $this->getValue();
@@ -122,7 +120,7 @@ class Customer extends \Magento\Core\Model\Config\Value
     /**
      * Processing object after delete data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterDelete()
     {

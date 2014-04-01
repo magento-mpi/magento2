@@ -38,11 +38,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
-        $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Data', array(
-            'storeConfig' => $this->_storeConfigMock,
-            'analyticsHelper' => $this->_googleAnalyticsHelperMock,
-            'context' => $context
-        ));
+        $this->_helper = $objectManagerHelper->getObject(
+            'Magento\GoogleOptimizer\Helper\Data',
+            array(
+                'storeConfig' => $this->_storeConfigMock,
+                'analyticsHelper' => $this->_googleAnalyticsHelperMock,
+                'context' => $context
+            )
+        );
     }
 
     /**
@@ -65,10 +68,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderBoolValues()
     {
-        return array(
-            array(true),
-            array(false),
-        );
+        return array(array(true), array(false));
     }
 
     /**
@@ -85,9 +85,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)
             ->will($this->returnValue($isExperimentsEnabled));
 
-        $this->_googleAnalyticsHelperMock->expects($this->any())->method('isGoogleAnalyticsAvailable')
-            ->with($store)
-            ->will($this->returnValue($isAnalyticsAvailable));
+        $this->_googleAnalyticsHelperMock->expects(
+            $this->any()
+        )->method(
+            'isGoogleAnalyticsAvailable'
+        )->with(
+            $store
+        )->will(
+            $this->returnValue($isAnalyticsAvailable)
+        );
 
         $this->assertEquals($result, $this->_helper->isGoogleExperimentActive($store));
     }
@@ -101,7 +107,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array(true, true, true),
             array(false, true, false),
             array(false, false, false),
-            array(true, false, false),
+            array(true, false, false)
         );
     }
 }

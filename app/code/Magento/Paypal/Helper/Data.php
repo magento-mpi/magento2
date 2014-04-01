@@ -92,6 +92,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function canManageBillingAgreements($methodInstance)
     {
-        return ($methodInstance instanceof MethodInterface);
+        return $methodInstance instanceof MethodInterface;
     }
 }

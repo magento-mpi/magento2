@@ -8,8 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
 /**
@@ -59,21 +57,21 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDataFixture Magento/Core/_files/db_translate_admin_store.php
+     * @magentoDataFixture Magento/Translation/_files/db_translate_admin_store.php
      * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_enabled.php
      * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_user_defined.php
      * @magentoAppIsolation enabled
      */
     public function testSaveActionCleanAttributeLabelCache()
     {
-        /** @var \Magento\Core\Model\Resource\Translate\String $string */
-        $string = $this->_objectManager->create('Magento\Core\Model\Resource\Translate\String');
-        $this->assertEquals($this->_translate('string to translate'), 'predefined string translation');
+        /** @var \Magento\Translation\Model\Resource\String $string */
+        $string = $this->_objectManager->create('Magento\Translation\Model\Resource\String');
+        $this->assertEquals('predefined string translation', $this->_translate('string to translate'));
         $string->saveTranslate('string to translate', 'new string translation');
         $postData = $this->_getAttributeData() + array('attribute_id' => 1);
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/catalog/product_attribute/save');
-        $this->assertEquals($this->_translate('string to translate'), 'new string translation');
+        $this->assertEquals('new string translation', $this->_translate('string to translate'));
     }
 
     /**
@@ -85,12 +83,15 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     protected function _translate($string)
     {
         // emulate admin store and design
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setDesignTheme(1);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\DesignInterface'
+        )->setDesignTheme(
+            1
+        );
         /** @var \Magento\TranslateInterface $translate */
-        $translate = $this->_objectManager->create('Magento\TranslateInterface');
-        $translate->init(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, null, true);
-        return $translate->translate(array($string));
+        $translate = $this->_objectManager->get('Magento\TranslateInterface');
+        $translate->loadData(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, true);
+        return __($string);
     }
 
     /**
@@ -119,9 +120,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
             'used_in_product_listing' => '1',
             'used_for_sort_by' => '0',
             'apply_to' => array('simple'),
-            'frontend_label' => array(
-                \Magento\Store\Model\Store::DEFAULT_STORE_ID => 'string to translate',
-            ),
+            'frontend_label' => array(\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'string to translate')
         );
     }
 }

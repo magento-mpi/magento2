@@ -16,17 +16,23 @@ $currentStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
 $otherStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->get('Magento\Store\Model\StoreManagerInterface')->getStore('fixturestore')->getId();
 
-$subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Newsletter\Model\Subscriber');
-$subscriber->setStoreId($currentStore)
-    ->setSubscriberEmail('test1@example.com')
-    ->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED)
-    ->save()
-;
-$subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Newsletter\Model\Subscriber');
-$subscriber->setStoreId($otherStore)
-    ->setSubscriberEmail('test2@example.com')
-    ->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED)
-    ->save()
-;
+$subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Newsletter\Model\Subscriber'
+);
+$subscriber->setStoreId(
+    $currentStore
+)->setSubscriberEmail(
+    'test1@example.com'
+)->setSubscriberStatus(
+    \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED
+)->save();
+$subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Newsletter\Model\Subscriber'
+);
+$subscriber->setStoreId(
+    $otherStore
+)->setSubscriberEmail(
+    'test2@example.com'
+)->setSubscriberStatus(
+    \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED
+)->save();

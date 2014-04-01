@@ -24,10 +24,16 @@ class DbTest extends \PHPUnit_Framework_TestCase
      */
     protected $_resourceMock;
 
-
     protected function setUp()
     {
-        $this->_resourceMock = $this->getMock('Magento\Core\Model\Resource\Config', array(), array(), '', false, false);
+        $this->_resourceMock = $this->getMock(
+            'Magento\Core\Model\Resource\Config',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $this->_model = new \Magento\Core\Model\Config\Storage\Db($this->_resourceMock);
     }
 
@@ -39,9 +45,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $this->_resourceMock->expects($this->once())
-            ->method('deleteConfig')
-            ->with('test/path', 'store', 1);
+        $this->_resourceMock->expects($this->once())->method('deleteConfig')->with('test/path', 'store', 1);
         $this->_model->delete('test/path/', 'store', 1);
     }
 
@@ -55,9 +59,16 @@ class DbTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        $this->_resourceMock->expects($this->once())
-            ->method('saveConfig')
-            ->with('test/path', 'test_value', 'store', 1);
+        $this->_resourceMock->expects(
+            $this->once()
+        )->method(
+            'saveConfig'
+        )->with(
+            'test/path',
+            'test_value',
+            'store',
+            1
+        );
         $this->_model->save('test/path/', 'test_value', 'store', 1);
     }
 

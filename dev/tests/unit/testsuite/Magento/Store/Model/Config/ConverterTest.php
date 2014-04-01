@@ -26,16 +26,21 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $initial = array('path' => array('to' => array('save' => 'saved value', 'overwrite' => 'old value')));
         $source = array('path/to/overwrite' => 'overwritten', 'path/to/added' => 'added value');
-        $mergeResult = array('path' => array('to' => array(
-                'save' => 'saved value',
-                'overwrite' => 'overwritten',
-                'added' => 'added value'
-        )));
+        $mergeResult = array(
+            'path' => array(
+                'to' => array('save' => 'saved value', 'overwrite' => 'overwritten', 'added' => 'added value')
+            )
+        );
         $processorResult = '123Value';
-        $this->_processorMock->expects($this->once())
-            ->method('process')
-            ->with($mergeResult)
-            ->will($this->returnValue($processorResult));
+        $this->_processorMock->expects(
+            $this->once()
+        )->method(
+            'process'
+        )->with(
+            $mergeResult
+        )->will(
+            $this->returnValue($processorResult)
+        );
 
         $this->assertEquals($processorResult, $this->_model->convert($source, $initial));
     }

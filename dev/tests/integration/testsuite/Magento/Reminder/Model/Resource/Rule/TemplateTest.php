@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Resource\Rule;
 
 use Magento\Reminder\Model\Rule;
@@ -27,24 +26,33 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $storeId = $store->getId();
 
         /** @var \Magento\Email\Model\Template $template */
-        $template = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Email\Model\Template');
-        $template->setTemplateCode('fixture_tpl')
-            ->setTemplateText('<p>Reminder email</p>This is a reminder email')
-            ->setTemplateType(2)
-            ->setTemplateSubject('Subject')
-            ->setTemplateSenderName('CustomerSupport')
-            ->setTemplateSenderEmail('support@example.com')
-            ->setTemplateActual(1)
-            ->save()
-        ;
+        $template = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Email\Model\Template'
+        );
+        $template->setTemplateCode(
+            'fixture_tpl'
+        )->setTemplateText(
+            '<p>Reminder email</p>This is a reminder email'
+        )->setTemplateType(
+            2
+        )->setTemplateSubject(
+            'Subject'
+        )->setTemplateSenderName(
+            'CustomerSupport'
+        )->setTemplateSenderEmail(
+            'support@example.com'
+        )->setTemplateActual(
+            1
+        )->save();
 
         $conditions = serialize(array());
 
-        $ruleCreate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Reminder\Model\Rule');
+        $ruleCreate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Reminder\Model\Rule'
+        );
 
-        $ruleCreate->setData(array(
+        $ruleCreate->setData(
+            array(
                 'name' => 'My Rule',
                 'description' => 'My Rule Desc',
                 'conditions_serialized' => $conditions,
@@ -56,16 +64,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 'default_description' => null,
                 'from_date' => null,
                 'to_date' => null,
-                'store_templates' => array(
-                    $storeId => $template->getId()
-                )
+                'store_templates' => array($storeId => $template->getId())
+            )
+        )->save();
 
-            ))->save();
-
-        $dateModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Stdlib\DateTime\DateTime');
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Reminder\Model\Resource\Rule\Collection');
+        $dateModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Stdlib\DateTime\DateTime'
+        );
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Reminder\Model\Resource\Rule\Collection'
+        );
         $collection->addDateFilter($dateModel->date());
         $this->assertEquals(1, $collection->count());
         /** @var $rule Rule */

@@ -12,21 +12,21 @@ namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
 /**
  * Customer Sales abstract resource
  */
-abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractSales extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Used us prefix to name of column table
      *
      * @var null | string
      */
-    protected $_columnPrefix       = 'customer';
+    protected $_columnPrefix = 'customer';
 
     /**
      * Primary key auto increment flag
      *
      * @var bool
      */
-    protected $_isPkAutoIncrement  = false;
+    protected $_isPkAutoIncrement = false;
 
     /**
      * Return column name for attribute
@@ -58,31 +58,19 @@ abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         switch ($backendType) {
             case 'datetime':
-                $definition = array(
-                    'type'      => \Magento\DB\Ddl\Table::TYPE_DATE,
-                );
+                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_DATE);
                 break;
             case 'decimal':
-                $definition = array(
-                    'type'      => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
-                    'length'    => 12,4,
-                );
+                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL, 'length' => 12, 4);
                 break;
             case 'int':
-                $definition = array(
-                    'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,
-                );
+                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER);
                 break;
             case 'text':
-                $definition = array(
-                    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
-                );
+                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_TEXT);
                 break;
             case 'varchar':
-                $definition = array(
-                    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
-                    'length'    => 255,
-                );
+                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_TEXT, 'length' => 255);
                 break;
             default:
                 return $this;
@@ -140,10 +128,15 @@ abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $parentTable = $resource->getMainTable();
         $parentIdField = $resource->getIdFieldName();
-        $select = $this->_getWriteAdapter()->select()
-            ->from($parentTable, $parentIdField)
-            ->forUpdate(true)
-            ->where("{$parentIdField} = ?", $sales->getId());
+        $select = $this->_getWriteAdapter()->select()->from(
+            $parentTable,
+            $parentIdField
+        )->forUpdate(
+            true
+        )->where(
+            "{$parentIdField} = ?",
+            $sales->getId()
+        );
         if ($this->_getWriteAdapter()->fetchOne($select)) {
             return true;
         }

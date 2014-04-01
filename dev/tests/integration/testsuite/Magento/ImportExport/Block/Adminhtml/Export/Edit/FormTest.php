@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
 
 /**
@@ -36,18 +35,16 @@ class FormTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_expectedFields = array(
-        'base_fieldset' => array(
-            'entity'      => 'entity',
-            'file_format' => 'file_format',
-        ),
-    );
+    protected $_expectedFields = array('base_fieldset' => array('entity' => 'entity', 'file_format' => 'file_format'));
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\ImportExport\Block\Adminhtml\Export\Edit\Form');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\ImportExport\Block\Adminhtml\Export\Edit\Form'
+        );
     }
 
     /**
@@ -62,8 +59,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         // get fieldset list
         $actualFieldsets = array();
-        $formElements = $this->_model->getForm()
-            ->getElements();
+        $formElements = $this->_model->getForm()->getElements();
         foreach ($formElements as $formElement) {
             if ($formElement instanceof \Magento\Data\Form\Element\Fieldset) {
                 $actualFieldsets[] = $formElement;

@@ -16,7 +16,7 @@ namespace Magento\Rating\Model\Resource\Rating\Option\Vote;
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store list manager
@@ -38,7 +38,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -48,7 +48,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_ratingCollectionF = $ratingCollectionF;
@@ -73,8 +73,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setReviewFilter($reviewId)
     {
-        $this->getSelect()
-            ->where("main_table.review_id = ?", $reviewId);
+        $this->getSelect()->where("main_table.review_id = ?", $reviewId);
         return $this;
     }
 
@@ -86,8 +85,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setEntityPkFilter($entityId)
     {
-        $this->getSelect()
-            ->where("entity_pk_value = ?", $entityId);
+        $this->getSelect()->where("entity_pk_value = ?", $entityId);
         return $this;
     }
 
@@ -102,12 +100,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if ($this->_storeManager->isSingleStoreMode()) {
             return $this;
         }
-        $this->getSelect()
-            ->join(array('rstore'=>$this->getTable('review_store')),
-                $this->getConnection()->quoteInto(
-                    'main_table.review_id=rstore.review_id AND rstore.store_id=?',
-                    (int)$storeId),
-            array());
+        $this->getSelect()->join(
+            array('rstore' => $this->getTable('review_store')),
+            $this->getConnection()->quoteInto(
+                'main_table.review_id=rstore.review_id AND rstore.store_id=?',
+                (int)$storeId
+            ),
+            array()
+        );
         return $this;
     }
 
@@ -117,29 +117,29 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param int $storeId
      * @return $this
      */
-    public function addRatingInfo($storeId=null)
+    public function addRatingInfo($storeId = null)
     {
-        $adapter=$this->getConnection();
+        $adapter = $this->getConnection();
         $ratingCodeCond = $adapter->getIfNullSql('title.value', 'rating.rating_code');
-        $this->getSelect()
-            ->join(
-                array('rating'    => $this->getTable('rating')),
-                'rating.rating_id = main_table.rating_id',
-                array('rating_code'))
-            ->joinLeft(
-                array('title' => $this->getTable('rating_title')),
-                $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?',
-                    (int)$this->_storeManager->getStore()->getId()),
-                array('rating_code' => $ratingCodeCond));
+        $this->getSelect()->join(
+            array('rating' => $this->getTable('rating')),
+            'rating.rating_id = main_table.rating_id',
+            array('rating_code')
+        )->joinLeft(
+            array('title' => $this->getTable('rating_title')),
+            $adapter->quoteInto(
+                'main_table.rating_id=title.rating_id AND title.store_id = ?',
+                (int)$this->_storeManager->getStore()->getId()
+            ),
+            array('rating_code' => $ratingCodeCond)
+        );
         if (!$this->_storeManager->isSingleStoreMode()) {
             if ($storeId == null) {
                 $storeId = $this->_storeManager->getStore()->getId();
             }
 
             if (is_array($storeId)) {
-                $condition = $adapter->prepareSqlCondition('store.store_id', array(
-                    'in' => $storeId
-                ));
+                $condition = $adapter->prepareSqlCondition('store.store_id', array('in' => $storeId));
             } else {
                 $condition = $adapter->quoteInto('store.store_id = ?', $storeId);
             }
@@ -160,9 +160,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addOptionInfo()
     {
-        $this->getSelect()
-            ->join(array('rating_option' => $this->getTable('rating_option')),
-                'main_table.option_id = rating_option.option_id');
+        $this->getSelect()->join(
+            array('rating_option' => $this->getTable('rating_option')),
+            'main_table.option_id = rating_option.option_id'
+        );
         return $this;
     }
 

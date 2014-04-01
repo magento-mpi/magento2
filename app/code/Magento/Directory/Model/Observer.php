@@ -18,11 +18,15 @@ namespace Magento\Directory\Model;
 class Observer
 {
     const CRON_STRING_PATH = 'crontab/default/jobs/currency_rates_update/schedule/cron_expr';
+
     const IMPORT_ENABLE = 'currency/import/enabled';
+
     const IMPORT_SERVICE = 'currency/import/service';
 
     const XML_PATH_ERROR_TEMPLATE = 'currency/import/error_email_template';
+
     const XML_PATH_ERROR_IDENTITY = 'currency/import/error_email_identity';
+
     const XML_PATH_ERROR_RECIPIENT = 'currency/import/error_email';
 
     /**
@@ -36,11 +40,6 @@ class Observer
      * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
-
-    /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $_translate;
 
     /**
      * @var \Magento\Mail\Template\TransportBuilder
@@ -58,12 +57,18 @@ class Observer
     protected $_currencyFactory;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\Directory\Model\Currency\Import\Factory $importFactory
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\Directory\Model\Currency\Import\Factory $importFactory,
@@ -76,9 +81,11 @@ class Observer
         $this->_importFactory = $importFactory;
         $this->_storeConfig = $coreStoreConfig;
         $this->_translate = $translate;
+        $this->_importFactory = $importFactory;
         $this->_transportBuilder = $transportBuilder;
         $this->_storeManager = $storeManager;
         $this->_currencyFactory = $currencyFactory;
+        $this->inlineTranslation = $inlineTranslation;
     }
 
     /**
@@ -118,8 +125,7 @@ class Observer
         if (sizeof($importWarnings) == 0) {
             $this->_currencyFactory->create()->saveRates($rates);
         } else {
-            $translate = $this->_translate->getTranslateInline();
-            $this->_translate->setTranslateInline(false);
+            $this->inlineTranslation->suspend();
 
             $this->_transportBuilder->setTemplateIdentifier(
                     $this->_storeConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
@@ -134,7 +140,7 @@ class Observer
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
 
-            $this->_translate->setTranslateInline($translate);
+            $this->inlineTranslation->resume();
         }
     }
 }

@@ -16,7 +16,6 @@ namespace Magento\Backend\Model\Config\Source;
 
 class Yesno implements \Magento\Option\ArrayInterface
 {
-
     /**
      * Options getter
      *
@@ -24,10 +23,7 @@ class Yesno implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 1, 'label'=>__('Yes')),
-            array('value' => 0, 'label'=>__('No')),
-        );
+        return array(array('value' => 1, 'label' => __('Yes')), array('value' => 0, 'label' => __('No')));
     }
 
     /**
@@ -37,10 +33,6 @@ class Yesno implements \Magento\Option\ArrayInterface
      */
     public function toArray()
     {
-        return array(
-            0 => __('No'),
-            1 => __('Yes'),
-        );
+        return array(0 => __('No'), 1 => __('Yes'));
     }
-
 }

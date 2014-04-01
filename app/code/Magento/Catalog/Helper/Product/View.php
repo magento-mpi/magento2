@@ -21,6 +21,7 @@ class View extends \Magento\App\Helper\AbstractHelper
 {
     // List of exceptions throwable during prepareAndRender() method
     public $ERR_NO_PRODUCT_LOADED = 1;
+
     public $ERR_BAD_CONTROLLER_INTERFACE = 2;
 
     /**
@@ -147,7 +148,6 @@ class View extends \Magento\App\Helper\AbstractHelper
                     array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId()),
                     $handle
                 );
-
             }
         }
 
@@ -179,8 +179,11 @@ class View extends \Magento\App\Helper\AbstractHelper
             }
             $root->addBodyClass('product-' . $product->getUrlKey());
             if ($currentCategory instanceof \Magento\Catalog\Model\Category) {
-                $root->addBodyClass('categorypath-' . $currentCategory->getUrlPath())
-                    ->addBodyClass('category-' . $currentCategory->getUrlKey());
+                $root->addBodyClass(
+                    'categorypath-' . $currentCategory->getUrlPath()
+                )->addBodyClass(
+                    'category-' . $currentCategory->getUrlKey()
+                );
             }
         }
 
@@ -201,7 +204,7 @@ class View extends \Magento\App\Helper\AbstractHelper
      * @param null|\Magento\Object $params
      *
      * @return \Magento\Catalog\Helper\Product\View
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function prepareAndRender($productId, $controller, $params = null)
     {
@@ -214,7 +217,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         // Standard algorithm to prepare and render product view page
         $product = $productHelper->initProduct($productId, $controller, $params);
         if (!$product) {
-            throw new \Magento\Core\Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
+            throw new \Magento\Model\Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
         }
 
         $buyRequest = $params->getBuyRequest();
@@ -240,7 +243,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         if ($controller instanceof \Magento\Catalog\Controller\Product\View\ViewInterface) {
             $this->_view->getLayout()->initMessages($this->messageGroups);
         } else {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Bad controller interface for showing product'),
                 $this->ERR_BAD_CONTROLLER_INTERFACE
             );

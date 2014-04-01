@@ -17,8 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector;
 
-class Cart
-    extends \Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector
+class Cart extends \Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector
 {
     /**
      * Retrieve block html

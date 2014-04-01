@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorization\Policy;
 
 class DefaultTest extends \PHPUnit_Framework_TestCase

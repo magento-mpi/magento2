@@ -108,7 +108,7 @@ class Crosssell extends Extended
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
         if ($this->getProduct() && $this->getProduct()->getId()) {
-            $this->setDefaultFilter(array('in_products'=>1));
+            $this->setDefaultFilter(array('in_products' => 1));
         }
         if ($this->isReadonly()) {
             $this->setFilterVisibility(false);
@@ -140,10 +140,10 @@ class Crosssell extends Extended
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
             } else {
-                if($productIds) {
-                    $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+                if ($productIds) {
+                    $this->getCollection()->addFieldToFilter('entity_id', array('nin' => $productIds));
                 }
             }
         } else {
@@ -160,10 +160,11 @@ class Crosssell extends Extended
     protected function _prepareCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
-        $collection = $this->_linkFactory->create()->useCrossSellLinks()
-            ->getProductCollection()
-            ->setProduct($this->getProduct())
-            ->addAttributeToSelect('*');
+        $collection = $this->_linkFactory->create()->useCrossSellLinks()->getProductCollection()->setProduct(
+            $this->getProduct()
+        )->addAttributeToSelect(
+            '*'
+        );
 
         if ($this->isReadonly()) {
             $productIds = $this->_getSelectedProducts();
@@ -197,15 +198,18 @@ class Crosssell extends Extended
     protected function _prepareColumns()
     {
         if (!$this->isReadonly()) {
-            $this->addColumn('in_products', array(
-                'type'              => 'checkbox',
-                'name'              => 'in_products',
-                'values'            => $this->_getSelectedProducts(),
-                'align'             => 'center',
-                'index'             => 'entity_id',
-                'header_css_class'  => 'col-select',
-                'column_css_class'  => 'col-select'
-            ));
+            $this->addColumn(
+                'in_products',
+                array(
+                    'type' => 'checkbox',
+                    'name' => 'in_products',
+                    'values' => $this->_getSelectedProducts(),
+                    'align' => 'center',
+                    'index' => 'entity_id',
+                    'header_css_class' => 'col-select',
+                    'column_css_class' => 'col-select'
+                )
+            );
         }
 
         $this->addColumn('entity_id', array(
@@ -303,7 +307,14 @@ class Crosssell extends Extended
      */
     public function getGridUrl()
     {
-        return $this->_getData('grid_url') ? $this->_getData('grid_url') : $this->getUrl('catalog/*/crosssellGrid', array('_current'=>true));
+        return $this->_getData(
+            'grid_url'
+        ) ? $this->_getData(
+            'grid_url'
+        ) : $this->getUrl(
+            'catalog/*/crosssellGrid',
+            array('_current' => true)
+        );
     }
 
     /**

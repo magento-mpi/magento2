@@ -82,8 +82,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $session = $objectManager->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
-        $directory = $objectManager->create('Magento\App\Filesystem')
-            ->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $directory = $objectManager->create(
+            'Magento\App\Filesystem'
+        )->getDirectoryWrite(
+            \Magento\App\Filesystem::ROOT_DIR
+        );
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
@@ -91,9 +94,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile, $directory);
         /** @var \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance $model */
         $model = $objectManager->create('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
-        $model->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE)
-        );
+        $model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE));
         $model->setSource($source);
         $model->validateData();
         $model->importData();
@@ -131,11 +132,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 if ($expected < 0) {
                     $expected = 0;
                 }
-                $this->assertEquals(
-                    $expected,
-                    $balance->getAmount(),
-                    'Customer balance value was not updated'
-                );
+                $this->assertEquals($expected, $balance->getAmount(), 'Customer balance value was not updated');
             }
         }
     }
@@ -159,17 +156,18 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $reward->delete();
         }
 
-        $directory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\Filesystem')
-            ->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $directory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\App\Filesystem'
+        )->getDirectoryWrite(
+            \Magento\App\Filesystem::ROOT_DIR
+        );
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/../_files/customer_finance_delete.csv', $directory
         );
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
-        $model->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE)
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance'
         );
+        $model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
         $model->setSource($source);
         $model->validateData();
         $model->importData();
@@ -181,8 +179,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $expectedRewards = $objectManager->get('Magento\Registry')
-            ->registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards');
+        $expectedRewards = $objectManager->get(
+            'Magento\Registry'
+        )->registry(
+            '_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards'
+        );
         /** @var $reward \Magento\Reward\Model\Reward */
         foreach ($rewards as $reward) {
             $this->assertEquals(
@@ -191,8 +192,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        $expectedBalances = $objectManager->get('Magento\Registry')
-            ->registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances');
+        $expectedBalances = $objectManager->get(
+            'Magento\Registry'
+        )->registry(
+            '_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances'
+        );
         /** @var $balance \Magento\CustomerBalance\Model\Balance */
         foreach ($balances as $balance) {
             $this->assertEquals(

@@ -11,8 +11,7 @@ namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
 use Magento\DB\Select;
 
-class Storeview
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * Store
@@ -46,8 +45,7 @@ class Storeview
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Store View'));
+        return array('value' => $this->getType(), 'label' => __('Store View'));
     }
 
     /**
@@ -57,9 +55,11 @@ class Storeview
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('The item was added to wish list %1, store view %2.', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'The item was added to wish list %1, store view %2.',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -101,10 +101,7 @@ class Storeview
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '==' => __('from'),
-            '!=' => __('not from')
-        ));
+        $this->setOperatorOption(array('==' => __('from'), '!=' => __('not from')));
         return $this;
     }
 
@@ -124,11 +121,7 @@ class Storeview
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('list' => $wishlistTable),
-            'item.wishlist_id = list.wishlist_id',
-            array()
-        );
+        $select->joinInner(array('list' => $wishlistTable), 'item.wishlist_id = list.wishlist_id', array());
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where("item.store_id {$operator} ?", $this->getValue());

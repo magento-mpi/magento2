@@ -12,8 +12,7 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 /**
  * Adminhtml customer view gift registry items block
  */
-class Items
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Items extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\GiftRegistry\Model\ItemFactory
@@ -63,8 +62,7 @@ class Items
      */
     protected function _prepareCollection()
     {
-        $collection = $this->itemFactory->create()->getCollection()
-            ->addRegistryFilter($this->getEntity()->getId());
+        $collection = $this->itemFactory->create()->getCollection()->addRegistryFilter($this->getEntity()->getId());
 
         $collection->updateItemAttributes();
         $this->setCollection($collection);

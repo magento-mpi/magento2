@@ -12,11 +12,10 @@ namespace Magento\VersionsCms\Model\Resource\Hierarchy\Node;
 /**
  * Cms Page Hierarchy Tree Nodes Collection
  */
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var \Magento\Core\Model\Resource\Helper
+     * @var \Magento\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -25,18 +24,18 @@ class Collection
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\DB\Helper $resourceHelper
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\DB\Helper $resourceHelper,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_resourceHelper = $resourceHelper;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -63,10 +62,7 @@ class Collection
             $this->getSelect()->joinLeft(
                 array('page_table' => $this->getTable('cms_page')),
                 'main_table.page_id = page_table.page_id',
-                array(
-                    'page_title'        => 'title',
-                    'page_identifier'   => 'identifier'
-                )
+                array('page_title' => 'title', 'page_identifier' => 'identifier')
             );
             $this->setFlag('cms_page_data_joined', true);
         }
@@ -93,10 +89,8 @@ class Collection
         }
 
         $this->addCmsPageInStoresColumn();
-        $this->getFlag('page_in_stores_select')
-            ->where('store.store_id IN (?)', $storeIds);
-        $this->getSelect()
-            ->having('main_table.page_id IS NULL OR page_in_stores IS NOT NULL');
+        $this->getFlag('page_in_stores_select')->where('store.store_id IN (?)', $storeIds);
+        $this->getSelect()->having('main_table.page_id IS NULL OR page_in_stores IS NOT NULL');
         return $this;
     }
 
@@ -109,8 +103,12 @@ class Collection
     {
         if (!$this->getFlag('cms_page_in_stores_data_joined')) {
             $subSelect = $this->getConnection()->select();
-            $subSelect->from(array('store' => $this->getTable('cms_page_store')), array())
-                ->where('store.page_id = main_table.page_id');
+            $subSelect->from(
+                array('store' => $this->getTable('cms_page_store')),
+                array()
+            )->where(
+                'store.page_id = main_table.page_id'
+            );
             $subSelect = $this->_resourceHelper->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
             $this->getSelect()->columns(array('page_in_stores' => new \Zend_Db_Expr('(' . $subSelect . ')')));
 
@@ -130,9 +128,7 @@ class Collection
     public function setTreeOrder()
     {
         if (!$this->getFlag('tree_order_added')) {
-            $this->getSelect()->order(array(
-                'parent_node_id', 'level', 'main_table.sort_order'
-            ));
+            $this->getSelect()->order(array('parent_node_id', 'level', 'main_table.sort_order'));
             $this->setFlag('tree_order_added', true);
         }
         return $this;
@@ -145,7 +141,7 @@ class Collection
      */
     public function setOrderByLevel()
     {
-        $this->getSelect()->order(array('main_table.level','main_table.sort_order'));
+        $this->getSelect()->order(array('main_table.level', 'main_table.sort_order'));
         return $this;
     }
 
@@ -157,28 +153,29 @@ class Collection
     public function joinMetaData()
     {
         if (!$this->getFlag('meta_data_joined')) {
-            $this->getSelect()
-                ->joinLeft(array('metadata_table' => $this->getTable('magento_versionscms_hierarchy_metadata')),
-                    'main_table.node_id = metadata_table.node_id',
-                    array(
-                        'meta_first_last',
-                        'meta_next_previous',
-                        'meta_chapter',
-                        'meta_section',
-                        'meta_cs_enabled',
-                        'pager_visibility',
-                        'pager_frame',
-                        'pager_jump',
-                        'menu_visibility',
-                        'menu_layout',
-                        'menu_brief',
-                        'menu_excluded',
-                        'menu_levels_down',
-                        'menu_ordered',
-                        'menu_list_type',
-                        'top_menu_visibility',
-                        'top_menu_excluded'
-            ));
+            $this->getSelect()->joinLeft(
+                array('metadata_table' => $this->getTable('magento_versionscms_hierarchy_metadata')),
+                'main_table.node_id = metadata_table.node_id',
+                array(
+                    'meta_first_last',
+                    'meta_next_previous',
+                    'meta_chapter',
+                    'meta_section',
+                    'meta_cs_enabled',
+                    'pager_visibility',
+                    'pager_frame',
+                    'pager_jump',
+                    'menu_visibility',
+                    'menu_layout',
+                    'menu_brief',
+                    'menu_excluded',
+                    'menu_levels_down',
+                    'menu_ordered',
+                    'menu_list_type',
+                    'top_menu_visibility',
+                    'top_menu_excluded'
+                )
+            );
         }
         $this->setFlag('meta_data_joined', true);
         return $this;
@@ -253,8 +250,12 @@ class Collection
     {
         if (!$this->getFlag('last_child_sort_order_column_added')) {
             $subSelect = $this->getConnection()->select();
-            $subSelect->from($this->getResource()->getMainTable(), new \Zend_Db_Expr('MAX(sort_order)'))
-                ->where('parent_node_id = main_table.node_id');
+            $subSelect->from(
+                $this->getResource()->getMainTable(),
+                new \Zend_Db_Expr('MAX(sort_order)')
+            )->where(
+                'parent_node_id = main_table.node_id'
+            );
             $this->getSelect()->columns(array('last_child_sort_order' => $subSelect));
             $this->setFlag('last_child_sort_order_column_added', true);
         }

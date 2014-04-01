@@ -27,7 +27,7 @@ class Allow extends AbstractCurrency
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -37,7 +37,7 @@ class Allow extends AbstractCurrency
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -50,27 +50,29 @@ class Allow extends AbstractCurrency
      * Check allowed currencies is available in installed currencies
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _afterSave()
     {
         $exceptions = array();
         foreach ($this->_getAllowedCurrencies() as $currencyCode) {
             if (!in_array($currencyCode, $this->_getInstalledCurrencies())) {
-                $exceptions[] = __('Selected allowed currency "%1" is not available in installed currencies.',
+                $exceptions[] = __(
+                    'Selected allowed currency "%1" is not available in installed currencies.',
                     $this->_localeCurrency->getCurrency($currencyCode)->getName()
                 );
             }
         }
 
         if (!in_array($this->_getCurrencyDefault(), $this->_getAllowedCurrencies())) {
-            $exceptions[] = __('Default display currency "%1" is not available in allowed currencies.',
+            $exceptions[] = __(
+                'Default display currency "%1" is not available in allowed currencies.',
                 $this->_localeCurrency->getCurrency($this->_getCurrencyDefault())->getName()
             );
         }
 
         if ($exceptions) {
-            throw new \Magento\Core\Exception(join("\n", $exceptions));
+            throw new \Magento\Model\Exception(join("\n", $exceptions));
         }
 
         return $this;

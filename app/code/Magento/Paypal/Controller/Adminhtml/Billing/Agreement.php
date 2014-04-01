@@ -23,10 +23,8 @@ class Agreement extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -118,7 +116,7 @@ class Agreement extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You canceled the billing agreement.'));
                 $this->_redirect('paypal/*/view', array('_current' => true));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not cancel the billing agreement.'));
@@ -144,7 +142,7 @@ class Agreement extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You deleted the billing agreement.'));
                 $this->_redirect('paypal/*/');
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not delete the billing agreement.'));
@@ -197,8 +195,8 @@ class Agreement extends \Magento\Backend\App\Action
     {
         switch ($this->getRequest()->getActionName()) {
             case 'index':
-            case 'grid' :
-            case 'view' :
+            case 'grid':
+            case 'view':
                 return $this->_authorization->isAllowed('Magento_Paypal::billing_agreement_actions_view');
             case 'cancel':
             case 'delete':

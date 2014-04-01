@@ -56,9 +56,6 @@ class SwitchTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsStoreInUrlDataProvider()
     {
-        return array(
-            array(true),
-            array(false),
-        );
+        return array(array(true), array(false));
     }
 }

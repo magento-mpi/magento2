@@ -37,11 +37,18 @@ class CatalogProductView extends Page
     protected $reviewSummarySelector = '.product.reviews.summary';
 
     /**
-     * Reviews selector
+     * Review form
      *
      * @var string
      */
-    protected $reviewsSelector = 'product_reviews';
+    protected $reviewFormBlock = '#review-form';
+
+    /**
+     * Customer reviews block
+     *
+     * @var string
+     */
+    protected $customerReviewBlock = '#customer-reviews';
 
     /**
      * Messages selector
@@ -159,14 +166,24 @@ class CatalogProductView extends Page
     }
 
     /**
-     * Get reviews block
+     * Get customer reviews block
+     *
+     * @return \Magento\Review\Test\Block\Form
+     */
+    public function getReviewFormBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoReviewForm($this->_browser->find($this->reviewFormBlock));
+    }
+
+    /**
+     * Get customer reviews block
      *
      * @return \Magento\Review\Test\Block\Product\View
      */
-    public function getReviewsBlock()
+    public function getCustomerReviewBlock()
     {
         return Factory::getBlockFactory()->getMagentoReviewProductView(
-            $this->_browser->find($this->reviewsSelector, Locator::SELECTOR_ID)
+            $this->_browser->find($this->customerReviewBlock)
         );
     }
 

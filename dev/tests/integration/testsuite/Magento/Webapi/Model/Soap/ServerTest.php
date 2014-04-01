@@ -51,18 +51,26 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
         $this->_areaListMock = $this->getMock('Magento\App\AreaList', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
-        $this->_storeManagerMock->expects($this->any())
-            ->method('getStore')->will($this->returnValue($this->_storeMock));
-        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Request')
-            ->disableOriginalConstructor()->getMock();
-        $this->_domDocumentFactory = $this->getMockBuilder('Magento\DomDocument\Factory')
-            ->disableOriginalConstructor()->getMock();
-        $this->_soapServerFactory = $this->getMockBuilder('Magento\Webapi\Model\Soap\Server\Factory')
-            ->disableOriginalConstructor()->getMock();
+        $this->_storeManagerMock->expects(
+            $this->any()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($this->_storeMock)
+        );
+        $this->_requestMock = $this->getMockBuilder(
+            'Magento\Webapi\Controller\Soap\Request'
+        )->disableOriginalConstructor()->getMock();
+        $this->_domDocumentFactory = $this->getMockBuilder(
+            'Magento\DomDocument\Factory'
+        )->disableOriginalConstructor()->getMock();
+        $this->_soapServerFactory = $this->getMockBuilder(
+            'Magento\Webapi\Model\Soap\Server\Factory'
+        )->disableOriginalConstructor()->getMock();
         $this->_typeProcessor = $this->getMock(
             'Magento\Webapi\Model\Config\ClassReflector\TypeProcessor',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );

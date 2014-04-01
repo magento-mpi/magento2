@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Store\Model;
 
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
@@ -83,8 +82,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $this->_logMock = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $this->_sidResolverMock
-            = $this->getMock('\Magento\Session\SidResolverInterface', array(), array(), '', false);
+        $this->_sidResolverMock = $this->getMock('\Magento\Session\SidResolverInterface', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->_storage = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', [], [], '', false);
@@ -109,11 +107,15 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_appStateMock->expects($this->exactly(2))->method('isInstalled')->will($this->returnValue(false));
 
-        $this->_objectManagerMock
-            ->expects($this->once())
-            ->method('create')
-            ->with($this->_defaultStorage)
-            ->will($this->returnValue($this->_storage));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $this->_defaultStorage
+        )->will(
+            $this->returnValue($this->_storage)
+        );
 
         $this->_eventManagerMock->expects($this->never())->method('dispatch');
         $this->_logMock->expects($this->never())->method('initForStore');
@@ -132,10 +134,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
-        $this->_storage
-            ->expects($this->exactly(2))
-            ->method('getStore')
-            ->will($this->returnValue($store));
+        $this->_storage->expects($this->exactly(2))->method('getStore')->will($this->returnValue($store));
 
         $this->_scopeConfig->expects($this->at(0))
             ->method('isSetFlag')
@@ -153,22 +152,28 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue(true));
 
-        $this->_objectManagerMock
-            ->expects($this->once())
-            ->method('create')
-            ->with($this->_dbStorage)
-            ->will($this->returnValue($this->_storage));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $this->_dbStorage
+        )->will(
+            $this->returnValue($this->_storage)
+        );
 
-        $this->_eventManagerMock->expects($this->once())->method('dispatch')->with('core_app_init_current_store_after');
-        $this->_logMock
-            ->expects($this->once())
-            ->method('unsetLoggers');
-        $this->_logMock
-            ->expects($this->exactly(2))
-            ->method('addStreamLog');
+        $this->_eventManagerMock->expects(
+            $this->once()
+        )->method(
+            'dispatch'
+        )->with(
+            'core_app_init_current_store_after'
+        );
 
-        $this->_sidResolverMock->expects($this->once())
-            ->method('setUseSessionInUrl')->with(true);
+        $this->_logMock->expects($this->once())->method('unsetLoggers');
+        $this->_logMock->expects($this->exactly(2))->method('addStreamLog');
+
+        $this->_sidResolverMock->expects($this->once())->method('setUseSessionInUrl')->with(true);
 
         /** test create instance */
         $this->assertEquals($this->_storage, $this->_model->get($this->_arguments));
@@ -186,11 +191,15 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $invalidObject = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
-        $this->_objectManagerMock
-            ->expects($this->once())
-            ->method('create')
-            ->with($this->_dbStorage)
-            ->will($this->returnValue($invalidObject));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $this->_dbStorage
+        )->will(
+            $this->returnValue($invalidObject)
+        );
 
         $this->_eventManagerMock->expects($this->never())->method('dispatch');
         $this->_logMock->expects($this->never())->method('initForStore');

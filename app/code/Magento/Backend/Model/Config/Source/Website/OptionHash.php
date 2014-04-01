@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source\Website;
 
 use Magento\Store\Model\System\Store;
@@ -47,5 +46,3 @@ class OptionHash implements ArrayInterface
         return $this->_systemStore->getWebsiteOptionHash($this->_withDefaultWebsite);
     }
 }
-
-

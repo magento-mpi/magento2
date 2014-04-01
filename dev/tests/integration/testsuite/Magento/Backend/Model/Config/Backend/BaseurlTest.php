@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Backend;
 
 /**
@@ -22,8 +21,9 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
     public function testValidation($path, $value)
     {
         /** @var $model \Magento\Backend\Model\Config\Backend\Baseurl */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Config\Backend\Baseurl');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Backend\Model\Config\Backend\Baseurl'
+        );
         $model->setPath($path)->setValue($value)->save();
         $this->assertNotEmpty((int)$model->getId());
     }
@@ -101,14 +101,15 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
      * @param string $path
      * @param string $value
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @dataProvider validationExceptionDataProvider
      */
     public function testValidationException($path, $value)
     {
         /** @var $model \Magento\Backend\Model\Config\Backend\Baseurl */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Config\Backend\Baseurl');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Backend\Model\Config\Backend\Baseurl'
+        );
         $model->setPath($path)->setValue($value)->save();
     }
 

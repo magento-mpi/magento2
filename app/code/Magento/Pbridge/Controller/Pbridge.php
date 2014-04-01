@@ -50,17 +50,21 @@ class Pbridge extends \Magento\App\Action\Action
      * Iframe Ajax Action
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function iframeAction()
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
+            $methodInstance = $this->_objectManager->get(
+                'Magento\Payment\Helper\Data'
+            )->getMethodInstance(
+                $methodCode
+            );
             if ($methodInstance) {
                 $block = $this->_view->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
-                if($this->getRequest()->getParam('data')) {
+                if ($this->getRequest()->getParam('data')) {
                     $block->setFormParams($this->getRequest()->getParam('data', null));
                 }
                 if ($block) {
@@ -68,7 +72,7 @@ class Pbridge extends \Magento\App\Action\Action
                 }
             }
         } else {
-            throw new \Magento\Core\Exception(__('Payment Method Code is not passed.'));
+            throw new \Magento\Model\Exception(__('Payment Method Code is not passed.'));
         }
     }
 
@@ -76,22 +80,28 @@ class Pbridge extends \Magento\App\Action\Action
      * Iframe Ajax Action for review page
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function reviewAction()
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
+            $methodInstance = $this->_objectManager->get(
+                'Magento\Payment\Helper\Data'
+            )->getMethodInstance(
+                $methodCode
+            );
             if ($methodInstance) {
-                $block = $this->_view->getLayout()->createBlock('Magento\Pbridge\Block\Checkout\Payment\Review\Iframe');
+                $block = $this->_view->getLayout()->createBlock(
+                    'Magento\Pbridge\Block\Checkout\Payment\Review\Iframe'
+                );
                 $block->setMethod($methodInstance);
                 if ($block) {
                     $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
                 }
             }
         } else {
-            throw new \Magento\Core\Exception(__('Payment Method Code is not passed.'));
+            throw new \Magento\Model\Exception(__('Payment Method Code is not passed.'));
         }
     }
 
@@ -145,7 +155,9 @@ class Pbridge extends \Magento\App\Action\Action
             if ($diff) {
                 $result['success'] = false;
                 $result['error'] = true;
-                $result['error_messages'] = __('Please agree to all the terms and conditions before placing the order.');
+                $result['error_messages'] = __(
+                    'Please agree to all the terms and conditions before placing the order.'
+                );
             }
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));

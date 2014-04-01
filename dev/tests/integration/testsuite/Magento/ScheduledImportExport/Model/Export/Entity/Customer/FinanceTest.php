@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
 
 /**
@@ -30,10 +29,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testExport()
     {
-        $customerFinance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance');
-        $customerFinance->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $customerFinance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance'
+        );
+        $customerFinance->setWriter(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\ImportExport\Model\Export\Adapter\Csv'
+            )
+        );
         $customerFinance->setParameters(array());
         $csvExportString = $customerFinance->export();
 
@@ -80,12 +83,17 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-                    COLUMN_CUSTOMER_BALANCE
-                    => $objectManager->get('Magento\Registry')->registry('customer_balance_' . $websiteCode),
+                COLUMN_CUSTOMER_BALANCE => $objectManager->get(
+                    'Magento\Registry'
+                )->registry(
+                    'customer_balance_' . $websiteCode
+                ),
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-                    COLUMN_REWARD_POINTS
-                    => $objectManager->get('Magento\Registry')
-                        ->registry('reward_point_balance_' . $websiteCode),
+                COLUMN_REWARD_POINTS => $objectManager->get(
+                    'Magento\Registry'
+                )->registry(
+                    'reward_point_balance_' . $websiteCode
+                )
             );
 
             asort($csvCustomerData);
@@ -99,8 +107,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAttributeCollection()
     {
-        $customerFinance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance');
+        $customerFinance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance'
+        );
         $attributeCollection = $customerFinance->getAttributeCollection();
 
         $this->assertInstanceOf(
@@ -144,8 +153,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getRecordByFinanceWebsite(array $records, $website)
     {
-        $financeWebsiteKey = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::
-            COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteKey =
+            \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
         foreach ($records as $record) {
             if ($record[$financeWebsiteKey] == $website) {
                 return $record;

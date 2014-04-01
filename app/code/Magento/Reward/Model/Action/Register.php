@@ -35,10 +35,8 @@ class Register extends \Magento\Reward\Model\Action\AbstractAction
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
-    public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = array())
+    {
         $this->_rewardData = $rewardData;
         parent::__construct($data);
     }

@@ -104,8 +104,11 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      */
     public function isAvailable($quote = null)
     {
-        return $this->_paypal->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(\Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT);
+        return $this->_paypal->getPbridgeMethodInstance()->isDummyMethodAvailable(
+            $quote
+        ) && $this->_pro->getConfig()->isMethodAvailable(
+            \Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT
+        );
     }
 
     /**
@@ -184,12 +187,17 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      */
     protected function _importResultToPayment($api, $payment)
     {
-        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
-            ->setIsTransactionPending($api->getIsPaymentPending());
-        $payflowTrxid = $api->getData(\Magento\PbridgePaypal\Model\Payment\Method\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID);
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $payflowTrxid)
+        $payment->setTransactionId(
+            $api->getTransactionId()
+        )->setIsTransactionClosed(
+            0
+        )->setIsTransactionPending(
+            $api->getIsPaymentPending()
         );
+        $payflowTrxid = $api->getData(
+            \Magento\PbridgePaypal\Model\Payment\Method\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID
+        );
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $payflowTrxid));
 
         $this->_pro->importPaymentInfo($api, $payment);
     }

@@ -98,14 +98,15 @@ class Customer extends \Magento\App\Action\Action
 
         $customer = $this->_getCustomer();
         if ($customer->getId()) {
-            $customer->setRewardUpdateNotification($this->getRequest()->getParam('subscribe_updates'))
-                ->setRewardWarningNotification($this->getRequest()->getParam('subscribe_warnings'));
+            $customer->setRewardUpdateNotification(
+                $this->getRequest()->getParam('subscribe_updates')
+            )->setRewardWarningNotification(
+                $this->getRequest()->getParam('subscribe_warnings')
+            );
             $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
-            $this->messageManager->addSuccess(
-                __('You saved the settings.')
-            );
+            $this->messageManager->addSuccess(__('You saved the settings.'));
         }
         $this->_redirect('*/*/info');
     }
@@ -118,7 +119,7 @@ class Customer extends \Magento\App\Action\Action
     public function unsubscribeAction()
     {
         $notification = $this->getRequest()->getParam('notification');
-        if (!in_array($notification, array('update','warning'))) {
+        if (!in_array($notification, array('update', 'warning'))) {
             $this->_forward('noroute');
         }
 
@@ -133,9 +134,7 @@ class Customer extends \Magento\App\Action\Action
                     $customer->setRewardWarningNotification(false);
                     $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
-                $this->messageManager->addSuccess(
-                    __('You have been unsubscribed.')
-                );
+                $this->messageManager->addSuccess(__('You have been unsubscribed.'));
             }
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Failed to unsubscribe'));

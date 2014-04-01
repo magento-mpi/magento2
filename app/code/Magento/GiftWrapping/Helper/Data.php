@@ -22,6 +22,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Gift wrapping allow section in configuration
      */
     const XML_PATH_ALLOWED_FOR_ITEMS = 'sales/gift_options/wrapping_allow_items';
+
     const XML_PATH_ALLOWED_FOR_ORDER = 'sales/gift_options/wrapping_allow_order';
 
     /**
@@ -32,20 +33,24 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Shopping cart display settings
      */
-    const XML_PATH_PRICE_DISPLAY_CART_WRAPPING        = 'tax/cart_display/gift_wrapping';
-    const XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD    = 'tax/cart_display/printed_card';
+    const XML_PATH_PRICE_DISPLAY_CART_WRAPPING = 'tax/cart_display/gift_wrapping';
+
+    const XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD = 'tax/cart_display/printed_card';
 
     /**
      * Sales display settings
      */
-    const XML_PATH_PRICE_DISPLAY_SALES_WRAPPING        = 'tax/sales_display/gift_wrapping';
-    const XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD    = 'tax/sales_display/printed_card';
+    const XML_PATH_PRICE_DISPLAY_SALES_WRAPPING = 'tax/sales_display/gift_wrapping';
+
+    const XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD = 'tax/sales_display/printed_card';
 
     /**
      * Gift receipt and printed card settings
      */
     const XML_PATH_ALLOW_GIFT_RECEIPT = 'sales/gift_options/allow_gift_receipt';
+
     const XML_PATH_ALLOW_PRINTED_CARD = 'sales/gift_options/allow_printed_card';
+
     const XML_PATH_PRINTED_CARD_PRICE = 'sales/gift_options/printed_card_price';
 
     /**
@@ -304,9 +309,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $displayCardBothPrices = false;
         $displayCardIncludeTaxPrice = false;
 
-        if ($dataObject instanceof \Magento\Sales\Model\Order
-            || $dataObject instanceof \Magento\Sales\Model\Order\Invoice
-            || $dataObject instanceof \Magento\Sales\Model\Order\Creditmemo) {
+        if ($dataObject instanceof \Magento\Sales\Model\Order ||
+            $dataObject instanceof \Magento\Sales\Model\Order\Invoice ||
+            $dataObject instanceof \Magento\Sales\Model\Order\Creditmemo
+        ) {
             $displayWrappingBothPrices = $this->displaySalesWrappingBothPrices();
             $displayWrappingIncludeTaxPrice = $this->displaySalesWrappingIncludeTaxPrice();
             $displayCardBothPrices = $this->displaySalesCardBothPrices();
@@ -426,12 +432,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($value == 0 && $baseValue == 0) {
             return;
         }
-        $total = array(
-            'code'      => $code,
-            'value'     => $value,
-            'base_value'=> $baseValue,
-            'label'     => $label
-        );
+        $total = array('code' => $code, 'value' => $value, 'base_value' => $baseValue, 'label' => $label);
         $totals[] = $total;
     }
 
@@ -447,8 +448,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param mixed $store
      * @return float
      */
-    public function getPrice($item, $price, $includeTax = false, $shippingAddress = null, $billingAddress = null,
-        $ctc = null, $store = null
+    public function getPrice(
+        $item,
+        $price,
+        $includeTax = false,
+        $shippingAddress = null,
+        $billingAddress = null,
+        $ctc = null,
+        $store = null
     ) {
         if (!$price) {
             return $price;
@@ -456,15 +463,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $store = $this->_storeManager->getStore($store);
         $taxClassId = $item->getTaxClassId();
         if ($taxClassId && $includeTax) {
-            $request = $this->_taxCalculation->getRateRequest(
-                $shippingAddress,
-                $billingAddress,
-                $ctc,
-                $store
-            );
+            $request = $this->_taxCalculation->getRateRequest($shippingAddress, $billingAddress, $ctc, $store);
             $percent = $this->_taxCalculation->getRate($request->setProductClassId($taxClassId));
             if ($percent) {
-                $price = $price * (1 + ($percent / 100));
+                $price = $price * (1 + $percent / 100);
             }
         }
         return $store->roundPrice($price);

@@ -9,6 +9,7 @@ namespace Magento\Reward\Model\Reward\Balance;
 
 use Magento\Sales\Model\Order;
 use Magento\Reward\Model\Reward\Balance\Exception;
+
 class Validator
 {
     /**
@@ -64,12 +65,10 @@ class Validator
             $reward->setWebsiteId($websiteId);
             $reward->loadByCustomer();
 
-            if (($order->getRewardPointsBalance() - $reward->getPointsBalance()) >= 0.0001) {
+            if ($order->getRewardPointsBalance() - $reward->getPointsBalance() >= 0.0001) {
                 $this->_session->setUpdateSection('payment-method');
                 $this->_session->setGotoSection('payment');
-                throw new Exception(
-                    __('You don\'t have enough reward points to pay for this purchase.')
-                );
+                throw new Exception(__('You don\'t have enough reward points to pay for this purchase.'));
             }
         }
     }

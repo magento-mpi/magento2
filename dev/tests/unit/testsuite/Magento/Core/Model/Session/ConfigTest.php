@@ -63,8 +63,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMock('\Magento\App\Request\Http',
             array('getBasePath', 'isSecure', 'getHttpHost'), array(), '', false, false);
         $this->_requestMock->expects($this->atLeastOnce())->method('getBasePath')->will($this->returnValue('/'));
-        $this->_requestMock->expects($this->atLeastOnce())
-            ->method('getHttpHost')->will($this->returnValue('init.host'));
+        $this->_requestMock->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getHttpHost'
+        )->will(
+            $this->returnValue('init.host')
+        );
         $this->_appState = $this->getMock('\Magento\App\State', array('isInstalled'), array(), '', false, false);
         $this->_appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
         $this->_filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false, false);
@@ -83,15 +88,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSetOptionsWrongType()
     {
-        $this->setExpectedException('\InvalidArgumentException',
-            'Parameter provided to Magento\Core\Model\Session\Config::setOptions must be an array or Traversable');
+        $this->setExpectedException(
+            '\InvalidArgumentException',
+            'Parameter provided to Magento\Core\Model\Session\Config::setOptions must be an array or Traversable'
+        );
         $this->config->setOptions('');
     }
 
     public function testSetOptionsWrongOption()
     {
-        $this->setExpectedException('\InvalidArgumentException',
-            '"session.0" is not a valid sessions-related ini setting.');
+        $this->setExpectedException(
+            '\InvalidArgumentException',
+            '"session.0" is not a valid sessions-related ini setting.'
+        );
 
         $this->config->setOptions(array('lol'));
     }
@@ -103,127 +112,35 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $options = array($option => $value);
         $this->config->setOptions($options);
-        $this->assertSame($value, $this->config->$getter());
+        $this->assertSame($value, $this->config->{$getter}());
     }
 
     public function optionsProvider()
     {
         return array(
-            array(
-                'save_path',
-                'getSavePath',
-                __DIR__,
-            ),
-            array(
-                'name',
-                'getName',
-                'FOOBAR',
-            ),
-            array(
-                'save_handler',
-                'getSaveHandler',
-                'user',
-            ),
-            array(
-                'gc_probability',
-                'getGcProbability',
-                42,
-            ),
-            array(
-                'gc_divisor',
-                'getGcDivisor',
-                3,
-            ),
-            array(
-                'gc_maxlifetime',
-                'getGcMaxlifetime',
-                180,
-            ),
-            array(
-                'serialize_handler',
-                'getSerializeHandler',
-                'php_binary',
-            ),
-            array(
-                'cookie_lifetime',
-                'getCookieLifetime',
-                180,
-            ),
-            array(
-                'cookie_path',
-                'getCookiePath',
-                '/foo/bar',
-            ),
-            array(
-                'cookie_domain',
-                'getCookieDomain',
-                'framework.zend.com',
-            ),
-            array(
-                'cookie_secure',
-                'getCookieSecure',
-                true,
-            ),
-            array(
-                'cookie_httponly',
-                'getCookieHttpOnly',
-                true,
-            ),
-            array(
-                'use_cookies',
-                'getUseCookies',
-                false,
-            ),
-            array(
-                'use_only_cookies',
-                'getUseOnlyCookies',
-                true,
-            ),
-            array(
-                'referer_check',
-                'getRefererCheck',
-                'foobar',
-            ),
-            array(
-                'entropy_file',
-                'getEntropyFile',
-                __FILE__,
-            ),
-            array(
-                'entropy_length',
-                'getEntropyLength',
-                42,
-            ),
-            array(
-                'cache_limiter',
-                'getCacheLimiter',
-                'private',
-            ),
-            array(
-                'cache_expire',
-                'getCacheExpire',
-                42,
-            ),
-            array(
-                'use_trans_sid',
-                'getUseTransSid',
-                true,
-            ),
-            array(
-                'hash_function',
-                'getHashFunction',
-                'md5',
-            ),
-            array(
-                'hash_bits_per_character',
-                'getHashBitsPerCharacter',
-                5,
-            ),
-            array(
-                'url_rewriter_tags',
-                'getUrlRewriterTags',
-                'a=href',
-            ),
+            array('save_path', 'getSavePath', __DIR__),
+            array('name', 'getName', 'FOOBAR'),
+            array('save_handler', 'getSaveHandler', 'user'),
+            array('gc_probability', 'getGcProbability', 42),
+            array('gc_divisor', 'getGcDivisor', 3),
+            array('gc_maxlifetime', 'getGcMaxlifetime', 180),
+            array('serialize_handler', 'getSerializeHandler', 'php_binary'),
+            array('cookie_lifetime', 'getCookieLifetime', 180),
+            array('cookie_path', 'getCookiePath', '/foo/bar'),
+            array('cookie_domain', 'getCookieDomain', 'framework.zend.com'),
+            array('cookie_secure', 'getCookieSecure', true),
+            array('cookie_httponly', 'getCookieHttpOnly', true),
+            array('use_cookies', 'getUseCookies', false),
+            array('use_only_cookies', 'getUseOnlyCookies', true),
+            array('referer_check', 'getRefererCheck', 'foobar'),
+            array('entropy_file', 'getEntropyFile', __FILE__),
+            array('entropy_length', 'getEntropyLength', 42),
+            array('cache_limiter', 'getCacheLimiter', 'private'),
+            array('cache_expire', 'getCacheExpire', 42),
+            array('use_trans_sid', 'getUseTransSid', true),
+            array('hash_function', 'getHashFunction', 'md5'),
+            array('hash_bits_per_character', 'getHashBitsPerCharacter', 5),
+            array('url_rewriter_tags', 'getUrlRewriterTags', 'a=href')
         );
     }
 
@@ -329,7 +246,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testCookieSecureDefaultsToIniSettings()
     {
-        $this->assertSame((bool) ini_get('session.cookie_secure'), $this->config->getCookieSecure());
+        $this->assertSame((bool)ini_get('session.cookie_secure'), $this->config->getCookieSecure());
     }
 
     public function testCookieSecureIsMutable()
@@ -386,7 +303,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testCookieHttpOnlyDefaultsToIniSettings()
     {
-        $this->assertSame((bool) ini_get('session.cookie_httponly'), $this->config->getCookieHttpOnly());
+        $this->assertSame((bool)ini_get('session.cookie_httponly'), $this->config->getCookieHttpOnly());
     }
 
     public function testCookieHttpOnlyIsMutable()
@@ -405,40 +322,40 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testUseCookiesDefaultsToIniSettings()
     {
-        $this->assertSame((bool) ini_get('session.use_cookies'), $this->config->getUseCookies());
+        $this->assertSame((bool)ini_get('session.use_cookies'), $this->config->getUseCookies());
     }
 
     public function testUseCookiesIsMutable()
     {
         $value = ini_get('session.use_cookies') ? false : true;
         $this->config->setUseCookies($value);
-        $this->assertEquals($value, (bool) $this->config->getUseCookies());
+        $this->assertEquals($value, (bool)$this->config->getUseCookies());
     }
 
     public function testUseCookiesAltersIniSetting()
     {
         $value = ini_get('session.use_cookies') ? false : true;
         $this->config->setUseCookies($value);
-        $this->assertEquals($value, (bool) ini_get('session.use_cookies'));
+        $this->assertEquals($value, (bool)ini_get('session.use_cookies'));
     }
 
     public function testUseOnlyCookiesDefaultsToIniSettings()
     {
-        $this->assertSame((bool) ini_get('session.use_only_cookies'), $this->config->getUseOnlyCookies());
+        $this->assertSame((bool)ini_get('session.use_only_cookies'), $this->config->getUseOnlyCookies());
     }
 
     public function testUseOnlyCookiesIsMutable()
     {
         $value = ini_get('session.use_only_cookies') ? false : true;
         $this->config->setOption('use_only_cookies', $value);
-        $this->assertEquals($value, (bool) $this->config->getOption('use_only_cookies'));
+        $this->assertEquals($value, (bool)$this->config->getOption('use_only_cookies'));
     }
 
     public function testUseOnlyCookiesAltersIniSetting()
     {
         $value = ini_get('session.use_only_cookies') ? false : true;
         $this->config->setOption('use_only_cookies', $value);
-        $this->assertEquals($value, (bool) ini_get('session.use_only_cookies'));
+        $this->assertEquals($value, (bool)ini_get('session.use_only_cookies'));
     }
 
     public function testRefererCheckDefaultsToIniSettings()

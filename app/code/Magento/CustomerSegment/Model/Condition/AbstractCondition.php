@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Condition;
 
 use Magento\Customer\Model\Customer;
@@ -54,7 +53,6 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
             $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
             $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
             $this->_defaultOperatorInputByType['multiselect'] = array('==', '!=', '[]', '![]');
-
         }
         return $this->_defaultOperatorInputByType;
     }

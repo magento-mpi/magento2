@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pbridge\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +15,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\AbstractModel
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Model\AbstractModel
      */
     protected $_order;
 
@@ -35,14 +34,20 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_cartFactory = $this->getMock('Magento\Payment\Model\CartFactory', ['create'], [], '', false);
-        $this->_paypalCartFactory = $this->getMock('Magento\Paypal\Model\CartFactory', ['create'], [], '', false);
+        $this->_cartFactory = $this->getMock('Magento\Payment\Model\CartFactory', array('create'), array(), '', false);
+        $this->_paypalCartFactory = $this->getMock(
+            'Magento\Paypal\Model\CartFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Pbridge\Helper\Data',
-            ['cartFactory' => $this->_cartFactory, 'paypalCartFactory' => $this->_paypalCartFactory]
+            array('cartFactory' => $this->_cartFactory, 'paypalCartFactory' => $this->_paypalCartFactory)
         );
-        $this->_order = $this->getMock('Magento\Core\Model\AbstractModel', array(), array(), '', false);
+        $this->_order = $this->getMock('Magento\Model\AbstractModel', array(), array(), '', false);
     }
 
     public function testPrepareCart()
@@ -59,24 +64,29 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function _prepareCartExpectations($cartFactory)
     {
-        $items = [new \Magento\Object([
-            'parent_item' => 'parent',
-            'name' => 'name',
-            'qty' => '1',
-            'price' => '12.2',
-            'original_item' => new \Magento\Object()
-        ])];
-        $cart = $this->getMock('Magento\Payment\Model\Cart', [], [], '', false);
-        $cart->expects($this->once())
-            ->method('getAmounts')
-            ->will($this->returnValue(['28']));
-        $cart->expects($this->once())
-            ->method('getAllItems')
-            ->will($this->returnValue($items));
-        $cartFactory->expects($this->once())
-            ->method('create')
-            ->with(array('salesModel' => $this->_order))
-            ->will($this->returnValue($cart));
-        return array_merge(['items' => [$items[0]->getData()]], ['28']);
+        $items = array(
+            new \Magento\Object(
+                array(
+                    'parent_item' => 'parent',
+                    'name' => 'name',
+                    'qty' => '1',
+                    'price' => '12.2',
+                    'original_item' => new \Magento\Object()
+                )
+            )
+        );
+        $cart = $this->getMock('Magento\Payment\Model\Cart', array(), array(), '', false);
+        $cart->expects($this->once())->method('getAmounts')->will($this->returnValue(array('28')));
+        $cart->expects($this->once())->method('getAllItems')->will($this->returnValue($items));
+        $cartFactory->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            array('salesModel' => $this->_order)
+        )->will(
+            $this->returnValue($cart)
+        );
+        return array_merge(array('items' => array($items[0]->getData())), array('28'));
     }
 }

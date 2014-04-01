@@ -16,7 +16,7 @@ namespace Magento\Eav\Model\Resource\Entity\Attribute;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Set extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\GroupFactory
@@ -48,10 +48,10 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         if ($object->getGroups()) {
             /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
@@ -91,14 +91,14 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
 
         $adapter = $this->_getReadAdapter();
-        $bind = array(
-            'attribute_set_name' => trim($attributeSetName),
-            'entity_type_id'     => $object->getEntityTypeId()
+        $bind = array('attribute_set_name' => trim($attributeSetName), 'entity_type_id' => $object->getEntityTypeId());
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'attribute_set_name = :attribute_set_name'
+        )->where(
+            'entity_type_id = :entity_type_id'
         );
-        $select = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('attribute_set_name = :attribute_set_name')
-            ->where('entity_type_id = :entity_type_id');
 
         if ($object->getId()) {
             $bind['attribute_set_id'] = $object->getId();
@@ -122,15 +122,17 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
         $attributeToSetInfo = array();
 
         if (count($attributeIds) > 0) {
-            $select = $adapter->select()
-                ->from(
-                    array('entity' => $this->getTable('eav_entity_attribute')),
-                    array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order'))
-                ->joinLeft(
-                    array('attribute_group' => $this->getTable('eav_attribute_group')),
-                    'entity.attribute_group_id = attribute_group.attribute_group_id',
-                    array('group_sort_order' => 'sort_order'))
-                ->where('entity.attribute_id IN (?)', $attributeIds);
+            $select = $adapter->select()->from(
+                array('entity' => $this->getTable('eav_entity_attribute')),
+                array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order')
+            )->joinLeft(
+                array('attribute_group' => $this->getTable('eav_attribute_group')),
+                'entity.attribute_group_id = attribute_group.attribute_group_id',
+                array('group_sort_order' => 'sort_order')
+            )->where(
+                'entity.attribute_id IN (?)',
+                $attributeIds
+            );
             $bind = array();
             if (is_numeric($setId)) {
                 $bind[':attribute_set_id'] = $setId;
@@ -140,18 +142,18 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             foreach ($result as $row) {
                 $data = array(
-                    'group_id'      => $row['attribute_group_id'],
-                    'group_sort'    => $row['group_sort_order'],
-                    'sort'          => $row['sort_order']
+                    'group_id' => $row['attribute_group_id'],
+                    'group_sort' => $row['group_sort_order'],
+                    'sort' => $row['sort_order']
                 );
                 $attributeToSetInfo[$row['attribute_id']][$row['attribute_set_id']] = $data;
             }
         }
 
         foreach ($attributeIds as $atttibuteId) {
-            $setInfo[$atttibuteId] = isset($attributeToSetInfo[$atttibuteId])
-                ? $attributeToSetInfo[$atttibuteId]
-                : array();
+            $setInfo[$atttibuteId] = isset(
+                $attributeToSetInfo[$atttibuteId]
+            ) ? $attributeToSetInfo[$atttibuteId] : array();
         }
 
         return $setInfo;
@@ -166,14 +168,17 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getDefaultGroupId($setId)
     {
         $adapter = $this->_getReadAdapter();
-        $bind    = array(
-            'attribute_set_id' => (int)$setId
+        $bind = array('attribute_set_id' => (int)$setId);
+        $select = $adapter->select()->from(
+            $this->getTable('eav_attribute_group'),
+            'attribute_group_id'
+        )->where(
+            'attribute_set_id = :attribute_set_id'
+        )->where(
+            'default_id = 1'
+        )->limit(
+            1
         );
-        $select = $adapter->select()
-            ->from($this->getTable('eav_attribute_group'), 'attribute_group_id')
-            ->where('attribute_set_id = :attribute_set_id')
-            ->where('default_id = 1')
-            ->limit(1);
         return $adapter->fetchOne($select, $bind);
     }
 }

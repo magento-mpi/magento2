@@ -33,25 +33,28 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(), '', false, false, true, array('getId', 'getState', '__wakeup')
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('getId', 'getState', '__wakeup')
         );
-        $this->model = new StoreView(
-            $this->indexerMock
-        );
-        $this->subject = $this->getMock(
-            'Magento\Store\Model\Resource\Group', array(), array(), '', false
-        );
+        $this->model = new StoreView($this->indexerMock);
+        $this->subject = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
     }
 
     public function testAroundSaveNewObject()
     {
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('isObjectNew')
-            ->will($this->returnValue(true));
+        $storeMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
         $proceed = $this->mockPluginProceed();
         $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
@@ -59,12 +62,21 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('group_id')
-            ->will($this->returnValue(true));
+        $storeMock->expects(
+            $this->once()
+        )->method(
+            'dataHasChangedFor'
+        )->with(
+            'group_id'
+        )->will(
+            $this->returnValue(true)
+        );
         $proceed = $this->mockPluginProceed();
         $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
@@ -72,12 +84,21 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveNoNeed()
     {
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('group_id')
-            ->will($this->returnValue(false));
+        $storeMock->expects(
+            $this->once()
+        )->method(
+            'dataHasChangedFor'
+        )->with(
+            'group_id'
+        )->will(
+            $this->returnValue(false)
+        );
         $proceed = $this->mockPluginProceed();
         $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
@@ -88,26 +109,22 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     protected function getStateMock()
     {
         $stateMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer\State', array('setStatus', 'save', '__wakeup'), array(), '', false
+            'Magento\Indexer\Model\Indexer\State',
+            array('setStatus', 'save', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $stateMock->expects($this->once())
-            ->method('setStatus')
-            ->with('invalid')
-            ->will($this->returnSelf());
-        $stateMock->expects($this->once())
-            ->method('save')
-            ->will($this->returnSelf());
+        $stateMock->expects($this->once())->method('setStatus')->with('invalid')->will($this->returnSelf());
+        $stateMock->expects($this->once())->method('save')->will($this->returnSelf());
 
         return $stateMock;
     }
 
     protected function mockIndexerMethods()
     {
-        $this->indexerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->indexerMock->expects($this->once())
-            ->method('invalidate');
+        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->indexerMock->expects($this->once())->method('invalidate');
     }
 
     protected function mockPluginProceed($returnValue = false)

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
 
 class BackendTest extends \PHPUnit_Framework_TestCase
@@ -50,10 +49,6 @@ class BackendTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAllowedDataProvider()
     {
-        return array(
-            array(true, true, true),
-            array(false, true, false),
-            array(false, false, false)
-        );
+        return array(array(true, true, true), array(false, true, false), array(false, false, false));
     }
 }

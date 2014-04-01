@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Category\Action;
 
 class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
@@ -31,7 +30,7 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      * @param bool $useIndexTempTable
      * @return void
      */
-    public function execute(array $entityIds = [], $useIndexTempTable = false)
+    public function execute(array $entityIds = array(), $useIndexTempTable = false)
     {
         if ($entityIds) {
             $this->entityIds = $entityIds;
@@ -50,13 +49,10 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function removeObsoleteIndexData()
     {
-        $this->getWriteAdapter()->delete(
-            $this->getIndexTempTable(),
-            ['category_id IN (?)' => $this->entityIds]
-        );
+        $this->getWriteAdapter()->delete($this->getIndexTempTable(), array('category_id IN (?)' => $this->entityIds));
         $this->getWriteAdapter()->delete(
             $this->getProductIndexTempTable(),
-            ['product_id IN (?)' => $this->getProductList()]
+            array('product_id IN (?)' => $this->getProductList())
         );
     }
 
@@ -69,17 +65,24 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function getCategoryList()
     {
-        $select = $this->getReadAdapter()->select()
-            ->from($this->getTable('catalog_category_entity'), ['path'])
-            ->where('entity_id IN (?)', $this->entityIds);
+        $select = $this->getReadAdapter()->select()->from(
+            $this->getTable('catalog_category_entity'),
+            array('path')
+        )->where(
+            'entity_id IN (?)',
+            $this->entityIds
+        );
 
         $categoriesPathList = $this->getReadAdapter()->fetchCol($select);
 
-        $select = $this->getReadAdapter()->select()
-            ->from($this->getTable('catalog_category_entity'), ['entity_id', 'path'])
-            ->order('level ASC');
+        $select = $this->getReadAdapter()->select()->from(
+            $this->getTable('catalog_category_entity'),
+            array('entity_id', 'path')
+        )->order(
+            'level ASC'
+        );
 
-        $calculatedEntityIds = [];
+        $calculatedEntityIds = array();
         foreach ($categoriesPathList as $path) {
             $select->where('path LIKE ?', $path . '/%');
             $calculatedEntityIds = array_merge($calculatedEntityIds, explode('/', $path));
@@ -108,10 +111,15 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
     protected function getProductList()
     {
         if (is_null($this->productIds)) {
-            $select = $this->getReadAdapter()->select()
-                ->from($this->getTable('catalog_category_product'), 'product_id')
-                ->distinct(true)
-                ->where('category_id IN (?)', $this->entityIds);
+            $select = $this->getReadAdapter()->select()->from(
+                $this->getTable('catalog_category_product'),
+                'product_id'
+            )->distinct(
+                true
+            )->where(
+                'category_id IN (?)',
+                $this->entityIds
+            );
 
             $this->productIds = $this->getReadAdapter()->fetchCol($select);
         }

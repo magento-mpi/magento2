@@ -413,11 +413,12 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      */
     protected function _getScope()
     {
-        return $this->_storeFactory->create(array('url' => $this, 'data' => array(
-            'code' => 'admin',
-            'force_disable_rewrites' => true,
-            'disable_store_in_url' => true
-        )));
+        return $this->_storeFactory->create(
+            array(
+                'url' => $this,
+                'data' => array('code' => 'admin', 'force_disable_rewrites' => true, 'disable_store_in_url' => true)
+            )
+        );
     }
 
     /**

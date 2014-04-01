@@ -23,7 +23,9 @@ class Soap implements \Magento\App\FrontControllerInterface
      * Content types used for responses processed by SOAP web API.
      */
     const CONTENT_TYPE_SOAP_CALL = 'application/soap+xml';
+
     const CONTENT_TYPE_WSDL_REQUEST = 'text/xml';
+
     /**#@-*/
 
     /** @var \Magento\Webapi\Model\Soap\Server */
@@ -44,8 +46,8 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var \Magento\App\State */
     protected $_appState;
 
-    /** @var \Magento\AppInterface */
-    protected $_application;
+    /** @var \Magento\View\LayoutInterface */
+    protected $_layout;
 
     /**
      * @var \Magento\Oauth\OauthInterface
@@ -58,15 +60,23 @@ class Soap implements \Magento\App\FrontControllerInterface
     protected $_localeResolver;
 
     /**
+     * @var \Magento\App\AreaList
+     */
+    protected $areaList;
+
+    /**
      * @param Soap\Request $request
      * @param Response $response
      * @param \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param ErrorProcessor $errorProcessor
      * @param \Magento\App\State $appState
-     * @param \Magento\AppInterface $application
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\App\AreaList $areaList
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Webapi\Controller\Soap\Request $request,
@@ -75,9 +85,10 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Model\Soap\Server $soapServer,
         ErrorProcessor $errorProcessor,
         \Magento\App\State $appState,
-        \Magento\AppInterface $application,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
-        \Magento\Locale\ResolverInterface $localeResolver
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\App\AreaList $areaList
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -85,9 +96,10 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_soapServer = $soapServer;
         $this->_errorProcessor = $errorProcessor;
         $this->_appState = $appState;
-        $this->_application = $application;
         $this->_oauthService = $oauthService;
         $this->_localeResolver = $localeResolver;
+        $this->_layout = $layout;
+        $this->areaList = $areaList;
     }
 
     /**
@@ -101,10 +113,8 @@ class Soap implements \Magento\App\FrontControllerInterface
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
-        $this->_application->loadAreaPart(
-            $this->_application->getLayout()->getArea(),
-            \Magento\Core\Model\App\Area::PART_TRANSLATE
-        );
+        $this->areaList->getArea($this->_layout->getArea())
+            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new WebapiException(__('Magento is not yet installed'));
@@ -175,10 +185,11 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
         $soapFault = new \Magento\Webapi\Model\Soap\Fault(
-            $this->_application,
+            $this->_request,
             $this->_soapServer,
             $maskedException,
-            $this->_localeResolver
+            $this->_localeResolver,
+            $this->_appState
         );
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());
@@ -192,8 +203,10 @@ class Soap implements \Magento\App\FrontControllerInterface
      */
     protected function _setResponseContentType($contentType = 'text/xml')
     {
-        $this->_response->clearHeaders()
-            ->setHeader('Content-Type', "$contentType; charset={$this->_soapServer->getApiCharset()}");
+        $this->_response->clearHeaders()->setHeader(
+            'Content-Type',
+            "{$contentType}; charset={$this->_soapServer->getApiCharset()}"
+        );
         return $this;
     }
 

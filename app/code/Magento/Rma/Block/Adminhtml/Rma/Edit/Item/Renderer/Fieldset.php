@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Renderer;
 
 /**
@@ -17,8 +16,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Renderer;
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Fieldset
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset
+class Fieldset extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset
 {
     /**
      * @var string

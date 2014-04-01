@@ -18,53 +18,98 @@ $installer->startSetup();
 /**
  * Create table 'catalogrule'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('catalogrule'))
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rule Id')
-    ->addColumn('name', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Name')
-    ->addColumn('description', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Description')
-    ->addColumn('from_date', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        ), 'From Date')
-    ->addColumn('to_date', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        ), 'To Date')
-    ->addColumn('customer_group_ids', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Customer Group Ids')
-    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Is Active')
-    ->addColumn('conditions_serialized', \Magento\DB\Ddl\Table::TYPE_TEXT, '2M', array(
-        ), 'Conditions Serialized')
-    ->addColumn('actions_serialized', \Magento\DB\Ddl\Table::TYPE_TEXT, '2M', array(
-        ), 'Actions Serialized')
-    ->addColumn('stop_rules_processing', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Stop Rules Processing')
-    ->addColumn('sort_order', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Sort Order')
-    ->addColumn('simple_action', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        ), 'Simple Action')
-    ->addColumn('discount_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => 0.0000,
-        ), 'Discount Amount')
-    ->addColumn('website_ids', \Magento\DB\Ddl\Table::TYPE_TEXT, 4000, array(
-        ), 'Website Ids')
-    ->addIndex($installer->getIdxName('catalogrule', array('is_active', 'sort_order', 'to_date', 'from_date')),
-        array('is_active', 'sort_order', 'to_date', 'from_date'))
-
-    ->setComment('CatalogRule');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('catalogrule')
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rule Id'
+)->addColumn(
+    'name',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Name'
+)->addColumn(
+    'description',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Description'
+)->addColumn(
+    'from_date',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array(),
+    'From Date'
+)->addColumn(
+    'to_date',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array(),
+    'To Date'
+)->addColumn(
+    'customer_group_ids',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Customer Group Ids'
+)->addColumn(
+    'is_active',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Is Active'
+)->addColumn(
+    'conditions_serialized',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '2M',
+    array(),
+    'Conditions Serialized'
+)->addColumn(
+    'actions_serialized',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '2M',
+    array(),
+    'Actions Serialized'
+)->addColumn(
+    'stop_rules_processing',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '1'),
+    'Stop Rules Processing'
+)->addColumn(
+    'sort_order',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Sort Order'
+)->addColumn(
+    'simple_action',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array(),
+    'Simple Action'
+)->addColumn(
+    'discount_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => 0.0000),
+    'Discount Amount'
+)->addColumn(
+    'website_ids',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    4000,
+    array(),
+    'Website Ids'
+)->addIndex(
+    $installer->getIdxName('catalogrule', array('is_active', 'sort_order', 'to_date', 'from_date')),
+    array('is_active', 'sort_order', 'to_date', 'from_date')
+)->setComment(
+    'CatalogRule'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -222,14 +267,17 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'catalogrule_affected_product'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('catalogrule_affected_product'))
-    ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Product Id')
-    ->setComment('CatalogRule Affected Product');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('catalogrule_affected_product')
+)->addColumn(
+    'product_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Product Id'
+)->setComment(
+    'CatalogRule Affected Product'
+);
 
 $installer->getConnection()->createTable($table);
 

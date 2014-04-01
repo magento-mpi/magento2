@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\TaxClass\Type;
 
 use Magento\Customer\Service\V1\Data\CustomerGroup;
@@ -72,13 +71,11 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
      * \Magento\Tax\Model\TaxClass\Type\TypeInterface::getAssignedToObjects are refactored to return Data Objects.
      * Will be revisited in MAGETWO-21827
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getAssignedToObjects()
     {
-        return $this->_modelCustomerGroup
-            ->getCollection()
-            ->addFieldToFilter('tax_class_id', $this->getId());
+        return $this->_modelCustomerGroup->getCollection()->addFieldToFilter('tax_class_id', $this->getId());
     }
 
     /**
@@ -88,9 +85,9 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
      */
     public function getAssignedDataObjects()
     {
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter($this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create())
-            ->create();
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
+            $this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create()
+        )->create();
         $result = $this->groupService->searchGroups($searchCriteria);
         return $result->getItems();
     }

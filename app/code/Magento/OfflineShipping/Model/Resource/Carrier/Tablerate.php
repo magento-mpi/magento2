@@ -15,35 +15,35 @@
  */
 namespace Magento\OfflineShipping\Model\Resource\Carrier;
 
-class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Tablerate extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Import table rates website ID
      *
      * @var int
      */
-    protected $_importWebsiteId     = 0;
+    protected $_importWebsiteId = 0;
 
     /**
      * Errors in import process
      *
      * @var array
      */
-    protected $_importErrors        = array();
+    protected $_importErrors = array();
 
     /**
      * Count of imported table rates
      *
      * @var int
      */
-    protected $_importedRows        = 0;
+    protected $_importedRows = 0;
 
     /**
      * Array of unique table rate keys to protect from duplicates
      *
      * @var array
      */
-    protected $_importUniqueHash    = array();
+    protected $_importUniqueHash = array();
 
     /**
      * Array of countries keyed by iso2 code
@@ -79,7 +79,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @var array
      */
-    protected $_conditionFullNames  = array();
+    protected $_conditionFullNames = array();
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
@@ -168,19 +168,25 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         $bind = array(
-            ':website_id' => (int) $request->getWebsiteId(),
+            ':website_id' => (int)$request->getWebsiteId(),
             ':country_id' => $request->getDestCountryId(),
-            ':region_id' => (int) $request->getDestRegionId(),
+            ':region_id' => (int)$request->getDestRegionId(),
             ':postcode' => $request->getDestPostcode()
         );
-        $select = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('website_id = :website_id')
-            ->order(array('dest_country_id DESC', 'dest_region_id DESC', 'dest_zip DESC'))
-            ->limit(1);
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'website_id = :website_id'
+        )->order(
+            array('dest_country_id DESC', 'dest_region_id DESC', 'dest_zip DESC')
+        )->limit(
+            1
+        );
 
         // Render destination condition
-        $orWhere = '(' . implode(') OR (', array(
+        $orWhere = '(' . implode(
+            ') OR (',
+            array(
                 "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = :postcode",
                 "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = ''",
 
@@ -189,11 +195,11 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
                 "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'",
                 "dest_country_id = '0' AND dest_region_id = :region_id AND dest_zip = '*'",
                 "dest_country_id = '0' AND dest_region_id = 0 AND dest_zip = '*'",
-
                 "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = ''",
                 "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = :postcode",
-                "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'",
-            )) . ')';
+                "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'"
+            )
+        ) . ')';
         $select->where($orWhere);
 
         // Render condition by condition name
@@ -201,7 +207,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
             $orWhere = array();
             $i = 0;
             foreach ($request->getConditionName() as $conditionName) {
-                $bindNameKey  = sprintf(':condition_name_%d', $i);
+                $bindNameKey = sprintf(':condition_name_%d', $i);
                 $bindValueKey = sprintf(':condition_value_%d', $i);
                 $orWhere[] = "(condition_name = {$bindNameKey} AND condition_value <= {$bindValueKey})";
                 $bind[$bindNameKey] = $conditionName;
@@ -213,7 +219,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $select->where(implode(' OR ', $orWhere));
             }
         } else {
-            $bind[':condition_name']  = $request->getConditionName();
+            $bind[':condition_name'] = $request->getConditionName();
             $bind[':condition_value'] = $request->getData($request->getConditionName());
 
             $select->where('condition_name = :condition_name');
@@ -232,7 +238,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Upload table rate file and import data from it
      *
      * @param \Magento\Object $object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate
      * @todo: this method should be refactored as soon as updated design will be provided
      * @see https://wiki.corp.x.com/display/MCOMS/Magento+Filesystem+Decisions
@@ -246,10 +252,10 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $csvFile = $_FILES['groups']['tmp_name']['tablerate']['fields']['import']['value'];
         $website = $this->_storeManager->getWebsite($object->getScopeId());
 
-        $this->_importWebsiteId     = (int)$website->getId();
-        $this->_importUniqueHash    = array();
-        $this->_importErrors        = array();
-        $this->_importedRows        = 0;
+        $this->_importWebsiteId = (int)$website->getId();
+        $this->_importUniqueHash = array();
+        $this->_importErrors = array();
+        $this->_importedRows = 0;
 
         $tmpDirectory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::SYS_TMP_DIR);
         $path = $tmpDirectory->getRelativePath($csvFile);
@@ -259,7 +265,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $headers = $stream->readCsv();
         if ($headers === false || count($headers) < 5) {
             $stream->close();
-            throw new \Magento\Core\Exception(__('Please correct Table Rates File Format.'));
+            throw new \Magento\Model\Exception(__('Please correct Table Rates File Format.'));
         }
 
         if ($object->getData('groups/tablerate/fields/condition_name/inherit') == '1') {
@@ -273,7 +279,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter->beginTransaction();
 
         try {
-            $rowNumber  = 1;
+            $rowNumber = 1;
             $importData = array();
 
             $this->_loadDirectoryCountries();
@@ -281,13 +287,13 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             // delete old data by website and condition name
             $condition = array(
-                'website_id = ?'     => $this->_importWebsiteId,
+                'website_id = ?' => $this->_importWebsiteId,
                 'condition_name = ?' => $this->_importConditionName
             );
             $adapter->delete($this->getMainTable(), $condition);
 
             while (false !== ($csvLine = $stream->readCsv())) {
-                $rowNumber ++;
+                $rowNumber++;
 
                 if (empty($csvLine)) {
                     continue;
@@ -305,22 +311,25 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
             $this->_saveImportData($importData);
             $stream->close();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $adapter->rollback();
             $stream->close();
-            throw new \Magento\Core\Exception($e->getMessage());
+            throw new \Magento\Model\Exception($e->getMessage());
         } catch (\Exception $e) {
             $adapter->rollback();
             $stream->close();
             $this->_logger->logException($e);
-            throw new \Magento\Core\Exception(__('Something went wrong while importing table rates.'));
+            throw new \Magento\Model\Exception(__('Something went wrong while importing table rates.'));
         }
 
         $adapter->commit();
 
         if ($this->_importErrors) {
-            $error = __('We couldn\'t import this file because of these errors: %1', implode(" \n", $this->_importErrors));
-            throw new \Magento\Core\Exception($error);
+            $error = __(
+                'We couldn\'t import this file because of these errors: %1',
+                implode(" \n", $this->_importErrors)
+            );
+            throw new \Magento\Model\Exception($error);
         }
 
         return $this;
@@ -441,7 +450,12 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         // validate condition value
         $value = $this->_parseDecimalValue($row[3]);
         if ($value === false) {
-            $this->_importErrors[] = __('Please correct %1 "%2" in the Row #%3.', $this->_getConditionFullName($this->_importConditionName), $row[3], $rowNumber);
+            $this->_importErrors[] = __(
+                'Please correct %1 "%2" in the Row #%3.',
+                $this->_getConditionFullName($this->_importConditionName),
+                $row[3],
+                $rowNumber
+            );
             return false;
         }
 
@@ -455,7 +469,14 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         // protect from duplicate
         $hash = sprintf("%s-%d-%s-%F", $countryId, $regionId, $zipCode, $value);
         if (isset($this->_importUniqueHash[$hash])) {
-            $this->_importErrors[] = __('Duplicate Row #%1 (Country "%2", Region/State "%3", Zip "%4" and Value "%5")', $rowNumber, $row[0], $row[1], $zipCode, $value);
+            $this->_importErrors[] = __(
+                'Duplicate Row #%1 (Country "%2", Region/State "%3", Zip "%4" and Value "%5")',
+                $rowNumber,
+                $row[0],
+                $row[1],
+                $zipCode,
+                $value
+            );
             return false;
         }
         $this->_importUniqueHash[$hash] = true;
@@ -480,8 +501,15 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _saveImportData(array $data)
     {
         if (!empty($data)) {
-            $columns = array('website_id', 'dest_country_id', 'dest_region_id', 'dest_zip',
-                'condition_name', 'condition_value', 'price');
+            $columns = array(
+                'website_id',
+                'dest_country_id',
+                'dest_region_id',
+                'dest_zip',
+                'condition_name',
+                'condition_value',
+                'price'
+            );
             $this->_getWriteAdapter()->insertArray($this->getMainTable(), $columns, $data);
             $this->_importedRows += count($data);
         }
@@ -501,7 +529,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (!is_numeric($value)) {
             return false;
         }
-        $value = (float)sprintf('%.4F', $value);
+        $value = (double)sprintf('%.4F', $value);
         if ($value < 0.0000) {
             return false;
         }

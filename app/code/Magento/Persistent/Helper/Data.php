@@ -16,10 +16,15 @@ namespace Magento\Persistent\Helper;
 class Data extends \Magento\Core\Helper\Data
 {
     const XML_PATH_ENABLED = 'persistent/options/enabled';
+
     const XML_PATH_LIFE_TIME = 'persistent/options/lifetime';
+
     const XML_PATH_LOGOUT_CLEAR = 'persistent/options/logout_clear';
+
     const XML_PATH_REMEMBER_ME_ENABLED = 'persistent/options/remember_enabled';
+
     const XML_PATH_REMEMBER_ME_DEFAULT = 'persistent/options/remember_default';
+
     const XML_PATH_PERSIST_SHOPPING_CART = 'persistent/options/shopping_cart';
 
     /**
@@ -70,13 +75,7 @@ class Data extends \Magento\Core\Helper\Data
         $this->_persistentSession = $persistentSession;
         $this->_escaper = $escaper;
 
-        parent::__construct(
-            $context,
-            $coreStoreConfig,
-            $storeManager,
-            $appState,
-            $dbCompatibleMode
-        );
+        parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $dbCompatibleMode);
     }
 
     /**

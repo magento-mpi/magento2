@@ -16,7 +16,7 @@ namespace Magento\Directory\Model\Resource\Country;
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Format extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Format extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -35,10 +35,12 @@ class Format extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array(
-            'field' => array('country_id', 'type'),
-            'title' => __('Country and Format Type combination should be unique')
-        ));
+        $this->_uniqueFields = array(
+            array(
+                'field' => array('country_id', 'type'),
+                'title' => __('Country and Format Type combination should be unique')
+            )
+        );
         return $this;
     }
 }

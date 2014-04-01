@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\TestCase\Category;
 
 use Mtf\Factory\Factory;
@@ -56,7 +55,7 @@ class AssignProductTest extends Functional
         $categoryProductsGrid = $formBlock->getCategoryProductsGrid();
         $products = [$simple, $configurable, $bundle];
         /** @var Product $product */
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $categoryProductsGrid->searchAndSelect(['sku' => $product->getProductSku()]);
         }
         $formBlock->save($category);

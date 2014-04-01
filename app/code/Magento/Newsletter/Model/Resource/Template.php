@@ -16,7 +16,7 @@ namespace Magento\Newsletter\Model\Resource;
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Template extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Date
@@ -56,9 +56,14 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $read = $this->_getReadAdapter();
         if ($read && !is_null($templateCode)) {
-            $select = $this->_getLoadSelect('template_code', $templateCode, $object)
-                ->where('template_actual = :template_actual');
-            $data = $read->fetchRow($select, array('template_actual'=>1));
+            $select = $this->_getLoadSelect(
+                'template_code',
+                $templateCode,
+                $object
+            )->where(
+                'template_actual = :template_actual'
+            );
+            $data = $read->fetchRow($select, array('template_actual' => 1));
 
             if ($data) {
                 $object->setData($data);
@@ -79,11 +84,14 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function checkUsageInQueue(\Magento\Newsletter\Model\Template $template)
     {
         if ($template->getTemplateActual() !== 0 && !$template->getIsSystem()) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('newsletter_queue'), new \Zend_Db_Expr('COUNT(queue_id)'))
-                ->where('template_id = :template_id');
+            $select = $this->_getReadAdapter()->select()->from(
+                $this->getTable('newsletter_queue'),
+                new \Zend_Db_Expr('COUNT(queue_id)')
+            )->where(
+                'template_id = :template_id'
+            );
 
-            $countOfQueue = $this->_getReadAdapter()->fetchOne($select, array('template_id'=>$template->getId()));
+            $countOfQueue = $this->_getReadAdapter()->fetchOne($select, array('template_id' => $template->getId()));
 
             return $countOfQueue > 0;
         } elseif ($template->getIsSystem()) {
@@ -103,15 +111,20 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if ($template->getTemplateActual() != 0 || is_null($template->getTemplateActual())) {
             $bind = array(
-                'template_id'     => $template->getId(),
-                'template_code'   => $template->getTemplateCode(),
+                'template_id' => $template->getId(),
+                'template_code' => $template->getTemplateCode(),
                 'template_actual' => 1
             );
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), new \Zend_Db_Expr('COUNT(template_id)'))
-                ->where('template_id != :template_id')
-                ->where('template_code = :template_code')
-                ->where('template_actual = :template_actual');
+            $select = $this->_getReadAdapter()->select()->from(
+                $this->getMainTable(),
+                new \Zend_Db_Expr('COUNT(template_id)')
+            )->where(
+                'template_id != :template_id'
+            )->where(
+                'template_code = :template_code'
+            )->where(
+                'template_actual = :template_actual'
+            );
 
             $countOfCodes = $this->_getReadAdapter()->fetchOne($select, $bind);
 
@@ -124,14 +137,14 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if ($this->checkCodeUsage($object)) {
-            throw new \Magento\Core\Exception(__('Duplicate template code'));
+            throw new \Magento\Model\Exception(__('Duplicate template code'));
         }
 
         if (!$object->hasTemplateActual()) {

@@ -88,65 +88,43 @@ class Eav extends \Magento\Eav\Helper\Data
     {
         $inputTypes = array(
             'text' => array(
-                'label'             => __('Text Field'),
-                'manage_options'    => false,
-                'validate_types'    => array(
-                    'min_text_length',
-                    'max_text_length',
-                ),
-                'validate_filters'  => array(
-                    'alphanumeric',
-                    'numeric',
-                    'alpha',
-                    'url',
-                    'email',
-                ),
-                'filter_types'      => array(
-                    'striptags',
-                    'escapehtml'
-                ),
-                'backend_type'      => 'varchar',
-                'default_value'     => 'text',
+                'label' => __('Text Field'),
+                'manage_options' => false,
+                'validate_types' => array('min_text_length', 'max_text_length'),
+                'validate_filters' => array('alphanumeric', 'numeric', 'alpha', 'url', 'email'),
+                'filter_types' => array('striptags', 'escapehtml'),
+                'backend_type' => 'varchar',
+                'default_value' => 'text'
             ),
             'textarea' => array(
-                'label'             => __('Text Area'),
-                'manage_options'    => false,
-                'validate_types'    => array(
-                    'min_text_length',
-                    'max_text_length',
-                ),
-                'validate_filters'  => array(),
-                'filter_types'      => array(
-                    'striptags',
-                    'escapehtml'
-                ),
-                'backend_type'      => 'text',
-                'default_value'     => 'textarea',
+                'label' => __('Text Area'),
+                'manage_options' => false,
+                'validate_types' => array('min_text_length', 'max_text_length'),
+                'validate_filters' => array(),
+                'filter_types' => array('striptags', 'escapehtml'),
+                'backend_type' => 'text',
+                'default_value' => 'textarea'
             ),
             'select' => array(
-                'label'             => __('Dropdown'),
-                'manage_options'    => true,
-                'option_default'    => 'radio',
-                'validate_types'    => array(),
-                'validate_filters'  => array(),
-                'filter_types'      => array(),
-                'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
-                'backend_type'      => 'int',
-                'default_value'     => false,
+                'label' => __('Dropdown'),
+                'manage_options' => true,
+                'option_default' => 'radio',
+                'validate_types' => array(),
+                'validate_filters' => array(),
+                'filter_types' => array(),
+                'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
+                'backend_type' => 'int',
+                'default_value' => false
             ),
             'image' => array(
-                'label'             => __('Image File'),
-                'manage_options'    => false,
-                'validate_types'    => array(
-                    'max_file_size',
-                    'max_image_width',
-                    'max_image_heght',
-                ),
-                'validate_filters'  => array(),
-                'filter_types'      => array(),
-                'backend_type'      => 'varchar',
-                'default_value'     => false,
-            ),
+                'label' => __('Image File'),
+                'manage_options' => false,
+                'validate_types' => array('max_file_size', 'max_image_width', 'max_image_heght'),
+                'validate_filters' => array(),
+                'filter_types' => array(),
+                'backend_type' => 'varchar',
+                'default_value' => false
+            )
         );
 
         if (is_null($inputType)) {
@@ -217,16 +195,18 @@ class Eav extends \Magento\Eav\Helper\Data
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
             $optionCollection = $this->_collectionFactory->create()->setStoreFilter($storeId, $useDefaultValue);
-            $optionCollection->getSelect()
-                ->join(
-                    array('ea' => $this->_resource->getTableName('eav_attribute')),
-                    'main_table.attribute_id = ea.attribute_id',
-                    array('attribute_code' => 'ea.attribute_code'))
-                ->join(
-                    array('eat' => $this->_resource->getTableName('eav_entity_type')),
-                    'ea.entity_type_id = eat.entity_type_id',
-                    array(''))
-                ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());
+            $optionCollection->getSelect()->join(
+                array('ea' => $this->_resource->getTableName('eav_attribute')),
+                'main_table.attribute_id = ea.attribute_id',
+                array('attribute_code' => 'ea.attribute_code')
+            )->join(
+                array('eat' => $this->_resource->getTableName('eav_entity_type')),
+                'ea.entity_type_id = eat.entity_type_id',
+                array('')
+            )->where(
+                'eat.entity_type_code = ?',
+                $this->_getEntityTypeCode()
+            );
             $value = array();
             foreach ($optionCollection as $option) {
                 $value[$option->getAttributeCode()][$option->getOptionId()] = $option->getData();

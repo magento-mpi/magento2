@@ -33,35 +33,16 @@ class Factory
      * @var array
      */
     protected $_rendererByElement = array(
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Column',
-
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ColorPicker',
-
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Composite',
-
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Font',
-
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\LogoUploader',
-
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Background'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Composite',
-
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker'
-            => 'Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
-
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\BackgroundUploader',
-
-        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader',
-
-        'Magento\Data\Form\Element\Checkbox'
-            => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Checkbox'
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Column',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ColorPicker',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Composite',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Font',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\LogoUploader',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Background' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Composite',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker' => 'Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\BackgroundUploader',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader',
+        'Magento\Data\Form\Element\Checkbox' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Checkbox'
     );
 
     /**
@@ -86,12 +67,12 @@ class Factory
      * @param string $elementClassName
      * @param string $rendererName
      * @return RendererInterface
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function create($elementClassName, $rendererName)
     {
         if (!isset($this->_rendererByElement[$elementClassName])) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 sprintf('No renderer registered for elements of class "%s"', $elementClassName)
             );
         }

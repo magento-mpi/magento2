@@ -77,7 +77,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -87,21 +87,12 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
-        parent::__construct(
-            $context,
-            $registry,
-            $paymentData,
-            $encryptor,
-            $resource,
-            $resourceCollection,
-            $data
-        );
-
+        parent::__construct($context, $registry, $paymentData, $encryptor, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -144,17 +135,14 @@ class Payment extends \Magento\Payment\Model\Info
      *
      * @param array $data
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function importData(array $data)
     {
         $data = new \Magento\Object($data);
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_import_data_before',
-            array(
-                $this->_eventObject=>$this,
-                'input'=>$data,
-            )
+            array($this->_eventObject => $this, 'input' => $data)
         );
 
         $this->setMethod($data->getMethod());
@@ -166,17 +154,22 @@ class Payment extends \Magento\Payment\Model\Info
          */
         $this->getQuote()->collectTotals();
 
-        if (!$method->isAvailable($this->getQuote())
-            || !$this->methodSpecificationFactory->create($data->getChecks())
-                ->isApplicable($method, $this->getQuote())
+        if (!$method->isAvailable(
+            $this->getQuote()
+        ) || !$this->methodSpecificationFactory->create(
+            $data->getChecks()
+        )->isApplicable(
+            $method,
+            $this->getQuote()
+        )
         ) {
-            throw new \Magento\Core\Exception(__('The requested Payment Method is not available.'));
+            throw new \Magento\Model\Exception(__('The requested Payment Method is not available.'));
         }
 
         $method->assignData($data);
         /*
-        * validating the payment data
-        */
+         * validating the payment data
+         */
         $method->validate();
         return $this;
     }
@@ -193,7 +186,7 @@ class Payment extends \Magento\Payment\Model\Info
         }
         try {
             $method = $this->getMethodInstance();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             return parent::_beforeSave();
         }
         $method->prepareSave();

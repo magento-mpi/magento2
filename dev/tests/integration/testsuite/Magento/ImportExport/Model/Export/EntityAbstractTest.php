@@ -32,7 +32,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\Store\Model\StoreManager'),
                 $objectManager->get('Magento\ImportExport\Model\Export\Factory'),
-                $objectManager->get('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory'),
+                $objectManager->get('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory')
             )
         );
     }
@@ -58,15 +58,18 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWriter()
     {
-        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\ImportExport\Model\Export\Adapter\Csv'
+            )
+        );
         $this->assertInstanceOf('Magento\ImportExport\Model\Export\Adapter\Csv', $this->_model->getWriter());
     }
 
     /**
      * Check that method throw exception when writer was not defined
      *
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testGetWriterThrowsException()
     {
@@ -78,8 +81,9 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterAttributeCollection()
     {
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Resource\Attribute\Collection'
+        );
         $collection = $this->_model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
@@ -99,12 +103,11 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         }
     }
 }
-
 /**
  * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
  */
-abstract class Stub_Magento_ImportExport_Model_Export_AbstractEntity
-    extends \Magento\ImportExport\Model\Export\AbstractEntity
+abstract class Stub_Magento_ImportExport_Model_Export_AbstractEntity extends
+\Magento\ImportExport\Model\Export\AbstractEntity
 {
     public function __construct(
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 /**
@@ -31,10 +30,8 @@ class RelatedFile
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
      */
-    public function __construct(
-        Service $viewService,
-        FileSystem $viewFileSystem
-    ) {
+    public function __construct(Service $viewService, FileSystem $viewFileSystem)
+    {
         $this->viewService = $viewService;
         $this->viewFileSystem = $viewFileSystem;
     }

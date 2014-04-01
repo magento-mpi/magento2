@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class SectionTest extends \PHPUnit_Framework_TestCase
@@ -36,13 +35,19 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            'Magento\Backend\Model\Config\Structure\Element\Iterator\Field', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Iterator\Field',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
 
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Section(
-            $this->_storeManagerMock, $this->_iteratorMock, $this->_authorizationMock
+            $this->_storeManagerMock,
+            $this->_iteratorMock,
+            $this->_authorizationMock
         );
     }
 
@@ -61,10 +66,15 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAllowedReturnsTrueIfResourcesIsValidAndAllowed()
     {
-        $this->_authorizationMock->expects($this->once())
-            ->method('isAllowed')
-            ->with('someResource')
-            ->will($this->returnValue(true));
+        $this->_authorizationMock->expects(
+            $this->once()
+        )->method(
+            'isAllowed'
+        )->with(
+            'someResource'
+        )->will(
+            $this->returnValue(true)
+        );
 
         $this->_model->setData(array('resource' => 'someResource'), 'store');
         $this->assertTrue($this->_model->isAllowed());
@@ -84,5 +94,3 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->_model->isVisible();
     }
 }
-
-

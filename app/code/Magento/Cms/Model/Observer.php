@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model;
 
 /**
@@ -49,11 +48,15 @@ class Observer
      */
     public function noRoute(\Magento\Event\Observer $observer)
     {
-        $observer->getEvent()->getStatus()
-            ->setLoaded(true)
-            ->setForwardModule('cms')
-            ->setForwardController('index')
-            ->setForwardAction('noroute');
+        $observer->getEvent()->getStatus()->setLoaded(
+            true
+        )->setForwardModule(
+            'cms'
+        )->setForwardController(
+            'index'
+        )->setForwardAction(
+            'noroute'
+        );
         return $this;
     }
 
@@ -73,11 +76,8 @@ class Observer
         if ($pageUrl) {
             $redirect->setRedirectUrl($pageUrl);
         } else {
-            $redirect->setRedirect(true)
-                ->setPath('cms/index/noCookies')
-                ->setArguments(array());
+            $redirect->setRedirect(true)->setPath('cms/index/noCookies')->setArguments(array());
         }
         return $this;
     }
-
 }

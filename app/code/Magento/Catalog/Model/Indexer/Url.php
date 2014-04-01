@@ -41,7 +41,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Store\Model\Store::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
-        \Magento\Store\Model\Store::ENTITY => array(
+        \Magento\Store\Model\Group::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
         \Magento\App\Config\ValueInterface::ENTITY => array(
@@ -57,7 +57,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_relatedConfigSettings = array(
         \Magento\Catalog\Helper\Category::XML_PATH_CATEGORY_URL_SUFFIX,
         \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_SUFFIX,
-        \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY,
+        \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY
     );
 
     /**
@@ -81,7 +81,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Resource\UrlFactory $catalogResourceUrlFactory
      * @param \Magento\Catalog\Model\Url $catalogUrl
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -90,7 +90,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Registry $registry,
         \Magento\Catalog\Model\Resource\UrlFactory $catalogResourceUrlFactory,
         \Magento\Catalog\Model\Url $catalogUrl,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -128,7 +128,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function matchEvent(\Magento\Index\Model\Event $event)
     {
-        $data       = $event->getNewData();
+        $data = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
             return $data[self::EVENT_MATCH_RESULT_KEY];
         }
@@ -144,8 +144,11 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         } else if ($entity == \Magento\Store\Model\Group::ENTITY) {
             /** @var \Magento\Store\Model\Group $storeGroup */
             $storeGroup = $event->getDataObject();
-            $hasDataChanges = $storeGroup && ($storeGroup->dataHasChangedFor('root_category_id')
-                || $storeGroup->dataHasChangedFor('website_id'));
+            $hasDataChanges = $storeGroup && ($storeGroup->dataHasChangedFor(
+                'root_category_id'
+            ) || $storeGroup->dataHasChangedFor(
+                'website_id'
+            ));
             if ($storeGroup && !$storeGroup->isObjectNew() && $hasDataChanges) {
                 $result = true;
             } else {
@@ -205,9 +208,9 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected function _registerProductEvent(\Magento\Index\Model\Event $event)
     {
         $product = $event->getDataObject();
-        $dataChange = $product->dataHasChangedFor('url_key')
-            || $product->getIsChangedCategories()
-            || $product->getIsChangedWebsites();
+        $dataChange = $product->dataHasChangedFor(
+            'url_key'
+        ) || $product->getIsChangedCategories() || $product->getIsChangedWebsites();
 
         if (!$product->getExcludeUrlRewrite() && $dataChange) {
             $event->addNewData('rewrite_product_ids', array($product->getId()));
@@ -256,13 +259,15 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         }
 
         if (isset($data['rewrite_product_ids'])) {
-            $this->_catalogUrl->clearStoreInvalidRewrites(); // Maybe some products were moved or removed from website
+            $this->_catalogUrl->clearStoreInvalidRewrites();
+            // Maybe some products were moved or removed from website
             foreach ($data['rewrite_product_ids'] as $productId) {
                 $this->_catalogUrl->refreshProductRewrite($productId);
             }
         }
         if (isset($data['rewrite_category_ids'])) {
-            $this->_catalogUrl->clearStoreInvalidRewrites(); // Maybe some categories were moved
+            $this->_catalogUrl->clearStoreInvalidRewrites();
+            // Maybe some categories were moved
             foreach ($data['rewrite_category_ids'] as $categoryId) {
                 $this->_catalogUrl->refreshCategoryRewrite($categoryId);
             }

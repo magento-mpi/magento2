@@ -8,7 +8,7 @@
 namespace Magento\RecurringPayment\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
-use Magento\Core\Exception as CoreException;
+use Magento\Model\Exception as CoreException;
 use Magento\Customer\Controller\RegistryConstants;
 
 /**
@@ -22,16 +22,22 @@ class RecurringPayment extends \Magento\Backend\App\Action
      * Request parameter key
      */
     const PARAM_CUSTOMER_ID = 'id';
+
     const PARAM_PAYMENT = 'payment';
+
     const PARAM_ACTION = 'action';
+
     /**#@-*/
 
     /**#@+
      * Value for PARAM_ACTION request parameter
      */
     const ACTION_CANCEL = 'cancel';
+
     const ACTION_SUSPEND = 'suspend';
+
     const ACTION_ACTIVATE = 'activate';
+
     /**#@-*/
 
     /**
@@ -56,7 +62,7 @@ class RecurringPayment extends \Magento\Backend\App\Action
         \Magento\Registry $coreRegistry,
         \Magento\Logger $logger
     ) {
-        $this->_coreRegistry = $coreRegistry;;
+        $this->_coreRegistry = $coreRegistry;
         $this->_logger = $logger;
         parent::__construct($context);
     }
@@ -222,12 +228,15 @@ class RecurringPayment extends \Magento\Backend\App\Action
      * Load/set payment
      *
      * @return \Magento\RecurringPayment\Model\Payment
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initPayment()
     {
-        $payment = $this->_objectManager->create('Magento\RecurringPayment\Model\Payment')
-            ->load($this->getRequest()->getParam(self::PARAM_PAYMENT));
+        $payment = $this->_objectManager->create(
+            'Magento\RecurringPayment\Model\Payment'
+        )->load(
+            $this->getRequest()->getParam(self::PARAM_PAYMENT)
+        );
         if (!$payment->getId()) {
             throw new CoreException(__('The payment you specified does not exist.'));
         }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource\Product;
 
 class FlatTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +16,6 @@ class FlatTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Catalog\Model\Resource\Product\Flat
      */
     protected $_model;
-
 
     /**
      * @var \Magento\Store\Model\Store
@@ -39,13 +37,21 @@ class FlatTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerInterface = $this->getMock(
             '\Magento\Store\Model\StoreManagerInterface');
 
-        $this->_storeManagerInterface->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $this->_storeManagerInterface->expects(
+            $this->any()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($this->_store)
+        );
 
-        $this->_storeManagerInterface->expects($this->any())
-            ->method('getDefaultStoreView')
-            ->will($this->returnValue($this->_store));
+        $this->_storeManagerInterface->expects(
+            $this->any()
+        )->method(
+            'getDefaultStoreView'
+        )->will(
+            $this->returnValue($this->_store)
+        );
 
 
         $this->_model = new \Magento\Catalog\Model\Resource\Product\Flat(
@@ -64,8 +70,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function testSetNotIntStoreId()
     {
-        $this->_storeManagerInterface->expects($this->once())
-            ->method('getStore');
+        $this->_storeManagerInterface->expects($this->once())->method('getStore');
 
         $store = $this->_model->setStoreId('test');
         $storeId = $store->getStoreId();

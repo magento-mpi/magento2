@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Menu;
 
 /**
@@ -217,7 +216,7 @@ class Item
      */
     public function hasChildren()
     {
-        return !is_null($this->_submenu) && (bool) $this->_submenu->count();
+        return !is_null($this->_submenu) && (bool)$this->_submenu->count();
     }
 
     /**
@@ -240,7 +239,7 @@ class Item
      */
     public function getUrl()
     {
-        if ((bool) $this->_action) {
+        if ((bool)$this->_action) {
             return $this->_urlModel->getUrl((string)$this->_action, array('_cache_secret_key' => true));
         }
         return '#';
@@ -324,7 +323,7 @@ class Item
      */
     public function hasTooltip()
     {
-        return (bool) $this->_tooltip;
+        return (bool)$this->_tooltip;
     }
 
     /**
@@ -400,9 +399,9 @@ class Item
      */
     public function isDisabled()
     {
-        return !$this->_moduleManager->isOutputEnabled($this->_moduleName)
-            || !$this->_isModuleDependenciesAvailable()
-            || !$this->_isConfigDependenciesAvailable();
+        return !$this->_moduleManager->isOutputEnabled(
+            $this->_moduleName
+        ) || !$this->_isModuleDependenciesAvailable() || !$this->_isConfigDependenciesAvailable();
     }
 
     /**

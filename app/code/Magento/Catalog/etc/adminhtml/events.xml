@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="cms_wysiwyg_images_static_urls_allowed">
         <observer name="catalog_wysiwyg" instance="Magento\Catalog\Model\Observer" method="catalogCheckIsUsingStaticUrlsAllowed" />
     </event>

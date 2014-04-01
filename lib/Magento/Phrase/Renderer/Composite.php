@@ -25,27 +25,28 @@ class Composite implements RendererInterface
     public function __construct(array $renderers)
     {
         foreach ($renderers as $renderer) {
-            if (!($renderer instanceof RendererInterface)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Instance of the phrase renderer is expected, got %s instead.', get_class($renderer)
-                ));
+            if (!$renderer instanceof RendererInterface) {
+                throw new \InvalidArgumentException(
+                    sprintf('Instance of the phrase renderer is expected, got %s instead.', get_class($renderer))
+                );
             }
         }
         $this->_renderers = $renderers;
     }
 
     /**
-     * Render result text
+     * Render source text
      *
-     * @param string $text
-     * @param array $arguments
+     * @param [] $source
+     * @param [] $arguments
      * @return string
      */
-    public function render($text, array $arguments = array())
+    public function render(array $source, array $arguments = array())
     {
+        $result = $source;
         foreach ($this->_renderers as $render) {
-            $text = $render->render($text, $arguments);
+            $result[] = $render->render($result, $arguments);
         }
-        return $text;
+        return end($result);
     }
 }

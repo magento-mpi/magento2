@@ -11,9 +11,9 @@
  */
 namespace Magento\Logging\Model\Handler;
 
-use \Magento\Core\Model\AbstractModel;
-use \Magento\Logging\Model\Event\Changes;
-use \Magento\Logging\Model\Processor;
+use Magento\Model\AbstractModel;
+use Magento\Logging\Model\Event\Changes;
+use Magento\Logging\Model\Processor;
 
 class Models
 {
@@ -46,8 +46,7 @@ class Models
         $processor->collectId($model);
         /** @var Changes $changes */
         $changes = $this->_eventChangesFactory->create();
-        $changes->setOriginalData($model->getOrigData())
-            ->setResultData($model->getData());
+        $changes->setOriginalData($model->getOrigData())->setResultData($model->getData());
         return $changes;
     }
 
@@ -63,8 +62,7 @@ class Models
         $processor->collectId($model);
         /** @var Changes $changes */
         $changes = $this->_eventChangesFactory->create();
-        $changes->setOriginalData($model->getOrigData())
-            ->setResultData(null);
+        $changes->setOriginalData($model->getOrigData())->setResultData(null);
         return $changes;
     }
 

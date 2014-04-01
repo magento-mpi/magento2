@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
 class Import
@@ -49,12 +48,14 @@ class Import
             return;
         }
 
-        $categoryIndex = $this->indexerFactory->create()
-            ->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
+        $categoryIndex = $this->indexerFactory->create()->load(
+            \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
+        );
         $categoryIndex->invalidate();
 
-        $productIndex = $this->indexerFactory->create()
-            ->load(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID);
+        $productIndex = $this->indexerFactory->create()->load(
+            \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
+        );
         $productIndex->invalidate();
 
         return $import;

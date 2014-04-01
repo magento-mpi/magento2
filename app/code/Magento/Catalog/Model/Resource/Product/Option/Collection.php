@@ -14,7 +14,7 @@ namespace Magento\Catalog\Model\Resource\Product\Option;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store manager
@@ -38,7 +38,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -48,7 +48,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_optionValueCollectionFactory = $optionValueCollectionFactory;
         $this->_storeManager = $storeManager;
@@ -73,8 +73,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function getOptions($storeId)
     {
-        $this->addPriceToResult($storeId)
-             ->addTitleToResult($storeId);
+        $this->addPriceToResult($storeId)->addTitleToResult($storeId);
 
         return $this;
     }
@@ -88,8 +87,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addTitleToResult($storeId)
     {
         $productOptionTitleTable = $this->getTable('catalog_product_option_title');
-        $adapter        = $this->getConnection();
-        $titleExpr      = $adapter->getCheckSql(
+        $adapter = $this->getConnection();
+        $titleExpr = $adapter->getCheckSql(
             'store_option_title.title IS NULL',
             'default_option_title.title',
             'store_option_title.title'
@@ -121,13 +120,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addPriceToResult($storeId)
     {
         $productOptionPriceTable = $this->getTable('catalog_product_option_price');
-        $adapter        = $this->getConnection();
-        $priceExpr      = $adapter->getCheckSql(
+        $adapter = $this->getConnection();
+        $priceExpr = $adapter->getCheckSql(
             'store_option_price.price IS NULL',
             'default_option_price.price',
             'store_option_price.price'
         );
-        $priceTypeExpr  = $adapter->getCheckSql(
+        $priceTypeExpr = $adapter->getCheckSql(
             'store_option_price.price_type IS NULL',
             'default_option_price.price_type',
             'store_option_price.price_type'
@@ -177,15 +176,23 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if (!empty($optionIds)) {
             /** @var \Magento\Catalog\Model\Resource\Product\Option\Value\Collection $values */
             $values = $this->_optionValueCollectionFactory->create();
-            $values->addTitleToResult($storeId)
-                ->addPriceToResult($storeId)
-                ->addOptionToFilter($optionIds)
-                ->setOrder('sort_order', self::SORT_ORDER_ASC)
-                ->setOrder('title', self::SORT_ORDER_ASC);
+            $values->addTitleToResult(
+                $storeId
+            )->addPriceToResult(
+                $storeId
+            )->addOptionToFilter(
+                $optionIds
+            )->setOrder(
+                'sort_order',
+                self::SORT_ORDER_ASC
+            )->setOrder(
+                'title',
+                self::SORT_ORDER_ASC
+            );
 
             foreach ($values as $value) {
                 $optionId = $value->getOptionId();
-                if($this->getItemById($optionId)) {
+                if ($this->getItemById($optionId)) {
                     $this->getItemById($optionId)->addValue($value);
                     $value->setOption($this->getItemById($optionId));
                 }

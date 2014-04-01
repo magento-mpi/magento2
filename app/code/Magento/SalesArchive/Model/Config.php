@@ -16,7 +16,9 @@ namespace Magento\SalesArchive\Model;
 class Config
 {
     const XML_PATH_ARCHIVE_ACTIVE = 'sales/magento_salesarchive/active';
+
     const XML_PATH_ARCHIVE_AGE = 'sales/magento_salesarchive/age';
+
     const XML_PATH_ARCHIVE_ORDER_STATUSES = 'sales/magento_salesarchive/order_statuses';
 
     /**

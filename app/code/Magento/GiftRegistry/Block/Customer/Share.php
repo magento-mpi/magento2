@@ -57,7 +57,12 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
         $this->_giftRegistryData = $giftRegistryData;
         $this->_customerView = $customerView;
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
         );
     }
 
@@ -68,7 +73,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getFormHeader()
     {
-        $formHeader  = $this->escapeHtml($this->getEntity()->getTitle());
+        $formHeader = $this->escapeHtml($this->getEntity()->getTitle());
         return __("Share '%1' Gift Registry", $formHeader);
     }
 

@@ -19,5 +19,4 @@ namespace Magento\Eav\Model\Entity\Attribute\Frontend;
 
 interface FrontendInterface
 {
-    
 }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Test\TestCase\Guest\PaypalExpress;
 
 use Mtf\Factory\Factory;
@@ -33,7 +32,8 @@ class CheckoutOnepageTest extends Functional
      * @dataProvider dataProviderPaymentMethod
      * @ZephyrId MAGETWO-12413, MAGETWO-14359
      */
-    public function testOnepageCheckout(Checkout $fixture) {
+    public function testOnepageCheckout(Checkout $fixture)
+    {
         //Data
         $fixture->persist();
 
@@ -149,6 +149,9 @@ class CheckoutOnepageTest extends Functional
             'Incorrect authorized amount value for the order #' . $orderId);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderPaymentMethod()
     {
         return array(

@@ -23,9 +23,7 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      *
      * @var array
      */
-    protected $_serializableFields   = array(
-        'additional_information' => array(null, array())
-    );
+    protected $_serializableFields = array('additional_information' => array(null, array()));
 
     /**
      * Initialize main table and the primary key field name
@@ -47,15 +45,21 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     public function injectAsParent(\Magento\Sales\Model\Order\Payment\Transaction $transaction)
     {
         $txnId = $transaction->getTxnId();
-        if ($txnId && \Magento\Sales\Model\Order\Payment\Transaction::TYPE_PAYMENT === $transaction->getTxnType()
-            && $id = $transaction->getId()
+        if ($txnId &&
+            \Magento\Sales\Model\Order\Payment\Transaction::TYPE_PAYMENT === $transaction->getTxnType() &&
+            ($id = $transaction->getId())
         ) {
             $adapter = $this->_getWriteAdapter();
 
             // verify such transaction exists, determine payment and order id
             $verificationRow = $adapter->fetchRow(
-                $adapter->select()->from($this->getMainTable(), array('payment_id', 'order_id'))
-                    ->where("{$this->getIdFieldName()} = ?", (int)$id)
+                $adapter->select()->from(
+                    $this->getMainTable(),
+                    array('payment_id', 'order_id')
+                )->where(
+                    "{$this->getIdFieldName()} = ?",
+                    (int)$id
+                )
             );
             if (!$verificationRow) {
                 return;
@@ -66,14 +70,11 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
             $where = array(
                 $adapter->quoteIdentifier($this->getIdFieldName()) . '!=?' => $id,
                 new \Zend_Db_Expr('parent_id IS NULL'),
-                'payment_id = ?'    => (int)$paymentId,
-                'order_id = ?'      => (int)$orderId,
+                'payment_id = ?' => (int)$paymentId,
+                'order_id = ?' => (int)$orderId,
                 'parent_txn_id = ?' => $txnId
             );
-            $adapter->update($this->getMainTable(),
-                array('parent_id' => $id),
-                $where
-            );
+            $adapter->update($this->getMainTable(), array('parent_id' => $id), $where);
         }
     }
 
@@ -86,11 +87,14 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      * @param string $txnId
      * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
-    public function loadObjectByTxnId(\Magento\Sales\Model\Order\Payment\Transaction $transaction, $orderId, $paymentId,
+    public function loadObjectByTxnId(
+        \Magento\Sales\Model\Order\Payment\Transaction $transaction,
+        $orderId,
+        $paymentId,
         $txnId
     ) {
         $select = $this->_getLoadByUniqueKeySelect($orderId, $paymentId, $txnId);
-        $data   = $this->_getWriteAdapter()->fetchRow($select);
+        $data = $this->_getWriteAdapter()->fetchRow($select);
         if (!$data) {
             return $transaction;
         }
@@ -124,20 +128,21 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      *
      * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $transaction)
+    protected function _beforeSave(\Magento\Model\AbstractModel $transaction)
     {
         $parentTxnId = $transaction->getData('parent_txn_id');
-        $txnId       = $transaction->getData('txn_id');
-        $orderId     = $transaction->getData('order_id');
-        $paymentId   = $transaction->getData('payment_id');
+        $txnId = $transaction->getData('txn_id');
+        $orderId = $transaction->getData('order_id');
+        $paymentId = $transaction->getData('payment_id');
         $idFieldName = $this->getIdFieldName();
 
         if ($parentTxnId) {
             if (!$txnId || !$orderId || !$paymentId) {
-                throw new \Magento\Core\Exception(
-                    __('We don\'t have enough information to save the parent transaction ID.'));
+                throw new \Magento\Model\Exception(
+                    __('We don\'t have enough information to save the parent transaction ID.')
+                );
             }
             $parentId = (int)$this->_lookupByTxnId($orderId, $paymentId, $parentTxnId, $idFieldName);
             if ($parentId) {
@@ -190,10 +195,18 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      */
     private function _getLoadByUniqueKeySelect($orderId, $paymentId, $txnId, $columns = '*')
     {
-        return $this->_getWriteAdapter()->select()
-            ->from($this->getMainTable(), $columns)
-            ->where('order_id = ?', $orderId)
-            ->where('payment_id = ?', $paymentId)
-            ->where('txn_id = ?', $txnId);
+        return $this->_getWriteAdapter()->select()->from(
+            $this->getMainTable(),
+            $columns
+        )->where(
+            'order_id = ?',
+            $orderId
+        )->where(
+            'payment_id = ?',
+            $paymentId
+        )->where(
+            'txn_id = ?',
+            $txnId
+        );
     }
 }

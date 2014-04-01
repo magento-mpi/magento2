@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout;
 
 class ElementTest extends \PHPUnit_Framework_TestCase

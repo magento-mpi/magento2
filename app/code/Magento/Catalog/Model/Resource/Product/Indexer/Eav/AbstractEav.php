@@ -16,8 +16,7 @@ namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractEav
-    extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
+abstract class AbstractEav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
 {
     /**
      * Core event manager proxy
@@ -90,7 +89,7 @@ abstract class AbstractEav
         if ($parentIds) {
             $processIds = array_unique(array_merge($processIds, $parentIds));
         }
-        $childIds  = $this->getRelationsByParent($processIds);
+        $childIds = $this->getRelationsByParent($processIds);
         if ($childIds) {
             $processIds = array_unique(array_merge($processIds, $childIds));
         }
@@ -158,11 +157,10 @@ abstract class AbstractEav
      */
     protected function _removeNotVisibleEntityFromIndex()
     {
-        $write      = $this->_getWriteAdapter();
-        $idxTable   = $this->getIdxTable();
+        $write = $this->_getWriteAdapter();
+        $idxTable = $this->getIdxTable();
 
-        $select = $write->select()
-            ->from($idxTable, null);
+        $select = $write->select()->from($idxTable, null);
 
         $condition = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
         $this->_addAttributeToSelect(
@@ -210,14 +208,20 @@ abstract class AbstractEav
         /**
          * Add additional external limitation
          */
-        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
-            'select'        => $select,
-            'entity_field'  => new \Zend_Db_Expr('l.parent_id'),
-            'website_field' => new \Zend_Db_Expr('cs.website_id'),
-            'store_field'   => new \Zend_Db_Expr('cs.store_id')
-        ));
+        $this->_eventManager->dispatch(
+            'prepare_catalog_product_index_select',
+            array(
+                'select' => $select,
+                'entity_field' => new \Zend_Db_Expr('l.parent_id'),
+                'website_field' => new \Zend_Db_Expr('cs.website_id'),
+                'store_field' => new \Zend_Db_Expr('cs.store_id')
+            )
+        );
 
-        $query = $write->insertFromSelect($select, $idxTable, array(),
+        $query = $write->insertFromSelect(
+            $select,
+            $idxTable,
+            array(),
             \Magento\DB\Adapter\AdapterInterface::INSERT_IGNORE
         );
         $write->query($query);

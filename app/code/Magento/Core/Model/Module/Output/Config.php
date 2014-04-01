@@ -9,7 +9,6 @@
  */
 namespace Magento\Core\Model\Module\Output;
 
-
 class Config implements \Magento\Module\Output\ConfigInterface
 {
     /**
@@ -27,7 +26,7 @@ class Config implements \Magento\Module\Output\ConfigInterface
      */
     public function __construct(\Magento\App\Config\ScopeConfigInterface $storeConfig)
     {
-        $this->_storeConfig =  $storeConfig;
+        $this->_storeConfig = $storeConfig;
     }
 
     /**

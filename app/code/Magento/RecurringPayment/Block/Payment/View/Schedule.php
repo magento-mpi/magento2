@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
@@ -45,17 +44,16 @@ class Schedule extends \Magento\RecurringPayment\Block\Payment\View
 
         $this->_shouldRenderInfo = true;
         foreach (array('start_datetime', 'suspension_threshold') as $key) {
-            $this->_addInfo(array(
-                'label' => $this->_fields->getFieldLabel($key),
-                'value' => $this->_recurringPayment->renderData($key),
-            ));
+            $this->_addInfo(
+                array(
+                    'label' => $this->_fields->getFieldLabel($key),
+                    'value' => $this->_recurringPayment->renderData($key)
+                )
+            );
         }
 
         foreach ($this->_recurringPayment->exportScheduleInfo() as $info) {
-            $this->_addInfo(array(
-                'label' => $info->getTitle(),
-                'value' => $info->getSchedule(),
-            ));
+            $this->_addInfo(array('label' => $info->getTitle(), 'value' => $info->getSchedule()));
         }
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\PreProcessor\File;
 
 /**
@@ -28,7 +27,7 @@ class FileList implements \Iterator
     /**
      * @var Less[]
      */
-    protected $files = [];
+    protected $files = array();
 
     /**
      * Constructor
@@ -38,11 +37,8 @@ class FileList implements \Iterator
      * @param array $viewParams
      * @throws \InvalidArgumentException
      */
-    public function __construct(
-        LessFactory $lessFactory,
-        $lessFilePath = null,
-        $viewParams = []
-    ) {
+    public function __construct(LessFactory $lessFactory, $lessFilePath = null, $viewParams = array())
+    {
         if (empty($lessFilePath) || empty($viewParams)) {
             throw new \InvalidArgumentException('FileList container must contain entry less file data');
         }
@@ -92,7 +88,7 @@ class FileList implements \Iterator
      */
     public function createFile($lessFilePath, $viewParams)
     {
-        return $this->lessFactory->create(['filePath' => $lessFilePath, 'viewParams' => $viewParams]);
+        return $this->lessFactory->create(array('filePath' => $lessFilePath, 'viewParams' => $viewParams));
     }
 
     /**
@@ -124,7 +120,7 @@ class FileList implements \Iterator
      */
     public function valid()
     {
-        return (bool) current($this->files);
+        return (bool)current($this->files);
     }
 
     /**

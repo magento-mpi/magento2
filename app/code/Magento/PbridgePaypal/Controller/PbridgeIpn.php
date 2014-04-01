@@ -45,8 +45,7 @@ class PbridgeIpn extends \Magento\App\Action\Action
         /** @var \Magento\PbridgePaypal\Model\Payment\Method\Pbridge\Ipn $ipn */
         $ipn = $this->_pbridgeIpnFactory->create();
 
-        $ipn->setIpnFormData($this->getRequest()->getPost())
-            ->processIpnRequest();
+        $ipn->setIpnFormData($this->getRequest()->getPost())->processIpnRequest();
         exit;
     }
 }

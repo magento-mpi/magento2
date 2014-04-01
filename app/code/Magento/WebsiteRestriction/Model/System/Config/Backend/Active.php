@@ -20,33 +20,6 @@ namespace Magento\WebsiteRestriction\Model\System\Config\Backend;
 class Active extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Core\Model\App $app,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        $this->_app = $app;
-        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
-    }
-
-    /**
      * Prefix of model events names
      *
      * @var string
@@ -61,7 +34,9 @@ class Active extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            $this->_app->cleanCache(array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG));
+            $this->_cacheManager->clean(
+                array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
+            );
         }
         return parent::_afterSave();
     }

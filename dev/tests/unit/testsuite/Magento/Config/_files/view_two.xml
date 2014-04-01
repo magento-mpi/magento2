@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<view>
+<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/Magento/Config/etc/view.xsd">
     <vars module="One">
         <var name="one">Value One Another</var>
     </vars>

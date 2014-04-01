@@ -38,13 +38,7 @@ class Reorder extends \Magento\Core\Helper\Data
         $dbCompatibleMode = true
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct(
-            $context,
-            $coreStoreConfig,
-            $storeManager,
-            $appState,
-            $dbCompatibleMode
-        );
+        parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $dbCompatibleMode);
     }
 
     /**

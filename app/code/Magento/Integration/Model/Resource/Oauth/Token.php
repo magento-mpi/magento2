@@ -12,7 +12,7 @@ namespace Magento\Integration\Model\Resource\Oauth;
 /**
  * OAuth token resource model
  */
-class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Token extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -43,17 +43,19 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Clean up old authorized tokens for specified consumer-user pairs
      *
      * @param \Magento\Integration\Model\Oauth\Token $exceptToken Token just created to exclude from delete
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return int The number of affected rows
      */
     public function cleanOldAuthorizedTokensExcept(\Magento\Integration\Model\Oauth\Token $exceptToken)
     {
         if (!$exceptToken->getId() || !$exceptToken->getAuthorized()) {
-            throw new \Magento\Core\Exception('Invalid token to except');
+            throw new \Magento\Model\Exception('Invalid token to except');
         }
         $adapter = $this->_getWriteAdapter();
-        $where   = $adapter->quoteInto(
-            'authorized = 1 AND consumer_id = ?', $exceptToken->getConsumerId(), \Zend_Db::INT_TYPE
+        $where = $adapter->quoteInto(
+            'authorized = 1 AND consumer_id = ?',
+            $exceptToken->getConsumerId(),
+            \Zend_Db::INT_TYPE
         );
         $where .= $adapter->quoteInto(' AND entity_id <> ?', $exceptToken->getId(), \Zend_Db::INT_TYPE);
 
@@ -62,7 +64,7 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
         } elseif ($exceptToken->getAdminId()) {
             $where .= $adapter->quoteInto(' AND admin_id = ?', $exceptToken->getAdminId(), \Zend_Db::INT_TYPE);
         } else {
-            throw new \Magento\Core\Exception('Invalid token to except');
+            throw new \Magento\Model\Exception('Invalid token to except');
         }
         return $adapter->delete($this->getMainTable(), $where);
     }
@@ -100,9 +102,15 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function selectTokenByType($consumerId, $type)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('consumer_id = ?', $consumerId)->where('type = ?', $type);
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'consumer_id = ?',
+            $consumerId
+        )->where(
+            'type = ?',
+            $type
+        );
         return $adapter->fetchRow($select);
     }
 }

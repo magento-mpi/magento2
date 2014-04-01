@@ -65,16 +65,15 @@ $installer->getConnection()->createTable($table);
  * Alter sales_flat_quote table with is_persistent flag
  *
  */
-$installer->getConnection()
-    ->addColumn(
-        $installer->getTable('sales_flat_quote'),
-        'is_persistent',
-        array(
-            'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-            'unsigned' => true,
-            'default'  => '0',
-            'comment'  => 'Is Quote Persistent',
-        )
-    );
+$installer->getConnection()->addColumn(
+    $installer->getTable('sales_flat_quote'),
+    'is_persistent',
+    array(
+        'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+        'unsigned' => true,
+        'default' => '0',
+        'comment' => 'Is Quote Persistent'
+    )
+);
 
 $installer->endSetup();

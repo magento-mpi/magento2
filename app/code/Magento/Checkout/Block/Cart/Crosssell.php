@@ -73,17 +73,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\CatalogInventory\Model\Stock $stock,
@@ -99,16 +89,6 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_itemRelationsList = $itemRelationsList;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $data,
             $priceBlockTypes
         );
@@ -127,10 +107,9 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
             $items = array();
             $ninProductIds = $this->_getCartProductIds();
             if ($ninProductIds) {
-                $lastAdded = (int) $this->_getLastAddedProductId();
+                $lastAdded = (int)$this->_getLastAddedProductId();
                 if ($lastAdded) {
-                    $collection = $this->_getCollection()
-                        ->addProductFilter($lastAdded);
+                    $collection = $this->_getCollection()->addProductFilter($lastAdded);
                     if (!empty($ninProductIds)) {
                         $collection->addExcludeProductFilter($ninProductIds);
                     }
@@ -147,13 +126,13 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
                         $this->_getCartProductIds(),
                         $this->_itemRelationsList->getRelatedProductIds($this->getQuote()->getAllItems())
                     );
-                    $collection = $this->_getCollection()
-                        ->addProductFilter($filterProductIds)
-                        ->addExcludeProductFilter($ninProductIds)
-                        ->setPageSize($this->_maxItemCount-count($items))
-                        ->setGroupBy()
-                        ->setPositionOrder()
-                        ->load();
+                    $collection = $this->_getCollection()->addProductFilter(
+                        $filterProductIds
+                    )->addExcludeProductFilter(
+                        $ninProductIds
+                    )->setPageSize(
+                        $this->_maxItemCount - count($items)
+                    )->setGroupBy()->setPositionOrder()->load();
                     foreach ($collection as $item) {
                         $items[] = $item;
                     }
@@ -224,12 +203,13 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
     protected function _getCollection()
     {
         /** @var \Magento\Catalog\Model\Resource\Product\Link\Product\Collection $collection */
-        $collection = $this->_productLinkFactory->create()->useCrossSellLinks()
-            ->getProductCollection()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->addStoreFilter()
-            ->setPageSize($this->_maxItemCount)
-            ->setVisibility($this->_productVisibility->getVisibleInCatalogIds());
+        $collection = $this->_productLinkFactory->create()->useCrossSellLinks()->getProductCollection()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->addStoreFilter()->setPageSize(
+            $this->_maxItemCount
+        )->setVisibility(
+            $this->_productVisibility->getVisibleInCatalogIds()
+        );
         $this->_addProductAttributesAndPrices($collection);
 
         $this->_stock->addInStockFilterToCollection($collection);

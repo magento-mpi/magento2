@@ -30,7 +30,7 @@ use Magento\Catalog\Model\Product;
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Review extends \Magento\Core\Model\AbstractModel
+class Review extends \Magento\Model\AbstractModel
 {
     /**
      * Event prefix for observer
@@ -42,13 +42,17 @@ class Review extends \Magento\Core\Model\AbstractModel
     /**
      * Review entity codes
      */
-    const ENTITY_PRODUCT_CODE   = 'product';
-    const ENTITY_CUSTOMER_CODE  = 'customer';
-    const ENTITY_CATEGORY_CODE  = 'category';
+    const ENTITY_PRODUCT_CODE = 'product';
 
-    const STATUS_APPROVED       = 1;
-    const STATUS_PENDING        = 2;
-    const STATUS_NOT_APPROVED   = 3;
+    const ENTITY_CUSTOMER_CODE = 'customer';
+
+    const ENTITY_CATEGORY_CODE = 'category';
+
+    const STATUS_APPROVED = 1;
+
+    const STATUS_PENDING = 2;
+
+    const STATUS_NOT_APPROVED = 3;
 
     /**
      * Review product collection factory
@@ -109,7 +113,7 @@ class Review extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Review\Model\Review\Summary $reviewSummary
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlModel
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -123,7 +127,7 @@ class Review extends \Magento\Core\Model\AbstractModel
         \Magento\Review\Model\Review\Summary $reviewSummary,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlModel,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -175,7 +179,7 @@ class Review extends \Magento\Core\Model\AbstractModel
      * @param int $storeId
      * @return int
      */
-    public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
+    public function getTotalReviews($entityPkValue, $approvedOnly = false, $storeId = 0)
     {
         return $this->getResource()->getTotalReviews($entityPkValue, $approvedOnly, $storeId);
     }
@@ -198,11 +202,9 @@ class Review extends \Magento\Core\Model\AbstractModel
      * @param int $storeId
      * @return void
      */
-    public function getEntitySummary($product, $storeId=0)
+    public function getEntitySummary($product, $storeId = 0)
     {
-        $summaryData = $this->_summaryModFactory->create()
-            ->setStoreId($storeId)
-            ->load($product->getId());
+        $summaryData = $this->_summaryModFactory->create()->setStoreId($storeId)->load($product->getId());
         $summary = new \Magento\Object();
         $summary->setData($summaryData->getData());
         $product->setRatingSummary($summary);
@@ -258,7 +260,7 @@ class Review extends \Magento\Core\Model\AbstractModel
     /**
      * Perform actions after object delete
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {
@@ -283,12 +285,13 @@ class Review extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $summaryData = $this->_summaryFactory->create()
-            ->addEntityFilter($entityIds)
-            ->addStoreFilter($this->_storeManager->getStore()->getId())
-            ->load();
+        $summaryData = $this->_summaryFactory->create()->addEntityFilter(
+            $entityIds
+        )->addStoreFilter(
+            $this->_storeManager->getStore()->getId()
+        )->load();
 
-        foreach ($collection->getItems() as $_item ) {
+        foreach ($collection->getItems() as $_item) {
             foreach ($summaryData as $_summary) {
                 if ($_summary->getEntityPkValue() == $_item->getEntityId()) {
                     $_item->setRatingSummary($_summary);
@@ -306,7 +309,6 @@ class Review extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
 

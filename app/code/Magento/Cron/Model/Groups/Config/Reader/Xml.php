@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Groups\Config\Reader;
 
 /**
@@ -20,9 +19,7 @@ class Xml extends \Magento\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
-        '/config/group' => 'id'
-    );
+    protected $_idAttributes = array('/config/group' => 'id');
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver

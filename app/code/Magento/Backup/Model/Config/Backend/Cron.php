@@ -12,12 +12,15 @@ namespace Magento\Backup\Model\Config\Backend;
  */
 class Cron extends \Magento\Core\Model\Config\Value
 {
-    const CRON_STRING_PATH  = 'crontab/default/jobs/system_backup/schedule/cron_expr';
-    const CRON_MODEL_PATH   = 'crontab/default/jobs/system_backup/run/model';
+    const CRON_STRING_PATH = 'crontab/default/jobs/system_backup/schedule/cron_expr';
 
-    const XML_PATH_BACKUP_ENABLED       = 'groups/backup/fields/enabled/value';
-    const XML_PATH_BACKUP_TIME          = 'groups/backup/fields/time/value';
-    const XML_PATH_BACKUP_FREQUENCY     = 'groups/backup/fields/frequency/value';
+    const CRON_MODEL_PATH = 'crontab/default/jobs/system_backup/run/model';
+
+    const XML_PATH_BACKUP_ENABLED = 'groups/backup/fields/enabled/value';
+
+    const XML_PATH_BACKUP_TIME = 'groups/backup/fields/time/value';
+
+    const XML_PATH_BACKUP_FREQUENCY = 'groups/backup/fields/frequency/value';
 
     /**
      * Config value factory
@@ -36,7 +39,7 @@ class Cron extends \Magento\Core\Model\Config\Value
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param string $runModelPath
      * @param array $data
@@ -46,7 +49,7 @@ class Cron extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
         array $data = array()
@@ -60,24 +63,24 @@ class Cron extends \Magento\Core\Model\Config\Value
      * Cron settings after save
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _afterSave()
     {
-        $enabled   = $this->getData(self::XML_PATH_BACKUP_ENABLED);
-        $time      = $this->getData(self::XML_PATH_BACKUP_TIME);
+        $enabled = $this->getData(self::XML_PATH_BACKUP_ENABLED);
+        $time = $this->getData(self::XML_PATH_BACKUP_TIME);
         $frequency = $this->getData(self::XML_PATH_BACKUP_FREQUENCY);
 
-        $frequencyWeekly  = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
+        $frequencyWeekly = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
         $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         if ($enabled) {
             $cronExprArray = array(
-                intval($time[1]),                                   # Minute
-                intval($time[0]),                                   # Hour
-                ($frequency == $frequencyMonthly) ? '1' : '*',      # Day of the Month
-                '*',                                                # Month of the Year
-                ($frequency == $frequencyWeekly) ? '1' : '*',       # Day of the Week
+                intval($time[1]),                                 # Minute
+                intval($time[0]),                                 # Hour
+                $frequency == $frequencyMonthly ? '1' : '*',      # Day of the Month
+                '*',                                              # Month of the Year
+                $frequency == $frequencyWeekly ? '1' : '*'        # Day of the Week
             );
             $cronExprString = join(' ', $cronExprArray);
         } else {
@@ -85,19 +88,25 @@ class Cron extends \Magento\Core\Model\Config\Value
         }
 
         try {
-            $this->_configValueFactory->create()
-                ->load(self::CRON_STRING_PATH, 'path')
-                ->setValue($cronExprString)
-                ->setPath(self::CRON_STRING_PATH)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                self::CRON_STRING_PATH,
+                'path'
+            )->setValue(
+                $cronExprString
+            )->setPath(
+                self::CRON_STRING_PATH
+            )->save();
 
-            $this->_configValueFactory->create()
-                ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue($this->_runModelPath)
-                ->setPath(self::CRON_MODEL_PATH)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                self::CRON_MODEL_PATH,
+                'path'
+            )->setValue(
+                $this->_runModelPath
+            )->setPath(
+                self::CRON_MODEL_PATH
+            )->save();
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception(__('We can\'t save the Cron expression.'));
+            throw new \Magento\Model\Exception(__('We can\'t save the Cron expression.'));
         }
     }
 }

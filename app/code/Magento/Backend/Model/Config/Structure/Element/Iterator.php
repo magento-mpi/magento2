@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class Iterator implements \Iterator
@@ -120,7 +119,7 @@ class Iterator implements \Iterator
      */
     public function valid()
     {
-        return (bool) current($this->_elements);
+        return (bool)current($this->_elements);
     }
 
     /**

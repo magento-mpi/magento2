@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product;
+
 use Magento\ObjectManager;
 
 /**
@@ -29,10 +29,8 @@ class CatalogPrice implements CatalogPriceInterface
      * @param CatalogPriceFactory $priceModelFactory
      * @param array $priceModelPool
      */
-    public function __construct(
-        CatalogPriceFactory $priceModelFactory,
-        array $priceModelPool
-    ) {
+    public function __construct(CatalogPriceFactory $priceModelFactory, array $priceModelPool)
+    {
         $this->priceModelFactory = $priceModelFactory;
         $this->priceModelPool = $priceModelPool;
     }
@@ -72,5 +70,4 @@ class CatalogPrice implements CatalogPriceInterface
 
         return $product->getPrice();
     }
-
 }

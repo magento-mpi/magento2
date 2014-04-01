@@ -16,10 +16,11 @@ namespace Magento\Catalog\Model;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Design extends \Magento\Core\Model\AbstractModel
+class Design extends \Magento\Model\AbstractModel
 {
-    const APPLY_FOR_PRODUCT     = 1;
-    const APPLY_FOR_CATEGORY    = 2;
+    const APPLY_FOR_PRODUCT = 1;
+
+    const APPLY_FOR_CATEGORY = 2;
 
     /**
      * Design package instance
@@ -38,7 +39,7 @@ class Design extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -47,7 +48,7 @@ class Design extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -106,16 +107,30 @@ class Design extends \Magento\Core\Model\AbstractModel
      */
     protected function _extractSettings($object)
     {
-        $settings = new \Magento\Object;
+        $settings = new \Magento\Object();
         if (!$object) {
             return $settings;
         }
         $date = $object->getCustomDesignDate();
-        if (array_key_exists('from', $date) && array_key_exists('to', $date)
-            && $this->_localeDate->isScopeDateInInterval(null, $date['from'], $date['to'])) {
-            $settings->setCustomDesign($object->getCustomDesign())
-                ->setPageLayout($object->getPageLayout())
-                ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());
+        if (array_key_exists(
+            'from',
+            $date
+        ) && array_key_exists(
+            'to',
+            $date
+        ) && $this->_localeDate->isScopeDateInInterval(
+            null,
+            $date['from'],
+            $date['to']
+        )
+        ) {
+            $settings->setCustomDesign(
+                $object->getCustomDesign()
+            )->setPageLayout(
+                $object->getPageLayout()
+            )->setLayoutUpdates(
+                (array)$object->getCustomLayoutUpdate()
+            );
         }
         return $settings;
     }

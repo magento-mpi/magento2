@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization;
 
 class StockDataFilter
@@ -47,7 +46,7 @@ class StockDataFilter
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
         }
-        if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_QTY_VALUE) {
+        if (isset($stockData['qty']) && (double)$stockData['qty'] > self::MAX_QTY_VALUE) {
             $stockData['qty'] = self::MAX_QTY_VALUE;
         }
 
@@ -61,4 +60,4 @@ class StockDataFilter
 
         return $stockData;
     }
-} 
+}

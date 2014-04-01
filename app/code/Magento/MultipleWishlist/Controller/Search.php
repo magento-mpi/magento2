@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Controller;
+
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
@@ -190,7 +190,7 @@ class Search extends \Magento\App\Action\Action
      * Wishlist search action
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function resultsAction()
     {
@@ -199,8 +199,8 @@ class Search extends \Magento\App\Action\Action
         try {
             $params = $this->getRequest()->getParam('params');
             if (empty($params) || !is_array($params) || empty($params['search'])) {
-                throw new \Magento\Core\Exception(__('Please specify correct search options.'));
-            };
+                throw new \Magento\Model\Exception(__('Please specify correct search options.'));
+            }
 
             $strategy = null;
             switch ($params['search']) {
@@ -211,7 +211,7 @@ class Search extends \Magento\App\Action\Action
                     $strategy = $this->_strategyEmailFactory->create();
                     break;
                 default:
-                    throw new \Magento\Core\Exception(__('Please specify correct search options.'));
+                    throw new \Magento\Model\Exception(__('Please specify correct search options.'));
             }
 
             $strategy->setSearchParams($params);
@@ -221,7 +221,7 @@ class Search extends \Magento\App\Action\Action
             $this->_customerSession->setLastWishlistSearchParams($params);
         } catch (\InvalidArgumentException $e) {
             $this->messageManager->addNotice($e->getMessage());
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We could not perform the search.'));
@@ -251,8 +251,9 @@ class Search extends \Magento\App\Action\Action
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_wishlistFactory->create();
         $wishlist->load($wishlistId);
-        if (!$wishlist->getId()
-            || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId())) {
+        if (!$wishlist->getId() ||
+            !$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId()
+        ) {
             throw new NotFoundException();
         }
         $this->_coreRegistry->register('wishlist', $wishlist);
@@ -273,7 +274,7 @@ class Search extends \Magento\App\Action\Action
      */
     public function addtocartAction()
     {
-        $messages   = array();
+        $messages = array();
         $addedItems = array();
         $notSalable = array();
         $hasOptions = array();
@@ -296,7 +297,7 @@ class Search extends \Magento\App\Action\Action
                     if ($item->addToCart($cart, false)) {
                         $addedItems[] = $item->getProduct();
                     }
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Model\Exception $e) {
                     if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                         $notSalable[] = $item;
                     } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
@@ -330,11 +331,14 @@ class Search extends \Magento\App\Action\Action
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = __('Product(s) %1 have required options. Each product can only be added individually.', join(', ', $products));
+            $messages[] = __(
+                'Product(s) %1 have required options. Each product can only be added individually.',
+                join(', ', $products)
+            );
         }
 
         if ($messages) {
-            if ((count($messages) == 1) && count($hasOptions) == 1) {
+            if (count($messages) == 1 && count($hasOptions) == 1) {
                 $item = $hasOptions[0];
                 $redirectUrl = $item->getProductUrl();
             } else {

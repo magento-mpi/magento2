@@ -39,10 +39,8 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\String $string
      */
-    public function __construct(
-        \Magento\Logger $logger,
-        \Magento\Stdlib\String $string
-    ) {
+    public function __construct(\Magento\Logger $logger, \Magento\Stdlib\String $string)
+    {
         $this->string = $string;
         parent::__construct($logger);
     }
@@ -51,7 +49,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * Validate SKU
      *
      * @param Product $object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return bool
      */
     public function validate($object)
@@ -63,9 +61,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if ($this->string->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
-            throw new \Magento\Core\Exception(
-                __('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH)
-            );
+            throw new \Magento\Model\Exception(__('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH));
         }
         return true;
     }
@@ -116,17 +112,20 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $adapter = $this->getAttribute()->getEntity()->getReadConnection();
         $select = $adapter->select();
         $value = $object->getData($attribute->getAttributeCode());
-        $bind = array(
-            'entity_type_id' => $attribute->getEntityTypeId(),
-            'attribute_code' => trim($value) . '-%'
-        );
+        $bind = array('entity_type_id' => $attribute->getEntityTypeId(), 'attribute_code' => trim($value) . '-%');
 
-        $select
-            ->from($this->getTable(), $attribute->getAttributeCode())
-            ->where('entity_type_id = :entity_type_id')
-            ->where($attribute->getAttributeCode() . ' LIKE :attribute_code')
-            ->order(array('entity_id DESC', $attribute->getAttributeCode() . ' ASC'))
-            ->limit(1);
+        $select->from(
+            $this->getTable(),
+            $attribute->getAttributeCode()
+        )->where(
+            'entity_type_id = :entity_type_id'
+        )->where(
+            $attribute->getAttributeCode() . ' LIKE :attribute_code'
+        )->order(
+            array('entity_id DESC', $attribute->getAttributeCode() . ' ASC')
+        )->limit(
+            1
+        );
         $data = $adapter->fetchOne($select, $bind);
         return abs((int)str_replace($value, '', $data));
     }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Model\Adminhtml\Balance;
 
 /**
@@ -61,22 +60,27 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdditionalInfo($comment)
     {
-        $this->_balance
-            ->setHistoryAction(\Magento\CustomerBalance\Model\Balance\History::ACTION_UPDATED)
-            ->unsUpdatedActionAdditionalInfo()
-            ->setComment($comment);
+        $this->_balance->setHistoryAction(
+            \Magento\CustomerBalance\Model\Balance\History::ACTION_UPDATED
+        )->unsUpdatedActionAdditionalInfo()->setComment(
+            $comment
+        );
         $this->_model->save();
-        $expected = isset($comment)
-            ? __('By admin: %1. (%2)', 'Admin user', $comment)
-            : __('By admin: %1.', 'Admin user');
+        $expected = isset(
+            $comment
+        ) ? __(
+            'By admin: %1. (%2)',
+            'Admin user',
+            $comment
+        ) : __(
+            'By admin: %1.',
+            'Admin user'
+        );
         $this->assertEquals($expected, $this->_model->getAdditionalInfo());
     }
 
     public function additionalInfoDataProvider()
     {
-        return array(
-            array('some comment'),
-            array(null)
-        );
+        return array(array('some comment'), array(null));
     }
 }

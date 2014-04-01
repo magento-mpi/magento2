@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\View\Element;
 
 /**
@@ -137,8 +136,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_localeDate;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -156,10 +158,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param array $data
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -179,25 +180,26 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        array $data = array()
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
-        $this->_request         = $request;
-        $this->_layout          = $layout;
-        $this->_eventManager    = $eventManager;
-        $this->_urlBuilder      = $urlBuilder;
-        $this->_translator      = $translator;
-        $this->_cache           = $cache;
-        $this->_design          = $design;
-        $this->_session         = $session;
-        $this->_sidResolver     = $sidResolver;
-        $this->_storeConfig     = $storeConfig;
-        $this->_viewUrl         = $viewUrl;
-        $this->_viewConfig      = $viewConfig;
-        $this->_cacheState      = $cacheState;
-        $this->_logger          = $logger;
-        $this->_escaper         = $escaper;
-        $this->_filterManager   = $filterManager;
-        $this->_localeDate      = $localeDate;
+        $this->_request = $request;
+        $this->_layout = $layout;
+        $this->_eventManager = $eventManager;
+        $this->_urlBuilder = $urlBuilder;
+        $this->_translator = $translator;
+        $this->_cache = $cache;
+        $this->_design = $design;
+        $this->_session = $session;
+        $this->_sidResolver = $sidResolver;
+        $this->_storeConfig = $storeConfig;
+        $this->_viewUrl = $viewUrl;
+        $this->_viewConfig = $viewConfig;
+        $this->_cacheState = $cacheState;
+        $this->_logger = $logger;
+        $this->_escaper = $escaper;
+        $this->_filterManager = $filterManager;
+        $this->_localeDate = $localeDate;
+        $this->inlineTranslation = $inlineTranslation;
     }
 
     /**
@@ -288,6 +290,16 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getTranslator()
     {
         return $this->_translator;
+    }
+
+    /**
+     * Get inline translation status object
+     *
+     * @return \Magento\Translate\Inline\StateInterface
+     */
+    public function getInlineTranslation()
+    {
+        return $this->inlineTranslation;
     }
 
     /**

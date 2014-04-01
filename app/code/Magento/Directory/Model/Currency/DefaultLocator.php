@@ -7,17 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Directory\Model\Currency;
 
 class DefaultLocator
 {
     /**
-     * Application object
+     * Config object
      *
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\ConfigInterface
      */
-    protected $_app;
+    protected $_configuration;
 
     /**
      * Store manager
@@ -27,22 +26,20 @@ class DefaultLocator
     protected $_storeManager;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\ConfigInterface $configuration
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\App $app,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\App\ConfigInterface $configuration,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_app = $app;
+        $this->_configuration = $configuration;
         $this->_storeManager = $storeManager;
     }
 
     /**
      * Retrieve default currency for selected store, website or website group
-     *
+     * @todo: Refactor to ScopeDefiner
      * @param \Magento\App\RequestInterface $request
      * @return string
      */
@@ -56,9 +53,12 @@ class DefaultLocator
             $currencyCode = $this->_storeManager->getWebsite($website)->getBaseCurrencyCode();
         } else if ($request->getParam('group')) {
             $group = $request->getParam('group');
-            $currencyCode =  $this->_storeManager->getGroup($group)->getWebsite()->getBaseCurrencyCode();
+            $currencyCode = $this->_storeManager->getGroup($group)->getWebsite()->getBaseCurrencyCode();
         } else {
-            $currencyCode = $this->_app->getBaseCurrencyCode();
+            $currencyCode = $this->_configuration->getValue(
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                'default'
+            );
         }
 
         return $currencyCode;

@@ -14,13 +14,15 @@ namespace Magento\Indexer\Model\Indexer;
  * @method string getUpdated()
  * @method \Magento\Indexer\Model\Indexer\State setUpdated($value)
  */
-class State extends \Magento\Core\Model\AbstractModel
+class State extends \Magento\Model\AbstractModel
 {
     /**
      * Indexer statuses
      */
     const STATUS_WORKING = 'working';
+
     const STATUS_VALID = 'valid';
+
     const STATUS_INVALID = 'invalid';
 
     /**

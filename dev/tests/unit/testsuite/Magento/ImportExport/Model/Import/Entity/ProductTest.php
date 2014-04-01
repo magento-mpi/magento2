@@ -10,8 +10,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Import\Entity;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -84,23 +84,52 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $_groupColFactory;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
-        $this->_eavConfig = $this->getMock('Magento\Eav\Model\Config', array('getEntityType', 'getEntityTypeId'),
-            array(), '', false);
+        $this->_eavConfig = $this->getMock(
+            'Magento\Eav\Model\Config',
+            array('getEntityType', 'getEntityTypeId'),
+            array(),
+            '',
+            false
+        );
 
-        $this->_eavConfig->expects($this->atLeastOnce())->method('getEntityType')
-            ->with($this->equalTo('catalog_product'))
-            ->will($this->returnSelf());
-        $this->_eavConfig->expects($this->atLeastOnce())->method('getEntityTypeId')
-            ->will($this->returnValue('1'));
+        $this->_eavConfig->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getEntityType'
+        )->with(
+            $this->equalTo('catalog_product')
+        )->will(
+            $this->returnSelf()
+        );
+        $this->_eavConfig->expects($this->atLeastOnce())->method('getEntityTypeId')->will($this->returnValue('1'));
 
-        $this->_optionModel = $this->getMock('\Magento\ImportExport\Model\Import\Entity\Product\Option',
-            array(), array(), '', false);
-        $this->_optionFactory = $this->getMock('\Magento\ImportExport\Model\Import\Entity\Product\OptionFactory',
-            array('create'), array(), '', false);
-        $this->_optionFactory->expects($this->atLeastOnce())->method('create')
-            ->will($this->returnValue($this->_optionModel));
+        $this->_optionModel = $this->getMock(
+            '\Magento\ImportExport\Model\Import\Entity\Product\Option',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->_optionFactory = $this->getMock(
+            '\Magento\ImportExport\Model\Import\Entity\Product\OptionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_optionFactory->expects(
+            $this->atLeastOnce()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_optionModel)
+        );
 
         $this->_storeManager = $this->getMock('\Magento\Store\Model\StoreManager',
             array('getWebsites', 'getStores'), array(), '', false);
@@ -108,59 +137,139 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager->expects($this->atLeastOnce())->method('getWebsites')->will($this->returnValue(array()));
         $this->_storeManager->expects($this->atLeastOnce())->method('getStores')->will($this->returnValue(array()));
 
-        $this->_setCol = $this->getMock('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection',
-            array('setEntityTypeFilter'), array(), '', false);
-        $this->_setCol->expects($this->atLeastOnce())->method('setEntityTypeFilter')->with($this->equalTo('1'))
-            ->will($this->returnValue(array()));
+        $this->_setCol = $this->getMock(
+            '\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection',
+            array('setEntityTypeFilter'),
+            array(),
+            '',
+            false
+        );
+        $this->_setCol->expects(
+            $this->atLeastOnce()
+        )->method(
+            'setEntityTypeFilter'
+        )->with(
+            $this->equalTo('1')
+        )->will(
+            $this->returnValue(array())
+        );
 
-        $this->_setColFactory = $this->getMock('\Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory',
-            array('create'), array(), '', false);
-        $this->_setColFactory->expects($this->atLeastOnce())->method('create')
-            ->will($this->returnValue($this->_setCol));
+        $this->_setColFactory = $this->getMock(
+            '\Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_setColFactory->expects(
+            $this->atLeastOnce()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_setCol)
+        );
 
-        $this->_importConfig = $this->getMock('\Magento\ImportExport\Model\Import\Config',
-            array('getProductTypes'), array(), '', false);
-        $this->_importConfig->expects($this->atLeastOnce())->method('getProductTypes')
-            ->will($this->returnValue(array()));
+        $this->_importConfig = $this->getMock(
+            '\Magento\ImportExport\Model\Import\Config',
+            array('getProductTypes'),
+            array(),
+            '',
+            false
+        );
+        $this->_importConfig->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getProductTypes'
+        )->will(
+            $this->returnValue(array())
+        );
 
-        $this->_categoryCol = $this->getMock('\Magento\Catalog\Model\Resource\Category\Collection',
-        array('addNameToResult'), array(), '', false);
-        $this->_categoryCol->expects($this->atLeastOnce())->method('addNameToResult')
-            ->will($this->returnValue(array()));
+        $this->_categoryCol = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Category\Collection',
+            array('addNameToResult'),
+            array(),
+            '',
+            false
+        );
+        $this->_categoryCol->expects(
+            $this->atLeastOnce()
+        )->method(
+            'addNameToResult'
+        )->will(
+            $this->returnValue(array())
+        );
 
-        $this->_categoryColFactory = $this->getMock('\Magento\Catalog\Model\Resource\Category\CollectionFactory',
-            array('create'), array(), '', false);
-        $this->_categoryColFactory->expects($this->atLeastOnce())->method('create')
-            ->will($this->returnValue($this->_categoryCol));
+        $this->_categoryColFactory = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Category\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_categoryColFactory->expects(
+            $this->atLeastOnce()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_categoryCol)
+        );
 
-        $this->_product = $this->getMock('\Magento\Catalog\Model\Product',
-        array('getProductEntitiesInfo', '__wakeup'), array(), '', false);
-        $this->_product->expects($this->atLeastOnce())->method('getProductEntitiesInfo')
-            ->with($this->equalTo(array('entity_id', 'type_id', 'attribute_set_id', 'sku')))
-            ->will($this->returnValue(array()));
+        $this->_product = $this->getMock(
+            '\Magento\Catalog\Model\Product',
+            array('getProductEntitiesInfo', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $this->_product->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getProductEntitiesInfo'
+        )->with(
+            $this->equalTo(array('entity_id', 'type_id', 'attribute_set_id', 'sku'))
+        )->will(
+            $this->returnValue(array())
+        );
 
-        $this->_productFactory = $this->getMock('\Magento\Catalog\Model\ProductFactory',
-            array('create'), array(), '', false);
-        $this->_productFactory->expects($this->atLeastOnce())->method('create')
-            ->will($this->returnValue($this->_product));
+        $this->_productFactory = $this->getMock(
+            '\Magento\Catalog\Model\ProductFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_productFactory->expects(
+            $this->atLeastOnce()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_product)
+        );
 
-        $this->_groupColFactory = $this->getMock('\Magento\Customer\Model\Resource\Group\CollectionFactory',
-            array('create'), array(), '', false);
-        $this->_groupColFactory->expects($this->atLeastOnce())->method('create')
-            ->will($this->returnValue(array()));
+        $this->_groupColFactory = $this->getMock(
+            '\Magento\Customer\Model\Resource\Group\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_groupColFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue(array()));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_model = $objectManager->getObject('\Magento\ImportExport\Model\Import\Entity\Product', array(
-            'config' => $this->_eavConfig,
-            'optionFactory' => $this->_optionFactory,
-            'storeManager' => $this->_storeManager,
-            'setColFactory' => $this->_setColFactory,
-            'importConfig' => $this->_importConfig,
-            'categoryColFactory' => $this->_categoryColFactory,
-            'productFactory' => $this->_productFactory,
-            'groupColFactory' => $this->_groupColFactory
-        ));
+        $this->_model = $objectManager->getObject(
+            '\Magento\ImportExport\Model\Import\Entity\Product',
+            array(
+                'config' => $this->_eavConfig,
+                'optionFactory' => $this->_optionFactory,
+                'storeManager' => $this->_storeManager,
+                'setColFactory' => $this->_setColFactory,
+                'importConfig' => $this->_importConfig,
+                'categoryColFactory' => $this->_categoryColFactory,
+                'productFactory' => $this->_productFactory,
+                'groupColFactory' => $this->_groupColFactory
+            )
+        );
     }
 
     protected function tearDown()
@@ -201,11 +310,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         return array(
             'valid' => array(
                 array('_media_image' => 1, '_media_attribute_id' => 1),
-                array('method_return' => true, '_errors' => array(), '_invalidRows' => array(), '_errorsCount' => 0),
+                array('method_return' => true, '_errors' => array(), '_invalidRows' => array(), '_errorsCount' => 0)
             ),
             'valid2' => array(
                 array('_media_attribute_id' => 1),
-                array('method_return' => true, '_errors' => array(), '_invalidRows' => array(), '_errorsCount' => 0),
+                array('method_return' => true, '_errors' => array(), '_invalidRows' => array(), '_errorsCount' => 0)
             ),
             'invalid' => array(
                 array('_media_image' => 1),
@@ -214,8 +323,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                     '_errors' => array('mediaDataIsIncomplete' => array(array(2, null))),
                     '_invalidRows' => array(1 => 1),
                     '_errorsCount' => 1
-                ),
-            ),
+                )
+            )
         );
     }
 }

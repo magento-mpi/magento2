@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure;
 
 use Magento\Store\Model\StoreManagerInterface;
@@ -145,8 +144,7 @@ abstract class AbstractElement implements ElementInterface
         );
 
         if ($this->_storeManager->isSingleStoreMode()) {
-            $result = !$this->_hasVisibilityValue('hide_in_single_store_mode')
-                && array_sum($showInScope);
+            $result = !$this->_hasVisibilityValue('hide_in_single_store_mode') && array_sum($showInScope);
             return $result;
         }
 

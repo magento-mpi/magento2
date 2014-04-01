@@ -48,11 +48,16 @@ class CartsTest extends \PHPUnit_Framework_TestCase
     public function testGetHtml()
     {
         $customer = $this->_customerAccountService->getCustomer(1);
-        $data = ['account' => $customer->__toArray()];
+        $data = array('account' => $customer->__toArray());
         $this->_context->getBackendSession()->setCustomerData($data);
 
-        $this->_block = $this->_objectManager->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\Carts', '', ['context' => $this->_context]);
+        $this->_block = $this->_objectManager->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Customer\Block\Adminhtml\Edit\Tab\Carts',
+            '',
+            array('context' => $this->_context)
+        );
 
         $html = $this->_block->toHtml();
         $this->assertContains("<div id=\"customer_cart_grid1\">", $html);
@@ -63,11 +68,16 @@ class CartsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHtmlNoCustomer()
     {
-        $data = ['account' => []];
+        $data = array('account' => array());
         $this->_context->getBackendSession()->setCustomerData($data);
 
-        $this->_block = $this->_objectManager->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\Carts', '', ['context' => $this->_context]);
+        $this->_block = $this->_objectManager->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Customer\Block\Adminhtml\Edit\Tab\Carts',
+            '',
+            array('context' => $this->_context)
+        );
 
         $html = $this->_block->toHtml();
         $this->assertContains("<div id=\"customer_cart_grid0\">", $html);
@@ -75,6 +85,4 @@ class CartsTest extends \PHPUnit_Framework_TestCase
         $this->assertContains("customer_cart_grid0JsObject = new varienGrid('customer_cart_grid0',", $html);
         $this->assertContains("backend/customer/cart_product_composite_cart/configure/website_id/0/key/", $html);
     }
-
-
 }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\View;
 
 /**
@@ -79,8 +78,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => realpath(__DIR__ . '/../_files/design')),
             ),
         ));
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('frontend');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\App')->loadArea('frontend');
         $objectManager->get('Magento\View\DesignInterface')->setDesignTheme($themePath);
 
         $this->_viewFileSystem = $objectManager->create('Magento\View\FileSystem');
@@ -144,9 +143,10 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme(null, array('store' => $storeId)));
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme('frontend', array('store' => $storeId)));
         $this->assertEquals('two', $this->_model->getConfigurationDesignTheme(null, array('store' => 'fixturestore')));
-        $this->assertEquals('two', $this->_model->getConfigurationDesignTheme(
-            'frontend', array('store' => 'fixturestore')
-        ));
+        $this->assertEquals(
+            'two',
+            $this->_model->getConfigurationDesignTheme('frontend', array('store' => 'fixturestore'))
+        );
     }
 
     /**
@@ -168,7 +168,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             array('theme_file.txt', array('module' => 'Magento_Catalog')),
             array('Magento_Catalog::theme_file.txt', array()),
             array('Magento_Catalog::theme_file_with_2_dots..txt', array()),
-            array('Magento_Catalog::theme_file.txt', array('module' => 'Overridden_Module')),
+            array('Magento_Catalog::theme_file.txt', array('module' => 'Overridden_Module'))
         );
     }
 
@@ -184,10 +184,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     public function extractScopeExceptionDataProvider()
     {
-        return array(
-            array('::no_scope.ext'),
-            array('../file.ext'),
-        );
+        return array(array('::no_scope.ext'), array('../file.ext'));
     }
 
     /**
@@ -208,17 +205,20 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         $this->_emulateFixtureTheme();
         /** @var $theme \Magento\View\Design\ThemeInterface */
-        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\DesignInterface')
-            ->getDesignTheme();
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\DesignInterface'
+        )->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
         /** @var $filesystem \Magento\App\Filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\Filesystem');
         $directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $relativePath = $directory->getRelativePath($customConfigFile);
         try {
-            $directory->writeFile($relativePath, '<?xml version="1.0" encoding="UTF-8"?>
-                <view><vars  module="Namespace_Module"><var name="customVar">custom value</var></vars></view>');
+            $directory->writeFile(
+                $relativePath,
+                '<?xml version="1.0" encoding="UTF-8"?>
+                <view><vars  module="Namespace_Module"><var name="customVar">custom value</var></vars></view>'
+            );
 
             $config = $this->_viewConfig->getViewConfig();
             $this->assertInstanceOf('Magento\Config\View', $config);
@@ -242,8 +242,9 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetViewUrl($appMode, $file, $result)
     {
-        $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\State')->getMode();
+        $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\State'
+        )->getMode();
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
@@ -263,8 +264,9 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetViewUrlSigned($appMode, $file, $result)
     {
-        $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\State')->getMode();
+        $currentAppMode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\State'
+        )->getMode();
         if ($currentAppMode != $appMode) {
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
@@ -287,7 +289,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             array(
                 \Magento\App\State::MODE_DEFAULT,
                 'Magento_Theme::favicon.ico',
-                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Theme/favicon.ico',
+                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Theme/favicon.ico'
             ),
             array(
                 \Magento\App\State::MODE_DEFAULT,
@@ -313,14 +315,17 @@ class DesignTest extends \PHPUnit_Framework_TestCase
                 \Magento\App\State::MODE_DEVELOPER,
                 'Magento_Catalog::widgets.css',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
-            ),
+            )
         );
     }
 
     public function testGetPublicFileUrl()
     {
-        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/jquery/jquery.js';
+        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Filesystem'
+        )->getPath(
+            \Magento\App\Filesystem::PUB_LIB_DIR
+        ) . '/jquery/jquery.js';
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
     }
@@ -330,8 +335,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPublicFileUrlSigned()
     {
-        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/jquery/jquery.js';
+        $pubLibFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Filesystem'
+        )->getPath(
+            \Magento\App\Filesystem::PUB_LIB_DIR
+        ) . '/jquery/jquery.js';
         $actualResult = $this->_viewUrl->getPublicFileUrl($pubLibFile);
         $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
     }

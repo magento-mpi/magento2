@@ -18,8 +18,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class LogoUploader
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader
+class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader
 {
     /**
      * @var \Magento\DesignEditor\Model\Theme\Context
@@ -40,7 +39,7 @@ class LogoUploader
      */
     protected $_templates = array(
         'Magento_DesignEditor::editor/form/renderer/element/input.phtml',
-        'Magento_DesignEditor::editor/form/renderer/logo-uploader.phtml',
+        'Magento_DesignEditor::editor/form/renderer/logo-uploader.phtml'
     );
 
     /**
@@ -68,7 +67,8 @@ class LogoUploader
      */
     public function getLogoUploadUrl($store)
     {
-        return $this->getUrl('adminhtml/system_design_editor_tools/uploadStoreLogo',
+        return $this->getUrl(
+            'adminhtml/system_design_editor_tools/uploadStoreLogo',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId(), 'store_id' => $store->getId())
         );
     }
@@ -81,7 +81,8 @@ class LogoUploader
      */
     public function getLogoRemoveUrl($store)
     {
-        return $this->getUrl('adminhtml/system_design_editor_tools/removeStoreLogo',
+        return $this->getUrl(
+            'adminhtml/system_design_editor_tools/removeStoreLogo',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId(), 'store_id' => $store->getId())
         );
     }
@@ -109,8 +110,8 @@ class LogoUploader
     public function getStoresList()
     {
         $stores = $this->_customization->getStoresByThemes();
-        return isset($stores[$this->_themeContext->getEditableTheme()->getId()])
-            ? $stores[$this->_themeContext->getEditableTheme()->getId()]
-            : null;
+        return isset(
+            $stores[$this->_themeContext->getEditableTheme()->getId()]
+        ) ? $stores[$this->_themeContext->getEditableTheme()->getId()] : null;
     }
 }

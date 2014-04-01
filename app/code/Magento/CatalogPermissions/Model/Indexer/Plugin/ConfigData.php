@@ -79,19 +79,22 @@ class ConfigData
      */
     protected function getConfig(\Magento\Backend\Model\Config $config)
     {
-        $scope   = 'default';
+        $scope = 'default';
         $scopeId = 0;
         if ($config->getStore()) {
-            $scope   = 'stores';
+            $scope = 'stores';
             $store = $this->storeManager->getStore($config->getStore());
             $scopeId = (int)$store->getId();
         } elseif ($config->getWebsite()) {
-            $scope   = 'websites';
+            $scope = 'websites';
             $website = $this->storeManager->getWebsite($config->getWebsite());
             $scopeId = (int)$website->getId();
         }
         return $this->configLoader->getConfigByPath(
-            $config->getSection() . '/magento_catalogpermissions', $scope, $scopeId, false
+            $config->getSection() . '/magento_catalogpermissions',
+            $scope,
+            $scopeId,
+            false
         );
     }
 

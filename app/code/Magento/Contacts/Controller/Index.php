@@ -22,10 +22,13 @@ use Magento\App\RequestInterface;
 
 class Index extends \Magento\App\Action\Action
 {
-    const XML_PATH_EMAIL_RECIPIENT  = 'contacts/email/recipient_email';
-    const XML_PATH_EMAIL_SENDER     = 'contacts/email/sender_email_identity';
-    const XML_PATH_EMAIL_TEMPLATE   = 'contacts/email/email_template';
-    const XML_PATH_ENABLED          = 'contacts/contacts/enabled';
+    const XML_PATH_EMAIL_RECIPIENT = 'contacts/email/recipient_email';
+
+    const XML_PATH_EMAIL_SENDER = 'contacts/email/sender_email_identity';
+
+    const XML_PATH_EMAIL_TEMPLATE = 'contacts/email/email_template';
+
+    const XML_PATH_ENABLED = 'contacts/contacts/enabled';
 
     /**
      * @var \Magento\Mail\Template\TransportBuilder
@@ -33,17 +36,24 @@ class Index extends \Magento\App\Action\Action
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         parent::__construct($context);
         $this->_transportBuilder = $transportBuilder;
+        $this->inlineTranslation = $inlineTranslation;
     }
-
 
     /**
      * Dispatch request
@@ -68,8 +78,11 @@ class Index extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->getBlock('contactForm')
-            ->setFormAction($this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*/post'));
+        $this->_view->getLayout()->getBlock(
+            'contactForm'
+        )->setFormAction(
+            $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*/post')
+        );
 
         $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
@@ -89,20 +102,18 @@ class Index extends \Magento\App\Action\Action
         }
         $post = $this->getRequest()->getPost();
         if ($post) {
-            $translate = $this->_objectManager->get('Magento\TranslateInterface');
-            /* @var $translate \Magento\TranslateInterface */
-            $translate->setTranslateInline(false);
+            $this->inlineTranslation->suspend();
             try {
                 $postObject = new \Magento\Object();
                 $postObject->setData($post);
 
                 $error = false;
 
-                if (!\Zend_Validate::is(trim($post['name']) , 'NotEmpty')) {
+                if (!\Zend_Validate::is(trim($post['name']), 'NotEmpty')) {
                     $error = true;
                 }
 
-                if (!\Zend_Validate::is(trim($post['comment']) , 'NotEmpty')) {
+                if (!\Zend_Validate::is(trim($post['comment']), 'NotEmpty')) {
                     $error = true;
                 }
 
@@ -120,21 +131,26 @@ class Index extends \Magento\App\Action\Action
 
                 $storeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
-                $transport = $this->_transportBuilder
-                    ->setTemplateIdentifier($storeConfig->getValue(self::XML_PATH_EMAIL_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                    ->setTemplateOptions(array(
+                $transport = $this->_transportBuilder->setTemplateIdentifier(
+                    $storeConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE)
+                )->setTemplateOptions(
+                    array(
                         'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                         'store' => $storeManager->getStore()->getId()
-                    ))
-                    ->setTemplateVars(array('data' => $postObject))
-                    ->setFrom($storeConfig->getValue(self::XML_PATH_EMAIL_SENDER, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                    ->addTo($storeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                    ->setReplyTo($post['email'])
-                    ->getTransport();
+                    )
+                )->setTemplateVars(
+                    array('data' => $postObject)
+                )->setFrom(
+                    $storeConfig->getConfig(self::XML_PATH_EMAIL_SENDER)
+                )->addTo(
+                    $storeConfig->getConfig(self::XML_PATH_EMAIL_RECIPIENT)
+                )->setReplyTo(
+                    $post['email']
+                )->getTransport();
 
                 $transport->sendMessage();
 
-                $translate->setTranslateInline(true);
+                $this->inlineTranslation->resume();
 
                 $this->messageManager->addSuccess(
                     __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')
@@ -143,12 +159,13 @@ class Index extends \Magento\App\Action\Action
 
                 return;
             } catch (\Exception $e) {
-                $translate->setTranslateInline(true);
-                $this->messageManager->addError(__('We can\'t process your request right now. Sorry, that\'s all we know.'));
+                $this->inlineTranslation->resume();
+                $this->messageManager->addError(
+                    __('We can\'t process your request right now. Sorry, that\'s all we know.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }
-
         } else {
             $this->_redirect('*/*/');
         }

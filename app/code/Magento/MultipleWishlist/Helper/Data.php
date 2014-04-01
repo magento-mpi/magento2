@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Helper;
 
 /**
@@ -84,10 +83,11 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected function _createWishlistItemCollection()
     {
         if ($this->isMultipleEnabled()) {
-            return $this->_itemCollectionFactory->create()
-                ->addCustomerIdFilter($this->getCustomer()->getId())
-                ->addStoreFilter($this->_storeManager->getWebsite()->getStoreIds())
-                ->setVisibilityFilter();
+            return $this->_itemCollectionFactory->create()->addCustomerIdFilter(
+                $this->getCustomer()->getId()
+            )->addStoreFilter(
+                $this->_storeManager->getWebsite()->getStoreIds()
+            )->setVisibilityFilter();
         } else {
             return parent::_createWishlistItemCollection();
         }

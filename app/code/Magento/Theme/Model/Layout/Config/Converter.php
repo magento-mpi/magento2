@@ -26,7 +26,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $layoutAttributes = $layout->attributes;
             $id = $layoutAttributes->getNamedItem('id')->nodeValue;
             $pageLayouts[$id]['code'] = $id;
-            $pageLayouts[$id]['is_default'] = ($defaultLayout === $id) ? 1 : 0;
+            $pageLayouts[$id]['is_default'] = $defaultLayout === $id ? 1 : 0;
 
             /** @var $layoutSubNode DOMNode */
             foreach ($layout->childNodes as $layoutSubNode) {

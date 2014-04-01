@@ -14,138 +14,216 @@ $installer = $this;
 $installer->startSetup();
 
 // add config attributes to catalog product
-$installer->addAttribute('catalog_product', 'related_tgtr_position_limit', array(
-    'group'        => 'General',
-    'label'        => 'Related Target Rule Rule Based Positions',
-    'visible'      => false,
-    'user_defined' => false,
-    'required'     => false,
-    'type'         => 'int',
-    'global'       => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
-    'input'        => 'text',
-    'backend'      => 'Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule',
-));
+$installer->addAttribute(
+    'catalog_product',
+    'related_tgtr_position_limit',
+    array(
+        'group' => 'General',
+        'label' => 'Related Target Rule Rule Based Positions',
+        'visible' => false,
+        'user_defined' => false,
+        'required' => false,
+        'type' => 'int',
+        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
+        'input' => 'text',
+        'backend' => 'Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule'
+    )
+);
 
-$installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', array(
-    'group'        => 'General',
-    'label'        => 'Related Target Rule Position Behavior',
-    'visible'      => false,
-    'user_defined' => false,
-    'required'     => false,
-    'type'         => 'int',
-    'global'       => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
-    'input'        => 'text',
-    'backend'      => 'Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule',
-));
+$installer->addAttribute(
+    'catalog_product',
+    'related_tgtr_position_behavior',
+    array(
+        'group' => 'General',
+        'label' => 'Related Target Rule Position Behavior',
+        'visible' => false,
+        'user_defined' => false,
+        'required' => false,
+        'type' => 'int',
+        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
+        'input' => 'text',
+        'backend' => 'Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule'
+    )
+);
 
-$installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
-    'group'        => 'General',
-    'label'        => 'Upsell Target Rule Rule Based Positions',
-    'visible'      => false,
-    'user_defined' => false,
-    'required'     => false,
-    'type'         => 'int',
-    'global'       => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
-    'input'        => 'text',
-    'backend'      =>'Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule',
-));
+$installer->addAttribute(
+    'catalog_product',
+    'upsell_tgtr_position_limit',
+    array(
+        'group' => 'General',
+        'label' => 'Upsell Target Rule Rule Based Positions',
+        'visible' => false,
+        'user_defined' => false,
+        'required' => false,
+        'type' => 'int',
+        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
+        'input' => 'text',
+        'backend' => 'Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule'
+    )
+);
 
-$installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', array(
-    'group'        => 'General',
-    'label'        => 'Upsell Target Rule Position Behavior',
-    'visible'      => false,
-    'user_defined' => false,
-    'required'     => false,
-    'type'         => 'int',
-    'global'       => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
-    'input'        => 'text',
-    'backend'      =>'Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule',
-));
+$installer->addAttribute(
+    'catalog_product',
+    'upsell_tgtr_position_behavior',
+    array(
+        'group' => 'General',
+        'label' => 'Upsell Target Rule Position Behavior',
+        'visible' => false,
+        'user_defined' => false,
+        'required' => false,
+        'type' => 'int',
+        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
+        'input' => 'text',
+        'backend' => 'Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule'
+    )
+);
 
 /**
  * Create table 'magento_targetrule'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_targetrule'))
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rule Id')
-    ->addColumn('name', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Name')
-    ->addColumn('from_date', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        ), 'From Date')
-    ->addColumn('to_date', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        ), 'To Date')
-    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Is Active')
-    ->addColumn('conditions_serialized', \Magento\DB\Ddl\Table::TYPE_TEXT, '64K', array(
-        'nullable'  => false,
-        ), 'Conditions Serialized')
-    ->addColumn('actions_serialized', \Magento\DB\Ddl\Table::TYPE_TEXT, '64K', array(
-        'nullable'  => false,
-        ), 'Actions Serialized')
-    ->addColumn('positions_limit', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Positions Limit')
-    ->addColumn('apply_to', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Apply To')
-    ->addColumn('sort_order', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        ), 'Sort Order')
-    ->addColumn('use_customer_segment', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Use Customer Segment')
-    ->addColumn('action_select', \Magento\DB\Ddl\Table::TYPE_TEXT, '64K', array(
-        ), 'Action Select')
-    ->addColumn('action_select_bind', \Magento\DB\Ddl\Table::TYPE_TEXT, '64K', array(
-        ), 'Action Select Bind')
-    ->addIndex($installer->getIdxName('magento_targetrule', array('is_active')),
-        array('is_active'))
-    ->addIndex($installer->getIdxName('magento_targetrule', array('apply_to')),
-        array('apply_to'))
-    ->addIndex($installer->getIdxName('magento_targetrule', array('sort_order')),
-        array('sort_order'))
-    ->addIndex($installer->getIdxName('magento_targetrule', array('use_customer_segment')),
-        array('use_customer_segment'))
-    ->addIndex($installer->getIdxName('magento_targetrule', array('from_date', 'to_date')),
-        array('from_date', 'to_date'))
-    ->setComment('Enterprise Targetrule');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_targetrule')
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rule Id'
+)->addColumn(
+    'name',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Name'
+)->addColumn(
+    'from_date',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array(),
+    'From Date'
+)->addColumn(
+    'to_date',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array(),
+    'To Date'
+)->addColumn(
+    'is_active',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Is Active'
+)->addColumn(
+    'conditions_serialized',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64K',
+    array('nullable' => false),
+    'Conditions Serialized'
+)->addColumn(
+    'actions_serialized',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64K',
+    array('nullable' => false),
+    'Actions Serialized'
+)->addColumn(
+    'positions_limit',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Positions Limit'
+)->addColumn(
+    'apply_to',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Apply To'
+)->addColumn(
+    'sort_order',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array(),
+    'Sort Order'
+)->addColumn(
+    'use_customer_segment',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Use Customer Segment'
+)->addColumn(
+    'action_select',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64K',
+    array(),
+    'Action Select'
+)->addColumn(
+    'action_select_bind',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64K',
+    array(),
+    'Action Select Bind'
+)->addIndex(
+    $installer->getIdxName('magento_targetrule', array('is_active')),
+    array('is_active')
+)->addIndex(
+    $installer->getIdxName('magento_targetrule', array('apply_to')),
+    array('apply_to')
+)->addIndex(
+    $installer->getIdxName('magento_targetrule', array('sort_order')),
+    array('sort_order')
+)->addIndex(
+    $installer->getIdxName('magento_targetrule', array('use_customer_segment')),
+    array('use_customer_segment')
+)->addIndex(
+    $installer->getIdxName('magento_targetrule', array('from_date', 'to_date')),
+    array('from_date', 'to_date')
+)->setComment(
+    'Enterprise Targetrule'
+);
 $installer->getConnection()->createTable($table);
 
 
 /**
  * Create table 'magento_targetrule_customersegment'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_targetrule_customersegment'))
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rule Id')
-    ->addColumn('segment_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Segment Id')
-    ->addIndex($installer->getIdxName('magento_targetrule_customersegment', array('segment_id')),
-        array('segment_id'))
-    ->addForeignKey($installer->getFkName('magento_targetrule_customersegment', 'rule_id', 'magento_targetrule', 'rule_id'),
-        'rule_id', $installer->getTable('magento_targetrule'), 'rule_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_targetrule_customersegment', 'segment_id', 'magento_customersegment_segment', 'segment_id'),
-        'segment_id', $installer->getTable('magento_customersegment_segment'), 'segment_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Targetrule Customersegment');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_targetrule_customersegment')
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rule Id'
+)->addColumn(
+    'segment_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Segment Id'
+)->addIndex(
+    $installer->getIdxName('magento_targetrule_customersegment', array('segment_id')),
+    array('segment_id')
+)->addForeignKey(
+    $installer->getFkName('magento_targetrule_customersegment', 'rule_id', 'magento_targetrule', 'rule_id'),
+    'rule_id',
+    $installer->getTable('magento_targetrule'),
+    'rule_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName(
+        'magento_targetrule_customersegment',
+        'segment_id',
+        'magento_customersegment_segment',
+        'segment_id'
+    ),
+    'segment_id',
+    $installer->getTable('magento_customersegment_segment'),
+    'segment_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Targetrule Customersegment'
+);
 $installer->getConnection()->createTable($table);
 
 /**

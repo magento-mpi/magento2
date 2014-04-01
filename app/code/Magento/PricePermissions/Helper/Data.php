@@ -80,7 +80,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminReadProductPrice()
     {
-        return (boolean) $this->_authorization->isAllowed(self::READ_PRODUCT_PRICE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::READ_PRODUCT_PRICE_ACL_PATH);
     }
 
     /**
@@ -90,7 +90,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditProductPrice()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PRODUCT_PRICE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PRODUCT_PRICE_ACL_PATH);
     }
 
     /**
@@ -100,7 +100,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditProductStatus()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PRODUCT_STATUS_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PRODUCT_STATUS_ACL_PATH);
     }
 
     /**
@@ -110,6 +110,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultProductPriceString()
     {
-        return (string) $this->_coreConfig->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
+        return (string)$this->_coreConfig->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
     }
 }

@@ -9,8 +9,8 @@
  */
 namespace Magento\Store\App\FrontController\Plugin;
 
-use Magento\Store\Model\StoreManager,
-    Magento\App\Filesystem;
+use Magento\Store\Model\StoreManager;
+use Magento\App\Filesystem;
 
 class DispatchExceptionHandler
 {
@@ -30,10 +30,8 @@ class DispatchExceptionHandler
      * @param StoreManager $storeManager
      * @param Filesystem $filesystem
      */
-    public function __construct(
-        StoreManager $storeManager,
-        Filesystem $filesystem
-    ) {
+    public function __construct(StoreManager $storeManager, Filesystem $filesystem)
+    {
         $this->_storeManager = $storeManager;
         $this->filesystem = $filesystem;
     }

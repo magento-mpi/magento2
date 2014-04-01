@@ -52,15 +52,15 @@ class Wishlist extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_MultipleWishlist::report_customers_wishlist')
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Customers'),
-                __('Customers')
-            );
+        $this->_setActiveMenu(
+            'Magento_MultipleWishlist::report_customers_wishlist'
+        )->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        )->_addBreadcrumb(
+            __('Customers'),
+            __('Customers')
+        );
         return $this;
     }
 
@@ -98,10 +98,10 @@ class Wishlist extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
         $fileName = 'customer_wishlists.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock =
-            $this->_view
-                ->getLayout()
-                ->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()->getChildBlock(
+            'adminhtml.block.report.customer.wishlist.grid',
+            'grid.export'
+        );
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
@@ -119,12 +119,11 @@ class Wishlist extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
         $fileName = 'customer_wishlists.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
-        return $this->_fileFactory->create(
-            $fileName,
-            $exportBlock->getCsvFile(),
-            \Magento\App\Filesystem::VAR_DIR
+        $exportBlock = $this->_view->getLayout()->getChildBlock(
+            'adminhtml.block.report.customer.wishlist.grid',
+            'grid.export'
         );
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -144,6 +143,6 @@ class Wishlist extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return  $this->_authorization->isAllowed('Magento_MultipleWishlist::wishlist');
+        return $this->_authorization->isAllowed('Magento_MultipleWishlist::wishlist');
     }
 }

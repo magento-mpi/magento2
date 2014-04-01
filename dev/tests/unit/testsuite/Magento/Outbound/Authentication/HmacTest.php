@@ -11,7 +11,6 @@ namespace Magento\Outbound\Authentication;
 
 class HmacTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Outbound\Authentication\Hmac
      */
@@ -50,16 +49,14 @@ class HmacTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_model = new \Magento\Outbound\Authentication\Hmac($this->_mockStoreManager);
 
-        $this->_mockMessage = $this->getMockBuilder('Magento\Outbound\MessageInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_mockMessage->expects($this->any())
-            ->method('getBody')
-            ->will($this->returnValue(self::BODY));
+        $this->_mockMessage = $this->getMockBuilder(
+            'Magento\Outbound\MessageInterface'
+        )->disableOriginalConstructor()->getMock();
+        $this->_mockMessage->expects($this->any())->method('getBody')->will($this->returnValue(self::BODY));
 
-        $this->_mockUser = $this->getMockBuilder('Magento\Outbound\UserInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_mockUser = $this->getMockBuilder(
+            'Magento\Outbound\UserInterface'
+        )->disableOriginalConstructor()->getMock();
     }
 
     public function testHeaders()
@@ -89,7 +86,6 @@ class HmacTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(self::DOMAIN, $headers[\Magento\Outbound\Authentication\Hmac::DOMAIN_HEADER]);
         $this->assertArrayHasKey(\Magento\Outbound\Authentication\Hmac::HMAC_HEADER, $headers);
         $this->assertSame($hash, $headers[\Magento\Outbound\Authentication\Hmac::HMAC_HEADER]);
-
     }
 
     /**
@@ -98,9 +94,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptySecret()
     {
-        $this->_mockUser->expects($this->once())
-            ->method('getSharedSecret')
-            ->will($this->returnValue(''));
+        $this->_mockUser->expects($this->once())->method('getSharedSecret')->will($this->returnValue(''));
 
         $this->_model->getSignatureHeaders($this->_mockMessage, $this->_mockUser);
     }

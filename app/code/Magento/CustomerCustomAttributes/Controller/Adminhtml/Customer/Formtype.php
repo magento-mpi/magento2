@@ -12,8 +12,7 @@ namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 /**
  * Adminhtml Manage Form Types Controller
  */
-class Formtype
-    extends \Magento\Backend\App\Action
+class Formtype extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -74,11 +73,15 @@ class Formtype
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_CustomerCustomAttributes::customer_formtype')
-            ->_addBreadcrumb(__('Customer'),
-                __('Customer'))
-            ->_addBreadcrumb(__('Manage Form Types'),
-                __('Manage Form Types'));
+        $this->_setActiveMenu(
+            'Magento_CustomerCustomAttributes::customer_formtype'
+        )->_addBreadcrumb(
+            __('Customer'),
+            __('Customer')
+        )->_addBreadcrumb(
+            __('Manage Form Types'),
+            __('Manage Form Types')
+        );
         return $this;
     }
 
@@ -141,23 +144,24 @@ class Formtype
                 $hasError = false;
                 /** @var $formType \Magento\Eav\Model\Form\Type */
                 $formType = $this->_formTypeFactory->create();
-                $formType->addData(array(
-                    'code'          => $skeleton->getCode(),
-                    'label'         => $this->getRequest()->getPost('label'),
-                    'theme'         => $this->getRequest()->getPost('theme'),
-                    'store_id'      => $this->getRequest()->getPost('store_id'),
-                    'entity_types'  => $skeleton->getEntityTypes(),
-                    'is_system'     => 0
-                ));
+                $formType->addData(
+                    array(
+                        'code' => $skeleton->getCode(),
+                        'label' => $this->getRequest()->getPost('label'),
+                        'theme' => $this->getRequest()->getPost('theme'),
+                        'store_id' => $this->getRequest()->getPost('store_id'),
+                        'entity_types' => $skeleton->getEntityTypes(),
+                        'is_system' => 0
+                    )
+                );
                 $formType->save();
                 $formType->createFromSkeleton($skeleton);
-            } catch(\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $hasError = true;
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $hasError = true;
-                $this->messageManager->addException($e,
-                    __("We can't save the form type right now."));
+                $this->messageManager->addException($e, __("We can't save the form type right now."));
             }
             if ($hasError) {
                 $this->_getSession()->setFormData($this->getRequest()->getPost());
@@ -200,9 +204,9 @@ class Formtype
         $elementCollection = $this->_elementsFactory->create();
         $elementCollection->addTypeFilter($formType)->setSortOrder();
 
-        $fsUpdate   = array();
-        $fsInsert   = array();
-        $fsDelete   = array();
+        $fsUpdate = array();
+        $fsInsert = array();
+        $fsDelete = array();
         $attributes = array();
 
         //parse tree data
@@ -225,10 +229,13 @@ class Formtype
             } else {
                 // update fieldset
                 $fsData = $fsUpdate[$fieldset->getId()];
-                $fieldset->setCode($fsData['code'])
-                    ->setLabels($fsData['labels'])
-                    ->setSortOrder($fsData['sort_order'])
-                    ->save();
+                $fieldset->setCode(
+                    $fsData['code']
+                )->setLabels(
+                    $fsData['labels']
+                )->setSortOrder(
+                    $fsData['sort_order']
+                )->save();
             }
         }
 
@@ -237,11 +244,15 @@ class Formtype
         foreach ($fsInsert as $fsData) {
             /** @var $fieldset \Magento\Eav\Model\Form\Fieldset */
             $fieldset = $this->_fieldsetFactory->create();
-            $fieldset->setTypeId($formType->getId())
-                ->setCode($fsData['code'])
-                ->setLabels($fsData['labels'])
-                ->setSortOrder($fsData['sort_order'])
-                ->save();
+            $fieldset->setTypeId(
+                $formType->getId()
+            )->setCode(
+                $fsData['code']
+            )->setLabels(
+                $fsData['labels']
+            )->setSortOrder(
+                $fsData['sort_order']
+            )->save();
             $fsMap[$fsData['node_id']] = $fieldset->getId();
         }
 
@@ -261,9 +272,7 @@ class Formtype
                 continue;
             }
 
-            $element->setFieldsetId($fieldsetId)
-                ->setSortOrder($attrData['sort_order'])
-                ->save();
+            $element->setFieldsetId($fieldsetId)->setSortOrder($attrData['sort_order'])->save();
         }
 
         // delete fieldsets
@@ -288,18 +297,20 @@ class Formtype
                 $formType->setLabel($request->getPost('label'));
                 $formType->save();
 
-                $treeData = $this->_objectManager->get('Magento\Core\Helper\Data')
-                    ->jsonDecode($request->getPost('form_type_data'));
+                $treeData = $this->_objectManager->get(
+                    'Magento\Core\Helper\Data'
+                )->jsonDecode(
+                    $request->getPost('form_type_data')
+                );
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $hasError = true;
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $hasError = true;
-                $this->messageManager->addException($e,
-                    __("We can't save the form type right now."));
+                $this->messageManager->addException($e, __("We can't save the form type right now."));
             }
 
             if ($hasError) {
@@ -329,7 +340,7 @@ class Formtype
                     $formType->delete();
                     $message = __('The form type has been deleted.');
                     $this->messageManager->addSuccess($message);
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Model\Exception $e) {
                     $this->messageManager->addError($e->getMessage());
                 } catch (\Exception $e) {
                     $message = __('Something went wrong deleting the form type.');

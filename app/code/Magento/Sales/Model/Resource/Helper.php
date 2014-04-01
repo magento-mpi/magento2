@@ -12,7 +12,7 @@ namespace Magento\Sales\Model\Resource;
 /**
  * Sales Mysql resource helper model
  */
-class Helper extends \Magento\Core\Model\Resource\Helper implements HelperInterface
+class Helper extends \Magento\DB\Helper implements HelperInterface
 {
     /**
      * @var \Magento\Reports\Model\Resource\Helper
@@ -42,11 +42,19 @@ class Helper extends \Magento\Core\Model\Resource\Helper implements HelperInterf
      * @param string $aggregationTable
      * @return $this
      */
-    public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
-        $mainTable, $aggregationTable
+    public function getBestsellersReportUpdateRatingPos(
+        $aggregation,
+        $aggregationAliases,
+        $mainTable,
+        $aggregationTable
     ) {
         if ($aggregation == $aggregationAliases['monthly']) {
-            $this->_reportsResourceHelper->updateReportRatingPos('month', 'qty_ordered', $mainTable, $aggregationTable);
+            $this->_reportsResourceHelper->updateReportRatingPos(
+                'month',
+                'qty_ordered',
+                $mainTable,
+                $aggregationTable
+            );
         } elseif ($aggregation == $aggregationAliases['yearly']) {
             $this->_reportsResourceHelper->updateReportRatingPos('year', 'qty_ordered', $mainTable, $aggregationTable);
         } else {

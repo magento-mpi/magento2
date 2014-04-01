@@ -24,7 +24,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -34,7 +34,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_onlineFactory = $onlineFactory;
         parent::__construct(
@@ -58,5 +58,4 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
         $this->addCustomerData();
         return $this;
     }
-
 }

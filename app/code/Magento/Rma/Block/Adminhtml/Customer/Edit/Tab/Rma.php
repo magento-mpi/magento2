@@ -12,9 +12,7 @@ namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
 /**
  * Order RMA Grid
  */
-class Rma
-    extends \Magento\Rma\Block\Adminhtml\Rma\Grid
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -81,8 +79,7 @@ class Rma
         }
         if ($customerId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = $this->_collectionFactory->create()
-                ->addFieldToFilter('customer_id', $customerId);
+            $collection = $this->_collectionFactory->create()->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);
         }

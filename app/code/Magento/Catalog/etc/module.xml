@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_Catalog" version="1.6.0.0.26" active="true">
         <sequence>
             <module name="Magento_Eav"/>
@@ -30,7 +30,6 @@
             <module name="Magento_Backend"/>
             <module name="Magento_Widget"/>
             <module name="Magento_Wishlist"/>
-            <module name="Magento_Review"/>
             <module name="Magento_Tax"/>
             <module name="Magento_Bundle"/>
             <module name="Magento_ImportExport"/>
@@ -41,7 +40,6 @@
             <module name="Magento_CatalogSearch"/>
             <module name="Magento_Weee"/>
             <module name="Magento_ProductAlert"/>
-            <module name="Magento_Rating"/>
         </depends>
     </module>
 </config>

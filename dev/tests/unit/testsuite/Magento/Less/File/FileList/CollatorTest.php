@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\File\FileList;
 
 class CollatorTest extends \PHPUnit_Framework_TestCase

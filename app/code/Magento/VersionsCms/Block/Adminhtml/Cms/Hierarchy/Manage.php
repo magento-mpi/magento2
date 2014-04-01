@@ -65,46 +65,35 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id'        => 'manage_form',
-                'method'    => 'post',
-            ))
-        );
+        $form = $this->_formFactory->create(array('data' => array('id' => 'manage_form', 'method' => 'post')));
 
         $currentWebsite = $this->getRequest()->getParam('website');
-        $currentStore   = $this->getRequest()->getParam('store');
+        $currentStore = $this->getRequest()->getParam('store');
         $excludeScopes = array();
         if ($currentStore) {
             $storeId = $this->_storeManager->getStore($currentStore)->getId();
-            $excludeScopes = array(
-                \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE . $storeId
-            );
+            $excludeScopes = array(\Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE . $storeId);
         } elseif ($currentWebsite) {
             $websiteId = $this->_storeManager->getWebsite($currentWebsite)->getId();
-            $excludeScopes = array(
-                \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
-            );
+            $excludeScopes = array(\Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId);
         }
         $allStoreViews = $currentStore || $currentWebsite;
-        $form->addField('scopes', 'multiselect', array(
-            'name'      => 'scopes[]',
-            'class'     => 'manage-select',
-            'title'     => __('Manage Hierarchies'),
-            'values'    => $this->_prepareOptions($allStoreViews, $excludeScopes)
-        ));
+        $form->addField(
+            'scopes',
+            'multiselect',
+            array(
+                'name' => 'scopes[]',
+                'class' => 'manage-select',
+                'title' => __('Manage Hierarchies'),
+                'values' => $this->_prepareOptions($allStoreViews, $excludeScopes)
+            )
+        );
 
         if ($currentWebsite) {
-            $form->addField('website', 'hidden', array(
-                'name'   => 'website',
-                'value' => $currentWebsite,
-            ));
+            $form->addField('website', 'hidden', array('name' => 'website', 'value' => $currentWebsite));
         }
         if ($currentStore) {
-            $form->addField('store', 'hidden', array(
-                'name'   => 'store',
-                'value' => $currentStore,
-            ));
+            $form->addField('store', 'hidden', array('name' => 'store', 'value' => $currentStore));
         }
 
         $form->setUseContainer(true);
@@ -133,14 +122,14 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
                 $options[] = array(
                     'label' => $website['label'],
                     'value' => $website['value'],
-                    'style' => 'border-bottom: none; font-weight: bold;',
+                    'style' => 'border-bottom: none; font-weight: bold;'
                 );
                 foreach ($website['children'] as $store) {
                     if (isset($store['children']) && !in_array($store['value'], $excludeScopes)) {
                         $storeViewOptions = array();
                         foreach ($store['children'] as $storeView) {
-                            $storeView['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
-                                . $storeView['value'];
+                            $storeView['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE .
+                                $storeView['value'];
                             if (!in_array($storeView['value'], $excludeScopes)) {
                                 $storeView['label'] = str_repeat($nonEscapableNbspChar, 4) . $storeView['label'];
                                 $storeViewOptions[] = $storeView;

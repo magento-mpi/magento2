@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Multishipping\Model\Payment\Method\Specification;
 
 use Magento\Payment\Model\Method\Specification\AbstractSpecification;
@@ -26,7 +25,9 @@ class Is3DSecure extends AbstractSpecification
      * 3D Secure card validation store config paths
      */
     const PATH_PAYMENT_3DSECURE = 'payment/%s/enable3ds';
+
     const PATH_PAYMENT_CENTINEL = 'payment/%s/centinel';
+
     /**#@-*/
 
     /**
@@ -53,8 +54,9 @@ class Is3DSecure extends AbstractSpecification
      */
     public function isSatisfiedBy($paymentMethod)
     {
-        $is3DSecureSupported = isset($this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_WITH_3DSECURE])
-            && $this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_WITH_3DSECURE];
+        $is3DSecureSupported = isset(
+            $this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_WITH_3DSECURE]
+        ) && $this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_WITH_3DSECURE];
         return $is3DSecureSupported || !$this->is3DSecureEnabled($paymentMethod);
     }
 

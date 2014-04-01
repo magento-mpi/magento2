@@ -21,28 +21,28 @@ class Quote extends \Magento\Session\SessionManager
      *
      * @var \Magento\Sales\Model\Quote
      */
-    protected $_quote   = null;
+    protected $_quote = null;
 
     /**
      * Customer mofrl object
      *
      * @var \Magento\Customer\Model\Customer
      */
-    protected $_customer= null;
+    protected $_customer = null;
 
     /**
      * Store model object
      *
      * @var \Magento\Store\Model\Store
      */
-    protected $_store   = null;
+    protected $_store = null;
 
     /**
      * Order model object
      *
      * @var \Magento\Sales\Model\Order
      */
-    protected $_order   = null;
+    protected $_order = null;
 
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -117,8 +117,7 @@ class Quote extends \Magento\Session\SessionManager
         if (is_null($this->_quote)) {
             $this->_quote = $this->_quoteFactory->create();
             if ($this->getStoreId() && $this->getQuoteId()) {
-                $this->_quote->setStoreId($this->getStoreId())
-                    ->load($this->getQuoteId());
+                $this->_quote->setStoreId($this->getStoreId())->load($this->getQuoteId());
             } elseif ($this->getStoreId() && $this->hasCustomerId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->setCustomerGroupId($this->_storeConfig->getValue(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
@@ -153,7 +152,7 @@ class Quote extends \Magento\Session\SessionManager
      * @param bool $useSetStore
      * @return \Magento\Customer\Model\Customer
      */
-    public function getCustomer($forceReload=false, $useSetStore=false)
+    public function getCustomer($forceReload = false, $useSetStore = false)
     {
         if (is_null($this->_customer) || $forceReload) {
             $this->_customer = $this->_customerFactory->create();

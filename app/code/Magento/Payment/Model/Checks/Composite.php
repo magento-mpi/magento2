@@ -9,8 +9,8 @@
  */
 namespace Magento\Payment\Model\Checks;
 
-use \Magento\Sales\Model\Quote;
-use \Magento\Payment\Model\Method\AbstractMethod;
+use Magento\Sales\Model\Quote;
+use Magento\Payment\Model\Method\AbstractMethod;
 
 class Composite implements SpecificationInterface
 {

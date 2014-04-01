@@ -20,5 +20,4 @@ namespace Magento\Paypal\Block\Payflow\Advanced;
 
 class Review extends \Magento\Paypal\Block\Payflow\Link\Review
 {
-
 }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Session;
 
 class SidResolverTest extends \PHPUnit_Framework_TestCase
@@ -60,10 +59,11 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->urlBuilder = $this->getMockBuilder('Magento\Url')
-            ->setMethods(array('isOwnOriginUrl'))
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $this->urlBuilder = $this->getMockBuilder(
+            'Magento\Url'
+        )->setMethods(
+            array('isOwnOriginUrl')
+        )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->model = $objectManager->create(
             'Magento\Core\Model\Session\SidResolver',
@@ -96,9 +96,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
             ->with(SidResolver::XML_PATH_USE_FRONTEND_SID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue($useFrontedSid));
 
-        $this->urlBuilder->expects($this->any())
-            ->method('isOwnOriginUrl')
-            ->will($this->returnValue($isOwnOriginUrl));
+        $this->urlBuilder->expects($this->any())->method('isOwnOriginUrl')->will($this->returnValue($isOwnOriginUrl));
 
         if ($testSid) {
             $_GET[$this->model->getSessionIdQueryParam($this->session)] = $testSid;
@@ -118,26 +116,20 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
             array(null, true, false, 'test-sid'),
             array(null, false, true, 'test-sid'),
             array('test-sid', true, true, 'test-sid'),
-            array(null, true, true, null),
+            array(null, true, true, null)
         );
     }
 
     public function testGetSessionIdQueryParam()
     {
-        $this->assertEquals(
-            SidResolver::SESSION_ID_QUERY_PARAM,
-            $this->model->getSessionIdQueryParam($this->session)
-        );
+        $this->assertEquals(SidResolver::SESSION_ID_QUERY_PARAM, $this->model->getSessionIdQueryParam($this->session));
     }
 
     public function testGetSessionIdQueryParamCustom()
     {
         $oldSessionName = $this->session->getName();
         $this->session->setName($this->customSessionName);
-        $this->assertEquals(
-            $this->customSessionQueryParam,
-            $this->model->getSessionIdQueryParam($this->session)
-        );
+        $this->assertEquals($this->customSessionQueryParam, $this->model->getSessionIdQueryParam($this->session));
         $this->session->setName($oldSessionName);
     }
 

@@ -16,8 +16,7 @@ namespace Magento\Customer\Model\Customer\Attribute\Backend;
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Website
-    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Website extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface

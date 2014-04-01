@@ -243,9 +243,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected function _prepareRequestUrl($params = array(), $encryptParams = true)
     {
-        $storeId = (isset($params['store_id'])) ? $params['store_id']: $this->_storeId;
+        $storeId = isset($params['store_id']) ? $params['store_id'] : $this->_storeId;
         $pbridgeUrl = $this->getBridgeBaseUrl($storeId);
-        $sourceUrl =  rtrim($pbridgeUrl, '/') . '/bridge.php';
+        $sourceUrl = rtrim($pbridgeUrl, '/') . '/bridge.php';
 
         if (!empty($params)) {
             if ($encryptParams) {
@@ -269,14 +269,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRequestParams(array $params = array())
     {
-        $params = array_merge(array(
-            'locale' => $this->_localeResolver->getLocaleCode(),
-        ), $params);
+        $params = array_merge(array('locale' => $this->_localeResolver->getLocaleCode()), $params);
 
         $params['merchant_key']  = trim($this->_storeConfig->getValue('payment/pbridge/merchantkey', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeId));
 
-        $params['scope'] = $this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
-            ? 'backend' : 'frontend';
+        $params['scope'] = $this->_appState->getAreaCode() ==
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE ? 'backend' : 'frontend';
 
         return $params;
     }
@@ -298,13 +296,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
             }
             $reservedOrderId = $quote->getReservedOrderId();
         }
-        $params = array_merge(array(
-            'order_id'      => $reservedOrderId,
-            'amount'        => $quote ? $quote->getBaseGrandTotal() : '0',
-            'currency_code' => $quote ? $quote->getBaseCurrencyCode() : '',
-            'client_identifier' => md5($quote->getId()),
-            'store_id'      => $quote ? $quote->getStoreId() : '0',
-        ), $params);
+        $params = array_merge(
+            array(
+                'order_id' => $reservedOrderId,
+                'amount' => $quote ? $quote->getBaseGrandTotal() : '0',
+                'currency_code' => $quote ? $quote->getBaseCurrencyCode() : '',
+                'client_identifier' => md5($quote->getId()),
+                'store_id' => $quote ? $quote->getStoreId() : '0'
+            ),
+            $params
+        );
 
         if ($quote->getStoreId()) {
             $this->setStoreId($quote->getStoreId());
@@ -389,10 +390,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $decryptData = $this->decrypt($this->_getRequest()->getParam('data', ''));
         $data = json_decode($decryptData, true);
         $data = array(
-            'original_payment_method' => isset($data['original_payment_method'])?$data['original_payment_method']:null,
-            'token'                   => isset($data['token']) ? $data['token'] : null,
-            'cc_last4'                => isset($data['cc_last4']) ? $data['cc_last4'] : null,
-            'cc_type'                 => isset($data['cc_type']) ? $data['cc_type'] : null,
+            'original_payment_method' => isset(
+                $data['original_payment_method']
+            ) ? $data['original_payment_method'] : null,
+            'token' => isset($data['token']) ? $data['token'] : null,
+            'cc_last4' => isset($data['cc_last4']) ? $data['cc_last4'] : null,
+            'cc_type' => isset($data['cc_type']) ? $data['cc_type'] : null
         );
 
         return $data;
@@ -401,7 +404,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Prepare cart from order
      *
-     * @param \Magento\Core\Model\AbstractModel $order
+     * @param \Magento\Model\AbstractModel $order
      * @return array
      */
     public function prepareCart($order)

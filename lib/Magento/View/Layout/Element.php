@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout;
 
 /**
@@ -17,26 +16,42 @@ class Element extends \Magento\Simplexml\Element
      * Supported layout directives
      */
     const TYPE_RENDERER = 'renderer';
+
     const TYPE_TEMPLATE = 'template';
+
     const TYPE_DATA = 'data';
+
     const TYPE_BLOCK = 'block';
+
     const TYPE_CONTAINER = 'container';
+
     const TYPE_ACTION = 'action';
+
     const TYPE_ARGUMENTS = 'arguments';
+
     const TYPE_ARGUMENT = 'argument';
+
     const TYPE_REFERENCE_BLOCK = 'referenceBlock';
+
     const TYPE_REFERENCE_CONTAINER = 'referenceContainer';
+
     const TYPE_REMOVE = 'remove';
+
     const TYPE_MOVE = 'move';
+
     /**#@-*/
 
     /**#@+
      * Names of container options in layout
      */
     const CONTAINER_OPT_HTML_TAG = 'htmlTag';
+
     const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
+
     const CONTAINER_OPT_HTML_ID = 'htmlId';
+
     const CONTAINER_OPT_LABEL = 'label';
+
     /**#@-*/
 
     /**
@@ -83,8 +98,10 @@ class Element extends \Magento\Simplexml\Element
     public function getBlockName()
     {
         $tagName = (string)$this->getName();
-        $isThisBlock = empty($this['name'])
-            || !in_array($tagName, array(self::TYPE_BLOCK, self::TYPE_REFERENCE_BLOCK));
+        $isThisBlock = empty($this['name']) || !in_array(
+            $tagName,
+            array(self::TYPE_BLOCK, self::TYPE_REFERENCE_BLOCK)
+        );
 
         if ($isThisBlock) {
             return false;
@@ -104,12 +121,7 @@ class Element extends \Magento\Simplexml\Element
         $tagName = $this->getName();
         $isThisContainer = !in_array(
             $tagName,
-            array(
-                self::TYPE_BLOCK,
-                self::TYPE_REFERENCE_BLOCK,
-                self::TYPE_CONTAINER,
-                self::TYPE_REFERENCE_CONTAINER
-            )
+            array(self::TYPE_BLOCK, self::TYPE_REFERENCE_BLOCK, self::TYPE_CONTAINER, self::TYPE_REFERENCE_CONTAINER)
         );
 
         if ($isThisContainer) {
@@ -190,6 +202,6 @@ class Element extends \Magento\Simplexml\Element
      */
     public function isCacheable()
     {
-        return !(boolean)count($this->xpath('//' . self::TYPE_BLOCK . '[@cacheable="false"]'));
+        return !(bool)count($this->xpath('//' . self::TYPE_BLOCK . '[@cacheable="false"]'));
     }
 }

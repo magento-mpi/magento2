@@ -22,10 +22,11 @@ namespace Magento\Store\Model;
 
 use Magento\Store\Model\Website;
 
-class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Group extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
-    const ENTITY         = 'store_group';
-    const CACHE_TAG      = 'store_group';
+    const ENTITY = 'store_group';
+
+    const CACHE_TAG = 'store_group';
 
     /**
      * @var bool
@@ -103,7 +104,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Store\Model\Store $store
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -113,7 +114,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Store\Model\Store $store,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -122,7 +123,6 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
-
 
     /**
      * Init model
@@ -150,7 +150,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
             if ($this->getDefaultStoreId() == $store->getId()) {
                 $this->_defaultStore = $store;
             }
-            $this->_storesCount ++;
+            $this->_storesCount++;
         }
     }
 
@@ -171,7 +171,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
             if ($this->getDefaultStoreId() == $store->getId()) {
                 $this->_defaultStore = $store;
             }
-            $this->_storesCount ++;
+            $this->_storesCount++;
         }
     }
 
@@ -182,9 +182,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      */
     public function getStoreCollection()
     {
-        return $this->_store
-            ->getCollection()
-            ->addGroupFilter($this->getId());
+        return $this->_store->getCollection()->addGroupFilter($this->getId());
     }
 
     /**
@@ -360,7 +358,6 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         $this->_configDataResource->clearScopeData(
             \Magento\Store\Model\ScopeInterface::SCOPE_STORES,
             $this->getStoreIds()

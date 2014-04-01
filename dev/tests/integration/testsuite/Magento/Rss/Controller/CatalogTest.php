@@ -106,10 +106,9 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
 
         // assert that among 2 products in fixture, there is only one with 50 qty
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('<![CDATA[Simple Product]]>', $body);
-        // this one was supposed to have qty 100 ( > 75)
-        $this->assertContains('<![CDATA[Simple Product2]]>', $body);
-        // 50 < 75
+        $this->assertNotContains('<![CDATA[Simple Product]]>', $body); // this one was supposed to have qty 100 ( > 75)
+        $this->assertContains('<![CDATA[Simple Product2]]>', $body); // 50 < 75
+        // this one was supposed to have qty 140 ( > 75)
         $this->assertNotContains('<![CDATA[Simple Product 3]]>', $body);
     }
 
@@ -149,22 +148,15 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected function _loginAdmin()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
-        )->loadArea(
-            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
-        );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\DesignInterface'
-        )->setDefaultDesignTheme();
-        $this->getRequest()->setServer(
-            array(
-                'PHP_AUTH_USER' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-                'PHP_AUTH_PW' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-            )
-        );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Backend\Model\UrlInterface'
-        )->turnOffSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
+            ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
+            ->setDefaultDesignTheme();
+        $this->getRequest()->setServer(array(
+            'PHP_AUTH_USER' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            'PHP_AUTH_PW' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        ));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\UrlInterface')
+            ->turnOffSecretKey();
     }
 }

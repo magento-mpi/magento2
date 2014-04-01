@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../AdminGws/etc/admingws.xsd">
     <group name="collection_load_before">
         <callback class="magento_sales_model_resource_report_bestsellers_collection" method="limitBestsellersCollection" />
         <callback class="magento_reports_model_resource_product_collection" method="limitProductReports" />

@@ -49,6 +49,6 @@ class XsdForMenuMergedTest extends \PHPUnit_Framework_TestCase
      */
     public function schemaCorrectlyIdentifiesInvalidXmlDataProvider()
     {
-        return include(__DIR__ . '/_files/invalidMenuHierarchyMergedXmlArray.php');
+        return include __DIR__ . '/_files/invalidMenuHierarchyMergedXmlArray.php';
     }
 }

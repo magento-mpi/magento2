@@ -24,7 +24,7 @@ class History extends \Magento\GiftCardAccount\Model\History
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Auth\Session $adminSession
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -33,7 +33,7 @@ class History extends \Magento\GiftCardAccount\Model\History
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Auth\Session $adminSession,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -87,7 +87,7 @@ class History extends \Magento\GiftCardAccount\Model\History
         $sender = $this->_getAdminUsername();
         if ($sender) {
             $suffix = __('By admin: %1.', $sender);
-            return $info ? ($info . ' ' . $suffix) : $suffix;
+            return $info ? $info . ' ' . $suffix : $suffix;
         }
         return $info;
     }

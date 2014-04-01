@@ -38,10 +38,19 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(), '', false, false, true, array('getId', 'getState', '__wakeup')
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('getId', 'getState', '__wakeup')
         );
         $this->stateMock = $this->getMock(
-            'Magento\Catalog\Model\Indexer\Category\Flat\State', array('isFlatEnabled'), array(), '', false
+            'Magento\Catalog\Model\Indexer\Category\Flat\State',
+            array('isFlatEnabled'),
+            array(),
+            '',
+            false
         );
         $this->closureMock = function () {
             return false;
@@ -60,9 +69,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
-        $storeMock->expects($this->once())
-            ->method('isObjectNew')
-            ->will($this->returnValue(true));
+        $storeMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
         $this->assertFalse($this->model->aroundSave($this->subjectMock, $this->closureMock, $storeMock));
     }
 
@@ -71,10 +78,6 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
-        $storeMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('group_id')
-            ->will($this->returnValue(true));
         $this->assertFalse($this->model->aroundSave($this->subjectMock, $this->closureMock, $storeMock));
     }
 
@@ -84,32 +87,22 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
-        $storeMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('group_id')
-            ->will($this->returnValue(false));
         $this->assertFalse($this->model->aroundSave($this->subjectMock, $this->closureMock, $storeMock));
     }
 
     protected function mockIndexerMethods()
     {
-        $this->indexerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->indexerMock->expects($this->once())
-            ->method('invalidate');
+        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->indexerMock->expects($this->once())->method('invalidate');
     }
 
     protected function mockConfigFlatEnabled()
     {
-        $this->stateMock->expects($this->once())
-            ->method('isFlatEnabled')
-            ->will($this->returnValue(true));
+        $this->stateMock->expects($this->once())->method('isFlatEnabled')->will($this->returnValue(true));
     }
 
     protected function mockConfigFlatEnabledNeever()
     {
-        $this->stateMock->expects($this->never())
-            ->method('isFlatEnabled');
+        $this->stateMock->expects($this->never())->method('isFlatEnabled');
     }
 }

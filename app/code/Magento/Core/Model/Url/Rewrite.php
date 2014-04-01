@@ -38,11 +38,13 @@
  */
 namespace Magento\Core\Model\Url;
 
-class Rewrite extends \Magento\Core\Model\AbstractModel
+class Rewrite extends \Magento\Model\AbstractModel
 {
     const TYPE_CATEGORY = 1;
-    const TYPE_PRODUCT  = 2;
-    const TYPE_CUSTOM   = 3;
+
+    const TYPE_PRODUCT = 2;
+
+    const TYPE_CUSTOM = 3;
 
     /**
      * Cache tag for clear cache in after save and after delete
@@ -59,9 +61,9 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Stdlib\Cookie
      */
-    protected $_app;
+    protected $_cookie;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -77,10 +79,10 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -88,15 +90,15 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\App $app,
+        \Magento\Stdlib\Cookie $cookie,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeConfig = $coreStoreConfig;
-        $this->_app = $app;
+        $this->_cookie = $cookie;
         $this->_storeManager = $storeManager;
         $this->_httpContext = $httpContext;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -118,7 +120,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected function _afterSave()
     {
         if ($this->hasCategoryId()) {
-            $this->_cacheTag = array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Store::CACHE_TAG);
+            $this->_cacheTag = array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG);
         }
 
         parent::_afterSave();
@@ -232,7 +234,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
 
         foreach ($removeTags as $t) {
             if (!is_numeric($k)) {
-                $t = $k.'='.$t;
+                $t = $k . '=' . $t;
             }
 
             $key = array_search($t, $curTags);
@@ -245,7 +247,6 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
 
         return $this;
     }
-
 
     /**
      * Perform custom url rewrites
@@ -269,13 +270,14 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
          */
         $requestCases = array();
         $pathInfo = $request->getPathInfo();
-        $origSlash = (substr($pathInfo, -1) == '/') ? '/' : '';
+        $origSlash = substr($pathInfo, -1) == '/' ? '/' : '';
         $requestPath = trim($pathInfo, '/');
 
         // If there were final slash - add nothing to less priority paths. And vice versa.
         $altSlash = $origSlash ? '' : '/';
 
-        $queryString = $this->_getQueryString(); // Query params in request, matching "path + query" has more priority
+        $queryString = $this->_getQueryString();
+        // Query params in request, matching "path + query" has more priority
         if ($queryString) {
             $requestCases[] = $requestPath . $origSlash . '?' . $queryString;
             $requestCases[] = $requestPath . $altSlash . '?' . $queryString;
@@ -302,8 +304,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
             $currentStore = $this->_storeManager->getStore();
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
-            $this->_app->getCookie()->set(\Magento\Store\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
-            $this->_httpContext->setValue(\Magento\Store\Model\Store::ENTITY, $currentStore->getCode());
+            $this->_cookie->set(\Magento\Store\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
             $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
 
             $this->_sendRedirectHeaders($targetUrl, true);
@@ -319,12 +320,10 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         $isPermanentRedirectOption = $this->hasOption('RP');
         if ($external === 'http:/' || $external === 'https:') {
             $destinationStoreCode = $this->_storeManager->getStore($this->getStoreId())->getCode();
-            $this->_app->getCookie()->set(\Magento\Store\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
-            $this->_httpContext->setValue(\Magento\Store\Model\Store::ENTITY, $destinationStoreCode);
-
+            $this->_cookie->set(\Magento\Store\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
             $this->_sendRedirectHeaders($this->getTargetPath(), $isPermanentRedirectOption);
         } else {
-            $targetUrl = $request->getBaseUrl(). '/' . $this->getTargetPath();
+            $targetUrl = $request->getBaseUrl() . '/' . $this->getTargetPath();
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
@@ -341,7 +340,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
 
         $queryString = $this->_getQueryString();
         if ($queryString) {
-            $targetUrl .= '?'.$queryString;
+            $targetUrl .= '?' . $queryString;
         }
 
         $request->setRequestUri($targetUrl);

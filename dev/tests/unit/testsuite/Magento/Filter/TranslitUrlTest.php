@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Filter;
 
 class TranslitUrlTest extends \PHPUnit_Framework_TestCase
@@ -58,12 +57,7 @@ class TranslitUrlTest extends \PHPUnit_Framework_TestCase
                 'eur',
                 $isIconv
             ),
-            array(
-                '™',
-                'tm',
-                'tm',
-                $isIconv
-            )
+            array('™', 'tm', 'tm', $isIconv)
         );
     }
 }

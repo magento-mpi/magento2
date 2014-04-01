@@ -55,7 +55,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
      * Retrieve available order
      *
      * @return Order
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getOrder()
     {
@@ -68,7 +68,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         if ($this->_coreRegistry->registry('order')) {
             return $this->_coreRegistry->registry('order');
         }
-        throw new \Magento\Core\Exception(__('We cannot get the order instance.'));
+        throw new \Magento\Model\Exception(__('We cannot get the order instance.'));
     }
 
     /**
@@ -109,7 +109,13 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
      */
     public function displayPrices($basePrice, $price, $strong = false, $separator = '<br/>')
     {
-        return $this->_adminHelper->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
+        return $this->_adminHelper->displayPrices(
+            $this->getPriceDataObject(),
+            $basePrice,
+            $price,
+            $strong,
+            $separator
+        );
     }
 
     /**
@@ -144,8 +150,8 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         if ($shipping) {
             $baseShipping = $order->getBaseShippingInclTax();
         } else {
-            $shipping       = $order->getShippingAmount()+$order->getShippingTaxAmount();
-            $baseShipping   = $order->getBaseShippingAmount()+$order->getBaseShippingTaxAmount();
+            $shipping = $order->getShippingAmount() + $order->getShippingTaxAmount();
+            $baseShipping = $order->getBaseShippingAmount() + $order->getBaseShippingTaxAmount();
         }
         return $this->displayPrices($baseShipping, $shipping, false, ' ');
     }

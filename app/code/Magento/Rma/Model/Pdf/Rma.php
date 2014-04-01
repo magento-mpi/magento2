@@ -53,12 +53,12 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -71,12 +71,12 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -92,12 +92,12 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $paymentData,
             $string,
             $coreStoreConfig,
-            $translate,
             $filesystem,
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
             $localeDate,
+            $inlineTranslation,
             $data
         );
     }
@@ -106,7 +106,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * Retrieve PDF
      *
      * @param array $rmaArray
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Zend_Pdf
      */
     public function getPdf($rmaArray = array())
@@ -118,8 +118,8 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $style = new \Zend_Pdf_Style();
         $this->_setFontBold($style, 10);
 
-        if (!(is_array($rmaArray) && (count($rmaArray) == 1))) {
-            throw new \Magento\Core\Exception(__('Only one RMA is available for printing'));
+        if (!(is_array($rmaArray) && count($rmaArray) == 1)) {
+            throw new \Magento\Model\Exception(__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
 
@@ -160,41 +160,24 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         );
 
         $page->drawText(
-            __('Return Date: ') .
-                $this->_localeDate->formatDate($rma->getDateRequested(), 'medium', false),
+            __('Return Date: ') . $this->_localeDate->formatDate($rma->getDateRequested(), 'medium', false),
             35,
             $this->y - 50,
             'UTF-8'
         );
 
-        $page->drawText(
-            __('Order # ') . $rma->getOrder()->getIncrementId(),
-            35,
-            $this->y - 60,
-            'UTF-8'
-        );
+        $page->drawText(__('Order # ') . $rma->getOrder()->getIncrementId(), 35, $this->y - 60, 'UTF-8');
 
         $text = __('Order Date: ');
-        $text .= $this->_localeDate->formatDate(
-            $rma->getOrder()->getCreatedAtStoreDate(),
-            'medium',
-            false
-        );
-        $page->drawText(
-            $text,
-            35,
-            $this->y - 70,
-            'UTF-8'
-        );
+        $text .= $this->_localeDate->formatDate($rma->getOrder()->getCreatedAtStoreDate(), 'medium', false);
+        $page->drawText($text, 35, $this->y - 70, 'UTF-8');
 
         /* start y-position for next block */
         $this->y = $this->y - 80;
 
         /* add address blocks */
         $shippingAddress = $this->_formatAddress($rma->getOrder()->getShippingAddress()->format('pdf'));
-        $returnAddress = $this
-            ->_formatAddress($this->_rmaData
-            ->getReturnAddress('pdf', array(), $this->getStoreId()));
+        $returnAddress = $this->_formatAddress($this->_rmaData->getReturnAddress('pdf', array(), $this->getStoreId()));
 
         $page->setFillColor(new \Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
         $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
@@ -218,18 +201,17 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         $yStartAddresses = $this->y - 25;
         foreach ($shippingAddress as $value) {
-            if ($value!=='') {
+            if ($value !== '') {
                 $page->drawText(strip_tags(ltrim($value)), 35, $yStartAddresses, 'UTF-8');
-                $yStartAddresses -=10;
+                $yStartAddresses -= 10;
             }
         }
         $yStartAddresses = $this->y - 25;
         foreach ($returnAddress as $value) {
-            if ($value!=='') {
+            if ($value !== '') {
                 $page->drawText(strip_tags(ltrim($value)), 315, $yStartAddresses, 'UTF-8');
-                $yStartAddresses -=10;
+                $yStartAddresses -= 10;
             }
-
         }
 
         /* start y-position for next block */
@@ -244,7 +226,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
         $collection = $rma->getItemsForDisplay();
 
-        foreach ($collection as $item){
+        foreach ($collection as $item) {
 
             if ($this->y < 15) {
                 $page = $this->_addNewPage();
@@ -289,56 +271,21 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $page->setFillColor(new \Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
         $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
-        $page->drawRectangle(25, $this->y, 570, $this->y-15);
-        $this->y -=10;
+        $page->drawRectangle(25, $this->y, 570, $this->y - 15);
+        $this->y -= 10;
 
         $page->setFillColor(new \Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-        $page->drawText(
-            __('Product Name'),
-            $this->getProductNameX(),
-            $this->y,
-            'UTF-8'
-        );
-        $page->drawText(
-            __('SKU'),
-            $this->getProductSkuX(),
-            $this->y,
-            'UTF-8'
-        );
-        $page->drawText(
-            __('Condition'),
-            $this->getConditionX(),
-            $this->y,
-            'UTF-8'
-        );
-        $page->drawText(
-            __('Resolution'),
-            $this->getResolutionX(),
-            $this->y,
-            'UTF-8'
-        );
-        $page->drawText(
-            __('Requested Qty'),
-            $this->getQtyRequestedX(),
-            $this->y,
-            'UTF-8'
-        );
-        $page->drawText(
-            __('Qty'),
-            $this->getQtyX(),
-            $this->y,
-            'UTF-8'
-        );
-        $page->drawText(
-            __('Status'),
-            $this->getStatusX(),
-            $this->y,
-            'UTF-8'
-        );
+        $page->drawText(__('Product Name'), $this->getProductNameX(), $this->y, 'UTF-8');
+        $page->drawText(__('SKU'), $this->getProductSkuX(), $this->y, 'UTF-8');
+        $page->drawText(__('Condition'), $this->getConditionX(), $this->y, 'UTF-8');
+        $page->drawText(__('Resolution'), $this->getResolutionX(), $this->y, 'UTF-8');
+        $page->drawText(__('Requested Qty'), $this->getQtyRequestedX(), $this->y, 'UTF-8');
+        $page->drawText(__('Qty'), $this->getQtyX(), $this->y, 'UTF-8');
+        $page->drawText(__('Status'), $this->getStatusX(), $this->y, 'UTF-8');
 
         $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
 
-        $this->y -=15;
+        $this->y -= 15;
     }
 
     /**
@@ -359,16 +306,10 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $productSku = isset($productSku[0]) ? $productSku[0] : '';
         $page->drawText($productSku, $this->getProductSkuX(), $this->y, 'UTF-8');
 
-        $condition = $this->string->split(
-            $this->_getOptionAttributeStringValue($item->getCondition()),
-            25
-        );
+        $condition = $this->string->split($this->_getOptionAttributeStringValue($item->getCondition()), 25);
         $page->drawText($condition[0], $this->getConditionX(), $this->y, 'UTF-8');
 
-        $resolution = $this->string->split(
-            $this->_getOptionAttributeStringValue($item->getResolution()),
-            25
-        );
+        $resolution = $this->string->split($this->_getOptionAttributeStringValue($item->getResolution()), 25);
         $page->drawText($resolution[0], $this->getResolutionX(), $this->y, 'UTF-8');
         $page->drawText(
             $this->_rmaData->parseQuantity($item->getQtyRequested(), $item),
@@ -377,12 +318,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             'UTF-8'
         );
 
-        $page->drawText(
-            $this->_rmaData->getQty($item),
-            $this->getQtyX(),
-            $this->y,
-            'UTF-8'
-        );
+        $page->drawText($this->_rmaData->getQty($item), $this->getQtyX(), $this->y, 'UTF-8');
 
         $status = $this->string->split($item->getStatusLabel(), 25);
         $page->drawText($status[0], $this->getStatusX(), $this->y, 'UTF-8');
@@ -407,8 +343,9 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_setFontRegular($page, 6);
         foreach ($optionsArray as $value) {
             $this->y -= 8;
-            $optionRowString = $value['label'] . ': ' .
-                (isset($value['print_value']) ? $value['print_value'] : $value['value']);
+            $optionRowString = $value['label'] . ': ' . (isset(
+                $value['print_value']
+            ) ? $value['print_value'] : $value['value']);
             $productOptions = $this->string->split($optionRowString, 60, true, true);
             $productOptions = isset($productOptions[0]) ? $productOptions[0] : '';
             $page->drawText($productOptions, $this->getProductNameX(), $this->y, 'UTF-8');

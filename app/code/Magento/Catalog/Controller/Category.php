@@ -82,15 +82,17 @@ class Category extends \Magento\App\Action\Action
      */
     protected function _initCategory()
     {
-        $categoryId = (int) $this->getRequest()->getParam('id', false);
+        $categoryId = (int)$this->getRequest()->getParam('id', false);
         if (!$categoryId) {
             return false;
         }
 
         /** @var \Magento\Catalog\Model\Category $category */
-        $category = $this->_categoryFactory->create()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->load($categoryId);
+        $category = $this->_categoryFactory->create()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->load(
+            $categoryId
+        );
 
         if (!$this->_objectManager->get('Magento\Catalog\Helper\Category')->canShow($category)) {
             return false;
@@ -100,12 +102,9 @@ class Category extends \Magento\App\Action\Action
         try {
             $this->_eventManager->dispatch(
                 'catalog_controller_category_init_after',
-                array(
-                    'category' => $category,
-                    'controller_action' => $this
-                )
+                array('category' => $category, 'controller_action' => $this)
             );
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             return false;
         }
@@ -120,6 +119,10 @@ class Category extends \Magento\App\Action\Action
      */
     public function viewAction()
     {
+        if ($this->_request->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED)) {
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
+            return;
+        }
         $category = $this->_initCategory();
         if ($category) {
             $settings = $this->_catalogDesign->getDesignSettings($category);
@@ -164,8 +167,11 @@ class Category extends \Magento\App\Action\Action
 
             $root = $this->_view->getLayout()->getBlock('root');
             if ($root) {
-                $root->addBodyClass('categorypath-' . $category->getUrlPath())
-                    ->addBodyClass('category-' . $category->getUrlKey());
+                $root->addBodyClass(
+                    'categorypath-' . $category->getUrlPath()
+                )->addBodyClass(
+                    'category-' . $category->getUrlKey()
+                );
             }
 
             $this->_view->getLayout()->initMessages();

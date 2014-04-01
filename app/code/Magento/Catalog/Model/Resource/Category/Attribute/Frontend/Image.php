@@ -16,8 +16,7 @@ namespace Magento\Catalog\Model\Resource\Category\Attribute\Frontend;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Image
-    extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
+class Image extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
 {
     const IMAGE_PATH_SEGMENT = 'catalog/category/';
 
@@ -49,8 +48,9 @@ class Image
     {
         $url = false;
         if ($image = $object->getData($this->getAttribute()->getAttributeCode())) {
-            $url = $this->_storeManager->getStore()
-                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . self::IMAGE_PATH_SEGMENT . $image;
+            $url = $this->_storeManager->getStore()->getBaseUrl(
+                \Magento\UrlInterface::URL_TYPE_MEDIA
+            ) . self::IMAGE_PATH_SEGMENT . $image;
         }
         return $url;
     }

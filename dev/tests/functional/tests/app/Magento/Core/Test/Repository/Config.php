@@ -452,7 +452,7 @@ class Config extends AbstractRepository
                                         'value' => 'INdxa6ug7qZ2KD7y'
                                     ),
                                     'password' => array( //Password
-                                        'value' => '4vaGsDBmeBCzvpl1S1DT1jXAB'
+                                        'value' => 'pTfh4K0nkHcHVginelU4HmJkA'
                                     ),
                                     'sandbox_mode' => array( //Sandbox Mode
                                         'value' => self::YES_VALUE
@@ -697,6 +697,9 @@ class Config extends AbstractRepository
                                     ),
                                     'centinel' => array( //3D Secure Card Validation
                                         'value' => self::NO_VALUE
+                                    ),
+                                    'debug' => array( // Debug Mode
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -857,6 +860,9 @@ class Config extends AbstractRepository
                                                         'fields' => array(
                                                             'centinel' => array( //3D Secure Card Validation
                                                                 'value' => 0
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )
@@ -933,6 +939,17 @@ class Config extends AbstractRepository
                                                         'value' => 'Authorization' //Authorization
                                                     )
                                                 ),
+                                            ),
+                                            'settings_express_checkout' => array(
+                                                'groups' => array(
+                                                    'settings_express_checkout_advanced' => array( // Advanced Settings
+                                                        'fields' => array(
+                                                            'debug' => array(
+                                                                'value' => self::YES_VALUE // Debug Mode
+                                                            )
+                                                        )
+                                                    )
+                                                )
                                             )
                                         )
                                     )
@@ -996,6 +1013,9 @@ class Config extends AbstractRepository
                                                             ),
                                                             'verify_peer' => array( //Enable SSL verification
                                                                 'value' => 0 //No
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )
@@ -1059,7 +1079,7 @@ class Config extends AbstractRepository
                                                     'enable_express_checkout' => array( //Enable this Solution
                                                         'value' => self::YES_VALUE
                                                     )
-                                                ),
+                                                )
                                             ),
                                             'settings_ec' => array( //Basic Settings - PayPal Payments Pro
                                                 'fields' => array(
@@ -1070,12 +1090,12 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'settings_ec_advanced' => array(
                                                         'fields' => array(
-                                                            'debug' => array(
-                                                                'value' => 0
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
-                                                        ),
+                                                        )
                                                     )
-                                                ),
+                                                )
                                             )
                                         )
                                     )
@@ -1112,19 +1132,19 @@ class Config extends AbstractRepository
                                                     'payflow_link_payflow_link' => array( // Payflow Link and Express Checkout
                                                         'fields' => array(
                                                             'business_account' => array( // Email Associated with PayPal Merchant Account
-                                                                'value' => 'rlus_1349181941_biz@ebay.com'
+                                                                'value' => 'mtf_payflowlink@ebay.com'
                                                             ),
                                                             'partner' => array( // Partner
                                                                 'value' => 'PayPal'
                                                             ),
                                                             'user' => array( // API User
-                                                                'value' => 'mpiteamlink'
+                                                                'value' => 'mtfpayflowlink'
                                                             ),
                                                             'vendor' => array( // Vendor
-                                                                'value' => 'mpiteamlink'
+                                                                'value' => 'mtfpayflowlink'
                                                             ),
                                                             'pwd' => array( // API Password
-                                                                'value' => 'Temp1234'
+                                                                'value' => '123123mtf'
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
                                                                 'value' => self::YES_VALUE
@@ -1148,6 +1168,15 @@ class Config extends AbstractRepository
                                                 'fields' => array(
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
+                                                    )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_payflow_link_advanced' => array(
+                                                        'fields' => array(
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
+                                                            )
+                                                        )
                                                     )
                                                 )
                                             ),
@@ -1233,6 +1262,9 @@ class Config extends AbstractRepository
                                                         'fields' => array(
                                                             'centinel' => array( //3D Secure Card Validation
                                                                 'value' => 0
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )

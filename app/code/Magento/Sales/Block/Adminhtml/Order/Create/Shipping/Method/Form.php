@@ -16,8 +16,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Shipping\Method;
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Form
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
+class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Shipping rates
@@ -117,7 +116,7 @@ class Form
      */
     public function isMethodActive($code)
     {
-        return $code===$this->getShippingMethod();
+        return $code === $this->getShippingMethod();
     }
 
     /**

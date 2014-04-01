@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Store;
 
 /**
@@ -88,6 +87,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
     /**
      * @magentoAppIsolation enabled
      * @param $registryData
@@ -119,7 +119,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'store_data' => 'Magento\Store\Model\Website',
                     'store_action' => 'add',
                 ),
-                'New Web Site',
+                'New Web Site'
             ),
             array(
                 array(
@@ -127,7 +127,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'store_data' => 'Magento\Store\Model\Website',
                     'store_action' => 'edit',
                 ),
-                'Edit Web Site',
+                'Edit Web Site'
             ),
             array(
                 array(
@@ -135,7 +135,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'store_data' => 'Magento\Store\Model\Store',
                     'store_action' => 'add',
                 ),
-                'New Store',
+                'New Store'
             ),
             array(
                 array(
@@ -143,7 +143,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'store_data' => 'Magento\Store\Model\Store',
                     'store_action' => 'edit',
                 ),
-                'Edit Store',
+                'Edit Store'
             ),
             array(
                 array(

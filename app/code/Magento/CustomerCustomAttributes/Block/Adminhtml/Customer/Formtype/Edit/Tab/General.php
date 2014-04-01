@@ -12,9 +12,8 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edi
 /**
  * Form Type Edit General Tab Block
  */
-class General
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class General extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\View\Design\Theme\LabelFactory
@@ -67,69 +66,72 @@ class General
     protected function _prepareForm()
     {
         /* @var $model \Magento\Eav\Model\Form\Type */
-        $model      = $this->_coreRegistry->registry('current_form_type');
+        $model = $this->_coreRegistry->registry('current_form_type');
 
         /** @var \Magento\Data\Form $form */
-        $form       = $this->_formFactory->create();
-        $fieldset   = $form->addFieldset('general_fieldset', array(
-            'legend'    => __('General Information')
-        ));
+        $form = $this->_formFactory->create();
+        $fieldset = $form->addFieldset('general_fieldset', array('legend' => __('General Information')));
 
-        $fieldset->addField('continue_edit', 'hidden', array(
-            'name'      => 'continue_edit',
-            'value'     => 0
-        ));
-        $fieldset->addField('type_id', 'hidden', array(
-            'name'      => 'type_id',
-            'value'     => $model->getId()
-        ));
+        $fieldset->addField('continue_edit', 'hidden', array('name' => 'continue_edit', 'value' => 0));
+        $fieldset->addField('type_id', 'hidden', array('name' => 'type_id', 'value' => $model->getId()));
 
-        $fieldset->addField('form_type_data', 'hidden', array(
-            'name'      => 'form_type_data'
-        ));
+        $fieldset->addField('form_type_data', 'hidden', array('name' => 'form_type_data'));
 
-        $fieldset->addField('code', 'text', array(
-            'name'      => 'code',
-            'label'     => __('Form Code'),
-            'title'     => __('Form Code'),
-            'required'  => true,
-            'class'     => 'validate-code',
-            'disabled'  => true,
-            'value'     => $model->getCode()
-        ));
+        $fieldset->addField(
+            'code',
+            'text',
+            array(
+                'name' => 'code',
+                'label' => __('Form Code'),
+                'title' => __('Form Code'),
+                'required' => true,
+                'class' => 'validate-code',
+                'disabled' => true,
+                'value' => $model->getCode()
+            )
+        );
 
-        $fieldset->addField('label', 'text', array(
-            'name'      => 'label',
-            'label'     => __('Form Title'),
-            'title'     => __('Form Title'),
-            'required'  => true,
-            'value'     => $model->getLabel()
-        ));
+        $fieldset->addField(
+            'label',
+            'text',
+            array(
+                'name' => 'label',
+                'label' => __('Form Title'),
+                'title' => __('Form Title'),
+                'required' => true,
+                'value' => $model->getLabel()
+            )
+        );
 
         /** @var $label \Magento\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection();
-        array_unshift($options, array(
-            'label' => __('All Themes'),
-            'value' => ''
-        ));
-        $fieldset->addField('theme', 'select', array(
-            'name'      => 'theme',
-            'label'     => __('For Theme'),
-            'title'     => __('For Theme'),
-            'values'    => $options,
-            'value'     => $model->getTheme(),
-            'disabled'  => true
-        ));
+        array_unshift($options, array('label' => __('All Themes'), 'value' => ''));
+        $fieldset->addField(
+            'theme',
+            'select',
+            array(
+                'name' => 'theme',
+                'label' => __('For Theme'),
+                'title' => __('For Theme'),
+                'values' => $options,
+                'value' => $model->getTheme(),
+                'disabled' => true
+            )
+        );
 
-        $fieldset->addField('store_id', 'select', array(
-            'name'      => 'store_id',
-            'label'     => __('Store View'),
-            'title'     => __('Store View'),
-            'values'    => $this->_systemStore->getStoreValuesForForm(false, true),
-            'value'     => $model->getStoreId(),
-            'disabled'  => true
-        ));
+        $fieldset->addField(
+            'store_id',
+            'select',
+            array(
+                'name' => 'store_id',
+                'label' => __('Store View'),
+                'title' => __('Store View'),
+                'values' => $this->_systemStore->getStoreValuesForForm(false, true),
+                'value' => $model->getStoreId(),
+                'disabled' => true
+            )
+        );
 
         $this->setForm($form);
 

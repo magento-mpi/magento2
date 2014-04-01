@@ -220,9 +220,9 @@ class Design implements \Magento\View\DesignInterface
     public function getDesignParams()
     {
         $params = array(
-            'area'       => $this->getArea(),
+            'area' => $this->getArea(),
             'themeModel' => $this->getDesignTheme(),
-            'locale'     => $this->_locale->getLocaleCode()
+            'locale' => $this->_locale->getLocaleCode()
         );
 
         return $params;

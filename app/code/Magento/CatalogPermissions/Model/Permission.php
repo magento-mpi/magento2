@@ -32,10 +32,12 @@
  */
 namespace Magento\CatalogPermissions\Model;
 
-class Permission extends \Magento\Core\Model\AbstractModel
+class Permission extends \Magento\Model\AbstractModel
 {
     const PERMISSION_ALLOW = -1;
+
     const PERMISSION_DENY = -2;
+
     const PERMISSION_PARENT = 0;
 
     /**

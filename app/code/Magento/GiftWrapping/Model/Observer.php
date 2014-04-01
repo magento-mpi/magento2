@@ -53,8 +53,7 @@ class Observer
     {
         if (is_array($data) && isset($data['design'])) {
             $wrapping = $this->_wrappingFactory->create()->load($data['design']);
-            $entity->setGwId($wrapping->getId())
-                ->save();
+            $entity->setGwId($wrapping->getId())->save();
         }
         return $this;
     }
@@ -117,9 +116,11 @@ class Observer
                         $this->_saveOrderInfo($entity, $data);
                         break;
                     case 'quote_address_item':
-                        $entity = $quote
-                            ->getAddressById($giftOptionsInfo[$entityId]['address'])
-                            ->getItemById($entityId);
+                        $entity = $quote->getAddressById(
+                            $giftOptionsInfo[$entityId]['address']
+                        )->getItemById(
+                            $entityId
+                        );
                         $this->_saveItemInfo($entity, $data);
                         break;
                 }
@@ -192,7 +193,8 @@ class Observer
         if ($salesEntity->getDataUsingMethod('gw_id') && $salesEntity->getDataUsingMethod('gw_base_price')) {
             $totalWrapping += $salesEntity->getDataUsingMethod('gw_base_price');
         }
-        if ($salesEntity->getDataUsingMethod('gw_add_card') && $salesEntity->getDataUsingMethod('gw_card_base_price')) {
+        if ($salesEntity->getDataUsingMethod('gw_add_card') && $salesEntity->getDataUsingMethod('gw_card_base_price')
+        ) {
             $totalCard += $salesEntity->getDataUsingMethod('gw_card_base_price');
         }
         if ($totalWrapping) {
@@ -214,8 +216,7 @@ class Observer
         $items = $observer->getEvent()->getItems();
         foreach ($items as $item) {
             $allowed = $item->getProduct()->getGiftWrappingAvailable();
-            if ($this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed)
-                && !$item->getIsVirtual()) {
+            if ($this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed) && !$item->getIsVirtual()) {
                 $item->setIsGiftOptionsAvailable(true);
             }
         }
@@ -238,9 +239,13 @@ class Observer
             return $this;
         }
         $quote = $observer->getEvent()->getQuote();
-        $quote->setGwId($order->getGwId())
-            ->setGwAllowGiftReceipt($order->getGwAllowGiftReceipt())
-            ->setGwAddCard($order->getGwAddCard());
+        $quote->setGwId(
+            $order->getGwId()
+        )->setGwAllowGiftReceipt(
+            $order->getGwAllowGiftReceipt()
+        )->setGwAddCard(
+            $order->getGwAddCard()
+        );
         return $this;
     }
 
@@ -257,17 +262,24 @@ class Observer
         // Do not import giftwrapping data if order is reordered or GW is not available for items
         $order = $orderItem->getOrder();
         $giftWrappingHelper = $this->_giftWrappingData;
-        if ($order && ($order->getReordered()
-            || !$giftWrappingHelper->isGiftWrappingAvailableForItems($order->getStore()->getId()))
+        if ($order && ($order->getReordered() || !$giftWrappingHelper->isGiftWrappingAvailableForItems(
+            $order->getStore()->getId()
+        ))
         ) {
             return $this;
         }
         $quoteItem = $observer->getEvent()->getQuoteItem();
-        $quoteItem->setGwId($orderItem->getGwId())
-            ->setGwBasePrice($orderItem->getGwBasePrice())
-            ->setGwPrice($orderItem->getGwPrice())
-            ->setGwBaseTaxAmount($orderItem->getGwBaseTaxAmount())
-            ->setGwTaxAmount($orderItem->getGwTaxAmount());
+        $quoteItem->setGwId(
+            $orderItem->getGwId()
+        )->setGwBasePrice(
+            $orderItem->getGwBasePrice()
+        )->setGwPrice(
+            $orderItem->getGwPrice()
+        )->setGwBaseTaxAmount(
+            $orderItem->getGwBaseTaxAmount()
+        )->setGwTaxAmount(
+            $orderItem->getGwTaxAmount()
+        );
         return $this;
     }
 }

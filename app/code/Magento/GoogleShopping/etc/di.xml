@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <virtualType name="Magento\GoogleShopping\Model\Resource\Helper" type="Magento\Core\Model\Resource\Helper">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\GoogleShopping\Model\Resource\Helper" type="Magento\DB\Helper">
         <arguments>
             <argument name="modulePrefix" xsi:type="string">Core</argument>
         </arguments>

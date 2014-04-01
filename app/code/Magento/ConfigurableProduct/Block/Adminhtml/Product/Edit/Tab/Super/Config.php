@@ -111,7 +111,7 @@ class Config extends Widget implements TabInterface
      */
     public function isReadonly()
     {
-        return (bool) $this->getProduct()->getCompositeReadonly();
+        return (bool)$this->getProduct()->getCompositeReadonly();
     }
 
     /**
@@ -132,7 +132,7 @@ class Config extends Widget implements TabInterface
     public function isAttributesPricesReadonly()
     {
         return $this->getProduct()->getAttributesConfigurationReadonly() ||
-        ($this->_catalogData->isPriceGlobal() && $this->isReadonly());
+            $this->_catalogData->isPriceGlobal() && $this->isReadonly();
     }
 
     /**
@@ -142,13 +142,15 @@ class Config extends Widget implements TabInterface
      */
     protected function _prepareLayout()
     {
-        $this->addChild('create_empty', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Create Empty'),
-            'class' => 'add',
-            'onclick' => 'superProduct.createEmptyProduct()'
-        ));
-        $this->addChild('super_settings',
-            'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings');
+        $this->addChild(
+            'create_empty',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Create Empty'), 'class' => 'add', 'onclick' => 'superProduct.createEmptyProduct()')
+        );
+        $this->addChild(
+            'super_settings',
+            'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings'
+        );
 
         $this->addChild(
             'generate',
@@ -163,14 +165,14 @@ class Config extends Widget implements TabInterface
                             'target' => '#product-variations-matrix',
                             'eventData' => array(
                                 'url' => $this->getUrl(
-                                        'catalog/product_generateVariations/index',
-                                        array('_current' => true)
-                                    ),
-                            ),
-                        ),
+                                    'catalog/product_generateVariations/index',
+                                    array('_current' => true)
+                                )
+                            )
+                        )
                     ),
-                    'action' => 'generate',
-                ),
+                    'action' => 'generate'
+                )
             )
         );
         $this->addChild(
@@ -183,23 +185,23 @@ class Config extends Widget implements TabInterface
                     'mage-init' => array(
                         'configurableAttribute' => array(
                             'url' => $this->getUrl(
-                                    'catalog/product_attribute/new',
-                                    array(
-                                        'store' => $this->getProduct()->getStoreId(),
-                                        'product_tab' => 'variations',
-                                        'popup' => 1,
-                                        '_query' => array(
-                                            'attribute' => array(
-                                                'is_global' => 1,
-                                                'frontend_input' => 'select',
-                                                'is_configurable' => 1
-                                            ),
+                                'catalog/product_attribute/new',
+                                array(
+                                    'store' => $this->getProduct()->getStoreId(),
+                                    'product_tab' => 'variations',
+                                    'popup' => 1,
+                                    '_query' => array(
+                                        'attribute' => array(
+                                            'is_global' => 1,
+                                            'frontend_input' => 'select',
+                                            'is_configurable' => 1
                                         )
                                     )
                                 )
+                            )
                         )
                     )
-                ),
+                )
             )
         );
         $this->addChild(
@@ -209,11 +211,9 @@ class Config extends Widget implements TabInterface
                 'label' => __('Add Option'),
                 'class' => 'action- scalable add',
                 'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'add-option'),
-                    ),
-                    'action' => 'add-option',
-                ),
+                    'mage-init' => array('button' => array('event' => 'add-option')),
+                    'action' => 'add-option'
+                )
             )
         );
 
@@ -247,9 +247,11 @@ class Config extends Widget implements TabInterface
                     if (isset($configurableData[$key])) {
                         $attribute['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
-                            isset($configurableData[$key]['values'])
-                                ? array_filter($configurableData[$key]['values'])
-                                : array()
+                            isset(
+                                $configurableData[$key]['values']
+                            ) ? array_filter(
+                                $configurableData[$key]['values']
+                            ) : array()
                         );
                     }
                 }
@@ -279,8 +281,7 @@ class Config extends Widget implements TabInterface
      */
     public function getLinksJson()
     {
-        $products = $this->_configurableType
-            ->getUsedProducts($this->getProduct());
+        $products = $this->_configurableType->getUsedProducts($this->getProduct());
         if (!$products) {
             return '{}';
         }
@@ -300,13 +301,12 @@ class Config extends Widget implements TabInterface
     public function getConfigurableSettings($product)
     {
         $data = array();
-        $attributes = $this->_configurableType
-            ->getUsedProductAttributes($this->getProduct());
+        $attributes = $this->_configurableType->getUsedProductAttributes($this->getProduct());
         foreach ($attributes as $attribute) {
             $data[] = array(
                 'attribute_id' => $attribute->getId(),
-                'label'        => $product->getAttributeText($attribute->getAttributeCode()),
-                'value_index'  => $product->getData($attribute->getAttributeCode())
+                'label' => $product->getAttributeText($attribute->getAttributeCode()),
+                'value_index' => $product->getData($attribute->getAttributeCode())
             );
         }
 
@@ -380,9 +380,9 @@ class Config extends Widget implements TabInterface
      */
     public function getSelectedAttributes()
     {
-        return $this->getProduct()->getTypeId() == Configurable::TYPE_CODE
-            ? array_filter($this->_configurableType->getUsedProductAttributes($this->getProduct()))
-            : array();
+        return $this->getProduct()->getTypeId() == Configurable::TYPE_CODE ? array_filter(
+            $this->_configurableType->getUsedProductAttributes($this->getProduct())
+        ) : array();
     }
 
     /**

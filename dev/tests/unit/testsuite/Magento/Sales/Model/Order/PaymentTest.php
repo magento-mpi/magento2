@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order;
 
 class PaymentTest extends \PHPUnit_Framework_TestCase
@@ -23,10 +22,15 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $model = $helper->getObject('Magento\Sales\Model\Order\Payment', array('paymentData' => $paymentData));
         $model->setMethod('any');
         // check fix for partial refunds in Payflow Pro
-        $payment->expects($this->once())
-            ->method('canVoid')
-            ->with(new \PHPUnit_Framework_Constraint_IsIdentical($model))
-            ->will($this->returnValue(false));
+        $payment->expects(
+            $this->once()
+        )->method(
+            'canVoid'
+        )->with(
+            new \PHPUnit_Framework_Constraint_IsIdentical($model)
+        )->will(
+            $this->returnValue(false)
+        );
 
         $model->cancel();
     }

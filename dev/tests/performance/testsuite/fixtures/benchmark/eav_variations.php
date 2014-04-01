@@ -25,49 +25,41 @@ $storeViewsCount = \Magento\TestFramework\Helper\Cli::getOption('store_views', 4
 $data = array(
     'frontend_label' => array_fill(0, $storeViewsCount + 1, 'configurable variations'),
     'frontend_input' => 'select',
-    'is_required'    => '0',
-    'option'         => array(
-        'order' => array(
-            'option_0' => '1',
-            'option_1' => '2',
-            'option_2' => '3',
-        ),
+    'is_required' => '0',
+    'option' => array(
+        'order' => array('option_0' => '1', 'option_1' => '2', 'option_2' => '3'),
         'value' => array(
             'option_0' => array_fill(0, $storeViewsCount + 1, 'option 1'),
             'option_1' => array_fill(0, $storeViewsCount + 1, 'option 2'),
-            'option_2' => array_fill(0, $storeViewsCount + 1, 'option 3'),
+            'option_2' => array_fill(0, $storeViewsCount + 1, 'option 3')
         ),
-        'delete' => array(
-            'option_0' => '',
-            'option_1' => '',
-            'option_2' => '',
-        ),
+        'delete' => array('option_0' => '', 'option_1' => '', 'option_2' => '')
     ),
-    'default'                       => array('option_0'),
-    'attribute_code'                => 'configurable_variations',
-    'is_global'                     => '1',
-    'default_value_text'            => '',
-    'default_value_yesno'           => '0',
-    'default_value_date'            => '',
-    'default_value_textarea'        => '',
-    'is_unique'                     => '0',
-    'is_configurable'               => '1',
-    'is_searchable'                 => '0',
+    'default' => array('option_0'),
+    'attribute_code' => 'configurable_variations',
+    'is_global' => '1',
+    'default_value_text' => '',
+    'default_value_yesno' => '0',
+    'default_value_date' => '',
+    'default_value_textarea' => '',
+    'is_unique' => '0',
+    'is_configurable' => '1',
+    'is_searchable' => '0',
     'is_visible_in_advanced_search' => '0',
-    'is_comparable'                 => '0',
-    'is_filterable'                 => '0',
-    'is_filterable_in_search'       => '0',
-    'is_used_for_promo_rules'       => '0',
-    'is_html_allowed_on_front'      => '1',
-    'is_visible_on_front'           => '0',
-    'used_in_product_listing'       => '0',
-    'used_for_sort_by'              => '0',
-    'source_model'                  => NULL,
-    'backend_model'                 => NULL,
-    'apply_to'                      => array(),
-    'backend_type'                  => 'int',
-    'entity_type_id'                => 4,
-    'is_user_defined'               => 1,
+    'is_comparable' => '0',
+    'is_filterable' => '0',
+    'is_filterable_in_search' => '0',
+    'is_used_for_promo_rules' => '0',
+    'is_html_allowed_on_front' => '1',
+    'is_visible_on_front' => '0',
+    'used_in_product_listing' => '0',
+    'used_for_sort_by' => '0',
+    'source_model' => null,
+    'backend_model' => null,
+    'apply_to' => array(),
+    'backend_type' => 'int',
+    'entity_type_id' => 4,
+    'is_user_defined' => 1
 );
 /**
  * The logic is not obvious, but looking to the controller logic for configurable products this attribute requires
@@ -78,9 +70,7 @@ $data = array(
 $model->addData($data);
 $attributeSet = $this->getObjectManager()->get('Magento\Eav\Model\Entity\Attribute\Set');
 $attributeSet->load(ATTRIBUTE_SET_ID);
-$model->setAttributeSetId(ATTRIBUTE_SET_ID)
-    ->setAttributeGroupId($attributeSet->getDefaultGroupId(4))
-    ->save();
+$model->setAttributeSetId(ATTRIBUTE_SET_ID)->setAttributeGroupId($attributeSet->getDefaultGroupId(4))->save();
 
 $model->setAttributeSetId(ATTRIBUTE_SET_ID);
 $model->save();

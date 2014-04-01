@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdminGws\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
@@ -48,6 +47,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_role;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $websiteOne = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
@@ -101,7 +104,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_storeGroups->addItem($storeGroupTwo);
 
         $this->_backendAuthSession = $this->getMock(
-            'Magento\Backend\Model\Auth\Session', array('getUser'), array(), '', false
+            'Magento\Backend\Model\Auth\Session',
+            array('getUser'),
+            array(),
+            '',
+            false
         );
 
         $this->_store = new \Magento\Object();
@@ -127,12 +134,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\AdminGws\Model\Observer', array(
-            'backendAuthSession' => $this->_backendAuthSession,
-            'storeManager' => $this->_storeManager,
-            'storeGroups' => $this->_storeGroups,
-            'role' => $this->_role
-        ));
+        $this->_model = $objectManagerHelper->getObject(
+            'Magento\AdminGws\Model\Observer',
+            array(
+                'backendAuthSession' => $this->_backendAuthSession,
+                'storeManager' => $this->_storeManager,
+                'storeGroups' => $this->_storeGroups,
+                'role' => $this->_role
+            )
+        );
     }
 
     /**
@@ -183,47 +193,35 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'role scope: all' => array(
+                array('gws_is_all' => 1, 'gws_websites' => '12,13', 'gws_store_groups' => '21'),
                 array(
-                    'gws_is_all'            => 1,
-                    'gws_websites'          => '12,13',
-                    'gws_store_groups'      => '21',
-                ),
-                array(
-                    'gws_is_all'            => true,
-                    'gws_websites'          => array(11, 12, 13),
-                    'gws_store_groups'      => array(21, 22),
-                    'gws_stores'            => array(31, 32),
-                    'gws_relevant_websites' => array(11, 12),
-                ),
+                    'gws_is_all' => true,
+                    'gws_websites' => array(11, 12, 13),
+                    'gws_store_groups' => array(21, 22),
+                    'gws_stores' => array(31, 32),
+                    'gws_relevant_websites' => array(11, 12)
+                )
             ),
             'role scope: custom & assigned store groups' => array(
+                array('gws_is_all' => 0, 'gws_websites' => '12,13', 'gws_store_groups' => '21'),
                 array(
-                    'gws_is_all'            => 0,
-                    'gws_websites'          => '12,13',
-                    'gws_store_groups'      => '21',
-                ),
-                array(
-                    'gws_is_all'            => false,
-                    'gws_websites'          => array(12, 13),
-                    'gws_store_groups'      => array(21),
-                    'gws_stores'            => array(31, 32),
-                    'gws_relevant_websites' => array(11),
-                ),
+                    'gws_is_all' => false,
+                    'gws_websites' => array(12, 13),
+                    'gws_store_groups' => array(21),
+                    'gws_stores' => array(31, 32),
+                    'gws_relevant_websites' => array(11)
+                )
             ),
             'role scope: custom & unassigned store groups' => array(
+                array('gws_is_all' => 0, 'gws_websites' => '11,13', 'gws_store_groups' => ''),
                 array(
-                    'gws_is_all'            => 0,
-                    'gws_websites'          => '11,13',
-                    'gws_store_groups'      => '',
-                ),
-                array(
-                    'gws_is_all'            => false,
-                    'gws_websites'          => array(11, 13),
-                    'gws_store_groups'      => array(21),
-                    'gws_stores'            => array(31, 32),
-                    'gws_relevant_websites' => array(11),
-                ),
-            ),
+                    'gws_is_all' => false,
+                    'gws_websites' => array(11, 13),
+                    'gws_store_groups' => array(21),
+                    'gws_stores' => array(31, 32),
+                    'gws_relevant_websites' => array(11)
+                )
+            )
         );
     }
 
@@ -240,9 +238,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testUpdateRoleStores()
     {
         $this->_store->setData('store_id', 1000);
-        $this->_role->expects($this->once())
-            ->method('setStoreIds')
-            ->with($this->contains(1000));
+        $this->_role->expects($this->once())->method('setStoreIds')->with($this->contains(1000));
         $this->_model->updateRoleStores($this->_observer);
     }
 }

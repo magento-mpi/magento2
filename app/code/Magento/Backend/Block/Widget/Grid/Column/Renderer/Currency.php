@@ -16,8 +16,7 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Currency
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var int
@@ -74,7 +73,8 @@ class Currency
         $this->_currencyLocator = $currencyLocator;
         $this->_localeCurrency = $localeCurrency;
         $baseCurrencyCode = $this->_storeConfig->getValue(
-            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default'
+            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+            'default'
         );
         $this->_baseCurrency = $currencyFactory->create()->load($baseCurrencyCode);
     }
@@ -90,7 +90,7 @@ class Currency
         if ($data = (string)$row->getData($this->getColumn()->getIndex())) {
             $currency_code = $this->_getCurrencyCode($row);
             $data = floatval($data) * $this->_getRate($row);
-            $sign = (bool)(int)$this->getColumn()->getShowNumberSign() && ($data > 0) ? '+' : '';
+            $sign = (bool)(int)$this->getColumn()->getShowNumberSign() && $data > 0 ? '+' : '';
             $data = sprintf("%f", $data);
             $data = $this->_localeCurrency->getCurrency($currency_code)->toCurrency($data);
             return $sign . $data;

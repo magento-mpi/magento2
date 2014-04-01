@@ -70,22 +70,10 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
     public function getAttributeFormOptions()
     {
         return array(
-            array(
-                'label' => __('Customer Checkout Register'),
-                'value' => 'checkout_register'
-            ),
-            array(
-                'label' => __('Customer Registration'),
-                'value' => 'customer_account_create'
-            ),
-            array(
-                'label' => __('Customer Account Edit'),
-                'value' => 'customer_account_edit'
-            ),
-            array(
-                'label' => __('Admin Checkout'),
-                'value' => 'adminhtml_checkout'
-            ),
+            array('label' => __('Customer Checkout Register'), 'value' => 'checkout_register'),
+            array('label' => __('Customer Registration'), 'value' => 'customer_account_create'),
+            array('label' => __('Customer Account Edit'), 'value' => 'customer_account_edit'),
+            array('label' => __('Admin Checkout'), 'value' => 'adminhtml_checkout')
         );
     }
 
@@ -93,7 +81,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
      * Filter post data
      *
      * @param array $data
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return array
      */
     public function filterPostData($data)
@@ -102,11 +90,9 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
 
         //validate frontend_input
         if (isset($data['frontend_input'])) {
-            $this->_inputValidator->setHaystack(
-                array_keys($this->_dataHelper->getAttributeInputTypes())
-            );
+            $this->_inputValidator->setHaystack(array_keys($this->_dataHelper->getAttributeInputTypes()));
             if (!$this->_inputValidator->isValid($data['frontend_input'])) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     $this->filterManager->stripTags(implode(' ', $this->_inputValidator->getMessages()))
                 );
             }

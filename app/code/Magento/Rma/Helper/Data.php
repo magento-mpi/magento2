@@ -227,7 +227,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param  int|\Magento\Sales\Model\Order $orderId
      * @param  bool $onlyParents If needs only parent items (only for backend)
      * @return \Magento\Sales\Model\Resource\Order\Item\Collection
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getOrderItems($orderId, $onlyParents = false)
     {
@@ -235,7 +235,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $orderId = $orderId->getId();
         }
         if (!is_numeric($orderId)) {
-            throw new \Magento\Core\Exception(__('This is not a valid order.'));
+            throw new \Magento\Model\Exception(__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
             $this->_orderItems[$orderId] = $this->_itemFactory->create()->getOrderItems($orderId);
@@ -331,7 +331,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $addressModel = $this->_addressFactory->create();
         $addressModel->setData($this->getReturnAddressData($storeId));
         $addressModel->setCountryId($addressModel->getData('countryId'));
-        $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
+        $addressModel->setStreet($addressModel->getData('street1') . "\n" . $addressModel->getData('street2'));
         return $addressModel;
     }
 
@@ -379,9 +379,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
             );
         }
 
-        $data['country'] = (!empty($data['countryId']))
-            ? $this->_countryFactory->create()->loadByCode($data['countryId'])->getName()
-            : '';
+        $data['country'] = !empty($data['countryId']) ? $this->_countryFactory->create()->loadByCode(
+            $data['countryId']
+        )->getName() : '';
         $region = $this->_regionFactory->create()->load($data['region_id']);
         $data['region_id'] = $region->getCode();
         $data['region'] = $region->getName();
@@ -440,8 +440,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $allowedCarriers = $this->getShippingCarriers($store);
         foreach (array_keys($allowedCarriers) as $carrier) {
-            if (!$this->carrierHelper->getCarrierConfigValue($carrier , 'active_rma', $store)) {
-                unset ($allowedCarriers[$carrier]);
+            if (!$this->carrierHelper->getCarrierConfigValue($carrier, 'active_rma', $store)) {
+                unset($allowedCarriers[$carrier]);
             }
         }
         return $allowedCarriers;
@@ -456,8 +456,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCarrier($code, $storeId = null)
     {
-        $data           = explode('_', $code, 2);
-        $carrierCode    = $data[0];
+        $data = explode('_', $code, 2);
+        $carrierCode = $data[0];
 
         if (!$this->carrierHelper->getCarrierConfigValue($carrierCode, 'active_rma', $storeId)) {
             return false;
@@ -474,15 +474,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPackagePopupUrlByRmaModel($model, $action = 'package')
     {
-        $key    = 'rma_id';
+        $key = 'rma_id';
         $method = 'getId';
         $param = array(
-             'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
         );
 
-         $storeId = is_object($model) ? $model->getStoreId() : null;
-         $storeModel = $this->_storeManager->getStore($storeId);
-         return $storeModel->getUrl('rma/tracking/' . $action, $param);
+        $storeId = is_object($model) ? $model->getStoreId() : null;
+        $storeModel = $this->_storeManager->getStore($storeId);
+        return $storeModel->getUrl('rma/tracking/' . $action, $param);
     }
 
     /**
@@ -510,13 +510,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-         $param = array(
-             'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
-         );
+        $param = array(
+            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
+        );
 
-         $storeId = is_object($model) ? $model->getStoreId() : null;
-         $storeModel = $this->_storeManager->getStore($storeId);
-         return $storeModel->getUrl('rma/tracking/popup', $param);
+        $storeId = is_object($model) ? $model->getStoreId() : null;
+        $storeModel = $this->_storeManager->getStore($storeId);
+        return $storeModel->getUrl('rma/tracking/popup', $param);
     }
 
     /**
@@ -567,9 +567,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getFormatedDate($date)
     {
         $storeDate = $this->_localeDate->scopeDate(
-            $this->_storeManager->getStore(), $this->dateTime->toTimestamp($date), true
+            $this->_storeManager->getStore(),
+            $this->dateTime->toTimestamp($date),
+            true
         );
-        return $this->_localeDate->formatDate($storeDate, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->formatDate(
+            $storeDate,
+            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+        );
     }
 
     /**
@@ -580,7 +585,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getAdminProductName($item)
     {
-        $name   = $item->getName();
+        $name = $item->getName();
         $result = array();
         if ($options = $item->getProductOptions()) {
             if (isset($options['options'])) {
@@ -596,9 +601,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if (!empty($result)) {
                 $implode = array();
                 foreach ($result as $val) {
-                    $implode[] =  isset($val['print_value']) ? $val['print_value'] : $val['value'];
+                    $implode[] = isset($val['print_value']) ? $val['print_value'] : $val['value'];
                 }
-                return $name.' ('.implode(', ', $implode).')';
+                return $name . ' (' . implode(', ', $implode) . ')';
             }
         }
         return $name;
@@ -625,7 +630,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function parseQuantity($quantity, $item)
     {
         if (is_null($quantity)) {
-             $quantity = $item->getOrigData('qty_requested');
+            $quantity = $item->getOrigData('qty_requested');
         }
         if ($item->getIsQtyDecimal()) {
             return sprintf("%01.4f", $quantity);
@@ -644,18 +649,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $qty = $item->getQtyRequested();
 
-        if ($item->getQtyApproved()
-            && ($item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED)
-        ) {
+        if ($item->getQtyApproved() && $item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED) {
             $qty = $item->getQtyApproved();
-        } elseif ($item->getQtyReturned()
-            && ($item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED
-                || $item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED
-            )
+        } elseif ($item->getQtyReturned() &&
+            ($item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED ||
+            $item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED)
         ) {
             $qty = $item->getQtyReturned();
-        } elseif ($item->getQtyAuthorized()
-            && ($item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED)
+        } elseif ($item->getQtyAuthorized() &&
+            $item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED
         ) {
             $qty = $item->getQtyAuthorized();
         }

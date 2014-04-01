@@ -19,7 +19,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Store');
+            ->create('Magento\Store\Model\Group');
     }
 
     public function testSetGetWebsite()

@@ -36,14 +36,17 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Customer segment view modes
      */
-    const VIEW_MODE_UNION_CODE      = 'union';
-    const VIEW_MODE_INTERSECT_CODE  = 'intersect';
+    const VIEW_MODE_UNION_CODE = 'union';
+
+    const VIEW_MODE_INTERSECT_CODE = 'intersect';
 
     /**
      * Possible states of customer segment
      */
     const APPLY_TO_VISITORS = 2;
+
     const APPLY_TO_REGISTERED = 1;
+
     const APPLY_TO_VISITORS_AND_REGISTERED = 0;
 
     /**
@@ -83,7 +86,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\Log\Model\VisitorFactory $visitorFactory
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -97,7 +100,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         \Magento\Log\Model\Visitor $visitor,
         \Magento\Log\Model\VisitorFactory $visitorFactory,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -143,9 +146,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         }
         $customer = new \Zend_Db_Expr(':customer_id');
         $website = new \Zend_Db_Expr(':website_id');
-        $this->setConditionSql(
-            $this->getConditions()->getConditionsSql($customer, $website)
-        );
+        $this->setConditionSql($this->getConditions()->getConditionsSql($customer, $website));
         $this->setMatchedEvents(array_unique($events));
 
         parent::_beforeSave();
@@ -282,15 +283,14 @@ class Segment extends \Magento\Rule\Model\AbstractModel
 
         $params = array();
         if (strpos($sql, ':customer_id')) {
-            $params['customer_id']  = $customerId;
+            $params['customer_id'] = $customerId;
         }
         if (strpos($sql, ':website_id')) {
             $params['website_id'] = $this->_storeManager->getWebsite($website)->getId();
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {
-                $params['quote_id'] = $this->_visitorFactory->create()
-                    ->load($this->getVisitorId())->getQuoteId();
+                $params['quote_id'] = $this->_visitorFactory->create()->load($this->getVisitorId())->getQuoteId();
             } else {
                 $params['quote_id'] = 0;
             }

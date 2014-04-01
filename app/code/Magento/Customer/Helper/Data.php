@@ -18,6 +18,16 @@ namespace Magento\Customer\Helper;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
+     * Customer group cache context
+     */
+    const CONTEXT_GROUP = 'customer_group';
+
+    /**
+     * Customer authorization cache context
+     */
+    const CONTEXT_AUTH = 'customer_logged_in';
+
+    /**
      * Query param name for last url visited
      */
     const REFERER_QUERY_PARAM_NAME = 'referer';
@@ -619,7 +629,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         );
 
         if (!extension_loaded('soap')) {
-            $this->_logger->logException(new \Magento\Core\Exception(__('PHP SOAP extension is required.')));
+            $this->_logger->logException(new \Magento\Model\Exception(__('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 

@@ -16,20 +16,31 @@ use Magento\Sales\Model\Order\Status\History;
  */
 class Ipn
 {
-    const STATUS_CREATED      = 'Created';
-    const STATUS_COMPLETED    = 'Completed';
-    const STATUS_DENIED       = 'Denied';
-    const STATUS_FAILED       = 'Failed';
-    const STATUS_REVERSED     = 'Reversed';
-    const STATUS_REFUNDED     = 'Refunded';
+    const STATUS_CREATED = 'Created';
+
+    const STATUS_COMPLETED = 'Completed';
+
+    const STATUS_DENIED = 'Denied';
+
+    const STATUS_FAILED = 'Failed';
+
+    const STATUS_REVERSED = 'Reversed';
+
+    const STATUS_REFUNDED = 'Refunded';
+
     const STATUS_CANCELED_REV = 'Canceled_Reversal';
-    const STATUS_PENDING      = 'Pending';
-    const STATUS_PROCESSED    = 'Processed';
-    const STATUS_EXPIRED      = 'Expired';
-    const STATUS_VOIDED       = 'Voided';
+
+    const STATUS_PENDING = 'Pending';
+
+    const STATUS_PROCESSED = 'Processed';
+
+    const STATUS_EXPIRED = 'Expired';
+
+    const STATUS_VOIDED = 'Voided';
 
     const AUTH_STATUS_IN_PROGRESS = 'In_Progress';
-    const AUTH_STATUS_COMPLETED   = 'Completed';
+
+    const AUTH_STATUS_COMPLETED = 'Completed';
 
     /**
      * Order
@@ -158,7 +169,7 @@ class Ipn
         $sReq = '';
 
         foreach ($this->_ipnFormData as $k => $v) {
-            $sReq .= '&'.$k.'='.urlencode(stripslashes($v));
+            $sReq .= '&' . $k . '=' . urlencode(stripslashes($v));
         }
         // append ipn command
         $sReq .= "&cmd=_notify-validate";
@@ -214,7 +225,7 @@ class Ipn
      * Validate incoming request data, as PayPal recommends
      *
      * @param Order $order
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return void
      */
     protected function _verifyOrder(Order $order)
@@ -227,8 +238,9 @@ class Ipn
                 $receiverEmail = $this->getIpnFormData('receiver_email');
             }
             if ($merchantEmail != $receiverEmail) {
-                throw new \Magento\Core\Exception(__('Requested %1 and configured %2 merchant emails do not match.',
-                    $receiverEmail, $merchantEmail));
+                throw new \Magento\Model\Exception(
+                    __('Requested %1 and configured %2 merchant emails do not match.', $receiverEmail, $merchantEmail)
+                );
             }
         }
     }
@@ -252,32 +264,30 @@ class Ipn
                     // paid with german bank
                     case self::STATUS_CREATED:
                         // break intentionally omitted
-                    // paid with PayPal
+                        // paid with PayPal
                     case self::STATUS_COMPLETED:
                         $this->_registerPaymentCapture();
                         break;
 
-                    // the holded payment was denied on paypal side
+                        // the holded payment was denied on paypal side
                     case self::STATUS_DENIED:
-                        $this->_registerPaymentFailure(
-                            __('The merchant denied this pending payment.')
-                        );
+                        $this->_registerPaymentFailure(__('The merchant denied this pending payment.'));
                         break;
-                    // customer attempted to pay via bank account, but failed
+                        // customer attempted to pay via bank account, but failed
                     case self::STATUS_FAILED:
                         // cancel order
                         $this->_registerPaymentFailure(__('This customer did not pay.'));
                         break;
 
-                    // refund forced by PayPal
+                        // refund forced by PayPal
                     case self::STATUS_REVERSED:
                         // break intentionally omitted
-                    // refund by merchant on PayPal side
+                        // refund by merchant on PayPal side
                     case self::STATUS_REFUNDED:
                         $this->_registerPaymentRefund();
                         break;
 
-                    // refund that was forced by PayPal, returnred back.
+                        // refund that was forced by PayPal, returnred back.
                     case self::STATUS_CANCELED_REV:
                         // Magento cannot handle this for now. Just notify admin.
                         // potentially @see \Magento\Sales\Model\Order\Creditmemo::cancel()
@@ -285,29 +295,27 @@ class Ipn
                         $this->_notifyAdmin($history->getComment());
                         break;
 
-                    // payment was obtained, but money were not captured yet
+                        // payment was obtained, but money were not captured yet
                     case self::STATUS_PENDING:
                         $this->_registerPaymentPending();
                         break;
 
-                    // no really useful information here, just add status comment
+                        // no really useful information here, just add status comment
                     case self::STATUS_PROCESSED:
                         $this->_createIpnComment('');
                         break;
 
-                    // authorization expired, must void
+                        // authorization expired, must void
                     case self::STATUS_EXPIRED:
                         $this->_registerPaymentVoid(__('Authorization expired'));
                         break;
-                    // void by merchant on PayPal side
+                        // void by merchant on PayPal side
                     case self::STATUS_VOIDED:
                         $this->_registerPaymentVoid(__('The merchant voided the authorization.'));
                         break;
                 }
-            }
-            catch (\Magento\Core\Exception $e) {
-                $history = $this->_createIpnComment(__('Note: %1', $e->getMessage()))
-                    ->save();
+            } catch (\Magento\Model\Exception $e) {
+                $history = $this->_createIpnComment(__('Note: %1', $e->getMessage()))->save();
                 $this->_notifyAdmin($history->getComment(), $e);
             }
         } catch (\Exception $e) {
@@ -326,28 +334,36 @@ class Ipn
      * Everything after saving order is not critical, thus done outside the transaction.
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _registerPaymentCapture()
     {
         $order = $this->_getOrder();
         $payment = $order->getPayment();
-        $payment->setTransactionId($this->getIpnFormData('transaction_id'))
-            ->setCurrencyCode($this->getIpnFormData('mc_currency'))
-            ->setPreparedMessage($this->_createIpnComment('', false))
-            ->setParentTransactionId($this->getIpnFormData('parent_txn_id'))
-            ->setShouldCloseParentTransaction(self::AUTH_STATUS_COMPLETED === $this->getIpnFormData('auth_status'))
-            ->setIsTransactionClosed(0)
-            ->registerCaptureNotification($this->getIpnFormData('mc_gross'));
+        $payment->setTransactionId(
+            $this->getIpnFormData('transaction_id')
+        )->setCurrencyCode(
+            $this->getIpnFormData('mc_currency')
+        )->setPreparedMessage(
+            $this->_createIpnComment('', false)
+        )->setParentTransactionId(
+            $this->getIpnFormData('parent_txn_id')
+        )->setShouldCloseParentTransaction(
+            self::AUTH_STATUS_COMPLETED === $this->getIpnFormData('auth_status')
+        )->setIsTransactionClosed(
+            0
+        )->registerCaptureNotification(
+            $this->getIpnFormData('mc_gross')
+        );
         $order->save();
 
         // notify customer
         if ($invoice = $payment->getCreatedInvoice()) {
             $comment = $order->sendNewOrderEmail()->addStatusHistoryComment(
-                    __('Notified customer about invoice #%1.', $invoice->getIncrementId())
-                )
-                ->setIsCustomerNotified(true)
-                ->save();
+                __('Notified customer about invoice #%1.', $invoice->getIncrementId())
+            )->setIsCustomerNotified(
+                true
+            )->save();
         }
     }
 
@@ -360,8 +376,7 @@ class Ipn
     protected function _registerPaymentFailure($explanationMessage = '')
     {
         $order = $this->_getOrder();
-        $order->registerCancellation($this->_createIpnComment($explanationMessage, false), false)
-            ->save();
+        $order->registerCancellation($this->_createIpnComment($explanationMessage, false), false)->save();
     }
 
     /**
@@ -375,12 +390,17 @@ class Ipn
         $isRefundFinal = (int)(self::STATUS_REVERSED !== $this->getIpnFormData('payment_status'));
 
         $order = $this->_getOrder();
-        $payment = $order->getPayment()
-            ->setPreparedMessage($this->_explainRefundReason(false))
-            ->setTransactionId($this->getIpnFormData('transaction_id'))
-            ->setParentTransactionId($this->getIpnFormData('parent_txn_id'))
-            ->setIsTransactionClosed($isRefundFinal)
-            ->registerRefundNotification(-1 * $this->getIpnFormData('mc_gross'));
+        $payment = $order->getPayment()->setPreparedMessage(
+            $this->_explainRefundReason(false)
+        )->setTransactionId(
+            $this->getIpnFormData('transaction_id')
+        )->setParentTransactionId(
+            $this->getIpnFormData('parent_txn_id')
+        )->setIsTransactionClosed(
+            $isRefundFinal
+        )->registerRefundNotification(
+            -1 * $this->getIpnFormData('mc_gross')
+        );
         $order->save();
 
         // TODO: there is no way to close a capture right now
@@ -388,10 +408,10 @@ class Ipn
         if ($creditmemo = $payment->getCreatedCreditmemo()) {
             $creditmemo->sendEmail();
             $comment = $order->addStatusHistoryComment(
-                    __('Notified customer about creditmemo #%1.', $creditmemo->getIncrementId())
-                )
-                ->setIsCustomerNotified(true)
-                ->save();
+                __('Notified customer about creditmemo #%1.', $creditmemo->getIncrementId())
+            )->setIsCustomerNotified(
+                true
+            )->save();
         }
     }
 
@@ -399,7 +419,7 @@ class Ipn
      * Register payment pending
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      *
      * @see pending_reason at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      */
@@ -408,7 +428,8 @@ class Ipn
         $order = $this->_getOrder();
         $message = null;
         switch ($this->getIpnFormData('pending_reason')) {
-            case 'address': // for some reason PayPal gives "address" reason, when Fraud Management Filter triggered
+            case 'address':
+                // for some reason PayPal gives "address" reason, when Fraud Management Filter triggered
                 $message = __('This customer used a non-confirmed address.');
                 break;
             case 'echeck':
@@ -416,14 +437,19 @@ class Ipn
                 // possible requires processing on our side as well
                 break;
             case 'intl':
-                $message = __('This merchant account does not have a withdrawal mechanism. You can accept or deny this payment in your PayPal account overview.');
+                $message = __(
+                    'This merchant account does not have a withdrawal mechanism. You can accept or deny this payment in your PayPal account overview.'
+                );
                 break;
             case 'multi-currency':
-                $message = __('This payment includes multiple currencies. You can accept or deny this payment in your PayPal account overview.');
+                $message = __(
+                    'This payment includes multiple currencies. You can accept or deny this payment in your PayPal account overview.'
+                );
                 break;
             case 'order':
-                throw new \Magento\Core\Exception(
-                    '"Order" authorizations are not implemented. Please use "simple" authorization.');
+                throw new \Magento\Model\Exception(
+                    '"Order" authorizations are not implemented. Please use "simple" authorization.'
+                );
             case 'authorization':
                 $this->_registerPaymentAuthorization();
                 break;
@@ -458,12 +484,17 @@ class Ipn
     {
         // authorize payment
         $order = $this->_getOrder();
-        $payment = $order->getPayment()
-            ->setPreparedMessage($this->_createIpnComment('', false))
-            ->setTransactionId($this->getIpnFormData('transaction_id'))
-            ->setParentTransactionId($this->getIpnFormData('parent_txn_id'))
-            ->setIsTransactionClosed(0)
-            ->registerAuthorizationNotification($this->getIpnFormData('mc_gross'));
+        $payment = $order->getPayment()->setPreparedMessage(
+            $this->_createIpnComment('', false)
+        )->setTransactionId(
+            $this->getIpnFormData('transaction_id')
+        )->setParentTransactionId(
+            $this->getIpnFormData('parent_txn_id')
+        )->setIsTransactionClosed(
+            0
+        )->registerAuthorizationNotification(
+            $this->getIpnFormData('mc_gross')
+        );
 
         $order->save();
     }
@@ -480,11 +511,13 @@ class Ipn
     {
         $order = $this->_getOrder();
 
-        $txnId = $this->getIpnFormData('transaction_id'); // this is the authorization transaction ID
-        $order->getPayment()
-            ->setPreparedMessage($this->_createIpnComment($explanationMessage, false))
-            ->setParentTransactionId($txnId)
-            ->registerVoidNotification();
+        $txnId = $this->getIpnFormData('transaction_id');
+        // this is the authorization transaction ID
+        $order->getPayment()->setPreparedMessage(
+            $this->_createIpnComment($explanationMessage, false)
+        )->setParentTransactionId(
+            $txnId
+        )->registerVoidNotification();
         $order->save();
     }
 
@@ -592,7 +625,7 @@ class Ipn
             'payer_email' => \Magento\Paypal\Model\Info::PAYER_EMAIL,
             \Magento\Paypal\Model\Info::PAYER_STATUS,
             \Magento\Paypal\Model\Info::ADDRESS_STATUS,
-            \Magento\Paypal\Model\Info::PROTECTION_EL,
+            \Magento\Paypal\Model\Info::PROTECTION_EL
         ) as $privateKey => $publicKey) {
             if (is_int($privateKey)) {
                 $privateKey = $publicKey;
@@ -615,5 +648,4 @@ class Ipn
         $this->_paypalInfo->importToPayment($from, $payment);
         return $was != $payment->getAdditionalInformation();
     }
-
 }

@@ -22,14 +22,18 @@ class Eav
         $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite();
         $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Eav\Model\Entity\Type')->loadByCode($entityType);
+        $entityTypeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Eav\Model\Entity\Type'
+        )->loadByCode(
+            $entityType
+        );
         /** @var \Magento\Eav\Model\Entity\Store $entityStore */
-        $entityStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Eav\Model\Entity\Store')->loadByEntityStore(
-                $entityTypeModel->getId(),
-                $storeId
-            );
+        $entityStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Eav\Model\Entity\Store'
+        )->loadByEntityStore(
+            $entityTypeModel->getId(),
+            $storeId
+        );
         $entityStore->setEntityTypeId($entityTypeModel->getId());
         $entityStore->setStoreId($storeId);
         $entityStore->setIncrementPrefix($prefix);

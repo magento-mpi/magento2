@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Content
-    extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content
+class Content extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content
 {
     /**
      * Get header text
@@ -27,6 +25,7 @@ class Content
     {
         return __('CSS Editor ') . __($this->_storageHelper->getStorageTypeName());
     }
+
     /**
      * Javascript setup object for filebrowser instance
      *
@@ -36,19 +35,21 @@ class Content
     {
         $setupObject = new \Magento\Object();
 
-        $setupObject->setData(array(
-            'newFolderPrompt'                 => __('New Folder Name:'),
-            'deleteFolderConfirmationMessage' => __('Are you sure you want to delete this folder?'),
-            'deleteFileConfirmationMessage'   => __('Are you sure you want to delete this file?'),
-            'targetElementId' => $this->getTargetElementId(),
-            'contentsUrl'     => $this->getContentsUrl(),
-            'onInsertUrl'     => $this->getOnInsertUrl(),
-            'newFolderUrl'    => $this->getNewfolderUrl(),
-            'deleteFolderUrl' => $this->getDeletefolderUrl(),
-            'deleteFilesUrl'  => $this->getDeleteFilesUrl(),
-            'headerText'      => $this->getHeaderText(),
-            'showBreadcrumbs' => false
-        ));
+        $setupObject->setData(
+            array(
+                'newFolderPrompt' => __('New Folder Name:'),
+                'deleteFolderConfirmationMessage' => __('Are you sure you want to delete this folder?'),
+                'deleteFileConfirmationMessage' => __('Are you sure you want to delete this file?'),
+                'targetElementId' => $this->getTargetElementId(),
+                'contentsUrl' => $this->getContentsUrl(),
+                'onInsertUrl' => $this->getOnInsertUrl(),
+                'newFolderUrl' => $this->getNewfolderUrl(),
+                'deleteFolderUrl' => $this->getDeletefolderUrl(),
+                'deleteFilesUrl' => $this->getDeleteFilesUrl(),
+                'headerText' => $this->getHeaderText(),
+                'showBreadcrumbs' => false
+            )
+        );
 
         return $this->_coreHelper->jsonEncode($setupObject);
     }

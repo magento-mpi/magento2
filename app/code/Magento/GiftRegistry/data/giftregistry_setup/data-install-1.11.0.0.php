@@ -39,8 +39,5 @@ $typesData = array(
 );
 
 foreach ($typesData as $data) {
-    $this->_typeFactory->create()
-        ->addData($data)
-        ->setStoreId($data['store_id'])
-        ->save();
+    $this->_typeFactory->create()->addData($data)->setStoreId($data['store_id'])->save();
 }

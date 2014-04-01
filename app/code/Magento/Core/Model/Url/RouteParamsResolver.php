@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Url;
 
-class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\RouteParamsResolverInterface
+class RouteParamsResolver extends \Magento\Object implements \Magento\Url\RouteParamsResolverInterface
 {
     /**
      * @var \Magento\App\RequestInterface

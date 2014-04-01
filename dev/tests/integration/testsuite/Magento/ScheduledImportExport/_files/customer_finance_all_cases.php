@@ -10,16 +10,14 @@
  */
 
 /** @var $helper \Magento\ScheduledImportExport\Helper\Data */
-$helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\ScheduledImportExport\Helper\Data');
+$helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\ScheduledImportExport\Helper\Data'
+);
 
 // customer with reward points and customer balance
 /** @var $customer \Magento\Customer\Model\Customer */
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Customer');
-$customer->addData(array(
-    'firstname' => 'Test',
-    'lastname' => 'User'
-));
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
 $customerEmail = 'customer_finance_test_rp_cb@test.com';
 $registerKey = 'customer_finance_email_rp_cb';
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
@@ -34,8 +32,9 @@ $customer->setWebsiteId(
 $customer->save();
 
 /** @var $customerBalance \Magento\CustomerBalance\Model\Balance */
-$customerBalance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\CustomerBalance\Model\Balance');
+$customerBalance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\CustomerBalance\Model\Balance'
+);
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(
@@ -45,8 +44,7 @@ $customerBalance->setWebsiteId(
 $customerBalance->save();
 
 /** @var $rewardPoints \Magento\Reward\Model\Reward */
-$rewardPoints = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Reward\Model\Reward');
+$rewardPoints = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reward\Model\Reward');
 $rewardPoints->setCustomerId($customer->getId());
 $rewardPoints->setPointsBalance(20);
 $rewardPoints->setWebsiteId(
@@ -57,12 +55,8 @@ $rewardPoints->save();
 
 // customer with reward points and without customer balance
 /** @var $customer \Magento\Customer\Model\Customer */
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Customer');
-$customer->addData(array(
-    'firstname' => 'Test',
-    'lastname' => 'User'
-));
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
 $customerEmail = 'customer_finance_test_rp@test.com';
 $registerKey = 'customer_finance_email_rp';
 $objectManager->get('Magento\Registry')->unregister($registerKey);
@@ -75,8 +69,7 @@ $customer->setWebsiteId(
 $customer->save();
 
 /** @var $rewardPoints \Magento\Reward\Model\Reward */
-$rewardPoints = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Reward\Model\Reward');
+$rewardPoints = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reward\Model\Reward');
 $rewardPoints->setCustomerId($customer->getId());
 $rewardPoints->setPointsBalance(20);
 $rewardPoints->setWebsiteId(
@@ -87,12 +80,8 @@ $rewardPoints->save();
 
 // customer without reward points and with customer balance
 /** @var $customer \Magento\Customer\Model\Customer */
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Customer');
-$customer->addData(array(
-    'firstname' => 'Test',
-    'lastname' => 'User'
-));
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
 $customerEmail = 'customer_finance_test_cb@test.com';
 $registerKey = 'customer_finance_email_cb';
 $objectManager->get('Magento\Registry')->unregister($registerKey);
@@ -105,8 +94,9 @@ $customer->setWebsiteId(
 $customer->save();
 
 /** @var $customerBalance \Magento\CustomerBalance\Model\Balance */
-$customerBalance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\CustomerBalance\Model\Balance');
+$customerBalance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\CustomerBalance\Model\Balance'
+);
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(
@@ -117,12 +107,8 @@ $customerBalance->save();
 
 // customer without reward points and customer balance
 /** @var $customer \Magento\Customer\Model\Customer */
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Customer');
-$customer->addData(array(
-    'firstname' => 'Test',
-    'lastname' => 'User'
-));
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
 $objectManager->get('Magento\Registry')->unregister($registerKey);

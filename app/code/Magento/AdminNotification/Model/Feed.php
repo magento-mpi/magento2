@@ -16,12 +16,15 @@ namespace Magento\AdminNotification\Model;
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Feed extends \Magento\Core\Model\AbstractModel
+class Feed extends \Magento\Model\AbstractModel
 {
-    const XML_USE_HTTPS_PATH    = 'system/adminnotification/use_https';
-    const XML_FEED_URL_PATH     = 'system/adminnotification/feed_url';
-    const XML_FREQUENCY_PATH    = 'system/adminnotification/frequency';
-    const XML_LAST_UPDATE_PATH  = 'system/adminnotification/last_update';
+    const XML_USE_HTTPS_PATH = 'system/adminnotification/use_https';
+
+    const XML_FEED_URL_PATH = 'system/adminnotification/feed_url';
+
+    const XML_FREQUENCY_PATH = 'system/adminnotification/frequency';
+
+    const XML_LAST_UPDATE_PATH = 'system/adminnotification/last_update';
 
     /**
      * Feed url
@@ -45,7 +48,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -54,7 +57,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -70,7 +73,6 @@ class Feed extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-
     }
 
     /**
@@ -94,7 +96,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
      */
     public function checkUpdate()
     {
-        if (($this->getFrequency() + $this->getLastUpdate()) > time()) {
+        if ($this->getFrequency() + $this->getLastUpdate() > time()) {
             return $this;
         }
 
@@ -105,18 +107,17 @@ class Feed extends \Magento\Core\Model\AbstractModel
         if ($feedXml && $feedXml->channel && $feedXml->channel->item) {
             foreach ($feedXml->channel->item as $item) {
                 $feedData[] = array(
-                    'severity'      => (int)$item->severity,
-                    'date_added'    => $this->getDate((string)$item->pubDate),
-                    'title'         => (string)$item->title,
-                    'description'   => (string)$item->description,
-                    'url'           => (string)$item->link,
+                    'severity' => (int)$item->severity,
+                    'date_added' => $this->getDate((string)$item->pubDate),
+                    'title' => (string)$item->title,
+                    'description' => (string)$item->description,
+                    'url' => (string)$item->link
                 );
             }
 
             if ($feedData) {
                 $this->_inboxFactory->create()->parse(array_reverse($feedData));
             }
-
         }
         $this->setLastUpdate();
 
@@ -173,9 +174,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
     public function getFeedData()
     {
         $curl = new \Magento\HTTP\Adapter\Curl();
-        $curl->setConfig(array(
-            'timeout'   => 2
-        ));
+        $curl->setConfig(array('timeout' => 2));
         $curl->write(\Zend_Http_Client::GET, $this->getFeedUrl(), '1.0');
         $data = $curl->read();
         if ($data === false) {
@@ -186,9 +185,8 @@ class Feed extends \Magento\Core\Model\AbstractModel
         $curl->close();
 
         try {
-            $xml  = new \SimpleXMLElement($data);
-        }
-        catch (\Exception $e) {
+            $xml = new \SimpleXMLElement($data);
+        } catch (\Exception $e) {
             return false;
         }
 
@@ -202,9 +200,9 @@ class Feed extends \Magento\Core\Model\AbstractModel
     {
         try {
             $data = $this->getFeedData();
-            $xml  = new \SimpleXMLElement($data);
+            $xml = new \SimpleXMLElement($data);
         } catch (\Exception $e) {
-            $xml  = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?>');
+            $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?>');
         }
 
         return $xml;

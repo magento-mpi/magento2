@@ -16,7 +16,7 @@ use Magento\Reward\Model\Reward\History as ModelRewardHistory;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\Resource\Db\AbstractDb
+class History extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Date time formatter
@@ -43,9 +43,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('magento_reward_history', 'history_id');
-        $this->_serializableFields = array(
-            'additional_data' => array(array(), array()),
-        );
+        $this->_serializableFields = array('additional_data' => array(array(), array()));
     }
 
     /**
@@ -59,19 +57,23 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function isExistHistoryUpdate($customerId, $action, $websiteId, $entity)
     {
-        $select = $this->_getWriteAdapter()->select()
-            ->from(array('reward_table' => $this->getTable('magento_reward')), array())
-            ->joinInner(array('history_table' => $this->getMainTable()),
-                'history_table.reward_id = reward_table.reward_id', array())
-            ->where('history_table.action = :action')
-            ->where('history_table.website_id = :website_id')
-            ->where('history_table.entity = :entity')
-            ->columns(array('history_table.history_id'));
-        $bind = array(
-            'action'     => $action,
-            'website_id' => $websiteId,
-            'entity'     => $entity
+        $select = $this->_getWriteAdapter()->select()->from(
+            array('reward_table' => $this->getTable('magento_reward')),
+            array()
+        )->joinInner(
+            array('history_table' => $this->getMainTable()),
+            'history_table.reward_id = reward_table.reward_id',
+            array()
+        )->where(
+            'history_table.action = :action'
+        )->where(
+            'history_table.website_id = :website_id'
+        )->where(
+            'history_table.entity = :entity'
+        )->columns(
+            array('history_table.history_id')
         );
+        $bind = array('action' => $action, 'website_id' => $websiteId, 'entity' => $entity);
         if ($this->_getWriteAdapter()->fetchRow($select, $bind)) {
             return true;
         }
@@ -88,19 +90,21 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getTotalQtyRewards($action, $customerId, $websiteId)
     {
-        $select = $this->_getReadAdapter()
-            ->select()
-            ->from(array('history_table' => $this->getMainTable()), array('COUNT(*)'))
-            ->joinInner(array('reward_table' => $this->getTable('magento_reward')),
-                'history_table.reward_id = reward_table.reward_id', array())
-            ->where('history_table.action=:action')
-            ->where('reward_table.customer_id=:customer_id')
-            ->where('history_table.website_id=:website_id');
-        $bind = array(
-            'action'      => $action,
-            'customer_id' => $customerId,
-            'website_id'  => $websiteId
+        $select = $this->_getReadAdapter()->select()->from(
+            array('history_table' => $this->getMainTable()),
+            array('COUNT(*)')
+        )->joinInner(
+            array('reward_table' => $this->getTable('magento_reward')),
+            'history_table.reward_id = reward_table.reward_id',
+            array()
+        )->where(
+            'history_table.action=:action'
+        )->where(
+            'reward_table.customer_id=:customer_id'
+        )->where(
+            'history_table.website_id=:website_id'
         );
+        $bind = array('action' => $action, 'customer_id' => $customerId, 'website_id' => $websiteId);
         return intval($this->_getReadAdapter()->fetchOne($select, $bind));
     }
 
@@ -122,18 +126,23 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
         try {
             $adapter->beginTransaction();
-            $select = $adapter->select()
-                ->from(array('history' => $this->getMainTable()), array('history_id', 'points_delta', 'points_used'))
-                ->where('reward_id = :reward_id')
-                ->where('website_id = :website_id')
-                ->where('is_expired=0')
-                ->where('points_delta - points_used > 0')
-                ->order('history_id')
-                ->forUpdate(true);
-            $bind = array(
-                ':reward_id'  => $history->getRewardId(),
-                ':website_id' => $history->getWebsiteId()
+            $select = $adapter->select()->from(
+                array('history' => $this->getMainTable()),
+                array('history_id', 'points_delta', 'points_used')
+            )->where(
+                'reward_id = :reward_id'
+            )->where(
+                'website_id = :website_id'
+            )->where(
+                'is_expired=0'
+            )->where(
+                'points_delta - points_used > 0'
+            )->order(
+                'history_id'
+            )->forUpdate(
+                true
             );
+            $bind = array(':reward_id' => $history->getRewardId(), ':website_id' => $history->getWebsiteId());
 
             $stmt = $adapter->query($select, $bind);
 
@@ -147,10 +156,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $pointsUsed = min($required, $rowAvailable);
                 $required -= $pointsUsed;
                 $newPointsUsed = $pointsUsed + $row['points_used'];
-                $data[] = array(
-                    'history_id' => $row['history_id'],
-                    'points_used' => $newPointsUsed
-                );
+                $data[] = array('history_id' => $row['history_id'], 'points_used' => $newPointsUsed);
             }
 
             if (count($data) > 0) {
@@ -181,7 +187,9 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
         $update = array();
         if ($days) {
             $update['expired_at_dynamic'] = $adapter->getDateAddSql(
-                'created_at', $days, \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
+                'created_at',
+                $days,
+                \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
             );
         } else {
             $update['expired_at_dynamic'] = new \Zend_Db_Expr('NULL');
@@ -190,7 +198,6 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter->update($this->getMainTable(), $update, $where);
         return $this;
     }
-
 
     /**
      * Make points expired for specified website
@@ -206,18 +213,24 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
         $now = $this->dateTime->formatDate(time());
         $field = $expiryType == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
 
-        $select = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('website_id = :website_id')
-            ->where("{$field} < :time_now")
-            ->where("{$field} IS NOT NULL")
-            ->where('is_expired=?', 0)
-            ->where('points_delta-points_used > ?', 0)
-            ->limit((int)$limit);
-        $bind = array(
-            ':website_id' => $websiteId,
-            ':time_now'   => $now
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'website_id = :website_id'
+        )->where(
+            "{$field} < :time_now"
+        )->where(
+            "{$field} IS NOT NULL"
+        )->where(
+            'is_expired=?',
+            0
+        )->where(
+            'points_delta-points_used > ?',
+            0
+        )->limit(
+            (int)$limit
         );
+        $bind = array(':website_id' => $websiteId, ':time_now' => $now);
         $duplicates = array();
         $expiredAmounts = array();
         $expiredHistoryIds = array();
@@ -279,7 +292,8 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function markAsNotified($ids)
     {
-        $this->_getWriteAdapter()->update($this->getMainTable(),
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
             array('notification_sent' => 1),
             array('history_id IN (?)' => $ids)
         );
@@ -299,8 +313,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
             return $this;
         }
         $where = array($this->getIdFieldName() . '=?' => $object->getId());
-        $this->_getWriteAdapter()
-            ->update($this->getMainTable(), $data, $where);
+        $this->_getWriteAdapter()->update($this->getMainTable(), $data, $where);
         return $this;
     }
 }

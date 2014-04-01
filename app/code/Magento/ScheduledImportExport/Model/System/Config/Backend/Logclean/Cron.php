@@ -33,7 +33,7 @@ class Cron extends \Magento\Core\Model\Config\Value
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -42,7 +42,7 @@ class Cron extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -61,26 +61,29 @@ class Cron extends \Magento\Core\Model\Config\Value
         $time = $this->getData('groups/magento_scheduled_import_export_log/fields/time/value');
         $frequency = $this->getData('groups/magento_scheduled_import_export_log/fields/frequency/value');
 
-        $frequencyDaily   = \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY;
-        $frequencyWeekly  = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
+        $frequencyDaily = \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY;
+        $frequencyWeekly = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
         $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         $cronExprArray = array(
-            intval($time[1]),                                   # Minute
-            intval($time[0]),                                   # Hour
-            ($frequency == $frequencyMonthly) ? '1' : '*',      # Day of the Month
-            '*',                                                # Month of the Year
-            ($frequency == $frequencyWeekly) ? '1' : '*',       # Day of the Week
+            intval($time[1]),                                   // Minute
+            intval($time[0]),                                   // Hour
+            $frequency == $frequencyMonthly ? '1' : '*',        // Day of the Month
+            '*',                                                // Month of the Year
+            $frequency == $frequencyWeekly ? '1' : '*'          // Day of the Week
         );
 
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            $this->_configValueFactory->create()
-                ->load(self::CRON_STRING_PATH, 'path')
-                ->setValue($cronExprString)
-                ->setPath(self::CRON_STRING_PATH)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                self::CRON_STRING_PATH,
+                'path'
+            )->setValue(
+                $cronExprString
+            )->setPath(
+                self::CRON_STRING_PATH
+            )->save();
         } catch (\Exception $e) {
             throw new \Exception(__('We were unable to save the cron expression.'));
         }

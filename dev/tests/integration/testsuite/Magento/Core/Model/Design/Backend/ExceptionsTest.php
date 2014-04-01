@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Design\Backend;
 
 class ExceptionsTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,9 @@ class ExceptionsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Design\Backend\Exceptions');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Design\Backend\Exceptions'
+        );
         $this->_model->setScope('default');
         $this->_model->setScopeId(0);
         $this->_model->setPath('design/theme/ua_regexp');
@@ -90,18 +90,9 @@ class ExceptionsTest extends \PHPUnit_Framework_TestCase
     public function saveExceptionDataProvider()
     {
         $result = array(
-            array(
-                array('search' => 'Opera', 'value' => 'magento_blank'),
-                '/Opera/i'
-            ),
-            array(
-                array('search' => '/Opera/', 'value' => 'magento_blank'),
-                '/Opera/'
-            ),
-            array(
-                array('search' => '#iPad|iPhone#i', 'value' => 'magento_blank'),
-                '#iPad|iPhone#i'
-            ),
+            array(array('search' => 'Opera', 'value' => 'magento_blank'), '/Opera/i'),
+            array(array('search' => '/Opera/', 'value' => 'magento_blank'), '/Opera/'),
+            array(array('search' => '#iPad|iPhone#i', 'value' => 'magento_blank'), '#iPad|iPhone#i'),
             array(
                 array('search' => 'Mozilla (3.6+)/Firefox', 'value' => 'magento_blank'),
                 '/Mozilla \\(3\\.6\\+\\)\\/Firefox/i'
@@ -113,7 +104,7 @@ class ExceptionsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @var array $value
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @dataProvider saveWrongExceptionDataProvider
      * @magentoDbIsolation enabled
      */
@@ -129,30 +120,42 @@ class ExceptionsTest extends \PHPUnit_Framework_TestCase
     public function saveWrongExceptionDataProvider()
     {
         $result = array(
-            array(array(
-                '1' => array('search' => '/Opera/', 'value' => 'magento_blank'),
-                '2' => array('search' => '/invalid_regexp(/', 'value' => 'magento_blank'),
-            )),
-            array(array(
-                '1' => array('search' => '/invalid_regexp', 'value' => 'magento_blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
-            )),
-            array(array(
-                '1' => array('search' => 'invalid_regexp/iU', 'value' => 'magento_blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
-            )),
-            array(array(
-                '1' => array('search' => 'invalid_regexp#', 'value' => 'magento_blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
-            )),
-            array(array(
-                '1' => array('search' => '/Firefox/'),
-                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
-            )),
-            array(array(
-                '1' => array('value' => 'magento_blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'magento_blank'),
-            ))
+            array(
+                array(
+                    '1' => array('search' => '/Opera/', 'value' => 'magento_blank'),
+                    '2' => array('search' => '/invalid_regexp(/', 'value' => 'magento_blank')
+                )
+            ),
+            array(
+                array(
+                    '1' => array('search' => '/invalid_regexp', 'value' => 'magento_blank'),
+                    '2' => array('search' => '/Opera/', 'value' => 'magento_blank')
+                )
+            ),
+            array(
+                array(
+                    '1' => array('search' => 'invalid_regexp/iU', 'value' => 'magento_blank'),
+                    '2' => array('search' => '/Opera/', 'value' => 'magento_blank')
+                )
+            ),
+            array(
+                array(
+                    '1' => array('search' => 'invalid_regexp#', 'value' => 'magento_blank'),
+                    '2' => array('search' => '/Opera/', 'value' => 'magento_blank')
+                )
+            ),
+            array(
+                array(
+                    '1' => array('search' => '/Firefox/'),
+                    '2' => array('search' => '/Opera/', 'value' => 'magento_blank')
+                )
+            ),
+            array(
+                array(
+                    '1' => array('value' => 'magento_blank'),
+                    '2' => array('search' => '/Opera/', 'value' => 'magento_blank')
+                )
+            )
         );
 
         return $result;

@@ -13,7 +13,7 @@ namespace Magento\CatalogInventory\Model\Resource\Stock\Item;
 
 use Magento\CatalogInventory\Model\Stock;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -27,7 +27,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -36,7 +36,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -49,7 +49,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('Magento\CatalogInventory\Model\Stock\Item', 'Magento\CatalogInventory\Model\Resource\Stock\Item');
+        $this->_init(
+            'Magento\CatalogInventory\Model\Stock\Item',
+            'Magento\CatalogInventory\Model\Resource\Stock\Item'
+        );
     }
 
     /**
@@ -103,9 +106,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         $this->getSelect()->joinLeft(
             array('status_table' => $this->getTable('cataloginventory_stock_status')),
-                'main_table.product_id=status_table.product_id'
-                . ' AND main_table.stock_id=status_table.stock_id'
-                . $this->getConnection()->quoteInto(' AND status_table.website_id=?', $websiteId),
+            'main_table.product_id=status_table.product_id' .
+            ' AND main_table.stock_id=status_table.stock_id' .
+            $this->getConnection()->quoteInto(
+                ' AND status_table.website_id=?',
+                $websiteId
+            ),
             array('stock_status')
         );
 
@@ -135,20 +141,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param string $comparisonMethod
      * @param float $qty
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addQtyFilter($comparisonMethod, $qty)
     {
-        $methods = array(
-            '<'  => 'lt',
-            '>'  => 'gt',
-            '='  => 'eq',
-            '<=' => 'lteq',
-            '>=' => 'gteq',
-            '<>' => 'neq'
-        );
+        $methods = array('<' => 'lt', '>' => 'gt', '=' => 'eq', '<=' => 'lteq', '>=' => 'gteq', '<>' => 'neq');
         if (!isset($methods[$comparisonMethod])) {
-            throw new \Magento\Core\Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
+            throw new \Magento\Model\Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
         }
 
         return $this->addFieldToFilter('main_table.qty', array($methods[$comparisonMethod] => $qty));
@@ -161,11 +160,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _initSelect()
     {
-        return parent::_initSelect()->getSelect()
-            ->join(
-                array('cp_table' => $this->getTable('catalog_product_entity')),
-                'main_table.product_id = cp_table.entity_id',
-                array('type_id')
-            );
+        return parent::_initSelect()->getSelect()->join(
+            array('cp_table' => $this->getTable('catalog_product_entity')),
+            'main_table.product_id = cp_table.entity_id',
+            array('type_id')
+        );
     }
 }

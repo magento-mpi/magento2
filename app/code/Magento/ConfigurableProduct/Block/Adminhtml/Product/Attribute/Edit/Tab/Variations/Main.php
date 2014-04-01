@@ -17,7 +17,6 @@
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations;
 
-
 class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
 {
     /**
@@ -32,11 +31,7 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
         $form = $this->getForm();
         /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $form->getElement('base_fieldset');
-        $fieldsToRemove = array(
-            'attribute_code',
-            'is_unique',
-            'frontend_class',
-        );
+        $fieldsToRemove = array('attribute_code', 'is_unique', 'frontend_class');
 
         foreach ($fieldset->getElements() as $element) {
             /** @var \Magento\Data\Form\AbstractForm $element  */

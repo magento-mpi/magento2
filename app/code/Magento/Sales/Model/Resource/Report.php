@@ -16,7 +16,7 @@ namespace Magento\Sales\Model\Resource;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Report extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Report extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -25,7 +25,6 @@ class Report extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        
     }
 
     /**

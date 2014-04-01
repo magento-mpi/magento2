@@ -37,7 +37,7 @@ class Converter implements \Magento\Config\ConverterInterface
     {
         $result = array();
         foreach ($scope->childNodes as $fieldset) {
-            if (!($fieldset instanceof \DOMElement)) {
+            if (!$fieldset instanceof \DOMElement) {
                 continue;
             }
             $fieldsetName = $fieldset->attributes->getNamedItem('id')->nodeValue;
@@ -56,7 +56,7 @@ class Converter implements \Magento\Config\ConverterInterface
     {
         $result = array();
         foreach ($fieldset->childNodes as $field) {
-            if (!($field instanceof \DOMElement)) {
+            if (!$field instanceof \DOMElement) {
                 continue;
             }
             $fieldName = $field->attributes->getNamedItem('name')->nodeValue;
@@ -75,7 +75,7 @@ class Converter implements \Magento\Config\ConverterInterface
     {
         $result = array();
         foreach ($field->childNodes as $aspect) {
-            if (!($aspect instanceof \DOMElement)) {
+            if (!$aspect instanceof \DOMElement) {
                 continue;
             }
             /** @var \DOMNamedNodeMap $aspectAttributes */

@@ -28,14 +28,15 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
-            ->setMethods(array('get'))
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $this->_mockObjectManager = $this->getMockBuilder(
+            'Magento\ObjectManager'
+        )->setMethods(
+            array('get')
+        )->disableOriginalConstructor()->getMockForAbstractClass();
 
-        $this->_expectedObject = $this->getMockBuilder('Magento\Outbound\Formatter\Json')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_expectedObject = $this->getMockBuilder(
+            'Magento\Outbound\Formatter\Json'
+        )->disableOriginalConstructor()->getMock();
 
         $this->_formatterFactory = new \Magento\Outbound\Formatter\Factory(
             array('json' => 'Test_Formatter_Json'),
@@ -45,10 +46,15 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFormatter()
     {
-        $this->_mockObjectManager->expects($this->once())
-            ->method('get')
-            ->with('Test_Formatter_Json')
-            ->will($this->returnValue($this->_expectedObject));
+        $this->_mockObjectManager->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            'Test_Formatter_Json'
+        )->will(
+            $this->returnValue($this->_expectedObject)
+        );
 
         $formatter = $this->_formatterFactory->getFormatter(\Magento\Outbound\EndpointInterface::FORMAT_JSON);
         $this->assertInstanceOf('Magento\Outbound\Formatter\Json', $formatter);
@@ -70,10 +76,15 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormatterWrongFormatterClass()
     {
-        $this->_mockObjectManager->expects($this->once())
-            ->method('get')
-            ->with('Test_Formatter_Json')
-            ->will($this->returnValue($this->getMock('Magento\Object')));
+        $this->_mockObjectManager->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            'Test_Formatter_Json'
+        )->will(
+            $this->returnValue($this->getMock('Magento\Object'))
+        );
 
         $this->_formatterFactory->getFormatter(\Magento\Outbound\EndpointInterface::FORMAT_JSON);
     }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Entity\Attribute;
 
 /**
@@ -30,7 +29,7 @@ namespace Magento\Eav\Model\Entity\Attribute;
  * @method string getTabGroupCode()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setTabGroupCode(string $value)
  */
-class Group extends \Magento\Core\Model\AbstractModel
+class Group extends \Magento\Model\AbstractModel
 {
     /**
      * Resource initialization

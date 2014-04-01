@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
 class Methods extends \Magento\View\Element\Template
@@ -74,16 +73,13 @@ class Methods extends \Magento\View\Element\Template
      */
     public function getShippingPrice($price)
     {
-        return $this->_coreRegistry->registry('current_rma')
-            ->getStore()
-            ->convertPrice(
-                $this->_taxData->getShippingPrice(
-                    $price
-                ),
-                true,
-                false
-            )
-        ;
+        return $this->_coreRegistry->registry(
+            'current_rma'
+        )->getStore()->convertPrice(
+            $this->_taxData->getShippingPrice($price),
+            true,
+            false
+        );
     }
 
     /**
@@ -95,11 +91,11 @@ class Methods extends \Magento\View\Element\Template
     public function jsonData($method)
     {
         $data = array();
-        $data['CarrierTitle']   = $method->getCarrierTitle();
-        $data['MethodTitle']    = $method->getMethodTitle();
-        $data['Price']          = $this->getShippingPrice($method->getPrice());
-        $data['PriceOriginal']  = $method->getPrice();
-        $data['Code']           = $method->getCode();
+        $data['CarrierTitle'] = $method->getCarrierTitle();
+        $data['MethodTitle'] = $method->getMethodTitle();
+        $data['Price'] = $this->getShippingPrice($method->getPrice());
+        $data['PriceOriginal'] = $method->getPrice();
+        $data['Code'] = $method->getCode();
 
         return $this->_jsonEncoder->encode($data);
     }

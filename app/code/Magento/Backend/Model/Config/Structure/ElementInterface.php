@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure;
 
 interface ElementInterface
@@ -57,4 +56,3 @@ interface ElementInterface
      */
     public function getAttribute($key);
 }
-

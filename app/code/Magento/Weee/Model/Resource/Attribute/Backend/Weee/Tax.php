@@ -16,7 +16,7 @@ namespace Magento\Weee\Model\Resource\Attribute\Backend\Weee;
  * @package     Magento_Weee
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Tax extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -54,21 +54,25 @@ class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadProductData($product, $attribute)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), array(
-                'website_id',
-                'country',
-                'state',
-                'value'
-            ))
-            ->where('entity_id = ?', (int)$product->getId())
-            ->where('attribute_id = ?', (int)$attribute->getId());
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            array('website_id', 'country', 'state', 'value')
+        )->where(
+            'entity_id = ?',
+            (int)$product->getId()
+        )->where(
+            'attribute_id = ?',
+            (int)$attribute->getId()
+        );
         if ($attribute->isScopeGlobal()) {
             $select->where('website_id = ?', 0);
         } else {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $select->where('website_id IN (?)', array(0, $this->_storeManager->getStore($storeId)->getWebsiteId()));
+                $select->where(
+                    'website_id IN (?)',
+                    array(0, $this->_storeManager->getStore($storeId)->getWebsiteId())
+                );
             }
         }
         return $this->_getReadAdapter()->fetchAll($select);
@@ -83,16 +87,13 @@ class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function deleteProductData($product, $attribute)
     {
-        $where = array(
-            'entity_id = ?'    => (int)$product->getId(),
-            'attribute_id = ?' => (int)$attribute->getId()
-        );
+        $where = array('entity_id = ?' => (int)$product->getId(), 'attribute_id = ?' => (int)$attribute->getId());
 
-        $adapter   = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         if (!$attribute->isScopeGlobal()) {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $where['website_id IN(?)'] =  array(0, $this->_storeManager->getStore($storeId)->getWebsiteId());
+                $where['website_id IN(?)'] = array(0, $this->_storeManager->getStore($storeId)->getWebsiteId());
             }
         }
         $adapter->delete($this->getMainTable(), $where);
@@ -108,11 +109,10 @@ class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function insertProductData($product, $data)
     {
-        $data['entity_id']      = (int)$product->getId();
+        $data['entity_id'] = (int)$product->getId();
         $data['entity_type_id'] = (int)$product->getEntityTypeId();
 
         $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
         return $this;
     }
 }
-

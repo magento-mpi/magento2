@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Resource;
 
 use Magento\Catalog\Model\Resource\AbstractResource;
@@ -29,8 +28,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @var array
      */
-    protected $_attributes   = array();
-
+    protected $_attributes = array();
 
     /**
      * Rma data
@@ -99,7 +97,13 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         $this->_productFactory = $productFactory;
         $this->refundableList = $refundableList;
         parent::__construct(
-            $resource, $eavConfig, $attrSetEntity, $localeFormat, $resourceHelper, $universalFactory, $data
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $localeFormat,
+            $resourceHelper,
+            $universalFactory,
+            $data
         );
     }
 
@@ -157,11 +161,10 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected function _isCallableAttributeInstance($instance, $method, $args)
     {
-        if ($instance instanceof AbstractBackend
-            && ($method == 'beforeSave' || $method = 'afterSave')
-        ) {
+        if ($instance instanceof AbstractBackend && ($method == 'beforeSave' || ($method = 'afterSave'))) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof \Magento\Object && $args[0]->getData($attributeCode) === false) {
+            if (isset($args[0]) && $args[0] instanceof \Magento\Object && $args[0]->getData($attributeCode) === false
+            ) {
                 return false;
             }
         }
@@ -193,21 +196,26 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     {
         $adapter = $this->_getReadAdapter();
 
-        $select = $adapter->select()
-            ->from($this->getTable('magento_rma_item_entity'), array())
-            ->where('rma_entity_id = ?', $rmaId)
-            ->where('status = ?', \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED)
-            ->group(array('order_item_id', 'product_name'))
-            ->columns(
-                array(
-                    'order_item_id' => 'order_item_id',
-                    'qty'           => new \Zend_Db_Expr('SUM(qty_authorized)'),
-                    'product_name'  => new \Zend_Db_Expr('MAX(product_name)')
-                )
+        $select = $adapter->select()->from(
+            $this->getTable('magento_rma_item_entity'),
+            array()
+        )->where(
+            'rma_entity_id = ?',
+            $rmaId
+        )->where(
+            'status = ?',
+            \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED
+        )->group(
+            array('order_item_id', 'product_name')
+        )->columns(
+            array(
+                'order_item_id' => 'order_item_id',
+                'qty' => new \Zend_Db_Expr('SUM(qty_authorized)'),
+                'product_name' => new \Zend_Db_Expr('MAX(product_name)')
             )
-        ;
+        );
 
-        $return     = $adapter->fetchAll($select);
+        $return = $adapter->fetchAll($select);
         $itemsArray = array();
         if (!empty($return)) {
             foreach ($return as $item) {
@@ -227,25 +235,27 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     {
         $adapter = $this->_getReadAdapter();
 
-        $subSelect = $adapter->select()
-            ->from(
-                array('main' => $this->getTable('magento_rma')),
-                array()
+        $subSelect = $adapter->select()->from(
+            array('main' => $this->getTable('magento_rma')),
+            array()
+        )->where(
+            'main.order_id = ?',
+            $orderId
+        )->where(
+            'main.status NOT IN (?)',
+            array(
+                \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED,
+                \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
             )
-            ->where('main.order_id = ?', $orderId)
-            ->where('main.status NOT IN (?)',
-                array(
-                    \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED,
-                    \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
-                )
-            );
+        );
 
-        $select = $adapter->select()
-            ->from(
-                array('item_entity' => $this->getTable('magento_rma_item_entity')),
-                array('item_entity.order_item_id','item_entity.order_item_id')
-            )
-            ->exists($subSelect, 'main.entity_id = item_entity.rma_entity_id');
+        $select = $adapter->select()->from(
+            array('item_entity' => $this->getTable('magento_rma_item_entity')),
+            array('item_entity.order_item_id', 'item_entity.order_item_id')
+        )->exists(
+            $subSelect,
+            'main.entity_id = item_entity.rma_entity_id'
+        );
 
         return array_values($adapter->fetchPairs($select));
     }
@@ -259,18 +269,25 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     public function getOrderItemsCollection($orderId)
     {
         $adapter = $this->getReadConnection();
-        $expression = new \Zend_Db_Expr('(' . $adapter->quoteIdentifier('qty_shipped') . ' - '
-            . $adapter->quoteIdentifier('qty_returned') . ')');
+        $expression = new \Zend_Db_Expr(
+            '(' . $adapter->quoteIdentifier('qty_shipped') . ' - ' . $adapter->quoteIdentifier('qty_returned') . ')'
+        );
         /** @var $collection \Magento\Sales\Model\Resource\Order\Item\Collection */
         $collection = $this->_ordersFactory->create();
         return $collection->addExpressionFieldToSelect(
-                'available_qty',
-                $expression,
-                array('qty_shipped', 'qty_returned')
-            )
-            ->addFieldToFilter('order_id', $orderId)
-            ->addFieldToFilter('product_type', array("in" => $this->refundableList->filter('refundable')))
-            ->addFieldToFilter($expression, array("gt" => 0));
+            'available_qty',
+            $expression,
+            array('qty_shipped', 'qty_returned')
+        )->addFieldToFilter(
+            'order_id',
+            $orderId
+        )->addFieldToFilter(
+            'product_type',
+            array("in" => $this->refundableList->filter('refundable'))
+        )->addFieldToFilter(
+            $expression,
+            array("gt" => 0)
+        );
     }
 
     /**
@@ -282,10 +299,10 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function getOrderItems($orderId, $parentId = false)
     {
-        $getItemsIdsByOrder     = $this->getItemsIdsByOrder($orderId);
+        $getItemsIdsByOrder = $this->getItemsIdsByOrder($orderId);
 
         /** @var $orderItemsCollection \Magento\Sales\Model\Resource\Order\Item\Collection */
-        $orderItemsCollection   = $this->getOrderItemsCollection($orderId);
+        $orderItemsCollection = $this->getOrderItemsCollection($orderId);
 
 
         if (!$orderItemsCollection->count()) {
@@ -304,7 +321,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */
-            if ($parentId && ($item->getId() != $parentId) && ($item->getParentItemId() != $parentId)) {
+            if ($parentId && $item->getId() != $parentId && $item->getParentItemId() != $parentId) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
@@ -331,20 +348,21 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 }
                 if (!$allowed) {
                     $item->setIsOrdered(1);
-                    $item->setAvailableQty($item->getQtyShipped()-$item->getQtyRefunded()-$item->getQtyCanceled());
+                    $item->setAvailableQty($item->getQtyShipped() - $item->getQtyRefunded() - $item->getQtyCanceled());
                 }
-                $parent[$item->getParentItemId()]['child']  = $parent[$item->getParentItemId()]['child'] || $allowed;
-                $parent[$item->getItemId()]['self']         = false;
+                $parent[$item->getParentItemId()]['child'] = $parent[$item->getParentItemId()]['child'] || $allowed;
+                $parent[$item->getItemId()]['self'] = false;
             } else {
-                $parent[$item->getItemId()]['self']         = $allowed;
+                $parent[$item->getItemId()]['self'] = $allowed;
             }
         }
 
         $bundle = false;
         /** @var \Magento\Sales\Model\Order\Item $item */
         foreach ($orderItemsCollection as $item) {
-            if (isset($parent[$item->getId()]['child'])
-                && ($parent[$item->getId()]['child'] === false || $parent[$item->getId()]['self'] == false)
+            if (isset(
+                $parent[$item->getId()]['child']
+            ) && ($parent[$item->getId()]['child'] === false || $parent[$item->getId()]['self'] == false)
             ) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 $bundle = $item->getId();
@@ -355,15 +373,15 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 $orderItemsCollection->removeItemByKey($item->getId());
             } elseif (isset($parent[$item->getId()]['self']) && $parent[$item->getId()]['self'] === false) {
                 if ($item->getParentItemId() && $bundle != $item->getParentItemId()) {
-
                 } else {
                     $orderItemsCollection->removeItemByKey($item->getId());
                     continue;
                 }
             }
 
-            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-                && !isset($parent[$item->getId()]['child'])
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE && !isset(
+                $parent[$item->getId()]['child']
+            )
             ) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
@@ -383,7 +401,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function getProductName($item)
     {
-        $name   = $item->getName();
+        $name = $item->getName();
         $result = array();
         if ($options = $item->getProductOptions()) {
             if (isset($options['options'])) {
@@ -399,9 +417,9 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             if (!empty($result)) {
                 $implode = array();
                 foreach ($result as $val) {
-                    $implode[] =  isset($val['print_value']) ? $val['print_value'] : $val['value'];
+                    $implode[] = isset($val['print_value']) ? $val['print_value'] : $val['value'];
                 }
-                return $name.' ('.implode(', ', $implode).')';
+                return $name . ' (' . implode(', ', $implode) . ')';
             }
         }
         return $name;

@@ -91,7 +91,7 @@ class Hierarchy extends \Magento\Backend\App\Action
     protected function _initScope()
     {
         $this->_website = $this->getRequest()->getParam('website');
-        $this->_store   = $this->getRequest()->getParam('store');
+        $this->_store = $this->getRequest()->getParam('store');
 
         if (!is_null($this->_website)) {
             $this->_scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE;
@@ -116,9 +116,15 @@ class Hierarchy extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
-            ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('CMS Page Trees'), __('CMS Page Trees'));
+        $this->_setActiveMenu(
+            'Magento_VersionsCms::versionscms_page_hierarchy'
+        )->_addBreadcrumb(
+            __('CMS'),
+            __('CMS')
+        )->_addBreadcrumb(
+            __('CMS Page Trees'),
+            __('CMS Page Trees')
+        );
         return $this;
     }
 
@@ -157,8 +163,10 @@ class Hierarchy extends \Magento\Backend\App\Action
 
         $this->_initScope();
 
-        $nodeModel = $this->_objectManager->create('Magento\VersionsCms\Model\Hierarchy\Node', array('data' =>
-                array('scope' => $this->_scope, 'scope_id' => $this->_scopeId)));
+        $nodeModel = $this->_objectManager->create(
+            'Magento\VersionsCms\Model\Hierarchy\Node',
+            array('data' => array('scope' => $this->_scope, 'scope_id' => $this->_scopeId))
+        );
 
         // restore data if exists
         $formData = $this->_getSession()->getFormData(true);
@@ -182,8 +190,11 @@ class Hierarchy extends \Magento\Backend\App\Action
     {
         $this->_initScope();
         $scopes = $this->getRequest()->getParam('scopes');
-        if (empty($scopes) || ($this->getRequest()->isPost() && !is_array($scopes))
-            || $this->getRequest()->isGet() && !is_string($scopes)
+        if (empty($scopes) || $this->getRequest()->isPost() && !is_array(
+            $scopes
+        ) || $this->getRequest()->isGet() && !is_string(
+            $scopes
+        )
         ) {
             $this->messageManager->addError(__('Please correct the scope.'));
         } else {
@@ -194,19 +205,17 @@ class Hierarchy extends \Magento\Backend\App\Action
                 /* @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
                 $nodeModel = $this->_objectManager->create('Magento\VersionsCms\Model\Hierarchy\Node');
                 foreach (array_unique($scopes) as $value) {
-                    list ($scope, $scopeId) = $this->_getScopeData($value);
+                    list($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeModel->setScope($scope);
                     $nodeModel->setScopeId($scopeId);
                     $nodeModel->deleteByScope($scope, $scopeId);
                     $nodeModel->collectTree(array(), array());
                 }
                 $this->messageManager->addSuccess(__('You deleted the pages hierarchy from the selected scopes.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                    __('Something went wrong while deleting the hierarchy.')
-                );
+                $this->messageManager->addException($e, __('Something went wrong while deleting the hierarchy.'));
             }
         }
 
@@ -225,23 +234,21 @@ class Hierarchy extends \Magento\Backend\App\Action
         $scopes = $this->getRequest()->getParam('scopes');
         if ($this->getRequest()->isPost() && is_array($scopes) && !empty($scopes)) {
             /** @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
-            $nodeModel = $this->_objectManager->create('Magento\VersionsCms\Model\Hierarchy\Node', array(
-                'data' => array('scope'    => $this->_scope,
-                                'scope_id' => $this->_scopeId)
-            ));
+            $nodeModel = $this->_objectManager->create(
+                'Magento\VersionsCms\Model\Hierarchy\Node',
+                array('data' => array('scope' => $this->_scope, 'scope_id' => $this->_scopeId))
+            );
             $nodeHeritageModel = $nodeModel->getHeritage();
             try {
                 foreach (array_unique($scopes) as $value) {
-                    list ($scope, $scopeId) = $this->_getScopeData($value);
+                    list($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
                 $this->messageManager->addSuccess(__('You copied the pages hierarchy to the selected scopes.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                    __('Something went wrong while copying the hierarchy.')
-                );
+                $this->messageManager->addException($e, __('Something went wrong while copying the hierarchy.'));
             }
         }
 
@@ -270,21 +277,24 @@ class Hierarchy extends \Magento\Backend\App\Action
         $this->_initScope();
         if ($this->getRequest()->isPost()) {
             /** @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
-            $node = $this->_objectManager->create('Magento\VersionsCms\Model\Hierarchy\Node', array(
-                'data' => array('scope'    => $this->_scope,
-                                'scope_id' => $this->_scopeId)
-            ));
-            $data       = $this->getRequest()->getPost();
-            $hasError   = true;
+            $node = $this->_objectManager->create(
+                'Magento\VersionsCms\Model\Hierarchy\Node',
+                array('data' => array('scope' => $this->_scope, 'scope_id' => $this->_scopeId))
+            );
+            $data = $this->getRequest()->getPost();
+            $hasError = true;
 
             try {
                 if (isset($data['use_default_scope_property']) && $data['use_default_scope_property']) {
                     $node->deleteByScope($this->_scope, $this->_scopeId);
                 } else {
                     if (!empty($data['nodes_data'])) {
-                        try{
-                            $nodesData = $this->_objectManager->get('Magento\Core\Helper\Data')
-                                ->jsonDecode($data['nodes_data']);
+                        try {
+                            $nodesData = $this->_objectManager->get(
+                                'Magento\Core\Helper\Data'
+                            )->jsonDecode(
+                                $data['nodes_data']
+                            );
                         } catch (\Zend_Json_Exception $e) {
                             $nodesData = array();
                         }
@@ -317,12 +327,10 @@ class Hierarchy extends \Magento\Backend\App\Action
 
                 $hasError = false;
                 $this->messageManager->addSuccess(__('You have saved the hierarchy.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                    __('Something went wrong while saving the hierarchy.')
-                );
+                $this->messageManager->addException($e, __('Something went wrong while saving the hierarchy.'));
             }
 
             if ($hasError) {

@@ -14,7 +14,7 @@ class BatCETests
 {
     public static function suite()
     {
-        $suite = new \PHPUnit_Framework_TestSuite('BAT CE');
+        $suite = new TestSuite('BAT CE');
 
         // Product
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleFixedTest');

@@ -32,7 +32,7 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -42,7 +42,7 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -61,8 +61,11 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
         $value = (string)$this->getValue();
         if (empty($value)) {
             if ($this->getWebsite()) {
-                $defaultCountry = $this->_storeManager->getWebsite($this->getWebsite())
-                    ->getConfig(\Magento\Core\Helper\Data::XML_PATH_DEFAULT_COUNTRY);
+                $defaultCountry = $this->_storeManager->getWebsite(
+                    $this->getWebsite()
+                )->getConfig(
+                    \Magento\Core\Helper\Data::XML_PATH_DEFAULT_COUNTRY
+                );
             } else {
                 $defaultCountry = $this->_coreData->getDefaultCountry($this->getStore());
             }

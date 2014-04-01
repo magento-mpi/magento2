@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Product;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Action extends \Magento\Core\Model\AbstractModel
+class Action extends \Magento\Model\AbstractModel
 {
     /**
      * Index indexer
@@ -43,7 +43,7 @@ class Action extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -53,7 +53,7 @@ class Action extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -106,22 +106,21 @@ class Action extends \Magento\Core\Model\AbstractModel
      */
     public function updateAttributes($productIds, $attrData, $storeId)
     {
-        $this->_eventManager->dispatch('catalog_product_attribute_update_before', array(
-            'attributes_data' => &$attrData,
-            'product_ids'   => &$productIds,
-            'store_id'      => &$storeId
-        ));
+        $this->_eventManager->dispatch(
+            'catalog_product_attribute_update_before',
+            array('attributes_data' => &$attrData, 'product_ids' => &$productIds, 'store_id' => &$storeId)
+        );
 
         $this->_getResource()->updateAttributes($productIds, $attrData, $storeId);
-        $this->setData(array(
-            'product_ids'       => array_unique($productIds),
-            'attributes_data'   => $attrData,
-            'store_id'          => $storeId
-        ));
+        $this->setData(
+            array('product_ids' => array_unique($productIds), 'attributes_data' => $attrData, 'store_id' => $storeId)
+        );
 
         // register mass action indexer event
         $this->_indexIndexer->processEntityAction(
-            $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
+            $this,
+            \Magento\Catalog\Model\Product::ENTITY,
+            \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
         if (!$this->getCategoryIndexer()->isScheduled()) {
             $this->getCategoryIndexer()->reindexList(array_unique($productIds));
@@ -149,15 +148,15 @@ class Action extends \Magento\Core\Model\AbstractModel
             $this->_productWebsiteFactory->create()->removeProducts($websiteIds, $productIds);
         }
 
-        $this->setData(array(
-            'product_ids' => array_unique($productIds),
-            'website_ids' => $websiteIds,
-            'action_type' => $type
-        ));
+        $this->setData(
+            array('product_ids' => array_unique($productIds), 'website_ids' => $websiteIds, 'action_type' => $type)
+        );
 
         // register mass action indexer event
         $this->_indexIndexer->processEntityAction(
-            $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
+            $this,
+            \Magento\Catalog\Model\Product::ENTITY,
+            \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
         if (!$this->getCategoryIndexer()->isScheduled()) {
             $this->getCategoryIndexer()->reindexList(array_unique($productIds));

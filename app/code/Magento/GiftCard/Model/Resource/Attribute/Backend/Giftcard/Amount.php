@@ -16,7 +16,7 @@ namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
  * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Amount extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager
@@ -36,7 +36,6 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_storeManager = $storeManager;
         parent::__construct($resource);
     }
-
 
     /**
      * Define main table and primary key
@@ -58,17 +57,15 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function loadProductData($product, $attribute)
     {
         $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from($this->getMainTable(), array(
-                'website_id',
-                'value'
-            ))
-            ->where('entity_id=:product_id')
-            ->where('attribute_id=:attribute_id');
-        $bind = array(
-            'product_id'   => $product->getId(),
-            'attribute_id' => $attribute->getId()
+        $select = $read->select()->from(
+            $this->getMainTable(),
+            array('website_id', 'value')
+        )->where(
+            'entity_id=:product_id'
+        )->where(
+            'attribute_id=:attribute_id'
         );
+        $bind = array('product_id' => $product->getId(), 'attribute_id' => $attribute->getId());
         if ($attribute->isScopeGlobal()) {
             $select->where('website_id=0');
         } else {
@@ -97,7 +94,7 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
         }
 
-        $condition['entity_id=?']    = $product->getId();
+        $condition['entity_id=?'] = $product->getId();
         $condition['attribute_id=?'] = $attribute->getId();
 
         $this->_getWriteAdapter()->delete($this->getMainTable(), $condition);

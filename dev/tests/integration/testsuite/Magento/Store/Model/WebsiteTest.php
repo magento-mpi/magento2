@@ -167,13 +167,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        $this->_model->setData(
-            array(
-                'code'              => 'test_website',
-                'name'              => 'test website',
-                'default_group_id'  => 1,
-            )
-        );
+        $this->_model->setData(array('code' => 'test_website', 'name' => 'test website', 'default_group_id' => 1));
 
         /* emulate admin store */
         $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
@@ -182,9 +176,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
     public function testCollection()
     {
-        $collection = $this->_model->getCollection()
-            ->joinGroupAndStore()
-            ->addIdFilter(1);
+        $collection = $this->_model->getCollection()->joinGroupAndStore()->addIdFilter(1);
         $this->assertEquals(1, count($collection->getItems()));
     }
 }

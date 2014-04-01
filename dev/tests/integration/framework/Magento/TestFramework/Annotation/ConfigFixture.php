@@ -111,7 +111,6 @@ class ConfigFixture
 
                 $this->_setConfigValue($configPath, $requiredValue);
             }
-
         }
     }
 

@@ -26,18 +26,27 @@ $categories = array();
 
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 while ($categoryIndex <= $categoriesNumber) {
-    $category->setId(null)
-        ->setName("Category $categoryIndex")
-        ->setParentId($parentCategoryId)
-        ->setPath($nestingPath)
-        ->setLevel($nestingLevel)
-        ->setAvailableSortBy('name')
-        ->setDefaultSortBy('name')
-        ->setIsActive(true)
-        ->setIsAnchor($categoryIndex++ % $anchorStep == 0)
-        ->save();
+    $category->setId(
+        null
+    )->setName(
+        "Category {$categoryIndex}"
+    )->setParentId(
+        $parentCategoryId
+    )->setPath(
+        $nestingPath
+    )->setLevel(
+        $nestingLevel
+    )->setAvailableSortBy(
+        'name'
+    )->setDefaultSortBy(
+        'name'
+    )->setIsActive(
+        true
+    )->setIsAnchor(
+        $categoryIndex++ % $anchorStep == 0
+    )->save();
 
-    $categoryPath .=  '/' . $category->getName();
+    $categoryPath .= '/' . $category->getName();
     $categories[] = ltrim($categoryPath, '/');
 
     if ($nestingLevel++ == $maxNestingLevel) {
@@ -48,5 +57,5 @@ while ($categoryIndex <= $categoriesNumber) {
     } else {
         $parentCategoryId = $category->getId();
     }
-    $nestingPath .= "/$parentCategoryId";
+    $nestingPath .= "/{$parentCategoryId}";
 }

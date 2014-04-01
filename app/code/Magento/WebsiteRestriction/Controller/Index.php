@@ -118,19 +118,24 @@ class Index extends \Magento\App\Action\Action
             $this->_coreRegistry->register('restriction_landing_page', $page);
 
             if ($page->getCustomTheme()) {
-                if (
-                    $this->_localeDate->isScopeDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
+                if ($this->_localeDate->isScopeDateInInterval(
+                    null,
+                    $page->getCustomThemeFrom(),
+                    $page->getCustomThemeTo()
+                )
                 ) {
-                    $this->_objectManager->get('Magento\View\DesignInterface')
-                        ->setDesignTheme($page->getCustomTheme());
+                    $this->_objectManager->get(
+                        'Magento\View\DesignInterface'
+                    )->setDesignTheme(
+                        $page->getCustomTheme()
+                    );
                 }
             }
 
             $this->_view->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')
-                    ->applyHandle($page->getRootTemplate());
+                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyHandle($page->getRootTemplate());
             }
 
             $this->_view->loadLayoutUpdates();
@@ -140,8 +145,7 @@ class Index extends \Magento\App\Action\Action
             $this->_view->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')
-                    ->applyTemplate($page->getRootTemplate());
+                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyTemplate($page->getRootTemplate());
             }
 
             $this->_view->renderLayout();

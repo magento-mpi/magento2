@@ -155,7 +155,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected function _sortMethods($a, $b)
     {
         if (is_object($a)) {
-            return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
+            return (int)$a->sort_order <
+                (int)$b->sort_order ? -1 : ((int)$a->sort_order >
+                (int)$b->sort_order ? 1 : 0);
         }
         return 0;
     }
@@ -206,8 +208,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = $info->getBlockMock() ?: $this->getInfoBlock($info);
-            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
-                ->setIsSecureMode(true);
+            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
         } catch (\Exception $exception) {
@@ -277,7 +278,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $groupRelations = array();
 
         foreach ($this->getPaymentMethods() as $code => $data) {
-            if ((isset($data['title']))) {
+            if (isset($data['title'])) {
                 $methods[$code] = $data['title'];
             } else {
                 if ($this->getMethodInstance($code)) {

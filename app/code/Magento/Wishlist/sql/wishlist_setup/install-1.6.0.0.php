@@ -16,37 +16,55 @@ $installer->startSetup();
 /**
  * Create table 'wishlist'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('wishlist'))
-    ->addColumn('wishlist_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Wishlist ID')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Customer ID')
-    ->addColumn('shared', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Sharing flag (0 or 1)')
-    ->addColumn('sharing_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        ), 'Sharing encrypted code')
-    ->addColumn('updated_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Last updated date')
-    ->addIndex($installer->getIdxName('wishlist', 'shared'), 'shared')
-    ->addIndex(
-        $installer->getIdxName('wishlist', 'customer_id', \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        'customer_id',
-        array('type'=>\Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addForeignKey($installer->getFkName('wishlist', 'customer_id', 'customer_entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Wishlist main Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('wishlist')
+)->addColumn(
+    'wishlist_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Wishlist ID'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Customer ID'
+)->addColumn(
+    'shared',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Sharing flag (0 or 1)'
+)->addColumn(
+    'sharing_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array(),
+    'Sharing encrypted code'
+)->addColumn(
+    'updated_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Last updated date'
+)->addIndex(
+    $installer->getIdxName('wishlist', 'shared'),
+    'shared'
+)->addIndex(
+    $installer->getIdxName('wishlist', 'customer_id', \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    'customer_id',
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addForeignKey(
+    $installer->getFkName('wishlist', 'customer_id', 'customer_entity', 'entity_id'),
+    'customer_id',
+    $installer->getTable('customer_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Wishlist main Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -99,33 +117,48 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'wishlist_item_option'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('wishlist_item_option'))
-    ->addColumn('option_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Option Id')
-    ->addColumn('wishlist_item_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Wishlist Item Id')
-    ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Product Id')
-    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        ), 'Code')
-    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => true,
-        ), 'Value')
-    ->addForeignKey(
-        $installer->getFkName('wishlist_item_option', 'wishlist_item_id', 'wishlist_item', 'wishlist_item_id'),
-        'wishlist_item_id', $installer->getTable('wishlist_item'), 'wishlist_item_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Wishlist Item Option Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('wishlist_item_option')
+)->addColumn(
+    'option_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Option Id'
+)->addColumn(
+    'wishlist_item_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Wishlist Item Id'
+)->addColumn(
+    'product_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Product Id'
+)->addColumn(
+    'code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Code'
+)->addColumn(
+    'value',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => true),
+    'Value'
+)->addForeignKey(
+    $installer->getFkName('wishlist_item_option', 'wishlist_item_id', 'wishlist_item', 'wishlist_item_id'),
+    'wishlist_item_id',
+    $installer->getTable('wishlist_item'),
+    'wishlist_item_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Wishlist Item Option Table'
+);
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

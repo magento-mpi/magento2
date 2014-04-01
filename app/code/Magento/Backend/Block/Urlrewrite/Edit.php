@@ -128,12 +128,15 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addResetButton()
     {
-        $this->_addButton('reset', array(
-            'label'   => __('Reset'),
-            'onclick' => '$(\'edit_form\').reset()',
-            'class'   => 'scalable',
-            'level'   => -1
-        ));
+        $this->_addButton(
+            'reset',
+            array(
+                'label' => __('Reset'),
+                'onclick' => '$(\'edit_form\').reset()',
+                'class' => 'scalable',
+                'level' => -1
+            )
+        );
     }
 
     /**
@@ -143,12 +146,15 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addBackButton()
     {
-        $this->_addButton('back', array(
-            'label'   => __('Back'),
-            'onclick' => 'setLocation(\'' . $this->_adminhtmlData->getUrl('adminhtml/*/') . '\')',
-            'class'   => 'back',
-            'level'   => -1
-        ));
+        $this->_addButton(
+            'back',
+            array(
+                'label' => __('Back'),
+                'onclick' => 'setLocation(\'' . $this->_adminhtmlData->getUrl('adminhtml/*/') . '\')',
+                'class' => 'back',
+                'level' => -1
+            )
+        );
     }
 
     /**
@@ -169,16 +175,20 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addDeleteButton()
     {
-        $this->_addButton('delete', array(
-            'label'   => __('Delete'),
-            'onclick' => 'deleteConfirm(\''
-                . addslashes(__('Are you sure you want to do this?'))
-                . '\', \''
-                . $this->_adminhtmlData->getUrl('adminhtml/*/delete', array('id' => $this->getUrlRewrite()->getId()))
-                . '\')',
-            'class'   => 'scalable delete',
-            'level'   => -1
-        ));
+        $this->_addButton(
+            'delete',
+            array(
+                'label' => __('Delete'),
+                'onclick' => 'deleteConfirm(\'' . addslashes(
+                    __('Are you sure you want to do this?')
+                ) . '\', \'' . $this->_adminhtmlData->getUrl(
+                    'adminhtml/*/delete',
+                    array('id' => $this->getUrlRewrite()->getId())
+                ) . '\')',
+                'class' => 'scalable delete',
+                'level' => -1
+            )
+        );
     }
 
     /**
@@ -188,16 +198,17 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addSaveButton()
     {
-        $this->_addButton('save', array(
-            'label'   => __('Save'),
-            'class'   => 'save',
-            'level'   => -1,
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'save', 'target' => '#edit_form'),
-                ),
-            ),
-        ));
+        $this->_addButton(
+            'save',
+            array(
+                'label' => __('Save'),
+                'class' => 'save',
+                'level' => -1,
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form'))
+                )
+            )
+        );
     }
 
     /**
@@ -207,10 +218,10 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento\Backend\Block\Urlrewrite\Edit\Form', '',
-            array('data' => array(
-                'url_rewrite' => $this->_getUrlRewrite()
-            ))
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Urlrewrite\Edit\Form',
+            '',
+            array('data' => array('url_rewrite' => $this->_getUrlRewrite()))
         );
     }
 

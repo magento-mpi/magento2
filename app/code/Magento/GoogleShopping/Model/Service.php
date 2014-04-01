@@ -90,7 +90,7 @@ class Service extends \Magento\Object
      * @param int $storeId
      * @param string $loginToken
      * @param string $loginCaptcha
-     * @throws \Magento\Core\Exception On http connection failure
+     * @throws \Magento\Model\Exception On http connection failure
      * @return \Zend_Http_Client
      */
     public function getClient($storeId = null, $loginToken = null, $loginCaptcha = null)
@@ -100,12 +100,21 @@ class Service extends \Magento\Object
         $type = $this->getConfig()->getAccountType($storeId);
 
         // Create an authenticated HTTP client
-        $errorMsg = __('Sorry, but we can\'t connect to Google Content. Please check the account settings in your store configuration.');
+        $errorMsg = __(
+            'Sorry, but we can\'t connect to Google Content. Please check the account settings in your store configuration.'
+        );
         try {
             if (!$this->_coreRegistry->registry($this->_clientRegistryId)) {
-                $client = \Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
-                    \Magento\Gdata\Gshopping\Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
-                    \Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
+                $client = \Zend_Gdata_ClientLogin::getHttpClient(
+                    $user,
+                    $pass,
+                    \Magento\Gdata\Gshopping\Content::AUTH_SERVICE_NAME,
+                    null,
+                    '',
+                    $loginToken,
+                    $loginCaptcha,
+                    \Zend_Gdata_ClientLogin::CLIENTLOGIN_URI,
+                    $type
                 );
                 $configTimeout = array('timeout' => 60);
                 $client->setConfig($configTimeout);
@@ -114,9 +123,9 @@ class Service extends \Magento\Object
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
         } catch (\Zend_Gdata_App_HttpException $e) {
-            throw new \Magento\Core\Exception($errorMsg . __('Error: %1', $e->getMessage()));
+            throw new \Magento\Model\Exception($errorMsg . __('Error: %1', $e->getMessage()));
         } catch (\Zend_Gdata_App_AuthException $e) {
-            throw new \Magento\Core\Exception($errorMsg . __('Error: %1', $e->getMessage()));
+            throw new \Magento\Model\Exception($errorMsg . __('Error: %1', $e->getMessage()));
         }
 
         return $this->_coreRegistry->registry($this->_clientRegistryId);
@@ -147,9 +156,12 @@ class Service extends \Magento\Object
             $this->_service = $this->_connect($storeId);
 
             if ($this->getConfig()->getIsDebug($storeId)) {
-                $this->_service->setLogAdapter($this->_logAdapterFactory->create(
-                        array('fileName' => 'googleshopping.log')
-                    ), 'log')->setDebug(true);
+                $this->_service->setLogAdapter(
+                    $this->_logAdapterFactory->create(array('fileName' => 'googleshopping.log')),
+                    'log'
+                )->setDebug(
+                    true
+                );
             }
         }
         return $this->_service;
@@ -187,12 +199,7 @@ class Service extends \Magento\Object
     {
         $accountId = $this->getConfig()->getAccountId($storeId);
         $client = $this->getClient($storeId);
-        $service = $this->_contentFactory->create(
-            array(
-                'client' => $client,
-                'accountId' => $accountId
-            )
-        );
+        $service = $this->_contentFactory->create(array('client' => $client, 'accountId' => $accountId));
         return $service;
     }
 }

@@ -34,11 +34,9 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function checkQuoteAmount(\Magento\Sales\Model\Quote $quote, $amount)
     {
-        if (!$quote->getHasError() && ($amount>=self::MAXIMUM_AVAILABLE_NUMBER)) {
+        if (!$quote->getHasError() && $amount >= self::MAXIMUM_AVAILABLE_NUMBER) {
             $quote->setHasError(true);
-            $quote->addMessage(
-                __('This item price or quantity is not valid for checkout.')
-            );
+            $quote->addMessage(__('This item price or quantity is not valid for checkout.'));
         }
         return $this;
     }

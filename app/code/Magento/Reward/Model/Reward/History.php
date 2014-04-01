@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reward\Model\Reward;
 
 /**
@@ -51,7 +50,7 @@ namespace Magento\Reward\Model\Reward;
  * @method int getNotificationSent()
  * @method \Magento\Reward\Model\Reward\History setNotificationSent(int $value)
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     /**
      * Reward data
@@ -139,30 +138,27 @@ class History extends \Magento\Core\Model\AbstractModel
     protected function _beforeSave()
     {
         if ($this->getWebsiteId()) {
-            $this->setBaseCurrencyCode(
-                $this->_storeManager->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
-            );
+            $this->setBaseCurrencyCode($this->_storeManager->getWebsite($this->getWebsiteId())->getBaseCurrencyCode());
         }
         if ($this->getPointsDelta() < 0) {
             $this->_spendAvailablePoints($this->getPointsDelta());
         }
 
         $now = time();
-        $this->addData(array(
-            'created_at' => $this->dateTime->formatDate($now),
-            'expired_at_static' => null,
-            'expired_at_dynamic' => null,
-            'notification_sent' => 0
-        ));
+        $this->addData(
+            array(
+                'created_at' => $this->dateTime->formatDate($now),
+                'expired_at_static' => null,
+                'expired_at_dynamic' => null,
+                'notification_sent' => 0
+            )
+        );
 
         $lifetime = (int)$this->_rewardData->getGeneralConfig('expiration_days', $this->getWebsiteId());
         if ($lifetime > 0) {
             $expires = $now + $lifetime * 86400;
             $expires = $this->dateTime->formatDate($expires);
-            $this->addData(array(
-                'expired_at_static' => $expires,
-                'expired_at_dynamic' => $expires,
-            ));
+            $this->addData(array('expired_at_static' => $expires, 'expired_at_dynamic' => $expires));
         }
 
         return parent::_beforeSave();
@@ -201,30 +197,43 @@ class History extends \Magento\Core\Model\AbstractModel
         if ($store === null) {
             $store = $this->_storeManager->getStore();
         }
-        $this->setRewardId($this->getReward()->getId())
-            ->setWebsiteId($this->getReward()->getWebsiteId())
-            ->setStoreId($store->getId())
-            ->setPointsBalance($this->getReward()->getPointsBalance())
-            ->setPointsDelta($this->getReward()->getPointsDelta())
-            ->setCurrencyAmount($this->getReward()->getCurrencyAmount())
-            ->setCurrencyDelta($this->getReward()->getCurrencyDelta())
-            ->setAction($this->getReward()->getAction())
-            ->setComment($this->getReward()->getComment());
+        $this->setRewardId(
+            $this->getReward()->getId()
+        )->setWebsiteId(
+            $this->getReward()->getWebsiteId()
+        )->setStoreId(
+            $store->getId()
+        )->setPointsBalance(
+            $this->getReward()->getPointsBalance()
+        )->setPointsDelta(
+            $this->getReward()->getPointsDelta()
+        )->setCurrencyAmount(
+            $this->getReward()->getCurrencyAmount()
+        )->setCurrencyDelta(
+            $this->getReward()->getCurrencyDelta()
+        )->setAction(
+            $this->getReward()->getAction()
+        )->setComment(
+            $this->getReward()->getComment()
+        );
 
-        $this->addAdditionalData(array(
-            'rate' => array(
-                'points' => $this->getReward()->getRate()->getPoints(),
-                'currency_amount' => $this->getReward()->getRate()->getCurrencyAmount(),
-                'direction' => $this->getReward()->getRate()->getDirection(),
-                'currency_code' => $this->_storeManager->getWebsite($this->getReward()->getWebsiteId())->getBaseCurrencyCode()
+        $this->addAdditionalData(
+            array(
+                'rate' => array(
+                    'points' => $this->getReward()->getRate()->getPoints(),
+                    'currency_amount' => $this->getReward()->getRate()->getCurrencyAmount(),
+                    'direction' => $this->getReward()->getRate()->getDirection(),
+                    'currency_code' => $this->_storeManager->getWebsite(
+                        $this->getReward()->getWebsiteId()
+                    )->getBaseCurrencyCode()
+                )
             )
-        ));
+        );
 
         if ($this->getReward()->getIsCappedReward()) {
-            $this->addAdditionalData(array(
-                'is_capped_reward' => true,
-                'cropped_points'    => $this->getReward()->getCroppedPoints()
-            ));
+            $this->addAdditionalData(
+                array('is_capped_reward' => true, 'cropped_points' => $this->getReward()->getCroppedPoints())
+            );
         }
         return $this;
     }
@@ -301,7 +310,7 @@ class History extends \Magento\Core\Model\AbstractModel
             return $this->rewardRate->getRateText(
                 (int)$rate['direction'],
                 (int)$rate['points'],
-                (float)$rate['currency_amount'],
+                (double)$rate['currency_amount'],
                 $this->getBaseCurrencyCode()
             );
         }
@@ -345,9 +354,9 @@ class History extends \Magento\Core\Model\AbstractModel
         if ($this->getPointsDelta() <= 0) {
             return null;
         }
-        return $this->_rewardData->getGeneralConfig('expiry_calculation') == 'static'
-            ? $this->getExpiredAtStatic() : $this->getExpiredAtDynamic()
-        ;
+        return $this->_rewardData->getGeneralConfig(
+            'expiry_calculation'
+        ) == 'static' ? $this->getExpiredAtStatic() : $this->getExpiredAtDynamic();
     }
 
     /**

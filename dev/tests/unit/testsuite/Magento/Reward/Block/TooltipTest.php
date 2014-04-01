@@ -48,27 +48,22 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
         );
         $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
 
-        $rewardHelper->expects($this->any())
-            ->method('isEnabledOnFront')
-            ->will($this->returnValue(true));
+        $rewardHelper->expects($this->any())->method('isEnabledOnFront')->will($this->returnValue(true));
 
-        $storeManager->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($store));
-        $storeManager->getStore()->expects($this->any())
-            ->method('getWebsiteId')
-            ->will($this->returnValue(1));
+        $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
+        $storeManager->getStore()->expects($this->any())->method('getWebsiteId')->will($this->returnValue(1));
 
-        $rewardInstance->expects($this->any())
-            ->method('setCustomer')
-            ->will($this->returnValue($rewardInstance));
-        $rewardInstance->expects($this->any())
-            ->method('setWebsiteId')
-            ->will($this->returnValue($rewardInstance));
-        $rewardInstance->expects($this->any())
-            ->method('getActionInstance')
-            ->with('Magento\Reward\Model\Action\OrderExtra')
-            ->will($this->returnValue($rewardAction));
+        $rewardInstance->expects($this->any())->method('setCustomer')->will($this->returnValue($rewardInstance));
+        $rewardInstance->expects($this->any())->method('setWebsiteId')->will($this->returnValue($rewardInstance));
+        $rewardInstance->expects(
+            $this->any()
+        )->method(
+            'getActionInstance'
+        )->with(
+            'Magento\Reward\Model\Action\OrderExtra'
+        )->will(
+            $this->returnValue($rewardAction)
+        );
 
         $block->setLayout($layout);
     }

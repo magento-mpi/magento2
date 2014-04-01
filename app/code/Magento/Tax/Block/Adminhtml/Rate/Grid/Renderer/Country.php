@@ -19,7 +19,7 @@ namespace Magento\Tax\Block\Adminhtml\Rate\Grid\Renderer;
 
 class Country extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Country
 {
-/**
+    /**
      * Render column for export
      *
      * @param \Magento\Object $row

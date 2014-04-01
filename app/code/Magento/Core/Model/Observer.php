@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 /**
@@ -45,7 +44,7 @@ class Observer
     /**
      * @var \Magento\Core\Model\Theme\Registration
      */
-    protected  $_registration;
+    protected $_registration;
 
     /**
      * @var \Magento\Logger
@@ -106,7 +105,7 @@ class Observer
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
             $this->_registration->register($pathPattern);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;
@@ -126,10 +125,9 @@ class Observer
             try {
                 $service = $themeFile->getCustomizationService();
                 if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
-                    $asset = $this->_assetFileFactory->create(array(
-                        'file'        => $themeFile->getFullPath(),
-                        'contentType' => $service->getContentType()
-                    ));
+                    $asset = $this->_assetFileFactory->create(
+                        array('file' => $themeFile->getFullPath(), 'contentType' => $service->getContentType())
+                    );
                     $this->_pageAssets->add($themeFile->getData('file_path'), $asset);
                 }
             } catch (\InvalidArgumentException $e) {

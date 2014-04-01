@@ -14,8 +14,7 @@
  */
 namespace Magento\ImportExport\Model\Source\Import\Behavior;
 
-class BasicTest
-    extends \Magento\ImportExport\Model\Source\Import\AbstractBehaviorTestCase
+class BasicTest extends \Magento\ImportExport\Model\Source\Import\AbstractBehaviorTestCase
 {
     /**
      * Expected behavior group code
@@ -32,7 +31,7 @@ class BasicTest
     protected $_expectedBehaviors = array(
         \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
         \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
-        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
     );
 
     protected function setUp()

@@ -51,7 +51,7 @@ abstract class Form
     /**
      * Current entity instance
      *
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Model\AbstractModel
      */
     protected $_entity;
 
@@ -95,7 +95,7 @@ abstract class Form
      *
      * @var bool
      */
-    protected $_isAjax          = false;
+    protected $_isAjax = false;
 
     /**
      * Whether the invisible form fields need to be filtered/ignored
@@ -153,7 +153,7 @@ abstract class Form
      * @param RequestInterface $httpRequest
      * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -165,10 +165,10 @@ abstract class Form
         \Magento\Validator\ConfigFactory $validatorConfigFactory
     ) {
         if (empty($this->_moduleName)) {
-            throw new \Magento\Core\Exception(__('Current module pathname is undefined'));
+            throw new \Magento\Model\Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            throw new \Magento\Core\Exception(__('Current module EAV entity is undefined'));
+            throw new \Magento\Model\Exception(__('Current module EAV entity is undefined'));
         }
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -198,11 +198,13 @@ abstract class Form
      */
     protected function _getFilteredFormAttributeCollection()
     {
-        return $this->_getFormAttributeCollection()
-            ->setStore($this->getStore())
-            ->setEntityType($this->getEntityType())
-            ->addFormCodeFilter($this->getFormCode())
-            ->setSortOrder();
+        return $this->_getFormAttributeCollection()->setStore(
+            $this->getStore()
+        )->setEntityType(
+            $this->getEntityType()
+        )->addFormCodeFilter(
+            $this->getFormCode()
+        )->setSortOrder();
     }
 
     /**
@@ -220,10 +222,10 @@ abstract class Form
     /**
      * Set entity instance
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
+     * @param \Magento\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Core\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         if ($entity->getEntityTypeId()) {
@@ -272,13 +274,13 @@ abstract class Form
     /**
      * Return current form code
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return string
      */
     public function getFormCode()
     {
         if (empty($this->_formCode)) {
-            throw new \Magento\Core\Exception(__('Form code is not defined'));
+            throw new \Magento\Model\Exception(__('Form code is not defined'));
         }
         return $this->_formCode;
     }
@@ -300,13 +302,13 @@ abstract class Form
     /**
      * Return current entity instance
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Model\Exception
+     * @return \Magento\Model\AbstractModel
      */
     public function getEntity()
     {
         if (is_null($this->_entity)) {
-            throw new \Magento\Core\Exception(__('Entity instance is not defined'));
+            throw new \Magento\Model\Exception(__('Entity instance is not defined'));
         }
         return $this->_entity;
     }
@@ -319,8 +321,8 @@ abstract class Form
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes      = array();
-            $this->_userAttributes  = array();
+            $this->_attributes = array();
+            $this->_userAttributes = array();
             /** @var $attribute \Magento\Eav\Model\Attribute */
             foreach ($this->_getFilteredFormAttributeCollection() as $attribute) {
                 $this->_attributes[$attribute->getAttributeCode()] = $attribute;
@@ -459,14 +461,14 @@ abstract class Form
             $validatorFactory = $this->_validatorConfigFactory->create(array('configFiles' => $configFiles));
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 
-            $builder->addConfiguration('eav_data_validator', array(
-                'method' => 'setAttributes',
-                'arguments' => array($this->getAllowedAttributes())
-            ));
-            $builder->addConfiguration('eav_data_validator', array(
-                'method' => 'setData',
-                'arguments' => array($data)
-            ));
+            $builder->addConfiguration(
+                'eav_data_validator',
+                array('method' => 'setAttributes', 'arguments' => array($this->getAllowedAttributes()))
+            );
+            $builder->addConfiguration(
+                'eav_data_validator',
+                array('method' => 'setData', 'arguments' => array($data))
+            );
             $this->_validator = $builder->createValidator();
         }
         return $this->_validator;

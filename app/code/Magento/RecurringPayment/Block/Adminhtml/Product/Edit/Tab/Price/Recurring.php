@@ -10,8 +10,7 @@ namespace Magento\RecurringPayment\Block\Adminhtml\Product\Edit\Tab\Price;
 /**
  * Recurring payment attribute edit renderer
  */
-class Recurring
-    extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element
+class Recurring extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element
 {
     /**
      * Core registry

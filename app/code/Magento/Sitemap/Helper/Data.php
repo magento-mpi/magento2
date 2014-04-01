@@ -21,32 +21,40 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**#@+
      * Limits xpath config settings
      */
-    const XML_PATH_MAX_LINES     = 'sitemap/limit/max_lines';
+    const XML_PATH_MAX_LINES = 'sitemap/limit/max_lines';
+
     const XML_PATH_MAX_FILE_SIZE = 'sitemap/limit/max_file_size';
+
     /**#@-*/
 
     /**#@+
      * Change frequency xpath config settings
      */
     const XML_PATH_CATEGORY_CHANGEFREQ = 'sitemap/category/changefreq';
+
     const XML_PATH_PRODUCT_CHANGEFREQ = 'sitemap/product/changefreq';
+
     const XML_PATH_PAGE_CHANGEFREQ = 'sitemap/page/changefreq';
+
     /**#@-*/
 
     /**#@+
      * Change frequency xpath config settings
      */
     const XML_PATH_CATEGORY_PRIORITY = 'sitemap/category/priority';
+
     const XML_PATH_PRODUCT_PRIORITY = 'sitemap/product/priority';
+
     const XML_PATH_PAGE_PRIORITY = 'sitemap/page/priority';
+
     /**#@-*/
 
     /**#@+
      * Search Engine Submission Settings
      */
     const XML_PATH_SUBMISSION_ROBOTS = 'sitemap/search_engines/submission_robots';
-    /**#@-*/
 
+    /**#@-*/
     const XML_PATH_PRODUCT_IMAGES_INCLUDE = 'sitemap/product/image_include';
 
     /**

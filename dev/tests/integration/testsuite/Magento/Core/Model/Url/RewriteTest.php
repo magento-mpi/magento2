@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Url;
 
 class RewriteTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,9 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Url\Rewrite');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Url\Rewrite'
+        );
     }
 
     public function testLoadByRequestPath()
@@ -37,8 +37,9 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
             ->save();
 
         try {
-            $read = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Url\Rewrite');
+            $read = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Core\Model\Url\Rewrite'
+            );
             $read->setStoreId(
                     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
                         get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
@@ -71,8 +72,9 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
             ->save();
 
         try {
-            $read = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Core\Model\Url\Rewrite');
+            $read = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Core\Model\Url\Rewrite'
+            );
             $read->setStoreId(
                     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                         ->get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
@@ -99,14 +101,20 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
 
     public function testRewrite()
     {
-        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\RequestInterface')->setPathInfo('fancy/url.html');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\App\RequestInterface'
+        )->setPathInfo(
+            'fancy/url.html'
+        );
         $_SERVER['QUERY_STRING'] = 'foo=bar&___fooo=bar';
 
-        $this->_model->setRequestPath('fancy/url.html')
-            ->setTargetPath('another/fancy/url.html')
-            ->setIsSystem(1)
-            ->save();
+        $this->_model->setRequestPath(
+            'fancy/url.html'
+        )->setTargetPath(
+            'another/fancy/url.html'
+        )->setIsSystem(
+            1
+        )->save();
 
         try {
             $this->assertTrue($this->_model->rewrite($request));
@@ -121,15 +129,13 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
 
     public function testRewriteNonExistingRecord()
     {
-        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\RequestInterface');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\RequestInterface');
         $this->assertFalse($this->_model->rewrite($request));
     }
 
     public function testRewriteWrongStore()
     {
-        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\RequestInterface');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\RequestInterface');
         $_GET['___from_store'] = uniqid('store');
         $this->assertFalse($this->_model->rewrite($request));
     }

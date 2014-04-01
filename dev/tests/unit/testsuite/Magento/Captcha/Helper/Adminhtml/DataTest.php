@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Captcha\Helper\Adminhtml;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -23,14 +22,20 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $backendConfig = $this->getMockBuilder('Magento\Backend\App\ConfigInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getValue', 'setValue', 'isSetFlag'))
-            ->getMock();
-        $backendConfig->expects($this->any())
-            ->method('getValue')
-            ->with('admin/captcha/qwe')
-            ->will($this->returnValue('1'));
+        $backendConfig = $this->getMockBuilder(
+            'Magento\Backend\App\ConfigInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array('getValue', 'setValue', 'isSetFlag')
+        )->getMock();
+        $backendConfig->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->with(
+            'admin/captcha/qwe'
+        )->will(
+            $this->returnValue('1')
+        );
 
         $filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $directoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);

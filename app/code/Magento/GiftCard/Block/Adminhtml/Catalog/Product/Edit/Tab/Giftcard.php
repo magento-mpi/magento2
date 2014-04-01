@@ -9,9 +9,7 @@
  */
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
-class Giftcard
- extends \Magento\Backend\Block\Widget
- implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -135,9 +133,9 @@ class Giftcard
     public function getCardTypes()
     {
         return array(
-            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL => __('Virtual'),
             \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
-            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined')
         );
     }
 

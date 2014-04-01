@@ -63,7 +63,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * EAV Entity Model
      *
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Model\AbstractModel
      */
     protected $_entity;
 
@@ -72,7 +72,7 @@ class Form extends \Magento\View\Element\Template
      *
      * @var string
      */
-    protected $_fieldIdFormat   = '%1$s';
+    protected $_fieldIdFormat = '%1$s';
 
     /**
      * Format for HTML elements name attribute
@@ -121,15 +121,15 @@ class Form extends \Magento\View\Element\Template
      * Get Attribute renderers from it, and add to self
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            throw new \Magento\Core\Exception(__('The current module XML block name is undefined.'));
+            throw new \Magento\Model\Exception(__('The current module XML block name is undefined.'));
         }
         if (empty($this->_formModelPath)) {
-            throw new \Magento\Core\Exception(__('The current module form model pathname is undefined.'));
+            throw new \Magento\Model\Exception(__('The current module form model pathname is undefined.'));
         }
 
         return parent::_prepareLayout();
@@ -149,10 +149,10 @@ class Form extends \Magento\View\Element\Template
     /**
      * Set Entity object
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
+     * @param \Magento\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Core\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -185,7 +185,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * Return Entity object
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     public function getEntity()
     {
@@ -229,9 +229,13 @@ class Form extends \Magento\View\Element\Template
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = $this->_formFactory->create($this->_formModelPath)
-                ->setFormCode($this->_formCode)
-                ->setEntity($this->getEntity());
+            $this->_form = $this->_formFactory->create(
+                $this->_formModelPath
+            )->setFormCode(
+                $this->_formCode
+            )->setEntity(
+                $this->getEntity()
+            );
             if ($this->_entityType) {
                 $this->_form->setEntityType($this->_entityType);
             }
@@ -259,7 +263,8 @@ class Form extends \Magento\View\Element\Template
     {
         $attributes = array();
         foreach ($this->getForm()->getUserAttributes() as $attribute) {
-            if ($this->getExcludeFileAttributes() && in_array($attribute->getFrontendInput(), array('image', 'file'))) {
+            if ($this->getExcludeFileAttributes() && in_array($attribute->getFrontendInput(), array('image', 'file'))
+            ) {
                 continue;
             }
             if ($attribute->getIsVisible()) {
@@ -277,13 +282,18 @@ class Form extends \Magento\View\Element\Template
      */
     public function getAttributeHtml(\Magento\Eav\Model\Attribute $attribute)
     {
-        $type   = $attribute->getFrontendInput();
-        $block  = $this->getRenderer($type);
+        $type = $attribute->getFrontendInput();
+        $block = $this->getRenderer($type);
         if ($block) {
-            $block->setAttributeObject($attribute)
-                ->setEntity($this->getEntity())
-                ->setFieldIdFormat($this->_fieldIdFormat)
-                ->setFieldNameFormat($this->_fieldNameFormat);
+            $block->setAttributeObject(
+                $attribute
+            )->setEntity(
+                $this->getEntity()
+            )->setFieldIdFormat(
+                $this->_fieldIdFormat
+            )->setFieldNameFormat(
+                $this->_fieldNameFormat
+            );
             return $block->toHtml();
         }
         return false;

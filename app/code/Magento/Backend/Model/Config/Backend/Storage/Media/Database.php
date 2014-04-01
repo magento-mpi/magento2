@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Backend\Model\Config\Backend\Storage\Media;
 
 class Database extends \Magento\Core\Model\Config\Value
@@ -25,7 +23,7 @@ class Database extends \Magento\Core\Model\Config\Value
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -34,7 +32,7 @@ class Database extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Helper\File\Storage $coreFileStorage,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

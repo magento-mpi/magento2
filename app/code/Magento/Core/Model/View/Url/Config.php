@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\View\Url;
 
 class Config implements \Magento\View\Url\ConfigInterface

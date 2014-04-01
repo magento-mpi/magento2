@@ -16,37 +16,59 @@ $installer->startSetup();
 /**
  * Create table 'magento_reward'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_reward'))
-    ->addColumn('reward_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Reward Id')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Customer Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Website Id')
-    ->addColumn('points_balance', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Points Balance')
-    ->addColumn('website_currency_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 3, array(
-        ), 'Website Currency Code')
-    ->addIndex($installer->getIdxName('magento_reward', array('customer_id', 'website_id'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('customer_id', 'website_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('magento_reward', array('website_id')),
-        array('website_id'))
-    ->addForeignKey($installer->getFkName('magento_reward', 'customer_id', 'customer_entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Reward');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_reward')
+)->addColumn(
+    'reward_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Reward Id'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Customer Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Website Id'
+)->addColumn(
+    'points_balance',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Points Balance'
+)->addColumn(
+    'website_currency_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    3,
+    array(),
+    'Website Currency Code'
+)->addIndex(
+    $installer->getIdxName(
+        'magento_reward',
+        array('customer_id', 'website_id'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('customer_id', 'website_id'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('magento_reward', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('magento_reward', 'customer_id', 'customer_entity', 'entity_id'),
+    'customer_id',
+    $installer->getTable('customer_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Reward'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -193,86 +215,125 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'magento_reward_salesrule'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_reward_salesrule'))
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Rule Id')
-    ->addColumn('points_delta', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Points Delta')
-    ->addIndex($installer->getIdxName('magento_reward_salesrule', array('rule_id'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_reward_salesrule')
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Rule Id'
+)->addColumn(
+    'points_delta',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Points Delta'
+)->addIndex(
+    $installer->getIdxName(
+        'magento_reward_salesrule',
         array('rule_id'),
-        array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addForeignKey($installer->getFkName('magento_reward_salesrule', 'rule_id', 'salesrule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule'), 'rule_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Reward Reward Salesrule');
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('rule_id'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addForeignKey(
+    $installer->getFkName('magento_reward_salesrule', 'rule_id', 'salesrule', 'rule_id'),
+    'rule_id',
+    $installer->getTable('salesrule'),
+    'rule_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Reward Reward Salesrule'
+);
 $installer->getConnection()->createTable($table);
 
 
-$installer->addAttribute('quote', 'use_reward_points',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
-);
-$installer->addAttribute('quote', 'reward_points_balance',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
-);
+$installer->addAttribute('quote', 'use_reward_points', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));
+$installer->addAttribute('quote', 'reward_points_balance', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));
 $installer->addAttribute('quote', 'base_reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
 $installer->addAttribute('quote', 'reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
 
-$installer->addAttribute('quote_address', 'reward_points_balance',
+$installer->addAttribute(
+    'quote_address',
+    'reward_points_balance',
     array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
 );
-$installer->addAttribute('quote_address', 'base_reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
-$installer->addAttribute('quote_address', 'reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
+$installer->addAttribute(
+    'quote_address',
+    'base_reward_currency_amount',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL)
+);
+$installer->addAttribute(
+    'quote_address',
+    'reward_currency_amount',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL)
+);
 
-$installer->addAttribute('order', 'reward_points_balance',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
-);
+$installer->addAttribute('order', 'reward_points_balance', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));
 $installer->addAttribute('order', 'base_reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
 $installer->addAttribute('order', 'reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
-$installer->addAttribute('order', 'base_rwrd_crrncy_amt_invoiced', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
-$installer->addAttribute('order', 'rwrd_currency_amount_invoiced', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
-$installer->addAttribute('order', 'base_rwrd_crrncy_amnt_refnded', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
+$installer->addAttribute(
+    'order',
+    'base_rwrd_crrncy_amt_invoiced',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL)
+);
+$installer->addAttribute(
+    'order',
+    'rwrd_currency_amount_invoiced',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL)
+);
+$installer->addAttribute(
+    'order',
+    'base_rwrd_crrncy_amnt_refnded',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL)
+);
 $installer->addAttribute('order', 'rwrd_crrncy_amnt_refunded', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
 
-$installer->addAttribute('invoice', 'base_reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
+$installer->addAttribute(
+    'invoice',
+    'base_reward_currency_amount',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL)
+);
 $installer->addAttribute('invoice', 'reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
 
-$installer->addAttribute('creditmemo', 'base_reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
+$installer->addAttribute(
+    'creditmemo',
+    'base_reward_currency_amount',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL)
+);
 $installer->addAttribute('creditmemo', 'reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
 
-$installer->addAttribute('invoice', 'reward_points_balance',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
-);
+$installer->addAttribute('invoice', 'reward_points_balance', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));
 
-$installer->addAttribute('creditmemo', 'reward_points_balance',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
-);
+$installer->addAttribute('creditmemo', 'reward_points_balance', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));
 
-$installer->addAttribute('order', 'reward_points_balance_refund',
+$installer->addAttribute(
+    'order',
+    'reward_points_balance_refund',
     array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
 );
-$installer->addAttribute('creditmemo', 'reward_points_balance_refund',
+$installer->addAttribute(
+    'creditmemo',
+    'reward_points_balance_refund',
     array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
 );
 
 $installer->addAttribute('quote', 'base_reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
 $installer->addAttribute('quote', 'reward_currency_amount', array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL));
 
-$installer->addAttribute('order', 'reward_points_balance_refunded',
+$installer->addAttribute(
+    'order',
+    'reward_points_balance_refunded',
     array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
 );
 
-$installer->addAttribute('order', 'reward_salesrule_points',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER)
-);
+$installer->addAttribute('order', 'reward_salesrule_points', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));
 
-$installer->addAttribute('customer', 'reward_update_notification',
+$installer->addAttribute(
+    'customer',
+    'reward_update_notification',
     array(
         'type' => 'int',
         'visible' => 0,
@@ -284,7 +345,9 @@ $installer->addAttribute('customer', 'reward_update_notification',
     )
 );
 
-$installer->addAttribute('customer', 'reward_warning_notification',
+$installer->addAttribute(
+    'customer',
+    'reward_warning_notification',
     array(
         'type' => 'int',
         'visible' => 0,

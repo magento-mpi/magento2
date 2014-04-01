@@ -16,7 +16,7 @@ namespace Magento\SalesRule\Model\Resource\Coupon;
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Usage extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Usage extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Constructor
@@ -39,31 +39,27 @@ class Usage extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $read = $this->_getReadAdapter();
         $select = $read->select();
-        $select->from($this->getMainTable(), array('times_used'))
-                ->where('coupon_id = :coupon_id')
-                ->where('customer_id = :customer_id');
+        $select->from(
+            $this->getMainTable(),
+            array('times_used')
+        )->where(
+            'coupon_id = :coupon_id'
+        )->where(
+            'customer_id = :customer_id'
+        );
 
         $timesUsed = $read->fetchOne($select, array(':coupon_id' => $couponId, ':customer_id' => $customerId));
 
         if ($timesUsed > 0) {
             $this->_getWriteAdapter()->update(
                 $this->getMainTable(),
-                array(
-                    'times_used' => $timesUsed + 1
-                ),
-                array(
-                    'coupon_id = ?' => $couponId,
-                    'customer_id = ?' => $customerId,
-                )
+                array('times_used' => $timesUsed + 1),
+                array('coupon_id = ?' => $couponId, 'customer_id = ?' => $customerId)
             );
         } else {
             $this->_getWriteAdapter()->insert(
                 $this->getMainTable(),
-                array(
-                    'coupon_id' => $couponId,
-                    'customer_id' => $customerId,
-                    'times_used' => 1
-                )
+                array('coupon_id' => $couponId, 'customer_id' => $customerId, 'times_used' => 1)
             );
         }
     }
@@ -80,16 +76,19 @@ class Usage extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $read = $this->_getReadAdapter();
         if ($read && $couponId && $customerId) {
-            $select = $read->select()
-                ->from($this->getMainTable())
-                ->where('customer_id =:customet_id')
-                ->where('coupon_id = :coupon_id');
+            $select = $read->select()->from(
+                $this->getMainTable()
+            )->where(
+                'customer_id =:customet_id'
+            )->where(
+                'coupon_id = :coupon_id'
+            );
             $data = $read->fetchRow($select, array(':coupon_id' => $couponId, ':customet_id' => $customerId));
             if ($data) {
                 $object->setData($data);
             }
         }
-        if ($object instanceof \Magento\Core\Model\AbstractModel) {
+        if ($object instanceof \Magento\Model\AbstractModel) {
             $this->_afterLoad($object);
         }
         return $this;

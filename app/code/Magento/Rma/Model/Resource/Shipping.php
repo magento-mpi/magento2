@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Resource;
 
 use Magento\Rma\Model\Rma as ModelRma;
@@ -17,14 +16,15 @@ use Magento\Rma\Model\Rma as ModelRma;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Shipping extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Shipping extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
      *
      * @return void
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init('magento_rma_shipping_label', 'entity_id');
     }
 

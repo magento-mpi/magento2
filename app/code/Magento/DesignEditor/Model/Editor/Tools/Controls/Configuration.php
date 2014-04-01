@@ -117,14 +117,12 @@ class Configuration
      */
     protected function _initViewConfigs()
     {
-        $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
-            'themeModel' => $this->_theme
-        ));
-        $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
-            'themeModel' => $this->_parentTheme
-        ));
+        $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(
+            array('area' => \Magento\View\DesignInterface::DEFAULT_AREA, 'themeModel' => $this->_theme)
+        );
+        $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(
+            array('area' => \Magento\View\DesignInterface::DEFAULT_AREA, 'themeModel' => $this->_parentTheme)
+        );
         return $this;
     }
 
@@ -156,7 +154,7 @@ class Configuration
             if (!empty($control['components'])) {
                 $this->_prepareControlList($control['components']);
             }
-            $this->_controlList[$controlName] = &$control;
+            $this->_controlList[$controlName] =& $control;
         }
         return $this;
     }
@@ -193,12 +191,12 @@ class Configuration
      *
      * @param string $controlName
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_controlList[$controlName])) {
-            throw new \Magento\Core\Exception("Unknown control: \"{$controlName}\"");
+            throw new \Magento\Model\Exception("Unknown control: \"{$controlName}\"");
         }
         return $this->_controlList[$controlName];
     }
@@ -262,9 +260,10 @@ class Configuration
             }
         }
         $this->_saveViewConfiguration($configDom);
-        $this->_eventDispatcher->dispatch('save_view_configuration', array(
-            'configuration' => $this, 'theme' => $this->_theme
-        ));
+        $this->_eventDispatcher->dispatch(
+            'save_view_configuration',
+            array('configuration' => $this, 'theme' => $this->_theme)
+        );
         return $this;
     }
 

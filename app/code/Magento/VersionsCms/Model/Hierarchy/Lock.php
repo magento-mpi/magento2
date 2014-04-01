@@ -25,7 +25,7 @@ namespace Magento\VersionsCms\Model\Hierarchy;
  *
  * @deprecated since 1.12.0.0
  */
-class Lock extends \Magento\Core\Model\AbstractModel
+class Lock extends \Magento\Model\AbstractModel
 {
     /**
      * Core store config
@@ -58,7 +58,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -67,7 +67,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -133,7 +133,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLocked()
     {
-        return ($this->isEnabled() && $this->isActual());
+        return $this->isEnabled() && $this->isActual();
     }
 
     /**
@@ -143,7 +143,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLockedByMe()
     {
-        return ($this->isLocked() && $this->isLockOwner());
+        return $this->isLocked() && $this->isLockOwner();
     }
 
     /**
@@ -153,7 +153,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLockedByOther()
     {
-        return ($this->isLocked() && !$this->isLockOwner());
+        return $this->isLocked() && !$this->isLockOwner();
     }
 
     /**
@@ -193,7 +193,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isEnabled()
     {
-        return ($this->getLockLifeTime() > 0);
+        return $this->getLockLifeTime() > 0;
     }
 
     /**
@@ -204,8 +204,11 @@ class Lock extends \Magento\Core\Model\AbstractModel
     public function isLockOwner()
     {
         $this->loadLockData();
-        if ($this->_getData('user_id') == $this->_getSession()->getUser()->getId()
-            && $this->_getData('session_id') == $this->_getSession()->getSessionId()
+        if ($this->_getData(
+            'user_id'
+        ) == $this->_getSession()->getUser()->getId() && $this->_getData(
+            'session_id'
+        ) == $this->_getSession()->getSessionId()
         ) {
             return true;
         }
@@ -224,12 +227,14 @@ class Lock extends \Magento\Core\Model\AbstractModel
             $this->delete();
         }
 
-        $this->setData(array(
-            'user_id' => $this->_getSession()->getUser()->getId(),
-            'user_name' => $this->_getSession()->getUser()->getName(),
-            'session_id' => $this->_getSession()->getSessionId(),
-            'started_at' => time()
-        ));
+        $this->setData(
+            array(
+                'user_id' => $this->_getSession()->getUser()->getId(),
+                'user_name' => $this->_getSession()->getUser()->getName(),
+                'session_id' => $this->_getSession()->getSessionId(),
+                'started_at' => time()
+            )
+        );
         $this->save();
 
         return $this;

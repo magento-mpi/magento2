@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper\Product;
 
 class FlatTest extends \PHPUnit_Framework_TestCase
@@ -25,10 +24,12 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Helper\Product\Flat\Indexer');
-        $this->_state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('\Magento\Catalog\Model\Indexer\Product\Flat\State');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Helper\Product\Flat\Indexer'
+        );
+        $this->_state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\Catalog\Model\Indexer\Product\Flat\State'
+        );
     }
 
     public function testIsEnabledDefault()
@@ -52,8 +53,10 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAddFilterableAttributes()
     {
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Helper\Product\Flat\Indexer', array('addFilterableAttrs' => 1));
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Helper\Product\Flat\Indexer',
+            array('addFilterableAttrs' => 1)
+        );
         $this->assertEquals(1, $helper->isAddFilterableAttributes());
     }
 
@@ -64,8 +67,10 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAddChildData()
     {
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Helper\Product\Flat\Indexer', array('addChildData' => 1));
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Helper\Product\Flat\Indexer',
+            array('addChildData' => 1)
+        );
         $this->assertEquals(1, $helper->isAddChildData());
     }
 }

@@ -9,7 +9,8 @@
  */
 namespace Magento\CustomerBalance\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
+
 /**
  * Customer balance model
  *
@@ -30,7 +31,7 @@ use Magento\Core\Exception;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Balance extends \Magento\Core\Model\AbstractModel
+class Balance extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Customer\Model\Customer
@@ -68,7 +69,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -78,7 +79,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -105,7 +106,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
      */
     public function getAmount()
     {
-        return (float)$this->getData('amount');
+        return (double)$this->getData('amount');
     }
 
     /**
@@ -153,7 +154,6 @@ class Balance extends \Magento\Core\Model\AbstractModel
             $this->setStoreId($storeId);
         }
         return $this;
-
     }
 
     /**
@@ -204,9 +204,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
 
         // save history action
         if (abs($this->getAmountDelta())) {
-            $this->_historyFactory->create()
-                ->setBalanceModel($this)
-                ->save();
+            $this->_historyFactory->create()->setBalanceModel($this)->save();
         }
 
         return $this;
@@ -227,9 +225,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             throw new Exception(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
-            $this->setCustomer(
-                $this->_customerFactory->create()->load($this->getCustomerId())
-            );
+            $this->setCustomer($this->_customerFactory->create()->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
             throw new Exception(__('This customer is not set or does not exist.'));
@@ -245,9 +241,9 @@ class Balance extends \Magento\Core\Model\AbstractModel
     {
         $result = 0;
         if ($this->hasAmountDelta()) {
-            $result = (float)$this->getAmountDelta();
+            $result = (double)$this->getAmountDelta();
             if ($this->getId()) {
-                if (($result < 0) && (($this->getAmount() + $result) < 0)) {
+                if ($result < 0 && $this->getAmount() + $result < 0) {
                     $result = -1 * $this->getAmount();
                 }
             } elseif ($result <= 0) {
@@ -276,7 +272,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             return false;
         }
         return $this->getAmount() >=
-            ((float)$quote->getBaseGrandTotal() + (float)$quote->getBaseCustomerBalAmountUsed());
+            (double)$quote->getBaseGrandTotal() + (double)$quote->getBaseCustomerBalAmountUsed();
     }
 
     /**

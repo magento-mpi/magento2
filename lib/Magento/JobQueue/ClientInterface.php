@@ -12,7 +12,9 @@ namespace Magento\JobQueue;
 interface ClientInterface
 {
     const TASK_PRIORITY_HIGH = 'high';
+
     const TASK_PRIORITY_LOW = 'low';
+
     const TASK_PRIORITY_MIDDLE = 'middle';
 
     /**

@@ -24,13 +24,20 @@ $otherStore = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->
 
 /** @var $queue \Magento\Newsletter\Model\Queue */
 $queue = $objectManager->create('Magento\Newsletter\Model\Queue');
-$queue->setTemplateId($templateId)
-    ->setNewsletterText('{{view url="images/logo.gif"}}')
-    ->setNewsletterSubject('Subject')
-    ->setNewsletterSenderName('CustomerSupport')
-    ->setNewsletterSenderEmail('support@example.com')
-    ->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_NEVER)
-    ->setQueueStartAtByString(0)
-    ->setStores(array($currentStore, $otherStore))
-    ->save()
-;
+$queue->setTemplateId(
+    $templateId
+)->setNewsletterText(
+    '{{view url="images/logo.gif"}}'
+)->setNewsletterSubject(
+    'Subject'
+)->setNewsletterSenderName(
+    'CustomerSupport'
+)->setNewsletterSenderEmail(
+    'support@example.com'
+)->setQueueStatus(
+    \Magento\Newsletter\Model\Queue::STATUS_NEVER
+)->setQueueStartAtByString(
+    0
+)->setStores(
+    array($currentStore, $otherStore)
+)->save();

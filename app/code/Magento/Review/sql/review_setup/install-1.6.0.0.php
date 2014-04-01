@@ -22,79 +22,108 @@ $installer->startSetup();
 /**
  * Create table 'review_entity'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('review_entity'))
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Review entity id')
-    ->addColumn('entity_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        'nullable'  => false
-        ), 'Review entity code')
-    ->setComment('Review entities');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('review_entity')
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Review entity id'
+)->addColumn(
+    'entity_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array('nullable' => false),
+    'Review entity code'
+)->setComment(
+    'Review entities'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'review_status'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('review_status'))
-    ->addColumn('status_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Status id')
-    ->addColumn('status_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-        ), 'Status code')
-    ->setComment('Review statuses');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('review_status')
+)->addColumn(
+    'status_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Status id'
+)->addColumn(
+    'status_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array('nullable' => false),
+    'Status code'
+)->setComment(
+    'Review statuses'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'review'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('review'))
-    ->addColumn('review_id', \Magento\DB\Ddl\Table::TYPE_BIGINT, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Review id')
-    ->addColumn('created_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
-        ), 'Review create date')
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Entity id')
-    ->addColumn('entity_pk_value', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Product id')
-    ->addColumn('status_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Status code')
-    ->addIndex($installer->getIdxName('review', array('entity_id')),
-        array('entity_id'))
-    ->addIndex($installer->getIdxName('review', array('status_id')),
-        array('status_id'))
-    ->addIndex($installer->getIdxName('review', array('entity_pk_value')),
-        array('entity_pk_value'))
-    ->addForeignKey($installer->getFkName('review', 'entity_id', 'review_entity', 'entity_id'),
-        'entity_id', $installer->getTable('review_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('review', 'status_id', 'review_status', 'status_id'),
-        'status_id', $installer->getTable('review_status'), 'status_id',
-        \Magento\DB\Ddl\Table::ACTION_NO_ACTION, \Magento\DB\Ddl\Table::ACTION_NO_ACTION)
-    ->setComment('Review base information');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('review')
+)->addColumn(
+    'review_id',
+    \Magento\DB\Ddl\Table::TYPE_BIGINT,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Review id'
+)->addColumn(
+    'created_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => false),
+    'Review create date'
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Entity id'
+)->addColumn(
+    'entity_pk_value',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Product id'
+)->addColumn(
+    'status_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Status code'
+)->addIndex(
+    $installer->getIdxName('review', array('entity_id')),
+    array('entity_id')
+)->addIndex(
+    $installer->getIdxName('review', array('status_id')),
+    array('status_id')
+)->addIndex(
+    $installer->getIdxName('review', array('entity_pk_value')),
+    array('entity_pk_value')
+)->addForeignKey(
+    $installer->getFkName('review', 'entity_id', 'review_entity', 'entity_id'),
+    'entity_id',
+    $installer->getTable('review_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('review', 'status_id', 'review_status', 'status_id'),
+    'status_id',
+    $installer->getTable('review_status'),
+    'status_id',
+    \Magento\DB\Ddl\Table::ACTION_NO_ACTION,
+    \Magento\DB\Ddl\Table::ACTION_NO_ACTION
+)->setComment(
+    'Review base information'
+);
 $installer->getConnection()->createTable($table);
 
 /**

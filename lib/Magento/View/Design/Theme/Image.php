@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme;
 
 use Magento\Filesystem\Directory\WriteInterface;
@@ -133,11 +132,8 @@ class Image
         $isCopied = false;
         try {
             $destinationFileName = \Magento\File\Uploader::getNewFileName($destinationFilePath);
-            $targetRelative =  $this->_mediaDirectory->getRelativePath($previewDir . '/' . $destinationFileName);
-            $isCopied = $this->_mediaDirectory->copyFile(
-                $destinationFileRelative,
-                $targetRelative
-            );
+            $targetRelative = $this->_mediaDirectory->getRelativePath($previewDir . '/' . $destinationFileName);
+            $isCopied = $this->_mediaDirectory->copyFile($destinationFileRelative, $targetRelative);
             $this->_theme->setPreviewImage($destinationFileName);
         } catch (\Exception $e) {
             $this->_logger->logException($e);
@@ -155,9 +151,11 @@ class Image
         $previewImage = $this->_theme->getPreviewImage();
         $this->_theme->setPreviewImage(null);
         if ($previewImage) {
-            return $this->_mediaDirectory->delete($this->_mediaDirectory->getRelativePath(
-                $this->_themeImagePath->getImagePreviewDirectory() . '/' . $previewImage
-            ));
+            return $this->_mediaDirectory->delete(
+                $this->_mediaDirectory->getRelativePath(
+                    $this->_themeImagePath->getImagePreviewDirectory() . '/' . $previewImage
+                )
+            );
         }
         return false;
     }

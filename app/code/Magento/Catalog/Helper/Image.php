@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper;
 
 use Magento\App\Helper\AbstractHelper;
@@ -159,7 +158,7 @@ class Image extends AbstractHelper
      * @param string|null $imageFile
      * @return $this
      */
-    public function init(\Magento\Catalog\Model\Product $product, $attributeName, $imageFile=null)
+    public function init(\Magento\Catalog\Model\Product $product, $attributeName, $imageFile = null)
     {
         $this->_reset();
         $this->_setModel($this->_productImageFactory->create());
@@ -327,10 +326,15 @@ class Image extends AbstractHelper
      */
     public function watermark($fileName, $position, $size = null, $imageOpacity = null)
     {
-        $this->setWatermark($fileName)
-            ->setWatermarkPosition($position)
-            ->setWatermarkSize($size)
-            ->setWatermarkImageOpacity($imageOpacity);
+        $this->setWatermark(
+            $fileName
+        )->setWatermarkPosition(
+            $position
+        )->setWatermarkSize(
+            $size
+        )->setWatermarkImageOpacity(
+            $imageOpacity
+        );
         return $this;
     }
 
@@ -607,10 +611,7 @@ class Image extends AbstractHelper
     {
         $size = explode('x', strtolower($string));
         if (sizeof($size) == 2) {
-            return array(
-                'width' => ($size[0] > 0) ? $size[0] : null,
-                'heigth' => ($size[1] > 0) ? $size[1] : null,
-            );
+            return array('width' => $size[0] > 0 ? $size[0] : null, 'heigth' => $size[1] > 0 ? $size[1] : null);
         }
         return false;
     }
@@ -643,9 +644,6 @@ class Image extends AbstractHelper
      */
     public function getOriginalSizeArray()
     {
-        return array(
-            $this->getOriginalWidth(),
-            $this->getOriginalHeight()
-        );
+        return array($this->getOriginalWidth(), $this->getOriginalHeight());
     }
 }

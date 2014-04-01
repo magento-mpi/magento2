@@ -12,10 +12,10 @@ namespace Magento\CatalogSearch\Model;
 use Magento\App\Config\ScopeConfigInterface;
 use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Query;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Registry;
-use Magento\Core\Model\Resource\AbstractResource;
+use Magento\Model\Resource\AbstractResource;
 use Magento\Data\Collection\Db;
 
 /**
@@ -36,10 +36,13 @@ use Magento\Data\Collection\Db;
  */
 class Fulltext extends AbstractModel
 {
-    const SEARCH_TYPE_LIKE              = 1;
-    const SEARCH_TYPE_FULLTEXT          = 2;
-    const SEARCH_TYPE_COMBINE           = 3;
-    const XML_PATH_CATALOG_SEARCH_TYPE  = 'catalog/search/search_type';
+    const SEARCH_TYPE_LIKE = 1;
+
+    const SEARCH_TYPE_FULLTEXT = 2;
+
+    const SEARCH_TYPE_COMBINE = 3;
+
+    const XML_PATH_CATALOG_SEARCH_TYPE = 'catalog/search/search_type';
 
     /**
      * Catalog search data

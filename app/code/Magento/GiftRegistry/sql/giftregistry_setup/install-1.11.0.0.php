@@ -19,20 +19,29 @@ $installer->startSetup();
 /**
  * Create table 'magento_giftregistry_type'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftregistry_type'))
-    ->addColumn('type_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Type Id')
-    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 15, array(
-        'nullable'  => true,
-        ), 'Code')
-    ->addColumn('meta_xml', \Magento\DB\Ddl\Table::TYPE_BLOB, '64K', array(
-        ), 'Meta Xml')
-    ->setComment('Enterprise Gift Registry Type Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftregistry_type')
+)->addColumn(
+    'type_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Type Id'
+)->addColumn(
+    'code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    15,
+    array('nullable' => true),
+    'Code'
+)->addColumn(
+    'meta_xml',
+    \Magento\DB\Ddl\Table::TYPE_BLOB,
+    '64K',
+    array(),
+    'Meta Xml'
+)->setComment(
+    'Enterprise Gift Registry Type Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -212,188 +221,265 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'magento_giftregistry_item'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftregistry_item'))
-    ->addColumn('item_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Item Id')
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Entity Id')
-    ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Product Id')
-    ->addColumn('qty', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Qty')
-    ->addColumn('qty_fulfilled', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Qty Fulfilled')
-    ->addColumn('note', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Note')
-    ->addColumn('added_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Added At')
-    ->addColumn('custom_options', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Custom Options')
-    ->addIndex($installer->getIdxName('magento_giftregistry_item', array('entity_id')),
-        array('entity_id'))
-    ->addIndex($installer->getIdxName('magento_giftregistry_item', array('product_id')),
-        array('product_id'))
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftregistry_item',
-            'entity_id',
-            'magento_giftregistry_entity',
-            'entity_id'
-        ),
-        'entity_id', $installer->getTable('magento_giftregistry_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftregistry_item',
-            'product_id',
-            'catalog_product_entity',
-            'entity_id'
-        ),
-        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Registry Item Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftregistry_item')
+)->addColumn(
+    'item_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Item Id'
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Entity Id'
+)->addColumn(
+    'product_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Product Id'
+)->addColumn(
+    'qty',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Qty'
+)->addColumn(
+    'qty_fulfilled',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Qty Fulfilled'
+)->addColumn(
+    'note',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Note'
+)->addColumn(
+    'added_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Added At'
+)->addColumn(
+    'custom_options',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Custom Options'
+)->addIndex(
+    $installer->getIdxName('magento_giftregistry_item', array('entity_id')),
+    array('entity_id')
+)->addIndex(
+    $installer->getIdxName('magento_giftregistry_item', array('product_id')),
+    array('product_id')
+)->addForeignKey(
+    $installer->getFkName('magento_giftregistry_item', 'entity_id', 'magento_giftregistry_entity', 'entity_id'),
+    'entity_id',
+    $installer->getTable('magento_giftregistry_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_giftregistry_item', 'product_id', 'catalog_product_entity', 'entity_id'),
+    'product_id',
+    $installer->getTable('catalog_product_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Gift Registry Item Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'magento_giftregistry_person'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftregistry_person'))
-    ->addColumn('person_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Person Id')
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Entity Id')
-    ->addColumn('firstname', \Magento\DB\Ddl\Table::TYPE_TEXT, 100, array(
-        'nullable'  => true,
-        ), 'Firstname')
-    ->addColumn('lastname', \Magento\DB\Ddl\Table::TYPE_TEXT, 100, array(
-        'nullable'  => true,
-        ), 'Lastname')
-    ->addColumn('email', \Magento\DB\Ddl\Table::TYPE_TEXT, 150, array(
-        'nullable'  => true,
-        ), 'Email')
-    ->addColumn('role', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        'nullable'  => true,
-        ), 'Role')
-    ->addColumn('custom_values', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
-        ), 'Custom Values')
-    ->addIndex($installer->getIdxName('magento_giftregistry_person', array('entity_id')),
-        array('entity_id'))
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftregistry_person',
-            'entity_id',
-            'magento_giftregistry_entity',
-            'entity_id'
-        ),
-        'entity_id', $installer->getTable('magento_giftregistry_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Registry Person Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftregistry_person')
+)->addColumn(
+    'person_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Person Id'
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Entity Id'
+)->addColumn(
+    'firstname',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    100,
+    array('nullable' => true),
+    'Firstname'
+)->addColumn(
+    'lastname',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    100,
+    array('nullable' => true),
+    'Lastname'
+)->addColumn(
+    'email',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    150,
+    array('nullable' => true),
+    'Email'
+)->addColumn(
+    'role',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array('nullable' => true),
+    'Role'
+)->addColumn(
+    'custom_values',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => false),
+    'Custom Values'
+)->addIndex(
+    $installer->getIdxName('magento_giftregistry_person', array('entity_id')),
+    array('entity_id')
+)->addForeignKey(
+    $installer->getFkName('magento_giftregistry_person', 'entity_id', 'magento_giftregistry_entity', 'entity_id'),
+    'entity_id',
+    $installer->getTable('magento_giftregistry_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Gift Registry Person Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'magento_giftregistry_data'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftregistry_data'))
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
-        ), 'Entity Id')
-    ->addColumn('event_date', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        ), 'Event Date')
-    ->addColumn('event_country', \Magento\DB\Ddl\Table::TYPE_TEXT, 3, array(
-        ), 'Event Country')
-    ->addColumn('event_country_region', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        ), 'Event Country Region')
-    ->addColumn('event_country_region_text', \Magento\DB\Ddl\Table::TYPE_TEXT, 30, array(
-        ), 'Event Country Region Text')
-    ->addColumn('event_location', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Event Location')
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftregistry_data',
-            'entity_id',
-            'magento_giftregistry_entity',
-            'entity_id'
-        ),
-        'entity_id', $installer->getTable('magento_giftregistry_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Registry Data Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftregistry_data')
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    'Entity Id'
+)->addColumn(
+    'event_date',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array(),
+    'Event Date'
+)->addColumn(
+    'event_country',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    3,
+    array(),
+    'Event Country'
+)->addColumn(
+    'event_country_region',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array(),
+    'Event Country Region'
+)->addColumn(
+    'event_country_region_text',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    30,
+    array(),
+    'Event Country Region Text'
+)->addColumn(
+    'event_location',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Event Location'
+)->addForeignKey(
+    $installer->getFkName('magento_giftregistry_data', 'entity_id', 'magento_giftregistry_entity', 'entity_id'),
+    'entity_id',
+    $installer->getTable('magento_giftregistry_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Gift Registry Data Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'magento_giftregistry_item_option'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftregistry_item_option'))
-    ->addColumn('option_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Option Id')
-    ->addColumn('item_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Item Id')
-    ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Product Id')
-    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        ), 'Code')
-    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
-        ), 'Value')
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftregistry_item_option',
-            'item_id',
-            'magento_giftregistry_item',
-            'item_id'
-        ),
-        'item_id', $installer->getTable('magento_giftregistry_item'), 'item_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Registry Item Option Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftregistry_item_option')
+)->addColumn(
+    'option_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Option Id'
+)->addColumn(
+    'item_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Item Id'
+)->addColumn(
+    'product_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Product Id'
+)->addColumn(
+    'code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Code'
+)->addColumn(
+    'value',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => false),
+    'Value'
+)->addForeignKey(
+    $installer->getFkName('magento_giftregistry_item_option', 'item_id', 'magento_giftregistry_item', 'item_id'),
+    'item_id',
+    $installer->getTable('magento_giftregistry_item'),
+    'item_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Gift Registry Item Option Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Add attributes
  */
 $installer->addAttribute(
-    'quote_item', 'giftregistry_item_id', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
+    'quote_item',
+    'giftregistry_item_id',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
 );
 $installer->addAttribute(
-    'order_item', 'giftregistry_item_id', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
+    'order_item',
+    'giftregistry_item_id',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
 );
 $installer->addAttribute(
-    'quote_address', 'giftregistry_item_id', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
+    'quote_address',
+    'giftregistry_item_id',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
 );
 $installer->addAttribute(
-    'order_address', 'giftregistry_item_id', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
+    'order_address',
+    'giftregistry_item_id',
+    array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER, 'visible' => false)
 );
 
 /**

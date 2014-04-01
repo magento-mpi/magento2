@@ -16,7 +16,7 @@ namespace Magento\Eav\Model\Resource\Form\Attribute;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Current module pathname
@@ -64,7 +64,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -74,7 +74,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -85,15 +85,15 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Resource initialization
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            throw new \Magento\Core\Exception(__('Current module pathname is undefined'));
+            throw new \Magento\Model\Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            throw new \Magento\Core\Exception(__('Current module EAV entity is undefined'));
+            throw new \Magento\Model\Exception(__('Current module EAV entity is undefined'));
         }
     }
 
@@ -190,14 +190,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _beforeLoad()
     {
-        $select     = $this->getSelect();
+        $select = $this->getSelect();
         $connection = $this->getConnection();
         $entityType = $this->getEntityType();
         $this->setItemObjectClass($entityType->getAttributeModel());
 
-        $eaColumns  = array();
-        $caColumns  = array();
-        $saColumns  = array();
+        $eaColumns = array();
+        $caColumns = array();
+        $saColumns = array();
 
         $eaDescribe = $connection->describeTable($this->getTable('eav_attribute'));
         unset($eaDescribe['attribute_id']);
@@ -238,34 +238,34 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                     if (isset($eaColumns[$columnName])) {
                         $code = sprintf('scope_%s', $columnName);
                         $expression = $connection->getCheckSql('sa.%s IS NULL', 'ea.%s', 'sa.%s');
-                        $saColumns[$code] = new \Zend_Db_Expr(sprintf($expression,
-                            $columnName, $columnName, $columnName));
+                        $saColumns[$code] = new \Zend_Db_Expr(
+                            sprintf($expression, $columnName, $columnName, $columnName)
+                        );
                     } elseif (isset($caColumns[$columnName])) {
                         $code = sprintf('scope_%s', $columnName);
                         $expression = $connection->getCheckSql('sa.%s IS NULL', 'ca.%s', 'sa.%s');
-                        $saColumns[$code] = new \Zend_Db_Expr(sprintf($expression,
-                            $columnName, $columnName, $columnName));
+                        $saColumns[$code] = new \Zend_Db_Expr(
+                            sprintf($expression, $columnName, $columnName, $columnName)
+                        );
                     }
                 }
             }
 
             $store = $this->getStore();
-            $joinWebsiteExpression = $connection
-                ->quoteInto(
-                    'sa.attribute_id = main_table.attribute_id AND sa.website_id = ?', (int)$store->getWebsiteId()
-                );
-            $select->joinLeft(
-                array('sa' => $this->_getEavWebsiteTable()),
-                $joinWebsiteExpression,
-                $saColumns
+            $joinWebsiteExpression = $connection->quoteInto(
+                'sa.attribute_id = main_table.attribute_id AND sa.website_id = ?',
+                (int)$store->getWebsiteId()
             );
+            $select->joinLeft(array('sa' => $this->_getEavWebsiteTable()), $joinWebsiteExpression, $saColumns);
         }
 
 
         // add store attribute label
         $storeLabelExpr = $connection->getCheckSql('al.value IS NULL', 'ea.frontend_label', 'al.value');
-        $joinExpression = $connection
-            ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int)$store->getId());
+        $joinExpression = $connection->quoteInto(
+            'al.attribute_id = main_table.attribute_id AND al.store_id = ?',
+            (int)$store->getId()
+        );
         $select->joinLeft(
             array('al' => $this->getTable('eav_attribute_label')),
             $joinExpression,

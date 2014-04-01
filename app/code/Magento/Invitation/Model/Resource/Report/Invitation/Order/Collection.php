@@ -18,8 +18,7 @@
  */
 namespace Magento\Invitation\Model\Resource\Report\Invitation\Order;
 
-class Collection
-    extends \Magento\Invitation\Model\Resource\Report\Invitation\Collection
+class Collection extends \Magento\Invitation\Model\Resource\Report\Invitation\Collection
 {
     /**
      * Join custom fields
@@ -28,29 +27,30 @@ class Collection
      */
     protected function _joinFields()
     {
-        $acceptedExpr = 'SUM('
-            . $this->getConnection()->getCheckSql(
-                'main_table.status = '
-                    . $this->getConnection()->quote(\Magento\Invitation\Model\Invitation::STATUS_ACCEPTED)
-                    . 'AND main_table.referral_id IS NOT NULL',
-                '1',
-                '0'
-            )
-            . ')';
-        $canceledExpr = 'SUM('
-            . $this->getConnection()->getCheckSql(
-                'main_table.status = '
-                    . $this->getConnection()->quote(\Magento\Invitation\Model\Invitation::STATUS_CANCELED),
-                '1',
-                '0'
-            )
-            . ')';
+        $acceptedExpr = 'SUM(' . $this->getConnection()->getCheckSql(
+            'main_table.status = ' . $this->getConnection()->quote(
+                \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED
+            ) . 'AND main_table.referral_id IS NOT NULL',
+            '1',
+            '0'
+        ) . ')';
+        $canceledExpr = 'SUM(' . $this->getConnection()->getCheckSql(
+            'main_table.status = ' . $this->getConnection()->quote(
+                \Magento\Invitation\Model\Invitation::STATUS_CANCELED
+            ),
+            '1',
+            '0'
+        ) . ')';
 
-        $this->getSelect()
-            ->reset(\Zend_Db_Select::COLUMNS)
-            ->columns(array('sent' => new \Zend_Db_Expr('COUNT(main_table.invitation_id)')))
-            ->columns(array('accepted' => new \Zend_Db_Expr($acceptedExpr)))
-            ->columns(array('canceled' => new \Zend_Db_Expr($canceledExpr)));
+        $this->getSelect()->reset(
+            \Zend_Db_Select::COLUMNS
+        )->columns(
+            array('sent' => new \Zend_Db_Expr('COUNT(main_table.invitation_id)'))
+        )->columns(
+            array('accepted' => new \Zend_Db_Expr($acceptedExpr))
+        )->columns(
+            array('canceled' => new \Zend_Db_Expr($canceledExpr))
+        );
 
         return $this;
     }
@@ -94,10 +94,13 @@ class Collection
     protected function _getPurchaseNumber($select)
     {
         /* var $select \Zend_Db_Select */
-        $select->reset(\Zend_Db_Select::COLUMNS)
-            ->joinRight(array('o' => $this->getTable('sales_flat_order')),
-                'o.customer_id = main_table.referral_id AND o.store_id = main_table.store_id',
-                array('cnt' => 'COUNT(main_table.invitation_id)'));
+        $select->reset(
+            \Zend_Db_Select::COLUMNS
+        )->joinRight(
+            array('o' => $this->getTable('sales_flat_order')),
+            'o.customer_id = main_table.referral_id AND o.store_id = main_table.store_id',
+            array('cnt' => 'COUNT(main_table.invitation_id)')
+        );
         return $this->getConnection()->fetchOne($select);
     }
 }

@@ -15,8 +15,11 @@ namespace Magento\Reminder\Helper;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'promo/magento_reminder/enabled';
+
     const XML_PATH_SEND_LIMIT = 'promo/magento_reminder/limit';
+
     const XML_PATH_EMAIL_IDENTITY = 'promo/magento_reminder/identity';
+
     const XML_PATH_EMAIL_THRESHOLD = 'promo/magento_reminder/threshold';
 
     /**

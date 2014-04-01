@@ -136,6 +136,8 @@
     </target>
 
     <target name="integration_tests_ce_xd_mysql_code_coverage" depends="_product_location" description="Code Coverage CE Integration Tests with Xdebug">
+        <copy file="${product_root_dir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
+              tofile="${product_root_dir}/.htaccess"/>
         <antcall target="_code_coverage_configuration">
             <param name="configuration_file" value="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml"/>
         </antcall>
@@ -143,6 +145,8 @@
     </target>
 
     <target name="integration_tests_ee_xd_mysql_code_coverage" depends="_product_location" description="Code Coverage EE Integration Tests with Xdebug">
+        <copy file="${product_root_dir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
+              tofile="${product_root_dir}/.htaccess"/>
         <antcall target="_code_coverage_configuration">
             <param name="configuration_file" value="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml"/>
         </antcall>

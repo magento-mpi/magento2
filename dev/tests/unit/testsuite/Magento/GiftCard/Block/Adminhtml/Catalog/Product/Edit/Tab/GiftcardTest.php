@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 class GiftcardTest extends \PHPUnit_Framework_TestCase
@@ -32,8 +31,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $block = $objectManagerHelper->getObject(
             'Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard',
-            array(
-                'storeManager' => $storeManagerMock)
+            array('storeManager' => $storeManagerMock)
         );
 
 
@@ -45,9 +43,6 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     public function getScopeValueDataProvider()
     {
-        return array(
-            array(true, 'test', ''),
-            array(false, 'test', 'value-scope="test"'),
-        );
+        return array(array(true, 'test', ''), array(false, 'test', 'value-scope="test"'));
     }
 }

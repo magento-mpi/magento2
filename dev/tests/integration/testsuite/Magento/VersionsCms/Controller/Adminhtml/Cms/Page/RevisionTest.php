@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
 /**
@@ -23,7 +22,8 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
     {
         /** @var $page \Magento\Cms\Model\Page */
         $page = $this->_objectManager->create('Magento\Cms\Model\Page');
-        $page->load('page100', 'identifier'); // fixture cms/page
+        $page->load('page100', 'identifier');
+        // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
         $this->dispatch('backend/admin/cms_page_revision/preview/');
         $body = $this->getResponse()->getBody();
@@ -39,11 +39,16 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
     {
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Store\Model\StoreManagerInterface')->getAnyStoreView(); // fixture design_change
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Http\Context');
+        $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
+
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 
         /** @var $page \Magento\Cms\Model\Page */
         $page = $this->_objectManager->create('Magento\Cms\Model\Page');
-        $page->load('page100', 'identifier'); // fixture cms/page
+        $page->load('page100', 'identifier');
+        // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
 
         $this->dispatch('backend/admin/cms_page_revision/drop/');

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Resource\Group\Grid;
 
 class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
@@ -17,8 +16,9 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Resource\Group\Grid\ServiceCollection');
+        $this->collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Resource\Group\Grid\ServiceCollection'
+        );
     }
 
     public function testSetOrder()
@@ -47,7 +47,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayFilter()
     {
-        $this->collection->addFieldToFilter(['code'], [['NOT LOGGED IN']]);
+        $this->collection->addFieldToFilter(array('code'), array(array('NOT LOGGED IN')));
         $this->collection->loadData();
         $items = $this->collection->getItems();
         $this->assertEquals(1, count($items));
@@ -59,7 +59,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testOrArrayFilter()
     {
-        $this->collection->addFieldToFilter(['code', 'code'], ['General', 'Retailer']);
+        $this->collection->addFieldToFilter(array('code', 'code'), array('General', 'Retailer'));
         $this->collection->loadData();
         $items = $this->collection->getItems();
         $this->assertEquals(2, count($items));
@@ -87,7 +87,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testSingleLikeFilter()
     {
-        $this->collection->addFieldToFilter('code', ['like' => 'NOT%']);
+        $this->collection->addFieldToFilter('code', array('like' => 'NOT%'));
         $this->collection->loadData();
         $items = $this->collection->getItems();
         $this->assertEquals(1, count($items));
@@ -103,7 +103,6 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddToFilterException()
     {
-        $this->collection->addFieldToFilter([], 'not_array');
+        $this->collection->addFieldToFilter(array(), 'not_array');
     }
 }
- 

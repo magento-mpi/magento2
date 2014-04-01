@@ -60,7 +60,7 @@ class Catalog extends \Magento\App\Action\Action
      */
     public function categoryAction()
     {
-         $this->_genericAction('category');
+        $this->_genericAction('category');
     }
 
     /**

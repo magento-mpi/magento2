@@ -32,7 +32,7 @@ class Category extends \Magento\Core\Model\Config\Value
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Category $catalogCategory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -41,7 +41,7 @@ class Category extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Category $catalogCategory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -55,26 +55,22 @@ class Category extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->getScope() == 'stores') {
-            $rootId     = $this->getValue();
-            $storeId    = $this->getScopeId();
+            $rootId = $this->getValue();
+            $storeId = $this->getScopeId();
 
-            $tree       = $this->_catalogCategory->getTreeModel();
+            $tree = $this->_catalogCategory->getTreeModel();
 
             // Create copy of categories attributes for choosed store
             $tree->load();
             $root = $tree->getNodeById($rootId);
 
             // Save root
-            $this->_catalogCategory->setStoreId(0)
-               ->load($root->getId());
-            $this->_catalogCategory->setStoreId($storeId)
-                ->save();
+            $this->_catalogCategory->setStoreId(0)->load($root->getId());
+            $this->_catalogCategory->setStoreId($storeId)->save();
 
             foreach ($root->getAllChildNodes() as $node) {
-                $this->_catalogCategory->setStoreId(0)
-                   ->load($node->getId());
-                $this->_catalogCategory->setStoreId($storeId)
-                    ->save();
+                $this->_catalogCategory->setStoreId(0)->load($node->getId());
+                $this->_catalogCategory->setStoreId($storeId)->save();
             }
         }
         return $this;

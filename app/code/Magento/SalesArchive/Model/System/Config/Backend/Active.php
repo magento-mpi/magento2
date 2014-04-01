@@ -9,9 +9,9 @@
  */
 namespace Magento\SalesArchive\Model\System\Config\Backend;
 
-class Active
-    extends \Magento\Backend\Model\Config\Backend\Cache
-    implements \Magento\Backend\Model\Config\CommentInterface, \Magento\Object\IdentityInterface
+class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
+    \Magento\Backend\Model\Config\CommentInterface,
+    \Magento\Object\IdentityInterface
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -29,7 +29,7 @@ class Active
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\SalesArchive\Model\Archive $archive
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -39,7 +39,7 @@ class Active
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\SalesArchive\Model\Archive $archive,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -53,9 +53,7 @@ class Active
      *
      * @var array
      */
-    protected $_cacheTags = array(
-        \Magento\Backend\Block\Menu::CACHE_TAGS
-    );
+    protected $_cacheTags = array(\Magento\Backend\Block\Menu::CACHE_TAGS);
 
     /**
      * Clean cache, value was changed
@@ -82,7 +80,10 @@ class Active
         if ($currentValue) {
             $ordersCount = $this->_orderCollection->getSize();
             if ($ordersCount) {
-                return __('There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled.', $ordersCount);
+                return __(
+                    'There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled.',
+                    $ordersCount
+                );
             }
         }
         return '';

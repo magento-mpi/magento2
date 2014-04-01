@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\OfflinePayments\Model;
 
 class CashondeliveryTest extends \PHPUnit_Framework_TestCase
@@ -24,16 +23,18 @@ class CashondeliveryTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
-        $adapterFactoryMock = $this->getMock('Magento\Logger\AdapterFactory', array('create'),
-            array(), '', false);
+        $adapterFactoryMock = $this->getMock('Magento\Logger\AdapterFactory', array('create'), array(), '', false);
 
         $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->_object = $helper->getObject('Magento\OfflinePayments\Model\Cashondelivery', array(
-            'eventManager' => $eventManager,
-            'paymentData' => $paymentDataMock,
-            'coreStoreConfig' => $coreStoreConfig,
-            'logAdapterFactory' => $adapterFactoryMock,
-        ));
+        $this->_object = $helper->getObject(
+            'Magento\OfflinePayments\Model\Cashondelivery',
+            array(
+                'eventManager' => $eventManager,
+                'paymentData' => $paymentDataMock,
+                'coreStoreConfig' => $coreStoreConfig,
+                'logAdapterFactory' => $adapterFactoryMock
+            )
+        );
     }
 
     public function testGetInfoBlockType()

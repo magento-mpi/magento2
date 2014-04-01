@@ -9,7 +9,7 @@
  */
 namespace Magento\Search\Block\Adminhtml\Catalog\Attribute;
 
- /**
+/**
  * Enterprise attribute edit block
  *
  * @category   Magento

@@ -16,7 +16,7 @@ namespace Magento\Sales\Model\Resource\Order\Status;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Internal constructor
@@ -88,7 +88,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function orderByLabel($dir = 'ASC')
     {
-        $this->getSelect()->order('main_table.label '.$dir);
+        $this->getSelect()->order('main_table.label ' . $dir);
         return $this;
     }
 }

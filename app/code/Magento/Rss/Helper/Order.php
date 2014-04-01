@@ -62,7 +62,8 @@ class Order extends \Magento\App\Helper\AbstractHelper
      */
     public function getStatusHistoryRssUrl($order)
     {
-        return $this->_getUrl('rss/order/status',
+        return $this->_getUrl(
+            'rss/order/status',
             array('_secure' => true, '_query' => array('data' => $this->getStatusUrlKey($order)))
         );
     }
@@ -81,7 +82,6 @@ class Order extends \Magento\App\Helper\AbstractHelper
             'customer_id' => $order->getCustomerId()
         );
         return base64_encode(json_encode($data));
-
     }
 
     /**
@@ -93,8 +93,15 @@ class Order extends \Magento\App\Helper\AbstractHelper
     public function getOrderByStatusUrlKey($key)
     {
         $data = json_decode(base64_decode($key), true);
-        if (!is_array($data) || !isset($data['order_id']) || !isset($data['increment_id'])
-            || !isset($data['customer_id'])
+        if (!is_array(
+            $data
+        ) || !isset(
+            $data['order_id']
+        ) || !isset(
+            $data['increment_id']
+        ) || !isset(
+            $data['customer_id']
+        )
         ) {
             return null;
         }
@@ -102,9 +109,9 @@ class Order extends \Magento\App\Helper\AbstractHelper
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create();
         $order->load($data['order_id']);
-        if ($order->getId()
-            && $order->getIncrementId() == $data['increment_id']
-            && $order->getCustomerId() == $data['customer_id']
+        if ($order->getId() &&
+            $order->getIncrementId() == $data['increment_id'] &&
+            $order->getCustomerId() == $data['customer_id']
         ) {
             return $order;
         }

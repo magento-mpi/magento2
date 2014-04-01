@@ -51,9 +51,7 @@ class OrderRevert extends \Magento\Reward\Model\Action\AbstractAction
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array(
-            'increment_id' => $this->getEntity()->getIncrementId()
-        ));
+        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
 
         return $this;
     }

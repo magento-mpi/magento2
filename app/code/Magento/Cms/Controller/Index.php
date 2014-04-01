@@ -41,8 +41,8 @@ class Index extends \Magento\App\Action\Action
      */
     public function defaultIndexAction()
     {
-        $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-        $this->getResponse()->setHeader('Status','404 File not found');
+        $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
+        $this->getResponse()->setHeader('Status', '404 File not found');
 
         $this->_view->loadLayout();
         $this->_view->renderLayout();
@@ -56,8 +56,8 @@ class Index extends \Magento\App\Action\Action
      */
     public function defaultNoRouteAction()
     {
-        $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-        $this->getResponse()->setHeader('Status','404 File not found');
+        $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
+        $this->getResponse()->setHeader('Status', '404 File not found');
 
         $this->_view->loadLayout();
         $this->_view->renderLayout();
@@ -73,7 +73,7 @@ class Index extends \Magento\App\Action\Action
         $pageId = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->getValue(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
-            $this->_forward('defaultNoCookies');;
+            $this->_forward('defaultNoCookies');
         }
     }
 

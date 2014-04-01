@@ -16,12 +16,12 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
     /**
      * Cookie name for users who allowed cookie save
      */
-    const IS_USER_ALLOWED_SAVE_COOKIE  = 'user_allowed_save_cookie';
+    const IS_USER_ALLOWED_SAVE_COOKIE = 'user_allowed_save_cookie';
 
     /**
      * Path to configuration, check is enable cookie restriction mode
      */
-    const XML_PATH_COOKIE_RESTRICTION  = 'web/cookie/cookie_restriction';
+    const XML_PATH_COOKIE_RESTRICTION = 'web/cookie/cookie_restriction';
 
     /**
      * Cookie restriction lifetime configuration path
@@ -71,7 +71,6 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
             throw new \InvalidArgumentException('Required website object is invalid');
         }
     }
-
 
     /**
      * Check if cookie restriction notice should be displayed

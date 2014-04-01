@@ -5,15 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\OfflineShipping\Model\Carrier;
 
-class Pickup
-    extends \Magento\Shipping\Model\Carrier\AbstractCarrier
-    implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Pickup extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
+    \Magento\Shipping\Model\Carrier\CarrierInterface
 {
-
     /**
      * @var string
      */
@@ -94,7 +90,6 @@ class Pickup
      */
     public function getAllowedMethods()
     {
-        return array('pickup'=>__('Store Pickup'));
+        return array('pickup' => __('Store Pickup'));
     }
-
 }

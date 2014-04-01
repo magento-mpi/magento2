@@ -16,8 +16,7 @@ namespace Magento\ScheduledImportExport\Model\Resource\Customer;
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Customer\Model\Resource\Customer\Collection
+class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Additional filters to use
@@ -107,12 +106,12 @@ class Collection
         if (!$this->getFlag($joinFlag)) {
             /** @var $website \Magento\Store\Model\Website */
             foreach ($this->_storeManager->getWebsites() as $website) {
-                $tableName  = $this->_resourceReward->getMainTable();
+                $tableName = $this->_resourceReward->getMainTable();
                 $tableAlias = $tableName . $website->getId();
-                $fieldName  = $tableAlias . '.points_balance';
-                $fieldAlias = $website->getCode() . '_'
-                    . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
-                    ::COLUMN_REWARD_POINTS;
+                $fieldName = $tableAlias . '.points_balance';
+                $fieldAlias = $website->getCode() .
+                    '_' .
+                    \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
 
                 $this->joinTable(
                     array($tableAlias => $tableName),
@@ -141,12 +140,12 @@ class Collection
         if (!$this->getFlag($joinFlag)) {
             /** @var $website \Magento\Store\Model\Website */
             foreach ($this->_storeManager->getWebsites() as $website) {
-                $tableName  = $this->_resourceBalance->getMainTable();
+                $tableName = $this->_resourceBalance->getMainTable();
                 $tableAlias = $tableName . $website->getId();
-                $fieldName  = $tableAlias . '.amount';
-                $fieldAlias = $website->getCode() . '_'
-                    . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
-                    ::COLUMN_CUSTOMER_BALANCE;
+                $fieldName = $tableAlias . '.amount';
+                $fieldAlias = $website->getCode() .
+                    '_' .
+                    \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
 
                 $this->joinTable(
                     array($tableAlias => $tableName),
@@ -174,9 +173,10 @@ class Collection
         if ($this->_usedFiltersNotNull) {
             $filterArray = array();
             foreach ($this->_usedFiltersNotNull as $filter) {
-                $filterArray[] = $this->getSelect()
-                    ->getAdapter()
-                    ->prepareSqlCondition($filter, array('notnull' => true));
+                $filterArray[] = $this->getSelect()->getAdapter()->prepareSqlCondition(
+                    $filter,
+                    array('notnull' => true)
+                );
             }
             $conditionStr = implode(' OR ', $filterArray);
             $this->getSelect()->where($conditionStr);

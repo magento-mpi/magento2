@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
 use Magento\Store\Model\StoreManagerInterface;
@@ -45,8 +44,8 @@ class NewObject implements HandlerInterface
         \Magento\App\RequestInterface $request,
         \Magento\PricePermissions\Helper\Data $pricePermData
     ) {
-        $this->storeManager               = $storeManager;
-        $this->request                    = $request;
+        $this->storeManager = $storeManager;
+        $this->request = $request;
         $this->defaultProductPriceString = $pricePermData->getDefaultProductPriceString();
     }
 
@@ -63,22 +62,19 @@ class NewObject implements HandlerInterface
         }
 
         // For new products set default price
-        if (!($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-            && $product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC)
+        if (!($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE &&
+            $product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC)
         ) {
-            $product->setPrice((float) $this->defaultProductPriceString);
+            $product->setPrice((double)$this->defaultProductPriceString);
             // Set default amount for Gift Card product
-            if ($product->getTypeId() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD
-            ) {
-                $storeId = (int) $this->request->getParam('store', 0);
+            if ($product->getTypeId() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD) {
+                $storeId = (int)$this->request->getParam('store', 0);
                 $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
-                $product->setGiftcardAmounts(array(
+                $product->setGiftcardAmounts(
                     array(
-                        'website_id' => $websiteId,
-                        'price'      => $this->defaultProductPriceString,
-                        'delete'     => ''
+                        array('website_id' => $websiteId, 'price' => $this->defaultProductPriceString, 'delete' => '')
                     )
-                ));
+                );
             }
         }
         // New products are created without recurring payments
@@ -89,7 +85,7 @@ class NewObject implements HandlerInterface
             \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG
         );
         $product->setMsrpDisplayActualPriceType(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG);
-
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+        );
     }
-} 
+}

@@ -7,8 +7,8 @@
  */
 namespace Magento\RecurringPayment\Model;
 
-use \Magento\Payment\Model\Info as PaymentInfo;
-use \Magento\Object;
+use Magento\Payment\Model\Info as PaymentInfo;
+use Magento\Object;
 
 /**
  * Recurring payment gateway management interface
@@ -20,7 +20,7 @@ interface ManagerInterface
      *
      * @param RecurringPayment $payment
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function validate(RecurringPayment $payment);
 

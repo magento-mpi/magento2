@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Model\Resource;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Type extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @return void
@@ -36,10 +36,15 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadByAttributeSetIdAndTargetCountry($model, $attributeSetId, $targetCountry)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('attribute_set_id=?', $attributeSetId)
-            ->where('target_country=?', $targetCountry);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'attribute_set_id=?',
+            $attributeSetId
+        )->where(
+            'target_country=?',
+            $targetCountry
+        );
 
         $data = $this->_getReadAdapter()->fetchRow($select);
         $data = is_array($data) ? $data : array();

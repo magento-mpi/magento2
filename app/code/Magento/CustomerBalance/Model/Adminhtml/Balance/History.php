@@ -31,7 +31,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -43,7 +43,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
         \Magento\View\DesignInterface $design,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

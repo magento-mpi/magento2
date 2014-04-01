@@ -45,38 +45,17 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'storeConfig' => $storeConfigMock,
                 'countryFactory' => $this->_getCountryFactoryMock($mockConfig),
                 'regionFactory' => $this->_getRegionFactoryMock($mockConfig),
-                'itemFactory' => $this->getMock(
-                    'Magento\Rma\Model\Resource\ItemFactory',
-                    array(),
-                    array(),
-                    '',
-                    false
-                ),
+                'itemFactory' => $this->getMock('Magento\Rma\Model\Resource\ItemFactory', array(), array(), '', false),
                 'addressFactory' => $this->getMock(
                     'Magento\Sales\Model\Quote\AddressFactory',
                     array(),
                     array(),
                     '',
                     false
-                ),
+                )
             )
         );
         $this->assertEquals($model->getReturnAddressData($mockConfig['store_id']), $expectedResult);
-    }
-
-    /**
-     * Create application mock
-     *
-     * @param array $mockConfig
-     * @return \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getAppMock($mockConfig)
-    {
-        $appMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
-        $appMock->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($mockConfig['store_id']));
-        return $appMock;
     }
 
     /**
@@ -88,12 +67,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function _getCountryFactoryMock(array $mockConfig)
     {
         $countryMock = $this->getMock('Magento\Directory\Model\Country', array(), array(), '', false);
-        $countryMock->expects($this->any())
-            ->method('loadByCode')
-            ->will($this->returnValue($countryMock));
-        $countryMock->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue($mockConfig['country_name']));
+        $countryMock->expects($this->any())->method('loadByCode')->will($this->returnValue($countryMock));
+        $countryMock->expects($this->any())->method('getName')->will($this->returnValue($mockConfig['country_name']));
         $countryFactoryMock = $this->getMock(
             'Magento\Directory\Model\CountryFactory',
             array('create'),
@@ -123,15 +98,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $regionMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnValue($regionMock));
-        $regionMock->expects($this->any())
-            ->method('getCode')
-            ->will($this->returnValue($mockConfig['region_id']));
-        $regionMock->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue($mockConfig['region_name']));
+        $regionMock->expects($this->any())->method('load')->will($this->returnValue($regionMock));
+        $regionMock->expects($this->any())->method('getCode')->will($this->returnValue($mockConfig['region_id']));
+        $regionMock->expects($this->any())->method('getName')->will($this->returnValue($mockConfig['region_name']));
         $regionFactoryMock = $this->getMock('Magento\Directory\Model\RegionFactory', array(), array(), '', false);
         $regionFactoryMock->expects($this->any())
             ->method('create')
@@ -191,7 +160,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     'store_id' => 1,
                     'country_name' => 'Afghanistan',
                     'region_name' => 'Kabul',
-                    'region_id' => 'Kabul',
+                    'region_id' => 'Kabul'
                 ),
                 array(
                     'city' => 'Kabul',
@@ -250,7 +219,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     'store_id' => 1,
                     'country_name' => 'Afghanistan',
                     'region_name' => 'Kabul',
-                    'region_id' => 'Kabul',
+                    'region_id' => 'Kabul'
                 ),
                 array(
                     'city' => 'Kabul',
@@ -310,7 +279,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     'store_id' => 1,
                     'country_name' => 'Afghanistan',
                     'region_name' => 'Kabul',
-                    'region_id' => 'Kabul',
+                    'region_id' => 'Kabul'
                 ),
                 array(
                     'city' => 'Kabul',
@@ -324,7 +293,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     'company' => null,
                     'telephone' => null
                 )
-            ),
+            )
         );
     }
 }

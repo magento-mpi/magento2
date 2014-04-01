@@ -18,12 +18,12 @@ $installer->startSetup();
 $aggregationTables = array(
     \Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_DAILY,
     \Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_MONTHLY,
-    \Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_YEARLY,
+    \Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_YEARLY
 );
 $aggregationTableComments = array(
     'Most Viewed Products Aggregated Daily',
     'Most Viewed Products Aggregated Monthly',
-    'Most Viewed Products Aggregated Yearly',
+    'Most Viewed Products Aggregated Yearly'
 );
 
 for ($i = 0; $i < 3; ++$i) {

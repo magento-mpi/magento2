@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ups\Block\Backend\System;
 
 use Magento\Backend\Block\Template;

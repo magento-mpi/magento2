@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\App;
 
 /**
@@ -63,7 +62,7 @@ class Config implements ConfigInterface
         $groups = $this->coreStoreConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
         );
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**
@@ -88,7 +87,7 @@ class Config implements ConfigInterface
         $groups = $this->coreStoreConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
         );
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**

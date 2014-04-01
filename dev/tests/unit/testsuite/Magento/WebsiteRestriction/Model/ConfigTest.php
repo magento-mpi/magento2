@@ -38,7 +38,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_readerMock = $this->getMock(
             'Magento\WebsiteRestriction\Model\Config\Reader',
-            array(), array(), '', false
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
@@ -68,7 +71,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'generic_key_exist' => array(array('generic' => 'value'), 'value'),
-            'return_default_value' => array(array('key_one' =>'value'), array()),
+            'return_default_value' => array(array('key_one' => 'value'), array())
         );
     }
 
@@ -86,7 +89,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'register_key_exist' => array(array('register' => 'value'), 'value'),
-            'return_default_value' => array(array('key_one' =>'value'), array()),
+            'return_default_value' => array(array('key_one' => 'value'), array())
         );
     }
 

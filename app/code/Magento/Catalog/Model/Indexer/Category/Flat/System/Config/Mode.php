@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Category\Flat\System\Config;
 
 /**
@@ -29,7 +28,7 @@ class Mode extends \Magento\Core\Model\Config\Value
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Indexer\Model\Indexer\State $indexerState
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -39,7 +38,7 @@ class Mode extends \Magento\Core\Model\Config\Value
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Indexer\Model\Indexer\State $indexerState,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

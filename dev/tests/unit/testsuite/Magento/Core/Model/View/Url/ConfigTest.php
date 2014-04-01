@@ -56,7 +56,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('some/valid/path1', 'someValue'),
             array('some/valid/path2', 2),
             array('some/valid/path3', false),
-            array('some/invalid/path3', null),
+            array('some/invalid/path3', null)
         );
     }
 }

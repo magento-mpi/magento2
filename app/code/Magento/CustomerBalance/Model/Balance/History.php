@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Model\Balance;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Customerbalance history model
@@ -35,12 +35,16 @@ use Magento\Core\Exception;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
-    const ACTION_UPDATED  = 1;
-    const ACTION_CREATED  = 2;
-    const ACTION_USED     = 3;
+    const ACTION_UPDATED = 1;
+
+    const ACTION_CREATED = 2;
+
+    const ACTION_USED = 3;
+
     const ACTION_REFUNDED = 4;
+
     const ACTION_REVERTED = 5;
 
     /**
@@ -74,7 +78,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -85,7 +89,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -114,11 +118,11 @@ class History extends \Magento\Core\Model\AbstractModel
     public function getActionNamesArray()
     {
         return array(
-            self::ACTION_CREATED  => __('Created'),
-            self::ACTION_UPDATED  => __('Updated'),
-            self::ACTION_USED     => __('Used'),
+            self::ACTION_CREATED => __('Created'),
+            self::ACTION_UPDATED => __('Updated'),
+            self::ACTION_USED => __('Used'),
             self::ACTION_REFUNDED => __('Refunded'),
-            self::ACTION_REVERTED => __('Reverted'),
+            self::ACTION_REVERTED => __('Reverted')
         );
     }
 
@@ -131,19 +135,20 @@ class History extends \Magento\Core\Model\AbstractModel
     protected function _beforeSave()
     {
         $balance = $this->getBalanceModel();
-        if ((!$balance) || !$balance->getId()) {
+        if (!$balance || !$balance->getId()) {
             throw new Exception(__('You need a balance to save your balance history.'));
         }
 
-        $this->addData(array(
-            'balance_id'     => $balance->getId(),
-            'updated_at'     => time(),
-            'balance_amount' => $balance->getAmount(),
-            'balance_delta'  => $balance->getAmountDelta(),
-        ));
+        $this->addData(
+            array(
+                'balance_id' => $balance->getId(),
+                'updated_at' => time(),
+                'balance_amount' => $balance->getAmount(),
+                'balance_delta' => $balance->getAmountDelta()
+            )
+        );
 
-        switch ((int)$balance->getHistoryAction())
-        {
+        switch ((int)$balance->getHistoryAction()) {
             case self::ACTION_CREATED:
                 // break intentionally omitted
             case self::ACTION_UPDATED:
@@ -157,11 +162,15 @@ class History extends \Magento\Core\Model\AbstractModel
                 break;
             case self::ACTION_REFUNDED:
                 $this->_checkBalanceModelOrder($balance);
-                if ((!$balance->getCreditMemo()) || !$balance->getCreditMemo()->getIncrementId()) {
+                if (!$balance->getCreditMemo() || !$balance->getCreditMemo()->getIncrementId()) {
                     throw new Exception(__('There is no credit memo set to balance model.'));
                 }
                 $this->setAdditionalInfo(
-                    __('Order #%1, creditmemo #%2', $balance->getOrder()->getIncrementId(), $balance->getCreditMemo()->getIncrementId())
+                    __(
+                        'Order #%1, creditmemo #%2',
+                        $balance->getOrder()->getIncrementId(),
+                        $balance->getCreditMemo()->getIncrementId()
+                    )
                 );
                 break;
             case self::ACTION_REVERTED:
@@ -169,8 +178,8 @@ class History extends \Magento\Core\Model\AbstractModel
                 $this->setAdditionalInfo(__('Order #%1', $balance->getOrder()->getIncrementId()));
                 break;
             default:
-                throw new Exception(__('Unknown balance history action code'));
                 // break intentionally omitted
+                throw new Exception(__('Unknown balance history action code'));
         }
         $this->setAction((int)$balance->getHistoryAction());
 
@@ -209,8 +218,10 @@ class History extends \Magento\Core\Model\AbstractModel
                 ->setFrom(
                     $this->_storeConfig->getValue('customer/magento_customerbalance/email_identity', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
                 )
-                ->addTo($customer->getEmail(), $customer->getName())
-                ->getTransport();
+            ->addTo(
+                $customer->getEmail(),
+                $customer->getName()
+            )->getTransport();
 
             $transport->sendMessage();
             $this->getResource()->markAsSent($this->getId());
@@ -229,7 +240,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     protected function _checkBalanceModelOrder($model)
     {
-        if ((!$model->getOrder()) || !$model->getOrder()->getIncrementId()) {
+        if (!$model->getOrder() || !$model->getOrder()->getIncrementId()) {
             throw new Exception(__('There is no order set to balance model.'));
         }
     }

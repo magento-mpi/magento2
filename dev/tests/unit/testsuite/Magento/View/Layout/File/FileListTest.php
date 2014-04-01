@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File;
 
 class FileListTest extends \PHPUnit_Framework_TestCase
@@ -100,16 +99,21 @@ class FileListTest extends \PHPUnit_Framework_TestCase
     {
         $files = array('1');
         $result = array('3');
-        $this->collator
-            ->expects($this->once())
-            ->method('collate')
-            ->with(
-                $this->equalTo($files),
-                $this->equalTo(array(
+        $this->collator->expects(
+            $this->once()
+        )->method(
+            'collate'
+        )->with(
+            $this->equalTo($files),
+            $this->equalTo(
+                array(
                     $this->_baseFile->getFileIdentifier() => $this->_baseFile,
-                    $this->_themeFile->getFileIdentifier() => $this->_themeFile)
-                ))
-            ->will($this->returnValue($result));
+                    $this->_themeFile->getFileIdentifier() => $this->_themeFile
+                )
+            )
+        )->will(
+            $this->returnValue($result)
+        );
         $this->assertNull($this->_model->replace($files));
         $this->assertSame($result, $this->_model->getAll());
     }

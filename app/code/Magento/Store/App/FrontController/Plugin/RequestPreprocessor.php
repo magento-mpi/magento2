@@ -117,8 +117,15 @@ class RequestPreprocessor
     protected function _isBaseUrlCorrect($uri, $request)
     {
         $requestUri = $request->getRequestUri() ? $request->getRequestUri() : '/';
-        return (!isset($uri['scheme']) || $uri['scheme'] === $request->getScheme())
-            && (!isset($uri['host']) || $uri['host'] === $request->getHttpHost())
-            && (!isset($uri['path']) || strpos($requestUri, $uri['path']) !== false);
+        return (!isset(
+            $uri['scheme']
+        ) || $uri['scheme'] === $request->getScheme()) && (!isset(
+            $uri['host']
+        ) || $uri['host'] === $request->getHttpHost()) && (!isset(
+            $uri['path']
+        ) || strpos(
+            $requestUri,
+            $uri['path']
+        ) !== false);
     }
 }

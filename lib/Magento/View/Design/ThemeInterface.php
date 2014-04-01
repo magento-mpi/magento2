@@ -5,13 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design;
 
 /**
  * Interface ThemeInterface
- *
- * @method int|null getId()
  */
 interface ThemeInterface
 {
@@ -33,12 +30,12 @@ interface ThemeInterface
     /**
      * Virtual theme type
      */
-    const TYPE_VIRTUAL  = 1;
+    const TYPE_VIRTUAL = 1;
 
     /**
      * Staging theme type
      */
-    const TYPE_STAGING  = 2;
+    const TYPE_STAGING = 2;
 
     /**
      * Retrieve code of an area a theme belongs to

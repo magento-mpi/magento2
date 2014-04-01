@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source;
 
 class Website implements \Magento\Option\ArrayInterface
@@ -40,8 +39,8 @@ class Website implements \Magento\Option\ArrayInterface
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $id = $website->getId();
                 $name = $website->getName();
-                if ($id!=0) {
-                    $this->_options[] = array('value'=>$id, 'label'=>$name);
+                if ($id != 0) {
+                    $this->_options[] = array('value' => $id, 'label' => $name);
                 }
             }
         }

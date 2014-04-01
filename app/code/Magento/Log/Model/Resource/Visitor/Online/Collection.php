@@ -16,14 +16,14 @@ namespace Magento\Log\Model\Resource\Visitor\Online;
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Joined fields array
      *
      * @var array
      */
-    protected $_fields   = array();
+    protected $_fields = array();
 
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -37,7 +37,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -46,7 +46,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_customerFactory = $customerFactory;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -69,12 +69,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addCustomerData()
     {
-        $customer   = $this->_customerFactory->create();
+        $customer = $this->_customerFactory->create();
         // alias => attribute_code
         $attributes = array(
-            'customer_lastname'     => 'lastname',
-            'customer_firstname'    => 'firstname',
-            'customer_email'        => 'email'
+            'customer_lastname' => 'lastname',
+            'customer_firstname' => 'firstname',
+            'customer_email' => 'email'
         );
 
         foreach ($attributes as $alias => $attributeCode) {
@@ -91,11 +91,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 );
 
                 $this->_fields[$alias] = sprintf('%s.%s', $tableAlias, $attribute->getAttributeCode());
-            }
-            else {
+            } else {
                 $tableAlias = 'customer_' . $attribute->getAttributeCode();
 
-                $joinConds  = array(
+                $joinConds = array(
                     sprintf('%s.entity_id=main_table.customer_id', $tableAlias),
                     $this->getConnection()->quoteInto($tableAlias . '.attribute_id=?', $attribute->getAttributeId())
                 );
@@ -123,8 +122,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addWebsiteFilter($websiteIds)
     {
         if ($this->getFlag('has_customer_data')) {
-            $this->getSelect()
-                ->where('customer_email.website_id IN (?)', $websiteIds);
+            $this->getSelect()->where('customer_email.website_id IN (?)', $websiteIds);
         }
         return $this;
     }

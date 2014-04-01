@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Helper;
 
 /**
@@ -96,9 +95,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getReviewStatuses()
     {
         return array(
-            \Magento\Review\Model\Review::STATUS_APPROVED     => __('Approved'),
-            \Magento\Review\Model\Review::STATUS_PENDING      => __('Pending'),
-            \Magento\Review\Model\Review::STATUS_NOT_APPROVED => __('Not Approved'),
+            \Magento\Review\Model\Review::STATUS_APPROVED => __('Approved'),
+            \Magento\Review\Model\Review::STATUS_PENDING => __('Pending'),
+            \Magento\Review\Model\Review::STATUS_NOT_APPROVED => __('Not Approved')
         );
     }
 

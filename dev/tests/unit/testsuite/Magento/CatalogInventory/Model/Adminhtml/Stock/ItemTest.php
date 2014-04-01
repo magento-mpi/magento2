@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Adminhtml\Stock;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
@@ -21,15 +20,18 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $resourceMock = $this->getMock(
-            'Magento\Core\Model\Resource\AbstractResource',
+            'Magento\Model\Resource\AbstractResource',
             array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName'),
-            array(), '', false
+            array(),
+            '',
+            false
         );
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_model = $objectHelper->getObject('\Magento\CatalogInventory\Model\Adminhtml\Stock\Item', array(
-            'resource' => $resourceMock
-        ));
+        $this->_model = $objectHelper->getObject(
+            '\Magento\CatalogInventory\Model\Adminhtml\Stock\Item',
+            array('resource' => $resourceMock)
+        );
     }
 
     public function testGetCustomerGroupId()

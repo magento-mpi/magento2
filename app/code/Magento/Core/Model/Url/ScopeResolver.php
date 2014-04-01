@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Url;
 
 class ScopeResolver implements \Magento\Url\ScopeResolverInterface
@@ -38,7 +37,7 @@ class ScopeResolver implements \Magento\Url\ScopeResolverInterface
     public function getScope($scopeId = null)
     {
         $scope = $this->_storeManager->getStore($scopeId);
-        if (!($scope instanceof \Magento\Url\ScopeInterface)) {
+        if (!$scope instanceof \Magento\Url\ScopeInterface) {
             throw new \Magento\Exception('Invalid scope object');
         }
 

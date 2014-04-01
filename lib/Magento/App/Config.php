@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App;
 
 class Config implements \Magento\App\Config\ScopeConfigInterface

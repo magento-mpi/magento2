@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class Group extends AbstractComposite
@@ -49,19 +48,19 @@ class Group extends AbstractComposite
      */
     public function shouldCloneFields()
     {
-        return (isset($this->_data['clone_fields']) && !empty($this->_data['clone_fields']));
+        return isset($this->_data['clone_fields']) && !empty($this->_data['clone_fields']);
     }
 
     /**
      * Retrieve clone model
      *
-     * @return \Magento\Core\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Model\AbstractModel
+     * @throws \Magento\Model\Exception
      */
     public function getCloneModel()
     {
         if (!isset($this->_data['clone_model']) || !$this->_data['clone_model']) {
-            throw new \Magento\Core\Exception('Config form fieldset clone model required to be able to clone fields');
+            throw new \Magento\Model\Exception('Config form fieldset clone model required to be able to clone fields');
         }
         return $this->_cloneModelFactory->create($this->_data['clone_model']);
     }
@@ -90,7 +89,7 @@ class Group extends AbstractComposite
      */
     public function isExpanded()
     {
-        return (bool) (isset($this->_data['expanded']) ? (int) $this->_data['expanded'] : false);
+        return (bool)(isset($this->_data['expanded']) ? (int)$this->_data['expanded'] : false);
     }
 
     /**

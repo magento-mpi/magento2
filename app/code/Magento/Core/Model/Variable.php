@@ -23,9 +23,10 @@ namespace Magento\Core\Model;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Variable extends \Magento\Core\Model\AbstractModel
+class Variable extends \Magento\Model\AbstractModel
 {
     const TYPE_TEXT = 'text';
+
     const TYPE_HTML = 'html';
 
     /**
@@ -114,7 +115,7 @@ class Variable extends \Magento\Core\Model\AbstractModel
         if ($type === null) {
             $type = self::TYPE_HTML;
         }
-        if ($type == self::TYPE_TEXT || !(strlen((string)$this->getData('html_value')))) {
+        if ($type == self::TYPE_TEXT || !strlen((string)$this->getData('html_value'))) {
             $value = $this->getData('plain_value');
             //escape html if type is html, but html value is not defined
             if ($type == self::TYPE_HTML) {
@@ -160,12 +161,8 @@ class Variable extends \Magento\Core\Model\AbstractModel
             );
         }
         if ($withGroup && $variables) {
-            $variables = array(
-                'label' => __('Custom Variables'),
-                'value' => $variables
-            );
+            $variables = array('label' => __('Custom Variables'), 'value' => $variables);
         }
         return $variables;
     }
-
 }

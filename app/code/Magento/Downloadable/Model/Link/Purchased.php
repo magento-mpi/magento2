@@ -37,7 +37,7 @@ namespace Magento\Downloadable\Model\Link;
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Purchased extends \Magento\Core\Model\AbstractModel
+class Purchased extends \Magento\Model\AbstractModel
 {
     /**
      * Enter description here...
@@ -58,10 +58,8 @@ class Purchased extends \Magento\Core\Model\AbstractModel
     public function _beforeSave()
     {
         if (null == $this->getOrderId()) {
-            throw new \Exception(
-                __('Order id cannot be null'));
+            throw new \Exception(__('Order id cannot be null'));
         }
         return parent::_beforeSave();
     }
-
 }

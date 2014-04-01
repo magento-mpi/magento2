@@ -17,9 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Widget;
 
-class Sku
-    extends \Magento\AdvancedCheckout\Block\Sku\AbstractSku
-    implements \Magento\Widget\Block\BlockInterface
+class Sku extends \Magento\AdvancedCheckout\Block\Sku\AbstractSku implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Retrieve form action URL

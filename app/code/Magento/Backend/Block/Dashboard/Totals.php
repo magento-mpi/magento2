@@ -56,15 +56,21 @@ class Totals extends \Magento\Backend\Block\Dashboard\Bar
         if (!$this->_moduleManager->isEnabled('Magento_Reports')) {
             return $this;
         }
-        $isFilter = $this->getRequest()->getParam('store')
-            || $this->getRequest()->getParam('website')
-            || $this->getRequest()->getParam('group');
+        $isFilter = $this->getRequest()->getParam(
+            'store'
+        ) || $this->getRequest()->getParam(
+            'website'
+        ) || $this->getRequest()->getParam(
+            'group'
+        );
         $period = $this->getRequest()->getParam('period', '24h');
 
         /* @var $collection \Magento\Reports\Model\Resource\Order\Collection */
-        $collection = $this->_collectionFactory->create()
-            ->addCreateAtPeriodFilter($period)
-            ->calculateTotals($isFilter);
+        $collection = $this->_collectionFactory->create()->addCreateAtPeriodFilter(
+            $period
+        )->calculateTotals(
+            $isFilter
+        );
 
         if ($this->getRequest()->getParam('store')) {
             $collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
@@ -87,6 +93,6 @@ class Totals extends \Magento\Backend\Block\Dashboard\Bar
         $this->addTotal(__('Revenue'), $totals->getRevenue());
         $this->addTotal(__('Tax'), $totals->getTax());
         $this->addTotal(__('Shipping'), $totals->getShipping());
-        $this->addTotal(__('Quantity'), $totals->getQuantity()*1, true);
+        $this->addTotal(__('Quantity'), $totals->getQuantity() * 1, true);
     }
 }

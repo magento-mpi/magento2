@@ -57,11 +57,11 @@ class Config extends \Magento\Object
     /**
      * TransactionFactory
      *
-     * @var \Magento\Core\Model\Resource\TransactionFactory
+     * @var \Magento\DB\TransactionFactory
      */
     protected $_transactionFactory;
 
-     /**
+    /**
      * Config data loader
      *
      * @var \Magento\Backend\Model\Config\Loader
@@ -84,7 +84,7 @@ class Config extends \Magento\Object
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
+     * @param \Magento\DB\TransactionFactory $transactionFactory
      * @param \Magento\Backend\Model\Config\Loader $configLoader
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -94,7 +94,7 @@ class Config extends \Magento\Object
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
+        \Magento\DB\TransactionFactory $transactionFactory,
         \Magento\Backend\Model\Config\Loader $configLoader,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -122,7 +122,7 @@ class Config extends \Magento\Object
         $this->initScope();
 
         $sectionId = $this->getSection();
-        $groups  = $this->getGroups();
+        $groups = $this->getGroups();
         if (empty($groups)) {
             return $this;
         }
@@ -130,17 +130,23 @@ class Config extends \Magento\Object
         $oldConfig = $this->_getConfig(true);
 
         $deleteTransaction = $this->_transactionFactory->create();
-        /* @var $deleteTransaction \Magento\Core\Model\Resource\Transaction */
+        /* @var $deleteTransaction \Magento\DB\Transaction */
         $saveTransaction = $this->_transactionFactory->create();
-        /* @var $saveTransaction \Magento\Core\Model\Resource\Transaction */
+        /* @var $saveTransaction \Magento\DB\Transaction */
 
         // Extends for old config data
         $extraOldGroups = array();
 
         foreach ($groups as $groupId => $groupData) {
             $this->_processGroup(
-                $groupId, $groupData, $groups, $sectionId, $extraOldGroups, $oldConfig,
-                $saveTransaction, $deleteTransaction
+                $groupId,
+                $groupData,
+                $groups,
+                $sectionId,
+                $extraOldGroups,
+                $oldConfig,
+                $saveTransaction,
+                $deleteTransaction
             );
         }
 
@@ -153,10 +159,10 @@ class Config extends \Magento\Object
             $this->_storeManager->reinitStores();
 
             // website and store codes can be used in event implementation, so set them as well
-            $this->_eventManager->dispatch("admin_system_config_changed_section_{$this->getSection()}", array(
-                'website' => $this->getWebsite(),
-                'store' => $this->getStore()
-            ));
+            $this->_eventManager->dispatch(
+                "admin_system_config_changed_section_{$this->getSection()}",
+                array('website' => $this->getWebsite(), 'store' => $this->getStore())
+            );
         } catch (\Exception $e) {
             // re-init configuration
             $this->_eventManager->dispatch('application_process_reinit_config');
@@ -176,8 +182,8 @@ class Config extends \Magento\Object
      * @param string $sectionPath
      * @param array &$extraOldGroups
      * @param array &$oldConfig
-     * @param \Magento\Core\Model\Resource\Transaction $saveTransaction
-     * @param \Magento\Core\Model\Resource\Transaction $deleteTransaction
+     * @param \Magento\DB\Transaction $saveTransaction
+     * @param \Magento\DB\Transaction $deleteTransaction
      * @return void
      */
     protected function _processGroup(
@@ -187,8 +193,8 @@ class Config extends \Magento\Object
         $sectionPath,
         array &$extraOldGroups,
         array &$oldConfig,
-        \Magento\Core\Model\Resource\Transaction $saveTransaction,
-        \Magento\Core\Model\Resource\Transaction $deleteTransaction
+        \Magento\DB\Transaction $saveTransaction,
+        \Magento\DB\Transaction $deleteTransaction
     ) {
         $groupPath = $sectionPath . '/' . $groupId;
         $scope = $this->getScope();
@@ -218,8 +224,11 @@ class Config extends \Magento\Object
                 }
             }
             foreach ($groupData['fields'] as $fieldId => $fieldData) {
-                $fieldsetData[$fieldId] = (is_array($fieldData) && isset($fieldData['value']))
-                    ? $fieldData['value'] : null;
+                $fieldsetData[$fieldId] = is_array(
+                    $fieldData
+                ) && isset(
+                    $fieldData['value']
+                ) ? $fieldData['value'] : null;
             }
 
             foreach ($groupData['fields'] as $fieldId => $fieldData) {
@@ -231,9 +240,10 @@ class Config extends \Magento\Object
                 $field = $this->_configStructure->getElement($groupPath . '/' . $originalFieldId);
 
                 /** @var \Magento\App\Config\ValueInterface $backendModel */
-                $backendModel = $field->hasBackendModel() ?
-                    $field->getBackendModel() :
-                    $this->_configValueFactory->create();
+                $backendModel = $field->hasBackendModel() ? $field
+                    ->getBackendModel() : $this
+                    ->_configValueFactory
+                    ->create();
 
                 $data = array(
                     'field' => $fieldId,
@@ -243,7 +253,7 @@ class Config extends \Magento\Object
                     'scope_id' => $scopeId,
                     'scope_code' => $scopeCode,
                     'field_config' => $field->getData(),
-                    'fieldset_data' => $fieldsetData,
+                    'fieldset_data' => $fieldsetData
                 );
                 $backendModel->addData($data);
 
@@ -295,8 +305,14 @@ class Config extends \Magento\Object
         if (isset($groupData['groups'])) {
             foreach ($groupData['groups'] as $subGroupId => $subGroupData) {
                 $this->_processGroup(
-                    $subGroupId, $subGroupData, $groups, $groupPath, $extraOldGroups,
-                    $oldConfig, $saveTransaction, $deleteTransaction
+                    $subGroupId,
+                    $subGroupData,
+                    $groups,
+                    $groupPath,
+                    $extraOldGroups,
+                    $oldConfig,
+                    $saveTransaction,
+                    $deleteTransaction
                 );
             }
         }
@@ -352,17 +368,17 @@ class Config extends \Magento\Object
 
 
         if ($this->getStore()) {
-            $scope   = 'stores';
+            $scope = 'stores';
             $store = $this->_storeManager->getStore($this->getStore());
             $scopeId = (int)$store->getId();
             $scopeCode = $this->getStore();
         } elseif ($this->getWebsite()) {
-            $scope   = 'websites';
+            $scope = 'websites';
             $website = $this->_storeManager->getWebsite($this->getWebsite());
             $scopeId = (int)$website->getId();
             $scopeCode = $this->getWebsite();
         } else {
-            $scope   = 'default';
+            $scope = 'default';
             $scopeId = 0;
             $scopeCode = '';
         }
@@ -380,7 +396,10 @@ class Config extends \Magento\Object
     protected function _getConfig($full = true)
     {
         return $this->_configLoader->getConfigByPath(
-            $this->getSection(), $this->getScope(), $this->getScopeId(), $full
+            $this->getSection(),
+            $this->getScope(),
+            $this->getScopeId(),
+            $full
         );
     }
 
@@ -427,7 +446,7 @@ class Config extends \Magento\Object
             $data = $configData[$path];
             $inherit = false;
         } else {
-            $data =  $this->_appConfig->getValue($path, $this->getScope(), $this->getScopeCode());
+            $data = $this->_appConfig->getValue($path, $this->getScope(), $this->getScopeCode());
             $inherit = true;
         }
 

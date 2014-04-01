@@ -21,8 +21,10 @@ class Container extends \Magento\Backend\Block\Template
     /**#@+
      * Initialization parameters in pseudo-constructor
      */
-    const PARAM_CONTROLLER  = 'controller';
+    const PARAM_CONTROLLER = 'controller';
+
     const PARAM_HEADER_TEXT = 'header_text';
+
     /**#@-*/
 
     /**
@@ -37,11 +39,7 @@ class Container extends \Magento\Backend\Block\Template
      *
      * @var array
      */
-    protected $_buttons = array(
-        -1  => array(),
-        0   => array(),
-        1   => array(),
-    );
+    protected $_buttons = array(-1 => array(), 0 => array(), 1 => array());
 
     /**
      * Header text
@@ -242,7 +240,7 @@ class Container extends \Magento\Backend\Block\Template
             foreach ($_buttons as $button) {
                 $buttonId = $button['id'];
                 $data = $button['data'];
-                if ($region && isset($data['region']) && ($region != $data['region'])) {
+                if ($region && isset($data['region']) && $region != $data['region']) {
                     continue;
                 }
                 $childId = $this->_prepareButtonBlockId($buttonId);
@@ -319,7 +317,7 @@ class Container extends \Magento\Backend\Block\Template
     {
         foreach ($this->_buttons as $buttons) {
             foreach ($buttons as $data) {
-                if (isset($data['region']) && ('footer' == $data['region'])) {
+                if (isset($data['region']) && 'footer' == $data['region']) {
                     return true;
                 }
             }

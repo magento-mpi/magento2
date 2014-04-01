@@ -155,13 +155,13 @@ class Account extends \Magento\Customer\Controller\Account
     {
         if (!$this->_coreRegistry->registry('current_invitation')) {
             $invitation = $this->_invitationFactory->create();
-            $invitation
-                ->loadByInvitationCode(
-                    $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
-                        $this->getRequest()->getParam('invitation', false)
-                    )
+            $invitation->loadByInvitationCode(
+                $this->_objectManager->get(
+                    'Magento\Core\Helper\Data'
+                )->urlDecode(
+                    $this->getRequest()->getParam('invitation', false)
                 )
-                ->makeSureCanBeAccepted();
+            )->makeSureCanBeAccepted();
             $this->_coreRegistry->register('current_invitation', $invitation);
         }
         return $this->_coreRegistry->registry('current_invitation');
@@ -180,7 +180,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('customer/account/login');
@@ -225,19 +225,16 @@ class Account extends \Magento\Customer\Controller\Account
 
             $this->_redirect('customer/account/');
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $_definedErrorCodes = array(
                 \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,
                 \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA
             );
             if (in_array($e->getCode(), $_definedErrorCodes)) {
-                $this->messageManager->addError($e->getMessage())
-                    ->setCustomerFormData($this->getRequest()->getPost());
+                $this->messageManager->addError($e->getMessage())->setCustomerFormData($this->getRequest()->getPost());
             } else {
                 if ($this->_objectManager->get('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
-                    $this->messageManager->addError(
-                        __('Your invitation is not valid. Please create an account.')
-                    );
+                    $this->messageManager->addError(__('Your invitation is not valid. Please create an account.'));
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
@@ -257,10 +254,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->messageManager->addException($e, __('Unable to save the customer.'));
         }
 
-        $this->_redirect(
-            'magento_invitation/customer_account/create',
-            array('_current' => true, '_secure' => true)
-        );
+        $this->_redirect('magento_invitation/customer_account/create', array('_current' => true, '_secure' => true));
     }
 
     /**
@@ -319,5 +313,4 @@ class Account extends \Magento\Customer\Controller\Account
             return;
         }
     }
-
 }

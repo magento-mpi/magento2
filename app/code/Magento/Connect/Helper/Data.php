@@ -28,7 +28,7 @@ class Data extends \Magento\Core\Helper\Data
      * @var \Magento\Filesystem\Directory\Read
      */
     protected $readDirectory;
-    
+
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
@@ -50,13 +50,7 @@ class Data extends \Magento\Core\Helper\Data
         $this->filesystem = $filesystem;
         $this->readDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
         $this->_xmlConverter = $xmlConverter;
-        parent::__construct(
-            $context,
-            $coreStoreConfig,
-            $storeManager,
-            $appState,
-            $dbCompatibleMode
-        );
+        parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $dbCompatibleMode);
     }
 
     /**
@@ -79,9 +73,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getChannelMapToV1x()
     {
-        return array(
-            'community' => 'connect.magentocommerce.com/community'
-        );
+        return array('community' => 'connect.magentocommerce.com/community');
     }
 
     /**

@@ -19,7 +19,7 @@
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts;
 
 use Magento\Backend\Block\Widget\Grid;
-use \Magento\Backend\Block\Widget\Grid\Extended;
+use Magento\Backend\Block\Widget\Grid\Extended;
 
 class Price extends Extended
 {
@@ -80,8 +80,7 @@ class Price extends Extended
             $websiteId = $this->_storeManager->getStore($store)->getWebsiteId();
         }
         if ($this->_catalogData->isModuleEnabled('Magento_ProductAlert')) {
-            $collection = $this->_priceFactory->create()->getCustomerCollection()
-                ->join($productId, $websiteId);
+            $collection = $this->_priceFactory->create()->getCustomerCollection()->join($productId, $websiteId);
             $this->setCollection($collection);
         }
         return parent::_prepareCollection();
@@ -141,13 +140,10 @@ class Price extends Extended
     public function getGridUrl()
     {
         $productId = $this->getRequest()->getParam('id');
-        $storeId   = $this->getRequest()->getParam('store', 0);
+        $storeId = $this->getRequest()->getParam('store', 0);
         if ($storeId) {
             $storeId = $this->_storeManager->getStore($storeId)->getId();
         }
-        return $this->getUrl('catalog/product/alertsPriceGrid', array(
-            'id'    => $productId,
-            'store' => $storeId
-        ));
+        return $this->getUrl('catalog/product/alertsPriceGrid', array('id' => $productId, 'store' => $storeId));
     }
 }

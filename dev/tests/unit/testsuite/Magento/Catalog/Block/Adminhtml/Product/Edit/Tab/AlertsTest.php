@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
 class AlertsTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts
      */
@@ -26,9 +24,9 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
-        $this->alerts = $helper->getObject('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts', array(
-                'storeConfig' => $this->storeConfigMock
-            )
+        $this->alerts = $helper->getObject(
+            'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts',
+            array('storeConfig' => $this->storeConfigMock)
         );
     }
 
@@ -54,20 +52,10 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
     public function canShowTabDataProvider()
     {
         return array(
-            'alert_price_and_stock_allow' => array(
-                true, true, true
-            ),
-            'alert_price_is_allowed_and_stock_is_unallowed' => array(
-                true, false, true
-            ),
-            'alert_price_is_unallowed_and_stock_is_allowed' => array(
-                false, true, true
-            ),
-            'alert_price_is_unallowed_and_stock_is_unallowed' => array(
-                false, false, false
-            )
+            'alert_price_and_stock_allow' => array(true, true, true),
+            'alert_price_is_allowed_and_stock_is_unallowed' => array(true, false, true),
+            'alert_price_is_unallowed_and_stock_is_allowed' => array(false, true, true),
+            'alert_price_is_unallowed_and_stock_is_unallowed' => array(false, false, false)
         );
     }
-
 }
-

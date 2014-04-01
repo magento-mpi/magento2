@@ -18,18 +18,18 @@ $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 
-\Magento\Autoload\IncludePath::addIncludePath(array(
-    "{$testsBaseDir}/framework",
-    "{$testsBaseDir}/testsuite",
-    "{$testsBaseDir}/lib",
-    "{$integrationTestsDir}/framework",
-    "{$integrationTestsDir}/lib"
-));
+\Magento\Autoload\IncludePath::addIncludePath(
+    array(
+        "{$testsBaseDir}/framework",
+        "{$testsBaseDir}/testsuite",
+        "{$testsBaseDir}/lib",
+        "{$integrationTestsDir}/framework",
+        "{$integrationTestsDir}/lib"
+    )
+);
 
 /* Bootstrap the application */
-$invariantSettings = array(
-    'TESTS_LOCAL_CONFIG_EXTRA_FILE' => '../integration/etc/integration-tests-config.xml',
-);
+$invariantSettings = array('TESTS_LOCAL_CONFIG_EXTRA_FILE' => '../integration/etc/integration-tests-config.xml');
 $bootstrap = new \Magento\TestFramework\Bootstrap(
     new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
     new \Magento\TestFramework\Bootstrap\Environment(),
@@ -44,19 +44,16 @@ $bootstrap->runBootstrap();
 
 /** Magento installation */
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
-    $installCmd = sprintf(
-        'php -f %s --',
-        escapeshellarg(realpath($testsBaseDir . '/../../shell/install.php'))
-    );
+    $installCmd = sprintf('php -f %s --', escapeshellarg(realpath($testsBaseDir . '/../../shell/install.php')));
     if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
-        passthru("$installCmd --uninstall", $exitCode);
+        passthru("{$installCmd} --uninstall", $exitCode);
         if ($exitCode) {
             exit($exitCode);
         }
     }
     $installConfigFile = $testsBaseDir . '/config/install.php';
-    $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
-    $installConfig = require($installConfigFile);
+    $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "{$installConfigFile}.dist";
+    $installConfig = require $installConfigFile;
     $installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
 
     /* Install application */

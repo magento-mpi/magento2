@@ -17,30 +17,53 @@ $installer->startSetup();
 /**
  * Create table 'cms_block'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('cms_block'))
-    ->addColumn('block_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Block ID')
-    ->addColumn('title', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        ), 'Block Title')
-    ->addColumn('identifier', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        ), 'Block String Identifier')
-    ->addColumn('content', \Magento\DB\Ddl\Table::TYPE_TEXT, '2M', array(
-        ), 'Block Content')
-    ->addColumn('creation_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Block Creation Time')
-    ->addColumn('update_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Block Modification Time')
-    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Is Block Active')
-    ->setComment('CMS Block Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('cms_block')
+)->addColumn(
+    'block_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('identity' => true, 'nullable' => false, 'primary' => true),
+    'Block ID'
+)->addColumn(
+    'title',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Block Title'
+)->addColumn(
+    'identifier',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Block String Identifier'
+)->addColumn(
+    'content',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '2M',
+    array(),
+    'Block Content'
+)->addColumn(
+    'creation_time',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Block Creation Time'
+)->addColumn(
+    'update_time',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Block Modification Time'
+)->addColumn(
+    'is_active',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '1'),
+    'Is Block Active'
+)->setComment(
+    'CMS Block Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -71,67 +94,122 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'cms_page'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('cms_page'))
-    ->addColumn('page_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Page ID')
-    ->addColumn('title', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => true
-        ), 'Page Title')
-    ->addColumn('root_template', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => true
-        ), 'Page Template')
-    ->addColumn('meta_keywords', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => true,
-        ), 'Page Meta Keywords')
-    ->addColumn('meta_description', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => true,
-        ), 'Page Meta Description')
-    ->addColumn('identifier', \Magento\DB\Ddl\Table::TYPE_TEXT, 100, array(
-        'nullable'  => true,
-        'default'   => null,
-        ), 'Page String Identifier')
-    ->addColumn('content_heading', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
-        ), 'Page Content Heading')
-    ->addColumn('content', \Magento\DB\Ddl\Table::TYPE_TEXT, '2M', array(
-        ), 'Page Content')
-    ->addColumn('creation_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Page Creation Time')
-    ->addColumn('update_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Page Modification Time')
-    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Is Page Active')
-    ->addColumn('sort_order', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Page Sort Order')
-    ->addColumn('layout_update_xml', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => true,
-        ), 'Page Layout Update Content')
-    ->addColumn('custom_theme', \Magento\DB\Ddl\Table::TYPE_TEXT, 100, array(
-        'nullable'  => true,
-        ), 'Page Custom Theme')
-    ->addColumn('custom_root_template', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => true,
-        ), 'Page Custom Template')
-    ->addColumn('custom_layout_update_xml', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => true,
-        ), 'Page Custom Layout Update Content')
-    ->addColumn('custom_theme_from', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        'nullable'  => true,
-        ), 'Page Custom Theme Active From Date')
-    ->addColumn('custom_theme_to', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        'nullable'  => true,
-        ), 'Page Custom Theme Active To Date')
-    ->addIndex($installer->getIdxName('cms_page', array('identifier')),
-        array('identifier'))
-    ->setComment('CMS Page Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('cms_page')
+)->addColumn(
+    'page_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('identity' => true, 'nullable' => false, 'primary' => true),
+    'Page ID'
+)->addColumn(
+    'title',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => true),
+    'Page Title'
+)->addColumn(
+    'root_template',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => true),
+    'Page Template'
+)->addColumn(
+    'meta_keywords',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => true),
+    'Page Meta Keywords'
+)->addColumn(
+    'meta_description',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => true),
+    'Page Meta Description'
+)->addColumn(
+    'identifier',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    100,
+    array('nullable' => true, 'default' => null),
+    'Page String Identifier'
+)->addColumn(
+    'content_heading',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => true),
+    'Page Content Heading'
+)->addColumn(
+    'content',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '2M',
+    array(),
+    'Page Content'
+)->addColumn(
+    'creation_time',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Page Creation Time'
+)->addColumn(
+    'update_time',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Page Modification Time'
+)->addColumn(
+    'is_active',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '1'),
+    'Is Page Active'
+)->addColumn(
+    'sort_order',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Page Sort Order'
+)->addColumn(
+    'layout_update_xml',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => true),
+    'Page Layout Update Content'
+)->addColumn(
+    'custom_theme',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    100,
+    array('nullable' => true),
+    'Page Custom Theme'
+)->addColumn(
+    'custom_root_template',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => true),
+    'Page Custom Template'
+)->addColumn(
+    'custom_layout_update_xml',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => true),
+    'Page Custom Layout Update Content'
+)->addColumn(
+    'custom_theme_from',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array('nullable' => true),
+    'Page Custom Theme Active From Date'
+)->addColumn(
+    'custom_theme_to',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array('nullable' => true),
+    'Page Custom Theme Active To Date'
+)->addIndex(
+    $installer->getIdxName('cms_page', array('identifier')),
+    array('identifier')
+)->setComment(
+    'CMS Page Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**

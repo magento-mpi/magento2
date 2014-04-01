@@ -25,13 +25,13 @@ class Country extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\DB\Helper $resourceHelper
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\DB\Helper $resourceHelper,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
@@ -45,7 +45,7 @@ class Country extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     protected function _getOptions()
     {
         $options = $this->_collectionFactory->load()->toOptionArray();
-        array_unshift($options, array('value'=>'', 'label'=>__('All countries')));
+        array_unshift($options, array('value' => '', 'label' => __('All countries')));
         return $options;
     }
 }

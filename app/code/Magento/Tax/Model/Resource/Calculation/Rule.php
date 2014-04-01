@@ -16,7 +16,7 @@ namespace Magento\Tax\Model\Resource\Calculation;
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rule extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Rule extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -35,10 +35,7 @@ class Rule extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array(
-            'field' => array('code'),
-            'title' => __('Code'),
-        ));
+        $this->_uniqueFields = array(array('field' => array('code'), 'title' => __('Code')));
         return $this;
     }
 }

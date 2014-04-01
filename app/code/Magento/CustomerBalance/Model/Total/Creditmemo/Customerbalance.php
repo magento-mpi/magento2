@@ -22,10 +22,8 @@ class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
-    public function __construct(
-        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\CustomerBalance\Helper\Data $customerBalanceData, array $data = array())
+    {
         $this->_customerBalanceData = $customerBalanceData;
         parent::__construct($data);
     }
@@ -67,18 +65,24 @@ class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
                 $baseUsed = $order->getBaseCustomerBalanceInvoiced() - $order->getBaseCustomerBalanceRefunded();
                 $used = $order->getCustomerBalanceInvoiced() - $order->getCustomerBalanceRefunded();
 
-                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal()-$baseUsed);
-                $creditmemo->setGrandTotal($creditmemo->getGrandTotal()-$used);
+                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() - $baseUsed);
+                $creditmemo->setGrandTotal($creditmemo->getGrandTotal() - $used);
             }
 
             $creditmemo->setBaseCustomerBalanceAmount($baseUsed);
             $creditmemo->setCustomerBalanceAmount($used);
         }
 
-        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseGrandTotal());
-        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseCustomerBalanceAmount());
+        $creditmemo->setBaseCustomerBalanceReturnMax(
+            $creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseGrandTotal()
+        );
+        $creditmemo->setBaseCustomerBalanceReturnMax(
+            $creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseCustomerBalanceAmount()
+        );
 
-        $creditmemo->setCustomerBalanceReturnMax($creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getCustomerBalanceAmount());
+        $creditmemo->setCustomerBalanceReturnMax(
+            $creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getCustomerBalanceAmount()
+        );
 
         return $this;
     }

@@ -30,7 +30,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Image\AdapterFactory $imageFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -39,7 +39,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Image\AdapterFactory $imageFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -57,7 +57,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
     /**
      * Checks if chosen image adapter available
      *
-     * @throws \Magento\Core\Exception If some of adapter dependencies was not loaded
+     * @throws \Magento\Model\Exception If some of adapter dependencies was not loaded
      * @return \Magento\Backend\Model\Config\Backend\File
      */
     protected function _beforeSave()
@@ -66,7 +66,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
             $this->_imageFactory->create($this->getValue());
         } catch (\Exception $e) {
             $message = __('The specified image adapter cannot be used because of: ' . $e->getMessage());
-            throw new \Magento\Core\Exception($message);
+            throw new \Magento\Model\Exception($message);
         }
 
         return $this;

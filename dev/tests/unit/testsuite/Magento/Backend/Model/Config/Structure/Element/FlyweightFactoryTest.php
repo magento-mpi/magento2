@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
@@ -26,7 +25,9 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\FlyweightFactory($this->_objectManagerMock);
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\FlyweightFactory(
+            $this->_objectManagerMock
+        );
     }
 
     protected function tearDown()
@@ -37,11 +38,19 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $this->_objectManagerMock->expects($this->any())->method('create')->will($this->returnValueMap(array(
-            array('Magento\Backend\Model\Config\Structure\Element\Section', array(), 'sectionObject'),
-            array('Magento\Backend\Model\Config\Structure\Element\Group', array(), 'groupObject'),
-            array('Magento\Backend\Model\Config\Structure\Element\Field', array(), 'fieldObject'),
-        )));
+        $this->_objectManagerMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValueMap(
+                array(
+                    array('Magento\Backend\Model\Config\Structure\Element\Section', array(), 'sectionObject'),
+                    array('Magento\Backend\Model\Config\Structure\Element\Group', array(), 'groupObject'),
+                    array('Magento\Backend\Model\Config\Structure\Element\Field', array(), 'fieldObject')
+                )
+            )
+        );
         $this->assertEquals('sectionObject', $this->_model->create('section'));
         $this->assertEquals('groupObject', $this->_model->create('group'));
         $this->assertEquals('fieldObject', $this->_model->create('field'));

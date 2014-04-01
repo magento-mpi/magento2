@@ -28,13 +28,6 @@ class Application
     protected $_config;
 
     /**
-     * Application object
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_application;
-
-    /**
      * Path to shell installer script
      *
      * @var string
@@ -76,7 +69,7 @@ class Application
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
-            throw new \Magento\Exception("File '$installerScript' is not found.");
+            throw new \Magento\Exception("File '{$installerScript}' is not found.");
         }
         $this->_installerScript = realpath($installerScript);
         $this->_config = $config;
@@ -91,10 +84,7 @@ class Application
     protected function _reset()
     {
         if ($this->_config->getInstallOptions()) {
-            $this->_uninstall()
-                ->_install()
-                ->reindex()
-                ->_updateFilesystemPermissions();
+            $this->_uninstall()->_install()->reindex()->_updateFilesystemPermissions();
         } else {
             $this->_isInstalled = true;
         }
@@ -167,7 +157,7 @@ class Application
         $installCmd = 'php -f %s --';
         $installCmdArgs = array($this->_installerScript);
         foreach ($installOptions as $optionName => $optionValue) {
-            $installCmd .= " --$optionName %s";
+            $installCmd .= " --{$optionName} %s";
             $installCmdArgs[] = $optionValue;
         }
         $this->_shell->execute($installCmd, $installCmdArgs);
@@ -183,8 +173,11 @@ class Application
     protected function _updateFilesystemPermissions()
     {
         /** @var \Magento\Filesystem\Directory\Write $varDirectory */
-        $varDirectory = $this->getObjectManager()->get('Magento\App\Filesystem')
-            ->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $varDirectory = $this->getObjectManager()->get(
+            'Magento\App\Filesystem'
+        )->getDirectoryWrite(
+            \Magento\App\Filesystem::VAR_DIR
+        );
         $varDirectory->changePermissions('', 0777);
     }
 
@@ -195,8 +188,6 @@ class Application
      */
     protected function _bootstrap()
     {
-        /** @var $app \Magento\Core\Model\App */
-        $this->_application = $this->getObjectManager()->get('Magento\Core\Model\App');
         $this->getObjectManager()->configure(
             $this->getObjectManager()->get('Magento\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
@@ -238,8 +229,7 @@ class Application
         }
         $this->_fixtures = $fixtures;
 
-        $this->reindex()
-            ->_updateFilesystemPermissions();
+        $this->reindex()->_updateFilesystemPermissions();
     }
 
     /**

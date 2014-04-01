@@ -122,10 +122,7 @@ class Variables implements \Magento\Option\ArrayInterface
             );
         }
         if ($withGroup && $optionArray) {
-            $optionArray = array(
-                'label' => __('Store Contact Information'),
-                'value' => $optionArray
-            );
+            $optionArray = array('label' => __('Store Contact Information'), 'value' => $optionArray);
         }
         return $optionArray;
     }

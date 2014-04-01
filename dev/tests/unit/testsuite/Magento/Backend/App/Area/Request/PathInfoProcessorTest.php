@@ -49,19 +49,35 @@ class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessIfStoreCodeEqualToAreaFrontName()
     {
-        $this->_backendHelperMock->
-            expects($this->once())->method('getAreaFrontName')->will($this->returnValue('storeCode'));
+        $this->_backendHelperMock->expects(
+            $this->once()
+        )->method(
+            'getAreaFrontName'
+        )->will(
+            $this->returnValue('storeCode')
+        );
         $this->assertEquals($this->_pathInfo, $this->_model->process($this->_requestMock, $this->_pathInfo));
     }
 
     public function testProcessIfStoreCodeNotEqualToAreaFrontName()
     {
-        $this->_backendHelperMock
-            ->expects($this->once())->method('getAreaFrontName')->will($this->returnValue('store'));
-        $this->_subjectMock
-            ->expects($this->once())->method('process')->with($this->_requestMock, $this->_pathInfo)
-            ->will($this->returnValue('Expected'));
+        $this->_backendHelperMock->expects(
+            $this->once()
+        )->method(
+            'getAreaFrontName'
+        )->will(
+            $this->returnValue('store')
+        );
+        $this->_subjectMock->expects(
+            $this->once()
+        )->method(
+            'process'
+        )->with(
+            $this->_requestMock,
+            $this->_pathInfo
+        )->will(
+            $this->returnValue('Expected')
+        );
         $this->assertEquals('Expected', $this->_model->process($this->_requestMock, $this->_pathInfo));
     }
-
 }

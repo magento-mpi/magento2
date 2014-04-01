@@ -17,8 +17,7 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo        date format
  */
-class Datetime
-    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
+class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
 {
     /**
      * full day is 86400, we need 23 hours:59 minutes:59 seconds = 86399
@@ -32,7 +31,8 @@ class Datetime
     {
         if ($index) {
             if ($data = $this->getData('value', 'orig_' . $index)) {
-                return $data;//date('Y-m-d', strtotime($data));
+                // date('Y-m-d', strtotime($data));
+                return $data;
             }
             return null;
         }
@@ -74,7 +74,9 @@ class Datetime
                 //set date with applying timezone of store
                 $dateObj->set(
                     $date,
-                    $this->getLocaleDate()->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT),
+                    $this->getLocaleDate()->getDateTimeFormat(
+                        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    ),
                     $locale
                 );
 
@@ -101,34 +103,80 @@ class Datetime
         $timeFormat = '';
 
         if ($this->getColumn()->getFilterTime()) {
-            $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+            $timeFormat = $this->_localeDate->getTimeFormat(
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+            );
         }
 
-        $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
-            . '<input type="text" name="' . $this->_getHtmlName() . '[from]" id="' . $htmlId . '_from"'
-                . ' value="' . $this->getEscapedValue('from') . '" class="input-text no-changes" placeholder="' . __('From') . '" '
-                . $this->getUiId('filter', $this->_getHtmlName(), 'from') . '/>'
-            . '</div>';
-        $html .= '<div class="range-line date">'
-            . '<input type="text" name="' . $this->_getHtmlName() . '[to]" id="' . $htmlId . '_to"'
-                . ' value="' . $this->getEscapedValue('to') . '" class="input-text no-changes" placeholder="' . __('To') . '" '
-                . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/>'
-            . '</div></div>';
-        $html .= '<input type="hidden" name="' . $this->_getHtmlName() . '[locale]"'
-            . ' value="' . $this->_localeResolver->getLocaleCode() . '"/>';
+        $html = '<div class="range" id="' .
+            $htmlId .
+            '_range"><div class="range-line date">' .
+            '<input type="text" name="' .
+            $this->_getHtmlName() .
+            '[from]" id="' .
+            $htmlId .
+            '_from"' .
+            ' value="' .
+            $this->getEscapedValue(
+                'from'
+            ) . '" class="input-text no-changes" placeholder="' . __(
+                'From'
+            ) . '" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'from'
+            ) . '/>' . '</div>';
+        $html .= '<div class="range-line date">' .
+            '<input type="text" name="' .
+            $this->_getHtmlName() .
+            '[to]" id="' .
+            $htmlId .
+            '_to"' .
+            ' value="' .
+            $this->getEscapedValue(
+                'to'
+            ) . '" class="input-text no-changes" placeholder="' . __(
+                'To'
+            ) . '" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'to'
+            ) . '/>' . '</div></div>';
+        $html .= '<input type="hidden" name="' .
+            $this->_getHtmlName() .
+            '[locale]"' .
+            ' value="' .
+            $this->_localeResolver->getLocaleCode() .
+            '"/>';
         $html .= '<script type="text/javascript">
             (function( $ ) {
-                    $("#'.$htmlId.'_range").dateRange({
-                        dateFormat: "' . $format . '",
-                        timeFormat: "' . $timeFormat . '",
-                        showsTime: ' . ($this->getColumn()->getFilterTime() ? 'true' : 'false') . ',
-                        buttonImage: "' . $this->getViewFileUrl('images/grid-cal.gif') . '",
-                        buttonText: "' . $this->escapeHtml(__('Date selector')) . '",
+                    $("#' .
+            $htmlId .
+            '_range").dateRange({
+                        dateFormat: "' .
+            $format .
+            '",
+                        timeFormat: "' .
+            $timeFormat .
+            '",
+                        showsTime: ' .
+            ($this->getColumn()->getFilterTime() ? 'true' : 'false') .
+            ',
+                        buttonImage: "' .
+            $this->getViewFileUrl(
+                'images/grid-cal.gif'
+            ) . '",
+                            buttonText: "' . $this->escapeHtml(__('Date selector')) .
+            '",
                         from: {
-                            id: "' . $htmlId . '_from"
+                            id: "' .
+            $htmlId .
+            '_from"
                         },
                         to: {
-                            id: "' . $htmlId . '_to"
+                            id: "' .
+            $htmlId .
+            '_to"
                         }
                     })
             })(jQuery)
@@ -148,7 +196,9 @@ class Datetime
             $value = $this->getValue($index);
             if ($value instanceof \Zend_Date) {
                 return $value->toString(
-                    $this->_localeDate->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+                    $this->_localeDate->getDateTimeFormat(
+                        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    )
                 );
             }
             return $value;

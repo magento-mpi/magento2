@@ -26,20 +26,27 @@ class FeesTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_payment = $this->getMockBuilder('Magento\RecurringPayment\Model\Payment')
-            ->disableOriginalConstructor()
-            ->setMethods(array('setStore', 'getFieldLabel', '__wakeup'))
-            ->getMock();
+        $this->_payment = $this->getMockBuilder(
+            'Magento\RecurringPayment\Model\Payment'
+        )->disableOriginalConstructor()->setMethods(
+            array('setStore', 'getFieldLabel', '__wakeup')
+        )->getMock();
         $this->_payment->expects($this->once())->method('setStore')->will($this->returnValue($this->_payment));
 
-        $registry = $this->getMockBuilder('Magento\Registry')
-            ->disableOriginalConstructor()
-            ->setMethods(array('registry'))
-            ->getMock();
-        $registry->expects($this->once())
-            ->method('registry')
-            ->with('current_recurring_payment')
-            ->will($this->returnValue($this->_payment));
+        $registry = $this->getMockBuilder(
+            'Magento\Registry'
+        )->disableOriginalConstructor()->setMethods(
+            array('registry')
+        )->getMock();
+        $registry->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'current_recurring_payment'
+        )->will(
+            $this->returnValue($this->_payment)
+        );
 
         $store = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
@@ -54,16 +61,14 @@ class FeesTest extends \PHPUnit_Framework_TestCase
 
         $this->_block = $objectManager->getObject(
             'Magento\RecurringPayment\Block\Payment\View\Fees',
-            array(
-                'registry' => $registry,
-                'storeManager' => $storeManager,
-            )
+            array('registry' => $registry, 'storeManager' => $storeManager)
         );
 
-        $layout = $this->getMockBuilder('Magento\Core\Model\Layout')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getParentName', 'getBlock'))
-            ->getMock();
+        $layout = $this->getMockBuilder(
+            'Magento\Core\Model\Layout'
+        )->disableOriginalConstructor()->setMethods(
+            array('getParentName', 'getBlock')
+        )->getMock();
 
         $this->assertEmpty($this->_block->getRenderedInfo());
         $this->_block->setLayout($layout);

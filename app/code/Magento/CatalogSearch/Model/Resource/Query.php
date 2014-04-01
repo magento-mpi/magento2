@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogSearch\Model\Resource;
 
-use Magento\Core\Model\Resource\Db\AbstractDb;
+use Magento\Model\Resource\Db\AbstractDb;
 
 /**
  * Catalog search query resource model
@@ -60,18 +60,25 @@ class Query extends AbstractDb
     /**
      * Custom load model by search query string
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $value
      * @return $this
      */
-    public function loadByQuery(\Magento\Core\Model\AbstractModel $object, $value)
+    public function loadByQuery(\Magento\Model\AbstractModel $object, $value)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('synonym_for=? OR query_text=?', $value)
-            ->where('store_id=?', $object->getStoreId())
-            ->order('synonym_for ASC')
-            ->limit(1);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'synonym_for=? OR query_text=?',
+            $value
+        )->where(
+            'store_id=?',
+            $object->getStoreId()
+        )->order(
+            'synonym_for ASC'
+        )->limit(
+            1
+        );
         $data = $this->_getReadAdapter()->fetchRow($select);
         if ($data) {
             $object->setData($data);
@@ -84,17 +91,23 @@ class Query extends AbstractDb
     /**
      * Custom load model only by query text (skip synonym for)
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $value
      * @return $this
      */
-    public function loadByQueryText(\Magento\Core\Model\AbstractModel $object, $value)
+    public function loadByQueryText(\Magento\Model\AbstractModel $object, $value)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('query_text = ?', $value)
-            ->where('store_id = ?', $object->getStoreId())
-            ->limit(1);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'query_text = ?',
+            $value
+        )->where(
+            'store_id = ?',
+            $object->getStoreId()
+        )->limit(
+            1
+        );
         $data = $this->_getReadAdapter()->fetchRow($select);
         if ($data) {
             $object->setData($data);
@@ -106,12 +119,12 @@ class Query extends AbstractDb
     /**
      * Loading string as a value or regular numeric
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param int|string $value
      * @param null|string $field
      * @return $this|AbstractDb
      */
-    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
+    public function load(\Magento\Model\AbstractModel $object, $value, $field = null)
     {
         if (is_numeric($value)) {
             return parent::load($object, $value);
@@ -122,10 +135,10 @@ class Query extends AbstractDb
     }
 
     /**
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    public function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $object->setUpdatedAt($this->dateTime->formatDate($this->_date->gmtTimestamp()));
         return $this;

@@ -31,8 +31,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $model->scheduledLogClean('not_used', true);
 
-        $this->assertFileExists($filesystem->getPath(\Magento\App\Filesystem::LOG_DIR)
-            . '/' . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
+        $this->assertFileExists(
+            $filesystem->getPath(
+                \Magento\App\Filesystem::LOG_DIR
+            ) . '/' . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
         );
     }
 }

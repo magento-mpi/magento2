@@ -17,9 +17,7 @@ namespace Magento\Catalog\Model\Resource\Product\Indexer\Price;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class DefaultPrice
-    extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
-    implements PriceInterface
+class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer implements PriceInterface
 {
     /**
      * Product type code
@@ -33,7 +31,7 @@ class DefaultPrice
      *
      * @var bool
      */
-    protected $_isComposite    = false;
+    protected $_isComposite = false;
 
     /**
      * Core data
@@ -255,34 +253,39 @@ class DefaultPrice
         }
         $select->columns(array('tax_class_id' => $taxClassId));
 
-        $price          = $this->_addAttributeToSelect($select, 'price', 'e.entity_id', 'cs.store_id');
-        $specialPrice   = $this->_addAttributeToSelect($select, 'special_price', 'e.entity_id', 'cs.store_id');
-        $specialFrom    = $this->_addAttributeToSelect($select, 'special_from_date', 'e.entity_id', 'cs.store_id');
-        $specialTo      = $this->_addAttributeToSelect($select, 'special_to_date', 'e.entity_id', 'cs.store_id');
-        $currentDate    = $write->getDatePartSql('cwd.website_date');
-        $groupPrice     = $write->getCheckSql('gp.price IS NULL', "{$price}", 'gp.price');
+        $price = $this->_addAttributeToSelect($select, 'price', 'e.entity_id', 'cs.store_id');
+        $specialPrice = $this->_addAttributeToSelect($select, 'special_price', 'e.entity_id', 'cs.store_id');
+        $specialFrom = $this->_addAttributeToSelect($select, 'special_from_date', 'e.entity_id', 'cs.store_id');
+        $specialTo = $this->_addAttributeToSelect($select, 'special_to_date', 'e.entity_id', 'cs.store_id');
+        $currentDate = $write->getDatePartSql('cwd.website_date');
+        $groupPrice = $write->getCheckSql('gp.price IS NULL', "{$price}", 'gp.price');
 
-        $specialFromDate    = $write->getDatePartSql($specialFrom);
-        $specialToDate      = $write->getDatePartSql($specialTo);
+        $specialFromDate = $write->getDatePartSql($specialFrom);
+        $specialToDate = $write->getDatePartSql($specialTo);
 
-        $specialFromUse     = $write->getCheckSql("{$specialFromDate} <= {$currentDate}", '1', '0');
-        $specialToUse       = $write->getCheckSql("{$specialToDate} >= {$currentDate}", '1', '0');
-        $specialFromHas     = $write->getCheckSql("{$specialFrom} IS NULL", '1', "{$specialFromUse}");
-        $specialToHas       = $write->getCheckSql("{$specialTo} IS NULL", '1', "{$specialToUse}");
-        $finalPrice         = $write->getCheckSql("{$specialFromHas} > 0 AND {$specialToHas} > 0"
-            . " AND {$specialPrice} < {$price}", $specialPrice, $price);
-        $finalPrice         = $write->getCheckSql("{$groupPrice} < {$finalPrice}", $groupPrice, $finalPrice);
+        $specialFromUse = $write->getCheckSql("{$specialFromDate} <= {$currentDate}", '1', '0');
+        $specialToUse = $write->getCheckSql("{$specialToDate} >= {$currentDate}", '1', '0');
+        $specialFromHas = $write->getCheckSql("{$specialFrom} IS NULL", '1', "{$specialFromUse}");
+        $specialToHas = $write->getCheckSql("{$specialTo} IS NULL", '1', "{$specialToUse}");
+        $finalPrice = $write->getCheckSql(
+            "{$specialFromHas} > 0 AND {$specialToHas} > 0" . " AND {$specialPrice} < {$price}",
+            $specialPrice,
+            $price
+        );
+        $finalPrice = $write->getCheckSql("{$groupPrice} < {$finalPrice}", $groupPrice, $finalPrice);
 
-        $select->columns(array(
-            'orig_price'       => $price,
-            'price'            => $finalPrice,
-            'min_price'        => $finalPrice,
-            'max_price'        => $finalPrice,
-            'tier_price'       => new \Zend_Db_Expr('tp.min_price'),
-            'base_tier'        => new \Zend_Db_Expr('tp.min_price'),
-            'group_price'      => new \Zend_Db_Expr('gp.price'),
-            'base_group_price' => new \Zend_Db_Expr('gp.price'),
-        ));
+        $select->columns(
+            array(
+                'orig_price' => $price,
+                'price' => $finalPrice,
+                'min_price' => $finalPrice,
+                'max_price' => $finalPrice,
+                'tier_price' => new \Zend_Db_Expr('tp.min_price'),
+                'base_tier' => new \Zend_Db_Expr('tp.min_price'),
+                'group_price' => new \Zend_Db_Expr('gp.price'),
+                'base_group_price' => new \Zend_Db_Expr('gp.price')
+            )
+        );
 
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
@@ -291,12 +294,15 @@ class DefaultPrice
         /**
          * Add additional external limitation
          */
-        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
-            'select'        => $select,
-            'entity_field'  => new \Zend_Db_Expr('e.entity_id'),
-            'website_field' => new \Zend_Db_Expr('cw.website_id'),
-            'store_field'   => new \Zend_Db_Expr('cs.store_id')
-        ));
+        $this->_eventManager->dispatch(
+            'prepare_catalog_product_index_select',
+            array(
+                'select' => $select,
+                'entity_field' => new \Zend_Db_Expr('e.entity_id'),
+                'website_field' => new \Zend_Db_Expr('cw.website_id'),
+                'store_field' => new \Zend_Db_Expr('cs.store_id')
+            )
+        );
 
         $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable(), array(), false);
         $write->query($query);
@@ -304,19 +310,23 @@ class DefaultPrice
         /**
          * Add possibility modify prices from external events
          */
-        $select = $write->select()
-            ->join(array('wd' => $this->_getWebsiteDateTable()),
-                'i.website_id = wd.website_id',
-                array());
-        $this->_eventManager->dispatch('prepare_catalog_product_price_index_table', array(
-            'index_table'       => array('i' => $this->_getDefaultFinalPriceTable()),
-            'select'            => $select,
-            'entity_id'         => 'i.entity_id',
-            'customer_group_id' => 'i.customer_group_id',
-            'website_id'        => 'i.website_id',
-            'website_date'      => 'wd.website_date',
-            'update_fields'     => array('price', 'min_price', 'max_price')
-        ));
+        $select = $write->select()->join(
+            array('wd' => $this->_getWebsiteDateTable()),
+            'i.website_id = wd.website_id',
+            array()
+        );
+        $this->_eventManager->dispatch(
+            'prepare_catalog_product_price_index_table',
+            array(
+                'index_table' => array('i' => $this->_getDefaultFinalPriceTable()),
+                'select' => $select,
+                'entity_id' => 'i.entity_id',
+                'customer_group_id' => 'i.customer_group_id',
+                'website_id' => 'i.website_id',
+                'website_date' => 'wd.website_date',
+                'update_fields' => array('price', 'min_price', 'max_price')
+            )
+        );
 
         return $this;
     }
@@ -376,9 +386,9 @@ class DefaultPrice
      */
     protected function _applyCustomOption()
     {
-        $write      = $this->_getWriteAdapter();
-        $coaTable   = $this->_getCustomOptionAggregateTable();
-        $copTable   = $this->_getCustomOptionPriceTable();
+        $write = $this->_getWriteAdapter();
+        $coaTable = $this->_getCustomOptionAggregateTable();
+        $copTable = $this->_getCustomOptionPriceTable();
 
         $this->_prepareCustomOptionAggregateTable();
         $this->_prepareCustomOptionPriceTable();
@@ -425,28 +435,33 @@ class DefaultPrice
         $minPrice       = $write->getCheckSql("MIN(o.is_require) = 1", $minPriceMin, '0');
 
         $tierPriceRound = new \Zend_Db_Expr("ROUND(i.base_tier * ({$optPriceValue} / 100), 4)");
-        $tierPriceExpr  = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $tierPriceRound);
-        $tierPriceMin   = new \Zend_Db_Expr("MIN($tierPriceExpr)");
+        $tierPriceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $tierPriceRound);
+        $tierPriceMin = new \Zend_Db_Expr("MIN({$tierPriceExpr})");
         $tierPriceValue = $write->getCheckSql("MIN(o.is_require) > 0", $tierPriceMin, 0);
-        $tierPrice      = $write->getCheckSql("MIN(i.base_tier) IS NOT NULL", $tierPriceValue, "NULL");
+        $tierPrice = $write->getCheckSql("MIN(i.base_tier) IS NOT NULL", $tierPriceValue, "NULL");
 
         $groupPriceRound = new \Zend_Db_Expr("ROUND(i.base_group_price * ({$optPriceValue} / 100), 4)");
-        $groupPriceExpr  = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $groupPriceRound);
-        $groupPriceMin   = new \Zend_Db_Expr("MIN($groupPriceExpr)");
+        $groupPriceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $groupPriceRound);
+        $groupPriceMin = new \Zend_Db_Expr("MIN({$groupPriceExpr})");
         $groupPriceValue = $write->getCheckSql("MIN(o.is_require) > 0", $groupPriceMin, 0);
-        $groupPrice      = $write->getCheckSql("MIN(i.base_group_price) IS NOT NULL", $groupPriceValue, "NULL");
+        $groupPrice = $write->getCheckSql("MIN(i.base_group_price) IS NOT NULL", $groupPriceValue, "NULL");
 
-        $maxPriceRound  = new \Zend_Db_Expr("ROUND(i.price * ({$optPriceValue} / 100), 4)");
-        $maxPriceExpr   = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $maxPriceRound);
-        $maxPrice       = $write->getCheckSql("(MIN(o.type)='radio' OR MIN(o.type)='drop_down')",
-            "MAX($maxPriceExpr)", "SUM($maxPriceExpr)");
+        $maxPriceRound = new \Zend_Db_Expr("ROUND(i.price * ({$optPriceValue} / 100), 4)");
+        $maxPriceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $maxPriceRound);
+        $maxPrice = $write->getCheckSql(
+            "(MIN(o.type)='radio' OR MIN(o.type)='drop_down')",
+            "MAX({$maxPriceExpr})",
+            "SUM({$maxPriceExpr})"
+        );
 
-        $select->columns(array(
-            'min_price'   => $minPrice,
-            'max_price'   => $maxPrice,
-            'tier_price'  => $tierPrice,
-            'group_price' => $groupPrice,
-        ));
+        $select->columns(
+            array(
+                'min_price' => $minPrice,
+                'max_price' => $maxPrice,
+                'tier_price' => $tierPrice,
+                'group_price' => $groupPrice
+            )
+        );
 
         $query = $select->insertFromSelect($coaTable);
         $write->query($query);
@@ -490,57 +505,67 @@ class DefaultPrice
         $maxPrice       = $priceExpr;
 
         $tierPriceRound = new \Zend_Db_Expr("ROUND(i.base_tier * ({$optPriceValue} / 100), 4)");
-        $tierPriceExpr  = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $tierPriceRound);
+        $tierPriceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $tierPriceRound);
         $tierPriceValue = $write->getCheckSql("{$tierPriceExpr} > 0 AND o.is_require > 0", $tierPriceExpr, 0);
-        $tierPrice      = $write->getCheckSql("i.base_tier IS NOT NULL", $tierPriceValue, "NULL");
+        $tierPrice = $write->getCheckSql("i.base_tier IS NOT NULL", $tierPriceValue, "NULL");
 
         $groupPriceRound = new \Zend_Db_Expr("ROUND(i.base_group_price * ({$optPriceValue} / 100), 4)");
-        $groupPriceExpr  = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $groupPriceRound);
+        $groupPriceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $groupPriceRound);
         $groupPriceValue = $write->getCheckSql("{$groupPriceExpr} > 0 AND o.is_require > 0", $groupPriceExpr, 0);
-        $groupPrice      = $write->getCheckSql("i.base_group_price IS NOT NULL", $groupPriceValue, "NULL");
+        $groupPrice = $write->getCheckSql("i.base_group_price IS NOT NULL", $groupPriceValue, "NULL");
 
-        $select->columns(array(
-            'min_price'   => $minPrice,
-            'max_price'   => $maxPrice,
-            'tier_price'  => $tierPrice,
-            'group_price' => $groupPrice,
-        ));
+        $select->columns(
+            array(
+                'min_price' => $minPrice,
+                'max_price' => $maxPrice,
+                'tier_price' => $tierPrice,
+                'group_price' => $groupPrice
+            )
+        );
 
         $query = $select->insertFromSelect($coaTable);
         $write->query($query);
 
-        $select = $write->select()
-            ->from(
-                array($coaTable),
-                array(
-                    'entity_id',
-                    'customer_group_id',
-                    'website_id',
-                    'min_price'     => 'SUM(min_price)',
-                    'max_price'     => 'SUM(max_price)',
-                    'tier_price'    => 'SUM(tier_price)',
-                    'group_price'   => 'SUM(group_price)',
-                ))
-            ->group(array('entity_id', 'customer_group_id', 'website_id'));
+        $select = $write->select()->from(
+            array($coaTable),
+            array(
+                'entity_id',
+                'customer_group_id',
+                'website_id',
+                'min_price' => 'SUM(min_price)',
+                'max_price' => 'SUM(max_price)',
+                'tier_price' => 'SUM(tier_price)',
+                'group_price' => 'SUM(group_price)'
+            )
+        )->group(
+            array('entity_id', 'customer_group_id', 'website_id')
+        );
         $query = $select->insertFromSelect($copTable);
         $write->query($query);
 
-        $table  = array('i' => $this->_getDefaultFinalPriceTable());
-        $select = $write->select()
-            ->join(
-                array('io' => $copTable),
-                'i.entity_id = io.entity_id AND i.customer_group_id = io.customer_group_id'
-                    .' AND i.website_id = io.website_id',
-                array());
-        $select->columns(array(
-            'min_price'   => new \Zend_Db_Expr('i.min_price + io.min_price'),
-            'max_price'   => new \Zend_Db_Expr('i.max_price + io.max_price'),
-            'tier_price'  => $write->getCheckSql('i.tier_price IS NOT NULL', 'i.tier_price + io.tier_price', 'NULL'),
-            'group_price' => $write->getCheckSql(
-                'i.group_price IS NOT NULL',
-                'i.group_price + io.group_price', 'NULL'
-            ),
-        ));
+        $table = array('i' => $this->_getDefaultFinalPriceTable());
+        $select = $write->select()->join(
+            array('io' => $copTable),
+            'i.entity_id = io.entity_id AND i.customer_group_id = io.customer_group_id' .
+            ' AND i.website_id = io.website_id',
+            array()
+        );
+        $select->columns(
+            array(
+                'min_price' => new \Zend_Db_Expr('i.min_price + io.min_price'),
+                'max_price' => new \Zend_Db_Expr('i.max_price + io.max_price'),
+                'tier_price' => $write->getCheckSql(
+                    'i.tier_price IS NOT NULL',
+                    'i.tier_price + io.tier_price',
+                    'NULL'
+                ),
+                'group_price' => $write->getCheckSql(
+                    'i.group_price IS NOT NULL',
+                    'i.group_price + io.group_price',
+                    'NULL'
+                )
+            )
+        );
         $query = $select->crossUpdateFromSelect($table);
         $write->query($query);
 
@@ -558,22 +583,21 @@ class DefaultPrice
     protected function _movePriceDataToIndexTable()
     {
         $columns = array(
-            'entity_id'         => 'entity_id',
+            'entity_id' => 'entity_id',
             'customer_group_id' => 'customer_group_id',
-            'website_id'        => 'website_id',
-            'tax_class_id'      => 'tax_class_id',
-            'price'             => 'orig_price',
-            'final_price'       => 'price',
-            'min_price'         => 'min_price',
-            'max_price'         => 'max_price',
-            'tier_price'        => 'tier_price',
-            'group_price'       => 'group_price',
+            'website_id' => 'website_id',
+            'tax_class_id' => 'tax_class_id',
+            'price' => 'orig_price',
+            'final_price' => 'price',
+            'min_price' => 'min_price',
+            'max_price' => 'max_price',
+            'tier_price' => 'tier_price',
+            'group_price' => 'group_price'
         );
 
-        $write  = $this->_getWriteAdapter();
-        $table  = $this->_getDefaultFinalPriceTable();
-        $select = $write->select()
-            ->from($table, $columns);
+        $write = $this->_getWriteAdapter();
+        $table = $this->_getDefaultFinalPriceTable();
+        $select = $write->select()->from($table, $columns);
 
         $query = $select->insertFromSelect($this->getIdxTable(), array(), false);
         $write->query($query);

@@ -16,8 +16,7 @@ namespace Magento\Customer\Model\Config;
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Share extends \Magento\Core\Model\Config\Value
-    implements \Magento\Option\ArrayInterface
+class Share extends \Magento\Core\Model\Config\Value implements \Magento\Option\ArrayInterface
 {
     /**
      * Xml config path to customers sharing scope value
@@ -29,7 +28,8 @@ class Share extends \Magento\Core\Model\Config\Value
      * Possible customer sharing scopes
      *
      */
-    const SHARE_GLOBAL  = 0;
+    const SHARE_GLOBAL = 0;
+
     const SHARE_WEBSITE = 1;
 
     /**
@@ -48,7 +48,7 @@ class Share extends \Magento\Core\Model\Config\Value
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -58,7 +58,7 @@ class Share extends \Magento\Core\Model\Config\Value
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Resource\Customer $customerResource,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -97,28 +97,27 @@ class Share extends \Magento\Core\Model\Config\Value
      */
     public function toOptionArray()
     {
-        return array(
-            self::SHARE_GLOBAL  => __('Global'),
-            self::SHARE_WEBSITE => __('Per Website'),
-        );
+        return array(self::SHARE_GLOBAL => __('Global'), self::SHARE_WEBSITE => __('Per Website'));
     }
 
     /**
      * Check for email duplicates before saving customers sharing options
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function _beforeSave()
     {
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
             if ($this->_customerResource->findEmailDuplicates()) {
-                throw new \Magento\Core\Exception(
-                    //@codingStandardsIgnoreStart
-                    __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
-                    //@codingStandardsIgnoreEnd
+                //@codingStandardsIgnoreStart
+                throw new \Magento\Model\Exception(
+                    __(
+                        'Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.'
+                    )
                 );
+                //@codingStandardsIgnoreEnd
             }
         }
         return $this;
@@ -132,7 +131,7 @@ class Share extends \Magento\Core\Model\Config\Value
      */
     public function getSharedWebsiteIds($websiteId)
     {
-        $ids = [];
+        $ids = array();
         if ($this->isWebsiteScope()) {
             $ids[] = $websiteId;
         } else {

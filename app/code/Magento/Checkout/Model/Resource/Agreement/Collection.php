@@ -16,21 +16,19 @@ namespace Magento\Checkout\Model\Resource\Agreement;
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var array
      */
-    protected $_map = array('fields' => array(
-        'agreement_id' => 'main_table.agreement_id',
-    ));
+    protected $_map = array('fields' => array('agreement_id' => 'main_table.agreement_id'));
 
     /**
      * Is store filter with admin store
      *
      * @var bool
      */
-    protected $_isStoreFilterWithAdmin   = true;
+    protected $_isStoreFilterWithAdmin = true;
 
     /**
      * Initialize resource
@@ -72,9 +70,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             array($alias => $this->getTable('checkout_agreement_store')),
             'main_table.agreement_id = ' . $alias . '.agreement_id',
             array()
-        )
-        ->where($alias . '.store_id IN (?)', $storeFilter)
-        ->group('main_table.agreement_id');
+        )->where(
+            $alias . '.store_id IN (?)',
+            $storeFilter
+        )->group(
+            'main_table.agreement_id'
+        );
 
         $this->setFlag($alias, true);
         return $this;

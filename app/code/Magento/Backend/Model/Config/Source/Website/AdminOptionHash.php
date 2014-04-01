@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source\Website;
 
 use Magento\Store\Model\System\Store;
@@ -19,7 +18,6 @@ use Magento\Store\Model\System\Store;
  */
 class AdminOptionHash extends OptionHash
 {
-
     /**
      * @param Store $systemStore
      * @param bool $withDefaultWebsite
@@ -29,5 +27,3 @@ class AdminOptionHash extends OptionHash
         parent::__construct($systemStore, $withDefaultWebsite);
     }
 }
-
-

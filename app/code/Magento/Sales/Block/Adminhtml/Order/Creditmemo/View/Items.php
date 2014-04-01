@@ -45,9 +45,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getOrderTotalData()
     {
-        return array(
-            'grand_total_title' => __('Total Refund'),
-        );
+        return array('grand_total_title' => __('Total Refund'));
     }
 
     /**

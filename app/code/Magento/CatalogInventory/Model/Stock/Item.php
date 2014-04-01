@@ -54,24 +54,33 @@ use Magento\Catalog\Model\Product;
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
-    const XML_PATH_GLOBAL                = 'cataloginventory/options/';
-    const XML_PATH_CAN_SUBTRACT          = 'cataloginventory/options/can_subtract';
-    const XML_PATH_CAN_BACK_IN_STOCK     = 'cataloginventory/options/can_back_in_stock';
+    const XML_PATH_GLOBAL = 'cataloginventory/options/';
 
-    const XML_PATH_ITEM                  = 'cataloginventory/item_options/';
-    const XML_PATH_MIN_QTY               = 'cataloginventory/item_options/min_qty';
-    const XML_PATH_MIN_SALE_QTY          = 'cataloginventory/item_options/min_sale_qty';
-    const XML_PATH_MAX_SALE_QTY          = 'cataloginventory/item_options/max_sale_qty';
-    const XML_PATH_BACKORDERS            = 'cataloginventory/item_options/backorders';
-    const XML_PATH_NOTIFY_STOCK_QTY      = 'cataloginventory/item_options/notify_stock_qty';
-    const XML_PATH_MANAGE_STOCK          = 'cataloginventory/item_options/manage_stock';
+    const XML_PATH_CAN_SUBTRACT = 'cataloginventory/options/can_subtract';
+
+    const XML_PATH_CAN_BACK_IN_STOCK = 'cataloginventory/options/can_back_in_stock';
+
+    const XML_PATH_ITEM = 'cataloginventory/item_options/';
+
+    const XML_PATH_MIN_QTY = 'cataloginventory/item_options/min_qty';
+
+    const XML_PATH_MIN_SALE_QTY = 'cataloginventory/item_options/min_sale_qty';
+
+    const XML_PATH_MAX_SALE_QTY = 'cataloginventory/item_options/max_sale_qty';
+
+    const XML_PATH_BACKORDERS = 'cataloginventory/item_options/backorders';
+
+    const XML_PATH_NOTIFY_STOCK_QTY = 'cataloginventory/item_options/notify_stock_qty';
+
+    const XML_PATH_MANAGE_STOCK = 'cataloginventory/item_options/manage_stock';
+
     const XML_PATH_ENABLE_QTY_INCREMENTS = 'cataloginventory/item_options/enable_qty_increments';
-    const XML_PATH_QTY_INCREMENTS        = 'cataloginventory/item_options/qty_increments';
 
-    const ENTITY                         = 'cataloginventory_stock_item';
+    const XML_PATH_QTY_INCREMENTS = 'cataloginventory/item_options/qty_increments';
+
+    const ENTITY = 'cataloginventory_stock_item';
 
     /**
      * @var array
@@ -191,7 +200,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -208,7 +217,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Math\Division $mathDivision,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -282,7 +291,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function subtractQty($qty)
     {
         if ($this->canSubtractQty()) {
-            $this->setQty($this->getQty()-$qty);
+            $this->setQty($this->getQty() - $qty);
         }
         return $this;
     }
@@ -313,7 +322,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $this->setQty($this->getQty()+$qty);
+        $this->setQty($this->getQty() + $qty);
         return $this;
     }
 
@@ -400,11 +409,13 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $customerGroupId = $this->getCustomerGroupId();
         if (!isset($this->_minSaleQtyCache[$customerGroupId])) {
-            $minSaleQty = $this->getUseConfigMinSaleQty()
-                ? $this->_catalogInventoryMinsaleqty->getConfigValue($customerGroupId)
-                : $this->getData('min_sale_qty');
+            $minSaleQty = $this->getUseConfigMinSaleQty() ? $this->_catalogInventoryMinsaleqty->getConfigValue(
+                $customerGroupId
+            ) : $this->getData(
+                'min_sale_qty'
+            );
 
-            $this->_minSaleQtyCache[$customerGroupId] = empty($minSaleQty) ? 0 : (float)$minSaleQty;
+            $this->_minSaleQtyCache[$customerGroupId] = empty($minSaleQty) ? 0 : (double)$minSaleQty;
         }
 
         return $this->_minSaleQtyCache[$customerGroupId] ? $this->_minSaleQtyCache[$customerGroupId] : null;
@@ -431,7 +442,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if ($this->getUseConfigNotifyStockQty()) {
             return (float) $this->_storeConfig->getValue(self::XML_PATH_NOTIFY_STOCK_QTY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
-        return (float) $this->getData('notify_stock_qty');
+        return (double)$this->getData('notify_stock_qty');
     }
 
     /**
@@ -444,7 +455,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if ($this->getUseConfigEnableQtyInc()) {
             return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
-        return (bool) $this->getData('enable_qty_increments');
+        return (bool)$this->getData('enable_qty_increments');
     }
 
     /**
@@ -469,12 +480,12 @@ class Item extends \Magento\Core\Model\AbstractModel
         return $this->_qtyIncrements;
     }
 
-     /**
-      * Retrieve Default Quantity Increments data wrapper
-      *
-      * @deprecated since 1.7.0.0
-      * @return int|false
-      */
+    /**
+     * Retrieve Default Quantity Increments data wrapper
+     *
+     * @deprecated since 1.7.0.0
+     * @return int|false
+     */
     public function getDefaultQtyIncrements()
     {
         return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
@@ -522,7 +533,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Check quantity
      *
      * @param int|float $qty
-     * @exception \Magento\Core\Exception
+     * @exception \Magento\Model\Exception
      * @return bool
      */
     public function checkQty($qty)
@@ -558,7 +569,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             return $qty;
         }
 
-        $qtyIncrements = (int)$this->getQtyIncrements(); // Currently only integer increments supported
+        $qtyIncrements = (int)$this->getQtyIncrements();
+        // Currently only integer increments supported
         if ($qtyIncrements < 2) {
             return $qty;
         }
@@ -612,8 +624,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             $qty = intval($qty);
 
             /**
-              * Adding stock data to quote item
-              */
+             * Adding stock data to quote item
+             */
             $result->setItemQty($qty);
 
             if (!is_numeric($qty)) {
@@ -624,24 +636,32 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         if ($this->getMinSaleQty() && $qty < $this->getMinSaleQty()) {
-            $result->setHasError(true)
-                ->setMessage(
-                    __('The fewest you may purchase is %1.', $this->getMinSaleQty() * 1)
-                )
-                ->setErrorCode('qty_min')
-                ->setQuoteMessage(__('Please correct the quantity for some products.'))
-                ->setQuoteMessageIndex('qty');
+            $result->setHasError(
+                true
+            )->setMessage(
+                __('The fewest you may purchase is %1.', $this->getMinSaleQty() * 1)
+            )->setErrorCode(
+                'qty_min'
+            )->setQuoteMessage(
+                __('Please correct the quantity for some products.')
+            )->setQuoteMessageIndex(
+                'qty'
+            );
             return $result;
         }
 
         if ($this->getMaxSaleQty() && $qty > $this->getMaxSaleQty()) {
-            $result->setHasError(true)
-                ->setMessage(
-                    __('The most you may purchase is %1.', $this->getMaxSaleQty() * 1)
-                )
-                ->setErrorCode('qty_max')
-                ->setQuoteMessage(__('Please correct the quantity for some products.'))
-                ->setQuoteMessageIndex('qty');
+            $result->setHasError(
+                true
+            )->setMessage(
+                __('The most you may purchase is %1.', $this->getMaxSaleQty() * 1)
+            )->setErrorCode(
+                'qty_max'
+            )->setQuoteMessage(
+                __('Please correct the quantity for some products.')
+            )->setQuoteMessageIndex(
+                'qty'
+            );
             return $result;
         }
 
@@ -655,26 +675,28 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         if (!$this->getIsInStock()) {
-            $result->setHasError(true)
-                ->setMessage(__('This product is out of stock.'))
-                ->setQuoteMessage(__('Some of the products are currently out of stock.'))
-                ->setQuoteMessageIndex('stock');
+            $result->setHasError(
+                true
+            )->setMessage(
+                __('This product is out of stock.')
+            )->setQuoteMessage(
+                __('Some of the products are currently out of stock.')
+            )->setQuoteMessageIndex(
+                'stock'
+            );
             $result->setItemUseOldQty(true);
             return $result;
         }
 
         if (!$this->checkQty($summaryQty) || !$this->checkQty($qty)) {
             $message = __('We don\'t have as many "%1" as you requested.', $this->getProductName());
-            $result->setHasError(true)
-                ->setMessage($message)
-                ->setQuoteMessage($message)
-                ->setQuoteMessageIndex('qty');
+            $result->setHasError(true)->setMessage($message)->setQuoteMessage($message)->setQuoteMessageIndex('qty');
             return $result;
         } else {
-            if (($this->getQty() - $summaryQty) < 0) {
+            if ($this->getQty() - $summaryQty < 0) {
                 if ($this->getProductName()) {
                     if ($this->getIsChildItem()) {
-                        $backorderQty = ($this->getQty() > 0) ? ($summaryQty - $this->getQty()) * 1 : $qty * 1;
+                        $backorderQty = $this->getQty() > 0 ? ($summaryQty - $this->getQty()) * 1 : $qty * 1;
                         if ($backorderQty > $qty) {
                             $backorderQty = $qty;
                         }
@@ -682,8 +704,8 @@ class Item extends \Magento\Core\Model\AbstractModel
                         $result->setItemBackorders($backorderQty);
                     } else {
                         $orderedItems = $this->getOrderedItems();
-                        $itemsLeft = ($this->getQty() > $orderedItems) ? ($this->getQty() - $orderedItems) * 1 : 0;
-                        $backorderQty = ($itemsLeft > 0) ? ($qty - $itemsLeft) * 1 : $qty * 1;
+                        $itemsLeft = $this->getQty() > $orderedItems ? ($this->getQty() - $orderedItems) * 1 : 0;
+                        $backorderQty = $itemsLeft > 0 ? ($qty - $itemsLeft) * 1 : $qty * 1;
 
                         if ($backorderQty > 0) {
                             $result->setItemBackorders($backorderQty);
@@ -694,11 +716,19 @@ class Item extends \Magento\Core\Model\AbstractModel
                     if ($this->getBackorders() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_YES_NOTIFY) {
                         if (!$this->getIsChildItem()) {
                             $result->setMessage(
-                                __('We don\'t have as many "%1" as you requested, but we\'ll back order the remaining %2.', $this->getProductName(), ($backorderQty * 1))
+                                __(
+                                    'We don\'t have as many "%1" as you requested, but we\'ll back order the remaining %2.',
+                                    $this->getProductName(),
+                                    $backorderQty * 1
+                                )
                             );
                         } else {
                             $result->setMessage(
-                                __('We don\'t have "%1" in the requested quantity, so we\'ll back order the remaining %2.', $this->getProductName(), ($backorderQty * 1))
+                                __(
+                                    'We don\'t have "%1" in the requested quantity, so we\'ll back order the remaining %2.',
+                                    $this->getProductName(),
+                                    $backorderQty * 1
+                                )
                             );
                         }
                     } elseif ($this->_hasDefaultNotificationMessage()) {
@@ -732,21 +762,22 @@ class Item extends \Magento\Core\Model\AbstractModel
 
         $qtyIncrements = $this->getQtyIncrements();
 
-        if ($qtyIncrements && ($this->mathDivision->getExactDivision($qty, $qtyIncrements) != 0)) {
-            $result->setHasError(true)
-                ->setQuoteMessage(
-                    __('Please correct the quantity for some products.')
-                )
-                ->setErrorCode('qty_increments')
-                ->setQuoteMessageIndex('qty');
+        if ($qtyIncrements && $this->mathDivision->getExactDivision($qty, $qtyIncrements) != 0) {
+            $result->setHasError(
+                true
+            )->setQuoteMessage(
+                __('Please correct the quantity for some products.')
+            )->setErrorCode(
+                'qty_increments'
+            )->setQuoteMessageIndex(
+                'qty'
+            );
             if ($this->getIsChildItem()) {
                 $result->setMessage(
                     __('You can buy %1 only in increments of %2.', $this->getProductName(), $qtyIncrements * 1)
                 );
             } else {
-                $result->setMessage(
-                    __('You can buy this product only in increments of %1.', $qtyIncrements * 1)
-                );
+                $result->setMessage(__('You can buy this product only in increments of %1.', $qtyIncrements * 1));
             }
         }
 
@@ -774,8 +805,11 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param string $errorIndex
      * @return $this
      */
-    protected function _addQuoteItemError(\Magento\Sales\Model\Quote\Item $item, $itemError,
-        $quoteError, $errorIndex='error'
+    protected function _addQuoteItemError(
+        \Magento\Sales\Model\Quote\Item $item,
+        $itemError,
+        $quoteError,
+        $errorIndex = 'error'
     ) {
         $item->setHasError(true);
         $item->setMessage($itemError);
@@ -801,15 +835,21 @@ class Item extends \Magento\Core\Model\AbstractModel
 
         if ($isQty) {
             if ($this->getManageStock() && !$this->verifyStock()) {
-                $this->setIsInStock(false)
-                    ->setStockStatusChangedAutomaticallyFlag(true);
+                $this->setIsInStock(false)->setStockStatusChangedAutomaticallyFlag(true);
             }
 
             // if qty is below notify qty, update the low stock date to today date otherwise set null
             $this->setLowStockDate(null);
             if ($this->verifyNotification()) {
-                $this->setLowStockDate($this->_localeDate->date(null, null, null, false)
-                    ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                $this->setLowStockDate(
+                    $this->_localeDate->date(
+                        null,
+                        null,
+                        null,
+                        false
+                    )->toString(
+                        \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                    )
                 );
             }
 
@@ -835,9 +875,9 @@ class Item extends \Magento\Core\Model\AbstractModel
         if ($qty === null) {
             $qty = $this->getQty();
         }
-        if ($qty !== null
-            && $this->getBackorders() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
-            && $qty <= $this->getMinQty()
+        if ($qty !== null &&
+            $this->getBackorders() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO &&
+            $qty <= $this->getMinQty()
         ) {
             return false;
         }
@@ -855,7 +895,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if ($qty === null) {
             $qty = $this->getQty();
         }
-        return (float)$qty < $this->getNotifyStockQty();
+        return (double)$qty < $this->getNotifyStockQty();
     }
 
     /**
@@ -874,7 +914,6 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
         return $this;
     }
-
 
     /**
      * Retrieve Stock Availability
@@ -897,13 +936,21 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function setProduct($product)
     {
-        $this->setProductId($product->getId())
-            ->setProductName($product->getName())
-            ->setStoreId($product->getStoreId())
-            ->setProductName($product->getName())
-            ->setProductTypeId($product->getTypeId())
-            ->setProductStatusChanged($product->dataHasChangedFor('status'))
-            ->setProductChangedWebsites($product->getIsChangedWebsites());
+        $this->setProductId(
+            $product->getId()
+        )->setProductName(
+            $product->getName()
+        )->setStoreId(
+            $product->getStoreId()
+        )->setProductName(
+            $product->getName()
+        )->setProductTypeId(
+            $product->getTypeId()
+        )->setProductStatusChanged(
+            $product->dataHasChangedFor('status')
+        )->setProductChangedWebsites(
+            $product->getIsChangedWebsites()
+        );
 
         $this->_productInstance = $product;
 
@@ -928,7 +975,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getStockQty()
     {
         if (!$this->hasStockQty()) {
-            $this->setStockQty(0);  // prevent possible recursive loop
+            $this->setStockQty(0);
+            // prevent possible recursive loop
             $product = $this->_productInstance;
             if (!$product || !$product->isComposite()) {
                 $stockQty = $this->getQty();
@@ -947,9 +995,11 @@ class Item extends \Magento\Core\Model\AbstractModel
                     }
                 }
             }
-            $stockQty = (float) $stockQty;
-            if ($stockQty < 0 || !$this->getManageStock()
-                || !$this->getIsInStock() || ($product && !$product->isSaleable())
+            $stockQty = (double)$stockQty;
+            if ($stockQty < 0 ||
+                !$this->getManageStock() ||
+                !$this->getIsInStock() ||
+                $product && !$product->isSaleable()
             ) {
                 $stockQty = 0;
             }

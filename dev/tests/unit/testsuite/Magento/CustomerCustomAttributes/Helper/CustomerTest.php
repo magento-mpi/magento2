@@ -29,18 +29,24 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_contextMock = $this->getMockBuilder('Magento\App\Helper\Context')
-            ->disableOriginalConstructor()->getMock();
+        $this->_contextMock = $this->getMockBuilder(
+            'Magento\App\Helper\Context'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_dataHelperMock = $this->getMockBuilder('Magento\CustomerCustomAttributes\Helper\Data')
-            ->disableOriginalConstructor()->getMock();
-        $this->_dataHelperMock->expects($this->any())
-            ->method('getAttributeInputTypes')
-            ->will($this->returnValue(array()));
+        $this->_dataHelperMock = $this->getMockBuilder(
+            'Magento\CustomerCustomAttributes\Helper\Data'
+        )->disableOriginalConstructor()->getMock();
+        $this->_dataHelperMock->expects(
+            $this->any()
+        )->method(
+            'getAttributeInputTypes'
+        )->will(
+            $this->returnValue(array())
+        );
 
-        $this->_inputValidatorMock =
-            $this->getMockBuilder('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator')
-                ->disableOriginalConstructor()->getMock();
+        $this->_inputValidatorMock = $this->getMockBuilder(
+            'Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator'
+        )->disableOriginalConstructor()->getMock();
     }
 
     /**
@@ -51,13 +57,21 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function filterPostDataExceptionTest($data, $validatorResult)
     {
-        $this->_inputValidatorMock->expects($this->any())
-            ->method('isValid')
-            ->will($this->returnValue($validatorResult));
+        $this->_inputValidatorMock->expects(
+            $this->any()
+        )->method(
+            'isValid'
+        )->will(
+            $this->returnValue($validatorResult)
+        );
 
-        $this->_inputValidatorMock->expects($this->any())
-            ->method('getMessages')
-            ->will($this->returnValue(array('Some error message')));
+        $this->_inputValidatorMock->expects(
+            $this->any()
+        )->method(
+            'getMessages'
+        )->will(
+            $this->returnValue(array('Some error message'))
+        );
 
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
             $this->_contextMock,
@@ -68,7 +82,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->_inputValidatorMock
         );
 
-        $this->setExpectedException('Magento\Core\Exception');
+        $this->setExpectedException('Magento\Model\Exception');
         $helper->filterPostData($data);
     }
 
@@ -81,11 +95,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function filterPostDataTest($data, $expectedResultData)
     {
-        $this->_inputValidatorMock->expects($this->once())
-            ->method('isValid')
-            ->will($this->returnValue(true));
-        $this->_inputValidatorMock->expects($this->never())
-            ->method('getMessages');
+        $this->_inputValidatorMock->expects($this->once())->method('isValid')->will($this->returnValue(true));
+        $this->_inputValidatorMock->expects($this->never())->method('getMessages');
 
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
             $this->_contextMock,
@@ -110,19 +121,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array(
-                    'frontend_label' => array(),
-                    'frontend_input' => 'file',
-                    'attribute_code' => 'correct_code'
-                ),
+                array('frontend_label' => array(), 'frontend_input' => 'file', 'attribute_code' => 'correct_code'),
                 false
             ),
             array(
-                array(
-                    'frontend_label' => array(),
-                    'frontend_input' => 'select',
-                    'attribute_code' => 'inCorrect_code'
-                ),
+                array('frontend_label' => array(), 'frontend_input' => 'select', 'attribute_code' => 'inCorrect_code'),
                 true
             ),
             array(
@@ -132,7 +135,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                     'attribute_code' => 'in!correct_code'
                 ),
                 true
-            ),
+            )
         );
     }
 
@@ -150,11 +153,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                     'frontend_input' => 'file',
                     'attribute_code' => 'correct_code'
                 ),
-                array(
-                    'frontend_label' => array(''),
-                    'frontend_input' => 'file',
-                    'attribute_code' => 'correct_code'
-                ),
+                array('frontend_label' => array(''), 'frontend_input' => 'file', 'attribute_code' => 'correct_code')
             )
         );
     }

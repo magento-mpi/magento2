@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Config;
 
 /**
@@ -24,7 +23,7 @@ namespace Magento\Core\Model\Config;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Config\ValueInterface
+class Value extends \Magento\Model\AbstractModel implements \Magento\App\Config\ValueInterface
 {
     /**
      * Prefix of model events names
@@ -51,7 +50,7 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -59,7 +58,7 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -111,7 +110,6 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
         );
     }
 
-
     /**
      * Get value by key for new user data from <section>/groups/<group>/fields/<field>
      *
@@ -121,6 +119,6 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
     public function getFieldsetDataValue($key)
     {
         $data = $this->_getData('fieldset_data');
-        return (is_array($data) && isset($data[$key])) ? $data[$key] : null;
+        return is_array($data) && isset($data[$key]) ? $data[$key] : null;
     }
 }

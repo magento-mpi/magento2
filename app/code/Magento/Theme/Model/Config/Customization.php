@@ -56,7 +56,7 @@ class Customization
         \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
     ) {
         $this->_storeManager = $storeManager;
-        $this->_design       = $design;
+        $this->_design = $design;
         $this->themeProvider = $themeProvider;
     }
 
@@ -121,7 +121,7 @@ class Customization
             $assignedThemes = $this->getAssignedThemeCustomizations();
             return isset($assignedThemes[$theme->getId()]);
         }
-        return  $this->_isThemeAssignedToSpecificStore($theme, $store);
+        return $this->_isThemeAssignedToSpecificStore($theme, $store);
     }
 
     /**

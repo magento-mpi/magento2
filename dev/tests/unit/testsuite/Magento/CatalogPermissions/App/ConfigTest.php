@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\App;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
@@ -28,11 +27,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->with($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null)
             ->will($this->returnValue($configValue));
         $model = new Config($storeConfigMock);
-        $this->assertEquals($value, $model->$method());
+        $this->assertEquals($value, $model->{$method}());
     }
 
     /**
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function dataProviderMethods()
     {
@@ -105,8 +105,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 'getRestrictedLandingPage', 'getValue',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_LANDING_PAGE,
-                'value', 'value',
-            ],
+                'value',
+                'value'
+           ] 
         ];
     }
 }

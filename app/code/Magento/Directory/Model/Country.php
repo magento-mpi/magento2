@@ -22,12 +22,12 @@
  */
 namespace Magento\Directory\Model;
 
-class Country extends \Magento\Core\Model\AbstractModel
+class Country extends \Magento\Model\AbstractModel
 {
     /**
      * @var array
      */
-    static public $_format = array();
+    public static $_format = array();
 
     /**
      * @var \Magento\Locale\ListsInterface
@@ -50,7 +50,7 @@ class Country extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Locale\ListsInterface $localeLists
      * @param Country\FormatFactory $formatFactory
      * @param Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -60,13 +60,11 @@ class Country extends \Magento\Core\Model\AbstractModel
         \Magento\Locale\ListsInterface $localeLists,
         \Magento\Directory\Model\Country\FormatFactory $formatFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context, $registry, $resource, $resourceCollection, $data
-        );
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_localeLists = $localeLists;
         $this->_formatFactory = $formatFactory;
         $this->_regionCollectionFactory = $regionCollectionFactory;
@@ -169,8 +167,9 @@ T: {{telephone}}";
     public function getFormats()
     {
         if (!isset(self::$_format[$this->getId()]) && $this->getId()) {
-            self::$_format[$this->getId()] = $this->_formatFactory->create()
-                ->getCollection()->setCountryFilter($this)->load();
+            self::$_format[$this->getId()] = $this->_formatFactory->create()->getCollection()->setCountryFilter(
+                $this
+            )->load();
         }
 
         if (isset(self::$_format[$this->getId()])) {
@@ -208,5 +207,4 @@ T: {{telephone}}";
         }
         return $this->getData('name');
     }
-
 }

@@ -91,11 +91,17 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_customerSession;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -104,6 +110,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -112,6 +119,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $this->_regionFactory = $regionFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -141,9 +149,18 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     {
         $address = $this->_getCurrentCustomer()->getDefaultBillingAddress();
 
-        $addressFileds    = array(
-            'prefix', 'firstname', 'middlename', 'lastname', 'suffix',
-            'company', 'city', 'country_id', 'telephone', 'fax', 'postcode',
+        $addressFileds = array(
+            'prefix',
+            'firstname',
+            'middlename',
+            'lastname',
+            'suffix',
+            'company',
+            'city',
+            'country_id',
+            'telephone',
+            'fax',
+            'postcode'
         );
 
         $result = array();
@@ -176,12 +193,19 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     public function getIframeBlock()
     {
-        $iframeBlock = $this->getLayout()->createBlock($this->_iframeBlockType)
-            ->setTemplate($this->_iframeTemplate)
-            ->setScrolling($this->_iframeScrolling)
-            ->setIframeWidth($this->_iframeWidth)
-            ->setIframeHeight($this->_iframeHeight)
-            ->setSourceUrl($this->getSourceUrl());
+        $iframeBlock = $this->getLayout()->createBlock(
+            $this->_iframeBlockType
+        )->setTemplate(
+            $this->_iframeTemplate
+        )->setScrolling(
+            $this->_iframeScrolling
+        )->setIframeWidth(
+            $this->_iframeWidth
+        )->setIframeHeight(
+            $this->_iframeHeight
+        )->setSourceUrl(
+            $this->getSourceUrl()
+        );
         return $iframeBlock;
     }
 
@@ -222,7 +246,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
             return $this->_pbridgeSession->getCssUrl();
         }
         $items = $this->getLayout()->getBlock('head')->getData('items');
-        $lines  = array();
+        $lines = array();
         foreach ($items as $item) {
             if (!is_null($item['cond']) && !$this->getData($item['cond']) || !isset($item['name'])) {
                 continue;
@@ -266,16 +290,18 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         // get static files from the js folder, no need in lookups
         foreach ($staticItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $this->_dirs->getDir() . '/js/' . $name : $baseJsUrl
-                    . $name;
+                $items[$params][] = $mergeCallback ? $this->_dirs->getDir() . '/js/' . $name : $baseJsUrl . $name;
             }
         }
 
         // lookup each file basing on current theme configuration
         foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $this->_viewFileSystem->getFilename($name)
-                    : $this->_viewUrl->getViewFileUrl($name);
+                $items[$params][] = $mergeCallback ? $this->_viewFileSystem->getFilename(
+                    $name
+                ) : $this->_viewUrl->getViewFileUrl(
+                    $name
+                );
             }
         }
 
@@ -309,8 +335,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $customer = $this->_getCurrentCustomer();
         $store = $this->_getCurrentStore();
         if ($customer && $customer->getEmail()) {
-            return $this->_pbridgeData
-                ->getCustomerIdentifierByEmail($customer->getId(), $store->getId());
+            return $this->_pbridgeData->getCustomerIdentifierByEmail($customer->getId(), $store->getId());
         }
         return null;
     }
@@ -352,7 +377,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _getCurrentCustomer()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->_customerSession->getCustomer();
         }
 

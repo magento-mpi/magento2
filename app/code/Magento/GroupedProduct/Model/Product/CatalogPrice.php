@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Product;
 
 /**
@@ -60,8 +59,7 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
         }
         $minPrice = null;
         foreach ($subProducts as $subProduct) {
-            $subProduct->setWebsiteId($product->getWebsiteId())
-                ->setCustomerGroupId($product->getCustomerGroupId());
+            $subProduct->setWebsiteId($product->getWebsiteId())->setCustomerGroupId($product->getCustomerGroupId());
             if ($subProduct->isSalable()) {
                 if ($this->commonPriceModel->getCatalogPrice($subProduct) < $minPrice || $minPrice === null) {
                     $minPrice = $this->commonPriceModel->getCatalogPrice($subProduct);

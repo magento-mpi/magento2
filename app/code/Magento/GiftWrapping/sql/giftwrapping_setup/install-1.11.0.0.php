@@ -14,26 +14,38 @@ $installer = $this;
 /**
  * Create table 'magento_giftwrapping'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftwrapping'))
-    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Wrapping Id')
-    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Status')
-    ->addColumn('base_price', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        ), 'Base Price')
-    ->addColumn('image', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Image')
-    ->addIndex($installer->getIdxName('magento_giftwrapping', array('status')),
-        array('status'))
-    ->setComment('Enterprise Gift Wrapping Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftwrapping')
+)->addColumn(
+    'wrapping_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Wrapping Id'
+)->addColumn(
+    'status',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Status'
+)->addColumn(
+    'base_price',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false),
+    'Base Price'
+)->addColumn(
+    'image',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Image'
+)->addIndex(
+    $installer->getIdxName('magento_giftwrapping', array('status')),
+    array('status')
+)->setComment(
+    'Enterprise Gift Wrapping Table'
+);
 $installer->getConnection()->createTable($table);
 
 
@@ -227,37 +239,45 @@ $applyTo = join(',', $this->getRealProductTypes());
 
 $installer = $this->getCatalogSetup();
 
-$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'gift_wrapping_available', array(
-    'group'         => 'Gift Options',
-    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
-    'frontend'      => '',
-    'label'         => 'Allow Gift Wrapping',
-    'input'         => 'select',
-    'source'        => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
-    'global'        => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-    'visible'       => true,
-    'required'      => false,
-    'user_defined'  => false,
-    'default'       => '',
-    'apply_to'      => $applyTo,
-    'frontend_class' => 'hidden-for-virtual',
-    'frontend_input_renderer' => 'Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
-    'input_renderer'   => 'Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
-    'visible_on_front' => false
-));
+$installer->addAttribute(
+    \Magento\Catalog\Model\Product::ENTITY,
+    'gift_wrapping_available',
+    array(
+        'group' => 'Gift Options',
+        'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
+        'frontend' => '',
+        'label' => 'Allow Gift Wrapping',
+        'input' => 'select',
+        'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
+        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
+        'visible' => true,
+        'required' => false,
+        'user_defined' => false,
+        'default' => '',
+        'apply_to' => $applyTo,
+        'frontend_class' => 'hidden-for-virtual',
+        'frontend_input_renderer' => 'Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
+        'input_renderer' => 'Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form\Config',
+        'visible_on_front' => false
+    )
+);
 
-$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'gift_wrapping_price', array(
-    'group'         => 'Gift Options',
-    'type'          => 'decimal',
-    'backend'       => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
-    'frontend'      => '',
-    'label'         => 'Price for Gift Wrapping',
-    'input'         => 'price',
-    'global'        => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
-    'visible'       => true,
-    'required'      => false,
-    'user_defined'  => false,
-    'apply_to'      => $applyTo,
-    'frontend_class' => 'hidden-for-virtual',
-    'visible_on_front' => false
-));
+$installer->addAttribute(
+    \Magento\Catalog\Model\Product::ENTITY,
+    'gift_wrapping_price',
+    array(
+        'group' => 'Gift Options',
+        'type' => 'decimal',
+        'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
+        'frontend' => '',
+        'label' => 'Price for Gift Wrapping',
+        'input' => 'price',
+        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
+        'visible' => true,
+        'required' => false,
+        'user_defined' => false,
+        'apply_to' => $applyTo,
+        'frontend_class' => 'hidden-for-virtual',
+        'visible_on_front' => false
+    )
+);

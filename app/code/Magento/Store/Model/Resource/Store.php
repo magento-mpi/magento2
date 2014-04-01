@@ -10,7 +10,7 @@ namespace Magento\Store\Model\Resource;
 /**
  * Store Resource Model
  */
-class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Store extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and primary key
@@ -47,20 +47,17 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array(
-            'field' => 'code',
-            'title' => __('Store with the same code')
-        ));
+        $this->_uniqueFields = array(array('field' => 'code', 'title' => __('Store with the same code')));
         return $this;
     }
 
     /**
      * Update Store Group data after save store
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
         $this->_updateGroupDefaultStore($object->getGroupId(), $object->getId());
@@ -72,20 +69,17 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Remove configuration data after delete store
      *
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Model\AbstractModel $model
      * @return $this
      */
-    protected function _afterDelete(\Magento\Core\Model\AbstractModel $model)
+    protected function _afterDelete(\Magento\Model\AbstractModel $model)
     {
         $where = array(
             'scope = ?'    => \Magento\Store\Model\ScopeInterface::SCOPE_STORES,
             'scope_id = ?' => $model->getStoreId()
         );
 
-        $this->_getWriteAdapter()->delete(
-            $this->getTable('core_config_data'),
-            $where
-        );
+        $this->_getWriteAdapter()->delete($this->getTable('core_config_data'), $where);
         return $this;
     }
 
@@ -98,16 +92,19 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _updateGroupDefaultStore($groupId, $storeId)
     {
-        $adapter    = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
 
         $bindValues = array('group_id' => (int)$groupId);
-        $select = $adapter->select()
-            ->from($this->getMainTable(), array('count' => 'COUNT(*)'))
-            ->where('group_id = :group_id');
-        $count  = $adapter->fetchOne($select, $bindValues);
+        $select = $adapter->select()->from(
+            $this->getMainTable(),
+            array('count' => 'COUNT(*)')
+        )->where(
+            'group_id = :group_id'
+        );
+        $count = $adapter->fetchOne($select, $bindValues);
 
         if ($count == 1) {
-            $bind  = array('default_store_id' => (int)$storeId);
+            $bind = array('default_store_id' => (int)$storeId);
             $where = array('group_id = ?' => (int)$groupId);
             $adapter->update($this->getTable('store_group'), $bind, $where);
         }
@@ -118,10 +115,10 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Change store group for store
      *
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Model\AbstractModel $model
      * @return $this
      */
-    protected function _changeGroup(\Magento\Core\Model\AbstractModel $model)
+    protected function _changeGroup(\Magento\Model\AbstractModel $model)
     {
         if ($model->getOriginalGroupId() && $model->getGroupId() != $model->getOriginalGroupId()) {
             $adapter = $this->_getReadAdapter();
@@ -144,7 +141,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)

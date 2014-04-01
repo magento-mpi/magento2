@@ -20,7 +20,7 @@ namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 /**
  * @deprecated since 1.12.0.0
  */
-class Lock extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Lock extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table and field
@@ -39,10 +39,13 @@ class Lock extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getLockData()
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->order('lock_id ' . \Magento\DB\Select::SQL_DESC)
-            ->limit(1);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->order(
+            'lock_id ' . \Magento\DB\Select::SQL_DESC
+        )->limit(
+            1
+        );
         $data = $this->_getReadAdapter()->fetchRow($select);
         return is_array($data) ? $data : array();
     }

@@ -29,12 +29,12 @@ class Totalbar extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      * Retrieve required options from parent
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            throw new \Magento\Core\Exception(__('Please correct the parent block for this block.'));
+            throw new \Magento\Model\Exception(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
         $this->setSource($this->getParentBlock()->getSource());
@@ -67,11 +67,7 @@ class Totalbar extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function addTotal($label, $value, $grand = false)
     {
-        $this->_totals[] = array(
-            'label' => $label,
-            'value' => $value,
-            'grand' => $grand
-        );
+        $this->_totals[] = array('label' => $label, 'value' => $value, 'grand' => $grand);
         return $this;
     }
 }

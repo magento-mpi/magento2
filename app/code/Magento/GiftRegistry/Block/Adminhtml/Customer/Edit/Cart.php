@@ -13,8 +13,7 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
  * Adminhtml customer cart items grid block
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Cart
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -84,7 +83,7 @@ class Cart
         $quote->setWebsite($this->_storeManager->getWebsite($this->getEntity()->getWebsiteId()));
         $quote->loadByCustomer($this->getEntity()->getCustomerId());
 
-        $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
+        $collection = $quote ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
         $this->setCollection($collection);
 
@@ -149,11 +148,14 @@ class Cart
     {
         $this->setMassactionIdField('item_id');
         $this->getMassactionBlock()->setFormFieldName('products');
-        $this->getMassactionBlock()->addItem('add', array(
-            'label'    => __('Add to Gift Registry'),
-            'url'      => $this->getUrl('adminhtml/*/add', array('id' => $this->getEntity()->getId())),
-            'confirm'  => __('Are you sure you want to add these products?')
-        ));
+        $this->getMassactionBlock()->addItem(
+            'add',
+            array(
+                'label' => __('Add to Gift Registry'),
+                'url' => $this->getUrl('adminhtml/*/add', array('id' => $this->getEntity()->getId())),
+                'confirm' => __('Are you sure you want to add these products?')
+            )
+        );
 
         return $this;
     }

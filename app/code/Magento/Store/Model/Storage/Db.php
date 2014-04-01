@@ -9,6 +9,7 @@
  */
 namespace Magento\Store\Model\Storage;
 
+use Magento\Model\Exception;
 use Magento\App\State;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\Group;
@@ -168,8 +169,162 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
             $this->_store = $this->_storeFactory->create()
                 ->setId(\Magento\Store\Model\Store::DISTRO_STORE_ID)
                 ->setCode(\Magento\Store\Model\Store::DEFAULT_CODE);
-        }
+       }
         return $this->_store;
+    }
+
+    /**
+     * Initialize currently ran store
+     *
+     * @return void
+     * @throws StoreException
+     */
+    public function initCurrentStore()
+    {
+        Profiler::start('init_stores');
+        $this->_initStores();
+        Profiler::stop('init_stores');
+
+        if (empty($this->_scopeCode) && false == is_null($this->_website)) {
+            $this->_scopeCode = $this->_website->getCode();
+            $this->_scopeType = StoreManagerInterface::SCOPE_TYPE_WEBSITE;
+        }
+        switch ($this->_scopeType) {
+            case StoreManagerInterface::SCOPE_TYPE_STORE:
+                $this->_currentStore = $this->_scopeCode;
+                break;
+            case StoreManagerInterface::SCOPE_TYPE_GROUP:
+                $this->_currentStore = $this->_getStoreByGroup($this->_scopeCode);
+                break;
+            case StoreManagerInterface::SCOPE_TYPE_WEBSITE:
+                $this->_currentStore = $this->_getStoreByWebsite($this->_scopeCode);
+                break;
+            default:
+                $this->throwStoreException();
+        }
+
+        if (!empty($this->_currentStore)) {
+            $this->_checkCookieStore($this->_scopeType);
+            $this->_checkGetStore($this->_scopeType);
+        }
+    }
+
+    /**
+     * Check get store
+     *
+     * @param string $type
+     * @return void
+     */
+    protected function _checkGetStore($type)
+    {
+        if (empty($_POST['___store']) && empty($_GET['___store'])) {
+            return;
+        }
+        $store = empty($_POST['___store']) ? $_GET['___store'] : $_POST['___store'];
+
+        if (!isset($this->_stores[$store])) {
+            return;
+        }
+
+        $storeObj = $this->_stores[$store];
+        if (!$storeObj->getId() || !$storeObj->getIsActive()) {
+            return;
+        }
+
+        /**
+         * prevent running a store from another website or store group,
+         * if website or store group was specified explicitly
+         */
+        $curStoreObj = $this->_stores[$this->_currentStore];
+        if ($type == 'website' && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
+            $this->_currentStore = $store;
+        } elseif ($type == 'group' && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
+            $this->_currentStore = $store;
+        } elseif ($type == 'store') {
+            $this->_currentStore = $store;
+        }
+
+        if ($this->_currentStore == $store) {
+            $store = $this->getStore($store);
+            if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
+                $this->_cookie->set(Store::COOKIE_NAME, null);
+            } else {
+                $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
+                $this->_httpContext->setValue(
+                    \Magento\Core\Helper\Data::CONTEXT_STORE,
+                    $this->_currentStore,
+                    $this->_getDefaultStore()->getCode()
+                );
+            }
+        }
+        return;
+    }
+
+    /**
+     * Check cookie store
+     *
+     * @param string $type
+     * @return void
+     */
+    protected function _checkCookieStore($type)
+    {
+        if (!$this->_cookie->get()) {
+            return;
+        }
+
+        $store = $this->_cookie->get(Store::COOKIE_NAME);
+        if ($store && isset(
+            $this->_stores[$store]
+        ) && $this->_stores[$store]->getId() && $this->_stores[$store]->getIsActive()
+        ) {
+            if ($type == 'website' &&
+                $this->_stores[$store]->getWebsiteId() == $this->_stores[$this->_currentStore]->getWebsiteId()
+            ) {
+                $this->_currentStore = $store;
+            }
+            if ($type == 'group' &&
+                $this->_stores[$store]->getGroupId() == $this->_stores[$this->_currentStore]->getGroupId()
+            ) {
+                $this->_currentStore = $store;
+            }
+            if ($type == 'store') {
+                $this->_currentStore = $store;
+            }
+        }
+    }
+
+    /**
+     * Retrieve store code or null by store group
+     *
+     * @param int $group
+     * @return string|null
+     */
+    protected function _getStoreByGroup($group)
+    {
+        if (!isset($this->_groups[$group])) {
+            return null;
+        }
+        if (!$this->_groups[$group]->getDefaultStoreId()) {
+            return null;
+        }
+        return $this->_stores[$this->_groups[$group]->getDefaultStoreId()]->getCode();
+    }
+
+    /**
+     * Retrieve store code or null by website
+     *
+     * @param int|string $website
+     * @return string|null
+     */
+    protected function _getStoreByWebsite($website)
+    {
+        if (!isset($this->_websites[$website])) {
+            return null;
+        }
+        if (!$this->_websites[$website]->getDefaultGroupId()) {
+            return null;
+        }
+        return $this->_getStoreByGroup($this->_websites[$website]->getDefaultGroupId());
     }
 
     /**
@@ -179,12 +334,12 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      */
     protected function _initStores()
     {
-        $this->_store    = null;
-        $this->_stores   = array();
-        $this->_groups   = array();
+        $this->_store = null;
+        $this->_stores = array();
+        $this->_groups = array();
         $this->_websites = array();
 
-        $this->_website  = null;
+        $this->_website = null;
 
         /** @var $websiteCollection \Magento\Store\Model\Resource\Website\Collection */
         $websiteCollection = $this->_websiteFactory->create()->getCollection();

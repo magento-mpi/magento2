@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource\Item;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\GiftRegistry\Model\Item\OptionFactory
@@ -56,7 +56,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -68,7 +68,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->salesQuoteConfig = $salesQuoteConfig;
@@ -95,10 +95,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addRegistryFilter($entityId)
     {
-        $this->getSelect()
-            ->join(array('e' => $this->getTable('magento_giftregistry_entity')),
-                'e.entity_id = main_table.entity_id', 'website_id')
-            ->where('main_table.entity_id = ?', (int)$entityId);
+        $this->getSelect()->join(
+            array('e' => $this->getTable('magento_giftregistry_entity')),
+            'e.entity_id = main_table.entity_id',
+            'website_id'
+        )->where(
+            'main_table.entity_id = ?',
+            (int)$entityId
+        );
 
         return $this;
     }
@@ -173,8 +177,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        $optionCollection = $this->optionFactory->create()->getCollection()
-            ->addItemFilter($itemIds);
+        $optionCollection = $this->optionFactory->create()->getCollection()->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
         }
@@ -197,13 +200,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = $this->productFactory->create()->getCollection()
-            ->setStoreId($this->storeManager->getStore()->getId())
-            ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect($this->salesQuoteConfig->getProductAttributes())
-            ->addStoreFilter()
-            ->addUrlRewrite()
-            ->addOptionsToResult();
+        $productCollection = $this->productFactory->create()->getCollection()->setStoreId(
+            $this->storeManager->getStore()->getId()
+        )->addIdFilter(
+            $this->_productIds
+        )->addAttributeToSelect(
+            $this->salesQuoteConfig->getProductAttributes()
+        )->addStoreFilter()->addUrlRewrite()->addOptionsToResult();
 
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());

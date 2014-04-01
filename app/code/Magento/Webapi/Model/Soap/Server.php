@@ -17,10 +17,12 @@ class Server
      * Path in config to Webapi settings.
      */
     const CONFIG_PATH_WSDL_CACHE_ENABLED = 'webapi/soap/wsdl_cache_enabled';
-    const CONFIG_PATH_SOAP_CHARSET = 'webapi/soap/charset';
-    /**#@-*/
 
+    const CONFIG_PATH_SOAP_CHARSET = 'webapi/soap/charset';
+
+    /**#@-*/
     const REQUEST_PARAM_SERVICES = 'services';
+
     const REQUEST_PARAM_WSDL = 'wsdl';
 
     /**
@@ -77,8 +79,11 @@ class Server
         \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         if (!extension_loaded('soap')) {
-            throw new \Magento\Webapi\Exception('SOAP extension is not loaded.', 0,
-                \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR);
+            throw new \Magento\Webapi\Exception(
+                'SOAP extension is not loaded.',
+                0,
+                \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
+            );
         }
         $this->_areaList = $areaList;
         $this->_configScope = $configScope;
@@ -109,10 +114,7 @@ class Server
     {
         $rawRequestBody = file_get_contents('php://input');
         $this->_checkRequest($rawRequestBody);
-        $options = array(
-            'encoding' => $this->getApiCharset(),
-            'soap_version' => SOAP_1_2
-        );
+        $options = array('encoding' => $this->getApiCharset(), 'soap_version' => SOAP_1_2);
         $soapServer = $this->_soapServerFactory->create($this->generateUri(true), $options);
         $soapServer->handle($rawRequestBody);
     }
@@ -139,11 +141,7 @@ class Server
      */
     public function generateUri($isWsdl = false)
     {
-        $params = array(
-            self::REQUEST_PARAM_SERVICES => $this->_request->getParam(
-                self::REQUEST_PARAM_SERVICES
-            )
-        );
+        $params = array(self::REQUEST_PARAM_SERVICES => $this->_request->getParam(self::REQUEST_PARAM_SERVICES));
         if ($isWsdl) {
             $params[self::REQUEST_PARAM_WSDL] = true;
         }
@@ -158,8 +156,9 @@ class Server
      */
     public function getEndpointUri()
     {
-        return $this->_storeManager->getStore()->getBaseUrl()
-            . $this->_areaList->getFrontName($this->_configScope->getCurrentScope());
+        return $this->_storeManager->getStore()->getBaseUrl() . $this->_areaList->getFrontName(
+            $this->_configScope->getCurrentScope()
+        );
     }
 
     /**
@@ -177,8 +176,11 @@ class Server
         }
         foreach ($dom->childNodes as $child) {
             if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                throw new \Magento\Webapi\Exception(__('Invalid XML: Detected use of illegal DOCTYPE'), 0,
-                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR);
+                throw new \Magento\Webapi\Exception(
+                    __('Invalid XML: Detected use of illegal DOCTYPE'),
+                    0,
+                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
+                );
             }
         }
         return $this;

@@ -18,8 +18,10 @@ use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
+use Magento\Mail\Exception as MailException;
 use Magento\Math\Random;
 use Magento\UrlInterface;
+use Magento\Logger;
 
 /**
  * Handle various customer account actions
@@ -85,6 +87,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_url;
 
     /**
+     * @var Logger
+     */
+    protected $_logger;
+
+    /**
      * Constructor
      *
      * @param CustomerFactory $customerFactory
@@ -99,6 +106,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataServiceInterface $customerMetadataService
      * @param UrlInterface $url
+     * @param Logger $logger
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -114,7 +122,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Data\SearchResultsBuilder $searchResultsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataServiceInterface $customerMetadataService,
-        UrlInterface $url
+        UrlInterface $url,
+        Logger $logger
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_eventManager = $eventManager;
@@ -128,6 +137,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_customerAddressService = $customerAddressService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_url = $url;
+        $this->_logger = $logger;
     }
 
     /**
@@ -141,15 +151,21 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
         }
         if ($customer->getConfirmation()) {
-            $customer->sendNewAccountEmail(
-                self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
-                $redirectUrl,
-                $this->_storeManager->getStore()->getId()
-            );
+            try {
+                $customer->sendNewAccountEmail(
+                    self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
+                    $redirectUrl,
+                    $this->_storeManager->getStore()->getId()
+                );
+            } catch (MailException $e) {
+                // If we are not able to send a new account email, this should be ignored
+                $this->_logger->logException($e);
+            }
         } else {
             throw new StateException('No confirmation needed.', StateException::INVALID_STATE);
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -183,7 +199,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
         try {
             $customerModel->authenticate($username, $password);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             switch ($e->getCode()) {
                 case CustomerModel::EXCEPTION_EMAIL_NOT_CONFIRMED:
                     $code = AuthenticationException::EMAIL_NOT_CONFIRMED;
@@ -197,7 +213,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             throw new AuthenticationException($e->getMessage(), $code, $e);
         }
 
-        $this->_eventManager->dispatch('customer_login', array('customer'=>$customerModel));
+        $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
 
         return $this->_converter->createCustomerFromModel($customerModel);
     }
@@ -215,34 +231,36 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     public function initiatePasswordReset($email, $websiteId, $template)
     {
-        $customer = $this->_customerFactory->create()
-            ->setWebsiteId($websiteId)
-            ->loadByEmail($email);
+        $customer = $this->_customerFactory->create()->setWebsiteId($websiteId)->loadByEmail($email);
 
         if (!$customer->getId()) {
             throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
         }
         $newPasswordToken = $this->_mathRandom->getUniqueHash();
         $customer->changeResetPasswordLinkToken($newPasswordToken);
-        $resetUrl = $this->_url
-            ->getUrl(
-                'customer/account/createPassword',
-                [
-                    '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
-                    '_store' => $customer->getStoreId()
-                ]
-            );
+        $resetUrl = $this->_url->getUrl(
+            'customer/account/createPassword',
+            array(
+                '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
+                '_store' => $customer->getStoreId()
+            )
+        );
 
         $customer->setResetPasswordUrl($resetUrl);
-        switch ($template) {
-            case CustomerAccountServiceInterface::EMAIL_REMINDER:
-                $customer->sendPasswordReminderEmail();
-                break;
-            case CustomerAccountServiceInterface::EMAIL_RESET:
-                $customer->sendPasswordResetConfirmationEmail();
-                break;
-            default:
-                throw new InputException(__('Invalid email type.'), InputException::INVALID_FIELD_VALUE);
+        try {
+            switch ($template) {
+                case CustomerAccountServiceInterface::EMAIL_REMINDER:
+                    $customer->sendPasswordReminderEmail();
+                    break;
+                case CustomerAccountServiceInterface::EMAIL_RESET:
+                    $customer->sendPasswordResetConfirmationEmail();
+                    break;
+                default:
+                    throw new InputException(__('Invalid email type.'), InputException::INVALID_FIELD_VALUE);
+            }
+        } catch (MailException $e) {
+            // If we are not able to send a reset password email, this should be ignored
+            $this->_logger->logException($e);
         }
     }
 
@@ -263,7 +281,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     public function getConfirmationStatus($customerId)
     {
-        $customerModel= $this->_converter->getCustomerModel($customerId);
+        $customerModel = $this->_converter->getCustomerModel($customerId);
         if (!$customerModel->getConfirmation()) {
             return CustomerAccountServiceInterface::ACCOUNT_CONFIRMED;
         }
@@ -295,9 +313,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             } else {
                 $storeId = $this->_storeManager->getStore()->getId();
             }
-            $customer = $this->_customerBuilder->populate($customer)
-                ->setStoreId($storeId)
-                ->create();
+            $customer = $this->_customerBuilder->populate($customer)->setStoreId($storeId)->create();
         }
 
         try {
@@ -319,18 +335,23 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $newLinkToken = $this->_mathRandom->getUniqueHash();
         $customerModel->changeResetPasswordLinkToken($newLinkToken);
 
-        if ($customerModel->isConfirmationRequired()) {
-            $customerModel->sendNewAccountEmail(
-                self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
-                $redirectUrl,
-                $customer->getStoreId()
-            );
-        } else {
-            $customerModel->sendNewAccountEmail(
-                self::NEW_ACCOUNT_EMAIL_REGISTERED,
-                $redirectUrl,
-                $customer->getStoreId()
-            );
+        try {
+            if ($customerModel->isConfirmationRequired()) {
+                $customerModel->sendNewAccountEmail(
+                    self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
+                    $redirectUrl,
+                    $customer->getStoreId()
+                );
+            } else {
+                $customerModel->sendNewAccountEmail(
+                    self::NEW_ACCOUNT_EMAIL_REGISTERED,
+                    $redirectUrl,
+                    $customer->getStoreId()
+                );
+            }
+        } catch (MailException $e) {
+            // If we are not able to send a new account email, this should be ignored
+            $this->_logger->logException($e);
         }
         return $this->_converter->createCustomerFromModel($customerModel);
     }
@@ -384,11 +405,37 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // Needed to enable filtering on name as a whole
         $collection->addNameToSelect();
         // Needed to enable filtering based on billing address attributes
-        $collection->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
-            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
-            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
-            ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
-            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
+        $collection->joinAttribute(
+            'billing_postcode',
+            'customer_address/postcode',
+            'default_billing',
+            null,
+            'left'
+        )->joinAttribute(
+            'billing_city',
+            'customer_address/city',
+            'default_billing',
+            null,
+            'left'
+        )->joinAttribute(
+            'billing_telephone',
+            'customer_address/telephone',
+            'default_billing',
+            null,
+            'left'
+        )->joinAttribute(
+            'billing_region',
+            'customer_address/region',
+            'default_billing',
+            null,
+            'left'
+        )->joinAttribute(
+            'billing_country_id',
+            'customer_address/country_id',
+            'default_billing',
+            null,
+            'left'
+        );
         $this->addFiltersToCollection($searchCriteria->getFilters(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
@@ -400,14 +447,17 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
-        $customersDetails = [];
+        $customersDetails = array();
 
         /** @var CustomerModel $customerModel */
         foreach ($collection as $customerModel) {
             $customer = $this->_converter->createCustomerFromModel($customerModel);
             $addresses = $this->_customerAddressService->getAddresses($customer->getId());
-            $customerDetails = $this->_customerDetailsBuilder
-                ->setCustomer($customer)->setAddresses($addresses)->create();
+            $customerDetails = $this->_customerDetailsBuilder->setCustomer(
+                $customer
+            )->setAddresses(
+                $addresses
+            )->create();
             $customersDetails[] = $customerDetails;
         }
         $this->_searchResultsBuilder->setItems($customersDetails);
@@ -447,7 +497,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     protected function addFilterToCollection(Collection $collection, Data\Filter $filter)
     {
         $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-        $collection->addFieldToFilter($filter->getField(), [$condition => $filter->getValue()]);
+        $collection->addFieldToFilter($filter->getField(), array($condition => $filter->getValue()));
     }
 
     /**
@@ -463,11 +513,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         if (strcasecmp($group->getGroupType(), 'OR')) {
             throw new InputException('The only nested groups currently supported for filters are of type OR.');
         }
-        $fields = [];
-        $conditions = [];
+        $fields = array();
+        $conditions = array();
         foreach ($group->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = ['attribute' => $filter->getField(), $condition => $filter->getValue()];
+            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
@@ -527,7 +577,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Data\Customer $customer, array $attributes = [])
+    public function validateCustomerData(Data\Customer $customer, array $attributes = array())
     {
         $customerErrors = $this->_validator->validateData(
             \Magento\Service\DataObjectConverter::toFlatArray($customer),
@@ -536,20 +586,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         );
 
         if ($customerErrors !== true) {
-            return array(
-                'error'     => -1,
-                'message'   => implode(', ', $this->_validator->getMessages())
-            );
+            return array('error' => -1, 'message' => implode(', ', $this->_validator->getMessages()));
         }
 
         $customerModel = $this->_converter->createCustomerModel($customer);
 
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {
-            return array(
-                'error'   => -1,
-                'message' => implode(', ', $result)
-            );
+            return array('error' => -1, 'message' => implode(', ', $result));
         }
         return true;
     }
@@ -612,11 +656,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private function _validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {
         if (!is_int($customerId) || empty($customerId) || $customerId < 0) {
-            throw InputException::create(
-                InputException::INVALID_FIELD_VALUE,
-                'customerId',
-                $customerId
-            );
+            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'customerId', $customerId);
         }
         if (!is_string($resetPasswordLinkToken) || empty($resetPasswordLinkToken)) {
             throw InputException::create(
@@ -651,7 +691,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -675,10 +714,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     public function getCustomerDetails($customerId)
     {
-        return $this->_customerDetailsBuilder
-            ->setCustomer($this->getCustomer($customerId))
-            ->setAddresses($this->_customerAddressService->getAddresses($customerId))
-            ->create();
+        return $this->_customerDetailsBuilder->setCustomer(
+            $this->getCustomer($customerId)
+        )->setAddresses(
+            $this->_customerAddressService->getAddresses($customerId)
+        )->create();
     }
 
     /**

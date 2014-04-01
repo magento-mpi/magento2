@@ -12,7 +12,7 @@ namespace Magento\Persistent\Model\Resource;
 /**
  * Persistent Session Resource Model
  */
-class Session extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Session extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Use is object new method for object saving
@@ -65,9 +65,13 @@ class Session extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select = parent::_getLoadSelect($field, $value, $object);
         if (!$object->getLoadExpired()) {
             $tableName = $this->getMainTable();
-            $select->join(array('customer' => $this->getTable('customer_entity')),
+            $select->join(
+                array('customer' => $this->getTable('customer_entity')),
                 'customer.entity_id = ' . $tableName . '.customer_id'
-            )->where($tableName . '.updated_at >= ?', $object->getExpiredBefore());
+            )->where(
+                $tableName . '.updated_at >= ?',
+                $object->getExpiredBefore()
+            );
         }
 
         return $select;
@@ -109,10 +113,7 @@ class Session extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array(
-                'website_id = ?' => $websiteId,
-                'updated_at < ?' => $expiredBefore,
-            )
+            array('website_id = ?' => $websiteId, 'updated_at < ?' => $expiredBefore)
         );
         return $this;
     }

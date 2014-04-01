@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin\Store;
 
 class View extends AbstractPlugin
@@ -13,10 +12,10 @@ class View extends AbstractPlugin
     /**
      * Validate changes for invalidating indexer
      *
-     * @param \Magento\Core\Model\AbstractModel $store
+     * @param \Magento\Model\AbstractModel $store
      * @return bool
      */
-    protected function validate(\Magento\Core\Model\AbstractModel $store)
+    protected function validate(\Magento\Model\AbstractModel $store)
     {
         return $store->isObjectNew() || $store->dataHasChangedFor('group_id');
     }
@@ -26,7 +25,7 @@ class View extends AbstractPlugin
      *
      * @param \Magento\Store\Model\Resource\Store $subject
      * @param callable $proceed
-     * @param \Magento\Core\Model\AbstractModel $store
+     * @param \Magento\Model\AbstractModel $store
      *
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -34,7 +33,7 @@ class View extends AbstractPlugin
     public function aroundSave(
         \Magento\Store\Model\Resource\Store $subject,
         \Closure $proceed,
-        \Magento\Core\Model\AbstractModel $store
+        \Magento\Model\AbstractModel $store
     ) {
         $needInvalidating = $this->validate($store);
         $objectResource = $proceed($store);

@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Cache extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magento\App\Cache\State\OptionsInterface
+class Cache extends \Magento\Model\Resource\Db\AbstractDb implements \Magento\App\Cache\State\OptionsInterface
 {
     /**
      * Define main table
@@ -41,8 +41,7 @@ class Cache extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magen
              * Check if table exist (it protect upgrades. cache settings checked before upgrades)
              */
             if ($adapter->isTableExists($this->getMainTable())) {
-                $select = $adapter->select()
-                    ->from($this->getMainTable(), array('code', 'value'));
+                $select = $adapter->select()->from($this->getMainTable(), array('code', 'value'));
                 return $adapter->fetchPairs($select);
             }
         }

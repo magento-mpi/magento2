@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pbridge\Model\Payment;
 
 class MethodTest extends \PHPUnit_Framework_TestCase
@@ -39,14 +38,20 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             ->with('payment/code/currency', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 0)
             ->will($this->returnValue('BTN'));
 
-        $paymentHelper = $this->getMockBuilder('Magento\Payment\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getMethodInstance'))
-            ->getMock();
-        $paymentHelper->expects($this->any())
-            ->method('getMethodInstance')
-            ->with('pbridge')
-            ->will($this->returnValue(new \Magento\Object()));
+        $paymentHelper = $this->getMockBuilder(
+            'Magento\Payment\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array('getMethodInstance')
+        )->getMock();
+        $paymentHelper->expects(
+            $this->any()
+        )->method(
+            'getMethodInstance'
+        )->with(
+            'pbridge'
+        )->will(
+            $this->returnValue(new \Magento\Object())
+        );
 
         $this->_model = new \Magento\Pbridge\Model\Payment\Method(
             $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource\Product\Option;
 
 class ValueTest extends \PHPUnit_Framework_TestCase

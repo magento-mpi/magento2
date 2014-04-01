@@ -19,7 +19,7 @@ namespace Magento\Log\Model;
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Aggregation extends \Magento\Core\Model\AbstractModel
+class Aggregation extends \Magento\Model\AbstractModel
 {
     /**
      * Last record data
@@ -37,7 +37,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -45,7 +45,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -96,19 +96,19 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
     private function _process($store)
     {
         $lastDateRecord = null;
-        $start          = $this->_lastRecord;
-        $end            = time();
-        $date           = $start;
+        $start = $this->_lastRecord;
+        $end = time();
+        $date = $start;
 
         while ($date < $end) {
             $to = $date + 3600;
             $counts = $this->_getCounts($this->_date($date), $this->_date($to), $store);
             $data = array(
-                'store_id'=>$store,
-                'visitor_count'=>$counts['visitors'],
-                'customer_count'=>$counts['customers'],
-                'add_date'=>$this->_date($date)
-                );
+                'store_id' => $store,
+                'visitor_count' => $counts['visitors'],
+                'customer_count' => $counts['customers'],
+                'add_date' => $this->_date($date)
+            );
 
             if ($counts['visitors'] || $counts['customers']) {
                 $this->_save($data, $this->_date($date), $this->_date($to));

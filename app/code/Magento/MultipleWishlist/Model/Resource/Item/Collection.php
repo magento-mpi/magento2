@@ -110,7 +110,8 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
         );
 
         $this->addFilterToMap(
-            'wishlist_name', $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))
+            'wishlist_name',
+            $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))
         );
         return $this;
     }

@@ -26,7 +26,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_translator = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
+        $this->_translator = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
         $context = $this->getMock('\Magento\App\Helper\Context', array(), array(), '', false);
 
         $storeConfig = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
@@ -55,74 +55,118 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
         $collectionFactory = $this->getMock(
-            '\Magento\Checkout\Model\Resource\Agreement\CollectionFactory', array(), array(), '', false
+            '\Magento\Checkout\Model\Resource\Agreement\CollectionFactory',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->_transportBuilder = $this->getMock(
-            '\Magento\Mail\Template\TransportBuilder', array(), array(), '', false
+            '\Magento\Mail\Template\TransportBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->_helper = new Data(
-            $context, $storeConfig, $storeManager, $checkoutSession,
-            $localeDate, $collectionFactory, $this->_transportBuilder, $this->_translator
+            $context,
+            $storeConfig,
+            $storeManager,
+            $checkoutSession,
+            $localeDate,
+            $collectionFactory,
+            $this->_transportBuilder,
+            $this->_translator
         );
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testSendPaymentFailedEmail()
     {
         $shippingAddress = new \Magento\Object(array('shipping_method' => 'ground_transportation'));
         $billingAddress = new \Magento\Object(array('street' => 'Fixture St'));
 
-        $this->_transportBuilder
-            ->expects($this->once())
-            ->method('setTemplateOptions')
-            ->with(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 8))
-            ->will($this->returnSelf())
-        ;
+        $this->_transportBuilder->expects(
+            $this->once()
+        )->method(
+            'setTemplateOptions'
+        )->with(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 8)
+        )->will(
+            $this->returnSelf()
+        );
 
-        $this->_transportBuilder
-            ->expects($this->once())
-            ->method('setTemplateIdentifier')
-            ->with('fixture_email_template_payment_failed')
-            ->will($this->returnSelf());
+        $this->_transportBuilder->expects(
+            $this->once()
+        )->method(
+            'setTemplateIdentifier'
+        )->with(
+            'fixture_email_template_payment_failed'
+        )->will(
+            $this->returnSelf()
+        );
 
-        $this->_transportBuilder
-            ->expects($this->once())
-            ->method('setFrom')
-            ->with('noreply@example.com')
-            ->will($this->returnSelf());
+        $this->_transportBuilder->expects(
+            $this->once()
+        )->method(
+            'setFrom'
+        )->with(
+            'noreply@example.com'
+        )->will(
+            $this->returnSelf()
+        );
 
-        $this->_transportBuilder
-            ->expects($this->once())
-            ->method('addTo')
-            ->with('sysadmin@example.com', 'System Administrator')
-            ->will($this->returnSelf());
+        $this->_transportBuilder->expects(
+            $this->once()
+        )->method(
+            'addTo'
+        )->with(
+            'sysadmin@example.com',
+            'System Administrator'
+        )->will(
+            $this->returnSelf()
+        );
 
-        $this->_transportBuilder
-            ->expects($this->once())
-            ->method('setTemplateVars')
-            ->with(array(
-                'reason'            => 'test message',
-                'checkoutType'      => 'onepage',
-                'dateAndTime'       => 'Oct 02, 2013',
-                'customer'          => 'John Doe',
-                'customerEmail'     => 'john.doe@example.com',
-                'billingAddress'    => $billingAddress,
-                'shippingAddress'   => $shippingAddress,
-                'shippingMethod'    => 'Ground Shipping',
-                'paymentMethod'     => 'Check Money Order',
-                'items'             => "Product One  x 2  USD 10<br />\nProduct Two  x 3  USD 60<br />\n",
-                'total'             => 'USD 70',
-            ))
-            ->will($this->returnSelf());
+        $this->_transportBuilder->expects(
+            $this->once()
+        )->method(
+            'setTemplateVars'
+        )->with(
+            array(
+                'reason' => 'test message',
+                'checkoutType' => 'onepage',
+                'dateAndTime' => 'Oct 02, 2013',
+                'customer' => 'John Doe',
+                'customerEmail' => 'john.doe@example.com',
+                'billingAddress' => $billingAddress,
+                'shippingAddress' => $shippingAddress,
+                'shippingMethod' => 'Ground Shipping',
+                'paymentMethod' => 'Check Money Order',
+                'items' => "Product One  x 2  USD 10<br />\nProduct Two  x 3  USD 60<br />\n",
+                'total' => 'USD 70'
+            )
+        )->will(
+            $this->returnSelf()
+        );
 
         $this->_transportBuilder->expects($this->once())->method('addBcc')->will($this->returnSelf());
-        $this->_transportBuilder->expects($this->once())->method('getTransport')->will(
+        $this->_transportBuilder->expects(
+            $this->once()
+        )->method(
+            'getTransport'
+        )->will(
             $this->returnValue($this->getMock('Magento\Mail\TransportInterface'))
         );
 
-        $this->_translator->expects($this->at(0))->method('setTranslateInline')->with(false);
-        $this->_translator->expects($this->at(1))->method('setTranslateInline')->with(true);
+        $this->_translator->expects($this->at(1))
+            ->method('suspend');
+        $this->_translator->expects($this->at(1))
+            ->method('resume');
 
         $productOne = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $productOne->expects($this->once())->method('getName')->will($this->returnValue('Product One'));
@@ -132,21 +176,23 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $productTwo->expects($this->once())->method('getName')->will($this->returnValue('Product Two'));
         $productTwo->expects($this->once())->method('getFinalPrice')->with(3)->will($this->returnValue(60));
 
-        $quote = new \Magento\Object(array(
-            'store_id'              => 8,
-            'store_currency_code'   => 'USD',
-            'grand_total'           => 70,
-            'customer_firstname'    => 'John',
-            'customer_lastname'     => 'Doe',
-            'customer_email'        => 'john.doe@example.com',
-            'billing_address'       => $billingAddress,
-            'shipping_address'      => $shippingAddress,
-            'payment'               => new \Magento\Object(array('method' => 'fixture-payment-method')),
-            'all_visible_items'     => array(
-                new \Magento\Object(array('product' => $productOne, 'qty' => 2)),
-                new \Magento\Object(array('product' => $productTwo, 'qty' => 3)),
-            ),
-        ));
+        $quote = new \Magento\Object(
+            array(
+                'store_id' => 8,
+                'store_currency_code' => 'USD',
+                'grand_total' => 70,
+                'customer_firstname' => 'John',
+                'customer_lastname' => 'Doe',
+                'customer_email' => 'john.doe@example.com',
+                'billing_address' => $billingAddress,
+                'shipping_address' => $shippingAddress,
+                'payment' => new \Magento\Object(array('method' => 'fixture-payment-method')),
+                'all_visible_items' => array(
+                    new \Magento\Object(array('product' => $productOne, 'qty' => 2)),
+                    new \Magento\Object(array('product' => $productTwo, 'qty' => 3))
+                )
+            )
+        );
         $this->assertSame($this->_helper, $this->_helper->sendPaymentFailedEmail($quote, 'test message'));
     }
 }

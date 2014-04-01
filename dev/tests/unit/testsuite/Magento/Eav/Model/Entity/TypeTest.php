@@ -53,10 +53,20 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->contextMock = $this->getMock('Magento\Model\Context', array(), array(), '', false);
         $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
-        $this->attrFactoryMock = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory',
-            array(), array(), '', false);
-        $this->attrSetFactoryMock = $this->getMock('Magento\Eav\Model\Entity\Attribute\SetFactory',
-            array(), array(), '', false);
+        $this->attrFactoryMock = $this->getMock(
+            'Magento\Eav\Model\Entity\AttributeFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->attrSetFactoryMock = $this->getMock(
+            'Magento\Eav\Model\Entity\Attribute\SetFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->storeFactoryMock = $this->getMock(
             'Magento\Eav\Model\Entity\StoreFactory',
             array('create'),
@@ -64,9 +74,15 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->universalFactoryMock = $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false);
+        $this->universalFactoryMock = $this->getMock(
+            'Magento\Validator\UniversalFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->resourceMock = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Resource\Db\AbstractDb',
+            'Magento\Model\Resource\Db\AbstractDb',
             array(),
             '',
             false,

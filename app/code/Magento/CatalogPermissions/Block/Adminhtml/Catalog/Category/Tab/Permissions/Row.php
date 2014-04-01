@@ -74,13 +74,17 @@ class Row extends AbstractCategory
      */
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
-            //'label' => __('Remove Permission'),
-            'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
-            'disabled' => $this->isReadonly(),
-            'type'  => 'button',
-            'id'    => '{{html_id}}_delete_button'
-        ));
+        $this->addChild(
+            'delete_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                //'label' => __('Remove Permission'),
+                'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
+                'disabled' => $this->isReadonly(),
+                'type' => 'button',
+                'id' => '{{html_id}}_delete_button'
+            )
+        );
 
         return parent::_prepareLayout();
     }

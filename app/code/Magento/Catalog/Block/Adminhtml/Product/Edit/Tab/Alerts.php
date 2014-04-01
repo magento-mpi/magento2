@@ -16,7 +16,6 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
 class Alerts extends \Magento\Backend\Block\Widget\Tab
@@ -31,29 +30,35 @@ class Alerts extends \Magento\Backend\Block\Widget\Tab
      */
     protected function _prepareLayout()
     {
-        $accordion = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Accordion')
-            ->setId('productAlerts');
+        $accordion = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Accordion')->setId('productAlerts');
         /* @var $accordion \Magento\Backend\Block\Widget\Accordion */
 
         $alertPriceAllow = $this->_storeConfig->getValue('catalog/productalert/allow_price', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $alertStockAllow = $this->_storeConfig->getValue('catalog/productalert/allow_stock', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         if ($alertPriceAllow) {
-            $accordion->addItem('price', array(
-                'title'     => __('We saved the price alert subscription.'),
-                'content'   => $this->getLayout()
-                    ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts\Price')
-                    ->toHtml() . '<br />',
-                'open'      => true
-            ));
+            $accordion->addItem(
+                'price',
+                array(
+                    'title' => __('We saved the price alert subscription.'),
+                    'content' => $this->getLayout()->createBlock(
+                        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts\Price'
+                    )->toHtml() . '<br />',
+                    'open' => true
+                )
+            );
         }
         if ($alertStockAllow) {
-            $accordion->addItem('stock', array(
-                'title'     => __('We saved the stock notification.'),
-                'content'   => $this->getLayout()
-                    ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts\Stock'),
-                'open'      => true
-            ));
+            $accordion->addItem(
+                'stock',
+                array(
+                    'title' => __('We saved the stock notification.'),
+                    'content' => $this->getLayout()->createBlock(
+                        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts\Stock'
+                    ),
+                    'open' => true
+                )
+            );
         }
 
         $this->setChild('accordion', $accordion);

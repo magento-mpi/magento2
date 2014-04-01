@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\TemplateEngine\Plugin;
 
 class DebugHintsTest extends \PHPUnit_Framework_TestCase
@@ -54,24 +53,22 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
         $this->_setupConfigFixture(true, $showBlockHints);
         $engine = $this->getMock('Magento\View\TemplateEngineInterface');
         $engineDecorated = $this->getMock('Magento\View\TemplateEngineInterface');
-        $this->_objectManager
-            ->expects($this->once())
-            ->method('create')
-            ->with(
-                'Magento\Core\Model\TemplateEngine\Decorator\DebugHints',
-                $this->identicalTo(array('subject' => $engine, 'showBlockHints' => $showBlockHints))
-            )
-            ->will($this->returnValue($engineDecorated))
-        ;
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Magento\Core\Model\TemplateEngine\Decorator\DebugHints',
+            $this->identicalTo(array('subject' => $engine, 'showBlockHints' => $showBlockHints))
+        )->will(
+            $this->returnValue($engineDecorated)
+        );
         $this->assertEquals($engineDecorated, $this->_model->afterCreate($this->subjectMock, $engine));
     }
 
     public function afterCreateActiveDataProvider()
     {
-        return array(
-            'block hints disabled'  => array(false),
-            'block hints enabled'   => array(true),
-        );
+        return array('block hints disabled' => array(false), 'block hints enabled' => array(true));
     }
 
     /**
@@ -92,8 +89,8 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'dev disabled, template hints disabled' => array(false, false),
-            'dev disabled, template hints enabled'  => array(false, true),
-            'dev enabled, template hints disabled'  => array(true, false),
+            'dev disabled, template hints enabled' => array(false, true),
+            'dev enabled, template hints disabled' => array(true, false)
         );
     }
 

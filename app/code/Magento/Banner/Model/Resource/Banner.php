@@ -18,7 +18,7 @@
  */
 namespace Magento\Banner\Model\Resource;
 
-class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Banner extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Sales rule table name
@@ -115,9 +115,9 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('magento_banner', 'banner_id');
-        $this->_salesRuleTable       = $this->getTable('magento_banner_salesrule');
-        $this->_catalogRuleTable     = $this->getTable('magento_banner_catalogrule');
-        $this->_contentsTable        = $this->getTable('magento_banner_content');
+        $this->_salesRuleTable = $this->getTable('magento_banner_salesrule');
+        $this->_catalogRuleTable = $this->getTable('magento_banner_catalogrule');
+        $this->_contentsTable = $this->getTable('magento_banner_content');
     }
 
     /**
@@ -161,8 +161,8 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
         if (!empty($deleteByStores) || !empty($notuse)) {
             $condition = array(
-                'banner_id = ?'   => $bannerId,
-                'store_id IN (?)' => array_merge($deleteByStores, array_keys($notuse)),
+                'banner_id = ?' => $bannerId,
+                'store_id IN (?)' => array_merge($deleteByStores, array_keys($notuse))
             );
             $adapter->delete($this->_contentsTable, $condition);
         }
@@ -190,10 +190,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
                 );
             }
         }
-        $condition = array(
-            'banner_id=?'        => $bannerId,
-            'rule_id NOT IN (?)' => $rules
-        );
+        $condition = array('banner_id=?' => $bannerId, 'rule_id NOT IN (?)' => $rules);
         $adapter->delete($this->_catalogRuleTable, $condition);
         return $this;
     }
@@ -219,9 +216,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
                 );
             }
         }
-        $adapter->delete($this->_salesRuleTable,
-            array('banner_id=?' => $bannerId, 'rule_id NOT IN (?)' => $rules)
-        );
+        $adapter->delete($this->_salesRuleTable, array('banner_id=?' => $bannerId, 'rule_id NOT IN (?)' => $rules));
         return $this;
     }
 
@@ -234,9 +229,13 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getStoreContents($bannerId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->_contentsTable, array('store_id', 'banner_content'))
-            ->where('banner_id=?', $bannerId);
+        $select = $adapter->select()->from(
+            $this->_contentsTable,
+            array('store_id', 'banner_content')
+        )->where(
+            'banner_id=?',
+            $bannerId
+        );
         return $adapter->fetchPairs($select);
     }
 
@@ -250,11 +249,18 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getStoreContent($bannerId, $storeId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from(array('main_table' => $this->_contentsTable), 'banner_content')
-            ->where('main_table.banner_id = ?', $bannerId)
-            ->where('main_table.store_id IN (?)', array($storeId, 0))
-            ->order('main_table.store_id DESC');
+        $select = $adapter->select()->from(
+            array('main_table' => $this->_contentsTable),
+            'banner_content'
+        )->where(
+            'main_table.banner_id = ?',
+            $bannerId
+        )->where(
+            'main_table.store_id IN (?)',
+            array($storeId, 0)
+        )->order(
+            'main_table.store_id DESC'
+        );
 
         if ($this->_bannerTypesFilter) {
             $select->joinInner(
@@ -268,9 +274,10 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
             $select->where(implode(' OR ', $filter));
         }
 
-        $this->_eventManager->dispatch('magento_banner_resource_banner_content_select_init', array(
-            'select' => $select,
-        ));
+        $this->_eventManager->dispatch(
+            'magento_banner_resource_banner_content_select_init',
+            array('select' => $select)
+        );
 
         return $adapter->fetchOne($select);
     }
@@ -284,9 +291,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getRelatedSalesRule($bannerId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->_salesRuleTable, array())
-            ->where('banner_id = ?', $bannerId);
+        $select = $adapter->select()->from($this->_salesRuleTable, array())->where('banner_id = ?', $bannerId);
         if (!$this->_isSalesRuleJoined) {
             $select->join(
                 array('rules' => $this->getTable('salesrule')),
@@ -308,9 +313,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getRelatedCatalogRule($bannerId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->_catalogRuleTable, array())
-            ->where('banner_id = ?', $bannerId);
+        $select = $adapter->select()->from($this->_catalogRuleTable, array())->where('banner_id = ?', $bannerId);
         if (!$this->_isCatalogRuleJoined) {
             $select->join(
                 array('rules' => $this->getTable('catalogrule')),
@@ -333,9 +336,13 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getRelatedBannersByCatalogRuleId($ruleId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->_catalogRuleTable, array('banner_id'))
-            ->where('rule_id = ?', $ruleId);
+        $select = $adapter->select()->from(
+            $this->_catalogRuleTable,
+            array('banner_id')
+        )->where(
+            'rule_id = ?',
+            $ruleId
+        );
         return $adapter->fetchCol($select);
     }
 
@@ -348,9 +355,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getRelatedBannersBySalesRuleId($ruleId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->_salesRuleTable, array('banner_id'))
-            ->where('rule_id = ?', $ruleId);
+        $select = $adapter->select()->from($this->_salesRuleTable, array('banner_id'))->where('rule_id = ?', $ruleId);
         return $adapter->fetchCol($select);
     }
 
@@ -376,7 +381,8 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
             $banners = array(0);
         }
 
-        $adapter->delete($this->_catalogRuleTable,
+        $adapter->delete(
+            $this->_catalogRuleTable,
             array('rule_id = ?' => $ruleId, 'banner_id NOT IN (?)' => $banners)
         );
         return $this;
@@ -404,9 +410,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
             $banners = array(0);
         }
 
-        $adapter->delete($this->_salesRuleTable,
-            array('rule_id = ?' => $ruleId, 'banner_id NOT IN (?)' => $banners)
-        );
+        $adapter->delete($this->_salesRuleTable, array('rule_id = ?' => $ruleId, 'banner_id NOT IN (?)' => $banners));
         return $this;
     }
 
@@ -420,9 +424,13 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getExistingBannerIdsBySpecifiedIds($bannerIds, $isActive = true)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getMainTable(), array('banner_id'))
-            ->where('banner_id IN (?)', $bannerIds);
+        $select = $adapter->select()->from(
+            $this->getMainTable(),
+            array('banner_id')
+        )->where(
+            'banner_id IN (?)',
+            $bannerIds
+        );
         if ($isActive) {
             $select->where('is_enabled = ?', (int)$isActive);
         }
@@ -456,9 +464,7 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getSalesRuleRelatedBannerIds(array $appliedRules)
     {
-        return $this->_salesruleColFactory->create()
-            ->addRuleIdsFilter($appliedRules)
-            ->getColumnValues('banner_id');
+        return $this->_salesruleColFactory->create()->addRuleIdsFilter($appliedRules)->getColumnValues('banner_id');
     }
 
     /**
@@ -470,18 +476,21 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId)
     {
-        return  $this->_catRuleColFactory->create()
-            ->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId)
-            ->getColumnValues('banner_id');
+        return $this->_catRuleColFactory->create()->addWebsiteCustomerGroupFilter(
+            $websiteId,
+            $customerGroupId
+        )->getColumnValues(
+            'banner_id'
+        );
     }
 
     /**
      * Prepare banner types for saving
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $types = $object->getTypes();
         if (empty($types)) {

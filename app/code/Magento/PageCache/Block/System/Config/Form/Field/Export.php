@@ -9,25 +9,12 @@
  */
 namespace Magento\PageCache\Block\System\Config\Form\Field;
 
-use \Magento\App\Config\ScopeConfigInterface;
-use Magento\Backend\Block\Template\Context;
 
 /**
  * Class Export
  */
 class Export extends \Magento\Backend\Block\System\Config\Form\Field
 {
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        array $data = array()
-    ){
-        parent::__construct($context, $data);
-    }
-
     /**
      * Retrieve element HTML markup
      *
@@ -37,19 +24,15 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         /** @var \Magento\Backend\Block\Widget\Button $buttonBlock  */
-        $buttonBlock = $this->getForm()
-            ->getLayout()
-            ->createBlock('Magento\Backend\Block\Widget\Button');
+        $buttonBlock = $this->getForm()->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
 
-        $params = array(
-            'website' => $buttonBlock->getRequest()->getParam('website')
-        );
+        $params = array('website' => $buttonBlock->getRequest()->getParam('website'));
 
         $url = $this->getUrl("*/PageCache/exportVarnishConfig", $params);
         $data = array(
-            'id'        => 'system_full_page_cache_varnish_export_button',
-            'label'     => __('Export VCL'),
-            'onclick'   => "setLocation('" . $url . "')"
+            'id' => 'system_full_page_cache_varnish_export_button',
+            'label' => __('Export VCL'),
+            'onclick' => "setLocation('" . $url . "')"
         );
 
         $html = $buttonBlock->setData($data)->toHtml();

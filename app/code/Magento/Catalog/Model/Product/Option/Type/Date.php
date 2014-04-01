@@ -49,7 +49,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      *
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function validateUserValue($values)
     {
@@ -63,15 +63,27 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             if ($this->useCalendar()) {
                 $dateValid = isset($value['date']) && preg_match('/^\d{1,4}.+\d{1,4}.+\d{1,4}$/', $value['date']);
             } else {
-                $dateValid = isset($value['day']) && isset($value['month']) && isset($value['year'])
-                    && $value['day'] > 0 && $value['month'] > 0 && $value['year'] > 0;
+                $dateValid = isset(
+                    $value['day']
+                ) && isset(
+                    $value['month']
+                ) && isset(
+                    $value['year']
+                ) && $value['day'] > 0 && $value['month'] > 0 && $value['year'] > 0;
             }
         }
 
         $timeValid = true;
         if ($this->_timeExists()) {
-            $timeValid = isset($value['hour']) && isset($value['minute'])
-                && is_numeric($value['hour']) && is_numeric($value['minute']);
+            $timeValid = isset(
+                $value['hour']
+            ) && isset(
+                $value['minute']
+            ) && is_numeric(
+                $value['hour']
+            ) && is_numeric(
+                $value['minute']
+            );
         }
 
         $isValid = $dateValid && $timeValid;
@@ -86,17 +98,17 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     'hour' => isset($value['hour']) ? intval($value['hour']) : 0,
                     'minute' => isset($value['minute']) ? intval($value['minute']) : 0,
                     'day_part' => isset($value['day_part']) ? $value['day_part'] : '',
-                    'date_internal' => isset($value['date_internal']) ? $value['date_internal'] : '',
+                    'date_internal' => isset($value['date_internal']) ? $value['date_internal'] : ''
                 )
             );
         } elseif (!$isValid && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
             if (!$dateValid) {
-                throw new \Magento\Core\Exception(__('Please specify date required option(s).'));
+                throw new \Magento\Model\Exception(__('Please specify date required option(s).'));
             } elseif (!$timeValid) {
-                throw new \Magento\Core\Exception(__('Please specify time required option(s).'));
+                throw new \Magento\Model\Exception(__('Please specify time required option(s).'));
             } else {
-                throw new \Magento\Core\Exception(__('Please specify the product\'s required option(s).'));
+                throw new \Magento\Model\Exception(__('Please specify the product\'s required option(s).'));
             }
         } else {
             $this->setUserValue(null);
@@ -110,7 +122,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Prepare option value for cart
      *
      * @return string|null Prepared option value
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function prepareForCart()
     {
@@ -127,7 +139,9 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             if ($this->_dateExists()) {
                 if ($this->useCalendar()) {
-                    $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+                    $format = $this->_localeDate->getDateFormat(
+                        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    );
                     $timestamp += $this->_localeDate->date($value['date'], $format, null, false)->getTimestamp();
                 } else {
                     $timestamp += mktime(0, 0, 0, $value['month'], $value['day'], $value['year']);
@@ -138,8 +152,8 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             if ($this->_timeExists()) {
                 // 24hr hour conversion
-                if (! $this->is24hTimeFormat()) {
-                    $pmDayPart = ('pm' == strtolower($value['day_part']));
+                if (!$this->is24hTimeFormat()) {
+                    $pmDayPart = 'pm' == strtolower($value['day_part']);
                     if (12 == $value['hour']) {
                         $value['hour'] = $pmDayPart ? 12 : 0;
                     } elseif ($pmDayPart) {
@@ -174,13 +188,22 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             $option = $this->getOption();
             if ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE) {
-                $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
-                $result = $this->_localeDate->date($optionValue, \Zend_Date::ISO_8601, null, false)
-                    ->toString($format);
+                $format = $this->_localeDate->getDateFormat(
+                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                );
+                $result = $this->_localeDate->date($optionValue, \Zend_Date::ISO_8601, null, false)->toString($format);
             } elseif ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME) {
-                $format = $this->_localeDate->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
-                $result = $this->_localeDate
-                    ->date($optionValue, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT, null, false)->toString($format);
+                $format = $this->_localeDate->getDateTimeFormat(
+                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                );
+                $result = $this->_localeDate->date(
+                    $optionValue,
+                    \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT,
+                    null,
+                    false
+                )->toString(
+                    $format
+                );
             } elseif ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME) {
                 $date = new \Magento\Stdlib\DateTime\Date($optionValue);
                 $result = date($this->is24hTimeFormat() ? 'H:i' : 'h:i a', $date->getTimestamp());
@@ -244,7 +267,8 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         $infoBuyRequest = $confItem->getOptionByCode('info_buyRequest');
         try {
             $value = unserialize($infoBuyRequest->getValue());
-            if (is_array($value) && isset($value['options']) && isset($value['options'][$this->getOption()->getId()])) {
+            if (is_array($value) && isset($value['options']) && isset($value['options'][$this->getOption()->getId()])
+            ) {
                 return $value['options'][$this->getOption()->getId()];
             } else {
                 return array('date_internal' => $optionValue);
@@ -327,10 +351,13 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     protected function _dateExists()
     {
-        return in_array($this->getOption()->getType(), array(
-            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE,
-            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
-        ));
+        return in_array(
+            $this->getOption()->getType(),
+            array(
+                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE,
+                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
+            )
+        );
     }
 
     /**
@@ -340,9 +367,12 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     protected function _timeExists()
     {
-        return in_array($this->getOption()->getType(), array(
-            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME,
-            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME
-        ));
+        return in_array(
+            $this->getOption()->getType(),
+            array(
+                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME,
+                \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME
+            )
+        );
     }
 }

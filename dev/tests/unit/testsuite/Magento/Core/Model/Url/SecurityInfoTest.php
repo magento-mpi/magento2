@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Core\Model\Url;
 
 class SecurityInfoTest extends \PHPUnit_Framework_TestCase
@@ -52,7 +51,7 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
             array('/product', false),
             array('/product/12312', false),
             array('/cart', true),
-            array('/cart/add', true),
+            array('/cart/add', true)
         );
     }
 }

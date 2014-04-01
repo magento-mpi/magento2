@@ -92,7 +92,7 @@ class AbstractApi extends \Magento\Object
      * @param array $request
      * @return bool
      * @throws \Exception
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _call(array $request)
     {
@@ -131,23 +131,20 @@ class AbstractApi extends \Magento\Object
             $this->_debug($debugData);
 
             if ($curlErrorNumber) {
-                $this->_logger->logException(new \Exception(
-                    sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
-                ));
-
-                throw new \Magento\Core\Exception(
-                    __('Unable to communicate with Payment Bridge service.')
+                $this->_logger->logException(
+                    new \Exception(
+                        sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
+                    )
                 );
+
+                throw new \Magento\Model\Exception(__('Unable to communicate with Payment Bridge service.'));
             }
             if (isset($response['status']) && $response['status'] == 'Success') {
                 $this->_response = $response;
                 return true;
             }
         } else {
-            $response = array(
-                'status' => 'Fail',
-                'error' => __('Empty response received from Payment Bridge.')
-            );
+            $response = array('status' => 'Fail', 'error' => __('Empty response received from Payment Bridge.'));
         }
 
         $this->_handleError($response);
@@ -160,14 +157,14 @@ class AbstractApi extends \Magento\Object
      *
      * @param array $response
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _handleError($response)
     {
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
-            throw new \Magento\Core\Exception($response['error']);
+            throw new \Magento\Model\Exception($response['error']);
         }
-        throw new \Magento\Core\Exception(__('There was a payment gateway internal error.'));
+        throw new \Magento\Model\Exception(__('There was a payment gateway internal error.'));
     }
 
     /**
@@ -204,8 +201,7 @@ class AbstractApi extends \Magento\Object
     {
         $this->_debugFlag = (bool)$this->_storeConfig->isSetFlag('payment/pbridge/debug', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($this->_debugFlag) {
-            $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))
-               ->log($debugData);
+            $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))->log($debugData);
         }
     }
 

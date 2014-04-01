@@ -17,10 +17,13 @@ use Magento\Store\Model\Store;
  */
 class Product extends \Magento\Core\Helper\Url
 {
-    const XML_PATH_PRODUCT_URL_SUFFIX                = 'catalog/seo/product_url_suffix';
-    const XML_PATH_PRODUCT_URL_USE_CATEGORY          = 'catalog/seo/product_use_categories';
-    const XML_PATH_USE_PRODUCT_CANONICAL_TAG         = 'catalog/seo/product_canonical_tag';
-    const XML_PATH_AUTO_GENERATE_MASK                = 'catalog/fields_masks';
+    const XML_PATH_PRODUCT_URL_SUFFIX = 'catalog/seo/product_url_suffix';
+
+    const XML_PATH_PRODUCT_URL_USE_CATEGORY = 'catalog/seo/product_use_categories';
+
+    const XML_PATH_USE_PRODUCT_CANONICAL_TAG = 'catalog/seo/product_canonical_tag';
+
+    const XML_PATH_AUTO_GENERATE_MASK = 'catalog/fields_masks';
 
     /**
      * Flag that shows if Magento has to check product to be saleable (enabled and/or inStock)
@@ -280,10 +283,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($category) {
             $categoryId = $category->getId();
         }
-        return $this->_getUrl('sendfriend/product/send', array(
-            'id' => $product->getId(),
-            'cat_id' => $categoryId
-        ));
+        return $this->_getUrl('sendfriend/product/send', array('id' => $product->getId(), 'cat_id' => $categoryId));
     }
 
     /**
@@ -365,12 +365,8 @@ class Product extends \Magento\Core\Helper\Url
          * @todo specify there all relations for properties depending on input type
          */
         $inputTypes = array(
-            'multiselect'   => array(
-                'backend_model'     => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'
-            ),
-            'boolean'       => array(
-                'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'
-            )
+            'multiselect' => array('backend_model' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'),
+            'boolean' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean')
         );
 
         if (is_null($inputType)) {
@@ -431,18 +427,20 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         // Init and load product
-        $this->_eventManager->dispatch('catalog_controller_product_init_before', array(
-            'controller_action' => $controller,
-            'params' => $params,
-        ));
+        $this->_eventManager->dispatch(
+            'catalog_controller_product_init_before',
+            array('controller_action' => $controller, 'params' => $params)
+        );
 
         if (!$productId) {
             return false;
         }
 
-        $product = $this->_productFactory->create()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->load($productId);
+        $product = $this->_productFactory->create()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->load(
+            $productId
+        );
 
         if (!$this->canShow($product)) {
             return false;
@@ -453,7 +451,7 @@ class Product extends \Magento\Core\Helper\Url
 
         // Load product current category
         $categoryId = $params->getCategoryId();
-        if (!$categoryId && ($categoryId !== false)) {
+        if (!$categoryId && $categoryId !== false) {
             $lastId = $this->_catalogSession->getLastVisitedCategoryId();
             if ($product->canBeShowInCategory($lastId)) {
                 $categoryId = $lastId;
@@ -473,11 +471,11 @@ class Product extends \Magento\Core\Helper\Url
         $this->_coreRegistry->register('product', $product);
 
         try {
-            $this->_eventManager->dispatch('catalog_controller_product_init_after', array(
-                'product' => $product,
-                'controller_action' => $controller
-            ));
-        } catch (\Magento\Core\Exception $e) {
+            $this->_eventManager->dispatch(
+                'catalog_controller_product_init_after',
+                array('product' => $product, 'controller_action' => $controller)
+            );
+        } catch (\Magento\Model\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }
@@ -530,7 +528,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($currentConfig) {
             if (is_array($currentConfig)) {
                 $params->setCurrentConfig(new \Magento\Object($currentConfig));
-            } else if (!($currentConfig instanceof \Magento\Object)) {
+            } elseif (!($currentConfig instanceof \Magento\Object)) {
                 $params->unsCurrentConfig();
             }
         }
@@ -540,7 +538,7 @@ class Product extends \Magento\Core\Helper\Url
          * where '_processing_params' comes in $buyRequest as array from user input
          */
         $processingParams = $buyRequest->getData('_processing_params');
-        if (!$processingParams || !($processingParams instanceof \Magento\Object)) {
+        if (!$processingParams || !$processingParams instanceof \Magento\Object) {
             $processingParams = new \Magento\Object();
             $buyRequest->setData('_processing_params', $processingParams);
         }
@@ -580,7 +578,7 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if ($productId && is_numeric($productId)) {
-            $product->load((int) $productId);
+            $product->load((int)$productId);
         }
 
         return $product;
@@ -617,8 +615,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getFieldsAutogenerationMasks()
     {
-        return $this->_coreConfig
-            ->getValue(Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
+        return $this->_coreConfig->getValue(Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
     }
 
     /**

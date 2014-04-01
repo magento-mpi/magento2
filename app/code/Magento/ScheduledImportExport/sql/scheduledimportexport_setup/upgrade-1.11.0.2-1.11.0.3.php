@@ -11,5 +11,4 @@
 /** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
-$installer->getConnection()
-    ->dropColumn($installer->getTable('magento_scheduled_operations'), 'entity_subtype');
+$installer->getConnection()->dropColumn($installer->getTable('magento_scheduled_operations'), 'entity_subtype');

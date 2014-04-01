@@ -38,83 +38,106 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Authz\Service\AuthorizationV1Interface */
     protected $_authzServiceMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $areaListMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $areaMock;
+
     const SERVICE_METHOD = 'testMethod';
+
     const SERVICE_ID = 'Magento\Webapi\Controller\TestService';
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request')
-            ->setMethods(array('isSecure', 'getRequestData'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_requestMock = $this->getMockBuilder(
+            'Magento\Webapi\Controller\Rest\Request'
+        )->setMethods(
+            array('isSecure', 'getRequestData')
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_responseMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Response')
-            ->setMethods(array('sendResponse', 'getHeaders', 'prepareResponse'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_responseMock = $this->getMockBuilder(
+            'Magento\Webapi\Controller\Rest\Response'
+        )->setMethods(
+            array('sendResponse', 'getHeaders', 'prepareResponse')
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_routerMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Router')
-            ->setMethods(array('match'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_routerMock = $this->getMockBuilder(
+            'Magento\Webapi\Controller\Rest\Router'
+        )->setMethods(
+            array('match')
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_routeMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Router\Route')
-            ->setMethods(array('isSecure', 'getServiceMethod', 'getServiceClass'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_routeMock = $this->getMockBuilder(
+            'Magento\Webapi\Controller\Rest\Router\Route'
+        )->setMethods(
+            array('isSecure', 'getServiceMethod', 'getServiceClass')
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_objectManagerMock = $this->getMockBuilder(
+            'Magento\ObjectManager'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_serviceMock = $this->getMockBuilder(self::SERVICE_ID)
-            ->setMethods(array(self::SERVICE_METHOD))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_serviceMock = $this->getMockBuilder(
+            self::SERVICE_ID
+        )->setMethods(
+            array(self::SERVICE_METHOD)
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_appStateMock =  $this->getMockBuilder('Magento\App\State')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_appStateMock = $this->getMockBuilder('Magento\App\State')->disableOriginalConstructor()->getMock();
 
-        $this->_authzServiceMock = $this->getMockBuilder('Magento\Authz\Service\AuthorizationV1Interface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_authzServiceMock = $this->getMockBuilder(
+            'Magento\Authz\Service\AuthorizationV1Interface'
+        )->disableOriginalConstructor()->getMock();
 
-        /** @var $applicationMock \Magento\AppInterface */
-        $applicationMock = $this->getMockBuilder('Magento\AppInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
         $layoutMock = $this->getMockBuilder('Magento\View\LayoutInterface')->disableOriginalConstructor()->getMock();
-        $applicationMock->expects($this->once())->method('getLayout')->will($this->returnValue($layoutMock));
 
-        $errorProcessorMock = $this->getMock('Magento\Webapi\Controller\ErrorProcessor', [], [], '', false);
+        $errorProcessorMock = $this->getMock('Magento\Webapi\Controller\ErrorProcessor', array(), array(), '', false);
         $errorProcessorMock->expects($this->any())->method('maskException')->will($this->returnArgument(0));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $serializer = $objectManager->getObject('Magento\Webapi\Controller\ServiceArgsSerializer');
+        $this->areaListMock = $this->getMock('\Magento\App\AreaList', array(), array(), '', false);
+        $this->areaMock = $this->getMock('Magento\App\AreaInterface');
+        $this->areaListMock->expects($this->any())->method('getArea')->will($this->returnValue($this->areaMock));
 
         /** Init SUT. */
         $this->_restController = $objectManager->getObject(
             'Magento\Webapi\Controller\Rest',
-            [
+            array(
                 'request' => $this->_requestMock,
                 'response' => $this->_responseMock,
                 'router' => $this->_routerMock,
                 'objectManager' => $this->_objectManagerMock,
                 'appState' => $this->_appStateMock,
-                'application' => $applicationMock,
+                'layout' => $layoutMock,
                 'authorizationService' => $this->_authzServiceMock,
                 'serializer' => $serializer,
-                'errorProcessor' => $errorProcessorMock
-            ]
+                'errorProcessor' => $errorProcessorMock,
+                'areaList' => $this->areaListMock
+            )
         );
 
         // Set default expectations used by all tests
-        $this->_routeMock
-            ->expects($this->any())->method('getServiceClass')->will($this->returnValue(self::SERVICE_ID));
+        $this->_routeMock->expects(
+            $this->any()
+        )->method(
+            'getServiceClass'
+        )->will(
+            $this->returnValue(self::SERVICE_ID)
+        );
 
-        $this->_routeMock
-            ->expects($this->any())->method('getServiceMethod')->will($this->returnValue(self::SERVICE_METHOD));
+        $this->_routeMock->expects(
+            $this->any()
+        )->method(
+            'getServiceMethod'
+        )->will(
+            $this->returnValue(self::SERVICE_METHOD)
+        );
         $this->_routerMock->expects($this->any())->method('match')->will($this->returnValue($this->_routeMock));
 
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($this->_serviceMock));
@@ -147,8 +170,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     public function testSecureRouteAndRequest($isSecureRoute, $isSecureRequest)
     {
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
-        $this->_serviceMock
-            ->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
+        $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRoute));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRequest));
         $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
@@ -163,22 +185,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderSecureRequestSecureRoute()
     {
-        return array(
-            //Each array contains return type for isSecure method of route and request objects .
-            array(
-                true,
-                true
-            ),
-            array(
-                false,
-                true
-            ),
-            array(
-                false,
-                false
-            )
-        );
-
+        // Each array contains return type for isSecure method of route and request objects.
+        return array(array(true, true), array(false, true), array(false, false));
     }
 
     /**
@@ -215,7 +223,6 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());
     }
 }
-
 class TestService
 {
     public function testMethod()

@@ -16,7 +16,7 @@ namespace Magento\Rating\Model\Resource\Rating\Option;
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Rating votes table
@@ -33,7 +33,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         $this->_init('Magento\Rating\Model\Rating\Option', 'Magento\Rating\Model\Resource\Rating\Option');
-        $this->_ratingVoteTable     = $this->getTable('rating_option_vote');
+        $this->_ratingVoteTable = $this->getTable('rating_option_vote');
     }
 
     /**
@@ -47,7 +47,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if (is_numeric($rating)) {
             $this->addFilter('rating_id', $rating);
         } elseif (is_array($rating)) {
-            $this->addFilter('rating_id', $this->_getConditionSql('rating_id', array('in'=>$rating)), 'string');
+            $this->addFilter('rating_id', $this->_getConditionSql('rating_id', array('in' => $rating)), 'string');
         }
         return $this;
     }
@@ -58,7 +58,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param   string $dir
      * @return  $this
      */
-    public function setPositionOrder($dir='ASC')
+    public function setPositionOrder($dir = 'ASC')
     {
         $this->setOrder('main_table.position', $dir);
         return $this;

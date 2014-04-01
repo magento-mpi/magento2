@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Email\Model;
 
 /**
@@ -100,10 +99,7 @@ class BackendTemplate extends Template
         foreach ($data as $key => $value) {
             $configPath = $path ? $path . '/' . $key : $key;
             if (is_array($value)) {
-                $output = array_merge(
-                    $output,
-                    $this->_findEmailTemplateUsages($code, $value, $configPath)
-                );
+                $output = array_merge($output, $this->_findEmailTemplateUsages($code, $value, $configPath));
             } else {
                 if ($value == $code) {
                     $output[] = array('path' => $configPath);
@@ -125,8 +121,10 @@ class BackendTemplate extends Template
             return array();
         }
 
-        $templatePaths = $this->_structure
-            ->getFieldPathsByAttribute('source_model', 'Magento\Backend\Model\Config\Source\Email\Template');
+        $templatePaths = $this->_structure->getFieldPathsByAttribute(
+            'source_model',
+            'Magento\Backend\Model\Config\Source\Email\Template'
+        );
 
         if (!count($templatePaths)) {
             return array();

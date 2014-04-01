@@ -29,12 +29,12 @@ class Observer
     /**
      * Error email template configuration
      */
-    const XML_PATH_ERROR_TEMPLATE  = 'sitemap/generate/error_email_template';
+    const XML_PATH_ERROR_TEMPLATE = 'sitemap/generate/error_email_template';
 
     /**
      * Error email identity configuration
      */
-    const XML_PATH_ERROR_IDENTITY  = 'sitemap/generate/error_email_identity';
+    const XML_PATH_ERROR_IDENTITY = 'sitemap/generate/error_email_identity';
 
     /**
      * 'Send error emails to' configuration
@@ -59,34 +59,34 @@ class Observer
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $_translateModel;
-
-    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param Resource\Sitemap\CollectionFactory $collectionFactory
-     * @param \Magento\TranslateInterface $translateModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
-        \Magento\TranslateInterface $translateModel,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_storeConfig = $coreStoreConfig;
         $this->_collectionFactory = $collectionFactory;
-        $this->_translateModel = $translateModel;
         $this->_storeManager = $storeManager;
         $this->_transportBuilder = $transportBuilder;
+        $this->inlineTranslation = $inlineTranslation;
     }
 
     /**
@@ -111,8 +111,7 @@ class Observer
 
             try {
                 $sitemap->generateXml();
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $errors[] = $e->getMessage();
             }
         }
@@ -135,7 +134,7 @@ class Observer
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
 
-            $this->_translateModel->setTranslateInline($translate);
+            $this->inlineTranslation->resume();
         }
     }
 }

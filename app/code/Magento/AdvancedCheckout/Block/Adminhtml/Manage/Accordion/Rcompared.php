@@ -94,27 +94,28 @@ class Rcompared extends AbstractAccordion
         parent::_construct();
         $this->setId('source_rcompared');
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Recently Compared Products (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Recently Compared Products (%1)', $this->getItemsCount()));
         }
     }
 
     /**
      * Return items collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = $this->_compareListFactory->create()
-                ->getItemCollection()
-                ->useProductItem(true)
-                ->setStoreId($this->_getStore()->getId())
-                ->addStoreFilter($this->_getStore()->getId())
-                ->setCustomerId($this->_getCustomer()->getId());
+            $collection = $this->_compareListFactory->create()->getItemCollection()->useProductItem(
+                true
+            )->setStoreId(
+                $this->_getStore()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getId()
+            )->setCustomerId(
+                $this->_getCustomer()->getId()
+            );
             foreach ($collection as $_item) {
                 $skipProducts[] = $_item->getProductId();
             }
@@ -125,10 +126,13 @@ class Rcompared extends AbstractAccordion
                 // Status attribute is required even if it is not used in product listings
                 $attributes[] = 'status';
             }
-            $productCollection = $this->_productFactory->create()->getCollection()
-                ->setStoreId($this->_getStore()->getId())
-                ->addStoreFilter($this->_getStore()->getId())
-                ->addAttributeToSelect($attributes);
+            $productCollection = $this->_productFactory->create()->getCollection()->setStoreId(
+                $this->_getStore()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getId()
+            )->addAttributeToSelect(
+                $attributes
+            );
             $this->_reportsEventResource->applyLogToCollection(
                 $productCollection,
                 \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
@@ -156,6 +160,6 @@ class Rcompared extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewRecentlyCompared', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewRecentlyCompared', array('_current' => true));
     }
 }

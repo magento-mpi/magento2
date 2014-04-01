@@ -44,9 +44,12 @@ class Factory
         $attributeCollection = $this->_objectManager->create($className);
 
         if (!$attributeCollection instanceof \Magento\Data\Collection) {
-            throw new \InvalidArgumentException(sprintf(
-                "Attribute factory class \"%s\" must implement \Magento\Data\Collection.", get_class($attributeCollection)
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Attribute factory class \"%s\" must implement \Magento\Data\Collection.",
+                    get_class($attributeCollection)
+                )
+            );
         }
         return $attributeCollection;
     }

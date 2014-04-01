@@ -5,8 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Catalog\Test\Handler\CatalogProductSimple; 
+namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
 use Mtf\Handler\HandlerInterface;
 
@@ -17,5 +16,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface CatalogProductSimpleInterface extends HandlerInterface
 {
-   //
+    //
 }

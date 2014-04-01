@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model;
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
+abstract class AbstractModel extends \Magento\Model\AbstractModel
 {
     /**
      * Attribute default values
@@ -56,7 +56,6 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     protected $_isReadonly = false;
 
-
     /**
      * Store manager
      *
@@ -68,7 +67,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -76,7 +75,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -198,8 +197,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function unsetData($key = null)
     {
-        if ((!is_null($key) && $this->isLockedAttribute($key)) ||
-            $this->isReadonly()) {
+        if (!is_null($key) && $this->isLockedAttribute($key) || $this->isReadonly()) {
             return $this;
         }
 
@@ -213,8 +211,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function getResourceCollection()
     {
-        $collection = parent::getResourceCollection()
-            ->setStoreId($this->getStoreId());
+        $collection = parent::getResourceCollection()->setStoreId($this->getStoreId());
         return $collection;
     }
 
@@ -228,10 +225,15 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function loadByAttribute($attribute, $value, $additionalAttributes = '*')
     {
-        $collection = $this->getResourceCollection()
-            ->addAttributeToSelect($additionalAttributes)
-            ->addAttributeToFilter($attribute, $value)
-            ->setPage(1, 1);
+        $collection = $this->getResourceCollection()->addAttributeToSelect(
+            $additionalAttributes
+        )->addAttributeToFilter(
+            $attribute,
+            $value
+        )->setPage(
+            1,
+            1
+        );
 
         foreach ($collection as $object) {
             return $object;
@@ -338,7 +340,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function setIsDeleteable($value)
     {
-        $this->_isDeleteable = (bool) $value;
+        $this->_isDeleteable = (bool)$value;
         return $this;
     }
 

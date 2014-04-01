@@ -90,7 +90,13 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         $this->customerSession = $customerSession;
         $this->attributeConfig = $attributeConfig;
         parent::__construct(
-            $context, $coreData, $jsonEncoder, $configCacheType, $regionCollectionFactory, $countryCollectionFactory, $data
+            $context,
+            $coreData,
+            $jsonEncoder,
+            $configCacheType,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -148,7 +154,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function useRegionUpdater($data)
     {
-        return ($data['type'] == 'country' && !empty($data['show_region']));
+        return $data['type'] == 'country' && !empty($data['show_region']);
     }
 
     /**
@@ -187,8 +193,12 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         if ($this->_groups === null) {
             $this->_groups = $this->attributeConfig->getAttributeGroups();
         }
-        if (is_array($this->_groups) && (!empty($this->_groups[$groupId]))
-            && is_array($this->_groups[$groupId]) && !empty($this->_groups[$groupId]['label'])) {
+        if (is_array(
+            $this->_groups
+        ) && !empty($this->_groups[$groupId]) && is_array(
+            $this->_groups[$groupId]
+        ) && !empty($this->_groups[$groupId]['label'])
+        ) {
             $label = $this->_groups[$groupId]['label'];
         } else {
             $label = $groupId;
@@ -213,14 +223,21 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
             $formatType = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
         }
 
-        $calendar = $this->getLayout()
-            ->createBlock('Magento\GiftRegistry\Block\Customer\Date')
-            ->setId($id)
-            ->setName($name)
-            ->setValue($this->formatDate($value, $formatType))
-            ->setClass($class . ' product-custom-option datetime-picker input-text validate-date')
-            ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->_localeDate->getDateFormat($formatType));
+        $calendar = $this->getLayout()->createBlock(
+            'Magento\GiftRegistry\Block\Customer\Date'
+        )->setId(
+            $id
+        )->setName(
+            $name
+        )->setValue(
+            $this->formatDate($value, $formatType)
+        )->setClass(
+            $class . ' product-custom-option datetime-picker input-text validate-date'
+        )->setImage(
+            $this->getViewFileUrl('Magento_Core::calendar.gif')
+        )->setDateFormat(
+            $this->_localeDate->getDateFormat($formatType)
+        );
         return $calendar->getHtml();
     }
 
@@ -236,14 +253,17 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => $id,
-                'class' => 'select global-scope '. $class
-            ))
-            ->setName($name)
-            ->setValue($value)
-            ->setOptions($options);
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array('id' => $id, 'class' => 'select global-scope ' . $class)
+        )->setName(
+            $name
+        )->setValue(
+            $value
+        )->setOptions(
+            $options
+        );
         return $select->getHtml();
     }
 
@@ -257,7 +277,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     {
         $grouped = array();
         if (is_array($attributes)) {
-            foreach ($attributes as $field => $fdata){
+            foreach ($attributes as $field => $fdata) {
                 if (is_array($fdata)) {
                     $grouped[$fdata['group']][$field] = $fdata;
                     $grouped[$fdata['group']][$field]['id'] = $this->_getElementId($field);
@@ -353,18 +373,18 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     {
         $element = '';
         if ($field && is_array($data)) {
-            $type  = $data['type'];
-            $name  = $data['name'];
-            $id    = $data['id'];
+            $type = $data['type'];
+            $name = $data['name'];
+            $id = $data['id'];
             $value = $this->getEntity()->getFieldValue($id);
-            $class = ($this->isAttributeRequired($data)) ? 'required-entry' : '';
+            $class = $this->isAttributeRequired($data) ? 'required-entry' : '';
 
             switch ($type) {
-                case 'country' :
+                case 'country':
                     $element = $this->getCountryHtmlSelect($value, $name, $id, $class);
                     break;
 
-                case 'region' :
+                case 'region':
                     $element = $this->getRegionHtmlSelectEmpty($name, $id, $value, $class);
                     $id = $this->_getElementId($id . '_text');
                     $name = $this->_getElementName($id);
@@ -372,20 +392,20 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                     $element .= $this->_getInputTextHtml($name, $id, $value, $class);
                     break;
 
-                case 'date' :
-                    $format = (isset($data['date_format'])) ? $data['date_format'] : '';
+                case 'date':
+                    $format = isset($data['date_format']) ? $data['date_format'] : '';
                     $element = $this->getCalendarDateHtml($name, $id, $value, $format, $class);
                     break;
 
-                case 'select' :
+                case 'select':
                     $options = $this->_convertGroupArray($data['options']);
                     if (empty($value)) {
-                        $value = (isset($data['default'])) ? $data['default'] : '';
+                        $value = isset($data['default']) ? $data['default'] : '';
                     }
                     $element = $this->getSelectHtml($options, $name, $id, $value, $class);
                     break;
 
-                default :
+                default:
                     $element = $this->_getInputTextHtml($name, $id, $value, $class);
                     break;
             }
@@ -406,11 +426,17 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     protected function _getInputTextHtml($name, $id, $value = '', $class = '', $params = '')
     {
         $template = $this->getLayout()->getBlock('giftregistry_edit')->getInputTypeTemplate('text');
-        $this->setInputName($name)
-            ->setInputId($id)
-            ->setInputValue($value)
-            ->setInputClass($class)
-            ->setInputParams($params);
+        $this->setInputName(
+            $name
+        )->setInputId(
+            $id
+        )->setInputValue(
+            $value
+        )->setInputClass(
+            $class
+        )->setInputParams(
+            $params
+        );
         if ($template) {
             return $this->fetchView($template);
         }
@@ -430,12 +456,19 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function getRegionHtmlSelectEmpty($name, $id, $value = '', $class = '', $params = '', $default = '')
     {
         $template = $this->getLayout()->getBlock('giftregistry_edit')->getInputTypeTemplate('region');
-        $this->setSelectRegionName($name)
-            ->setSelectRegionId($id)
-            ->setSelectRegionValue($value)
-            ->setSelectRegionClass($class)
-            ->setSelectRegionParams($params)
-            ->setSelectRegionDefault($default);
+        $this->setSelectRegionName(
+            $name
+        )->setSelectRegionId(
+            $id
+        )->setSelectRegionValue(
+            $value
+        )->setSelectRegionClass(
+            $class
+        )->setSelectRegionParams(
+            $params
+        )->setSelectRegionDefault(
+            $default
+        );
         if ($template) {
             return $this->fetchView($template);
         }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
@@ -37,8 +36,8 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var \Magento\App\State */
     protected $_appState;
 
-    /** @var \Magento\AppInterface */
-    protected $_application;
+    /** @var \Magento\View\LayoutInterface */
+    protected $_layout;
 
     /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
@@ -56,19 +55,25 @@ class Rest implements \Magento\App\FrontControllerInterface
     protected $_errorProcessor;
 
     /**
-     * Initialize dependencies.
+     * Initialize dependencies
      *
+     * @var \Magento\App\AreaList
+     */
+    protected $areaList;
+
+    /**
      * @param RestRequest $request
      * @param RestResponse $response
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
-     * @param \Magento\AppInterface $application
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
+     * @param \Magento\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -79,24 +84,26 @@ class Rest implements \Magento\App\FrontControllerInterface
         Router $router,
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
-        \Magento\AppInterface $application,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
-        ErrorProcessor $errorProcessor
+        ErrorProcessor $errorProcessor,
+        \Magento\App\AreaList $areaList
     ) {
         $this->_router = $router;
         $this->_request = $request;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
-        $this->_application = $application;
+        $this->_layout = $layout;
         $this->_oauthService = $oauthService;
         $this->_oauthHelper = $oauthHelper;
         $this->_authorizationService = $authorizationService;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
+        $this->areaList = $areaList;
     }
 
     /**
@@ -110,10 +117,8 @@ class Rest implements \Magento\App\FrontControllerInterface
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
-        $this->_application->loadAreaPart(
-            $this->_application->getLayout()->getArea(),
-            \Magento\Core\Model\App\Area::PART_TRANSLATE
-        );
+        $this->areaList->getArea($this->_layout->getArea())
+            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
@@ -136,7 +141,8 @@ class Rest implements \Magento\App\FrontControllerInterface
                     array(),
                     'authorization',
                     "Consumer ID = {$consumerId}",
-                    implode($route->getAclResources(), ', '));
+                    implode($route->getAclResources(), ', ')
+                );
             }
 
             if ($route->isSecure() && !$this->_request->isSecure()) {
@@ -149,7 +155,7 @@ class Rest implements \Magento\App\FrontControllerInterface
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
             /** @var \Magento\Service\Data\AbstractObject $outputData */
-            $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
+            $outputData = call_user_func_array(array($service, $serviceMethodName), $inputParams);
             $outputArray = $this->_processServiceOutput($outputData);
             $this->_response->prepareResponse($outputArray);
         } catch (\Exception $e) {
@@ -174,7 +180,7 @@ class Rest implements \Magento\App\FrontControllerInterface
     protected function _processServiceOutput($data)
     {
         if (is_array($data)) {
-            $result = [];
+            $result = array();
             foreach ($data as $datum) {
                 if (is_object($datum)) {
                     $result[] = $this->_convertDataObjectToArray($datum);
@@ -184,8 +190,8 @@ class Rest implements \Magento\App\FrontControllerInterface
             }
         } else if (is_object($data)) {
             $result = $this->_convertDataObjectToArray($data);
-        } else if (is_null($data)) {
-            $result = [];
+        } elseif (is_null($data)) {
+            $result = array();
         } else {
             /** No processing is required for scalar types */
             $result = $data;

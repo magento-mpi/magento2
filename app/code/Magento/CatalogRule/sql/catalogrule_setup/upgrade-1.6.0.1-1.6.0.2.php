@@ -9,14 +9,14 @@
  */
 
 /* @var $installer \Magento\Core\Model\Resource\Setup */
-$installer           = $this;
-$connection          = $installer->getConnection();
+$installer = $this;
+$connection = $installer->getConnection();
 
 $rulesTable          = $installer->getTable('catalogrule');
 $websitesTable       = $installer->getTable('store_website');
 $customerGroupsTable = $installer->getTable('customer_group');
-$rulesWebsitesTable  = $installer->getTable('catalogrule_website');
-$rulesCustomerGroupsTable  = $installer->getTable('catalogrule_customer_group');
+$rulesWebsitesTable = $installer->getTable('catalogrule_website');
+$rulesCustomerGroupsTable = $installer->getTable('catalogrule_customer_group');
 
 $installer->startSetup();
 /**
@@ -65,41 +65,48 @@ if (!$connection->isTableExists($rulesWebsitesTable)) {
  * column customer_group_ids of main catalog rules table
  */
 if (!$connection->isTableExists($rulesCustomerGroupsTable)) {
-    $table = $connection->newTable($rulesCustomerGroupsTable)
-        ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-            'unsigned'  => true,
-            'nullable'  => false,
-            'primary'   => true
-            ),
-            'Rule Id'
-        )
-        ->addColumn('customer_group_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-            'unsigned'  => true,
-            'nullable'  => false,
-            'primary'   => true
-            ),
-            'Customer Group Id'
-        )
-        ->addIndex(
-            $installer->getIdxName('catalogrule_customer_group', array('rule_id')),
-            array('rule_id')
-        )
-        ->addIndex(
-            $installer->getIdxName('catalogrule_customer_group', array('customer_group_id')),
-            array('customer_group_id')
-        )
-        ->addForeignKey($installer->getFkName('catalogrule_customer_group', 'rule_id', 'catalogrule', 'rule_id'),
-            'rule_id', $rulesTable, 'rule_id',
-            \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
-        )
-        ->addForeignKey(
-            $installer->getFkName('catalogrule_customer_group', 'customer_group_id',
-                'customer_group', 'customer_group_id'
-            ),
-            'customer_group_id', $customerGroupsTable, 'customer_group_id',
-            \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
-        )
-        ->setComment('Catalog Rules To Customer Groups Relations');
+    $table = $connection->newTable(
+        $rulesCustomerGroupsTable
+    )->addColumn(
+        'rule_id',
+        \Magento\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+        array('unsigned' => true, 'nullable' => false, 'primary' => true),
+        'Rule Id'
+    )->addColumn(
+        'customer_group_id',
+        \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+        null,
+        array('unsigned' => true, 'nullable' => false, 'primary' => true),
+        'Customer Group Id'
+    )->addIndex(
+        $installer->getIdxName('catalogrule_customer_group', array('rule_id')),
+        array('rule_id')
+    )->addIndex(
+        $installer->getIdxName('catalogrule_customer_group', array('customer_group_id')),
+        array('customer_group_id')
+    )->addForeignKey(
+        $installer->getFkName('catalogrule_customer_group', 'rule_id', 'catalogrule', 'rule_id'),
+        'rule_id',
+        $rulesTable,
+        'rule_id',
+        \Magento\DB\Ddl\Table::ACTION_CASCADE,
+        \Magento\DB\Ddl\Table::ACTION_CASCADE
+    )->addForeignKey(
+        $installer->getFkName(
+            'catalogrule_customer_group',
+            'customer_group_id',
+            'customer_group',
+            'customer_group_id'
+        ),
+        'customer_group_id',
+        $customerGroupsTable,
+        'customer_group_id',
+        \Magento\DB\Ddl\Table::ACTION_CASCADE,
+        \Magento\DB\Ddl\Table::ACTION_CASCADE
+    )->setComment(
+        'Catalog Rules To Customer Groups Relations'
+    );
 
     $connection->createTable($table);
 }
@@ -108,15 +115,14 @@ if (!$connection->isTableExists($rulesCustomerGroupsTable)) {
  * Fill out relation table 'catalogrule_website' with website Ids
  */
 if ($connection->tableColumnExists($rulesTable, 'website_ids')) {
-    $select = $connection->select()
-        ->from(array('sr' => $rulesTable), array('sr.rule_id', 'cw.website_id'))
-        ->join(
-            array('cw' => $websitesTable),
-            $connection->prepareSqlCondition(
-                'sr.website_ids', array('finset' =>  new \Zend_Db_Expr('cw.website_id'))
-            ),
-            array()
-        );
+    $select = $connection->select()->from(
+        array('sr' => $rulesTable),
+        array('sr.rule_id', 'cw.website_id')
+    )->join(
+        array('cw' => $websitesTable),
+        $connection->prepareSqlCondition('sr.website_ids', array('finset' => new \Zend_Db_Expr('cw.website_id'))),
+        array()
+    );
     $query = $select->insertFromSelect($rulesWebsitesTable, array('rule_id', 'website_id'));
     $connection->query($query);
 }
@@ -125,15 +131,17 @@ if ($connection->tableColumnExists($rulesTable, 'website_ids')) {
  * Fill out relation table 'catalogrule_customer_group' with customer group Ids
  */
 if ($connection->tableColumnExists($rulesTable, 'customer_group_ids')) {
-    $select = $connection->select()
-        ->from(array('sr' => $rulesTable), array('sr.rule_id', 'cg.customer_group_id'))
-        ->join(
-            array('cg' => $customerGroupsTable),
-            $connection->prepareSqlCondition(
-                'sr.customer_group_ids', array('finset' =>  new \Zend_Db_Expr('cg.customer_group_id'))
-            ),
-            array()
-        );
+    $select = $connection->select()->from(
+        array('sr' => $rulesTable),
+        array('sr.rule_id', 'cg.customer_group_id')
+    )->join(
+        array('cg' => $customerGroupsTable),
+        $connection->prepareSqlCondition(
+            'sr.customer_group_ids',
+            array('finset' => new \Zend_Db_Expr('cg.customer_group_id'))
+        ),
+        array()
+    );
     $query = $select->insertFromSelect($rulesCustomerGroupsTable, array('rule_id', 'customer_group_id'));
     $connection->query($query);
 }

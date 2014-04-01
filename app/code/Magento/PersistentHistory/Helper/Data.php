@@ -15,12 +15,17 @@ namespace Magento\PersistentHistory\Helper;
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_PERSIST_WISHLIST             = 'persistent/options/wishlist';
-    const XML_PATH_PERSIST_ORDERED_ITEMS        = 'persistent/options/recently_ordered';
-    const XML_PATH_PERSIST_COMPARE_PRODUCTS     = 'persistent/options/compare_current';
-    const XML_PATH_PERSIST_COMPARED_PRODUCTS    = 'persistent/options/compare_history';
-    const XML_PATH_PERSIST_VIEWED_PRODUCTS      = 'persistent/options/recently_viewed';
-    const XML_PATH_PERSIST_CUSTOMER_AND_SEGM    = 'persistent/options/customer';
+    const XML_PATH_PERSIST_WISHLIST = 'persistent/options/wishlist';
+
+    const XML_PATH_PERSIST_ORDERED_ITEMS = 'persistent/options/recently_ordered';
+
+    const XML_PATH_PERSIST_COMPARE_PRODUCTS = 'persistent/options/compare_current';
+
+    const XML_PATH_PERSIST_COMPARED_PRODUCTS = 'persistent/options/compare_history';
+
+    const XML_PATH_PERSIST_VIEWED_PRODUCTS = 'persistent/options/recently_viewed';
+
+    const XML_PATH_PERSIST_CUSTOMER_AND_SEGM = 'persistent/options/customer';
 
     /**
      * Name of config file

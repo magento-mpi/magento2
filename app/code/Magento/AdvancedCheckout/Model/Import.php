@@ -9,7 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Import data from file
@@ -36,9 +36,7 @@ class Import extends \Magento\Object
      *
      * @var string[]
      */
-    protected $_allowedExtensions = array(
-        'csv'
-    );
+    protected $_allowedExtensions = array('csv');
 
     /**
      * @var \Magento\AdvancedCheckout\Helper\Data
@@ -112,9 +110,7 @@ class Import extends \Magento\Object
             $result = $uploader->save($this->varDirectory->getAbsolutePath($this->uploadPath));
             $this->_uploadedFile = $this->varDirectory->getRelativePath($result['path'] . $result['file']);
         } catch (\Exception $e) {
-            throw new Exception(
-                $this->_checkoutData->getFileGeneralErrorText()
-            );
+            throw new Exception($this->_checkoutData->getFileGeneralErrorText());
         }
     }
 
@@ -129,7 +125,7 @@ class Import extends \Magento\Object
         $extension = pathinfo($this->_uploadedFile, PATHINFO_EXTENSION);
         $method = $this->_getMethodByExtension(strtolower($extension));
         if (!empty($method) && method_exists($this, $method)) {
-            return $this->$method();
+            return $this->{$method}();
         }
 
         throw new Exception($this->_getFileTypeMessageText());
@@ -143,10 +139,8 @@ class Import extends \Magento\Object
      */
     public function getDataFromCsv()
     {
-        if (!$this->_uploadedFile || !($this->varDirectory->isExist($this->_uploadedFile))) {
-            throw new Exception(
-                $this->_checkoutData->getFileGeneralErrorText()
-            );
+        if (!$this->_uploadedFile || !$this->varDirectory->isExist($this->_uploadedFile)) {
+            throw new Exception($this->_checkoutData->getFileGeneralErrorText());
         }
 
         $csvData = array();
@@ -168,9 +162,7 @@ class Import extends \Magento\Object
                     if (false !== $found) {
                         $requiredColumnsPositions[] = $found;
                     } else {
-                        throw new Exception(
-                            $this->_checkoutData->getSkuEmptyDataMessageText()
-                        );
+                        throw new Exception($this->_checkoutData->getSkuEmptyDataMessageText());
                     }
                 }
 

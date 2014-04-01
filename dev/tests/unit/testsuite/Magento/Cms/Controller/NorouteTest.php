@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Controller;
 
 class NorouteTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Cms\Controller\Noroute
      */
@@ -31,10 +29,26 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $objectManagerMock = $this->getMock('Magento\ObjectManager');
         $responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $responseMock->expects($this->at(0))
-            ->method('setHeader')->with('HTTP/1.1', '404 Not Found')->will($this->returnValue($responseMock));
-        $responseMock->expects($this->at(1))
-            ->method('setHeader')->with('Status', '404 File not found')->will($this->returnValue($responseMock));
+        $responseMock->expects(
+            $this->at(0)
+        )->method(
+            'setHeader'
+        )->with(
+            'HTTP/1.1',
+            '404 Not Found'
+        )->will(
+            $this->returnValue($responseMock)
+        );
+        $responseMock->expects(
+            $this->at(1)
+        )->method(
+            'setHeader'
+        )->with(
+            'Status',
+            '404 File not found'
+        )->will(
+            $this->returnValue($responseMock)
+        );
 
         $storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
@@ -51,11 +65,9 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->with(\Magento\Cms\Helper\Page::XML_PATH_NO_ROUTE_PAGE)
             ->will($this->returnValue('pageId'));
-        $this->_controller = $helper->getObject('Magento\Cms\Controller\Noroute', array(
-            'response' => $responseMock,
-            'objectManager' => $objectManagerMock,
-            'request' => $this->_requestMock
-            )
+        $this->_controller = $helper->getObject(
+            'Magento\Cms\Controller\Noroute', 
+            array('response' => $responseMock, 'objectManager' => $objectManagerMock, 'request' => $this->_requestMock)
         );
     }
 
@@ -72,9 +84,6 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
 
     public function indexActionDataProvider()
     {
-        return array(
-            'renderPage_return_true' => array(true),
-            'renderPage_return_false' => array(false)
-        );
+        return array('renderPage_return_true' => array(true), 'renderPage_return_false' => array(false));
     }
 }

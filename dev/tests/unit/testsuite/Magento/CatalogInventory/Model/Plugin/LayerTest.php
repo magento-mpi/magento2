@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Plugin;
 
 class LayerTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\CatalogInventory\Model\Plugin\Layer
      */
@@ -32,7 +30,11 @@ class LayerTest extends \PHPUnit_Framework_TestCase
             '\Magento\App\Config\ScopeConfigInterface'
         );
         $this->_stockStatusMock = $this->getMock(
-            '\Magento\CatalogInventory\Model\Stock\Status', array(), array(), '', false
+            '\Magento\CatalogInventory\Model\Stock\Status',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->_model = new \Magento\CatalogInventory\Model\Plugin\Layer(
@@ -46,12 +48,21 @@ class LayerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddStockStatusDisabledShow()
     {
-        $this->_storeConfigMock->expects($this->once())
-            ->method('isSetFlag')
-            ->with('cataloginventory/options/show_out_of_stock')
-            ->will($this->returnValue(true));
+        $this->_storeConfigMock->expects(
+            $this->once()
+        )->method(
+            'isSetFlag'
+        )->with(
+            'cataloginventory/options/show_out_of_stock'
+        )->will(
+            $this->returnValue(true)
+        );
         $collectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
+            '\Magento\Catalog\Model\Resource\Product\Collection',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_stockStatusMock->expects($this->never())->method('addIsInStockFilterToCollection');
         $subjectMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
@@ -63,17 +74,31 @@ class LayerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddStockStatusEnabledShow()
     {
-        $this->_storeConfigMock->expects($this->once())
-            ->method('isSetFlag')
-            ->with('cataloginventory/options/show_out_of_stock')
-            ->will($this->returnValue(false));
-
-        $collectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
+        $this->_storeConfigMock->expects(
+            $this->once()
+        )->method(
+            'isSetFlag'
+        )->with(
+            'cataloginventory/options/show_out_of_stock'
+        )->will(
+            $this->returnValue(false)
         );
 
-        $this->_stockStatusMock->expects($this->once())->method('addIsInStockFilterToCollection')
-            ->with($collectionMock);
+        $collectionMock = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Product\Collection',
+            array(),
+            array(),
+            '',
+            false
+        );
+
+        $this->_stockStatusMock->expects(
+            $this->once()
+        )->method(
+            'addIsInStockFilterToCollection'
+        )->with(
+            $collectionMock
+        );
 
         $subjectMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->_model->beforePrepareProductCollection($subjectMock, $collectionMock);

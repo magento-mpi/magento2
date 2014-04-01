@@ -18,7 +18,7 @@
  */
 namespace Magento\Core\Model\Resource\Url\Rewrite;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store Manager Model
@@ -34,7 +34,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -43,7 +43,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_storeManager = $storeManager;
@@ -88,9 +88,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function filterAllByProductId($productId)
     {
-        $this->getSelect()
-            ->where('id_path = ?', "product/{$productId}")
-            ->orWhere('id_path LIKE ?', "product/{$productId}/%");
+        $this->getSelect()->where(
+            'id_path = ?',
+            "product/{$productId}"
+        )->orWhere(
+            'id_path LIKE ?',
+            "product/{$productId}/%"
+        );
 
         return $this;
     }
@@ -102,8 +106,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function filterAllByCategory()
     {
-        $this->getSelect()
-            ->where('id_path LIKE ?', "category/%");
+        $this->getSelect()->where('id_path LIKE ?', "category/%");
         return $this;
     }
 }

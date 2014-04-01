@@ -16,9 +16,7 @@
  */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class GroupId
-    implements \Magento\Option\ArrayInterface
-
+class GroupId implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Customer\Model\Group
@@ -40,9 +38,9 @@ class GroupId
      */
     public function toOptionArray()
     {
-        return $this->_model->getCollection()
-            ->addFieldToFilter('customer_group_id', array('gt'=> 0))
-            ->load()
-            ->toOptionHash();
+        return $this->_model->getCollection()->addFieldToFilter(
+            'customer_group_id',
+            array('gt' => 0)
+        )->load()->toOptionHash();
     }
 }

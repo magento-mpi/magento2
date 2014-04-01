@@ -14,8 +14,8 @@ namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Items extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Rma eav
@@ -23,6 +23,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
      * @var \Magento\Rma\Helper\Eav
      */
     protected $_rmaEav;
+
     /**
      * Core registry
      *
@@ -77,15 +78,12 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getAddButtonHtml()
     {
-        $addButtonData = array(
-            'label' => __('Add Products'),
-            'onclick' => "rma.addProduct()",
-            'class' => 'add',
-        );
-        return $this->getLayout()
-            ->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData($addButtonData)
-            ->toHtml();
+        $addButtonData = array('label' => __('Add Products'), 'onclick' => "rma.addProduct()", 'class' => 'add');
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            $addButtonData
+        )->toHtml();
     }
 
     /**
@@ -98,12 +96,13 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
         $addButtonData = array(
             'label' => __('Add Selected Product(s) to returns'),
             'onclick' => "rma.addSelectedProduct()",
-            'class' => 'add',
+            'class' => 'add'
         );
-        return $this->getLayout()
-            ->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData($addButtonData)
-            ->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            $addButtonData
+        )->toHtml();
     }
 
     /**
@@ -122,82 +121,106 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
 
         $fieldset = $form->addFieldset('rma_item_fields', array());
 
-        $fieldset->addField('product_name', 'text', array(
-            'label'=> __('Product Name'),
-            'name' => 'product_name',
-            'required'  => false
-        ));
+        $fieldset->addField(
+            'product_name',
+            'text',
+            array('label' => __('Product Name'), 'name' => 'product_name', 'required' => false)
+        );
 
-        $fieldset->addField('product_sku', 'text', array(
-            'label'=> __('SKU'),
-            'name' => 'product_sku',
-            'required'  => false
-        ));
+        $fieldset->addField(
+            'product_sku',
+            'text',
+            array('label' => __('SKU'), 'name' => 'product_sku', 'required' => false)
+        );
 
         //Renderer puts available quantity instead of order_item_id
-        $fieldset->addField('qty_ordered', 'text', array(
-            'label'=> __('Remaining Qty'),
-            'name' => 'qty_ordered',
-            'required'  => false,
-        ));
+        $fieldset->addField(
+            'qty_ordered',
+            'text',
+            array('label' => __('Remaining Qty'), 'name' => 'qty_ordered', 'required' => false)
+        );
 
-        $fieldset->addField('qty_requested', 'text', array(
-            'label'=> __('Requested Qty'),
-            'name' => 'qty_requested',
-            'required' => false,
-            'class' => 'validate-greater-than-zero'
-        ));
+        $fieldset->addField(
+            'qty_requested',
+            'text',
+            array(
+                'label' => __('Requested Qty'),
+                'name' => 'qty_requested',
+                'required' => false,
+                'class' => 'validate-greater-than-zero'
+            )
+        );
 
         /** @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
         $reasonOtherAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
 
-        $fieldset->addField('reason_other', 'text', array(
-            'label'     => $reasonOtherAttribute->getStoreLabel(),
-            'name'      => 'reason_other',
-            'maxlength' => 255,
-            'required'  => false
-        ));
+        $fieldset->addField(
+            'reason_other',
+            'text',
+            array(
+                'label' => $reasonOtherAttribute->getStoreLabel(),
+                'name' => 'reason_other',
+                'maxlength' => 255,
+                'required' => false
+            )
+        );
 
         $eavHelper = $this->_rmaEav;
-        $fieldset->addField('reason', 'select', array(
-            'label'=> __('Reason to Return'),
-            'options' => array(''=>'')
-                + $eavHelper->getAttributeOptionValues('reason')
-                + array('other' => $reasonOtherAttribute->getStoreLabel()),
-            'name' => 'reason',
-            'required' => false
-        ))->setRenderer(
+        $fieldset->addField(
+            'reason',
+            'select',
+            array(
+                'label' => __('Reason to Return'),
+                'options' => array(
+                    '' => ''
+                ) + $eavHelper->getAttributeOptionValues(
+                    'reason'
+                ) + array(
+                    'other' => $reasonOtherAttribute->getStoreLabel()
+                ),
+                'name' => 'reason',
+                'required' => false
+            )
+        )->setRenderer(
             $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer\Reason')
         );
 
-        $fieldset->addField('condition', 'select', array(
-            'label'=> __('Item Condition'),
-            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('condition'),
-            'name' => 'condition',
-            'required' => false,
-            'class' => 'action-select'
-        ));
+        $fieldset->addField(
+            'condition',
+            'select',
+            array(
+                'label' => __('Item Condition'),
+                'options' => array('' => '') + $eavHelper->getAttributeOptionValues('condition'),
+                'name' => 'condition',
+                'required' => false,
+                'class' => 'action-select'
+            )
+        );
 
-        $fieldset->addField('resolution', 'select', array(
-            'label'=> __('Resolution'),
-            'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('resolution'),
-            'name' => 'resolution',
-            'required' => false,
-            'class' => 'action-select'
-        ));
+        $fieldset->addField(
+            'resolution',
+            'select',
+            array(
+                'label' => __('Resolution'),
+                'options' => array('' => '') + $eavHelper->getAttributeOptionValues('resolution'),
+                'name' => 'resolution',
+                'required' => false,
+                'class' => 'action-select'
+            )
+        );
 
-        $fieldset->addField('delete_link', 'label', array(
-            'label'=> __('Delete'),
-            'name' => 'delete_link',
-            'required' => false
-        ));
+        $fieldset->addField(
+            'delete_link',
+            'label',
+            array('label' => __('Delete'), 'name' => 'delete_link', 'required' => false)
+        );
 
-        $fieldset->addField('add_details_link', 'label', array(
-            'label'=> __('Add Details'),
-            'name' => 'add_details_link',
-            'required' => false
-        ));
+        $fieldset->addField(
+            'add_details_link',
+            'label',
+            array('label' => __('Add Details'), 'name' => 'add_details_link', 'required' => false)
+        );
 
         $this->setForm($form);
 

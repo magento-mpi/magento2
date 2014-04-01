@@ -27,14 +27,14 @@ namespace Magento\Newsletter\Model;
  * @package     Magento_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Problem extends \Magento\Core\Model\AbstractModel
+class Problem extends \Magento\Model\AbstractModel
 {
     /**
      * Current Subscriber
      *
      * @var \Magento\Newsletter\Model\Subscriber
      */
-    protected  $_subscriber = null;
+    protected $_subscriber = null;
 
     /**
      * Subscriber factory
@@ -49,7 +49,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -57,7 +57,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -124,8 +124,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
         }
 
         if (is_null($this->_subscriber)) {
-            $this->_subscriber = $this->_subscriberFactory->create()
-                ->load($this->getSubscriberId());
+            $this->_subscriber = $this->_subscriberFactory->create()->load($this->getSubscriberId());
         }
 
         return $this->_subscriber;
@@ -139,11 +138,12 @@ class Problem extends \Magento\Core\Model\AbstractModel
     public function unsubscribe()
     {
         if ($this->getSubscriber()) {
-            $this->getSubscriber()->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_UNSUBSCRIBED)
-                ->setIsStatusChanged(true)
-                ->save();
+            $this->getSubscriber()->setSubscriberStatus(
+                \Magento\Newsletter\Model\Subscriber::STATUS_UNSUBSCRIBED
+            )->setIsStatusChanged(
+                true
+            )->save();
         }
         return $this;
     }
-
 }

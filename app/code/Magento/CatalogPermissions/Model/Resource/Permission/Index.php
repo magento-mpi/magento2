@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Resource\Permission;
 
 use Magento\Catalog\Model\Product;
@@ -20,7 +19,7 @@ use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Eav\Model\Entity\Attribute;
 
-class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Index extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Catalog permissions data
@@ -39,11 +38,8 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param Helper $helper
      * @param StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        Helper $helper,
-        StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\App\Resource $resource, Helper $helper, StoreManagerInterface $storeManager)
+    {
         $this->helper = $helper;
         $this->storeManager = $storeManager;
         parent::__construct($resource);
@@ -84,9 +80,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
             $categoryId = array($categoryId);
         }
 
-        $select = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('category_id IN (?)', $categoryId);
+        $select = $adapter->select()->from($this->getMainTable())->where('category_id IN (?)', $categoryId);
         if (!is_null($customerGroupId)) {
             $select->where('customer_group_id = ?', $customerGroupId);
         }
@@ -94,9 +88,15 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
             $select->where('website_id = ?', $websiteId);
         }
 
-        return (!is_null($customerGroupId) && !is_null($websiteId))
-            ? $adapter->fetchAssoc($select)
-            : $adapter->fetchAll($select);
+        return !is_null(
+            $customerGroupId
+        ) && !is_null(
+            $websiteId
+        ) ? $adapter->fetchAssoc(
+            $select
+        ) : $adapter->fetchAll(
+            $select
+        );
     }
 
     /**
@@ -109,9 +109,12 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getRestrictedCategoryIds($customerGroupId, $websiteId)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getMainTable(), 'category_id')
-            ->where('grant_catalog_category_view = :grant_catalog_category_view');
+        $select = $adapter->select()->from(
+            $this->getMainTable(),
+            'category_id'
+        )->where(
+            'grant_catalog_category_view = :grant_catalog_category_view'
+        );
         $bind = array();
         if ($customerGroupId) {
             $select->where('customer_group_id = :customer_group_id');
@@ -129,15 +132,15 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $restrictedCatIds = $adapter->fetchCol($select, $bind);
 
-        $select = $adapter->select()
-            ->from($this->getTable('catalog_category_entity'), 'entity_id');
+        $select = $adapter->select()->from($this->getTable('catalog_category_entity'), 'entity_id');
 
         if (!empty($restrictedCatIds) && !$this->helper->isAllowedCategoryView()) {
             $select->where('entity_id NOT IN(?)', $restrictedCatIds);
         } elseif (!empty($restrictedCatIds) && $this->helper->isAllowedCategoryView()) {
             $select->where('entity_id IN(?)', $restrictedCatIds);
         } elseif ($this->helper->isAllowedCategoryView()) {
-            $select->where('1 = 0'); // category view allowed for all
+            // category view allowed for all
+            $select->where('1 = 0');
         }
 
         return $adapter->fetchCol($select);
@@ -162,21 +165,23 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $collection->getSelect()->joinLeft(
             array('perm' => $this->getMainTable()),
-            'perm.category_id = ' . $tableAlias . '.entity_id'
-                . ' AND ' . $adapter->quoteInto('perm.website_id = ?', $websiteId)
-                . ' AND ' . $adapter->quoteInto('perm.customer_group_id = ?', $customerGroupId),
+            'perm.category_id = ' . $tableAlias . '.entity_id' . ' AND ' . $adapter->quoteInto(
+                'perm.website_id = ?',
+                $websiteId
+            ) . ' AND ' . $adapter->quoteInto(
+                'perm.customer_group_id = ?',
+                $customerGroupId
+            ),
             array()
         );
 
         if (!$this->helper->isAllowedCategoryView()) {
-            $collection->getSelect()
-                ->where('perm.grant_catalog_category_view = ?',
-                    Permission::PERMISSION_ALLOW);
+            $collection->getSelect()->where('perm.grant_catalog_category_view = ?', Permission::PERMISSION_ALLOW);
         } else {
-            $collection->getSelect()
-                ->where('perm.grant_catalog_category_view != ?'
-                    . ' OR perm.grant_catalog_category_view IS NULL',
-                    Permission::PERMISSION_DENY);
+            $collection->getSelect()->where(
+                'perm.grant_catalog_category_view != ?' . ' OR perm.grant_catalog_category_view IS NULL',
+                Permission::PERMISSION_DENY
+            );
         }
 
         return $this;
@@ -195,16 +200,15 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $fromPart = $collection->getSelect()->getPart(\Zend_Db_Select::FROM);
 
-        $categoryId = isset($collection->getLimitationFilters()['category_id'])
-            ? $collection->getLimitationFilters()['category_id']
-            : null;
+        $categoryId = isset(
+            $collection->getLimitationFilters()['category_id']
+        ) ? $collection->getLimitationFilters()['category_id'] : null;
 
-        $conditions = [
-            $adapter->quoteInto('perm.customer_group_id = ?', $customerGroupId),
-        ];
+        $conditions = array($adapter->quoteInto('perm.customer_group_id = ?', $customerGroupId));
 
-        if (!$categoryId
-            || $categoryId == $this->storeManager->getStore($collection->getStoreId())->getRootCategoryId()
+        if (!$categoryId || $categoryId == $this->storeManager->getStore(
+            $collection->getStoreId()
+        )->getRootCategoryId()
         ) {
             $conditions[] = 'perm.product_id = cat_index.product_id';
             $conditions[] = $adapter->quoteInto('perm.store_id = ?', $collection->getStoreId());
@@ -212,35 +216,27 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
             $tableName = $this->getProductTable();
 
             if (!isset($fromPart['perm'])) {
-                $collection->getSelect()
-                    ->joinLeft(
-                        array('perm' => $tableName),
-                        $joinConditions,
-                        array(
-                            'grant_catalog_category_view',
-                            'grant_catalog_product_price',
-                            'grant_checkout_items',
-                        )
-                    );
+                $collection->getSelect()->joinLeft(
+                    array('perm' => $tableName),
+                    $joinConditions,
+                    array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+                );
             }
         } else {
             $conditions[] = 'perm.category_id = cat_index.category_id';
-            $conditions[] = $adapter->quoteInto('perm.website_id = ?',
-                $this->storeManager->getStore($collection->getStoreId())->getWebsiteId());
+            $conditions[] = $adapter->quoteInto(
+                'perm.website_id = ?',
+                $this->storeManager->getStore($collection->getStoreId())->getWebsiteId()
+            );
             $joinConditions = join(' AND ', $conditions);
             $tableName = $this->getMainTable();
 
             if (!isset($fromPart['perm'])) {
-                $collection->getSelect()
-                    ->joinLeft(
-                        array('perm' => $tableName),
-                        $joinConditions,
-                        array(
-                            'grant_catalog_category_view',
-                            'grant_catalog_product_price',
-                            'grant_checkout_items',
-                        )
-                    );
+                $collection->getSelect()->joinLeft(
+                    array('perm' => $tableName),
+                    $joinConditions,
+                    array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+                );
             }
         }
 
@@ -252,13 +248,12 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if (!$this->helper->isAllowedCategoryView()) {
-            $collection->getSelect()
-                ->where('perm.grant_catalog_category_view = ?', Permission::PERMISSION_ALLOW);
+            $collection->getSelect()->where('perm.grant_catalog_category_view = ?', Permission::PERMISSION_ALLOW);
         } else {
-            $collection->getSelect()
-                ->where('perm.grant_catalog_category_view != ?'
-                    . ' OR perm.grant_catalog_category_view IS NULL',
-                    Permission::PERMISSION_DENY);
+            $collection->getSelect()->where(
+                'perm.grant_catalog_category_view != ?' . ' OR perm.grant_catalog_category_view IS NULL',
+                Permission::PERMISSION_DENY
+            );
         }
 
         $this->addLinkLimitation($collection);
@@ -275,13 +270,13 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function addLinkLimitation($collection)
     {
         if (method_exists($collection, 'getLinkModel') || $collection->getFlag('is_link_collection')) {
-            $collection->getSelect()
-                ->where('perm.grant_catalog_product_price != ?'
-                    . ' OR perm.grant_catalog_product_price IS NULL',
-                    Permission::PERMISSION_DENY)
-                ->where('perm.grant_checkout_items != ?'
-                    . ' OR perm.grant_checkout_items IS NULL',
-                    Permission::PERMISSION_DENY);
+            $collection->getSelect()->where(
+                'perm.grant_catalog_product_price != ?' . ' OR perm.grant_catalog_product_price IS NULL',
+                Permission::PERMISSION_DENY
+            )->where(
+                'perm.grant_checkout_items != ?' . ' OR perm.grant_checkout_items IS NULL',
+                Permission::PERMISSION_DENY
+            );
         }
         return $this;
     }
@@ -298,31 +293,33 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
 
         if ($product->getCategory()) {
-            $select = $adapter->select()
-                ->from(
-                    array('perm' => $this->getMainTable()),
-                    array(
-                        'grant_catalog_category_view',
-                        'grant_catalog_product_price',
-                        'grant_checkout_items',
-                    )
-                )
-                ->where('category_id = ?', $product->getCategory()->getId())
-                ->where('customer_group_id = ?', $customerGroupId)
-                ->where('website_id = ?', $this->storeManager->getStore($product->getStoreId())->getWebsiteId());
+            $select = $adapter->select()->from(
+                array('perm' => $this->getMainTable()),
+                array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+            )->where(
+                'category_id = ?',
+                $product->getCategory()->getId()
+            )->where(
+                'customer_group_id = ?',
+                $customerGroupId
+            )->where(
+                'website_id = ?',
+                $this->storeManager->getStore($product->getStoreId())->getWebsiteId()
+            );
         } else {
-            $select = $adapter->select()
-                ->from(
-                    array('perm' => $this->getProductTable()),
-                    array(
-                        'grant_catalog_category_view',
-                        'grant_catalog_product_price',
-                        'grant_checkout_items',
-                    )
-                )
-                ->where('product_id = ?', $product->getId())
-                ->where('customer_group_id = ?', $customerGroupId)
-                ->where('store_id = ?', $product->getStoreId());
+            $select = $adapter->select()->from(
+                array('perm' => $this->getProductTable()),
+                array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+            )->where(
+                'product_id = ?',
+                $product->getId()
+            )->where(
+                'customer_group_id = ?',
+                $customerGroupId
+            )->where(
+                'store_id = ?',
+                $product->getStoreId()
+            );
         }
 
         $permission = $adapter->fetchRow($select);
@@ -348,18 +345,19 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from(
-                array('perm' => $this->getProductTable()),
-                array(
-                    'grant_catalog_category_view',
-                    'grant_catalog_product_price',
-                    'grant_checkout_items',
-                )
-            )
-            ->where('product_id IN (?)', $productId)
-            ->where('customer_group_id = ?', $customerGroupId)
-            ->where('store_id = ?', $storeId);
+        $select = $adapter->select()->from(
+            array('perm' => $this->getProductTable()),
+            array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+        )->where(
+            'product_id IN (?)',
+            $productId
+        )->where(
+            'customer_group_id = ?',
+            $customerGroupId
+        )->where(
+            'store_id = ?',
+            $storeId
+        );
 
         return $adapter->fetchAssoc($select);
     }

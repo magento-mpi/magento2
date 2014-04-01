@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App;
 
 interface ScopeResolverInterface
 {
-
     /**
      * Retrieve application scope object
      *

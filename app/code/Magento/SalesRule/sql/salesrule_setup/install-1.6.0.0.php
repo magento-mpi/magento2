@@ -15,205 +15,334 @@ $installer->startSetup();
 /**
  * Create table 'salesrule'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule'))
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rule Id')
-    ->addColumn('name', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Name')
-    ->addColumn('description', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Description')
-    ->addColumn('from_date', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        ), 'From Date')
-    ->addColumn('to_date', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        ), 'To Date')
-    ->addColumn('uses_per_customer', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Uses Per Customer')
-    ->addColumn('customer_group_ids', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Customer Group Ids')
-    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Is Active')
-    ->addColumn('conditions_serialized', \Magento\DB\Ddl\Table::TYPE_TEXT, '2M', array(
-        ), 'Conditions Serialized')
-    ->addColumn('actions_serialized', \Magento\DB\Ddl\Table::TYPE_TEXT, '2M', array(
-        ), 'Actions Serialized')
-    ->addColumn('stop_rules_processing', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Stop Rules Processing')
-    ->addColumn('is_advanced', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Is Advanced')
-    ->addColumn('product_ids', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Product Ids')
-    ->addColumn('sort_order', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Sort Order')
-    ->addColumn('simple_action', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        ), 'Simple Action')
-    ->addColumn('discount_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Discount Amount')
-    ->addColumn('discount_qty', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        ), 'Discount Qty')
-    ->addColumn('discount_step', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Discount Step')
-    ->addColumn('apply_to_shipping', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Apply To Shipping')
-    ->addColumn('times_used', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Times Used')
-    ->addColumn('is_rss', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Is Rss')
-    ->addColumn('website_ids', \Magento\DB\Ddl\Table::TYPE_TEXT, 4000, array(
-        ), 'Website Ids')
-    ->addColumn('coupon_type', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Coupon Type')
-    ->addIndex($installer->getIdxName('salesrule', array('is_active', 'sort_order', 'to_date', 'from_date')),
-        array('is_active', 'sort_order', 'to_date', 'from_date'))
-    ->setComment('Salesrule');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('salesrule')
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rule Id'
+)->addColumn(
+    'name',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Name'
+)->addColumn(
+    'description',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Description'
+)->addColumn(
+    'from_date',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array(),
+    'From Date'
+)->addColumn(
+    'to_date',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array(),
+    'To Date'
+)->addColumn(
+    'uses_per_customer',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Uses Per Customer'
+)->addColumn(
+    'customer_group_ids',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Customer Group Ids'
+)->addColumn(
+    'is_active',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Is Active'
+)->addColumn(
+    'conditions_serialized',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '2M',
+    array(),
+    'Conditions Serialized'
+)->addColumn(
+    'actions_serialized',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '2M',
+    array(),
+    'Actions Serialized'
+)->addColumn(
+    'stop_rules_processing',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '1'),
+    'Stop Rules Processing'
+)->addColumn(
+    'is_advanced',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '1'),
+    'Is Advanced'
+)->addColumn(
+    'product_ids',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Product Ids'
+)->addColumn(
+    'sort_order',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Sort Order'
+)->addColumn(
+    'simple_action',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array(),
+    'Simple Action'
+)->addColumn(
+    'discount_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Discount Amount'
+)->addColumn(
+    'discount_qty',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array(),
+    'Discount Qty'
+)->addColumn(
+    'discount_step',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Discount Step'
+)->addColumn(
+    'apply_to_shipping',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Apply To Shipping'
+)->addColumn(
+    'times_used',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Times Used'
+)->addColumn(
+    'is_rss',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Is Rss'
+)->addColumn(
+    'website_ids',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    4000,
+    array(),
+    'Website Ids'
+)->addColumn(
+    'coupon_type',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '1'),
+    'Coupon Type'
+)->addIndex(
+    $installer->getIdxName('salesrule', array('is_active', 'sort_order', 'to_date', 'from_date')),
+    array('is_active', 'sort_order', 'to_date', 'from_date')
+)->setComment(
+    'Salesrule'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'salesrule_coupon'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule_coupon'))
-    ->addColumn('coupon_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Coupon Id')
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Rule Id')
-    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Code')
-    ->addColumn('usage_limit', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Usage Limit')
-    ->addColumn('usage_per_customer', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Usage Per Customer')
-    ->addColumn('times_used', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Times Used')
-    ->addColumn('expiration_date', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Expiration Date')
-    ->addColumn('is_primary', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Is Primary')
-    ->addIndex($installer->getIdxName('salesrule_coupon', array('code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('code'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('salesrule_coupon', array('rule_id', 'is_primary'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('rule_id', 'is_primary'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('salesrule_coupon', array('rule_id')),
-        array('rule_id'))
-    ->addForeignKey($installer->getFkName('salesrule_coupon', 'rule_id', 'salesrule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule'), 'rule_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Salesrule Coupon');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('salesrule_coupon')
+)->addColumn(
+    'coupon_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Coupon Id'
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Rule Id'
+)->addColumn(
+    'code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Code'
+)->addColumn(
+    'usage_limit',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true),
+    'Usage Limit'
+)->addColumn(
+    'usage_per_customer',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true),
+    'Usage Per Customer'
+)->addColumn(
+    'times_used',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Times Used'
+)->addColumn(
+    'expiration_date',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Expiration Date'
+)->addColumn(
+    'is_primary',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Is Primary'
+)->addIndex(
+    $installer->getIdxName('salesrule_coupon', array('code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    array('code'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName(
+        'salesrule_coupon',
+        array('rule_id', 'is_primary'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('rule_id', 'is_primary'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('salesrule_coupon', array('rule_id')),
+    array('rule_id')
+)->addForeignKey(
+    $installer->getFkName('salesrule_coupon', 'rule_id', 'salesrule', 'rule_id'),
+    'rule_id',
+    $installer->getTable('salesrule'),
+    'rule_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Salesrule Coupon'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'salesrule_coupon_usage'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule_coupon_usage'))
-    ->addColumn('coupon_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Coupon Id')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Customer Id')
-    ->addColumn('times_used', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Times Used')
-    ->addIndex($installer->getIdxName('salesrule_coupon_usage', array('coupon_id')),
-        array('coupon_id'))
-    ->addIndex($installer->getIdxName('salesrule_coupon_usage', array('customer_id')),
-        array('customer_id'))
-    ->addForeignKey($installer->getFkName('salesrule_coupon_usage', 'coupon_id', 'salesrule_coupon', 'coupon_id'),
-        'coupon_id', $installer->getTable('salesrule_coupon'), 'coupon_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('salesrule_coupon_usage', 'customer_id', 'customer_entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Salesrule Coupon Usage');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('salesrule_coupon_usage')
+)->addColumn(
+    'coupon_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Coupon Id'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Customer Id'
+)->addColumn(
+    'times_used',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Times Used'
+)->addIndex(
+    $installer->getIdxName('salesrule_coupon_usage', array('coupon_id')),
+    array('coupon_id')
+)->addIndex(
+    $installer->getIdxName('salesrule_coupon_usage', array('customer_id')),
+    array('customer_id')
+)->addForeignKey(
+    $installer->getFkName('salesrule_coupon_usage', 'coupon_id', 'salesrule_coupon', 'coupon_id'),
+    'coupon_id',
+    $installer->getTable('salesrule_coupon'),
+    'coupon_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('salesrule_coupon_usage', 'customer_id', 'customer_entity', 'entity_id'),
+    'customer_id',
+    $installer->getTable('customer_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Salesrule Coupon Usage'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'salesrule_customer'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule_customer'))
-    ->addColumn('rule_customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rule Customer Id')
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Rule Id')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Customer Id')
-    ->addColumn('times_used', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Times Used')
-    ->addIndex($installer->getIdxName('salesrule_customer', array('rule_id', 'customer_id')),
-        array('rule_id', 'customer_id'))
-    ->addIndex($installer->getIdxName('salesrule_customer', array('customer_id', 'rule_id')),
-        array('customer_id', 'rule_id'))
-    ->addForeignKey($installer->getFkName('salesrule_customer', 'customer_id', 'customer_entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('salesrule_customer', 'rule_id', 'salesrule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule'), 'rule_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Salesrule Customer');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('salesrule_customer')
+)->addColumn(
+    'rule_customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rule Customer Id'
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Rule Id'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Customer Id'
+)->addColumn(
+    'times_used',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Times Used'
+)->addIndex(
+    $installer->getIdxName('salesrule_customer', array('rule_id', 'customer_id')),
+    array('rule_id', 'customer_id')
+)->addIndex(
+    $installer->getIdxName('salesrule_customer', array('customer_id', 'rule_id')),
+    array('customer_id', 'rule_id')
+)->addForeignKey(
+    $installer->getFkName('salesrule_customer', 'customer_id', 'customer_entity', 'entity_id'),
+    'customer_id',
+    $installer->getTable('customer_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('salesrule_customer', 'rule_id', 'salesrule', 'rule_id'),
+    'rule_id',
+    $installer->getTable('salesrule'),
+    'rule_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Salesrule Customer'
+);
 $installer->getConnection()->createTable($table);
 
 /**

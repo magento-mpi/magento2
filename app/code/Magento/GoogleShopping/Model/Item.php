@@ -18,7 +18,7 @@ use Magento\Catalog\Model\Product as CatalogModelProduct;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     /**
      * Registry keys for caching attributes and types
@@ -144,8 +144,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function insertItem(CatalogModelProduct $product)
     {
         $this->setProduct($product);
-        $this->getServiceItem()
-            ->insert($this);
+        $this->getServiceItem()->insert($this);
         $this->setTypeId($this->getType()->getTypeId());
 
         return $this;
@@ -159,8 +158,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function updateItem()
     {
         if ($this->getId()) {
-            $this->getServiceItem()
-                ->update($this);
+            $this->getServiceItem()->update($this);
         }
         return $this;
     }
@@ -199,7 +197,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $attributeSetId = $this->getProduct()->getAttributeSetId();
         $targetCountry = $this->getTargetCountry();
 
-        $registry = $this->_coreRegistry->registry(self::TYPES_REGISTRY_KEY);
+        $registry = $this->_registry->registry(self::TYPES_REGISTRY_KEY);
         if (is_array($registry) && isset($registry[$attributeSetId][$targetCountry])) {
             return $registry[$attributeSetId][$targetCountry];
         }
@@ -207,8 +205,8 @@ class Item extends \Magento\Core\Model\AbstractModel
         $type = $this->_typeFactory->create()->loadByAttributeSetId($attributeSetId, $targetCountry);
 
         $registry[$attributeSetId][$targetCountry] = $type;
-        $this->_coreRegistry->unregister(self::TYPES_REGISTRY_KEY);
-        $this->_coreRegistry->register(self::TYPES_REGISTRY_KEY, $registry);
+        $this->_registry->unregister(self::TYPES_REGISTRY_KEY);
+        $this->_registry->register(self::TYPES_REGISTRY_KEY, $registry);
 
         return $type;
     }

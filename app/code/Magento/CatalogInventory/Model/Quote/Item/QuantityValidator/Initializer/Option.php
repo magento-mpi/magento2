@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer;
+
 use Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\QuoteItemQtyList;
 
 class Option
@@ -33,7 +33,7 @@ class Option
      *
      * @return \Magento\Object
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function initialize(
         \Magento\Sales\Model\Quote\Item\Option $option,
@@ -48,7 +48,7 @@ class Option
         $stockItem = $option->getProduct()->getStockItem();
 
         if (!$stockItem instanceof \Magento\CatalogInventory\Model\Stock\Item) {
-            throw new \Magento\Core\Exception(__('The stock item for Product in option is not valid.'));
+            throw new \Magento\Model\Exception(__('The stock item for Product in option is not valid.'));
         }
 
         /**
@@ -93,4 +93,4 @@ class Option
 
         return $result;
     }
-} 
+}

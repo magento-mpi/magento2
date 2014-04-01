@@ -132,52 +132,54 @@ $this->getConnection()->createTable($table);
 /**
  * Create table 'recurring_payment_order'
  */
-$table = $this->getConnection()
-    ->newTable($this->getTable('recurring_payment_order'))
-    ->addColumn('link_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-    ), 'Link Id')
-    ->addColumn('payment_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-    ), 'Payment Id')
-    ->addColumn('order_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-    ), 'Order Id')
-    ->addIndex(
-        $this->getIdxName(
-            'recurring_payment_order',
-            array('payment_id', 'order_id'),
-            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-        ),
-        array('payment_id', 'order_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($this->getIdxName('recurring_payment_order', array('order_id')),
-        array('order_id'))
-    ->addForeignKey(
-        $this->getFkName(
-            'recurring_payment_order',
-            'order_id',
-            'sales_flat_order',
-            'entity_id'
-        ),
-        'order_id', $this->getTable('sales_flat_order'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey(
-        $this->getFkName(
-            'recurring_payment_order',
-            'payment_id',
-            'recurring_payment',
-            'payment_id'
-        ),
-        'payment_id', $this->getTable('recurring_payment'), 'payment_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Sales Recurring Payment Order');
+$table = $this->getConnection()->newTable(
+    $this->getTable('recurring_payment_order')
+)->addColumn(
+    'link_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Link Id'
+)->addColumn(
+    'payment_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Payment Id'
+)->addColumn(
+    'order_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Order Id'
+)->addIndex(
+    $this->getIdxName(
+        'recurring_payment_order',
+        array('payment_id', 'order_id'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('payment_id', 'order_id'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $this->getIdxName('recurring_payment_order', array('order_id')),
+    array('order_id')
+)->addForeignKey(
+    $this->getFkName('recurring_payment_order', 'order_id', 'sales_flat_order', 'entity_id'),
+    'order_id',
+    $this->getTable('sales_flat_order'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $this->getFkName('recurring_payment_order', 'payment_id', 'recurring_payment', 'payment_id'),
+    'payment_id',
+    $this->getTable('recurring_payment'),
+    'payment_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Sales Recurring Payment Order'
+);
 $this->getConnection()->createTable($table);
 
 $this->installEntities();

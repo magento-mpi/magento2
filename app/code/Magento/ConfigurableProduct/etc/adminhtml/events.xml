@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="product_attribute_form_build">
         <observer name="configurable" instance="Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced\Observer" method="observe" />
     </event>

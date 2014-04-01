@@ -34,15 +34,23 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(), '', false, false, true, array('getId', 'getState', '__wakeup')
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('getId', 'getState', '__wakeup')
         );
         $this->configMock = $this->getMockForAbstractClass(
             'Magento\CatalogPermissions\App\ConfigInterface',
-            array(), '', false, false, true, array('isEnabled')
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('isEnabled')
         );
-        $this->configMock->expects($this->any())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $this->configMock->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $this->model = new Group($this->indexerMock, $this->configMock);
     }
 
@@ -54,19 +62,22 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockIndexerMethods();
         $groupMock = $this->getMock(
-            'Magento\Store\Model\Store', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group',
+            array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $groupMock->expects($this->exactly(2))
-            ->method('dataHasChangedFor')
-            ->will($this->returnValueMap($valueMap));
-        $groupMock->expects($this->once())
-            ->method('isObjectNew')
-            ->will($this->returnValue(false));
+        $groupMock->expects($this->exactly(2))->method('dataHasChangedFor')->will($this->returnValueMap($valueMap));
+        $groupMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(false));
 
         $closureMock = function () use ($groupMock) {
             return $this->subjectMock;
         };
-        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock));
+        $this->assertEquals(
+            $this->subjectMock,
+            $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock)
+        );
     }
 
     /**
@@ -76,61 +87,63 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveNotNew($valueMap)
     {
         $groupMock = $this->getMock(
-            'Magento\Store\Model\Store', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group',
+            array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $groupMock->expects($this->exactly(2))
-            ->method('dataHasChangedFor')
-            ->will($this->returnValueMap($valueMap));
-        $groupMock->expects($this->once())
-            ->method('isObjectNew')
-            ->will($this->returnValue(true));
+        $groupMock->expects($this->exactly(2))->method('dataHasChangedFor')->will($this->returnValueMap($valueMap));
+        $groupMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
         $closureMock = function () use ($groupMock) {
             return $this->subjectMock;
         };
-        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock));
+        $this->assertEquals(
+            $this->subjectMock,
+            $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock)
+        );
     }
 
     public function changedDataProvider()
     {
-        return array(array(
+        return array(
             array(
-                array('root_category_id', true),
-                array('website_id', false),
-            ),
-            array(
-                array('root_category_id', false),
-                array('website_id', true),
-            ),
-        ));
+                array(array('root_category_id', true), array('website_id', false)),
+                array(array('root_category_id', false), array('website_id', true))
+            )
+        );
     }
 
     public function testAroundSaveWithoutChanges()
     {
         $groupMock = $this->getMock(
-            'Magento\Store\Model\Store', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group',
+            array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $groupMock->expects($this->exactly(2))
-            ->method('dataHasChangedFor')
-            ->will($this->returnValueMap(array(
-                array('root_category_id', false),
-                array('website_id', false),
-            )));
-        $groupMock->expects($this->never())
-            ->method('isObjectNew');
+        $groupMock->expects(
+            $this->exactly(2)
+        )->method(
+            'dataHasChangedFor'
+        )->will(
+            $this->returnValueMap(array(array('root_category_id', false), array('website_id', false)))
+        );
+        $groupMock->expects($this->never())->method('isObjectNew');
 
         $closureMock = function () use ($groupMock) {
             return $this->subjectMock;
         };
-        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock));
-
+        $this->assertEquals(
+            $this->subjectMock,
+            $this->model->aroundSave($this->subjectMock, $closureMock, $groupMock)
+        );
     }
 
     protected function mockIndexerMethods()
     {
-        $this->indexerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->indexerMock->expects($this->once())
-            ->method('invalidate');
+        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->indexerMock->expects($this->once())->method('invalidate');
     }
 }

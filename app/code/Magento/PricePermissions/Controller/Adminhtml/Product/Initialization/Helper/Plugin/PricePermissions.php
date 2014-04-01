@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
 
-class PricePermissions 
+class PricePermissions
 {
     /**
      * Backend authorization session
@@ -72,4 +71,4 @@ class PricePermissions
 
         return $product;
     }
-} 
+}

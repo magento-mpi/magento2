@@ -18,9 +18,7 @@ use Magento\Data\Form\Element\AbstractElement;
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tax
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Tax extends \Magento\Backend\Block\Widget implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * @var AbstractElement|null
@@ -105,11 +103,7 @@ class Tax
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
-                'label' => __('Add Tax'),
-                'data_attribute' => array('action' => 'add-fpt-item'),
-                'class' => 'add'
-            )
+            array('label' => __('Add Tax'), 'data_attribute' => array('action' => 'add-fpt-item'), 'class' => 'add')
         );
         $this->addChild(
             'delete_button',
@@ -210,7 +204,7 @@ class Tax
         }
         $websites = array();
         $websites[0] = array(
-            'name'     => __('All Websites'),
+            'name' => __('All Websites'),
             'currency' => $this->_directoryHelper->getBaseCurrencyCode()
         );
 
@@ -218,8 +212,8 @@ class Tax
             if ($storeId = $this->getProduct()->getStoreId()) {
                 $website = $this->_storeManager->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
-                    'name'     => $website->getName(),
-                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                    'name' => $website->getName(),
+                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
                 );
             } else {
                 foreach ($this->_storeManager->getWebsites() as $website) {
@@ -227,8 +221,8 @@ class Tax
                         continue;
                     }
                     $websites[$website->getId()] = array(
-                        'name'     => $website->getName(),
-                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                        'name' => $website->getName(),
+                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
                     );
                 }
             }

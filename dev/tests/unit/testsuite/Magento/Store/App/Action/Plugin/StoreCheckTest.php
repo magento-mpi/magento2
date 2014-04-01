@@ -57,15 +57,19 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeMock->expects($this->any())->method('getIsActive')->will($this->returnValue(false));
         $this->_storeManagerMock->expects($this->once())->method('throwStoreException');
-        $this->assertEquals('Expected',
-            $this->_plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock));
+        $this->assertEquals(
+            'Expected',
+            $this->_plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
     }
 
     public function testAroundDispatchWhenStoreIsActive()
     {
         $this->_storeMock->expects($this->any())->method('getIsActive')->will($this->returnValue(true));
         $this->_storeManagerMock->expects($this->never())->method('throwStoreException');
-        $this->assertEquals('Expected',
-            $this->_plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock));
+        $this->assertEquals(
+            'Expected',
+            $this->_plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
     }
 }

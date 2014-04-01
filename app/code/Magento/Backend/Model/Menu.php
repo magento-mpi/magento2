@@ -162,7 +162,7 @@ class Menu extends \ArrayObject
                 $this->add($item, null, $position);
                 $result = true;
                 break;
-            } else if ($item->hasChildren() && $result = $item->getChildren()->reorder($itemId, $position)) {
+            } elseif ($item->hasChildren() && $result = $item->getChildren()->reorder($itemId, $position)) {
                 break;
             }
         }

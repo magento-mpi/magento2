@@ -8,15 +8,17 @@
  */
 namespace Magento\WebsiteRestriction\Model;
 
-class Config
-    extends \Magento\Config\Data\Scoped
-    implements \Magento\WebsiteRestriction\Model\ConfigInterface
+class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRestriction\Model\ConfigInterface
 {
-    const XML_PATH_RESTRICTION_ENABLED          = 'general/restriction/is_active';
-    const XML_PATH_RESTRICTION_MODE             = 'general/restriction/mode';
-    const XML_PATH_RESTRICTION_LANDING_PAGE     = 'general/restriction/cms_page';
-    const XML_PATH_RESTRICTION_HTTP_STATUS      = 'general/restriction/http_status';
-    const XML_PATH_RESTRICTION_HTTP_REDIRECT    = 'general/restriction/http_redirect';
+    const XML_PATH_RESTRICTION_ENABLED = 'general/restriction/is_active';
+
+    const XML_PATH_RESTRICTION_MODE = 'general/restriction/mode';
+
+    const XML_PATH_RESTRICTION_LANDING_PAGE = 'general/restriction/cms_page';
+
+    const XML_PATH_RESTRICTION_HTTP_STATUS = 'general/restriction/http_status';
+
+    const XML_PATH_RESTRICTION_HTTP_REDIRECT = 'general/restriction/http_redirect';
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface

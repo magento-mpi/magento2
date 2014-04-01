@@ -11,7 +11,7 @@
  */
 namespace Magento\Logging\Model\Resource;
 
-class Helper extends \Magento\Core\Model\Resource\Helper
+class Helper extends \Magento\DB\Helper
 {
     /**
      * Construct
@@ -19,10 +19,8 @@ class Helper extends \Magento\Core\Model\Resource\Helper
      * @param \Magento\App\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        $modulePrefix = 'Logging'
-    ) {
+    public function __construct(\Magento\App\Resource $resource, $modulePrefix = 'Logging')
+    {
         parent::__construct($resource, $modulePrefix);
     }
 }

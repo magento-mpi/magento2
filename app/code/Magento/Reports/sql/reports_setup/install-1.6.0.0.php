@@ -17,23 +17,29 @@ $installer->startSetup();
 /**
  * Create table 'report_event_types'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('report_event_types'))
-    ->addColumn('event_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Event Type Id')
-    ->addColumn('event_name', \Magento\DB\Ddl\Table::TYPE_TEXT, 64, array(
-        'nullable'  => false,
-        ), 'Event Name')
-    ->addColumn('customer_login', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Customer Login')
-    ->setComment('Reports Event Type Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('report_event_types')
+)->addColumn(
+    'event_type_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Event Type Id'
+)->addColumn(
+    'event_name',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    64,
+    array('nullable' => false),
+    'Event Name'
+)->addColumn(
+    'customer_login',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Customer Login'
+)->setComment(
+    'Reports Event Type Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -207,4 +213,3 @@ if (!$installer->tableExists($tableName)) {
  * Prepare database for tables install
  */
 $installer->endSetup();
-

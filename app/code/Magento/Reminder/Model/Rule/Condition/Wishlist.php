@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Rule\Condition;
 
 use Magento\DB\Select;
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Customer wishlist conditions combine
@@ -28,7 +27,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Core resource helper
      *
-     * @var \Magento\Core\Model\Resource\Helper
+     * @var \Magento\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -43,7 +42,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\DB\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory
      * @param array $data
      */
@@ -51,7 +50,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory,
         array $data = array()
     ) {
@@ -101,11 +100,9 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function loadOperatorOptions()
     {
-        $this->setOperatorOption(array(
-            '==' => __('for'),
-            '>'  => __('for greater than'),
-            '>=' => __('for or greater than')
-        ));
+        $this->setOperatorOption(
+            array('==' => __('for'), '>' => __('for greater than'), '>=' => __('for or greater than'))
+        );
         return $this;
     }
 
@@ -126,10 +123,12 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('The wish list is not empty and abandoned %1 %2 days and %3 of these conditions match:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'The wish list is not empty and abandoned %1 %2 days and %3 of these conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -144,7 +143,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('The root wish list condition should have a days value of 1 or greater.')
             );
         }
@@ -156,11 +155,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('list' => $wishlistTable),
-            'item.wishlist_id = list.wishlist_id',
-            array()
-        );
+        $select->joinInner(array('list' => $wishlistTable), 'item.wishlist_id = list.wishlist_id', array());
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
@@ -184,10 +179,10 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function getConditionsSql($customer, $website)
     {
-        $select     = $this->_prepareConditionsSql($customer, $website);
-        $required   = $this->_getRequiredValidation();
-        $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';
-        $operator   = $required ? '=' : '<>';
+        $select = $this->_prepareConditionsSql($customer, $website);
+        $required = $this->_getRequiredValidation();
+        $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
+        $operator = $required ? '=' : '<>';
         $conditions = array();
 
         foreach ($this->getConditions() as $condition) {

@@ -23,147 +23,209 @@ $installer->startSetup();
 /**
  * Create table 'rating_entity'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('rating_entity'))
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Entity Id')
-    ->addColumn('entity_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 64, array(
-        'nullable'  => false
-        ), 'Entity Code')
-    ->addIndex($installer->getIdxName('rating_entity', array('entity_code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('entity_code'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->setComment('Rating entities');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('rating_entity')
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Entity Id'
+)->addColumn(
+    'entity_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    64,
+    array('nullable' => false),
+    'Entity Code'
+)->addIndex(
+    $installer->getIdxName(
+        'rating_entity',
+        array('entity_code'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('entity_code'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->setComment(
+    'Rating entities'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'rating'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('rating'))
-    ->addColumn('rating_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rating Id')
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Entity Id')
-    ->addColumn('rating_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 64, array(
-        'nullable'  => false
-        ), 'Rating Code')
-    ->addColumn('position', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Rating Position On Frontend')
-    ->addIndex($installer->getIdxName('rating', array('rating_code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('rating_code'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('rating', array('entity_id')),
-        array('entity_id'))
-    ->addForeignKey($installer->getFkName('rating', 'entity_id', 'rating_entity', 'entity_id'),
-        'entity_id', $installer->getTable('rating_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Ratings');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('rating')
+)->addColumn(
+    'rating_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rating Id'
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Entity Id'
+)->addColumn(
+    'rating_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    64,
+    array('nullable' => false),
+    'Rating Code'
+)->addColumn(
+    'position',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Rating Position On Frontend'
+)->addIndex(
+    $installer->getIdxName('rating', array('rating_code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    array('rating_code'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('rating', array('entity_id')),
+    array('entity_id')
+)->addForeignKey(
+    $installer->getFkName('rating', 'entity_id', 'rating_entity', 'entity_id'),
+    'entity_id',
+    $installer->getTable('rating_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Ratings'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'rating_option'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('rating_option'))
-    ->addColumn('option_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rating Option Id')
-    ->addColumn('rating_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Rating Id')
-    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        'nullable'  => false
-        ), 'Rating Option Code')
-    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Rating Option Value')
-    ->addColumn('position', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Ration option position on frontend')
-    ->addIndex($installer->getIdxName('rating_option', array('rating_id')),
-        array('rating_id'))
-    ->addForeignKey($installer->getFkName('rating_option', 'rating_id', 'rating', 'rating_id'),
-        'rating_id', $installer->getTable('rating'), 'rating_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Rating options');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('rating_option')
+)->addColumn(
+    'option_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rating Option Id'
+)->addColumn(
+    'rating_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Rating Id'
+)->addColumn(
+    'code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array('nullable' => false),
+    'Rating Option Code'
+)->addColumn(
+    'value',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Rating Option Value'
+)->addColumn(
+    'position',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Ration option position on frontend'
+)->addIndex(
+    $installer->getIdxName('rating_option', array('rating_id')),
+    array('rating_id')
+)->addForeignKey(
+    $installer->getFkName('rating_option', 'rating_id', 'rating', 'rating_id'),
+    'rating_id',
+    $installer->getTable('rating'),
+    'rating_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Rating options'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'rating_option_vote'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('rating_option_vote'))
-    ->addColumn('vote_id', \Magento\DB\Ddl\Table::TYPE_BIGINT, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Vote id')
-    ->addColumn('option_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Vote option id')
-    ->addColumn('remote_ip', \Magento\DB\Ddl\Table::TYPE_TEXT, 16, array(
-        'nullable'  => false
-        ), 'Customer IP')
-    ->addColumn('remote_ip_long', \Magento\DB\Ddl\Table::TYPE_BIGINT, null, array(
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Customer IP converted to long integer format')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'default'   => 0
-        ), 'Customer Id')
-    ->addColumn('entity_pk_value', \Magento\DB\Ddl\Table::TYPE_BIGINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Product id')
-    ->addColumn('rating_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Rating id')
-    ->addColumn('review_id', \Magento\DB\Ddl\Table::TYPE_BIGINT, null, array(
-        'unsigned'  => true,
-        ), 'Review id')
-    ->addColumn('percent', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Percent amount')
-    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Vote option value')
-    ->addIndex($installer->getIdxName('rating_option_vote', array('option_id')),
-        array('option_id'))
-    ->addForeignKey($installer->getFkName('rating_option_vote', 'option_id', 'rating_option', 'option_id'),
-        'option_id', $installer->getTable('rating_option'), 'option_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Rating option values');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('rating_option_vote')
+)->addColumn(
+    'vote_id',
+    \Magento\DB\Ddl\Table::TYPE_BIGINT,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Vote id'
+)->addColumn(
+    'option_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Vote option id'
+)->addColumn(
+    'remote_ip',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    16,
+    array('nullable' => false),
+    'Customer IP'
+)->addColumn(
+    'remote_ip_long',
+    \Magento\DB\Ddl\Table::TYPE_BIGINT,
+    null,
+    array('nullable' => false, 'default' => 0),
+    'Customer IP converted to long integer format'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'default' => 0),
+    'Customer Id'
+)->addColumn(
+    'entity_pk_value',
+    \Magento\DB\Ddl\Table::TYPE_BIGINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Product id'
+)->addColumn(
+    'rating_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Rating id'
+)->addColumn(
+    'review_id',
+    \Magento\DB\Ddl\Table::TYPE_BIGINT,
+    null,
+    array('unsigned' => true),
+    'Review id'
+)->addColumn(
+    'percent',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => 0),
+    'Percent amount'
+)->addColumn(
+    'value',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => 0),
+    'Vote option value'
+)->addIndex(
+    $installer->getIdxName('rating_option_vote', array('option_id')),
+    array('option_id')
+)->addForeignKey(
+    $installer->getFkName('rating_option_vote', 'option_id', 'rating_option', 'option_id'),
+    'option_id',
+    $installer->getTable('rating_option'),
+    'option_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Rating option values'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -286,8 +348,12 @@ $installer->getConnection()->createTable($table);
  */
 $table = $installer->getConnection()->addForeignKey(
     $installer->getFkName('rating_option_vote', 'review_id', 'review', 'review_id'),
-    $installer->getTable('rating_option_vote'), 'review_id',
-    $installer->getTable('review'), 'review_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE);
+    $installer->getTable('rating_option_vote'),
+    'review_id',
+    $installer->getTable('review'),
+    'review_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+);
 
 $installer->endSetup();

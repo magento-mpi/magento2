@@ -15,8 +15,10 @@ namespace Magento\CatalogInventory\Helper;
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_SHOW_OUT_OF_STOCK    = 'cataloginventory/options/show_out_of_stock';
-    const XML_PATH_ITEM_AUTO_RETURN     = 'cataloginventory/item_options/auto_return';
+    const XML_PATH_SHOW_OUT_OF_STOCK = 'cataloginventory/options/show_out_of_stock';
+
+    const XML_PATH_ITEM_AUTO_RETURN = 'cataloginventory/item_options/auto_return';
+
     /**
      * Path to configuration option 'Display product stock status'
      */
@@ -25,8 +27,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Error codes, that Catalog Inventory module can set to quote or quote items
      */
-    const ERROR_QTY =               1;
-    const ERROR_QTY_INCREMENTS =    2;
+    const ERROR_QTY = 1;
+
+    const ERROR_QTY_INCREMENTS = 2;
 
     /**
      * All product types registry in scope of quantity availability
@@ -120,7 +123,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             'manage_stock',
             'enable_qty_increments',
             'qty_increments',
-            'is_decimal_divided',
+            'is_decimal_divided'
         );
     }
 

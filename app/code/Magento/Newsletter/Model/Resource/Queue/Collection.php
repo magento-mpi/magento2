@@ -16,21 +16,21 @@ namespace Magento\Newsletter\Model\Resource\Queue;
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * True when subscribers info joined
      *
      * @var bool
      */
-    protected $_addSubscribersFlag   = false;
+    protected $_addSubscribersFlag = false;
 
     /**
      * True when filtered by store
      *
      * @var bool
      */
-    protected $_isStoreFilter        = false;
+    protected $_isStoreFilter = false;
 
     /**
      * Date
@@ -46,7 +46,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param null|\Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -55,7 +55,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Stdlib\DateTime\DateTime $date,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_date = $date;
@@ -79,9 +79,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addTemplateInfo()
     {
-        $this->getSelect()->joinLeft(array('template'=>$this->getTable('newsletter_template')),
+        $this->getSelect()->joinLeft(
+            array('template' => $this->getTable('newsletter_template')),
             'template.template_id=main_table.template_id',
-            array('template_subject','template_sender_name','template_sender_email')
+            array('template_subject', 'template_sender_name', 'template_sender_email')
         );
         $this->_joinedTables['template'] = true;
         return $this;
@@ -95,20 +96,24 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _addSubscriberInfoToSelect()
     {
         /** @var $select \Magento\DB\Select */
-        $select = $this->getConnection()->select()
-            ->from(array('qlt' => $this->getTable('newsletter_queue_link')), 'COUNT(qlt.queue_link_id)')
-            ->where('qlt.queue_id = main_table.queue_id');
+        $select = $this->getConnection()->select()->from(
+            array('qlt' => $this->getTable('newsletter_queue_link')),
+            'COUNT(qlt.queue_link_id)'
+        )->where(
+            'qlt.queue_id = main_table.queue_id'
+        );
         $totalExpr = new \Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
-        $select = $this->getConnection()->select()
-            ->from(array('qls' => $this->getTable('newsletter_queue_link')), 'COUNT(qls.queue_link_id)')
-            ->where('qls.queue_id = main_table.queue_id')
-            ->where('qls.letter_sent_at IS NOT NULL');
-        $sentExpr  = new \Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
+        $select = $this->getConnection()->select()->from(
+            array('qls' => $this->getTable('newsletter_queue_link')),
+            'COUNT(qls.queue_link_id)'
+        )->where(
+            'qls.queue_id = main_table.queue_id'
+        )->where(
+            'qls.letter_sent_at IS NOT NULL'
+        );
+        $sentExpr = new \Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
 
-        $this->getSelect()->columns(array(
-            'subscribers_sent'  => $sentExpr,
-            'subscribers_total' => $totalExpr
-        ));
+        $this->getSelect()->columns(array('subscribers_sent' => $sentExpr, 'subscribers_total' => $totalExpr));
         return $this;
     }
 
@@ -149,7 +154,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addFieldToFilter($field, $condition = null)
     {
         if (in_array($field, array('subscribers_total', 'subscribers_sent'))) {
-            $this->addFieldToFilter('main_table.queue_id', array('in'=>$this->_getIdsFromLink($field, $condition)));
+            $this->addFieldToFilter('main_table.queue_id', array('in' => $this->_getIdsFromLink($field, $condition)));
             return $this;
         } else {
             return parent::addFieldToFilter($field, $condition);
@@ -165,13 +170,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _getIdsFromLink($field, $condition)
     {
-        $select = $this->getConnection()->select()
-            ->from(
-                $this->getTable('newsletter_queue_link'),
-                array('queue_id', 'total' => new \Zend_Db_Expr('COUNT(queue_link_id)'))
-            )
-            ->group('queue_id')
-            ->having($this->_getConditionSql('total', $condition));
+        $select = $this->getConnection()->select()->from(
+            $this->getTable('newsletter_queue_link'),
+            array('queue_id', 'total' => new \Zend_Db_Expr('COUNT(queue_link_id)'))
+        )->group(
+            'queue_id'
+        )->having(
+            $this->_getConditionSql('total', $condition)
+        );
 
         if ($field == 'subscribers_sent') {
             $select->where('letter_sent_at IS NOT NULL');
@@ -194,11 +200,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addSubscriberFilter($subscriberId)
     {
-        $this->getSelect()->join(array('link'=>$this->getTable('newsletter_queue_link')),
+        $this->getSelect()->join(
+            array('link' => $this->getTable('newsletter_queue_link')),
             'main_table.queue_id=link.queue_id',
             array('letter_sent_at')
-        )
-        ->where('link.subscriber_id = ?', $subscriberId);
+        )->where(
+            'link.subscriber_id = ?',
+            $subscriberId
+        );
 
         return $this;
     }
@@ -210,11 +219,15 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addOnlyForSendingFilter()
     {
-        $this->getSelect()
-            ->where('main_table.queue_status in (?)', array(\Magento\Newsletter\Model\Queue::STATUS_SENDING,
-                                                            \Magento\Newsletter\Model\Queue::STATUS_NEVER))
-            ->where('main_table.queue_start_at < ?', $this->_date->gmtdate())
-            ->where('main_table.queue_start_at IS NOT NULL');
+        $this->getSelect()->where(
+            'main_table.queue_status in (?)',
+            array(\Magento\Newsletter\Model\Queue::STATUS_SENDING, \Magento\Newsletter\Model\Queue::STATUS_NEVER)
+        )->where(
+            'main_table.queue_start_at < ?',
+            $this->_date->gmtdate()
+        )->where(
+            'main_table.queue_start_at IS NOT NULL'
+        );
 
         return $this;
     }
@@ -228,7 +241,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $this->addFieldToFilter('main_table.queue_status', \Magento\Newsletter\Model\Queue::STATUS_NEVER);
 
-           return $this;
+        return $this;
     }
 
     /**
@@ -250,11 +263,16 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addStoreFilter($storeIds)
     {
         if (!$this->_isStoreFilter) {
-            $this->getSelect()->joinInner(array('store_link' => $this->getTable('newsletter_queue_store_link')),
-                'main_table.queue_id = store_link.queue_id', array()
-            )
-            ->where('store_link.store_id IN (?)', $storeIds)
-            ->group('main_table.queue_id');
+            $this->getSelect()->joinInner(
+                array('store_link' => $this->getTable('newsletter_queue_store_link')),
+                'main_table.queue_id = store_link.queue_id',
+                array()
+            )->where(
+                'store_link.store_id IN (?)',
+                $storeIds
+            )->group(
+                'main_table.queue_id'
+            );
             $this->_isStoreFilter = true;
         }
         return $this;

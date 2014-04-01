@@ -98,9 +98,10 @@ class Observer
         $controller = $observer->getEvent()->getControllerAction();
 
         $dispatchResult = new \Magento\Object(array('should_proceed' => true, 'customer_logged_in' => false));
-        $this->_eventManager->dispatch('websiterestriction_frontend', array(
-            'controller' => $controller, 'result' => $dispatchResult
-        ));
+        $this->_eventManager->dispatch(
+            'websiterestriction_frontend',
+            array('controller' => $controller, 'result' => $dispatchResult)
+        );
         if (!$dispatchResult->getShouldProceed()) {
             return;
         }
@@ -108,17 +109,22 @@ class Observer
             return;
         }
         /* @var $request \Magento\App\RequestInterface */
-        $request    = $observer->getEvent()->getRequest();
+        $request = $observer->getEvent()->getRequest();
         /* @var $response \Magento\App\ResponseInterface */
-        $response   = $controller->getResponse();
+        $response = $controller->getResponse();
         switch ($this->_config->getMode()) {
             // show only landing page with 503 or 200 code
             case \Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE:
                 if ($request->getFullActionName() !== 'restriction_index_stub') {
-                    $request->setModuleName('restriction')
-                        ->setControllerName('index')
-                        ->setActionName('stub')
-                        ->setDispatched(false);
+                    $request->setModuleName(
+                        'restriction'
+                    )->setControllerName(
+                        'index'
+                    )->setActionName(
+                        'stub'
+                    )->setDispatched(
+                        false
+                    );
                     return;
                 }
                 $httpStatus = $this->_config->getHTTPStatusCode();
@@ -137,10 +143,7 @@ class Observer
                     $redirectUrl = false;
                     $allowedActionNames = $this->_config->getGenericActions();
                     if ($this->_customerHelper->isRegistrationAllowed()) {
-                        $allowedActionNames = array_merge(
-                            $allowedActionNames,
-                            $this->_config->getRegisterActions()
-                        );
+                        $allowedActionNames = array_merge($allowedActionNames, $this->_config->getRegisterActions());
                     }
 
                     // to specified landing page
@@ -150,9 +153,12 @@ class Observer
                         $allowedActionNames[] = $cmsPageViewAction;
                         $pageIdentifier = $this->_config->getLandingPageCode();
                         // Restrict access to CMS pages too
-                        if (!in_array($request->getFullActionName(), $allowedActionNames)
-                            || ($request->getFullActionName() === $cmsPageViewAction
-                                && $request->getAlias('rewrite_request_path') !== $pageIdentifier)
+                        if (!in_array(
+                            $request->getFullActionName(),
+                            $allowedActionNames
+                        ) || $request->getFullActionName() === $cmsPageViewAction && $request->getAlias(
+                            'rewrite_request_path'
+                        ) !== $pageIdentifier
                         ) {
                             $redirectUrl = $this->getUrl('', array('_direct' => $pageIdentifier));
                         }
@@ -174,9 +180,7 @@ class Observer
                     }
                     $this->_session->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
                 } elseif ($this->_session->hasWebsiteRestrictionAfterLoginUrl()) {
-                    $response->setRedirect(
-                        $this->_session->getWebsiteRestrictionAfterLoginUrl(true)
-                    );
+                    $response->setRedirect($this->_session->getWebsiteRestrictionAfterLoginUrl(true));
                     $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                 }
                 break;
@@ -191,13 +195,15 @@ class Observer
      */
     public function addPrivateSalesLayoutUpdate($observer)
     {
-        if (in_array($this->_config->getMode(),
+        if (in_array(
+            $this->_config->getMode(),
             array(
                 \Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER,
                 \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN
             ),
             true
-        )) {
+        )
+        ) {
             $observer->getEvent()->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
         }
     }
@@ -209,6 +215,6 @@ class Observer
      */
     public function getUrl($route = '', $params = array())
     {
-       return $this->_urlFactory->create()->getUrl($route, $params);
+        return $this->_urlFactory->create()->getUrl($route, $params);
     }
 }

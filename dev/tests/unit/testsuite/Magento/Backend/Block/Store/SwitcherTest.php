@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Store;
 
 class SwitcherTest extends \PHPUnit_Framework_TestCase
@@ -24,20 +23,42 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
     protected $_storeManagerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_websiteFactoryMock;
 
+    /**
+     * @var \Magento\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_contextMock;
+
+    /**
+     * @var \Magento\Core\Helper\PostData|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperMock;
+
+    /**
+     * @var \Magento\Core\Block\Switcher
+     */
+    protected $_block;
+
+    /**
+     * @var \Magento\Core\Model\Store
+     */
+    protected $_storeMock;
+
+    /**
+     * Set up
+     */
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_websiteFactoryMock = $this->getMock('Magento\Store\Model\Website\Factory', array(), array(), '', false);
 
-        $this->_object = $helper->getObject('Magento\Backend\Block\Store\Switcher', array(
-            'websiteFactory' => $this->_websiteFactoryMock,
-            'storeManager' => $this->_storeManagerMock
-            )
+        $this->_object = $helper->getObject(
+            'Magento\Backend\Block\Store\Switcher',
+            array('websiteFactory' => $this->_websiteFactoryMock, 'storeManager' => $this->_storeManagerMock)
         );
     }
 
@@ -56,16 +77,13 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('load')->will($this->returnValue($expected));
         $collection->expects($this->never())->method('addIdFilter');
 
-        $this->_websiteFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($websiteModel));
+        $this->_websiteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($websiteModel));
 
         $this->_object->setWebsiteIds(null);
 
         $actual = $this->_object->getWebsiteCollection();
         $this->assertEquals($expected, $actual);
     }
-
 
     /**
      * @covers \Magento\Backend\Block\Store\Switcher::getWebsiteCollection
@@ -90,9 +108,7 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('load')->will($this->returnValue($expected));
         $collection->expects($this->once())->method('addIdFilter')->with($ids);
 
-        $this->_websiteFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($websiteModel));
+        $this->_websiteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($websiteModel));
 
         $actual = $this->_object->getWebsiteCollection();
         $this->assertEquals($expected, $actual);
@@ -117,21 +133,11 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
     public function testGetWebsitesWhenWebSiteIdsIsSetAndMatchWebsites()
     {
         $ids = array(1, 3, 5);
-        $webSites = array(
-            1 => 'site 1',
-            2 => 'site 2',
-            3 => 'site 3',
-            4 => 'site 4',
-            5 => 'site 5',
-        );
+        $webSites = array(1 => 'site 1', 2 => 'site 2', 3 => 'site 3', 4 => 'site 4', 5 => 'site 5');
 
         $this->_object->setWebsiteIds($ids);
 
-        $expected = array(
-            1 => 'site 1',
-            3 => 'site 3',
-            5 => 'site 5',
-        );
+        $expected = array(1 => 'site 1', 3 => 'site 3', 5 => 'site 5');
         $this->_storeManagerMock->expects($this->once())->method('getWebsites')->will($this->returnValue($webSites));
 
         $this->assertEquals($expected, $this->_object->getWebsites());
@@ -143,13 +149,7 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
     public function testGetWebsitesWhenWebSiteIdsIsSetAndNotMatchWebsites()
     {
         $ids = array(8, 10, 12);
-        $webSites = array(
-            1 => 'site 1',
-            2 => 'site 2',
-            3 => 'site 3',
-            4 => 'site 4',
-            5 => 'site 5',
-        );
+        $webSites = array(1 => 'site 1', 2 => 'site 2', 3 => 'site 3', 4 => 'site 4', 5 => 'site 5');
 
         $this->_object->setWebsiteIds($ids);
 
@@ -157,5 +157,38 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock->expects($this->once())->method('getWebsites')->will($this->returnValue($webSites));
 
         $this->assertEquals($expected, $this->_object->getWebsites());
+    }
+
+    /**
+     *
+     */
+    public function testGetTargetStorePostData()
+    {
+        $targetStoreCode = 'TargetStoreName';
+        $targetStoreUrl  = 'target-store-url';
+        $expectedResult  = 'serialised-result';
+
+        $this->_contextMock = $this->getMock('Magento\View\Element\Template\Context',
+            array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\Core\Helper\PostData',
+            array(), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento\Core\Model\Store',
+            array('getCode', '__wakeup'), array(), '', false);
+
+        $this->_storeMock->expects($this->once())
+            ->method('getCode')
+            ->will($this->returnValue($targetStoreCode));
+
+        $this->_helperMock->expects($this->once())
+            ->method('getPostData')
+            ->with($this->equalTo($targetStoreUrl), $this->equalTo(array(
+                '___store' => $targetStoreCode
+            )))
+            ->will($this->returnValue($expectedResult));
+
+        $this->_block = new \Magento\Core\Block\Switcher($this->_contextMock, $this->_helperMock);
+        $this->_block->setHomeUrl($targetStoreUrl);
+        $actualResult = $this->_block->getTargetStorePostData($this->_storeMock);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 }

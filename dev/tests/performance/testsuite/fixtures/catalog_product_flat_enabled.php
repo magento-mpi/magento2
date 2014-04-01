@@ -18,5 +18,4 @@ $configData->setPath('catalog/frontend/flat_catalog_product')
     ->setValue(1)
     ->save();
 
-$this->getObjectManager()->get('Magento\App\CacheInterface')
-    ->clean(array(\Magento\App\Config::CACHE_TAG));
+$this->getObjectManager()->get('Magento\App\CacheInterface')->clean(array(\Magento\App\Config::CACHE_TAG));

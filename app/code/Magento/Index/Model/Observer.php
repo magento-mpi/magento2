@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Model;
 
 use Magento\Event\Observer as EventObserver;
@@ -16,15 +15,14 @@ class Observer
 {
     /**
      * @var \Magento\Index\Model\Indexer
-     *
+     */
     protected $_indexer;
 
     /**
      * @param \Magento\Index\Model\Indexer $indexer
      */
-    public function __construct(
-        \Magento\Index\Model\Indexer $indexer
-    ) {
+    public function __construct(\Magento\Index\Model\Indexer $indexer)
+    {
         $this->_indexer = $indexer;
     }
 

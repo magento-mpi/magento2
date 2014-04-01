@@ -46,14 +46,12 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      * @param Filesystem $filesystem
      * @param \Magento\Config\FileIteratorFactory $iteratorFactory
      */
-    public function __construct(
-        Filesystem $filesystem,
-        \Magento\Config\FileIteratorFactory $iteratorFactory
-    ) {
-        $this->iteratorFactory  = $iteratorFactory;
+    public function __construct(Filesystem $filesystem, \Magento\Config\FileIteratorFactory $iteratorFactory)
+    {
+        $this->iteratorFactory = $iteratorFactory;
         $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
-        $this->configDirectory  = $filesystem->getDirectoryRead(Filesystem::CONFIG_DIR);
-        $this->rootDirectory    = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
+        $this->configDirectory = $filesystem->getDirectoryRead(Filesystem::CONFIG_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
     }
 
     /**
@@ -66,11 +64,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         $configDir = $this->configDirectory->getAbsolutePath();
 
         $mageScopePath = $moduleDir . '/Magento';
-        $output = array(
-            'base' => array(),
-            'mage' => array(),
-            'custom' => array(),
-        );
+        $output = array('base' => array(), 'mage' => array(), 'custom' => array());
         $files = glob($moduleDir . '*/*/etc/module.xml');
         foreach ($files as $file) {
             $scope = strpos($file, $mageScopePath) === 0 ? 'mage' : 'custom';

@@ -63,12 +63,12 @@ class Config
         \Magento\Cache\FrontendInterface $configCache,
         \Magento\Cache\FrontendInterface $layoutCache
     ) {
-        $this->_configData   = $configData;
+        $this->_configData = $configData;
         $this->_configWriter = $configWriter;
         $this->_storeManager = $storeManager;
         $this->_eventManager = $eventManager;
-        $this->_configCache  = $configCache;
-        $this->_layoutCache  = $layoutCache;
+        $this->_configCache = $configCache;
+        $this->_layoutCache = $layoutCache;
     }
 
     /**
@@ -86,9 +86,7 @@ class Config
     ) {
         $isReassigned = false;
 
-        $this->_unassignThemeFromStores(
-            $theme->getId(), $stores, $scope, $isReassigned
-        );
+        $this->_unassignThemeFromStores($theme->getId(), $stores, $scope, $isReassigned);
 
         if ($this->_storeManager->isSingleStoreMode()) {
             $this->_assignThemeToDefaultScope($theme->getId(), $isReassigned);
@@ -101,12 +99,9 @@ class Config
             $this->_layoutCache->clean();
         }
 
-        $this->_eventManager->dispatch('assign_theme_to_stores_after',
-            array(
-                'stores' => $stores,
-                'scope'  => $scope,
-                'theme'  => $theme,
-            )
+        $this->_eventManager->dispatch(
+            'assign_theme_to_stores_after',
+            array('stores' => $stores, 'scope' => $scope, 'theme' => $theme)
         );
 
         return $this;
@@ -121,9 +116,13 @@ class Config
      */
     protected function _getAssignedScopesCollection($scope, $configPath)
     {
-        return $this->_configData->getCollection()
-            ->addFieldToFilter('scope', $scope)
-            ->addFieldToFilter('path', $configPath);
+        return $this->_configData->getCollection()->addFieldToFilter(
+            'scope',
+            $scope
+        )->addFieldToFilter(
+            'path',
+            $configPath
+        );
     }
 
     /**

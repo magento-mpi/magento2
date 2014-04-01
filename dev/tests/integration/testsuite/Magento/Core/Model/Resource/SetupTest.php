@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource;
 
 class SetupTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,8 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Setup',
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Setup',
             array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
         );
     }
@@ -35,10 +34,18 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     public function testApplyAllDataUpdates()
     {
         /*reset versions*/
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Resource')
-            ->setDbVersion('adminnotification_setup', false);
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Resource')
-            ->setDataVersion('adminnotification_setup', false);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Resource'
+        )->setDbVersion(
+            'adminnotification_setup',
+            false
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Resource'
+        )->setDataVersion(
+            'adminnotification_setup',
+            false
+        );
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         $this->_model->getConnection()->dropTable($this->_model->getTable('admin_system_messages'));
@@ -71,9 +78,13 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDeleteConfigData()
     {
-        $select = $this->_model->getConnection()->select()
-            ->from($this->_model->getTable('core_config_data'), 'value')
-            ->where('path=?', 'my/test/path');
+        $select = $this->_model->getConnection()->select()->from(
+            $this->_model->getTable('core_config_data'),
+            'value'
+        )->where(
+            'path=?',
+            'my/test/path'
+        );
 
         $this->_model->setConfigData('my/test/path', 'test_value');
         $this->assertEquals('test_value', $this->_model->getConnection()->fetchOne($select));

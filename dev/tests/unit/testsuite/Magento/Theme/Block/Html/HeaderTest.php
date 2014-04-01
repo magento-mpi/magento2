@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 class HeaderTest extends \PHPUnit_Framework_TestCase
@@ -40,9 +39,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $helper = $this->getMock('Magento\Core\Helper\File\Storage\Database',
             array('checkDbUsage'), array(), '', false, false
         );
-        $helper->expects($this->once())
-            ->method('checkDbUsage')
-            ->will($this->returnValue(false));
+        $helper->expects($this->once())->method('checkDbUsage')->will($this->returnValue(false));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 

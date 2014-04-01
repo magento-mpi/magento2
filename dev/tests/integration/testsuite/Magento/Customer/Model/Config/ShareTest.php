@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Config;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -18,12 +17,11 @@ class ShareTest extends \PHPUnit_Framework_TestCase
     public function testGetSharedWebsiteIds()
     {
         /** @var Share $share */
-        $share = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Model\Config\Share');
+        $share = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Config\Share');
 
         $websiteIds = $share->getSharedWebsiteIds(42);
 
-        $this->assertEquals([42], $websiteIds);
+        $this->assertEquals(array(42), $websiteIds);
     }
 
     /**
@@ -33,12 +31,10 @@ class ShareTest extends \PHPUnit_Framework_TestCase
     public function testGetSharedWebsiteIdsMultipleSites()
     {
         /** @var Share $share */
-        $share = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Model\Config\Share');
-        $expectedIds = [1];
+        $share = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Config\Share');
+        $expectedIds = array(1);
         /** @var \Magento\Store\Model\Website $website */
-        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Website');
+        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Website');
         $expectedIds[] = $website->load('secondwebsite')->getId();
         $expectedIds[] = $website->load('thirdwebsite')->getId();
 

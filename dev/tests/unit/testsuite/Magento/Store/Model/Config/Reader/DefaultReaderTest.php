@@ -67,11 +67,7 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
                 new \Magento\Object(array('path' => 'config/key3', 'value' => 'default_db_value3')),
             )));
         $expectedData = array(
-            'config' => array(
-                'key1' => 'default_db_value1',
-                'key2' => 'default_value2',
-                'key3' => 'default_db_value3'
-            ),
+            'config' => array('key1' => 'default_db_value1', 'key2' => 'default_value2', 'key3' => 'default_db_value3')
         );
         $this->assertEquals($expectedData, $this->_model->read());
     }

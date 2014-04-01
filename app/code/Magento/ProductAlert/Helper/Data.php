@@ -122,10 +122,13 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function getSaveUrl($type)
     {
-        return $this->_getUrl('productalert/add/' . $type, array(
-            'product_id'    => $this->getProduct()->getId(),
-            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
-        ));
+        return $this->_getUrl(
+            'productalert/add/' . $type,
+            array(
+                'product_id' => $this->getProduct()->getId(),
+                \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            )
+        );
     }
 
     /**
@@ -133,7 +136,7 @@ class Data extends \Magento\Core\Helper\Url
      *
      * @param string|\Magento\View\Element\AbstractBlock $block
      * @return \Magento\View\Element\AbstractBlock
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function createBlock($block)
     {
@@ -143,7 +146,7 @@ class Data extends \Magento\Core\Helper\Url
             }
         }
         if (!$block instanceof \Magento\View\Element\AbstractBlock) {
-            throw new \Magento\Core\Exception(__('Invalid block type: %1', $block));
+            throw new \Magento\Model\Exception(__('Invalid block type: %1', $block));
         }
         return $block;
     }

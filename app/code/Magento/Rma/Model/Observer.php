@@ -30,9 +30,8 @@ class Observer
     /**
      * @param \Magento\Rma\Helper\Data $rmaData
      */
-    public function __construct(
-        \Magento\Rma\Helper\Data $rmaData
-    ) {
+    public function __construct(\Magento\Rma\Helper\Data $rmaData)
+    {
         $this->_rmaData = $rmaData;
     }
 
@@ -50,8 +49,8 @@ class Observer
 
         if ($this->_rmaData->canCreateRma($row, true)) {
             $reorderAction = array(
-                    '@' =>  array('href' => $renderer->getUrl('*/rma/new', array('order_id'=>$row->getId()))),
-                    '#' =>  __('Return')
+                '@' => array('href' => $renderer->getUrl('*/rma/new', array('order_id' => $row->getId()))),
+                '#' => __('Return')
             );
             $renderer->addToActions($reorderAction);
         }

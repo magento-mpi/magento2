@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Locale;
 
 interface CurrencyInterface
@@ -13,7 +12,7 @@ interface CurrencyInterface
     /**
      * Default currency
      */
-    const DEFAULT_CURRENCY  = 'USD';
+    const DEFAULT_CURRENCY = 'USD';
 
     /**
      * XML path to installed currencies

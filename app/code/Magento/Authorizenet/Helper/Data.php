@@ -132,7 +132,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
                 $route = 'checkout/onepage/success';
                 break;
 
-            default :
+            default:
                 $route = 'checkout/onepage/success';
                 break;
         }
@@ -194,7 +194,12 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
         $exception = false
     ) {
         return $this->getExtendedTransactionMessage(
-            $payment, $requestType, $lastTransactionId, $card, $amount, $exception
+            $payment,
+            $requestType,
+            $lastTransactionId,
+            $card,
+            $amount,
+            $exception
         );
     }
 
@@ -315,7 +320,10 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
      */
     public function getRelyUrl($storeId = null)
     {
-        return $this->_storeManager->getStore($storeId)->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK)
-            . 'authorizenet/directpost_payment/response';
+        return $this->_storeManager->getStore(
+            $storeId
+        )->getBaseUrl(
+            \Magento\UrlInterface::URL_TYPE_LINK
+        ) . 'authorizenet/directpost_payment/response';
     }
 }

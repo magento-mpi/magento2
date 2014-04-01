@@ -20,6 +20,7 @@ use Magento\Sales\Model\Quote\Item\AbstractItem;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_GUEST_CHECKOUT = 'checkout/options/guest_checkout';
+
     const XML_PATH_CUSTOMER_MUST_BE_LOGGED = 'checkout/options/customer_must_be_logged';
 
     /**
@@ -60,11 +61,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_transportBuilder;
 
     /**
-     * Translator model
-     *
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Translate\Inline\StateInterface
      */
-    protected $_translator;
+    protected $inlineTranslation;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -74,7 +73,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -84,7 +83,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\TranslateInterface $translator
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
@@ -92,7 +91,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_localeDate = $localeDate;
         $this->_agreementCollectionFactory = $agreementCollectionFactory;
         $this->_transportBuilder = $transportBuilder;
-        $this->_translator = $translator;
+        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context);
     }
 
@@ -130,7 +129,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param bool $format
      * @return float
      */
-    public function convertPrice($price, $format=true)
+    public function convertPrice($price, $format = true)
     {
         return $this->getQuote()->getStore()->convertPrice($price, $format);
     }
@@ -144,10 +143,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if (!$this->_storeConfig->isSetFlag('checkout/options/enable_agreements', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
                 $this->_agreements = array();
             } else {
-                $this->_agreements = $this->_agreementCollectionFactory->create()
-                    ->addStoreFilter($this->_storeManager->getStore()->getId())
-                    ->addFieldToFilter('is_active', 1)
-                    ->getAllIds();
+                $this->_agreements = $this->_agreementCollectionFactory->create()->addStoreFilter(
+                    $this->_storeManager->getStore()->getId()
+                )->addFieldToFilter(
+                    'is_active',
+                    1
+                )->getAllIds();
             }
         }
         return $this->_agreements;
@@ -174,9 +175,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($item->getPriceInclTax()) {
             return $item->getPriceInclTax();
         }
-        $qty = ($item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1));
+        $qty = $item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1);
         $taxAmount = $item->getTaxAmount() + $item->getDiscountTaxCompensation();
-        $price = (floatval($qty)) ? ($item->getRowTotal() + $taxAmount)/$qty : 0;
+        $price = floatval($qty) ? ($item->getRowTotal() + $taxAmount) / $qty : 0;
         return $this->_storeManager->getStore()->roundPrice($price);
     }
 
@@ -201,9 +202,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getBasePriceInclTax($item)
     {
-        $qty = ($item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1));
+        $qty = $item->getQty() ? $item->getQty() : ($item->getQtyOrdered() ? $item->getQtyOrdered() : 1);
         $taxAmount = $item->getBaseTaxAmount() + $item->getBaseDiscountTaxCompensation();
-        $price = (floatval($qty)) ? ($item->getBaseRowTotal() + $taxAmount)/$qty : 0;
+        $price = floatval($qty) ? ($item->getBaseRowTotal() + $taxAmount) / $qty : 0;
         return $this->_storeManager->getStore()->roundPrice($price);
     }
 
@@ -214,7 +215,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getBaseSubtotalInclTax($item)
     {
         $tax = $item->getBaseTaxAmount() + $item->getBaseDiscountTaxCompensation();
-        return $item->getBaseRowTotal()+$tax;
+        return $item->getBaseRowTotal() + $tax;
     }
 
     /**
@@ -227,7 +228,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        $this->_translator->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $template = $this->_storeConfig->getValue('checkout/payment_failed/template', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $checkout->getStoreId());
 
@@ -254,10 +255,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $sendTo[] = array(
-                    'email' => $email,
-                    'name'  => null
-                );
+                $sendTo[] = array('email' => $email, 'name' => null);
             }
         }
         $shippingMethod = '';
@@ -274,20 +272,23 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $items = '';
         foreach ($checkout->getAllVisibleItems() as $_item) {
             /* @var $_item \Magento\Sales\Model\Quote\Item */
-            $items .= $_item->getProduct()->getName() . '  x '. $_item->getQty() . '  '
-                . $checkout->getStoreCurrencyCode() . ' '
-                . $_item->getProduct()->getFinalPrice($_item->getQty()) . "\n";
+            $items .= $_item->getProduct()->getName() .
+                '  x ' .
+                $_item->getQty() .
+                '  ' .
+                $checkout->getStoreCurrencyCode() .
+                ' ' .
+                $_item->getProduct()->getFinalPrice($_item->getQty()) . "\n";
         }
         $total = $checkout->getStoreCurrencyCode() . ' ' . $checkout->getGrandTotal();
 
         foreach ($sendTo as $recipient) {
-            $transport = $this->_transportBuilder
-                ->setTemplateIdentifier($template)
-                ->setTemplateOptions(array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $checkout->getStoreId()
-                ))
-                ->setTemplateVars(array(
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $template
+            )->setTemplateOptions(
+                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $checkout->getStoreId())
+            )->setTemplateVars(
+                array(
                     'reason' => $message,
                     'checkoutType' => $checkoutType,
                     'dateAndTime' => $this->_localeDate->date(),
@@ -308,7 +309,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $transport->sendMessage();
         }
 
-        $this->_translator->setTranslateInline(true);
+        $this->inlineTranslation->resume();
 
         return $this;
     }
@@ -345,11 +346,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($guestCheckout == true) {
             $result = new \Magento\Object();
             $result->setIsAllowed($guestCheckout);
-            $this->_eventManager->dispatch('checkout_allow_guest', array(
-                'quote'  => $quote,
-                'store'  => $store,
-                'result' => $result
-            ));
+            $this->_eventManager->dispatch(
+                'checkout_allow_guest',
+                array('quote' => $quote, 'store' => $store, 'result' => $result)
+            );
 
             $guestCheckout = $result->getIsAllowed();
         }
@@ -364,7 +364,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isContextCheckout()
     {
-        return ($this->_request->getParam('context') == 'checkout');
+        return $this->_request->getParam('context') == 'checkout';
     }
 
     /**

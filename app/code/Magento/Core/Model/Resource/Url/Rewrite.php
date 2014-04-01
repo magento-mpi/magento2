@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource\Url;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Rewrite extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -36,14 +36,8 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _initUniqueFields()
     {
         $this->_uniqueFields = array(
-            array(
-                'field' => array('id_path','store_id','is_system'),
-                'title' => __('ID Path for Specified Store')
-            ),
-            array(
-                 'field' => array('request_path','store_id'),
-                 'title' => __('Request Path for Specified Store'),
-            )
+            array('field' => array('id_path', 'store_id', 'is_system'), 'title' => __('ID Path for Specified Store')),
+            array('field' => array('request_path', 'store_id'), 'title' => __('Request Path for Specified Store'))
         );
         return $this;
     }
@@ -87,15 +81,18 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $select = $this->_getReadAdapter()->select();
         /** @var $select \Magento\DB\Select */
-        $select->from(array('main_table' => $this->getMainTable()), 'request_path')
-            ->where('main_table.store_id = :store_id')
-            ->where('main_table.id_path = :id_path')
-            ->limit(1);
-
-        $bind = array(
-            'store_id' => $storeId,
-            'id_path'  => $idPath
+        $select->from(
+            array('main_table' => $this->getMainTable()),
+            'request_path'
+        )->where(
+            'main_table.store_id = :store_id'
+        )->where(
+            'main_table.id_path = :id_path'
+        )->limit(
+            1
         );
+
+        $bind = array('store_id' => $storeId, 'id_path' => $idPath);
 
         return $this->_getReadAdapter()->fetchOne($select, $bind);
     }
@@ -128,7 +125,8 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
         $items = $adapter->fetchAll($select, $pathBind);
 
         // Go through all found records and choose one with lowest penalty - earlier path in array, concrete store
-        $mapPenalty = array_flip(array_values($path)); // we got mapping array(path => index), lower index - better
+        $mapPenalty = array_flip(array_values($path));
+        // we got mapping array(path => index), lower index - better
         $currentPenalty = null;
         $foundItem = null;
         foreach ($items as $item) {
@@ -140,7 +138,8 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $foundItem = $item;
                 $currentPenalty = $penalty;
                 if (!$currentPenalty) {
-                    break; // Found best matching item with zero penalty, no reason to continue
+                    // Found best matching item with zero penalty, no reason to continue
+                    break;
                 }
             }
         }

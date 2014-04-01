@@ -21,7 +21,7 @@ class FulltextIndexRebuild
     /**
      * Layer filter price
      *
-     * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
+     * @var \Magento\Search\Model\Layer\Category\Filter\Price
      */
     protected $_layerFilterPrice;
 
@@ -42,13 +42,13 @@ class FulltextIndexRebuild
     /**
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchHelper
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice
+     * @param \Magento\Search\Model\Layer\Category\Filter\Price $layerFilterPrice
      * @param \Magento\App\CacheInterface $cache
      */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchHelper,
-        \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice,
+        \Magento\Search\Model\Layer\Category\Filter\Price $layerFilterPrice,
         \Magento\App\CacheInterface $cache
     ) {
         $this->_engineProvider = $engineProvider;
@@ -68,7 +68,9 @@ class FulltextIndexRebuild
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeRebuildIndex(
-        \Magento\CatalogSearch\Model\Fulltext $subject, $storeId = null, $productIds = null
+        \Magento\CatalogSearch\Model\Fulltext $subject,
+        $storeId = null,
+        $productIds = null
     ) {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
             $engine = $this->_engineProvider->get();

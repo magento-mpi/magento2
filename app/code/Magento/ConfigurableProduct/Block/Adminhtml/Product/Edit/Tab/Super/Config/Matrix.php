@@ -15,8 +15,7 @@ namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Con
 
 use Magento\Catalog\Model\Product;
 
-class Matrix
-    extends \Magento\Backend\Block\Template
+class Matrix extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
@@ -108,8 +107,9 @@ class Matrix
             $options = array();
             foreach ($attribute['options'] as $valueInfo) {
                 foreach ($attribute['values'] as $priceData) {
-                    if ($priceData['value_index'] == $valueInfo['value']
-                        && (!isset($priceData['include']) || $priceData['include'])
+                    if ($priceData['value_index'] == $valueInfo['value'] && (!isset(
+                        $priceData['include']
+                    ) || $priceData['include'])
                     ) {
                         $valueInfo['price'] = $priceData;
                         $options[] = $valueInfo;
@@ -117,10 +117,7 @@ class Matrix
                 }
             }
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $variationalAttributes[] = array(
-                'id' => $attribute['attribute_id'],
-                'values' => $options,
-            );
+            $variationalAttributes[] = array('id' => $attribute['attribute_id'], 'values' => $options);
         }
 
         $attributesCount = count($variationalAttributes);
@@ -183,9 +180,11 @@ class Matrix
                     if (isset($configurableData[$key])) {
                         $attribute['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
-                            isset($configurableData[$key]['values'])
-                                ? array_filter($configurableData[$key]['values'])
-                                : array()
+                            isset(
+                                $configurableData[$key]['values']
+                            ) ? array_filter(
+                                $configurableData[$key]['values']
+                            ) : array()
                         );
                     }
                 }
@@ -234,7 +233,8 @@ class Matrix
     {
         $product = $this->getProduct();
         $ids = $this->getProduct()->getAssociatedProductIds();
-        if ($ids === null) { // form data overrides any relations stored in database
+        if ($ids === null) {
+            // form data overrides any relations stored in database
             return $this->_configurableType->getUsedProducts($product);
         }
         $products = array();
@@ -258,9 +258,8 @@ class Matrix
     {
         /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
         $attribute = $this->_config->getAttribute(Product::ENTITY, $code);
-        return $attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
-            ? $attribute->getFrontend()->getClass()
-            : '';
+        return $attribute instanceof
+            \Magento\Eav\Model\Entity\Attribute\AbstractAttribute ? $attribute->getFrontend()->getClass() : '';
     }
 
     /**

@@ -8,12 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Config;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     const SAMPLE_CONFIG_PATH = 'web/unsecure/base_url';
+
     const SAMPLE_VALUE = 'http://example.com/';
 
     /**
@@ -23,16 +23,22 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Storage\Db')
-            ->save(self::SAMPLE_CONFIG_PATH, self::SAMPLE_VALUE);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\Config\Storage\Db'
+        )->save(
+            self::SAMPLE_CONFIG_PATH,
+            self::SAMPLE_VALUE
+        );
         self::_refreshConfiguration();
     }
 
     public static function tearDownAfterClass()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Config\Storage\Db')
-            ->delete(self::SAMPLE_CONFIG_PATH);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\Config\Storage\Db'
+        )->delete(
+            self::SAMPLE_CONFIG_PATH
+        );
         self::_refreshConfiguration();
     }
 
@@ -41,25 +47,34 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected static function _refreshConfiguration()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->cleanCache(array(\Magento\App\Config::CACHE_TAG));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\CacheInterface')
+            ->clean(array(\Magento\App\Config::CACHE_TAG));
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
     }
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Config\Value');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Config\Value'
+        );
     }
 
     public function testIsValueChanged()
     {
         // load the model
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Config\Data\Collection');
-        $collection->addFieldToFilter('path', self::SAMPLE_CONFIG_PATH)->addFieldToFilter('scope_id', 0)
-            ->addFieldToFilter('scope', 'default')
-        ;
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Config\Data\Collection'
+        );
+        $collection->addFieldToFilter(
+            'path',
+            self::SAMPLE_CONFIG_PATH
+        )->addFieldToFilter(
+            'scope_id',
+            0
+        )->addFieldToFilter(
+            'scope',
+            'default'
+        );
         foreach ($collection as $configData) {
             $this->_model = $configData;
             break;
@@ -94,12 +109,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testCRUD()
     {
         $this->_model->setData(
-            array(
-                'scope'     => 'default',
-                'scope_id'  => 0,
-                'path'      => 'test/config/path',
-                'value'     => 'test value'
-            )
+            array('scope' => 'default', 'scope_id' => 0, 'path' => 'test/config/path', 'value' => 'test value')
         );
         $crud = new \Magento\TestFramework\Entity($this->_model, array('value' => 'new value'));
         $crud->testCrud();
@@ -108,9 +118,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testCollection()
     {
         $collection = $this->_model->getCollection();
-        $collection->addScopeFilter('test', 0, 'test')
-            ->addPathFilter('not_existing_path')
-            ->addValueFilter('not_existing_value');
+        $collection->addScopeFilter(
+            'test',
+            0,
+            'test'
+        )->addPathFilter(
+            'not_existing_path'
+        )->addValueFilter(
+            'not_existing_value'
+        );
         $this->assertEmpty($collection->getItems());
     }
 }

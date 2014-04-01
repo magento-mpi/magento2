@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\CatalogSearch\Controller;
 
 use Magento\App\Action\Action;

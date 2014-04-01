@@ -18,8 +18,10 @@ use Magento\Sales\Model\Quote\Item;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'magento_giftregistry/general/enabled';
+
     const XML_PATH_SEND_LIMIT = 'magento_giftregistry/sharing_email/send_limit';
-    const XML_PATH_MAX_REGISTRANT   = 'magento_giftregistry/general/max_registrant';
+
+    const XML_PATH_MAX_REGISTRANT = 'magento_giftregistry/general/max_registrant';
 
     const ADDRESS_PREFIX = 'gr_address_';
 
@@ -163,12 +165,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $errors = array();
         foreach ($attributes as $field => $data) {
             if (empty($customValues[$field])) {
-                if ((!empty($data['frontend'])) && is_array($data['frontend'])
-                    && (!empty($data['frontend']['is_required']))) {
+                if (!empty($data['frontend']) && is_array(
+                    $data['frontend']
+                ) && !empty($data['frontend']['is_required'])
+                ) {
                     $errors[] = __('Please enter the "%1".', $data['label']);
                 }
             } else {
-                if (($data['type']) == 'select' && is_array($data['options'])) {
+                if ($data['type'] == 'select' && is_array($data['options'])) {
                     $found = false;
                     foreach ($data['options'] as $option) {
                         if ($customValues[$field] == $option['code']) {
@@ -196,14 +200,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getCurrentCustomerEntityOptions()
     {
         $result = array();
-        $entityCollection = $this->entityFactory->create()->getCollection()
-            ->filterByCustomerId($this->customerSession->getCustomerId())
-            ->filterByIsActive(1);
+        $entityCollection = $this->entityFactory->create()->getCollection()->filterByCustomerId(
+            $this->customerSession->getCustomerId()
+        )->filterByIsActive(
+            1
+        );
 
         if (count($entityCollection)) {
             foreach ($entityCollection as $entity) {
-                $result[] = new \Magento\Object(array('value' => $entity->getId(),
-                        'title' => $this->_escaper->escapeHtml($entity->getTitle())));
+                $result[] = new \Magento\Object(
+                    array('value' => $entity->getId(), 'title' => $this->_escaper->escapeHtml($entity->getTitle()))
+                );
             }
         }
         return $result;
@@ -254,13 +261,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         } else {
             $formatIn = $this->_localeDate->getDateFormat($formatIn);
         }
-        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => $formatIn,
-            'locale'      => $this->_localeResolver->getLocaleCode()
-        ));
-        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
-        ));
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(
+            array('date_format' => $formatIn, 'locale' => $this->_localeResolver->getLocaleCode())
+        );
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(
+            array('date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+        );
 
         $value = $filterInput->filter($value);
         $value = $filterInternal->filter($value);
@@ -276,8 +282,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRegistryLink($entity)
     {
-        return $this->urlFactory->create()->setScope($entity->getStoreId())
-            ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
+        return $this->urlFactory->create()->setScope(
+            $entity->getStoreId()
+        )->getUrl(
+            'giftregistry/view/index',
+            array('id' => $entity->getUrlKey())
+        );
     }
 
     /**

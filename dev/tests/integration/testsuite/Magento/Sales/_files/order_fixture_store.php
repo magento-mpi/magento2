@@ -14,7 +14,7 @@ require __DIR__ . '/../../../Magento/Core/_files/store.php';
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple_duplicated.php';
 /** @var \Magento\Catalog\Model\Product $product */
 
-$addressData = include(__DIR__ . '/address_data.php');
+$addressData = include __DIR__ . '/address_data.php';
 
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
@@ -22,8 +22,7 @@ $billingAddress = $objectManager->create('Magento\Sales\Model\Order\Address', ar
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
-$shippingAddress->setId(null)
-    ->setAddressType('shipping');
+$shippingAddress->setId(null)->setAddressType('shipping');
 
 $payment = $objectManager->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');

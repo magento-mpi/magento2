@@ -45,6 +45,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param CustomerAccountService $customerAccountService
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
@@ -59,6 +60,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         CustomerAccountService $customerAccountService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
@@ -74,6 +76,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $customerAccountService,
             $customerAddressService,
             $addressConfig,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;
@@ -86,7 +89,8 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     {
         if (empty($this->_rates)) {
             $this->getAddress()->collectShippingRates()->save();
-            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();        }
+            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();
+        }
 
         return $this->_rates;
     }

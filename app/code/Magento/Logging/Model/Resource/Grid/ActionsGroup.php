@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Logging\Model\Resource\Grid;
 
 class ActionsGroup implements \Magento\Option\ArrayInterface

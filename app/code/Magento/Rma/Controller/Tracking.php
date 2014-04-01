@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Controller;
 
 use Magento\App\Action\NotFoundException;
 
 class Tracking extends \Magento\App\Action\Action
 {
-
     /**
      * Core registry
      *
@@ -100,7 +98,7 @@ class Tracking extends \Magento\App\Action\Action
     {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
             $currentOrder = $this->_coreRegistry->registry('current_order');
-            if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
+            if ($rma->getOrderId() && $rma->getOrderId() === $currentOrder->getId()) {
                 return true;
             }
             return false;
@@ -117,16 +115,20 @@ class Tracking extends \Magento\App\Action\Action
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()
-            && !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
-                $this->_request, $this->_response
-            )
+        if (!$this->_objectManager->get(
+            'Magento\Customer\Model\Session'
+        )->isLoggedIn() && !$this->_objectManager->get(
+            'Magento\Sales\Helper\Guest'
+        )->loadValidOrder(
+            $this->_request,
+            $this->_response
+        )
         ) {
             return;
         }
 
         if (null === $entityId) {
-            $entityId = (int) $this->getRequest()->getParam('entity_id');
+            $entityId = (int)$this->getRequest()->getParam('entity_id');
         }
 
         if (!$entityId) {
@@ -154,8 +156,11 @@ class Tracking extends \Magento\App\Action\Action
     public function printLabelAction()
     {
         try {
-            $data = $this->_objectManager->get('Magento\Rma\Helper\Data')
-                ->decodeTrackingHash($this->getRequest()->getParam('hash'));
+            $data = $this->_objectManager->get(
+                'Magento\Rma\Helper\Data'
+            )->decodeTrackingHash(
+                $this->getRequest()->getParam('hash')
+            );
 
             $rmaIncrementId = '';
             if ($data['key'] == 'rma_id') {
@@ -178,7 +183,12 @@ class Tracking extends \Magento\App\Action\Action
                     $pdf = new \Zend_Pdf();
                     $page = $shipping->createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->messageManager->addError(__("We don't recognize or support the file extension in shipment %1.", $shipping->getIncrementId()));
+                        $this->messageManager->addError(
+                            __(
+                                "We don't recognize or support the file extension in shipment %1.",
+                                $shipping->getIncrementId()
+                            )
+                        );
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -191,7 +201,7 @@ class Tracking extends \Magento\App\Action\Action
                     'application/pdf'
                 );
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);

@@ -49,7 +49,7 @@ class Index extends Action
      * @param string $requestParam
      * @param bool $requireValidId
      * @return \Magento\CustomerSegment\Model\Segment
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
@@ -58,7 +58,7 @@ class Index extends Action
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
-                throw new \Magento\Core\Exception(__('You requested the wrong customer segment.'));
+                throw new \Magento\Model\Exception(__('You requested the wrong customer segment.'));
             }
         }
         $this->_coreRegistry->register('current_customer_segment', $segment);
@@ -101,7 +101,7 @@ class Index extends Action
 
         try {
             $model = $this->_initSegment();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/');
             return;
@@ -119,21 +119,23 @@ class Index extends Action
 
         $this->_initAction();
 
-        $block =  $this->_view->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
-            ->setData('form_action_url', $this->getUrl('customersegment/*/save'));
+        $block = $this->_view->getLayout()->createBlock(
+            'Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit'
+        )->setData(
+            'form_action_url',
+            $this->getUrl('customersegment/*/save')
+        );
 
-        $this->_view->getLayout()->getBlock('head')
-            ->setCanLoadExtJs(true)
-            ->setCanLoadRulesJs(true);
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setCanLoadRulesJs(true);
 
         $this->_addBreadcrumb(
-                $model->getId() ? __('Edit Segment') : __('New Segment'),
-                $model->getId() ? __('Edit Segment') : __('New Segment'))
-            ->_addContent($block)
-            ->_addLeft(
-                $this->_view->getLayout()->createBlock(
-                    'Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs')
-            );
+            $model->getId() ? __('Edit Segment') : __('New Segment'),
+            $model->getId() ? __('Edit Segment') : __('New Segment')
+        )->_addContent(
+            $block
+        )->_addLeft(
+            $this->_view->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs')
+        );
         $this->_view->renderLayout();
     }
 
@@ -149,14 +151,12 @@ class Index extends Action
             if ($model->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                 $model->matchCustomers();
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/');
             return;
         } catch (\Exception $e) {
-            $this->messageManager->addException($e,
-                __('Segment Customers matching error')
-            );
+            $this->messageManager->addException($e, __('Segment Customers matching error'));
             $this->_redirect('customersegment/*/');
             return;
         }
@@ -171,11 +171,12 @@ class Index extends Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_CustomerSegment::customer_customersegment')
-            ->_addBreadcrumb(
-                __('Segments'),
-                __('Segments')
-            );
+        $this->_setActiveMenu(
+            'Magento_CustomerSegment::customer_customersegment'
+        )->_addBreadcrumb(
+            __('Segments'),
+            __('Segments')
+        );
         return $this;
     }
 
@@ -191,13 +192,19 @@ class Index extends Action
         $type = $typeArr[0];
 
         $segment = $this->_objectManager->create('Magento\CustomerSegment\Model\Segment');
-        $segment->setApplyTo((int) $this->getRequest()->getParam('apply_to'));
+        $segment->setApplyTo((int)$this->getRequest()->getParam('apply_to'));
 
-        $model = $this->_conditionFactory->create($type)
-            ->setId($id)
-            ->setType($type)
-            ->setRule($segment)
-            ->setPrefix('conditions');
+        $model = $this->_conditionFactory->create(
+            $type
+        )->setId(
+            $id
+        )->setType(
+            $type
+        )->setRule(
+            $segment
+        )->setPrefix(
+            'conditions'
+        );
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }
@@ -241,7 +248,7 @@ class Index extends Action
                     return;
                 }
 
-                if (array_key_exists('rule', $data)){
+                if (array_key_exists('rule', $data)) {
                     $data['conditions'] = $data['rule']['conditions'];
                     unset($data['rule']);
                 }
@@ -257,14 +264,10 @@ class Index extends Action
                 $this->_session->setPageData(false);
 
                 if ($redirectBack) {
-                    $this->_redirect('customersegment/*/edit', array(
-                        'id'       => $model->getId(),
-                        '_current' => true,
-                    ));
+                    $this->_redirect('customersegment/*/edit', array('id' => $model->getId(), '_current' => true));
                     return;
                 }
-
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_session->setPageData($data);
                 $this->_redirect('customersegment/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
@@ -288,7 +291,7 @@ class Index extends Action
             $model = $this->_initSegment('id', true);
             $model->delete();
             $this->messageManager->addSuccess(__('You deleted the segment.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
@@ -306,9 +309,11 @@ class Index extends Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization
-            ->isAllowed('Magento_CustomerSegment::customersegment')
-            && $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->isEnabled();
+        return $this->_authorization->isAllowed(
+            'Magento_CustomerSegment::customersegment'
+        ) && $this->_objectManager->get(
+            'Magento\CustomerSegment\Helper\Data'
+        )->isEnabled();
     }
 
     /**
@@ -318,7 +323,9 @@ class Index extends Action
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->_view->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange');
+        $block = $this->_view->getLayout()->createBlock(
+            'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange'
+        );
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Condition\Combine;
 
 use Magento\DB\Select;
@@ -118,7 +117,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getValue() == 1);
+        return $this->getValue() == 1;
     }
 
     /**
@@ -133,10 +132,10 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
         /**
          * Build base SQL
          */
-        $select         = $this->_prepareConditionsSql($customer, $website);
-        $required       = $this->_getRequiredValidation();
-        $whereFunction  = ($this->getAggregator() == 'all') ? 'where' : 'orWhere';
-        $operator       = $required ? '=' : '<>';
+        $select = $this->_prepareConditionsSql($customer, $website);
+        $required = $this->_getRequiredValidation();
+        $whereFunction = $this->getAggregator() == 'all' ? 'where' : 'orWhere';
+        $operator = $required ? '=' : '<>';
         //$operator       = '=';
 
         $gotConditions = false;
@@ -146,8 +145,8 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
          */
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
-                $criteriaSql = "(". $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
-                $select->$whereFunction($criteriaSql);
+                $criteriaSql = "(" . $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
+                $select->{$whereFunction}($criteriaSql);
                 $gotConditions = true;
             }
         }
@@ -162,7 +161,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
                 if (isset($subfilterMap[$subfilterType])) {
                     $subfilter = $condition->getSubfilterSql($subfilterMap[$subfilterType], $required, $website);
                     if ($subfilter) {
-                        $select->$whereFunction($subfilter);
+                        $select->{$whereFunction}($subfilter);
                         $gotConditions = true;
                     }
                 }

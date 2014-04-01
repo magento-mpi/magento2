@@ -8,21 +8,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-    ->loadAreaPart(
-        \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-        \Magento\Core\Model\App\Area::PART_CONFIG
-    );
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+    ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 if (!isset($scope)) {
     $scope = 'websites';
 }
 
 /** @var $role \Magento\User\Model\Role */
 $role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
-$role->setName('admingws_role')
-    ->setGwsIsAll(0)
-    ->setRoleType('G')
-    ->setPid('1');
+$role->setName('admingws_role')->setGwsIsAll(0)->setRoleType('G')->setPid('1');
 if ('websites' == $scope) {
     $role->setGwsWebsites(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
         ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId());
@@ -34,19 +29,18 @@ $role->save();
 
 /** @var $rule \Magento\User\Model\Rules */
 $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Rules');
-$rule->setRoleId($role->getId())
-    ->setResources(array('Magento_Adminhtml::all'))
-    ->saveRel();
+$rule->setRoleId($role->getId())->setResources(array('Magento_Adminhtml::all'))->saveRel();
 
 $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
-$user->setData(array(
-    'firstname' => 'firstname',
-    'lastname'  => 'lastname',
-    'email'     => 'admingws@example.com',
-    'username'  => 'admingws_user',
-    'password'  => 'admingws_password1',
-    'is_active' => 1
-));
+$user->setData(
+    array(
+        'firstname' => 'firstname',
+        'lastname' => 'lastname',
+        'email' => 'admingws@example.com',
+        'username' => 'admingws_user',
+        'password' => 'admingws_password1',
+        'is_active' => 1
+    )
+);
 
-$user->setRoleId($role->getId())
-    ->save();
+$user->setRoleId($role->getId())->save();

@@ -14,9 +14,8 @@ namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Profile
-    extends \Magento\Pbridge\Block\Iframe\AbstractIframe
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Block template
@@ -51,6 +50,7 @@ class Profile
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Registry $registry
      * @param array $data
      */
@@ -60,6 +60,7 @@ class Profile
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Registry $registry,
         array $data = array()
     ) {
@@ -70,6 +71,7 @@ class Profile
             $pbridgeSession,
             $regionFactory,
             $pbridgeData,
+            $httpContext,
             $data
         );
     }
@@ -146,10 +148,10 @@ class Profile
         return $helper->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
-                'css_url'         => null,
-                'customer_id'     => $this->getCustomerIdentifier(),
-                'customer_name'   => $this->getCustomerName(),
-                'customer_email'  => $this->getCustomerEmail()
+                'css_url' => null,
+                'customer_id' => $this->getCustomerIdentifier(),
+                'customer_name' => $this->getCustomerName(),
+                'customer_email' => $this->getCustomerEmail()
             )
         );
     }

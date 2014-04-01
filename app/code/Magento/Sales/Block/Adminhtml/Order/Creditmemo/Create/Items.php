@@ -51,33 +51,44 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('creditmemo_item_container'),'".$this->getUpdateUrl()."')";
-        $this->addChild('update_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'     => __('Update Qty\'s'),
-            'class'     => 'update-button',
-            'onclick'   => $onclick,
-        ));
+        $onclick = "submitAndReloadArea($('creditmemo_item_container'),'" . $this->getUpdateUrl() . "')";
+        $this->addChild(
+            'update_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Update Qty\'s'), 'class' => 'update-button', 'onclick' => $onclick)
+        );
 
         if ($this->getCreditmemo()->canRefund()) {
             if ($this->getCreditmemo()->getInvoice() && $this->getCreditmemo()->getInvoice()->getTransactionId()) {
-                $this->addChild('submit_button', 'Magento\Backend\Block\Widget\Button', array(
-                    'label'     => __('Refund'),
-                    'class'     => 'save submit-button refund',
-                    'onclick'   => 'disableElements(\'submit-button\');submitCreditMemo()',
-                ));
+                $this->addChild(
+                    'submit_button',
+                    'Magento\Backend\Block\Widget\Button',
+                    array(
+                        'label' => __('Refund'),
+                        'class' => 'save submit-button refund',
+                        'onclick' => 'disableElements(\'submit-button\');submitCreditMemo()'
+                    )
+                );
             }
-            $this->addChild('submit_offline', 'Magento\Backend\Block\Widget\Button', array(
-                'label'     => __('Refund Offline'),
-                'class'     => 'save submit-button',
-                'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
-            ));
-
+            $this->addChild(
+                'submit_offline',
+                'Magento\Backend\Block\Widget\Button',
+                array(
+                    'label' => __('Refund Offline'),
+                    'class' => 'save submit-button',
+                    'onclick' => 'disableElements(\'submit-button\');submitCreditMemoOffline()'
+                )
+            );
         } else {
-            $this->addChild('submit_button', 'Magento\Backend\Block\Widget\Button', array(
-                'label'     => __('Refund Offline'),
-                'class'     => 'save submit-button',
-                'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
-            ));
+            $this->addChild(
+                'submit_button',
+                'Magento\Backend\Block\Widget\Button',
+                array(
+                    'label' => __('Refund Offline'),
+                    'class' => 'save submit-button',
+                    'onclick' => 'disableElements(\'submit-button\');submitCreditMemoOffline()'
+                )
+            );
         }
 
         return parent::_prepareLayout();
@@ -171,10 +182,13 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getUpdateUrl()
     {
-        return $this->getUrl('sales/*/updateQty', array(
-            'order_id' => $this->getCreditmemo()->getOrderId(),
-            'invoice_id' => $this->getRequest()->getParam('invoice_id', null),
-        ));
+        return $this->getUrl(
+            'sales/*/updateQty',
+            array(
+                'order_id' => $this->getCreditmemo()->getOrderId(),
+                'invoice_id' => $this->getRequest()->getParam('invoice_id', null)
+            )
+        );
     }
 
     /**
@@ -209,7 +223,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
                     $product = $this->_productFactory->create()->load($item->getOrderItem()->getProductId());
-                    if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
+                    if ($product->getId() && $product->getStockItem()->getManageStock()) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {
                         $item->setCanReturnToStock(false);

@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model\Resource\Page;
 
 /**
  * Cms page service resource model
  */
-class Service extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Service extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Init cms page service model
@@ -48,33 +47,31 @@ class Service extends \Magento\Core\Model\Resource\Db\AbstractDb
         $byLinkTable = $byLinkTable ? $byLinkTable : $linkTable;
 
         // Select all page ids of $fromStoreId that have identifiers as some pages in $byStoreId
-        $select = $readAdapter->select()
-            ->from(array('from_link' => $linkTable), 'page_id')
-            ->join(
-                array('from_entity' => $mainTable),
-                $readAdapter->quoteInto(
-                    'from_entity.page_id = from_link.page_id AND from_link.store_id = ?',
-                    $fromStoreId
-                ),
-                array()
-            )->join(
-                array('by_entity' => $mainTable),
-                'from_entity.identifier = by_entity.identifier AND from_entity.page_id != by_entity.page_id',
-                array()
-            )->join(
-                array('by_link' => $byLinkTable),
-                $readAdapter->quoteInto('by_link.page_id = by_entity.page_id AND by_link.store_id = ?', $byStoreId),
-                array()
-            );
+        $select = $readAdapter->select()->from(
+            array('from_link' => $linkTable),
+            'page_id'
+        )->join(
+            array('from_entity' => $mainTable),
+            $readAdapter->quoteInto(
+                'from_entity.page_id = from_link.page_id AND from_link.store_id = ?',
+                $fromStoreId
+            ),
+            array()
+        )->join(
+            array('by_entity' => $mainTable),
+            'from_entity.identifier = by_entity.identifier AND from_entity.page_id != by_entity.page_id',
+            array()
+        )->join(
+            array('by_link' => $byLinkTable),
+            $readAdapter->quoteInto('by_link.page_id = by_entity.page_id AND by_link.store_id = ?', $byStoreId),
+            array()
+        );
         $pageIds = $readAdapter->fetchCol($select);
 
         // Unlink found pages
         if ($pageIds) {
             $writeAdapter = $this->_getWriteAdapter();
-            $where = array(
-                'page_id IN (?)'   => $pageIds,
-                'AND store_id = ?' => $fromStoreId
-            );
+            $where = array('page_id IN (?)' => $pageIds, 'AND store_id = ?' => $fromStoreId);
             $writeAdapter->delete($linkTable, $where);
         }
         return $this;

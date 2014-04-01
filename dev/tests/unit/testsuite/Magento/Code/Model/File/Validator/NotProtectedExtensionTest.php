@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\Model\File\Validator;
 
 class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
@@ -35,6 +34,7 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
             $this->equalTo(null))->will($this->returnValue($this->_protectedList));
         $this->_model = new \Magento\Core\Model\File\Validator\NotProtectedExtension($this->_storeConfig);
     }
+
     public function testGetProtectedFileExtensions()
     {
         $this->assertEquals($this->_protectedList, $this->_model->getProtectedFileExtensions());
@@ -47,8 +47,9 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
             '_messageTemplates'
         );
         $property->setAccessible(true);
-        $defaultMess = array('protectedExtension'
-                             => __('File with an extension "%value%" is protected and cannot be uploaded'));
+        $defaultMess = array(
+            'protectedExtension' => __('File with an extension "%value%" is protected and cannot be uploaded')
+        );
         $this->assertEquals($defaultMess, $property->getValue($this->_model));
 
         $property = new \ReflectionProperty(

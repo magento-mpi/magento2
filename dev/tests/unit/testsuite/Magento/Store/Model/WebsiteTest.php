@@ -17,19 +17,13 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $websiteCollection = $this->getMock(
             'Magento\Store\Model\Resource\Website\Collection', array('getSize'), array(), '', false
         );
-        $websiteCollection->expects($this->any())
-            ->method('getSize')
-            ->will($this->returnValue(2));
+        $websiteCollection->expects($this->any())->method('getSize')->will($this->returnValue(2));
 
         $websiteFactory = $this->getMock(
             'Magento\Store\Model\WebsiteFactory', array('create', 'getCollection', '__wakeup'), array(), '', false
         );
-        $websiteFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($websiteFactory));
-        $websiteFactory->expects($this->any())
-            ->method('getCollection')
-            ->will($this->returnValue($websiteCollection));
+        $websiteFactory->expects($this->any())->method('create')->will($this->returnValue($websiteFactory));
+        $websiteFactory->expects($this->any())->method('getCollection')->will($this->returnValue($websiteCollection));
 
         /** @var \Magento\Store\Model\Website $websiteModel */
         $websiteModel = $objectManager->getObject(

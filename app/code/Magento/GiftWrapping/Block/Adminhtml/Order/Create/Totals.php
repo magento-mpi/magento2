@@ -13,8 +13,7 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
  * Gift wrapping total block for admin checkout
  *
  */
-class Totals
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals
+class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals
 {
     /**
      * Gift wrapping data

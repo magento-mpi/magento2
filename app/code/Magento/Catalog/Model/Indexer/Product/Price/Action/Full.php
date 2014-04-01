@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
 
 /**
@@ -37,7 +36,6 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
                 $indexer->reindexAll();
             }
             $this->_syncData();
-
         } catch (\Exception $e) {
             throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
         }

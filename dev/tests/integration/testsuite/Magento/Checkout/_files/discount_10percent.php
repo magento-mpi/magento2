@@ -9,8 +9,7 @@
  */
 
 /** @var \Magento\SalesRule\Model\Rule $salesRule */
-$salesRule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\SalesRule\Model\Rule');
+$salesRule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\SalesRule\Model\Rule');
 
 $data = array(
     'name' => 'Test Coupon',
@@ -24,7 +23,7 @@ $data = array(
     'coupon_code' => uniqid(),
     'simple_action' => \Magento\SalesRule\Model\Rule::BY_PERCENT_ACTION,
     'discount_amount' => 10,
-    'discount_step' => 1,
+    'discount_step' => 1
 );
 
 $salesRule->loadPost($data)->setUseAutoGeneration(false)->save();

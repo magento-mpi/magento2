@@ -16,7 +16,7 @@ namespace Magento\CustomerSegment\Model\Resource;
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Customer extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -56,11 +56,11 @@ class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
         $now = $this->dateTime->formatDate(time(), true);
         foreach ($segmentIds as $segmentId) {
             $data = array(
-                'segment_id'    => $segmentId,
-                'customer_id'   => $customerId,
-                'added_date'    => $now,
-                'updated_date'  => $now,
-                'website_id'    => $websiteId,
+                'segment_id' => $segmentId,
+                'customer_id' => $customerId,
+                'added_date' => $now,
+                'updated_date' => $now,
+                'website_id' => $websiteId
             );
             $this->_getWriteAdapter()->insertOnDuplicate($this->getMainTable(), $data, array('updated_date'));
         }
@@ -78,11 +78,10 @@ class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function removeCustomerFromWebsiteSegments($customerId, $websiteId, $segmentIds)
     {
         if (!empty($segmentIds)) {
-            $this->_getWriteAdapter()->delete($this->getMainTable(), array(
-                'customer_id=?'     => $customerId,
-                'website_id=?'      => $websiteId,
-                'segment_id IN(?)'  => $segmentIds
-            ));
+            $this->_getWriteAdapter()->delete(
+                $this->getMainTable(),
+                array('customer_id=?' => $customerId, 'website_id=?' => $websiteId, 'segment_id IN(?)' => $segmentIds)
+            );
         }
         return $this;
     }
@@ -96,19 +95,20 @@ class Customer extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCustomerWebsiteSegments($customerId, $websiteId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('c' => $this->getMainTable()), 'segment_id')
-            ->join(
-                array('s' => $this->getTable('magento_customersegment_segment')),
-                'c.segment_id = s.segment_id'
-            )
-            ->where('is_active = 1')
-            ->where('customer_id = :customer_id')
-            ->where('website_id = :website_id');
-        $bind = array(
-            ':customer_id' => $customerId,
-            ':website_id'  => $websiteId
+        $select = $this->_getReadAdapter()->select()->from(
+            array('c' => $this->getMainTable()),
+            'segment_id'
+        )->join(
+            array('s' => $this->getTable('magento_customersegment_segment')),
+            'c.segment_id = s.segment_id'
+        )->where(
+            'is_active = 1'
+        )->where(
+            'customer_id = :customer_id'
+        )->where(
+            'website_id = :website_id'
         );
+        $bind = array(':customer_id' => $customerId, ':website_id' => $websiteId);
         return $this->_getReadAdapter()->fetchCol($select, $bind);
     }
 }

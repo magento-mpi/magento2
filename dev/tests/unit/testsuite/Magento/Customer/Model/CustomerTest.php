@@ -71,15 +71,23 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testHashPassword()
     {
-        $this->_encryptor
-            ->expects($this->once())
-            ->method('getHash')
-            ->with('password', 'salt')
-            ->will($this->returnValue('hash'))
-        ;
+        $this->_encryptor->expects(
+            $this->once()
+        )->method(
+            'getHash'
+        )->with(
+            'password',
+            'salt'
+        )->will(
+            $this->returnValue('hash')
+        );
         $this->assertEquals('hash', $this->_model->hashPassword('password', 'salt'));
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testSendPasswordResetConfirmationEmail()
     {
         $storeId = 1;
@@ -98,15 +106,24 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $this->_attribute->expects($this->any())->method('isVisible')->will($this->returnValue(false));
 
-        $this->_storeManager->expects($this->once())
-            ->method('getWebsite')
-            ->with($this->equalTo(1))
-            ->will($this->returnValue($this->_website));
-        $this->_storeManager
-            ->expects($this->once())
-            ->method('getStore')
-            ->with(0)
-            ->will($this->returnValue($this->_storetMock));
+        $this->_storeManager->expects(
+            $this->once()
+        )->method(
+            'getWebsite'
+        )->with(
+            $this->equalTo(1)
+        )->will(
+            $this->returnValue($this->_website)
+        );
+        $this->_storeManager->expects(
+            $this->once()
+        )->method(
+            'getStore'
+        )->with(
+            0
+        )->will(
+            $this->returnValue($this->_storetMock)
+        );
 
         $this->_website->expects($this->once())->method('getStoreIds')->will($this->returnValue($storeIds));
 

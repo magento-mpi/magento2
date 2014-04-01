@@ -79,21 +79,19 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
             $this->_quoteEntity = $quote;
         }
 
-        $this->_collectWrappingForItems($address)
-            ->_collectWrappingForQuote($address)
-            ->_collectPrintedCard($address);
+        $this->_collectWrappingForItems($address)->_collectWrappingForQuote($address)->_collectPrintedCard($address);
 
         $address->setBaseGrandTotal(
-            $address->getBaseGrandTotal()
-            + $address->getGwItemsBasePrice()
-            + $address->getGwBasePrice()
-            + $address->getGwCardBasePrice()
+            $address->getBaseGrandTotal() +
+            $address->getGwItemsBasePrice() +
+            $address->getGwBasePrice() +
+            $address->getGwCardBasePrice()
         );
         $address->setGrandTotal(
-            $address->getGrandTotal()
-            + $address->getGwItemsPrice()
-            + $address->getGwPrice()
-            + $address->getGwCardPrice()
+            $address->getGrandTotal() +
+            $address->getGwItemsPrice() +
+            $address->getGwPrice() +
+            $address->getGwCardPrice()
         );
 
         if ($quote->getIsNewGiftWrappingCollecting()) {
@@ -212,15 +210,17 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        $address->addTotal(array(
-            'code'  => $this->getCode(),
-            'gw_price' => $address->getGwPrice(),
-            'gw_base_price' => $address->getGwBasePrice(),
-            'gw_items_price' => $address->getGwItemsPrice(),
-            'gw_items_base_price' => $address->getGwItemsBasePrice(),
-            'gw_card_price' => $address->getGwCardPrice(),
-            'gw_card_base_price' => $address->getGwCardBasePrice()
-        ));
+        $address->addTotal(
+            array(
+                'code' => $this->getCode(),
+                'gw_price' => $address->getGwPrice(),
+                'gw_base_price' => $address->getGwBasePrice(),
+                'gw_items_price' => $address->getGwItemsPrice(),
+                'gw_items_base_price' => $address->getGwItemsBasePrice(),
+                'gw_card_price' => $address->getGwCardPrice(),
+                'gw_card_base_price' => $address->getGwCardBasePrice()
+            )
+        );
         return $this;
     }
 }

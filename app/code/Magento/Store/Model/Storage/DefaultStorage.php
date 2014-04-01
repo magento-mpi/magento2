@@ -109,7 +109,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|bool|int|string|\Magento\Store\Model\Website $websiteId
      * @return \Magento\Store\Model\Website
-     * @throws \Magento\Store\Model\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -144,7 +144,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|\Magento\Store\Model\Group|string $groupId
      * @return \Magento\Store\Model\Group
-     * @throws \Magento\Store\Model\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getGroup($groupId = null)
     {
@@ -224,7 +224,6 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      */
     public function setCurrentStore($store)
     {
-
     }
 
     /**

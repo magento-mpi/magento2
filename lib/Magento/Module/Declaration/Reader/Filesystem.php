@@ -19,6 +19,10 @@ use Magento\App\State;
 class Filesystem extends \Magento\Config\Reader\Filesystem
 {
     /**
+     * Allowed modules
+     */
+    const PARAM_ALLOWED_MODULES = 'allowed_modules';
+    /**
      * The list of allowed modules
      *
      * @var array
@@ -42,7 +46,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
         '/config/module' => 'name',
         '/config/module/depends/extension' => 'name',
         '/config/module/depends/choice/extension' => 'name',
-        '/config/module/sequence/module' => 'name',
+        '/config/module/sequence/module' => 'name'
     );
 
     /**
@@ -111,8 +115,10 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     {
         $activeModules = array();
         foreach ($modules as $moduleName => $moduleConfig) {
-            if ($moduleConfig['active']
-                && (empty($this->_allowedModules) || in_array($moduleConfig['name'], $this->_allowedModules))
+            if ($moduleConfig['active'] && (empty($this->_allowedModules) || in_array(
+                $moduleConfig['name'],
+                $this->_allowedModules
+            ))
             ) {
                 $activeModules[$moduleName] = $moduleConfig;
             }
@@ -138,7 +144,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
         foreach ($modules as $moduleName => $value) {
             $moduleDependencyMap[] = array(
                 'moduleName' => $moduleName,
-                'dependencies' => $this->dependencyManager->getExtendedModuleDependencies($moduleName, $modules),
+                'dependencies' => $this->dependencyManager->getExtendedModuleDependencies($moduleName, $modules)
             );
         }
 

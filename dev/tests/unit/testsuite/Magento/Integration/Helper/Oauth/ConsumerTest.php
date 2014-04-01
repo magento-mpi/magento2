@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Helper\Oauth;
 
 class ConsumerTest extends \PHPUnit_Framework_TestCase
@@ -120,14 +119,8 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
         $key = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY);
         $secret = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
 
-        $consumerData = array(
-            'name' => 'Integration Name',
-            'key' => $key,
-            'secret' => $secret
-        );
-        $this->_consumerMock->expects($this->once())
-            ->method('save')
-            ->will($this->returnSelf());
+        $consumerData = array('name' => 'Integration Name', 'key' => $key, 'secret' => $secret);
+        $this->_consumerMock->expects($this->once())->method('save')->will($this->returnSelf());
 
         /** @var \Magento\Integration\Model\Oauth\Consumer $consumer */
         $consumer = $this->_oauthService->createConsumer($consumerData);
@@ -143,42 +136,41 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
         $secret = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
         $oauthVerifier = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_VERIFIER);
 
-        $consumerData = array(
-            'entity_id' => $consumerId,
-            'key' => $key,
-            'secret' => $secret
-        );
+        $consumerData = array('entity_id' => $consumerId, 'key' => $key, 'secret' => $secret);
 
-        $this->_consumerMock->expects($this->once())
-            ->method('load')
-            ->with($this->equalTo($consumerId))
-            ->will($this->returnSelf());
-        $this->_consumerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($consumerId));
-        $this->_consumerMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($consumerData));
-        $this->_httpClientMock->expects($this->once())
-            ->method('setUri')
-            ->with('http://www.magento.com')
-            ->will($this->returnSelf());
-        $this->_httpClientMock->expects($this->once())
-            ->method('setParameterPost')
-            ->will($this->returnSelf());
-        $this->_tokenMock->expects($this->once())
-            ->method('createVerifierToken')
-            ->with($consumerId)
-            ->will($this->returnSelf());
-        $this->_tokenMock->expects($this->any())
-            ->method('getVerifier')
-            ->will($this->returnValue($oauthVerifier));
-        $this->_dataHelper->expects($this->once())
-            ->method('getConsumerPostMaxRedirects')
-            ->will($this->returnValue(5));
-        $this->_dataHelper->expects($this->once())
-            ->method('getConsumerPostTimeout')
-            ->will($this->returnValue(120));
+        $this->_consumerMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            $this->equalTo($consumerId)
+        )->will(
+            $this->returnSelf()
+        );
+        $this->_consumerMock->expects($this->once())->method('getId')->will($this->returnValue($consumerId));
+        $this->_consumerMock->expects($this->once())->method('getData')->will($this->returnValue($consumerData));
+        $this->_httpClientMock->expects(
+            $this->once()
+        )->method(
+            'setUri'
+        )->with(
+            'http://www.magento.com'
+        )->will(
+            $this->returnSelf()
+        );
+        $this->_httpClientMock->expects($this->once())->method('setParameterPost')->will($this->returnSelf());
+        $this->_tokenMock->expects(
+            $this->once()
+        )->method(
+            'createVerifierToken'
+        )->with(
+            $consumerId
+        )->will(
+            $this->returnSelf()
+        );
+        $this->_tokenMock->expects($this->any())->method('getVerifier')->will($this->returnValue($oauthVerifier));
+        $this->_dataHelper->expects($this->once())->method('getConsumerPostMaxRedirects')->will($this->returnValue(5));
+        $this->_dataHelper->expects($this->once())->method('getConsumerPostTimeout')->will($this->returnValue(120));
 
         $verifier = $this->_oauthService->postToConsumer($consumerId, 'http://www.magento.com');
 
@@ -188,7 +180,9 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
     private function _generateRandomString($length)
     {
         return substr(
-            str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 5)), 0, $length
+            str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', 5)),
+            0,
+            $length
         );
     }
 }

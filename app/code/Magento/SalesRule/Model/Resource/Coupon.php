@@ -9,7 +9,8 @@
  */
 namespace Magento\SalesRule\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
+
 /**
  * SalesRule Resource Coupon
  *
@@ -17,7 +18,7 @@ use Magento\Core\Model\AbstractModel;
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Coupon extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Constructor adds unique fields
@@ -27,10 +28,7 @@ class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('salesrule_coupon', 'coupon_id');
-        $this->addUniqueField(array(
-            'field' => 'code',
-            'title' => __('Coupon with the same code')
-        ));
+        $this->addUniqueField(array('field' => 'code', 'title' => __('Coupon with the same code')));
     }
 
     /**
@@ -44,7 +42,9 @@ class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (!$object->getExpirationDate()) {
             $object->setExpirationDate(null);
         } else if ($object->getExpirationDate() instanceof \Zend_Date) {
-            $object->setExpirationDate($object->getExpirationDate()->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
+            $object->setExpirationDate(
+                $object->getExpirationDate()->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+            );
         }
 
         // maintain single primary coupon per rule
@@ -71,9 +71,13 @@ class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
             $ruleId = (int)$rule;
         }
 
-        $select = $read->select()->from($this->getMainTable())
-            ->where('rule_id = :rule_id')
-            ->where('is_primary = :is_primary');
+        $select = $read->select()->from(
+            $this->getMainTable()
+        )->where(
+            'rule_id = :rule_id'
+        )->where(
+            'is_primary = :is_primary'
+        );
 
         $data = $read->fetchRow($select, array(':rule_id' => $ruleId, ':is_primary' => 1));
 

@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib\DateTime;
 
 interface TimezoneInterface
@@ -13,14 +12,17 @@ interface TimezoneInterface
     /**
      * Default timezone
      */
-    const DEFAULT_TIMEZONE  = 'UTC';
+    const DEFAULT_TIMEZONE = 'UTC';
 
     /**
      * Date and time format codes
      */
-    const FORMAT_TYPE_FULL  = 'full';
-    const FORMAT_TYPE_LONG  = 'long';
-    const FORMAT_TYPE_MEDIUM= 'medium';
+    const FORMAT_TYPE_FULL = 'full';
+
+    const FORMAT_TYPE_LONG = 'long';
+
+    const FORMAT_TYPE_MEDIUM = 'medium';
+
     const FORMAT_TYPE_SHORT = 'short';
 
     /**
@@ -87,7 +89,7 @@ interface TimezoneInterface
      * @param   boolean $includeTime flag for including time to date
      * @return  \Magento\Stdlib\DateTime\DateInterface
      */
-    public function scopeDate($scope = null, $date = null, $includeTime=false);
+    public function scopeDate($scope = null, $date = null, $includeTime = false);
 
     /**
      * Create \Magento\Stdlib\DateTime\DateInterface object with date converted from scope's timezone
@@ -110,6 +112,7 @@ interface TimezoneInterface
      * @return  int
      */
     public function scopeTimeStamp($scope = null);
+
     /**
      * Format date using current locale options and time zone.
      *
@@ -119,7 +122,9 @@ interface TimezoneInterface
      * @return string
      */
     public function formatDate(
-        $date = null, $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showTime = false
+        $date = null,
+        $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $showTime = false
     );
 
     /**
@@ -131,7 +136,9 @@ interface TimezoneInterface
      * @return string
      */
     public function formatTime(
-        $time = null, $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showDate = false
+        $time = null,
+        $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $showDate = false
     );
 
     /**

@@ -12,9 +12,7 @@ namespace Magento\VersionsCms\Block\Widget;
 /**
  * Cms Hierarchy Node Widget Block
  */
-class Node
-    extends \Magento\View\Element\Html\Link
-    implements \Magento\Widget\Block\BlockInterface
+class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -68,7 +66,7 @@ class Node
     {
         $value = $this->_getInstanceData('label');
 
-        return ($value !== false ? $value : $this->_node->getLabel());
+        return $value !== false ? $value : $this->_node->getLabel();
     }
 
     /**
@@ -80,7 +78,7 @@ class Node
     {
         $value = $this->_getInstanceData('title');
 
-        return ($value !== false ? $value : $this->_node->getLabel());
+        return $value !== false ? $value : $this->_node->getLabel();
     }
 
     /**
@@ -149,9 +147,9 @@ class Node
             $key . '_' . \Magento\Store\Model\Store::DEFAULT_STORE_ID,
             $key,
         );
-        foreach($dataKeys as $value) {
+        foreach ($dataKeys as $value) {
             if ($this->getData($value) !== null) {
-               return $this->getData($value);
+                return $this->getData($value);
             }
         }
         return false;

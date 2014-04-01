@@ -12,7 +12,7 @@ namespace Magento\Core\Model\Resource\Layout\Link;
 /**
  * Layout update collection model
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -35,7 +35,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Stdlib\DateTime $dateTime,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->dateTime = $dateTime;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -74,12 +74,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $flagName = 'joined_with_update_table';
         if (!$this->getFlag($flagName)) {
-            $this->getSelect()
-                ->join(
-                    array('update' => $this->getTable('core_layout_update')),
-                    'update.layout_update_id = main_table.layout_update_id',
-                    array($fields)
-                );
+            $this->getSelect()->join(
+                array('update' => $this->getTable('core_layout_update')),
+                'update.layout_update_id = main_table.layout_update_id',
+                array($fields)
+            );
             $this->setFlag($flagName, true);
         }
 
@@ -112,8 +111,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $formattedDate = $this->dateTime->formatDate($datetime->getTimestamp());
 
         $this->_joinWithUpdate();
-        $this->addFieldToFilter('update.updated_at', array('notnull' => true))
-            ->addFieldToFilter('update.updated_at', array('lt' => $formattedDate));
+        $this->addFieldToFilter(
+            'update.updated_at',
+            array('notnull' => true)
+        )->addFieldToFilter(
+            'update.updated_at',
+            array('lt' => $formattedDate)
+        );
 
         return $this;
     }

@@ -41,8 +41,7 @@ class Website implements \Magento\Option\ArrayInterface
     {
         $websites = $this->_store->getWebsiteOptionHash();
         if ($withAll) {
-            $websites = array(0 => __('All Websites'))
-                      + $websites;
+            $websites = array(0 => __('All Websites')) + $websites;
         }
         return $websites;
     }

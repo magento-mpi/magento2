@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Helper;
 
 /**
@@ -62,7 +61,7 @@ class Categories
         foreach ($categories as $key => $categoryId) {
             $category->load($categoryId);
             $structure = explode('/', $category->getPath());
-            $pathSize  = count($structure);
+            $pathSize = count($structure);
             if ($pathSize > 1) {
                 $path = array();
                 for ($i = 1; $i < $pathSize; $i++) {

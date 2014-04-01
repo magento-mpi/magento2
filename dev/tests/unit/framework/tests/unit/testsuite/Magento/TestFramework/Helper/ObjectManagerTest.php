@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Helper;
 
 class ObjectManagerTest extends \PHPUnit_Framework_TestCase
@@ -37,7 +36,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     protected $_modelDependencies = array(
         'eventManager'       => 'Magento\Event\ManagerInterface',
         'cacheManager'       => 'Magento\App\CacheInterface',
-        'resource'           => 'Magento\Core\Model\Resource\AbstractResource',
+        'resource'           => 'Magento\Model\Resource\AbstractResource',
         'resourceCollection' => 'Magento\Data\Collection\Db'
     );
 
@@ -90,12 +89,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $resourceMock->expects($this->once())
-            ->method('_getReadAdapter')
-            ->will($this->returnValue(false));
-        $resourceMock->expects($this->any())
-            ->method('getIdFieldName')
-            ->will($this->returnValue('id'));
+        $resourceMock->expects($this->once())->method('_getReadAdapter')->will($this->returnValue(false));
+        $resourceMock->expects($this->any())->method('getIdFieldName')->will($this->returnValue('id'));
         $arguments = array('resource' => $resourceMock);
         $model = $objectManager->getObject('Magento\Core\Model\Config\Value', $arguments);
         $this->assertFalse($model->getResource()->getDataVersion('test'));

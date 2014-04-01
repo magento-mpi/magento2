@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -37,8 +36,9 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->registry = $objectManager->get('Magento\Registry');
-        $this->customerAccountService = $objectManager
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerAccountService = $objectManager->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         $this->backendSession = $objectManager->get('Magento\Backend\Model\Session');
         $this->layout = $objectManager->create(
             'Magento\Core\Model\Layout',
@@ -75,7 +75,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
     {
         $this->registry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
         $customer = $this->customerAccountService->getCustomer(1);
-        $this->backendSession->setCustomerData(['account' => $customer->__toArray()]);
+        $this->backendSession->setCustomerData(array('account' => $customer->__toArray()));
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
 
         $html = $block->toHtml();

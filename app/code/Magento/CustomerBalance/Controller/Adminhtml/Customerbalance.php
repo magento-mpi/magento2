@@ -105,9 +105,7 @@ class Customerbalance extends \Magento\Backend\App\Action
      */
     public function deleteOrphanBalancesAction()
     {
-        $this->_balance->deleteBalancesByCustomerId(
-            (int)$this->getRequest()->getParam('id')
-        );
+        $this->_balance->deleteBalancesByCustomerId((int)$this->getRequest()->getParam('id'));
         $this->_redirect('customer/index/edit/', array('_current' => true));
     }
 
@@ -116,15 +114,17 @@ class Customerbalance extends \Magento\Backend\App\Action
      *
      * @param string $idFieldName
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initCustomer($idFieldName = 'id')
     {
         $customer = $this->_customerFactory->create()->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            throw new \Magento\Core\Exception(__('Failed to initialize customer'));
+            throw new \Magento\Model\Exception(__('Failed to initialize customer'));
         }
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
+
     }
 
     /**

@@ -16,36 +16,61 @@ $installer->startSetup();
 /**
  * Create table 'magento_catalogevent_event'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_catalogevent_event'))
-    ->addColumn('event_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Event Id')
-    ->addColumn('category_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Category Id')
-    ->addColumn('date_start', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Date Start')
-    ->addColumn('date_end', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Date End')
-    ->addColumn('display_state', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'default'   => '0',
-        ), 'Display State')
-    ->addColumn('sort_order', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Sort Order')
-    ->addIndex($installer->getIdxName('magento_catalogevent_event', array('category_id'), true),
-        array('category_id'), array('type' => 'unique'))
-    ->addIndex($installer->getIdxName('magento_catalogevent_event', array('date_start', 'date_end')),
-        array('date_start', 'date_end'))
-    ->addForeignKey($installer->getFkName('magento_catalogevent_event', 'category_id', 'catalog_category_entity', 'entity_id'),
-        'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Catalogevent Event');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_catalogevent_event')
+)->addColumn(
+    'event_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Event Id'
+)->addColumn(
+    'category_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true),
+    'Category Id'
+)->addColumn(
+    'date_start',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Date Start'
+)->addColumn(
+    'date_end',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Date End'
+)->addColumn(
+    'display_state',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'default' => '0'),
+    'Display State'
+)->addColumn(
+    'sort_order',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true),
+    'Sort Order'
+)->addIndex(
+    $installer->getIdxName('magento_catalogevent_event', array('category_id'), true),
+    array('category_id'),
+    array('type' => 'unique')
+)->addIndex(
+    $installer->getIdxName('magento_catalogevent_event', array('date_start', 'date_end')),
+    array('date_start', 'date_end')
+)->addForeignKey(
+    $installer->getFkName('magento_catalogevent_event', 'category_id', 'catalog_category_entity', 'entity_id'),
+    'category_id',
+    $installer->getTable('catalog_category_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Catalogevent Event'
+);
 $installer->getConnection()->createTable($table);
 
 /**

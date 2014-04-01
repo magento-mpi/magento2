@@ -24,61 +24,55 @@ $connection
         $this->getFkName('magento_catalogpermissions_index', 'website_id', 'store_website', 'website_id')
     );
 
-$table = $connection->newTable($this->getTable('magento_catalogpermissions_index_tmp'))
-    ->addColumn(
-        'category_id',
-        \Magento\DB\Ddl\Table::TYPE_INTEGER,
-        null,
-        ['unsigned'  => true, 'nullable' => false],
-        'Category Id'
-    )
-    ->addColumn(
-        'website_id',
-        \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-        null,
-        ['unsigned'  => true, 'nullable' => false],
-        'Website Id'
-    )
-    ->addColumn(
-        'customer_group_id',
-        \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-        null,
-        ['unsigned'  => true, 'nullable' => false],
-        'Customer Group Id'
-    )
-    ->addColumn(
-        'grant_catalog_category_view',
-        \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-        null,
-        [],
-        'Grant Catalog Category View'
-    )
-    ->addColumn(
-        'grant_catalog_product_price',
-        \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-        null,
-        [],
-        'Grant Catalog Product Price'
-    )
-    ->addColumn(
-        'grant_checkout_items',
-        \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-        null,
-        [],
-        'Grant Checkout Items'
-    )
-    ->addIndex(
-        $this->getIdxName('magento_catalogpermissions_index', ['category_id']),
-        ['category_id']
-    )
-    ->addIndex(
-        $this->getIdxName('magento_catalogpermissions_index', ['website_id']),
-        ['website_id']
-    )
-    ->addIndex(
-        $this->getIdxName('magento_catalogpermissions_index', ['customer_group_id']),
-        ['customer_group_id']
-    )
-    ->setComment('Catalog Category Permissions Temporary Index');
+$table = $connection->newTable(
+    $this->getTable('magento_catalogpermissions_index_tmp')
+)->addColumn(
+    'category_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Category Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Website Id'
+)->addColumn(
+    'customer_group_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Customer Group Id'
+)->addColumn(
+    'grant_catalog_category_view',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array(),
+    'Grant Catalog Category View'
+)->addColumn(
+    'grant_catalog_product_price',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array(),
+    'Grant Catalog Product Price'
+)->addColumn(
+    'grant_checkout_items',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array(),
+    'Grant Checkout Items'
+)->addIndex(
+    $this->getIdxName('magento_catalogpermissions_index', array('category_id')),
+    array('category_id')
+)->addIndex(
+    $this->getIdxName('magento_catalogpermissions_index', array('website_id')),
+    array('website_id')
+)->addIndex(
+    $this->getIdxName('magento_catalogpermissions_index', array('customer_group_id')),
+    array('customer_group_id')
+)->setComment(
+    'Catalog Category Permissions Temporary Index'
+);
 
 $connection->createTable($table);

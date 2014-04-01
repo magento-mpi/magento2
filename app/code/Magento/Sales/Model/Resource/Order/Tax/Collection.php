@@ -16,7 +16,7 @@ namespace Magento\Sales\Model\Resource\Order\Tax;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Model initialization
@@ -37,9 +37,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function loadByOrder($order)
     {
         $orderId = $order->getId();
-        $this->getSelect()
-            ->where('main_table.order_id = ?', $orderId)
-            ->order('process');
+        $this->getSelect()->where('main_table.order_id = ?', $orderId)->order('process');
         return $this->load();
     }
 }

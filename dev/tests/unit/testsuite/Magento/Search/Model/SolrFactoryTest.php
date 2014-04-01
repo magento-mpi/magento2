@@ -37,10 +37,22 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->getMock();
-        $this->_solrFactoryMock = $this->getMock('Magento\Search\Model\SolrFactory',
-            array(), array(), '', false, false);
-        $this->_solrAdapteryMock = $this->getMock('Magento\Search\Model\Adapter\PhpExtension',
-            array(), array(), '', false, false);
+        $this->_solrFactoryMock = $this->getMock(
+            'Magento\Search\Model\SolrFactory',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_solrAdapteryMock = $this->getMock(
+            'Magento\Search\Model\Adapter\PhpExtension',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
 
         $this->_factoryObject = new \Magento\Search\Model\SolrFactory($this->_objectManager);
     }
@@ -51,10 +63,15 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetClient()
     {
         $options = array('attr1' => 'value1', 'attr2' => 'value2');
-        $this->_objectManager->expects($this->once())
-            ->method('create')
-            ->with('SolrClient')
-            ->will($this->returnValue($this->_solrClientMock));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'SolrClient'
+        )->will(
+            $this->returnValue($this->_solrClientMock)
+        );
 
         $this->_factoryObject->createClient($options);
     }
@@ -64,11 +81,15 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAdapter()
     {
-        $this->_objectManager->expects($this->once())
-            ->method('create')
-            ->with('Magento\Search\Model\Adapter\PhpExtension')
-            ->will($this->returnValue($this->_solrAdapteryMock));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Magento\Search\Model\Adapter\PhpExtension'
+        )->will(
+            $this->returnValue($this->_solrAdapteryMock)
+        );
         $this->_factoryObject->createAdapter();
     }
 }
-

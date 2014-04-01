@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Category\CategoryImageTest;
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Config\MutableScopeConfigInterface')

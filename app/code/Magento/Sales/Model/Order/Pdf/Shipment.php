@@ -28,7 +28,6 @@ class Shipment extends AbstractPdf
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Filesystem $filesystem
      * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
@@ -44,13 +43,14 @@ class Shipment extends AbstractPdf
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
         Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
@@ -60,12 +60,12 @@ class Shipment extends AbstractPdf
             $paymentData,
             $string,
             $coreStoreConfig,
-            $translate,
             $filesystem,
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
             $localeDate,
+            $inlineTranslation,
             $data
         );
     }
@@ -83,31 +83,18 @@ class Shipment extends AbstractPdf
         $page->setFillColor(new \Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
         $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
-        $page->drawRectangle(25, $this->y, 570, $this->y-15);
+        $page->drawRectangle(25, $this->y, 570, $this->y - 15);
         $this->y -= 10;
         $page->setFillColor(new \Zend_Pdf_Color_RGB(0, 0, 0));
 
         //columns headers
-        $lines[0][] = array(
-            'text' => __('Products'),
-            'feed' => 100,
-        );
+        $lines[0][] = array('text' => __('Products'), 'feed' => 100);
 
-        $lines[0][] = array(
-            'text'  => __('Qty'),
-            'feed'  => 35
-        );
+        $lines[0][] = array('text' => __('Qty'), 'feed' => 35);
 
-        $lines[0][] = array(
-            'text'  => __('SKU'),
-            'feed'  => 565,
-            'align' => 'right'
-        );
+        $lines[0][] = array('text' => __('SKU'), 'feed' => 565, 'align' => 'right');
 
-        $lineBlock = array(
-            'lines'  => $lines,
-            'height' => 10
-        );
+        $lineBlock = array('lines' => $lines, 'height' => 10);
 
         $this->drawLineBlocks($page, array($lineBlock), array('table_header' => true));
         $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
@@ -134,7 +121,7 @@ class Shipment extends AbstractPdf
                 $this->_localeResolver->emulate($shipment->getStoreId());
                 $this->_storeManager->setCurrentStore($shipment->getStoreId());
             }
-            $page  = $this->newPage();
+            $page = $this->newPage();
             $order = $shipment->getOrder();
             /* Add image */
             $this->insertLogo($page, $shipment->getStore());
@@ -147,7 +134,8 @@ class Shipment extends AbstractPdf
                 $this->_storeConfig->isSetFlag(
                     self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $order->getStoreId()
-            ));
+                )
+            );
             /* Add document text and number */
             $this->insertDocumentNumber($page, __('Packing Slip # ') . $shipment->getIncrementId());
             /* Add table */

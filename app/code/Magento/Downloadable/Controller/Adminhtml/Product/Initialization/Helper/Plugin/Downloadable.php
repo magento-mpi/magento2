@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
 
-class Downloadable 
+class Downloadable
 {
     /**
      * @var \Magento\App\RequestInterface
@@ -41,4 +40,4 @@ class Downloadable
         }
         return $product;
     }
-} 
+}

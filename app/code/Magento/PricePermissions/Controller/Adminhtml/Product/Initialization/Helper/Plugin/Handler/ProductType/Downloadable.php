@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
@@ -43,4 +42,4 @@ class Downloadable implements HandlerInterface
             $product->setDownloadableData($downloadableData);
         }
     }
-} 
+}

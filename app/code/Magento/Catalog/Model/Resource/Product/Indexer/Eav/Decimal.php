@@ -37,13 +37,13 @@ class Decimal extends AbstractEav
      */
     protected function _prepareIndex($entityIds = null, $attributeId = null)
     {
-        $write      = $this->_getWriteAdapter();
-        $idxTable   = $this->getIdxTable();
+        $write = $this->_getWriteAdapter();
+        $idxTable = $this->getIdxTable();
         // prepare select attributes
         if (is_null($attributeId)) {
-            $attrIds    = $this->_getIndexableAttributes();
+            $attrIds = $this->_getIndexableAttributes();
         } else {
-            $attrIds    = array($attributeId);
+            $attrIds = array($attributeId);
         }
 
         if (!$attrIds) {
@@ -79,12 +79,15 @@ class Decimal extends AbstractEav
         /**
          * Add additional external limitation
          */
-        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
-            'select'        => $select,
-            'entity_field'  => new \Zend_Db_Expr('pdd.entity_id'),
-            'website_field' => new \Zend_Db_Expr('cs.website_id'),
-            'store_field'   => new \Zend_Db_Expr('cs.store_id')
-        ));
+        $this->_eventManager->dispatch(
+            'prepare_catalog_product_index_select',
+            array(
+                'select' => $select,
+                'entity_field' => new \Zend_Db_Expr('pdd.entity_id'),
+                'website_field' => new \Zend_Db_Expr('cs.website_id'),
+                'store_field' => new \Zend_Db_Expr('cs.store_id')
+            )
+        );
 
         $query = $select->insertFromSelect($idxTable);
         $write->query($query);
@@ -100,15 +103,22 @@ class Decimal extends AbstractEav
     protected function _getIndexableAttributes()
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from(array('ca' => $this->getTable('catalog_eav_attribute')), 'attribute_id')
-            ->join(
-                array('ea' => $this->getTable('eav_attribute')),
-                'ca.attribute_id = ea.attribute_id',
-                array())
-            ->where('ea.attribute_code != ?', 'price')
-            ->where($this->_getIndexableAttributesCondition())
-            ->where('ea.backend_type=?', 'decimal');
+        $select = $adapter->select()->from(
+            array('ca' => $this->getTable('catalog_eav_attribute')),
+            'attribute_id'
+        )->join(
+            array('ea' => $this->getTable('eav_attribute')),
+            'ca.attribute_id = ea.attribute_id',
+            array()
+        )->where(
+            'ea.attribute_code != ?',
+            'price'
+        )->where(
+            $this->_getIndexableAttributesCondition()
+        )->where(
+            'ea.backend_type=?',
+            'decimal'
+        );
 
         return $adapter->fetchCol($select);
     }

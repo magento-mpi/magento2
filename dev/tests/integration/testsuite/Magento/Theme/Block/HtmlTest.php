@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block;
 
 class HtmlTest extends \PHPUnit_Framework_TestCase
@@ -38,21 +37,21 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
                 $this->getMock('Magento\Url\ScopeResolverInterface', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\Session', array(), array(), '', false),
                 $this->getMock('Magento\Session\SidResolverInterface', array(), array(), '', false),
-                $this->getMock(
-                    'Magento\Url\RouteParamsResolverFactory', array(), array(), '', false
-                ),
-                $this->getMock(
-                    'Magento\Url\QueryParamsResolver', array(), array(), '', false
-                ),
+                $this->getMock('Magento\Url\RouteParamsResolverFactory', array(), array(), '', false),
+                $this->getMock('Magento\Url\QueryParamsResolver', array(), array(), '', false),
                 $this->getMock(
                     'Magento\App\Config\ScopeConfigInterface', array(), array(), '', false
                 ),
                 array()
             )
         );
-        $urlBuilder->expects($this->any())
-            ->method('getBaseUrl')
-            ->will($this->returnValue('http://localhost/pub/media/'));
+        $urlBuilder->expects(
+            $this->any()
+        )->method(
+            'getBaseUrl'
+        )->will(
+            $this->returnValue('http://localhost/pub/media/')
+        );
 
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\View\Element\Template\Context', array(

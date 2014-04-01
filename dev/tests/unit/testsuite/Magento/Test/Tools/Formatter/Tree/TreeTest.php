@@ -99,8 +99,22 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         // check results
         $this->compareTree(
             $tree,
-            "A" . PHP_EOL . ".B" . PHP_EOL . ".B'" . PHP_EOL . ".C" . PHP_EOL . ".C'" . PHP_EOL . "A''" . PHP_EOL .
-            "A'''" . PHP_EOL . "A'" . PHP_EOL
+            "A" .
+            PHP_EOL .
+            ".B" .
+            PHP_EOL .
+            ".B'" .
+            PHP_EOL .
+            ".C" .
+            PHP_EOL .
+            ".C'" .
+            PHP_EOL .
+            "A''" .
+            PHP_EOL .
+            "A'''" .
+            PHP_EOL .
+            "A'" .
+            PHP_EOL
         );
     }
 
@@ -121,6 +135,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         // check results
         $this->compareTree($tree, "A" . PHP_EOL . ".B1" . PHP_EOL . ".B2" . PHP_EOL . ".B3" . PHP_EOL);
     }
+
     /**
      * This method dumps the tree and compares it to the passed in value.
      * @param Tree $tree

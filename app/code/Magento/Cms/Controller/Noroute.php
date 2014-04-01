@@ -26,4 +26,4 @@ class Noroute extends \Magento\App\Action\Action
             $this->_forward('defaultNoRoute');
         }
     }
-} 
+}

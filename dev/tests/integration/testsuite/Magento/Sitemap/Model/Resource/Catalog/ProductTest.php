@@ -8,10 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-
 namespace Magento\Sitemap\Model\Resource\Catalog;
+
 /**
  * Test class for \Magento\Sitemap\Model\Resource\Catalog\Product.
  * - test products collection generation for sitemap
@@ -75,15 +73,24 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($products[1]->getImages(), 'Images were loaded');
         $this->assertNotEmpty($products[4]->getImages(), 'Images were not loaded');
         $this->assertEquals('Simple Images', $products[4]->getImages()->getTitle(), 'Incorrect title');
-        $this->assertEquals('catalog/product/m/a/magento_image_sitemap.png', $products[4]->getImages()->getThumbnail(),
-            'Incorrect thumbnail');
+        $this->assertEquals(
+            'catalog/product/m/a/magento_image_sitemap.png',
+            $products[4]->getImages()->getThumbnail(),
+            'Incorrect thumbnail'
+        );
         $this->assertCount(2, $products[4]->getImages()->getCollection(), 'Not all images were loaded');
 
         $imagesCollection = $products[4]->getImages()->getCollection();
-        $this->assertEquals('catalog/product/m/a/magento_image_sitemap.png', $imagesCollection[0]->getUrl(),
-            'Incorrect image url');
-        $this->assertEquals('catalog/product/s/e/second_image.png', $imagesCollection[1]->getUrl(),
-            'Incorrect image url');
+        $this->assertEquals(
+            'catalog/product/m/a/magento_image_sitemap.png',
+            $imagesCollection[0]->getUrl(),
+            'Incorrect image url'
+        );
+        $this->assertEquals(
+            'catalog/product/s/e/second_image.png',
+            $imagesCollection[1]->getUrl(),
+            'Incorrect image url'
+        );
         $this->assertEmpty($imagesCollection[0]->getCaption(), 'Caption not empty');
 
         // Check no selection
@@ -91,10 +98,16 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('no_selection', $products[5]->getThumbnail(), 'thumbnail is incorrect');
         $imagesCollection = $products[5]->getImages()->getCollection();
         $this->assertCount(1, $imagesCollection);
-        $this->assertEquals('catalog/product/s/e/second_image_1.png', $imagesCollection[0]->getUrl(),
-            'Image url is incorrect');
-        $this->assertEquals('catalog/product/s/e/second_image_1.png', $products[5]->getImages()->getThumbnail(),
-            'Product thumbnail is incorrect');
+        $this->assertEquals(
+            'catalog/product/s/e/second_image_1.png',
+            $imagesCollection[0]->getUrl(),
+            'Image url is incorrect'
+        );
+        $this->assertEquals(
+            'catalog/product/s/e/second_image_1.png',
+            $products[5]->getImages()->getThumbnail(),
+            'Product thumbnail is incorrect'
+        );
     }
 
     /**
@@ -127,13 +140,19 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($products[1]->getImages(), 'Images were loaded');
         $this->assertNotEmpty($products[4]->getImages(), 'Images were not loaded');
         $this->assertEquals('Simple Images', $products[4]->getImages()->getTitle(), 'Incorrect title');
-        $this->assertEquals('catalog/product/s/e/second_image.png', $products[4]->getImages()->getThumbnail(),
-            'Incorrect thumbnail');
+        $this->assertEquals(
+            'catalog/product/s/e/second_image.png',
+            $products[4]->getImages()->getThumbnail(),
+            'Incorrect thumbnail'
+        );
         $this->assertCount(1, $products[4]->getImages()->getCollection(), 'Number of loaded images is incorrect');
 
         $imagesCollection = $products[4]->getImages()->getCollection();
-        $this->assertEquals('catalog/product/s/e/second_image.png', $imagesCollection[0]->getUrl(),
-            'Incorrect image url');
+        $this->assertEquals(
+            'catalog/product/s/e/second_image.png',
+            $imagesCollection[0]->getUrl(),
+            'Incorrect image url'
+        );
         $this->assertEmpty($imagesCollection[0]->getCaption(), 'Caption not empty');
 
         // Check no selection

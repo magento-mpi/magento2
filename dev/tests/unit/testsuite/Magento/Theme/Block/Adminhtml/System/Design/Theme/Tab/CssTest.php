@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Tab;
 
 class CssTest extends \PHPUnit_Framework_TestCase
@@ -45,12 +44,16 @@ class CssTest extends \PHPUnit_Framework_TestCase
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array(
-                'formFactory'      => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
-                'objectManager'   => $this->_objectManager,
+                'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+                'objectManager' => $this->_objectManager,
                 'uploaderService' => $this->getMock(
-                    'Magento\Theme\Model\Uploader\Service', array(), array(), '', false
+                    'Magento\Theme\Model\Uploader\Service',
+                    array(),
+                    array(),
+                    '',
+                    false
                 ),
-                'urlBuilder'      => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
+                'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
             )
         );
         return $constructArguments;
@@ -67,18 +70,20 @@ class CssTest extends \PHPUnit_Framework_TestCase
         /** @var $sizeModel \Magento\File\Size */
         $sizeModel = $this->getMock('Magento\File\Size', null, array(), '', false);
 
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->with('Magento\File\Size')
-            ->will($this->returnValue($sizeModel));
+        $this->_objectManager->expects(
+            $this->any()
+        )->method(
+            'get'
+        )->with(
+            'Magento\File\Size'
+        )->will(
+            $this->returnValue($sizeModel)
+        );
 
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = 'Allowed file types *.css.<br />';
         $expectedResult .= 'This file will replace the current custom.css file and can\'t be more than 2 MB.<br />';
-        $expectedResult .= sprintf(
-            'Max file size to upload %sM',
-            $sizeModel->getMaxFileSizeInMb()
-        );
+        $expectedResult .= sprintf('Max file size to upload %sM', $sizeModel->getMaxFileSizeInMb());
         $this->assertEquals($expectedResult, $result);
     }
 

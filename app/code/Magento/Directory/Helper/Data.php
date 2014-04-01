@@ -134,8 +134,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         if (!$this->_regionCollection) {
             $this->_regionCollection = $this->_regCollectionFactory->create();
-            $this->_regionCollection->addCountryFilter($this->getAddress()->getCountryId())
-                ->load();
+            $this->_regionCollection->addCountryFilter($this->getAddress()->getCountryId())->load();
         }
         return $this->_regionCollection;
     }
@@ -170,8 +169,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                     $countryIds[] = $country->getCountryId();
                 }
                 $collection = $this->_regCollectionFactory->create();
-                $collection->addCountryFilter($countryIds)
-                    ->load();
+                $collection->addCountryFilter($countryIds)->load();
                 $regions = array(
                     'config' => array(
                         'show_all_regions' => $this->isShowNonRequiredState(),

@@ -24,14 +24,13 @@ class Template extends \Magento\Backend\App\Action
      * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -43,8 +42,7 @@ class Template extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization
-            ->isAllowed('Magento_Newsletter::template');
+        return $this->_authorization->isAllowed('Magento_Newsletter::template');
     }
 
     /**
@@ -73,7 +71,9 @@ class Template extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
-        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Newsletter\Block\Adminhtml\Template', 'template'));
+        $this->_addContent(
+            $this->_view->getLayout()->createBlock('Magento\Newsletter\Block\Adminhtml\Template', 'template')
+        );
         $this->_view->renderLayout();
     }
 
@@ -85,8 +85,7 @@ class Template extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->_view->loadLayout();
-        $grid = $this->_view->getLayout()->createBlock('Magento\Newsletter\Block\Adminhtml\Template\Grid')
-            ->toHtml();
+        $grid = $this->_view->getLayout()->createBlock('Magento\Newsletter\Block\Adminhtml\Template\Grid')->toHtml();
         $this->getResponse()->setBody($grid);
     }
 
@@ -176,14 +175,23 @@ class Template extends \Magento\Backend\App\Action
         }
 
         try {
-            $template->addData($request->getParams())
-                ->setTemplateSubject($request->getParam('subject'))
-                ->setTemplateCode($request->getParam('code'))
-                ->setTemplateSenderEmail($request->getParam('sender_email'))
-                ->setTemplateSenderName($request->getParam('sender_name'))
-                ->setTemplateText($request->getParam('text'))
-                ->setTemplateStyles($request->getParam('styles'))
-                ->setModifiedAt($this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate());
+            $template->addData(
+                $request->getParams()
+            )->setTemplateSubject(
+                $request->getParam('subject')
+            )->setTemplateCode(
+                $request->getParam('code')
+            )->setTemplateSenderEmail(
+                $request->getParam('sender_email')
+            )->setTemplateSenderName(
+                $request->getParam('sender_name')
+            )->setTemplateText(
+                $request->getParam('text')
+            )->setTemplateStyles(
+                $request->getParam('styles')
+            )->setModifiedAt(
+                $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+            );
 
             if (!$template->getId()) {
                 $template->setTemplateType(\Magento\Newsletter\Model\Template::TYPE_HTML);
@@ -203,14 +211,11 @@ class Template extends \Magento\Backend\App\Action
 
             $this->_redirect('*/template');
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError(nl2br($e->getMessage()));
-            $this->_getSession()->setData('newsletter_template_form_data',
-                $this->getRequest()->getParams());
+            $this->_getSession()->setData('newsletter_template_form_data', $this->getRequest()->getParams());
         } catch (\Exception $e) {
-            $this->messageManager->addException($e,
-                __('An error occurred while saving this template.')
-            );
+            $this->messageManager->addException($e, __('An error occurred while saving this template.'));
             $this->_getSession()->setData('newsletter_template_form_data', $this->getRequest()->getParams());
         }
 
@@ -224,19 +229,20 @@ class Template extends \Magento\Backend\App\Action
      */
     public function deleteAction()
     {
-        $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')
-            ->load($this->getRequest()->getParam('id'));
+        $template = $this->_objectManager->create(
+            'Magento\Newsletter\Model\Template'
+        )->load(
+            $this->getRequest()->getParam('id')
+        );
         if ($template->getId()) {
             try {
                 $template->delete();
                 $this->messageManager->addSuccess(__('The newsletter template has been deleted.'));
                 $this->_getSession()->setFormData(false);
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                    __('An error occurred while deleting this template.')
-                );
+                $this->messageManager->addException($e, __('An error occurred while deleting this template.'));
             }
         }
         $this->_redirect('*/template');

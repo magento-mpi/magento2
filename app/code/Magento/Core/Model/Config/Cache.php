@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Config;
 
 class Cache
@@ -87,7 +86,7 @@ class Cache
                 $this->_loadedConfig = $this->_containerFactory->create($config);
             }
         }
-        return $this->_loadedConfig ? : false;
+        return $this->_loadedConfig ?: false;
     }
 
     /**
@@ -99,7 +98,10 @@ class Cache
     public function save(\Magento\Core\Model\Config\Base $config)
     {
         $this->_configCacheType->save(
-            $config->getNode()->asNiceXml('', false), $this->_cacheId, array(), $this->_cacheLifetime
+            $config->getNode()->asNiceXml('', false),
+            $this->_cacheId,
+            array(),
+            $this->_cacheLifetime
         );
     }
 

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Config;
 
 class DomTest extends \PHPUnit_Framework_TestCase
@@ -37,10 +36,13 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         // note differences of XML declaration in fixture files: sometimes encoding is specified, sometimes isn't
         return array(
-            array('ids.xml', 'ids_new.xml', array(
-                    '/root/node/subnode'     => 'id',
-                    '/root/other_node'       => 'id',
-                    '/root/other_node/child' => 'identifier',
+            array(
+                'ids.xml',
+                'ids_new.xml',
+                array(
+                    '/root/node/subnode' => 'id',
+                    '/root/other_node' => 'id',
+                    '/root/other_node/child' => 'identifier'
                 ),
                 null,
                 'ids_merged.xml'
@@ -52,37 +54,33 @@ class DomTest extends \PHPUnit_Framework_TestCase
             array('override_node_new.xml', 'override_node.xml', array(), null, 'override_node_merged.xml'),
             array('text_node.xml', 'text_node_new.xml', array(), null, 'text_node_merged.xml'),
             array(
-                'recursive.xml', 'recursive_new.xml', array(
-                    '/root/(node|another_node)(/param)?' => 'name',
-                    '/root/node/param(/complex/item)+' => 'key',
-                ),
+                'recursive.xml',
+                'recursive_new.xml',
+                array('/root/(node|another_node)(/param)?' => 'name', '/root/node/param(/complex/item)+' => 'key'),
                 null,
-               'recursive_merged.xml',
+                'recursive_merged.xml'
             ),
             array(
-                'recursive_deep.xml', 'recursive_deep_new.xml',
+                'recursive_deep.xml',
+                'recursive_deep_new.xml',
                 array('/root(/node)+' => 'name'),
                 null,
-                'recursive_deep_merged.xml',
+                'recursive_deep_merged.xml'
             ),
             array(
-                'types.xml', 'types_new.xml',
-                array(
-                    '/root/item' => 'id',
-                    '/root/item/subitem' => 'id',
-                ),
+                'types.xml',
+                'types_new.xml',
+                array('/root/item' => 'id', '/root/item/subitem' => 'id'),
                 'xsi:type',
-                'types_merged.xml',
+                'types_merged.xml'
             ),
             array(
-                'attributes.xml', 'attributes_new.xml',
-                array(
-                    '/root/item' => 'id',
-                    '/root/item/subitem' => 'id',
-                ),
+                'attributes.xml',
+                'attributes_new.xml',
+                array('/root/item' => 'id', '/root/item/subitem' => 'id'),
                 'xsi:type',
-                'attributes_merged.xml',
-            ),
+                'attributes_merged.xml'
+            )
         );
     }
 
@@ -117,14 +115,11 @@ class DomTest extends \PHPUnit_Framework_TestCase
     public function validateDataProvider()
     {
         return array(
-            'valid' => array(
-                '<root><node id="id1"/><node id="id2"/></root>',
-                array()
-            ),
+            'valid' => array('<root><node id="id1"/><node id="id2"/></root>', array()),
             'invalid' => array(
                 '<root><node id="id1"/><unknown_node/></root>',
                 array("Element 'unknown_node': This element is not expected. Expected is ( node ).\nLine: 1\n")
-            ),
+            )
         );
     }
 
@@ -132,7 +127,9 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         $xml = '<root><unknown_node/></root>';
         $errorFormat = 'Error: `%message%`';
-        $expectedErrors = array("Error: `Element 'unknown_node': This element is not expected. Expected is ( node ).`");
+        $expectedErrors = array(
+            "Error: `Element 'unknown_node': This element is not expected. Expected is ( node ).`"
+        );
         $dom = new \Magento\Config\Dom($xml, array(), null, null, $errorFormat);
         $actualResult = $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
         $this->assertFalse($actualResult);
@@ -149,5 +146,18 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $errorFormat = '%message%,%unknown%';
         $dom = new \Magento\Config\Dom($xml, array(), null, null, $errorFormat);
         $dom->validate(__DIR__ . '/_files/sample.xsd');
+    }
+
+    public function testValidateUnknownError()
+    {
+        $xml = '<root><node id="id1"/><node id="id2"/></root>';
+        $schemaFile = __DIR__ . '/_files/sample.xsd';
+        $dom = new \Magento\Config\Dom($xml);
+        $domMock = $this->getMock('DOMDocument', array('schemaValidate'), array());
+        $domMock->expects($this->once())
+            ->method('schemaValidate')
+            ->with($schemaFile)
+            ->will($this->returnValue(false));
+        $this->assertEquals(array('Unknown validation error'), $dom->validateDomDocument($domMock, $schemaFile));
     }
 }

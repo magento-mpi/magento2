@@ -20,7 +20,6 @@ namespace Magento\Reports\Model\Resource\Quote;
 
 class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
 {
-
     const SELECT_COUNT_SQL_TYPE_CART = 1;
 
     /**
@@ -60,7 +59,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      * @param \Magento\Catalog\Model\Resource\Product\Collection $productResource
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param null $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -70,7 +69,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
         \Magento\Catalog\Model\Resource\Product\Collection $productResource,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_productResource = $productResource;
@@ -98,11 +97,20 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      */
     public function prepareForAbandonedReport($storeIds, $filter = null)
     {
-        $this->addFieldToFilter('items_count', array('neq' => '0'))
-            ->addFieldToFilter('main_table.is_active', '1')
-            ->addSubtotal($storeIds, $filter)
-            ->addCustomerData($filter)
-            ->setOrder('updated_at');
+        $this->addFieldToFilter(
+            'items_count',
+            array('neq' => '0')
+        )->addFieldToFilter(
+            'main_table.is_active',
+            '1'
+        )->addSubtotal(
+            $storeIds,
+            $filter
+        )->addCustomerData(
+            $filter
+        )->setOrder(
+            'updated_at'
+        );
         if (is_array($storeIds) && !empty($storeIds)) {
             $this->addFieldToFilter('store_id', array('in' => $storeIds));
         }
@@ -118,12 +126,12 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      */
     public function prepareForProductsInCarts()
     {
-        $productAttrName        = $this->_productResource->getAttribute('name');
-        $productAttrNameId      = (int) $productAttrName->getAttributeId();
-        $productAttrNameTable   = $productAttrName->getBackend()->getTable();
-        $productAttrPrice       = $this->_productResource->getAttribute('price');
-        $productAttrPriceId     = (int) $productAttrPrice->getAttributeId();
-        $productAttrPriceTable  = $productAttrPrice->getBackend()->getTable();
+        $productAttrName = $this->_productResource->getAttribute('name');
+        $productAttrNameId = (int)$productAttrName->getAttributeId();
+        $productAttrNameTable = $productAttrName->getBackend()->getTable();
+        $productAttrPrice = $this->_productResource->getAttribute('price');
+        $productAttrPriceId = (int)$productAttrPrice->getAttributeId();
+        $productAttrPriceTable = $productAttrPrice->getBackend()->getTable();
 
         $ordersSubSelect = clone $this->getSelect();
         $ordersSubSelect->reset()
@@ -190,47 +198,47 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      */
     public function addCustomerData($filter = null)
     {
-        $attrFirstname          = $this->_customerResource->getAttribute('firstname');
-        $attrFirstnameId        = (int) $attrFirstname->getAttributeId();
+        $attrFirstname = $this->_customerResource->getAttribute('firstname');
+        $attrFirstnameId = (int)$attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();
 
-        $attrLastname           = $this->_customerResource->getAttribute('lastname');
-        $attrLastnameId         = (int) $attrLastname->getAttributeId();
-        $attrLastnameTableName  = $attrLastname->getBackend()->getTable();
+        $attrLastname = $this->_customerResource->getAttribute('lastname');
+        $attrLastnameId = (int)$attrLastname->getAttributeId();
+        $attrLastnameTableName = $attrLastname->getBackend()->getTable();
 
-        $attrEmail       = $this->_customerResource->getAttribute('email');
+        $attrEmail = $this->_customerResource->getAttribute('email');
         $attrEmailTableName = $attrEmail->getBackend()->getTable();
 
         $adapter = $this->getSelect()->getAdapter();
         $customerName = $adapter->getConcatSql(array('cust_fname.value', 'cust_lname.value'), ' ');
-        $this->getSelect()
-            ->joinInner(
-                array('cust_email' => $attrEmailTableName),
-                'cust_email.entity_id = main_table.customer_id',
-                array('email' => 'cust_email.email')
-            )
-            ->joinInner(
-                array('cust_fname' => $attrFirstnameTableName),
-                implode(' AND ', array(
-                    'cust_fname.entity_id = main_table.customer_id',
-                    $adapter->quoteInto('cust_fname.attribute_id = ?', (int)$attrFirstnameId),
-                )),
-                array('firstname' => 'cust_fname.value')
-            )
-            ->joinInner(
-                array('cust_lname' => $attrLastnameTableName),
-                implode(' AND ', array(
-                    'cust_lname.entity_id = main_table.customer_id',
-                     $adapter->quoteInto('cust_lname.attribute_id = ?', (int)$attrLastnameId)
-                )),
+        $this->getSelect()->joinInner(
+            array('cust_email' => $attrEmailTableName),
+            'cust_email.entity_id = main_table.customer_id',
+            array('email' => 'cust_email.email')
+        )->joinInner(
+            array('cust_fname' => $attrFirstnameTableName),
+            implode(
+                ' AND ',
                 array(
-                    'lastname'      => 'cust_lname.value',
-                    'customer_name' => $customerName
+                    'cust_fname.entity_id = main_table.customer_id',
+                    $adapter->quoteInto('cust_fname.attribute_id = ?', (int)$attrFirstnameId)
                 )
-            );
+            ),
+            array('firstname' => 'cust_fname.value')
+        )->joinInner(
+            array('cust_lname' => $attrLastnameTableName),
+            implode(
+                ' AND ',
+                array(
+                    'cust_lname.entity_id = main_table.customer_id',
+                    $adapter->quoteInto('cust_lname.attribute_id = ?', (int)$attrLastnameId)
+                )
+            ),
+            array('lastname' => 'cust_lname.value', 'customer_name' => $customerName)
+        );
 
         $this->_joinedFields['customer_name'] = $customerName;
-        $this->_joinedFields['email']         = 'cust_email.email';
+        $this->_joinedFields['email'] = 'cust_email.email';
 
         if ($filter) {
             if (isset($filter['customer_name'])) {
@@ -256,11 +264,10 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
     public function addSubtotal($storeIds = '', $filter = null)
     {
         if (is_array($storeIds)) {
-            $this->getSelect()->columns(array(
-                'subtotal' => '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)'
-            ));
-            $this->_joinedFields['subtotal'] =
-                '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)';
+            $this->getSelect()->columns(
+                array('subtotal' => '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)')
+            );
+            $this->_joinedFields['subtotal'] = '(main_table.base_subtotal_with_discount*main_table.base_to_global_rate)';
         } else {
             $this->getSelect()->columns(array('subtotal' => 'main_table.base_subtotal_with_discount'));
             $this->_joinedFields['subtotal'] = 'main_table.base_subtotal_with_discount';
@@ -270,13 +277,15 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
             if (isset($filter['subtotal']['from'])) {
                 $this->getSelect()->where(
                     $this->_joinedFields['subtotal'] . ' >= ?',
-                    $filter['subtotal']['from'], \Zend_Db::FLOAT_TYPE
+                    $filter['subtotal']['from'],
+                    \Zend_Db::FLOAT_TYPE
                 );
             }
             if (isset($filter['subtotal']['to'])) {
                 $this->getSelect()->where(
                     $this->_joinedFields['subtotal'] . ' <= ?',
-                    $filter['subtotal']['to'], \Zend_Db::FLOAT_TYPE
+                    $filter['subtotal']['to'],
+                    \Zend_Db::FLOAT_TYPE
                 );
             }
         }

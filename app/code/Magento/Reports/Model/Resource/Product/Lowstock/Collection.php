@@ -25,14 +25,14 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      *
      * @var bool
      */
-    protected $_inventoryItemJoined        = false;
+    protected $_inventoryItemJoined = false;
 
     /**
      * Alias for CatalogInventory Stock Item Table
      *
      * @var string
      */
-    protected $_inventoryItemTableAlias    = 'lowstock_inventory_item';
+    protected $_inventoryItemTableAlias = 'lowstock_inventory_item';
 
     /**
      * Catalog inventory data
@@ -175,10 +175,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             return $this;
         }
 
-        $this->_joinFields[$alias] = array(
-            'table' => $this->_getInventoryItemTableAlias(),
-            'field' => $field
-        );
+        $this->_joinFields[$alias] = array('table' => $this->_getInventoryItemTableAlias(), 'field' => $field);
 
         $this->getSelect()->columns(array($alias => $field), $this->_getInventoryItemTableAlias());
         return $this;
@@ -206,7 +203,8 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         if (!$this->_inventoryItemJoined) {
             $this->getSelect()->join(
                 array($this->_getInventoryItemTableAlias() => $this->_getInventoryItemTable()),
-                sprintf('e.%s = %s.product_id',
+                sprintf(
+                    'e.%s = %s.product_id',
                     $this->getEntity()->getEntityIdField(),
                     $this->_getInventoryItemTableAlias()
                 ),
@@ -242,7 +240,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     public function filterByProductType($typeFilter)
     {
         if (!is_string($typeFilter) && !is_array($typeFilter)) {
-            new \Magento\Core\Exception(__('The product type filter specified is incorrect.'));
+            new \Magento\Model\Exception(__('The product type filter specified is incorrect.'));
         }
         $this->addAttributeToFilter('type_id', $typeFilter);
         return $this;
@@ -255,9 +253,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      */
     public function filterByIsQtyProductTypes()
     {
-        $this->filterByProductType(
-            array_keys(array_filter($this->_inventoryData->getIsQtyTypeIds()))
-        );
+        $this->filterByProductType(array_keys(array_filter($this->_inventoryData->getIsQtyTypeIds())));
         return $this;
     }
 

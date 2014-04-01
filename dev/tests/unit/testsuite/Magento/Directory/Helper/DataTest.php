@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Directory\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -47,11 +46,21 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $configCacheType = $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false);
 
-        $this->_countryCollection = $this->getMock('Magento\Directory\Model\Resource\Country\Collection', array(),
-            array(), '', false);
+        $this->_countryCollection = $this->getMock(
+            'Magento\Directory\Model\Resource\Country\Collection',
+            array(),
+            array(),
+            '',
+            false
+        );
 
-        $this->_regionCollection = $this->getMock('Magento\Directory\Model\Resource\Region\Collection', array(),
-            array(), '', false);
+        $this->_regionCollection = $this->getMock(
+            'Magento\Directory\Model\Resource\Region\Collection',
+            array(),
+            array(),
+            '',
+            false
+        );
         $regCollectionFactory = $this->getMock(
             'Magento\Directory\Model\Resource\Region\CollectionFactory',
             array('create'),
@@ -59,9 +68,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $regCollectionFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_regionCollection));
+        $regCollectionFactory->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_regionCollection)
+        );
 
         $this->_coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
@@ -92,12 +105,16 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $countries = array(
             new \Magento\Object(array('country_id' => 'Country1')),
-            new \Magento\Object(array('country_id' => 'Country2')),
+            new \Magento\Object(array('country_id' => 'Country2'))
         );
         $countryIterator = new \ArrayIterator($countries);
-        $this->_countryCollection->expects($this->atLeastOnce())
-            ->method('getIterator')
-            ->will($this->returnValue($countryIterator));
+        $this->_countryCollection->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getIterator'
+        )->will(
+            $this->returnValue($countryIterator)
+        );
 
         $regions = array(
             new \Magento\Object(
@@ -108,46 +125,45 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ),
             new \Magento\Object(
                 array('country_id' => 'Country2', 'region_id' => 'r3', 'code' => 'r3-code', 'name' => 'r3-name')
-            ),
+            )
         );
         $regionIterator = new \ArrayIterator($regions);
 
-        $this->_regionCollection->expects($this->once())
-            ->method('addCountryFilter')
-            ->with(array('Country1', 'Country2'))
-            ->will($this->returnSelf());
-        $this->_regionCollection->expects($this->once())
-            ->method('load');
-        $this->_regionCollection->expects($this->once())
-            ->method('getIterator')
-            ->will($this->returnValue($regionIterator));
+        $this->_regionCollection->expects(
+            $this->once()
+        )->method(
+            'addCountryFilter'
+        )->with(
+            array('Country1', 'Country2')
+        )->will(
+            $this->returnSelf()
+        );
+        $this->_regionCollection->expects($this->once())->method('load');
+        $this->_regionCollection->expects(
+            $this->once()
+        )->method(
+            'getIterator'
+        )->will(
+            $this->returnValue($regionIterator)
+        );
 
         $expectedDataToEncode = array(
-            'config' => array(
-                'show_all_regions' => false,
-                'regions_required' => array(),
-            ),
+            'config' => array('show_all_regions' => false, 'regions_required' => array()),
             'Country1' => array(
-                'r1' => array(
-                    'code' => 'r1-code',
-                    'name' => 'r1-name',
-                ),
-                'r2' => array(
-                    'code' => 'r2-code',
-                    'name' => 'r2-name',
-                ),
+                'r1' => array('code' => 'r1-code', 'name' => 'r1-name'),
+                'r2' => array('code' => 'r2-code', 'name' => 'r2-name')
             ),
-            'Country2' => array(
-                'r3' => array(
-                    'code' => 'r3-code',
-                    'name' => 'r3-name',
-                ),
-            ),
+            'Country2' => array('r3' => array('code' => 'r3-code', 'name' => 'r3-name'))
         );
-        $this->_coreHelper->expects($this->once())
-            ->method('jsonEncode')
-            ->with(new \PHPUnit_Framework_Constraint_IsIdentical($expectedDataToEncode))
-            ->will($this->returnValue('encoded_json'));
+        $this->_coreHelper->expects(
+            $this->once()
+        )->method(
+            'jsonEncode'
+        )->with(
+            new \PHPUnit_Framework_Constraint_IsIdentical($expectedDataToEncode)
+        )->will(
+            $this->returnValue('encoded_json')
+        );
 
         // Test
         $result = $this->_object->getRegionJson();
@@ -192,14 +208,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public static function countriesCommaListDataProvider()
     {
         return array(
-            'empty_list' => array(
-                '',
-                array(),
-            ),
-            'normal_list' => array(
-                'Country1,Country2',
-                array('Country1', 'Country2'),
-            ),
+            'empty_list' => array('', array()),
+            'normal_list' => array('Country1,Country2', array('Country1', 'Country2'))
         );
     }
 }

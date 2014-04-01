@@ -44,16 +44,16 @@ class Combine extends AbstractCombine
     public function getNewChildSelectOptions()
     {
         $conditions = array(
+            // Subconditions combo
             array(
-                // Subconditions combo
                 'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Combine',
                 'label' => __('Conditions Combination'),
-                'available_in_guest_mode' => true,
+                'available_in_guest_mode' => true
             ),
+            // Customer address combo
             array(
-                // Customer address combo
                 'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Address',
-                'label' => __('Customer Address'),
+                'label' => __('Customer Address')
             ),
             // Customer attribute group
             $this->_conditionFactory->create('Customer')->getNewChildSelectOptions(),
@@ -61,24 +61,24 @@ class Combine extends AbstractCombine
             $this->_conditionFactory->create('Shoppingcart')->getNewChildSelectOptions(),
             array(
                 'value' => array(
+                    // Product list combo
                     array(
-                        // Product list combo
                         'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine',
                         'label' => __('Product List'),
-                        'available_in_guest_mode' => true,
+                        'available_in_guest_mode' => true
                     ),
+                    // Product history combo
                     array(
-                        // Product history combo
                         'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History',
                         'label' => __('Product History'),
-                        'available_in_guest_mode' => true,
+                        'available_in_guest_mode' => true
                     )
                 ),
                 'label' => __('Products'),
-                'available_in_guest_mode' => true,
+                'available_in_guest_mode' => true
             ),
             // Sales group
-            $this->_conditionFactory->create('Sales')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Sales')->getNewChildSelectOptions()
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $this->_prepareConditionAccordingApplyToValue($conditions);
@@ -102,7 +102,7 @@ class Combine extends AbstractCombine
      * Prepare Condition According to ApplyTo Value
      *
      * @param array $conditions
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return array
      */
     protected function _prepareConditionAccordingApplyToValue(array $conditions)
@@ -122,12 +122,11 @@ class Combine extends AbstractCombine
                 break;
 
             default:
-                throw new \Magento\Core\Exception(__('Wrong "ApplyTo" type'));
+                throw new \Magento\Model\Exception(__('Wrong "ApplyTo" type'));
                 break;
         }
         return $returnedConditions;
     }
-
 
     /**
      * Remove unnecessary conditions
@@ -152,7 +151,6 @@ class Combine extends AbstractCombine
         }
         return $conditionResult;
     }
-
 
     /**
      * Mark condition with asterisk

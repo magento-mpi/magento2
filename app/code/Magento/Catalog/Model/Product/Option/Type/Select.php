@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Catalog product option select type
@@ -71,8 +71,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             throw new Exception(__('Please specify the product\'s required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
-            $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
-                ->load();
+            $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
                 throw new Exception(__('Please specify the product\'s required option(s).'));
@@ -104,9 +103,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = $this->_escaper->escapeHtml(
-                $this->getEditableOptionValue($optionValue)
-            );
+            $this->_formattedOptionValue = $this->_escaper->escapeHtml($this->getEditableOptionValue($optionValue));
         }
         return $this->_formattedOptionValue;
     }
@@ -149,9 +146,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     $result .= $_result->getTitle() . ', ';
                 } else {
                     if ($this->getListener()) {
-                        $this->getListener()->setHasError(true)->setMessage(
-                            $this->_getWrongConfigurationMessage()
-                        );
+                        $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                         $result = '';
                         break;
                     }
@@ -164,9 +159,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 $result = $_result->getTitle();
             } else {
                 if ($this->getListener()) {
-                    $this->getListener()->setHasError(true)->setMessage(
-                        $this->_getWrongConfigurationMessage()
-                    );
+                    $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                 }
                 $result = '';
             }
@@ -230,7 +223,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         $result = 0;
 
         if (!$this->_isSingleSelection()) {
-            foreach(explode(',', $optionValue) as $value) {
+            foreach (explode(',', $optionValue) as $value) {
                 $_result = $option->getValueById($value);
                 if ($_result) {
                     $result += $this->_getChargableOptionPrice(
@@ -240,11 +233,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     );
                 } else {
                     if ($this->getListener()) {
-                        $this->getListener()
-                                ->setHasError(true)
-                                ->setMessage(
-                                    $this->_getWrongConfigurationMessage()
-                                );
+                        $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                         break;
                     }
                 }
@@ -259,9 +248,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 );
             } else {
                 if ($this->getListener()) {
-                    $this->getListener()->setHasError(true)->setMessage(
-                        $this->_getWrongConfigurationMessage()
-                    );
+                    $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                 }
             }
         }
@@ -288,9 +275,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     $skus[] = $optionSku->getSku();
                 } else {
                     if ($this->getListener()) {
-                        $this->getListener()->setHasError(true)->setMessage(
-                            $this->_getWrongConfigurationMessage()
-                        );
+                        $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                         break;
                     }
                 }
@@ -302,9 +287,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 return $result->getSku();
             } else {
                 if ($this->getListener()) {
-                    $this->getListener()->setHasError(true)->setMessage(
-                        $this->_getWrongConfigurationMessage()
-                    );
+                    $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                 }
                 return '';
             }

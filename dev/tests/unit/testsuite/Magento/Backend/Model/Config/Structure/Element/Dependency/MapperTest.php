@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
 
 class MapperTest extends \PHPUnit_Framework_TestCase
@@ -27,7 +26,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      * Field ids
      */
     const FIELD_ID1 = 'field id 1';
+
     const FIELD_ID2 = 'field id 2';
+
     /**#@-*/
 
     /**
@@ -67,12 +68,8 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_testData = array(
-            'field_x' => array(
-                'id' => self::FIELD_ID1,
-            ),
-            'field_y' => array(
-                'id' => self::FIELD_ID2,
-            ),
+            'field_x' => array('id' => self::FIELD_ID1),
+            'field_y' => array('id' => self::FIELD_ID2)
         );
 
         $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
@@ -141,33 +138,46 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function getDependenciesDataProvider()
     {
-        return array(
-            array(true),
-            array(false),
-        );
+        return array(array(true), array(false));
     }
 
     public function testGetDependenciesIsVisible()
     {
-        $this->_storeManagerMock->expects($this->never())
-            ->method('getStore');
+        $this->_storeManagerMock->expects($this->never())->method('getStore');
 
         $expected = array();
         $rowData = array_values($this->_testData);
         for ($i = 0; $i < count($this->_testData); ++$i) {
             $data = $rowData[$i];
-            $field = $this->_getField(true, 'some path',
-                'Magento_Backend_Model_Config_Structure_Element_Field_visible_' . $i);
-            $this->_configStructureMock->expects($this->at($i))
-                ->method('getElement')
-                ->with($data['id'])
-                ->will($this->returnValue($field));
-            $dependencyField = $this->_getDependencyField((bool)$i, true, $data['id'],
-                'Magento_Backend_Model_Config_Structure_Element_Dependency_Field_visible_' . $i);
-            $this->_fieldFactoryMock->expects($this->at($i))
-                ->method('create')
-                ->with(array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX))
-                ->will($this->returnValue($dependencyField));
+            $field = $this->_getField(
+                true,
+                'some path',
+                'Magento_Backend_Model_Config_Structure_Element_Field_visible_' . $i
+            );
+            $this->_configStructureMock->expects(
+                $this->at($i)
+            )->method(
+                'getElement'
+            )->with(
+                $data['id']
+            )->will(
+                $this->returnValue($field)
+            );
+            $dependencyField = $this->_getDependencyField(
+                (bool)$i,
+                true,
+                $data['id'],
+                'Magento_Backend_Model_Config_Structure_Element_Dependency_Field_visible_' . $i
+            );
+            $this->_fieldFactoryMock->expects(
+                $this->at($i)
+            )->method(
+                'create'
+            )->with(
+                array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX)
+            )->will(
+                $this->returnValue($dependencyField)
+            );
             $expected[$data['id']] = $dependencyField;
         }
         $actual = $this->_model->getDependencies($this->_testData, self::STORE_CODE, self::FIELD_PREFIX);
@@ -185,23 +195,33 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getDependencyField($isValueSatisfy, $isFieldVisible, $fieldId, $mockClassName)
     {
-        $field = $this->getMockBuilder('Magento\Backend\Model\Config\Structure\Element\Dependency\Field')
-            ->setMethods(array('isValueSatisfy', 'getId'))
-            ->setMockClassName($mockClassName)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $field = $this->getMockBuilder(
+            'Magento\Backend\Model\Config\Structure\Element\Dependency\Field'
+        )->setMethods(
+            array('isValueSatisfy', 'getId')
+        )->setMockClassName(
+            $mockClassName
+        )->disableOriginalConstructor()->getMock();
         if ($isFieldVisible) {
-            $field->expects($isFieldVisible ? $this->never() : $this->once())
-                ->method('isValueSatisfy');
+            $field->expects($isFieldVisible ? $this->never() : $this->once())->method('isValueSatisfy');
         } else {
-            $field->expects($this->once())
-                ->method('isValueSatisfy')
-                ->with(self::VALUE_IN_STORE)
-                ->will($this->returnValue($isValueSatisfy));
+            $field->expects(
+                $this->once()
+            )->method(
+                'isValueSatisfy'
+            )->with(
+                self::VALUE_IN_STORE
+            )->will(
+                $this->returnValue($isValueSatisfy)
+            );
         }
-        $field->expects(($isFieldVisible || !$isValueSatisfy) ? $this->once() : $this->never())
-            ->method('getId')
-            ->will($this->returnValue($fieldId));
+        $field->expects(
+            $isFieldVisible || !$isValueSatisfy ? $this->once() : $this->never()
+        )->method(
+            'getId'
+        )->will(
+            $this->returnValue($fieldId)
+        );
         return $field;
     }
 
@@ -215,22 +235,26 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getField($isVisible, $path, $mockClassName)
     {
-        $field = $this->getMockBuilder('Magento\Backend\Model\Config\Structure\Element\Field')
-            ->setMethods(array('isVisible', 'getPath'))
-            ->setMockClassName($mockClassName)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $field->expects($this->once())
-            ->method('isVisible')
-            ->will($this->returnValue($isVisible));
+        $field = $this->getMockBuilder(
+            'Magento\Backend\Model\Config\Structure\Element\Field'
+        )->setMethods(
+            array('isVisible', 'getPath')
+        )->setMockClassName(
+            $mockClassName
+        )->disableOriginalConstructor()->getMock();
+        $field->expects($this->once())->method('isVisible')->will($this->returnValue($isVisible));
         if ($isVisible) {
-            $field->expects($this->never())
-                ->method('getPath');
+            $field->expects($this->never())->method('getPath');
         } else {
-            $field->expects($isVisible ? $this->never() : $this->once())
-                ->method('getPath')
-                ->with(self::FIELD_PREFIX)
-                ->will($this->returnValue($path));
+            $field->expects(
+                $isVisible ? $this->never() : $this->once()
+            )->method(
+                'getPath'
+            )->with(
+                self::FIELD_PREFIX
+            )->will(
+                $this->returnValue($path)
+            );
         }
         return $field;
     }

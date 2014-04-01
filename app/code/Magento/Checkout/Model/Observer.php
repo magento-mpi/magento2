@@ -33,10 +33,8 @@ class Observer
      * @param Session $checkoutSession
      * @param \Magento\Message\ManagerInterface $messageManager
      */
-    public function __construct(
-        Session $checkoutSession,
-        \Magento\Message\ManagerInterface $messageManager
-    ) {
+    public function __construct(Session $checkoutSession, \Magento\Message\ManagerInterface $messageManager)
+    {
         $this->_checkoutSession = $checkoutSession;
         $this->messageManager = $messageManager;
     }
@@ -56,7 +54,7 @@ class Observer
     {
         try {
             $this->_checkoutSession->loadCustomerQuote();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Load customer quote error'));

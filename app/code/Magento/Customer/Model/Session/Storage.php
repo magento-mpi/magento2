@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Session;
 
 class Storage extends \Magento\Session\Storage
@@ -27,9 +26,8 @@ class Storage extends \Magento\Session\Storage
         array $data = array()
     ) {
         if ($configShare->isWebsiteScope()) {
-            $namespace .= '_' . ($storeManager->getWebsite()->getCode());
+            $namespace .= '_' . $storeManager->getWebsite()->getCode();
         }
         parent::__construct($namespace, $data);
     }
 }
-

@@ -7,10 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav;
 
-class Exception extends \Magento\Core\Exception
+class Exception extends \Magento\Model\Exception
 {
-    
 }

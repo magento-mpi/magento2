@@ -18,7 +18,6 @@ use Magento\Customer\Controller\RegistryConstants;
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
 {
     /**
@@ -37,18 +36,10 @@ class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
         }
         $container = $this->getParentBlock();
         if ($container instanceof \Magento\Backend\Block\Template && $container->getCustomerId()) {
-            $url = $this->_urlBuilder->getUrl(
-                'checkout/index',
-                array(
-                    'customer' => $container->getCustomerId()
-                )
-            );
+            $url = $this->_urlBuilder->getUrl('checkout/index', array('customer' => $container->getCustomerId()));
             $container->addButton(
                 'manage_quote',
-                array(
-                    'label' => __('Manage Shopping Cart'),
-                    'onclick' => "setLocation('" . $url . "')",
-                ),
+                array('label' => __('Manage Shopping Cart'), 'onclick' => "setLocation('" . $url . "')"),
                 0
             );
         }

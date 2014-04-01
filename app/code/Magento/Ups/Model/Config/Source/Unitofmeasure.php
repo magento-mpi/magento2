@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ups\Model\Config\Source;
 
 /**
@@ -28,7 +27,7 @@ class Unitofmeasure extends \Magento\Ups\Model\Config\Source\Generic
         $unitArr = $this->carrierConfig->getCode($this->_code);
         $returnArr = array();
         foreach ($unitArr as $key => $val) {
-            $returnArr[] = array('value'=>$key,'label'=>$key);
+            $returnArr[] = array('value' => $key, 'label' => $key);
         }
         return $returnArr;
     }

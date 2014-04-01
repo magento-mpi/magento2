@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Url;
 
 interface ScopeResolverInterface extends \Magento\App\ScopeResolverInterface

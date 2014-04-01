@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Urlrewrite\Catalog\Edit;
 
 /**
@@ -29,7 +28,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form */
         $block = $layout->createBlock(
-            'Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form', 'block', array('data' => $args)
+            'Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form',
+            'block',
+            array('data' => $args)
         );
         $block->setTemplate(null);
         $block->toHtml();
@@ -107,9 +108,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityStoresProductStoresException()
     {
-        $args = array(
-            'product' => new \Magento\Object(array('id' => 1))
-        );
+        $args = array('product' => new \Magento\Object(array('id' => 1)));
         $this->_getFormInstance($args);
     }
 
@@ -142,9 +141,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityStoresCategoryStoresException()
     {
-        $args = array(
-            'category' => new \Magento\Object(array('id' => 1))
-        );
+        $args = array('category' => new \Magento\Object(array('id' => 1)));
         $this->_getFormInstance($args);
     }
 
@@ -161,16 +158,28 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                null, array('id' => 3, 'level' => 2, 'url_key' => 'category'),
-                'category/3', 'category/3', 'category.html', 'catalog/category/view/id/3'
+                null,
+                array('id' => 3, 'level' => 2, 'url_key' => 'category'),
+                'category/3',
+                'category/3',
+                'category.html',
+                'catalog/category/view/id/3'
             ),
             array(
-                array('id' => 2, 'url_key' => 'product'), null,
-                'product/2', 'product/2', 'product.html', 'catalog/product/view/id/2'
+                array('id' => 2, 'url_key' => 'product'),
+                null,
+                'product/2',
+                'product/2',
+                'product.html',
+                'catalog/product/view/id/2'
             ),
             array(
-                array('id' => 2, 'name' => 'product'), array('id' => 3, 'level' => 2, 'url_key' => 'category'),
-                'product/2/category/3', 'product/2/3', 'category/product.html', 'catalog/product/view/id/2/category/3'
+                array('id' => 2, 'name' => 'product'),
+                array('id' => 3, 'level' => 2, 'url_key' => 'category'),
+                'product/2/category/3',
+                'product/2/3',
+                'category/product.html',
+                'catalog/product/view/id/2/category/3'
             )
         );
     }
@@ -188,59 +197,38 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                null, array('id' => 3, 'store_ids' => array(1)),
+                null,
+                array('id' => 3, 'store_ids' => array(1)),
                 array(
-                    array(
-                        'label' => 'Main Website',
-                        'value' => array()
-                    ),
+                    array('label' => 'Main Website', 'value' => array()),
                     array(
                         'label' => '    Main Website Store',
-                        'value' => array(
-                            array(
-                                'label' => '    Default Store View',
-                                'value' => 1
-                            )
-                        )
+                        'value' => array(array('label' => '    Default Store View', 'value' => 1))
                     )
                 )
             ),
             array(
-                array('id' => 2, 'store_ids' => array(1)), null,
+                array('id' => 2, 'store_ids' => array(1)),
+                null,
                 array(
-                    array(
-                        'label' => 'Main Website',
-                        'value' => array()
-                    ),
+                    array('label' => 'Main Website', 'value' => array()),
                     array(
                         'label' => '    Main Website Store',
-                        'value' => array(
-                            array(
-                                'label' => '    Default Store View',
-                                'value' => 1
-                            )
-                        )
+                        'value' => array(array('label' => '    Default Store View', 'value' => 1))
                     )
                 )
             ),
             array(
-                array('id' => 2, 'store_ids' => array(1)), array('id' => 3, 'store_ids' => array(1)),
+                array('id' => 2, 'store_ids' => array(1)),
+                array('id' => 3, 'store_ids' => array(1)),
                 array(
-                    array(
-                        'label' => 'Main Website',
-                        'value' => array()
-                    ),
+                    array('label' => 'Main Website', 'value' => array()),
                     array(
                         'label' => '    Main Website Store',
-                        'value' => array(
-                            array(
-                                'label' => '    Default Store View',
-                                'value' => 1
-                            )
-                        )
+                        'value' => array(array('label' => '    Default Store View', 'value' => 1))
                     )
                 )
-            ),
+            )
         );
     }
 }

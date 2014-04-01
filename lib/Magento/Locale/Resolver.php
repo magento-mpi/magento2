@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Locale;
 
 class Resolver implements \Magento\Locale\ResolverInterface
@@ -44,9 +43,9 @@ class Resolver implements \Magento\Locale\ResolverInterface
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\AppInterface
+     * @var \Magento\App\CacheInterface
      */
-    protected $_app;
+    protected $_cache;
 
     /**
      * Emulated locales stack
@@ -62,7 +61,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
 
     /**
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\AppInterface $app
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\LocaleFactory $localeFactory
      * @param string $defaultLocalePath
      * @param string $scopeType
@@ -70,13 +69,13 @@ class Resolver implements \Magento\Locale\ResolverInterface
      */
     public function __construct(
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\AppInterface $app,
+        \Magento\App\CacheInterface $cache,
         \Magento\LocaleFactory $localeFactory,
         $defaultLocalePath,
         $scopeType,
         $locale = null
     ) {
-        $this->_app = $app;
+        $this->_cache = $cache;
         $this->_scopeConfig = $scopeConfig;
         $this->_localeFactory = $localeFactory;
         $this->_defaultLocalePath = $defaultLocalePath;
@@ -121,7 +120,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
      */
     public function setLocale($locale = null)
     {
-        if (($locale !== null) && is_string($locale)) {
+        if ($locale !== null && is_string($locale)) {
             $this->_localeCode = $locale;
         } else {
             $this->_localeCode = $this->getDefaultLocale();
@@ -135,7 +134,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
     public function getLocale()
     {
         if (!$this->_locale) {
-            \Zend_Locale_Data::setCache($this->_app->getCache()->getLowLevelFrontend());
+            \Zend_Locale_Data::setCache($this->_cache->getFrontend()->getLowLevelFrontend());
             $this->_locale = $this->_localeFactory->create(array('locale' => $this->getLocaleCode()));
         } elseif ($this->_locale->__toString() != $this->_localeCode) {
             $this->setLocale($this->_localeCode);

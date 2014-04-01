@@ -72,8 +72,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\CustomerSegment\Model\Resource\Segment\Collection */
-        $collection = $this->_segmentFactory->create()
-            ->getCollection();
+        $collection = $this->_segmentFactory->create()->getCollection();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);
 
@@ -89,41 +88,38 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareColumns()
     {
         // this column is mandatory for the chooser mode. It needs to be first
-        $this->addColumn('grid_segment_id', array(
-            'header'    => __('ID'),
-            'align'     => 'right',
-            'width'     => 50,
-            'index'     => 'segment_id',
-        ));
+        $this->addColumn(
+            'grid_segment_id',
+            array('header' => __('ID'), 'align' => 'right', 'width' => 50, 'index' => 'segment_id')
+        );
 
-        $this->addColumn('grid_segment_name', array(
-            'header'    => __('Segment'),
-            'align'     => 'left',
-            'index'     => 'name',
-        ));
+        $this->addColumn('grid_segment_name', array('header' => __('Segment'), 'align' => 'left', 'index' => 'name'));
 
-        $this->addColumn('grid_segment_is_active', array(
-            'header'    => __('Status'),
-            'align'     => 'left',
-            'width'     => 80,
-            'index'     => 'is_active',
-            'type'      => 'options',
-            'options'   => array(
-                1 => 'Active',
-                0 => 'Inactive',
-            ),
-        ));
+        $this->addColumn(
+            'grid_segment_is_active',
+            array(
+                'header' => __('Status'),
+                'align' => 'left',
+                'width' => 80,
+                'index' => 'is_active',
+                'type' => 'options',
+                'options' => array(1 => 'Active', 0 => 'Inactive')
+            )
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('grid_segment_website', array(
-                'header'    => __('Website'),
-                'align'     => 'left',
-                'index'     => 'website_ids',
-                'type'      => 'options',
-                'sortable'  => false,
-                'options'   => $this->_systemStore->getWebsiteOptionHash(),
-                'width'     => 200,
-            ));
+            $this->addColumn(
+                'grid_segment_website',
+                array(
+                    'header' => __('Website'),
+                    'align' => 'left',
+                    'index' => 'website_ids',
+                    'type' => 'options',
+                    'sortable' => false,
+                    'options' => $this->_systemStore->getWebsiteOptionHash(),
+                    'width' => 200
+                )
+            );
         }
 
         parent::_prepareColumns();
@@ -151,11 +147,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowClickCallback()
     {
-        if ($this->getIsChooserMode() && $elementId = $this->getRequest()->getParam('value_element_id')) {
+        if ($this->getIsChooserMode() && ($elementId = $this->getRequest()->getParam('value_element_id'))) {
             return 'function (grid, event) {
                 var trElement = Event.findElement(event, "tr");
                 if (trElement) {
-                    $(\'' . $elementId . '\').value = trElement.down("td").innerHTML;
+                    $(\'' .
+                $elementId .
+                '\').value = trElement.down("td").innerHTML;
                     $(grid.containerId).up().hide();
                 }}';
         }

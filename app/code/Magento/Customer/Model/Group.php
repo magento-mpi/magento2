@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,24 +15,21 @@ namespace Magento\Customer\Model;
  * @method string getCustomerGroupCode()
  * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
  * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
- *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Group extends \Magento\Core\Model\AbstractModel
+class Group extends \Magento\Model\AbstractModel
 {
     /**
      * Xml config path for create account default group
      */
-    const XML_PATH_DEFAULT_ID       = 'customer/create_account/default_group';
+    const XML_PATH_DEFAULT_ID = 'customer/create_account/default_group';
 
-    const NOT_LOGGED_IN_ID          = 0;
-    const CUST_GROUP_ALL            = 32000;
+    const NOT_LOGGED_IN_ID = 0;
 
-    const ENTITY                    = 'customer_group';
+    const CUST_GROUP_ALL = 32000;
 
-    const GROUP_CODE_MAX_LENGTH     = 32;
+    const ENTITY = 'customer_group';
+
+    const GROUP_CODE_MAX_LENGTH = 32;
 
     /**
      * Prefix of model events names
@@ -74,7 +69,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -83,7 +78,7 @@ class Group extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Store\Model\StoresConfig $storesConfig,
         \Magento\Index\Model\Indexer $indexer,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -122,7 +117,9 @@ class Group extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param int|null $groupId
+     * Get the tax class id for the specified group or this group if the groupId is null
+     *
+     * @param int|null $groupId The id of the group whose tax class id is being sought
      * @return int
      */
     public function getTaxClassId($groupId = null)
@@ -138,6 +135,8 @@ class Group extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Determine if this group is used as the create account default group
+     *
      * @return bool
      */
     public function usesAsDefault()
@@ -179,9 +178,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     protected function _prepareData()
     {
-        $this->setCode(
-            substr($this->getCode(), 0, self::GROUP_CODE_MAX_LENGTH)
-        );
+        $this->setCode(substr($this->getCode(), 0, self::GROUP_CODE_MAX_LENGTH));
         return $this;
     }
 }

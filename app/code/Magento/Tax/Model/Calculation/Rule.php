@@ -22,7 +22,7 @@
  */
 namespace Magento\Tax\Model\Calculation;
 
-class Rule extends \Magento\Core\Model\AbstractModel
+class Rule extends \Magento\Model\AbstractModel
 {
     /**
      * @var mixed
@@ -86,7 +86,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Tax\Model\ClassModel $taxClass
      * @param \Magento\Tax\Model\Calculation $calculation
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -96,7 +96,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Tax\Model\ClassModel $taxClass,
         \Magento\Tax\Model\Calculation $calculation,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -149,10 +149,10 @@ class Rule extends \Magento\Core\Model\AbstractModel
             foreach ($ptc as $p) {
                 foreach ($rates as $r) {
                     $dataArray = array(
-                        'tax_calculation_rule_id'   =>$this->getId(),
-                        'tax_calculation_rate_id'   =>$r,
-                        'customer_tax_class_id'     =>$c,
-                        'product_tax_class_id'      =>$p,
+                        'tax_calculation_rule_id' => $this->getId(),
+                        'tax_calculation_rate_id' => $r,
+                        'customer_tax_class_id' => $c,
+                        'product_tax_class_id' => $p
                     );
                     $this->_calculation->setData($dataArray)->save();
                 }
@@ -242,12 +242,8 @@ class Rule extends \Magento\Core\Model\AbstractModel
      */
     public function getAllOptionsForClass($classFilter)
     {
-        $classes = $this->_taxClass
-            ->getCollection()
-            ->setClassTypeFilter($classFilter)
-            ->toOptionArray();
+        $classes = $this->_taxClass->getCollection()->setClassTypeFilter($classFilter)->toOptionArray();
 
         return $classes;
     }
 }
-

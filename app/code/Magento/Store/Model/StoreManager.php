@@ -10,6 +10,14 @@ namespace Magento\Store\Model;
 class StoreManager implements \Magento\Store\Model\StoreManagerInterface
 {
     /**
+     * Application run code
+     */
+    const PARAM_RUN_CODE = 'MAGE_RUN_CODE';
+    /**
+     * Application run type (store|website)
+     */
+    const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
+    /**
      * Store storage factory model
      *
      * @var \Magento\Store\Model\StorageFactory
@@ -95,9 +103,30 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
             'isSingleStoreAllowed' => $this->_isSingleStoreAllowed,
             'currentStore' => $this->_currentStore,
             'scopeCode' => $this->_scopeCode,
-            'scopeType' => $this->_scopeType,
+            'scopeType' => $this->_scopeType
         );
         return $this->_factory->get($arguments);
+    }
+
+    /**
+     * Retrieve application store object without Store_Exception
+     *
+     * @param string|int|Store $storeId
+     * @throws \Magento\Model\Exception
+     * @return Store
+     */
+    public function getSafeStore($storeId = null)
+    {
+        try {
+            return $this->getStore($storeId);
+        } catch (\Exception $e) {
+            if ($this->_getStorage()->getCurrentStore()) {
+                $this->_request->setActionName('noroute');
+                return new \Magento\Object();
+            }
+
+            throw new \Magento\Model\Exception(__('Requested invalid store "%1"', $storeId));
+        }
     }
 
     /**
@@ -182,7 +211,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|bool|int|string|Website $websiteId
      * @return Website
-     * @throws \Magento\Store\Model\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -226,7 +255,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|\Magento\Store\Model\Group|string $groupId
      * @return \Magento\Store\Model\Group
-     * @throws \Magento\Store\Model\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getGroup($groupId = null)
     {

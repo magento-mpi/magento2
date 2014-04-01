@@ -50,7 +50,7 @@ class QuoteItem
             'giftcard_sender_email',
             'giftcard_recipient_name',
             'giftcard_recipient_email',
-            'giftcard_message',
+            'giftcard_message'
         );
         $productOptions = $orderItem->getProductOptions();
         foreach ($keys as $key) {

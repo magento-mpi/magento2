@@ -10,7 +10,7 @@
 namespace Magento\GiftRegistry\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 class Giftregistry extends \Magento\Backend\App\Action
 {
@@ -25,10 +25,8 @@ class Giftregistry extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -41,11 +39,12 @@ class Giftregistry extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_GiftRegistry::customer_magento_giftregistry')
-            ->_addBreadcrumb(
-                __('Gift Registry'),
-                __('Gift Registry')
-            );
+        $this->_setActiveMenu(
+            'Magento_GiftRegistry::customer_magento_giftregistry'
+        )->_addBreadcrumb(
+            __('Gift Registry'),
+            __('Gift Registry')
+        );
 
         $this->_title->add(__('Gift Registry Types'));
         return $this;
@@ -103,14 +102,21 @@ class Giftregistry extends \Magento\Backend\App\Action
         $this->_initAction();
         $this->_title->add(__('New Gift Registry Type'));
 
-        $block = $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
-            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
+        $block = $this->_view->getLayout()->createBlock(
+            'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit'
+        )->setData(
+            'form_action_url',
+            $this->getUrl('adminhtml/*/save')
+        );
 
-        $this->_addBreadcrumb(__('New Type'), __('New Type'))
-            ->_addContent($block)
-            ->_addLeft($this->_view->getLayout()->createBlock(
-                'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
-            );
+        $this->_addBreadcrumb(
+            __('New Type'),
+            __('New Type')
+        )->_addContent(
+            $block
+        )->_addLeft(
+            $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
+        );
         $this->_view->renderLayout();
     }
 
@@ -132,14 +138,21 @@ class Giftregistry extends \Magento\Backend\App\Action
         $this->_initAction();
         $this->_title->add(__('%1', $model->getLabel()));
 
-        $block = $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
-            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
+        $block = $this->_view->getLayout()->createBlock(
+            'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit'
+        )->setData(
+            'form_action_url',
+            $this->getUrl('adminhtml/*/save')
+        );
 
-        $this->_addBreadcrumb(__('Edit Type'), __('Edit Type'))
-            ->_addContent($block)
-            ->_addLeft(
-                $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
-            );
+        $this->_addBreadcrumb(
+            __('Edit Type'),
+            __('Edit Type')
+        )->_addContent(
+            $block
+        )->_addLeft(
+            $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
+        );
         $this->_view->renderLayout();
     }
 
@@ -190,7 +203,10 @@ class Giftregistry extends \Magento\Backend\App\Action
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
-                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
+                    $this->_redirect(
+                        'adminhtml/*/edit',
+                        array('id' => $model->getId(), 'store' => $model->getStoreId())
+                    );
                     return;
                 }
             } catch (Exception $e) {

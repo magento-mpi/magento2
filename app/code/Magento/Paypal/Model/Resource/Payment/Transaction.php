@@ -17,16 +17,14 @@ namespace Magento\Paypal\Model\Resource\Payment;
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Transaction extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Transaction extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Serializeable field: additional_information
      *
      * @var array
      */
-    protected $_serializableFields   = array(
-        'additional_information' => array(null, array())
-    );
+    protected $_serializableFields = array('additional_information' => array(null, array()));
 
     /**
      * Initialize main table and the primary key field name
@@ -48,7 +46,7 @@ class Transaction extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function loadObjectByTxnId(\Magento\Paypal\Model\Payment\Transaction $transaction, $txnId)
     {
         $select = $this->_getLoadByUniqueKeySelect($txnId);
-        $data   = $this->_getWriteAdapter()->fetchRow($select);
+        $data = $this->_getWriteAdapter()->fetchRow($select);
         $transaction->setData($data);
         $this->unserializeFields($transaction);
         $this->_afterLoad($transaction);
@@ -57,13 +55,13 @@ class Transaction extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Serialize additional information, if any
      *
-     * @param \Magento\Core\Model\AbstractModel $transaction
+     * @param \Magento\Model\AbstractModel $transaction
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $transaction)
+    protected function _beforeSave(\Magento\Model\AbstractModel $transaction)
     {
-        $txnId       = $transaction->getData('txn_id');
+        $txnId = $transaction->getData('txn_id');
         $idFieldName = $this->getIdFieldName();
 
         // make sure unique key won't cause trouble
@@ -103,8 +101,6 @@ class Transaction extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     private function _getLoadByUniqueKeySelect($txnId, $columns = '*')
     {
-        return $this->_getWriteAdapter()->select()
-            ->from($this->getMainTable(), $columns)
-            ->where('txn_id = ?', $txnId);
+        return $this->_getWriteAdapter()->select()->from($this->getMainTable(), $columns)->where('txn_id = ?', $txnId);
     }
 }

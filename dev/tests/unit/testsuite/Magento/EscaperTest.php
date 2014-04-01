@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento;
+
 /**
  * \Magento\Escaper test case
  */
@@ -46,10 +46,7 @@ class EscaperTest extends \PHPUnit_Framework_TestCase
                 'data' => '<two>three</two>',
                 'expected' => '&lt;two&gt;three&lt;/two&gt;'
             ),
-            'string data no conversion' => array(
-                'data' => 'one',
-                'expected' => 'one'
-            )
+            'string data no conversion' => array('data' => 'one', 'expected' => 'one')
         );
     }
 
@@ -83,7 +80,7 @@ class EscaperTest extends \PHPUnit_Framework_TestCase
         $data = "Text with 'single' and \"double\" quotes";
         $expected = array(
             "Text with &#039;single&#039; and &quot;double&quot; quotes",
-            "Text with \\&#039;single\\&#039; and \\&quot;double\\&quot; quotes",
+            "Text with \\&#039;single\\&#039; and \\&quot;double\\&quot; quotes"
         );
         $this->assertEquals($expected[0], $this->_escaper->escapeQuote($data));
         $this->assertEquals($expected[1], $this->_escaper->escapeQuote($data, true));

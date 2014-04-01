@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
@@ -20,14 +19,13 @@ class Banner extends \Magento\Backend\App\Action
      * @var \Magento\Registry
      */
     protected $_registry = null;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $registry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $registry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $registry)
+    {
         $this->_registry = $registry;
         parent::__construct($context);
     }
@@ -103,9 +101,7 @@ class Banner extends \Magento\Backend\App\Action
             $bannerId = $this->getRequest()->getParam('id');
             $model = $this->_initBanner();
             if (!$model->getId() && $bannerId) {
-                $this->messageManager->addError(
-                    __('This banner does not exist.')
-                );
+                $this->messageManager->addError(__('This banner does not exist.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
@@ -121,16 +117,22 @@ class Banner extends \Magento\Backend\App\Action
 
             // prepare post data
             if (isset($data['banner_catalog_rules'])) {
-                $related = $this->_objectManager->get('Magento\Backend\Helper\Js')
-                    ->decodeGridSerializedInput($data['banner_catalog_rules']);
+                $related = $this->_objectManager->get(
+                    'Magento\Backend\Helper\Js'
+                )->decodeGridSerializedInput(
+                    $data['banner_catalog_rules']
+                );
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
                 }
                 $data['banner_catalog_rules'] = $related;
             }
             if (isset($data['banner_sales_rules'])) {
-                $related = $this->_objectManager->get('Magento\Backend\Helper\Js')
-                    ->decodeGridSerializedInput($data['banner_sales_rules']);
+                $related = $this->_objectManager->get(
+                    'Magento\Backend\Helper\Js'
+                )->decodeGridSerializedInput(
+                    $data['banner_sales_rules']
+                );
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
                 }
@@ -145,16 +147,12 @@ class Banner extends \Magento\Backend\App\Action
                 }
                 $model->save();
                 $this->_getSession()->setFormData(false);
-                $this->messageManager->addSuccess(
-                    __('You saved the banner.')
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $this->messageManager->addSuccess(__('You saved the banner.'));
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $redirectBack = true;
             } catch (\Exception $e) {
-                $this->messageManager->addError(
-                    __('We cannot save the banner.')
-                );
+                $this->messageManager->addError(__('We cannot save the banner.'));
                 $redirectBack = true;
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
@@ -182,13 +180,11 @@ class Banner extends \Magento\Backend\App\Action
                 $model->load($bannerId);
                 $model->delete();
                 // display success message
-                $this->messageManager->addSuccess(
-                    __('The banner has been deleted.')
-                );
+                $this->messageManager->addSuccess(__('The banner has been deleted.'));
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(
@@ -205,9 +201,7 @@ class Banner extends \Magento\Backend\App\Action
             }
         }
         // display error message
-        $this->messageManager->addError(
-            __('We cannot find a banner to delete.')
-        );
+        $this->messageManager->addError(__('We cannot find a banner to delete.'));
         // go to grid
         $this->_redirect('adminhtml/*/');
     }
@@ -229,10 +223,8 @@ class Banner extends \Magento\Backend\App\Action
                     $model->delete();
                 }
 
-                $this->messageManager->addSuccess(
-                    __('You deleted %1 record(s).', count($ids))
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $this->messageManager->addSuccess(__('You deleted %1 record(s).', count($ids)));
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(
@@ -246,7 +238,6 @@ class Banner extends \Magento\Backend\App\Action
         }
         $this->_redirect('adminhtml/*/index');
     }
-
 
     /**
      * Load Banner from request
@@ -303,17 +294,17 @@ class Banner extends \Magento\Backend\App\Action
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            $this->messageManager->addError(
-                __('This banner does not exist.')
-            );
+            $this->messageManager->addError(__('This banner does not exist.'));
             $this->_redirect('adminhtml/*/');
             return;
         }
 
         $this->_view->loadLayout();
-        $this->_view->getLayout()
-            ->getBlock('banner_salesrule_grid')
-            ->setSelectedSalesRules($this->getRequest()->getPost('selected_salesrules'));
+        $this->_view->getLayout()->getBlock(
+            'banner_salesrule_grid'
+        )->setSelectedSalesRules(
+            $this->getRequest()->getPost('selected_salesrules')
+        );
         $this->_view->renderLayout();
     }
 
@@ -330,17 +321,17 @@ class Banner extends \Magento\Backend\App\Action
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            $this->messageManager->addError(
-                __('This banner does not exist.')
-            );
+            $this->messageManager->addError(__('This banner does not exist.'));
             $this->_redirect('adminhtml/*/');
             return;
         }
 
         $this->_view->loadLayout();
-        $this->_view->getLayout()
-            ->getBlock('banner_catalogrule_grid')
-            ->setSelectedCatalogRules($this->getRequest()->getPost('selected_catalogrules'));
+        $this->_view->getLayout()->getBlock(
+            'banner_catalogrule_grid'
+        )->setSelectedCatalogRules(
+            $this->getRequest()->getPost('selected_catalogrules')
+        );
         $this->_view->renderLayout();
     }
 
@@ -356,10 +347,8 @@ class Banner extends \Magento\Backend\App\Action
 
         if ($ruleId) {
             $model->load($ruleId);
-            if (! $model->getRuleId()) {
-                $this->messageManager->addError(
-                    __('This rule no longer exists.')
-                );
+            if (!$model->getRuleId()) {
+                $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('adminhtml/*');
                 return;
             }
@@ -368,9 +357,11 @@ class Banner extends \Magento\Backend\App\Action
             $this->_registry->register('current_promo_quote_rule', $model);
         }
         $this->_view->loadLayout();
-        $this->_view->getLayout()
-            ->getBlock('related_salesrule_banners_grid')
-            ->setSelectedSalesruleBanners($this->getRequest()->getPost('selected_salesrule_banners'));
+        $this->_view->getLayout()->getBlock(
+            'related_salesrule_banners_grid'
+        )->setSelectedSalesruleBanners(
+            $this->getRequest()->getPost('selected_salesrule_banners')
+        );
         $this->_view->renderLayout();
     }
 
@@ -386,7 +377,7 @@ class Banner extends \Magento\Backend\App\Action
 
         if ($ruleId) {
             $model->load($ruleId);
-            if (! $model->getRuleId()) {
+            if (!$model->getRuleId()) {
                 $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('adminhtml/*');
                 return;
@@ -396,9 +387,11 @@ class Banner extends \Magento\Backend\App\Action
             $this->_registry->register('current_promo_catalog_rule', $model);
         }
         $this->_view->loadLayout();
-        $this->_view->getLayout()
-            ->getBlock('related_catalogrule_banners_grid')
-            ->setSelectedCatalogruleBanners($this->getRequest()->getPost('selected_catalogrule_banners'));
+        $this->_view->getLayout()->getBlock(
+            'related_catalogrule_banners_grid'
+        )->setSelectedCatalogruleBanners(
+            $this->getRequest()->getPost('selected_catalogrule_banners')
+        );
         $this->_view->renderLayout();
     }
 }

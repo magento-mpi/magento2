@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Wishlist\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 use Magento\Customer\Model\Customer;
 use Magento\Wishlist\Model\Resource\Item\CollectionFactory;
 use Magento\Wishlist\Model\Resource\Wishlist as ResourceWishlist;
@@ -28,7 +27,7 @@ use Magento\Wishlist\Model\Resource\Wishlist\Collection;
  * @method string getUpdatedAt()
  * @method \Magento\Wishlist\Model\Wishlist setUpdatedAt(string $value)
  */
-class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -41,6 +40,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @var string
      */
     protected $_eventPrefix = 'wishlist';
+
     /**
      * Wishlist item collection
      *
@@ -176,7 +176,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
             $customer = $customer->getId();
         }
 
-        $customer = (int) $customer;
+        $customer = (int)$customer;
         $customerIdFieldName = $this->_getResource()->getCustomerIdFieldName();
         $this->_getResource()->load($this, $customer, $customerIdFieldName);
         if (!$this->getId() && $create) {
@@ -288,21 +288,27 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
         if ($item === null) {
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $this->getStore()->getId();
             $item = $this->_wishlistItemFactory->create();
-            $item->setProductId($product->getId())
-                ->setWishlistId($this->getId())
-                ->setAddedAt($this->dateTime->now())
-                ->setStoreId($storeId)
-                ->setOptions($product->getCustomOptions())
-                ->setProduct($product)
-                ->setQty($qty)
-                ->save();
+            $item->setProductId(
+                $product->getId()
+            )->setWishlistId(
+                $this->getId()
+            )->setAddedAt(
+                $this->dateTime->now()
+            )->setStoreId(
+                $storeId
+            )->setOptions(
+                $product->getCustomOptions()
+            )->setProduct(
+                $product
+            )->setQty(
+                $qty
+            )->save();
             if ($item->getId()) {
                 $this->getItemCollection()->addItem($item);
             }
         } else {
             $qty = $forciblySetQty ? $qty : $item->getQty() + $qty;
-            $item->setQty($qty)
-                ->save();
+            $item->setQty($qty)->save();
         }
 
         $this->addItem($item);
@@ -318,10 +324,11 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     public function getItemCollection()
     {
         if (is_null($this->_itemCollection)) {
-            $this->_itemCollection = $this->_wishlistCollectionFactory->create()
-                ->addWishlistFilter($this)
-                ->addStoreFilter($this->getSharedStoreIds())
-                ->setVisibilityFilter();
+            $this->_itemCollection = $this->_wishlistCollectionFactory->create()->addWishlistFilter(
+                $this
+            )->addStoreFilter(
+                $this->getSharedStoreIds()
+            )->setVisibilityFilter();
         }
 
         return $this->_itemCollection;
@@ -378,7 +385,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
             // Maybe force some store by wishlist internal properties
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $product->getStoreId();
         } else {
-            $productId = (int) $product;
+            $productId = (int)$product;
             if (isset($buyRequest) && $buyRequest->getStoreId()) {
                 $storeId = $buyRequest->getStoreId();
             } else {
@@ -387,9 +394,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
         }
 
         /* @var $product \Magento\Catalog\Model\Product */
-        $product = $this->_productFactory->create()
-            ->setStoreId($storeId)
-            ->load($productId);
+        $product = $this->_productFactory->create()->setStoreId($storeId)->load($productId);
 
         if ($buyRequest instanceof \Magento\Object) {
             $_buyRequest = $buyRequest;
@@ -401,8 +406,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
             $_buyRequest = new \Magento\Object();
         }
 
-        $cartCandidates = $product->getTypeInstance()
-            ->processConfiguration($_buyRequest, $product);
+        $cartCandidates = $product->getTypeInstance()->processConfiguration($_buyRequest, $product);
 
         /**
          * Error message
@@ -427,7 +431,8 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
             }
             $candidate->setWishlistStoreId($storeId);
 
-            $qty = $candidate->getQty() ? $candidate->getQty() : 1; // No null values as qty. Convert zero to 1.
+            $qty = $candidate->getQty() ? $candidate->getQty() : 1;
+            // No null values as qty. Convert zero to 1.
             $item = $this->_addCatalogProduct($candidate, $qty, $forciblySetQty);
             $items[] = $item;
 
@@ -472,8 +477,8 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     {
         $data = array();
         $data[$this->_getResource()->getCustomerIdFieldName()] = $this->getCustomerId();
-        $data['shared']      = (int) $this->getShared();
-        $data['sharing_code']= $this->getSharingCode();
+        $data['shared'] = (int)$this->getShared();
+        $data['sharing_code'] = $this->getSharingCode();
         return $data;
     }
 
@@ -507,7 +512,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      */
     public function setSharedStoreIds($storeIds)
     {
-        $this->_storeIds = (array) $storeIds;
+        $this->_storeIds = (array)$storeIds;
         return $this;
     }
 
@@ -572,7 +577,6 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
         return $customerId == $this->getCustomerId();
     }
 
-
     /**
      * Update wishlist Item and set data from request
      *
@@ -623,9 +627,10 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
             $isForceSetQuantity = true;
             foreach ($items as $_item) {
                 /* @var $_item Item */
-                if ($_item->getProductId() == $product->getId()
-                    && $_item->representProduct($product)
-                    && $_item->getId() != $item->getId()) {
+                if ($_item->getProductId() == $product->getId() && $_item->representProduct(
+                    $product
+                ) && $_item->getId() != $item->getId()
+                ) {
                     // We do not add new wishlist item, but updating the existing one
                     $isForceSetQuantity = false;
                 }

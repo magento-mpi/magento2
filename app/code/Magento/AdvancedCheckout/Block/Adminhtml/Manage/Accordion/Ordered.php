@@ -9,7 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
-use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 /**
  * Accordion grid for recently ordered products
@@ -109,9 +109,7 @@ class Ordered extends AbstractAccordion
         parent::_construct();
         $this->setId('source_ordered');
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Last ordered items (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Last ordered items (%1)', $this->getItemsCount()));
         }
     }
 
@@ -128,7 +126,7 @@ class Ordered extends AbstractAccordion
     /**
      * Prepare customer wishlist product collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -137,14 +135,20 @@ class Ordered extends AbstractAccordion
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
 
             // Load last order of a customer
-            /* @var $collection \Magento\Core\Model\Resource\Db\Collection\AbstractCollection */
-            $collection = $this->_ordersFactory
-                ->create()
-                ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
-                ->addAttributeToFilter('store_id', array('in' => $storeIds))
-                ->addAttributeToSort('created_at', 'desc')
-                ->setPage(1, 1)
-                ->load();
+            /* @var $collection \Magento\Model\Resource\Db\Collection\AbstractCollection */
+            $collection = $this->_ordersFactory->create()->addAttributeToFilter(
+                'customer_id',
+                $this->_getCustomer()->getId()
+            )->addAttributeToFilter(
+                'store_id',
+                array('in' => $storeIds)
+            )->addAttributeToSort(
+                'created_at',
+                'desc'
+            )->setPage(
+                1,
+                1
+            )->load();
             foreach ($collection as $order) {
                 break;
             }
@@ -163,14 +167,23 @@ class Ordered extends AbstractAccordion
                 if ($productIds) {
                     // Load products collection
                     $attributes = $this->_catalogConfig->getProductAttributes();
-                    $products = $this->_productFactory->create()->getCollection()
-                        ->setStore($this->_getStore())
-                        ->addAttributeToSelect($attributes)
-                        ->addAttributeToSelect('sku')
-                        ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                        ->addAttributeToFilter('status', ProductStatus::STATUS_ENABLED)
-                        ->addStoreFilter($this->_getStore())
-                        ->addIdFilter($productIds);
+                    $products = $this->_productFactory->create()->getCollection()->setStore(
+                        $this->_getStore()
+                    )->addAttributeToSelect(
+                        $attributes
+                    )->addAttributeToSelect(
+                        'sku'
+                    )->addAttributeToFilter(
+                        'type_id',
+                        $this->_salesConfig->getAvailableProductTypes()
+                    )->addAttributeToFilter(
+                        'status',
+                        ProductStatus::STATUS_ENABLED
+                    )->addStoreFilter(
+                        $this->_getStore()
+                    )->addIdFilter(
+                        $productIds
+                    );
                     $this->_stockStatus->addIsInStockFilterToCollection($products);
                     $products->addOptionsToResult();
 
@@ -198,6 +211,6 @@ class Ordered extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewOrdered', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewOrdered', array('_current' => true));
     }
 }

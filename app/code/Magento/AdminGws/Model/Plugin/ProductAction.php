@@ -31,19 +31,22 @@ class ProductAction
      * @param string $type
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeUpdateWebsites(
-        \Magento\Catalog\Model\Product\Action $subject, $productIds, $websiteIds, $type
+        \Magento\Catalog\Model\Product\Action $subject,
+        $productIds,
+        $websiteIds,
+        $type
     ) {
         if (!$this->_role->getIsAll()) {
             if (in_array($type, array('remove', 'add'))) {
                 if (!$this->_role->getIsWebsiteLevel()) {
-                    throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
+                    throw new \Magento\Model\Exception(__('You need more permissions to save this item.'));
                 }
                 if (!$this->_role->hasWebsiteAccess($websiteIds, true)) {
-                    throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
+                    throw new \Magento\Model\Exception(__('You need more permissions to save this item.'));
                 }
             }
         }

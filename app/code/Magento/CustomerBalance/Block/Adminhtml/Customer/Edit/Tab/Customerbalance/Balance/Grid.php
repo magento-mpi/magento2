@@ -7,8 +7,7 @@
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance;
 
-class Grid extends
-    \Magento\Backend\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * @var \Magento\CustomerBalance\Model\BalanceFactory
@@ -36,9 +35,10 @@ class Grid extends
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_balanceFactory->create()
-            ->getCollection()
-            ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
+        $collection = $this->_balanceFactory->create()->getCollection()->addFieldToFilter(
+            'customer_id',
+            $this->getRequest()->getParam('id')
+        );
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

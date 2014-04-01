@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Model\Payment\Method\Specification;
 
 /**
@@ -61,10 +60,7 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
 
         $configSpecification = $this->objectManager->getObject(
             'Magento\Multishipping\Model\Payment\Method\Specification\Is3DSecure',
-            array(
-                'paymentConfig' => $this->paymentConfigMock,
-                'storeConfig' => $this->storeConfigMock,
-            )
+            array('paymentConfig' => $this->paymentConfigMock, 'storeConfig' => $this->storeConfigMock)
         );
 
         $this->assertEquals(
@@ -82,21 +78,11 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
     public function methodsDataProvider()
     {
         return array(
-            array(
-                array('allow_multiple_with_3dsecure' => 1), true, true,
-            ),
-            array(
-                array('allow_multiple_with_3dsecure' => 1), false, true,
-            ),
-            array(
-                array('allow_multiple_with_3dsecure' => 0), true, false,
-            ),
-            array(
-                array('allow_multiple_with_3dsecure' => 0), false, true,
-            ),
-            array(
-                array('no-flag' => 0), true, false,
-            ),
+            array(array('allow_multiple_with_3dsecure' => 1), true, true),
+            array(array('allow_multiple_with_3dsecure' => 1), false, true),
+            array(array('allow_multiple_with_3dsecure' => 0), true, false),
+            array(array('allow_multiple_with_3dsecure' => 0), false, true),
+            array(array('no-flag' => 0), true, false)
         );
     }
 }

@@ -39,7 +39,7 @@ namespace Magento\VersionsCms\Model;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Increment extends \Magento\Core\Model\AbstractModel
+class Increment extends \Magento\Model\AbstractModel
 {
     /*
      * Increment types
@@ -50,6 +50,7 @@ class Increment extends \Magento\Core\Model\AbstractModel
      * Increment levels
      */
     const LEVEL_VERSION = 0;
+
     const LEVEL_REVISION = 1;
 
     /**
@@ -109,9 +110,7 @@ class Increment extends \Magento\Core\Model\AbstractModel
 
         // if no counter for such combination we need to create new
         if (!$this->getId()) {
-            $this->setIncrementType($type)
-                ->setIncrementNode($node)
-                ->setIncrementLevel($level);
+            $this->setIncrementType($type)->setIncrementNode($node)->setIncrementLevel($level);
         }
 
         $newIncrementId = $this->_getNextId();

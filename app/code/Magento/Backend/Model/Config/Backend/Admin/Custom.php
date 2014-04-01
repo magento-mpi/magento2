@@ -20,13 +20,17 @@ namespace Magento\Backend\Model\Config\Backend\Admin;
 
 class Custom extends \Magento\Core\Model\Config\Value
 {
-    const CONFIG_SCOPE                      = 'stores';
-    const CONFIG_SCOPE_ID                   = 0;
+    const CONFIG_SCOPE = 'stores';
 
-    const XML_PATH_UNSECURE_BASE_URL        = 'web/unsecure/base_url';
-    const XML_PATH_SECURE_BASE_URL          = 'web/secure/base_url';
-    const XML_PATH_UNSECURE_BASE_LINK_URL   = 'web/unsecure/base_link_url';
-    const XML_PATH_SECURE_BASE_LINK_URL     = 'web/secure/base_link_url';
+    const CONFIG_SCOPE_ID = 0;
+
+    const XML_PATH_UNSECURE_BASE_URL = 'web/unsecure/base_url';
+
+    const XML_PATH_SECURE_BASE_URL = 'web/secure/base_url';
+
+    const XML_PATH_UNSECURE_BASE_LINK_URL = 'web/unsecure/base_link_url';
+
+    const XML_PATH_SECURE_BASE_LINK_URL = 'web/secure/base_link_url';
 
     /**
      * Writer of configuration storage
@@ -40,7 +44,7 @@ class Custom extends \Magento\Core\Model\Config\Value
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\App\Config\Storage\WriterInterface $configWriter
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -49,7 +53,7 @@ class Custom extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\App\Config\Storage\WriterInterface $configWriter,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -74,7 +78,7 @@ class Custom extends \Magento\Core\Model\Config\Value
         $value = $this->getValue();
 
         if (!empty($value) && substr($value, -2) !== '}}') {
-            $value = rtrim($value, '/').'/';
+            $value = rtrim($value, '/') . '/';
         }
 
         $this->setValue($value);

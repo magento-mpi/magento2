@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1\Data\Eav;
 
 use Magento\Customer\Service\V1\Data\Eav\Option;

@@ -50,7 +50,7 @@ class Calculator
             if ($negative) {
                 $this->_delta = -$this->_delta;
             }
-            $price  += $this->_delta;
+            $price += $this->_delta;
             $roundedPrice = $this->_scope->roundPrice($price);
             $this->_delta = $price - $roundedPrice;
             if ($negative) {

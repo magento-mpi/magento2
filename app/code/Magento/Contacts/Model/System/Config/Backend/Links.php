@@ -23,7 +23,6 @@ class Links extends \Magento\Backend\Model\Config\Backend\Cache implements \Mage
      */
     protected $_cacheTags = array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
 
-
     /**
      * Get identities
      *
@@ -33,5 +32,4 @@ class Links extends \Magento\Backend\Model\Config\Backend\Cache implements \Mage
     {
         return array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
     }
-
 }

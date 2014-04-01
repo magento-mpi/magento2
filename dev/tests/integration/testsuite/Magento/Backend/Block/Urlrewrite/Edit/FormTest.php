@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Urlrewrite\Edit;
 
 /**
@@ -72,15 +71,18 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         // Set urlrewrite data to session
         $sessionValues = array(
-            'store_id'     => 1,
-            'id_path'      => 'id_path',
+            'store_id' => 1,
+            'id_path' => 'id_path',
             'request_path' => 'request_path',
-            'target_path'  => 'target_path',
-            'options'      => 'options',
-            'description'  => 'description'
+            'target_path' => 'target_path',
+            'options' => 'options',
+            'description' => 'description'
         );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Session')->setUrlrewriteData($sessionValues);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Backend\Model\Session'
+        )->setUrlrewriteData(
+            $sessionValues
+        );
         // Re-init form to use newly set session data
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object()));
 
@@ -125,8 +127,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Data\Form\Element\Select', $storeElement);
 
         // Check store selection elements has correct renderer
-        $this->assertInstanceOf('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element',
-            $storeElement->getRenderer());
+        $this->assertInstanceOf(
+            'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element',
+            $storeElement->getRenderer()
+        );
 
         // Check store elements has expected values
         $storesList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -159,23 +163,23 @@ class FormTest extends \PHPUnit_Framework_TestCase
             array(
                 new \Magento\Object(),
                 array(
-                    'is_system'    => true,
-                    'id_path'      => false,
+                    'is_system' => true,
+                    'id_path' => false,
                     'request_path' => false,
-                    'target_path'  => false,
-                    'options'      => false,
-                    'description'  => false
+                    'target_path' => false,
+                    'options' => false,
+                    'description' => false
                 )
             ),
             array(
                 new \Magento\Object(array('id' => 3)),
                 array(
-                    'is_system'    => true,
-                    'id_path'      => false,
+                    'is_system' => true,
+                    'id_path' => false,
                     'request_path' => false,
-                    'target_path'  => false,
-                    'options'      => false,
-                    'description'  => false
+                    'target_path' => false,
+                    'options' => false,
+                    'description' => false
                 )
             )
         );

@@ -16,8 +16,11 @@ class Random
      * Frequently used character classes
      */
     const CHARS_LOWERS = 'abcdefghijklmnopqrstuvwxyz';
+
     const CHARS_UPPERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     const CHARS_DIGITS = '0123456789';
+
     /**#@-*/
 
     /**
@@ -33,7 +36,7 @@ class Random
             $chars = self::CHARS_LOWERS . self::CHARS_UPPERS . self::CHARS_DIGITS;
         }
         mt_srand(10000000 * (double)microtime());
-        for ($i = 0, $string = '', $lc = strlen($chars)-1; $i < $length; $i++) {
+        for ($i = 0,$string = '',$lc = strlen($chars) - 1; $i < $length; $i++) {
             $string .= $chars[mt_rand(0, $lc)];
         }
         return $string;

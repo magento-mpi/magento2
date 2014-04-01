@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Helper;
 
 /**
@@ -29,11 +28,14 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     {
         $this->storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->helper = $objectManagerHelper->getObject('Magento\Shipping\Helper\Carrier', [
-            'context' => $this->getMock('Magento\App\Helper\Context', [], [], '', false),
-            'locale' => $this->getMock('Magento\LocaleInterface'),
-            'storeConfig' => $this->storeConfig,
-        ]);
+        $this->helper = $objectManagerHelper->getObject(
+            'Magento\Shipping\Helper\Carrier',
+            array(
+                'context' => $this->getMock('Magento\App\Helper\Context', array(), array(), '', false),
+                'locale' => $this->getMock('Magento\LocaleInterface'),
+                'storeConfig' => $this->storeConfig
+            )
+        );
     }
 
     /**
@@ -56,11 +58,14 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function getOnlineCarrierCodesDataProvider()
     {
-        return [
-            [[], ['carrier1' => []]],
-            [[], ['carrier1' => ['is_online' => 0]]],
-            [['carrier1'], ['carrier1' => ['is_online' => 1], 'carrier2' => ['is_online' => 0]]],
-        ];
+        return array(
+            array(array(), array('carrier1' => array())),
+            array(array(), array('carrier1' => array('is_online' => 0))),
+            array(
+                array('carrier1'),
+                array('carrier1' => array('is_online' => 1), 'carrier2' => array('is_online' => 0))
+            )
+        );
     }
 
     public function testGetCarrierConfigValue()

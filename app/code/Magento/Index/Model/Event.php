@@ -28,15 +28,18 @@ use Magento\Index\Model\Indexer;
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Event extends \Magento\Core\Model\AbstractModel
+class Event extends \Magento\Model\AbstractModel
 {
     /**
      * Predefined event types
      */
-    const TYPE_SAVE        = 'save';
-    const TYPE_DELETE      = 'delete';
+    const TYPE_SAVE = 'save';
+
+    const TYPE_DELETE = 'delete';
+
     const TYPE_MASS_ACTION = 'mass_action';
-    const TYPE_REINDEX     = 'reindex';
+
+    const TYPE_REINDEX = 'reindex';
 
     /**
      * Array of related processes ids
@@ -73,7 +76,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param Indexer $indexer
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -82,7 +85,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         Indexer $indexer,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -222,7 +225,7 @@ class Event extends \Magento\Core\Model\AbstractModel
 
         if (!empty($data['new_data'])) {
             $previousNewData = unserialize($data['new_data']);
-            $currentNewData  = $this->getNewData(false);
+            $currentNewData = $this->getNewData(false);
             $currentNewData = $this->_mergeNewDataRecursive($previousNewData, $currentNewData);
             $this->setNewData(serialize($currentNewData));
         }

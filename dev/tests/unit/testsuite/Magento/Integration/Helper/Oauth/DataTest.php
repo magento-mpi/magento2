@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Helper\Oauth;
 
 class DataTest extends \PHPUnit_Framework_TestCase

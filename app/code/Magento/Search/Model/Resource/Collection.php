@@ -19,10 +19,8 @@ use Magento\Eav\Model\Entity\Collection\AbstractCollection;
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Catalog\Model\Resource\Product\Collection
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
-
     /**
      * Store search query text
      *
@@ -414,7 +412,7 @@ class Collection
             'locale_code'   => $localeCode,
             'filters'       => $this->_searchQueryFilters
         );
-        $params['filters']     = $this->_searchQueryFilters;
+        $params['filters'] = $this->_searchQueryFilters;
 
         if (!empty($this->_searchQueryParams)) {
             $params['ignore_handler'] = true;
@@ -442,20 +440,20 @@ class Collection
                 $params['sort_by'] = $this->_sortBy;
             }
             if ($this->_pageSize !== false) {
-                $page              = ($this->_curPage  > 0) ? (int) $this->_curPage  : 1;
-                $rowCount          = ($this->_pageSize > 0) ? (int) $this->_pageSize : 1;
-                $params['offset']  = $rowCount * ($page - 1);
-                $params['limit']   = $rowCount;
+                $page = $this->_curPage > 0 ? (int)$this->_curPage : 1;
+                $rowCount = $this->_pageSize > 0 ? (int)$this->_pageSize : 1;
+                $params['offset'] = $rowCount * ($page - 1);
+                $params['limit'] = $rowCount;
             }
 
-            $needToLoadFacetedData = (!$this->_facetedDataIsLoaded && !empty($this->_facetedConditions));
+            $needToLoadFacetedData = !$this->_facetedDataIsLoaded && !empty($this->_facetedConditions);
             if ($needToLoadFacetedData) {
                 $params['solr_params']['facet'] = 'on';
                 $params['facet'] = $this->_facetedConditions;
             }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
-            $ids    = (array) $result['ids'];
+            $ids = (array)$result['ids'];
 
             if ($needToLoadFacetedData) {
                 $this->_facetedData = $result['faceted_data'];
@@ -463,7 +461,7 @@ class Collection
             }
         }
 
-        $this->_searchedEntityIds = &$ids;
+        $this->_searchedEntityIds =& $ids;
         $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
 
         /**
@@ -492,7 +490,7 @@ class Collection
                 $sortedItems[$id] = $this->_items[$id];
             }
         }
-        $this->_items = &$sortedItems;
+        $this->_items =& $sortedItems;
 
         /**
          * Revert page size for proper paginator ranges
@@ -514,14 +512,17 @@ class Collection
             $params['limit'] = 1;
 
             $helper = $this->_searchData;
-            $searchSuggestionsEnabled = ($this->_searchQueryParams != $this->_generalDefaultQuery
-                    && $helper->getSolrConfigData('server_suggestion_enabled'));
+            $searchSuggestionsEnabled = $this->_searchQueryParams != $this->_generalDefaultQuery &&
+                $helper->getSolrConfigData(
+                    'server_suggestion_enabled'
+                );
             if ($searchSuggestionsEnabled) {
                 $params['solr_params']['spellcheck'] = 'true';
-                $searchSuggestionsCount = (int) $helper->getSolrConfigData('server_suggestion_count');
-                $params['solr_params']['spellcheck.count']  = $searchSuggestionsCount;
-                $params['spellcheck_result_counts']         = (bool) $helper->getSolrConfigData(
-                    'server_suggestion_count_results_enabled');
+                $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');
+                $params['solr_params']['spellcheck.count'] = $searchSuggestionsCount;
+                $params['spellcheck_result_counts'] = (bool)$helper->getSolrConfigData(
+                    'server_suggestion_count_results_enabled'
+                );
             }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
@@ -628,9 +629,14 @@ class Collection
      * @param string $sort
      * @return array
      */
-    public function getPriceData($lowerPrice = null, $upperPrice = null,
-        $limit = null, $offset = null, $getCount = false, $sort = 'asc')
-    {
+    public function getPriceData(
+        $lowerPrice = null,
+        $upperPrice = null,
+        $limit = null,
+        $offset = null,
+        $getCount = false,
+        $sort = 'asc'
+    ) {
         list($query, $params) = $this->_prepareBaseParams();
         $priceField = $this->_engine->getSearchEngineFieldName('price');
         $conditions = null;
@@ -665,9 +671,9 @@ class Collection
         }
         $result = array();
         foreach ($data['ids'] as $value) {
-            $result[] = (float)$value[$priceField];
+            $result[] = (double)$value[$priceField];
         }
 
-        return ($sort == 'asc') ? $result : array_reverse($result);
+        return $sort == 'asc' ? $result : array_reverse($result);
     }
 }

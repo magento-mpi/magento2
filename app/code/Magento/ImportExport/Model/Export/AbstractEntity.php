@@ -24,12 +24,14 @@ abstract class AbstractEntity
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME = 'Magento\Data\Collection';
+
     /**#@-*/
 
     /**#@+
      * XML path to page size parameter
      */
     const XML_PATH_PAGE_SIZE = '';
+
     /**#@-*/
 
     /**
@@ -193,7 +195,8 @@ abstract class AbstractEntity
         foreach ($this->_storeManager->getStores(true) as $store) {
             $this->_storeIdToCode[$store->getId()] = $store->getCode();
         }
-        ksort($this->_storeIdToCode); // to ensure that 'admin' store (ID is zero) goes first
+        ksort($this->_storeIdToCode);
+        // to ensure that 'admin' store (ID is zero) goes first
 
         return $this;
     }
@@ -223,7 +226,8 @@ abstract class AbstractEntity
     public function addRowError($errorCode, $errorRowNum)
     {
         $errorCode = (string)$errorCode;
-        $this->_errors[$errorCode][] = $errorRowNum + 1; // one added for human readability
+        $this->_errors[$errorCode][] = $errorRowNum + 1;
+        // one added for human readability
         $this->_invalidRows[$errorRowNum] = true;
         $this->_errorsCount++;
 
@@ -254,7 +258,7 @@ abstract class AbstractEntity
     /**
      * Export one item
      *
-     * @param \Magento\Core\Model\AbstractModel $item
+     * @param \Magento\Model\AbstractModel $item
      * @return void
      */
     abstract public function exportItem($item);
@@ -329,9 +333,14 @@ abstract class AbstractEntity
     {
         $messages = array();
         foreach ($this->_errors as $errorCode => $errorRows) {
-            $message = isset($this->_messageTemplates[$errorCode])
-                ? __($this->_messageTemplates[$errorCode])
-                : __("Please correct the value for '%1' column", $errorCode);
+            $message = isset(
+                $this->_messageTemplates[$errorCode]
+            ) ? __(
+                $this->_messageTemplates[$errorCode]
+            ) : __(
+                "Please correct the value for '%1' column",
+                $errorCode
+            );
             $message = (string)$message;
             $messages[$message] = $errorRows;
         }
@@ -383,12 +392,12 @@ abstract class AbstractEntity
      * Inner writer object getter
      *
      * @return AbstractAdapter
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getWriter()
     {
         if (!$this->_writer) {
-            throw new \Magento\Core\Exception(__('Please specify writer.'));
+            throw new \Magento\Model\Exception(__('Please specify writer.'));
         }
 
         return $this->_writer;

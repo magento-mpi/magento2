@@ -31,7 +31,9 @@ class GearmanTest extends \PHPUnit_Framework_TestCase
         $this->_adaptedClientMock = $this->getMock(
             '\GearmanClient',
             array('addServers', 'doBackground', 'doHighBackground', 'doLowBackground'),
-            array(), '', false
+            array(),
+            '',
+            false
         );
         $this->_adaptedClientMock->expects($this->once())->method('addServers')->with('127.0.0.1:4730');
         $this->_model = new \Magento\JobQueue\Client\Gearman($this->_configMock, $this->_adaptedClientMock);
@@ -59,9 +61,9 @@ class GearmanTest extends \PHPUnit_Framework_TestCase
     public function addBackgroundTaskDataProvider()
     {
         return array(
-            array('low',  'doLowBackground'),
-            array('middle',  'doBackground'),
-            array('high',  'doHighBackground'),
+            array('low', 'doLowBackground'),
+            array('middle', 'doBackground'),
+            array('high', 'doHighBackground')
         );
     }
 }

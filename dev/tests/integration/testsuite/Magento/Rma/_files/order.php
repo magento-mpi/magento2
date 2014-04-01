@@ -9,32 +9,40 @@
  * @license     {license_link}
  */
 
-$addressData = include(__DIR__ . '/../../../Magento/Sales/_files/address_data.php');
+$addressData = include __DIR__ . '/../../../Magento/Sales/_files/address_data.php';
 /** @var $billingAddress \Magento\Sales\Model\Order\Address */
-$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Sales\Model\Order\Address',
+    array('data' => $addressData)
+);
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
-$shippingAddress->setId(null)
-    ->setAddressType('shipping');
+$shippingAddress->setId(null)->setAddressType('shipping');
 
 /** @var $payment \Magento\Sales\Model\Order\Payment */
-$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order\Payment');
+$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
 /** @var $orderItem \Magento\Sales\Model\Order\Item */
-$orderItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order\Item');
-$orderItem->setProductId(1)
-    ->setProductType(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
-    ->setName('product name')
-    ->setSku('smp00001')
-    ->setBasePrice(100)
-    ->setQtyOrdered(1)
-    ->setQtyShipped(1)
-    ->setIsQtyDecimal(true);
+$orderItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order\Item');
+$orderItem->setProductId(
+    1
+)->setProductType(
+    \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
+)->setName(
+    'product name'
+)->setSku(
+    'smp00001'
+)->setBasePrice(
+    100
+)->setQtyOrdered(
+    1
+)->setQtyShipped(
+    1
+)->setIsQtyDecimal(
+    true
+);
 
 /** @var $order \Magento\Sales\Model\Order */
 $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

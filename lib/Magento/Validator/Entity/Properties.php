@@ -41,7 +41,7 @@ class Properties extends \Magento\Validator\AbstractValidator
     public function isValid($value)
     {
         $this->_clearMessages();
-        if (!($value instanceof Object)) {
+        if (!$value instanceof Object) {
             throw new \InvalidArgumentException('Instance of \Magento\Object is expected.');
         }
         if ($this->_readOnlyProperties) {
@@ -50,9 +50,7 @@ class Properties extends \Magento\Validator\AbstractValidator
             }
             foreach ($this->_readOnlyProperties as $property) {
                 if ($this->_hasChanges($value->getData($property), $value->getOrigData($property))) {
-                    $this->_messages[__CLASS__] = array(
-                        __("Read-only property cannot be changed.")
-                    );
+                    $this->_messages[__CLASS__] = array(__("Read-only property cannot be changed."));
                     break;
                 }
             }
@@ -69,8 +67,11 @@ class Properties extends \Magento\Validator\AbstractValidator
      */
     protected function _hasChanges($firstValue, $secondValue)
     {
-        if ($firstValue === $secondValue
-            || ($firstValue == $secondValue && is_numeric($firstValue) && is_numeric($secondValue))
+        if ($firstValue === $secondValue || $firstValue == $secondValue && is_numeric(
+            $firstValue
+        ) && is_numeric(
+            $secondValue
+        )
         ) {
             return false;
         }

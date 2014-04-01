@@ -26,7 +26,7 @@ namespace Magento\Paypal\Model\Report;
  * @method string getLastModified()
  * @method \Magento\Paypal\Model\Report\Settlement setLastModified(string $value)
  */
-class Settlement extends \Magento\Core\Model\AbstractModel
+class Settlement extends \Magento\Model\AbstractModel
 {
     /**
      * Default PayPal SFTP host
@@ -163,7 +163,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -173,7 +173,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         \Magento\App\Filesystem $filesystem,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -196,7 +196,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     /**
      * Stop saving process if file with same report date, account ID and last modified date was already ferched
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -216,7 +216,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function fetchAndSave(\Magento\Io\Sftp $connection)
     {
@@ -227,12 +227,12 @@ class Settlement extends \Magento\Core\Model\AbstractModel
             $localCsv = 'PayPal_STL_' . uniqid(mt_rand()) . time() . '.csv';
             if ($connection->read($filename, $this->_tmpDirectory->getAbsolutePath($localCsv))) {
                 if (!$this->_tmpDirectory->isWritable($localCsv)) {
-                    throw new \Magento\Core\Exception(__('We cannot create a target file for reading reports.'));
+                    throw new \Magento\Model\Exception(__('We cannot create a target file for reading reports.'));
                 }
 
                 $encoded = $this->_tmpDirectory->readFile($localCsv);
                 $csvFormat = 'new';
-                if (self::FILES_OUT_CHARSET != mb_detect_encoding(($encoded))) {
+                if (self::FILES_OUT_CHARSET != mb_detect_encoding($encoded)) {
                     $decoded = @iconv(self::FILES_IN_CHARSET, self::FILES_OUT_CHARSET . '//IGNORE', $encoded);
                     $this->_tmpDirectory->writeFile($localCsv, $decoded);
                     $csvFormat = 'old';
@@ -246,9 +246,14 @@ class Settlement extends \Magento\Core\Model\AbstractModel
                     );
                 }
 
-                $this->setReportDate($this->_fileNameToDate($filename))
-                    ->setFilename($filename)
-                    ->parseCsv($localCsv, $csvFormat);
+                $this->setReportDate(
+                    $this->_fileNameToDate($filename)
+                )->setFilename(
+                    $filename
+                )->parseCsv(
+                    $localCsv,
+                    $csvFormat
+                );
 
                 if ($this->getAccountId()) {
                     $this->save();
@@ -274,17 +279,22 @@ class Settlement extends \Magento\Core\Model\AbstractModel
      */
     public static function createConnection(array $config)
     {
-        if (!isset($config['hostname']) || !isset($config['username'])
-            || !isset($config['password']) || !isset($config['path'])
+        if (!isset(
+            $config['hostname']
+        ) || !isset(
+            $config['username']
+        ) || !isset(
+            $config['password']
+        ) || !isset(
+            $config['path']
+        )
         ) {
             throw new \InvalidArgumentException('Required config elements: hostname, username, password, path');
         }
         $connection = new \Magento\Io\Sftp();
-        $connection->open(array(
-            'host'     => $config['hostname'],
-            'username' => $config['username'],
-            'password' => $config['password']
-        ));
+        $connection->open(
+            array('host' => $config['hostname'], 'username' => $config['username'], 'password' => $config['password'])
+        );
         $connection->cd($config['path']);
         return $connection;
     }
@@ -306,24 +316,31 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         $flippedSectionColumns = array_flip($sectionColumns);
         $stream = $this->_tmpDirectory->openFile($localCsv);
         while ($line = $stream->readCsv()) {
-            if (empty($line)) { // The line was empty, so skip it.
+            if (empty($line)) {
+                // The line was empty, so skip it.
                 continue;
             }
             $lineType = $line[0];
-            switch($lineType) {
-                case 'RH': // Report header.
+            switch ($lineType) {
+                case 'RH':
+                    // Report header.
                     $lastModified = new \Magento\Stdlib\DateTime\Date($line[1]);
-                    $this->setReportLastModified($lastModified->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
+                    $this->setReportLastModified(
+                        $lastModified->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                    );
                     //$this->setAccountId($columns[2]); -- probably we'll just take that from the section header...
                     break;
-                case 'FH': // File header.
+                case 'FH':
+                    // File header.
                     // Nothing interesting here, move along
                     break;
-                case 'SH': // Section header.
+                case 'SH':
+                    // Section header.
                     $this->setAccountId($line[3]);
                     $this->loadByAccountAndDate();
                     break;
-                case 'CH': // Section columns.
+                case 'CH':
+                    // Section columns.
                     // In case ever the column order is changed, we will have the items recorded properly
                     // anyway. We have named, not numbered columns.
                     for ($i = 1; $i < count($line); $i++) {
@@ -331,18 +348,24 @@ class Settlement extends \Magento\Core\Model\AbstractModel
                     }
                     $flippedSectionColumns = array_flip($sectionColumns);
                     break;
-                case 'SB': // Section body.
+                case 'SB':
+                    // Section body.
                     $bodyItem = array();
-                    for($i = 1; $i < count($line); $i++) {
+                    for ($i = 1; $i < count($line); $i++) {
                         $bodyItem[$rowMap[$flippedSectionColumns[$i]]] = $line[$i];
                     }
                     $this->_rows[] = $bodyItem;
                     break;
-                case 'SC': // Section records count.
-                case 'RC': // Report records count.
-                case 'SF': // Section footer.
-                case 'FF': // File footer.
-                case 'RF': // Report footer.
+                case 'SC':
+                    // Section records count.
+                case 'RC':
+                    // Report records count.
+                case 'SF':
+                    // Section footer.
+                case 'FF':
+                    // File footer.
+                case 'RF':
+                    // Report footer.
                     // Nothing to see here, move along
                     break;
                 default:
