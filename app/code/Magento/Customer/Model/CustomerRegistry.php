@@ -31,8 +31,6 @@ class CustomerRegistry
      */
     private $customerRegistryByEmail = [];
 
-    const REGISTRY_SEPARATOR = ':';
-
     /**
      * Constructor
      *
@@ -62,7 +60,7 @@ class CustomerRegistry
             throw new NoSuchEntityException('customerId', $customerId);
         } else {
             $this->customerRegistryById[$customerId] = $customer;
-            $this->customerRegistryByEmail[$this->getEmailKey($customer)] = $customer;
+            $this->customerRegistryByEmail[$customer->getEmail() . $customer->getWebsiteId()] = $customer;
             return $customer;
         }
     }
@@ -77,19 +75,20 @@ class CustomerRegistry
      */
     public function retrieveByEmail($customerEmail, $websiteId)
     {
-        /** @var Customer $customer */
-        $customer = $this->customerFactory->create()->setEmail($customerEmail)->setWebsiteId($websiteId);
-        if (isset($this->customerRegistryByEmail[$this->getEmailKey($customer)])) {
-            return $this->customerRegistryByEmail[$this->getEmailKey($customer)];
+        $emailKey = $customerEmail . $websiteId;
+        if (isset($this->customerRegistryByEmail[$emailKey])) {
+            return $this->customerRegistryByEmail[$emailKey];
         }
 
+        /** @var Customer $customer */
+        $customer = $this->customerFactory->create()->setWebsiteId($websiteId);
         $customer->loadByEmail($customerEmail);
         if (!$customer->getEmail()) {
             // customer does not exist
-            throw new NoSuchEntityException('customerEmail', $customerEmail);
+            throw (new NoSuchEntityException('email', $customerEmail))->addField('websiteId', $websiteId);
         } else {
             $this->customerRegistryById[$customer->getId()] = $customer;
-            $this->customerRegistryByEmail[$this->getEmailKey($customer)] = $customer;
+            $this->customerRegistryByEmail[$emailKey] = $customer;
             return $customer;
         }
     }
@@ -102,34 +101,29 @@ class CustomerRegistry
      */
     public function remove($customerId)
     {
-        /** @var Customer $customer */
-        $customer = $this->customerRegistryById[$customerId];
-        unset($this->customerRegistryByEmail[$this->getEmailKey($customer)]);
-        unset($this->customerRegistryById[$customerId]);
+        if (isset($this->customerRegistryById[$customerId])) {
+            /** @var Customer $customer */
+            $customer = $this->customerRegistryById[$customerId];
+            unset($this->customerRegistryByEmail[$customer->getEmail() . $customer->getWebsiteId()]);
+            unset($this->customerRegistryById[$customerId]);
+        }
     }
 
     /**
      * Remove instance of the Customer Model from registry given an email
      *
      * @param string $customerEmail
+     * @param string $websiteId
      * @return void
      */
-    public function removeByEmail($customerEmail)
+    public function removeByEmail($customerEmail, $websiteId)
     {
-        /** @var Customer $customer */
-        $customer = $this->customerRegistryByEmail[$customerEmail];
-        unset($this->customerRegistryByEmail[$this->getEmailKey($customer)]);
-        unset($this->customerRegistryById[$customer->getId()]);
-    }
-
-    /**
-     * Create key for Customer email registry
-     *
-     * @param Customer $customer
-     * @return string
-     */
-    private function getEmailKey(Customer $customer)
-    {
-        return $customer->getEmail() . self::REGISTRY_SEPARATOR . $customer->getWebsiteId();
+        $emailKey = $customerEmail . $websiteId;
+        if ($emailKey) {
+            /** @var Customer $customer */
+            $customer = $this->customerRegistryByEmail[$emailKey];
+            unset($this->customerRegistryByEmail[$emailKey]);
+            unset($this->customerRegistryById[$customer->getId()]);
+        }
     }
 } 

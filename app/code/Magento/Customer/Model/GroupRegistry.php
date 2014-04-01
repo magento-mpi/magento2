@@ -49,7 +49,7 @@ class GroupRegistry
         }
         $group = $this->groupFactory->create();
         $group->load($groupId);
-        if (!$group->getId()) {
+        if (is_null($group->getId())) {
             throw new NoSuchEntityException('groupId', $groupId);
         }
         $this->registry[$groupId] = $group;

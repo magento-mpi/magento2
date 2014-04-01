@@ -60,6 +60,17 @@ class GroupRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Ensure can retrieve group with id 0 which is a valid group ID.
+     */
+    public function testRetrieveGroup0()
+    {
+        $groupId = 0;
+        $group = $this->_model->retrieve($groupId);
+        $this->assertInstanceOf('\Magento\Customer\Model\Group', $group);
+        $this->assertEquals($groupId, $group->getId());
+    }
+
+    /**
      * @magentoDataFixture Magento/Customer/_files/customer_group.php
      */
     public function testRetrieveCached()

@@ -8,6 +8,7 @@
 
 namespace Magento\Customer\Model;
 
+use Magento\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -81,16 +82,22 @@ class CustomerRegistryTest extends \PHPUnit_Framework_TestCase
         $this->_model->retrieve(self::CUSTOMER_ID);
     }
 
-    /**
-     * @expectedException \Magento\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with customerEmail = customer@example.com
-     */
     public function testRetrieveEmailException()
     {
-        $this->_model->retrieveByEmail(self::CUSTOMER_EMAIL, self::WEBSITE_ID);
+        try {
+            $this->_model->retrieveByEmail(self::CUSTOMER_EMAIL, self::WEBSITE_ID);
+            $this->fail("NoSuchEntityException was not thrown as expected.");
+        }  catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'email' => 'customer@example.com',
+                'websiteId' => '1',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
     }
 
     /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      * @expectedException \Magento\Exception\NoSuchEntityException
      */
     public function testRemove()
@@ -103,6 +110,7 @@ class CustomerRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
      * @expectedException \Magento\Exception\NoSuchEntityException
      */
     public function testRemoveByEmail()
@@ -110,7 +118,7 @@ class CustomerRegistryTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_model->retrieve(self::CUSTOMER_ID);
         $this->assertInstanceOf('\Magento\Customer\Model\Customer', $customer);
         $customer->delete();
-        $this->_model->removeByEmail(self::CUSTOMER_EMAIL);
+        $this->_model->removeByEmail(self::CUSTOMER_EMAIL, self::WEBSITE_ID);
         $this->_model->retrieveByEmail(self::CUSTOMER_EMAIL, $customer->getWebsiteId());
     }
 }
