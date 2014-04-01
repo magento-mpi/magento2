@@ -206,7 +206,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => 'test@123'];
         $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);;
+        $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
     }
 
     public function testValidateResetPasswordLinkToken()
@@ -528,7 +528,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
@@ -651,7 +653,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->fail("Expected exception.");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);

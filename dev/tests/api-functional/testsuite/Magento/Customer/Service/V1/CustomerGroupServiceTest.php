@@ -130,7 +130,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $groups = array_map(
             function ($array) {
                 return $array;
-            }, $this->_webApiCall($serviceInfo)
+            },
+            $this->_webApiCall($serviceInfo)
         );
 
         $this->assertCount(count($expectedGroups), $groups, "The number of groups returned is wrong.");
@@ -204,11 +205,15 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -288,11 +293,15 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception.");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -325,7 +334,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($groupData['code'], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
-            $groupData['tax_class_id'], $newGroup->getTaxClassId(), 'The group tax class id does not match.'
+            $groupData['tax_class_id'],
+            $newGroup->getTaxClassId(),
+            'The group tax class id does not match.'
         );
     }
 
@@ -372,7 +383,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\Exception $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -444,7 +457,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\Exception $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -484,7 +499,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\Exception $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -524,7 +541,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $group = $this->groupService->getGroup($newGroupId);
         $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
-            $groupData['tax_class_id'], $group->getTaxClassId(), 'The group tax class id did not change'
+            $groupData['tax_class_id'],
+            $group->getTaxClassId(),
+            'The group tax class id did not change'
         );
     }
 
@@ -558,7 +577,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $expectedMessage = "No such entity with id = $nonExistentGroupId";
 
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -592,7 +613,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
         $this->assertEquals($groupData['code'], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
-            $groupData['taxClassId'], $newGroup->getTaxClassId(), "The group tax class id does not match."
+            $groupData['taxClassId'],
+            $newGroup->getTaxClassId(),
+            "The group tax class id does not match."
         );
     }
 
@@ -640,7 +663,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -714,7 +739,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
             );
         }
     }
@@ -755,7 +782,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
             );
         }
     }
@@ -796,7 +825,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $group = $this->groupService->getGroup($newGroupId);
         $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
-            $groupData['taxClassId'], $group->getTaxClassId(), 'The group tax class id did not change');
+            $groupData['taxClassId'],
+            $group->getTaxClassId(),
+            'The group tax class id did not change'
+        );
     }
 
     /**
@@ -829,7 +861,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $expectedMessage = "No such entity with id = $nonExistentGroupId";
 
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -901,11 +935,15 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
     }
@@ -938,11 +976,15 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
             $this->assertContains(
-                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
             );
         }
 
@@ -964,7 +1006,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($group->getCode(), $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
-            $group->getTaxClassId(), $newGroup->getTaxClassId(), 'The group tax class id does not match.'
+            $group->getTaxClassId(),
+            $newGroup->getTaxClassId(),
+            'The group tax class id does not match.'
         );
 
         return $groupId;

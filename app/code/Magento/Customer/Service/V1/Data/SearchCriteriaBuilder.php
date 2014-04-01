@@ -9,7 +9,7 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\Data\Search\OrGroupBuilder;
 use Magento\Service\Data\AbstractObjectBuilder;
-use Magento\Service\V1\Data\FilterBuilder;;
+use Magento\Service\V1\Data\FilterBuilder;
 
 /**
  * Builder for SearchCriteria Service Data Object

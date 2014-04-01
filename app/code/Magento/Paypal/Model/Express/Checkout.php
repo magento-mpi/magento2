@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,6 +10,7 @@ namespace Magento\Paypal\Model\Express;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Paypal\Model\Config as PaypalConfig;
 
 /**
  * Wrapper that performs Paypal Express and Checkout communication
@@ -44,7 +43,7 @@ class Checkout
     /**
      * Config instance
      *
-     * @var \Magento\Paypal\Model\Config
+     * @var PaypalConfig
      */
     protected $_config;
 
@@ -67,7 +66,7 @@ class Checkout
      *
      * @var string
      */
-    protected $_methodType = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
+    protected $_methodType = PaypalConfig::METHOD_WPP_EXPRESS;
 
     /**
      * State helper variable
@@ -333,7 +332,7 @@ class Checkout
         $this->_encryptor = $encryptor;
         $this->_messageManager = $messageManager;
 
-        if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
+        if (isset($params['config']) && $params['config'] instanceof PaypalConfig) {
             $this->_config = $params['config'];
         } else {
             throw new \Exception('Config instance is required.');
@@ -452,8 +451,11 @@ class Checkout
         $this->_quote->collectTotals();
 
         if (!$this->_quote->getGrandTotal() && !$this->_quote->hasNominalItems()) {
-            throw new \Magento\Model\Exception(__('PayPal can\'t process orders with a zero balance due. '
-                . 'To finish your purchase, please go through the standard checkout process.')
+            throw new \Magento\Model\Exception(
+                __(
+                    'PayPal can\'t process orders with a zero balance due. '
+                    . 'To finish your purchase, please go through the standard checkout process.'
+                )
             );
         }
 
@@ -470,22 +472,24 @@ class Checkout
         ;
         if ($this->_giropayUrls) {
             list($successUrl, $cancelUrl, $pendingUrl) = $this->_giropayUrls;
-            $this->_api->addData(array(
-                'giropay_cancel_url' => $cancelUrl,
-                'giropay_success_url' => $successUrl,
-                'giropay_bank_txn_pending_url' => $pendingUrl,
-            ));
+            $this->_api->addData(
+                [
+                    'giropay_cancel_url' => $cancelUrl,
+                    'giropay_success_url' => $successUrl,
+                    'giropay_bank_txn_pending_url' => $pendingUrl,
+                ]
+            );
         }
 
         $this->_setBillingAgreementRequest();
 
-        if ($this->_config->requireBillingAddress == \Magento\Paypal\Model\Config::REQUIRE_BILLING_ADDRESS_ALL) {
+        if ($this->_config->requireBillingAddress == PaypalConfig::REQUIRE_BILLING_ADDRESS_ALL) {
             $this->_api->setRequireBillingAddress(1);
         }
 
         // suppress or export shipping address
         if ($this->_quote->getIsVirtual()) {
-            if ($this->_config->requireBillingAddress == \Magento\Paypal\Model\Config::REQUIRE_BILLING_ADDRESS_VIRTUAL) {
+            if ($this->_config->requireBillingAddress == PaypalConfig::REQUIRE_BILLING_ADDRESS_VIRTUAL) {
                 $this->_api->setRequireBillingAddress(1);
             }
             $this->_api->setSuppressShipping(true);
@@ -516,9 +520,10 @@ class Checkout
                 $options = $this->_prepareShippingOptions($address, true);
                 if ($options) {
                     $this->_api->setShippingOptionsCallbackUrl(
-                        $this->_coreUrl->getUrl('*/*/shippingOptionsCallback', array(
-                            'quote_id' => $this->_quote->getId()
-                        ))
+                        $this->_coreUrl->getUrl(
+                            '*/*/shippingOptionsCallback',
+                            ['quote_id' => $this->_quote->getId()]
+                        )
                     )->setShippingOptions($options);
                 }
             }
@@ -764,9 +769,7 @@ class Checkout
         }
 
         // commence redirecting to finish payment, if paypal requires it
-        if ($order->getPayment()->getAdditionalInformation(
-                \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT
-        )) {
+        if ($order->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_REDIRECT)) {
             $this->_redirectUrl = $this->_config->getExpressCheckoutCompleteUrl($token);
         }
 
@@ -894,7 +897,7 @@ class Checkout
         $isRequested = $this->_isBARequested || $this->_quote->getPayment()
             ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
 
-        if (!($this->_config->allow_ba_signup == \Magento\Paypal\Model\Config::EC_BA_SIGNUP_AUTO
+        if (!($this->_config->allow_ba_signup == PaypalConfig::EC_BA_SIGNUP_AUTO
             || $isRequested && $this->_config->shouldAskToCreateBillingAgreement())
         ) {
             return $this;
@@ -946,12 +949,14 @@ class Checkout
                 $amountExclTax = $this->_taxData->getShippingPrice($amount, false, $address);
                 $amountInclTax = $this->_taxData->getShippingPrice($amount, true, $address);
 
-                $options[$i] = new \Magento\Object(array(
-                    'is_default' => $isDefault,
-                    'name'       => trim("{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}", ' -'),
-                    'code'       => $rate->getCode(),
-                    'amount'     => $amountExclTax,
-                ));
+                $options[$i] = new \Magento\Object(
+                    [
+                        'is_default' => $isDefault,
+                        'name' => trim("{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}", ' -'),
+                        'code' => $rate->getCode(),
+                        'amount' => $amountExclTax,
+                    ]
+                );
                 if ($calculateTax) {
                     $options[$i]->setTaxAmount(
                         $amountInclTax - $amountExclTax + $address->getTaxAmount() - $address->getShippingTaxAmount()
@@ -969,12 +974,14 @@ class Checkout
         }
 
         if ($mayReturnEmpty && is_null($userSelectedOption)) {
-            $options[] = new \Magento\Object(array(
-                'is_default' => true,
-                'name'       => __('N/A'),
-                'code'       => 'no_rate',
-                'amount'     => 0.00,
-            ));
+            $options[] = new \Magento\Object(
+                [
+                    'is_default' => true,
+                    'name'       => __('N/A'),
+                    'code'       => 'no_rate',
+                    'amount'     => 0.00,
+                ]
+            );
             if ($calculateTax) {
                 $options[$i]->setTaxAmount($address->getTaxAmount());
             }

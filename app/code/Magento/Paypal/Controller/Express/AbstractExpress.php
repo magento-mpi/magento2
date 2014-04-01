@@ -2,18 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Paypal\Controller\Express;
 
+use Magento\Checkout\Model\Type\Onepage;
+use Magento\App\Action\Action as AppAction;
+use Magento\Checkout\Controller\Express\RedirectLoginInterface;
+
 /**
  * Abstract Express Checkout Controller
  */
-abstract class AbstractExpress extends \Magento\App\Action\Action
-    implements  \Magento\Checkout\Controller\Express\RedirectLoginInterface
+abstract class AbstractExpress extends AppAction implements RedirectLoginInterface
 {
     /**
      * @var \Magento\Paypal\Model\Express\Checkout
@@ -140,8 +141,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                     $this->_getQuote()->getBillingAddress(),
                     $this->_getQuote()->getShippingAddress()
                 );
-            } elseif (
-                (!$quoteCheckoutMethod || $quoteCheckoutMethod != \Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER)
+            } elseif ((!$quoteCheckoutMethod || $quoteCheckoutMethod != Onepage::METHOD_REGISTER)
                 && !$this->_objectManager->get('Magento\Checkout\Helper\Data')->isAllowedGuestCheckout(
                     $this->_getQuote(),
                     $this->_getQuote()->getStoreId()
@@ -448,9 +448,13 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                     ->setLastRealOrderId($order->getIncrementId());
             }
 
-            $this->_eventManager->dispatch('paypal_express_place_order_success', [
-                'order' => $order, 'quote' => $this->_getQuote()
-            ]);
+            $this->_eventManager->dispatch(
+                'paypal_express_place_order_success',
+                [
+                    'order' => $order,
+                    'quote' => $this->_getQuote()
+                ]
+            );
 
             // redirect if PayPal specified some URL (for example, to Giropay bank)
             $url = $this->_checkout->getRedirectUrl();

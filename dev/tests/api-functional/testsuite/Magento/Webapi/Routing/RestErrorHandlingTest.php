@@ -222,9 +222,10 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 $actualMessage = str_replace($matches[1], 'webapi-XXX', $actualMessage);
             }
             $this->assertContains(
-                $actualMessage, $errorMessages,
-                "Message is invalid. Actual: '$actualMessage'. Expected one of: {'" .
-                implode("', '", $errorMessages) . "'}"
+                $actualMessage,
+                $errorMessages,
+                "Message is invalid. Actual: '$actualMessage'. Expected one of: {'"
+                . implode("', '", $errorMessages) . "'}"
             );
 
             if ($parameters) {

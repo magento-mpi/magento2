@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Xml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -85,7 +83,7 @@ class Generator
             if (is_array($_item) && isset($_item['_attribute'])) {
                 if (is_array($_item['_value'])) {
                     if (isset($_item['_value'][0])) {
-                        foreach($_item['_value'] as $_v) {
+                        foreach ($_item['_value'] as $_v) {
                             $this->_setCurrentDom($node)->arrayToXml($_v);
                         }
                     } else {
@@ -95,7 +93,7 @@ class Generator
                     $child = $this->getDom()->createTextNode($_item['_value']);
                     $node->appendChild($child);
                 }
-                foreach($_item['_attribute'] as $_attributeKey => $_attributeValue) {
+                foreach ($_item['_attribute'] as $_attributeKey => $_attributeValue) {
                     $node->setAttribute($_attributeKey, $_attributeValue);
                 }
             } elseif (is_string($_item)) {
@@ -104,7 +102,7 @@ class Generator
             } elseif (is_array($_item) && !isset($_item[0])) {
                 $this->_setCurrentDom($node)->arrayToXml($_item);
             } elseif (is_array($_item) && isset($_item[0])) {
-                foreach($_item as $v) {
+                foreach ($_item as $v) {
                     $this->_setCurrentDom($node)->arrayToXml(array($this->_getIndexedArrayItemName() => $v));
                 }
             }

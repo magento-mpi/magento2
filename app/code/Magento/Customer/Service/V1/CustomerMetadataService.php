@@ -95,10 +95,12 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         if (null === $storeId) {
             $storeId = $this->_storeManager->getStore()->getId();
         }
-        $object = new \Magento\Object([
-            'store_id'          => $storeId,
-            'attribute_set_id'  => $attributeSetId,
-        ]);
+        $object = new \Magento\Object(
+            [
+                'store_id' => $storeId,
+                'attribute_set_id' => $attributeSetId,
+            ]
+        );
         $attributeCodes = $this->_eavConfig->getEntityAttributeCodes($entityType, $object);
 
         $attributesMetadata = [];

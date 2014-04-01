@@ -151,5 +151,4 @@ class Handler
         }
         return array(self::RESULT_NODE_NAME => $result);
     }
-
 }

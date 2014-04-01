@@ -207,7 +207,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $attributeMetadata = array_map(
             function ($array) {
                 return $array;
-            }, $this->_webApiCall($serviceInfo)
+            },
+            $this->_webApiCall($serviceInfo)
         );
 
         $this->assertCount(23, $attributeMetadata);
@@ -279,7 +280,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $attributeMetadata = array_map(
             function ($array) {
                 return $array;
-            }, $this->_webApiCall($serviceInfo)
+            },
+            $this->_webApiCall($serviceInfo)
         );
 
         $this->assertCount(19, $attributeMetadata);

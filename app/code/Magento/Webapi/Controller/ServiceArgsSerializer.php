@@ -174,11 +174,13 @@ class ServiceArgsSerializer
         } elseif ($class->hasMethod($boolGetterName)) {
             $methodName = $boolGetterName;
         } else {
-            throw new \Exception(sprintf(
-                'Property :"%s" does not exist in the Data Object class: "%s".',
-                $camelCaseProperty,
-                $class->getName()
-            ));
+            throw new \Exception(
+                sprintf(
+                    'Property :"%s" does not exist in the Data Object class: "%s".',
+                    $camelCaseProperty,
+                    $class->getName()
+                )
+            );
         }
         return $methodName;
     }

@@ -30,6 +30,7 @@ use Magento\Service\V1\Data\Filter;
  * Handle various customer account actions
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CustomerAccountService implements CustomerAccountServiceInterface
 {
