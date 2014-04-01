@@ -95,4 +95,24 @@ class Adjustment extends AbstractAdjustment
         $productId = $this->getSaleableItem()->getId();
         return $prefix . $productId . $this->getIdSuffix();
     }
+
+    /**
+     * Should be displayed price including tax
+     *
+     * @return bool
+     */
+    public function displayPriceIncludingTax()
+    {
+        return $this->priceHelper->displayPriceIncludingTax();
+    }
+
+    /**
+     * Should be displayed price excluding tax
+     *
+     * @return bool
+     */
+    public function displayPriceExcludingTax()
+    {
+        return $this->priceHelper->displayPriceExcludingTax();
+    }
 }

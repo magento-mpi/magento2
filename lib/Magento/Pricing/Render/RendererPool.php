@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -149,18 +147,30 @@ class RendererPool extends AbstractBlock
     }
 
     /**
+     * @param SaleableInterface $saleableItem
+     * @param PriceInterface $price
      * @return array
      */
-    public function getAdjustmentRenders()
+    public function getAdjustmentRenders(SaleableInterface $saleableItem = null, PriceInterface $price = null)
     {
-        $renders = [];
-        $data = (array)$this->getData('default/adjustments');
-        foreach ($data as $code => $config) {
-            list($class, $template) = $this->validateAdjustmentConfig($code, (array)$config);
-            $render = $this->getLayout()->createBlock($class);
-            $render->setTemplate($template);
-            $renders[$code] = $render;
+        $itemType = $saleableItem->getTypeId(); // simple, configurable
+        $priceType = $price->getPriceType();
+
+        $fallbackPattern = [
+            "{$itemType}/adjustments/{$priceType}",
+            "{$itemType}/adjustments/default",
+            "default/adjustments/{$priceType}",
+            "default/adjustments/default"
+            ];
+        $renders = $this->findDataByPattern($fallbackPattern);
+        if ($renders) {
+            foreach ($renders as $code => $configuration) {
+                $render = $this->getLayout()->createBlock($configuration['adjustment_render_class']);
+                $render->setTemplate($configuration['adjustment_render_template']);
+                $renders[$code] = $render;
+            }
         }
+
         return $renders;
     }
 

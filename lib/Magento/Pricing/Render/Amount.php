@@ -150,7 +150,7 @@ class Amount extends Template implements AmountRenderInterface
      */
     protected function getAdjustmentRenders()
     {
-        return $this->rendererPool->getAdjustmentRenders();
+        return $this->rendererPool->getAdjustmentRenders($this->saleableItem, $this->price);
     }
 
     /**

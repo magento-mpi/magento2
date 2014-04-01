@@ -345,10 +345,6 @@
                     <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\OptionPrice</item>
                     <item name="include_in_base_price" xsi:type="boolean">true</item>
                 </item>
-                <item name="link_price" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Downloadable\Pricing\Price\LinkPrice</item>
-                    <item name="include_in_base_price" xsi:type="boolean">true</item>
-                </item>
             </argument>
         </arguments>
     </type>
