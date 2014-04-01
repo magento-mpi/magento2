@@ -15,3 +15,6 @@ dev/tests/functional/tests/app/Magento/Widget/Test/Repository/BannerRotatorWidge
 dev/tests/functional-old/fixture/_testFiles/Enterprise*
 dev/tests/functional-old/fixture/enterprise*
 dev/tests/functional-old/testsuite/Enterprise
+dev/tools/performance_toolkit
+dev/tests/integration/testsuite/Magento/ToolkitFramework/_files/tax_rates.csv
+dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
