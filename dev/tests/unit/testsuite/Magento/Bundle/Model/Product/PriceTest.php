@@ -104,13 +104,15 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     public function calculateSpecialPrice()
     {
+        $dateFrom = $dateTo = date('Y-m-d');
+
         return array(
-            array(10, null, '2014-03-02', '2014-03-03', 0, true, 10),
-            array(10, false, '2014-03-02', '2014-03-03', 0, true, 10),
-            array(10, 50, '2014-03-02', '2014-03-03', 1, false, 10),
-            array(10, 50, '2014-03-02', '2014-03-03', 1, true, 5),
-            array(0, 50, '2014-03-02', '2014-03-03', 1, true, 0),
-            array(10, 100, '2014-03-02', '2014-03-03', 1, true, 10),
+            array(10, null, $dateFrom, $dateTo, 0, true, 10),
+            array(10, false, $dateFrom, $dateTo, 0, true, 10),
+            array(10, 50, $dateFrom, $dateTo, 1, false, 10),
+            array(10, 50, $dateFrom, $dateTo, 1, true, 5),
+            array(0, 50, $dateFrom, $dateTo, 1, true, 0),
+            array(10, 100, $dateFrom, $dateTo, 1, true, 10),
         );
     }
 }
