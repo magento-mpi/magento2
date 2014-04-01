@@ -60,19 +60,20 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Pricing\Render\Amount $amountRender */
         $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
             ->disableOriginalConstructor()
-            ->setMethods(['getPrice'])
+            ->setMethods(['getAmount'])
             ->getMock();
 
-        /** @var \Magento\Catalog\Pricing\Price\AbstractPrice $price */
-        $price = $this->getMockBuilder('Magento\Catalog\Pricing\Price\AbstractPrice')
+        /** @var \Magento\Pricing\Amount\Base $baseAmount */
+        $baseAmount = $this->getMockBuilder('Magento\Pricing\Amount\Base')
             ->disableOriginalConstructor()
-            ->setMethods(['getDisplayValue'])
+            ->setMethods(['getValue'])
             ->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManager->getConstructArguments('Magento\Tax\Pricing\Render\Adjustment', array(
             'priceCurrency' => $priceCurrency
         ));
+
         /** @var \Magento\Tax\Pricing\Render\Adjustment $model */
         $model = $this->getMockBuilder('Magento\Tax\Pricing\Render\Adjustment')
             ->setConstructorArgs($constructArguments)
@@ -81,8 +82,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
 
         // Avoid executing irrelevant functionality; Set values to return;
         $model->expects($this->any())->method('toHtml')->will($this->returnValue($expectedHtml));
-        $amountRender->expects($this->any())->method('getPrice')->will($this->returnValue($price));
-        $price->expects($this->any())->method('getDisplayValue')->will($this->returnValue($expectedPriceValue));
+        $amountRender->expects($this->any())->method('getAmount')->will($this->returnValue($baseAmount));
+        $baseAmount->expects($this->any())->method('getValue')->will($this->returnValue($expectedPriceValue));
         $priceCurrency->expects($this->any())->method('convertAndFormat')->will($this->returnValue($expectedPrice));
 
 
@@ -117,13 +118,13 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Pricing\Render\Amount $amountRender */
         $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
             ->disableOriginalConstructor()
-            ->setMethods(['getPrice'])
+            ->setMethods(['getAmount'])
             ->getMock();
 
-        /** @var \Magento\Catalog\Pricing\Price\AbstractPrice $price */
-        $price = $this->getMockBuilder('Magento\Catalog\Pricing\Price\AbstractPrice')
+        /** @var \Magento\Pricing\Amount\Base $baseAmount */
+        $baseAmount = $this->getMockBuilder('Magento\Pricing\Amount\Base')
             ->disableOriginalConstructor()
-            ->setMethods(['getDisplayValue'])
+            ->setMethods(['getValue'])
             ->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -138,8 +139,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
 
         // Avoid executing irrelevant functionality; Set values to return;
         $model->expects($this->any())->method('toHtml')->will($this->returnValue($expectedHtml));
-        $amountRender->expects($this->any())->method('getPrice')->will($this->returnValue($price));
-        $price->expects($this->any())->method('getDisplayValue')->will($this->returnValue($expectedPriceValue));
+        $amountRender->expects($this->any())->method('getAmount')->will($this->returnValue($baseAmount));
+        $baseAmount->expects($this->any())->method('getValue')->will($this->returnValue($expectedPriceValue));
         $priceCurrency->expects($this->any())
             ->method('convertAndFormat')
             ->with($this->anything(), $this->equalTo($includeContainer))
