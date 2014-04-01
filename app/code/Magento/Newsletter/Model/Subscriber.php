@@ -423,7 +423,7 @@ class Subscriber extends \Magento\Model\AbstractModel
                 $customer = $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
                 $this->setStoreId($customer->getStoreId());
                 $this->setCustomerId($customer->getId());
-            } catch(NoSuchEntityException $e) {
+            } catch (NoSuchEntityException $e) {
                 $this->setStoreId($this->_storeManager->getStore()->getId());
                 $this->setCustomerId(0);
             }
@@ -443,7 +443,6 @@ class Subscriber extends \Magento\Model\AbstractModel
             } else {
                 $this->sendConfirmationSuccessEmail();
             }
-
             return $this->getStatus();
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
