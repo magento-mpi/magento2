@@ -13,6 +13,7 @@ use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Mail\Exception as MailException;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAccountService
@@ -747,7 +748,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
 
-        $exception = new \Magento\Mail\Exception(__('The mail server is down'));
+        $exception = new MailException(__('The mail server is down'));
 
         $this->_customerModelMock->expects($this->once())
             ->method('sendPasswordResetConfirmationEmail')
@@ -1089,7 +1090,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getConfirmation')
             ->will($this->returnValue('123abc'));
 
-        $exception = new \Magento\Mail\Exception(__('The mail server is down'));
+        $exception = new MailException(__('The mail server is down'));
 
         $this->_customerModelMock->expects($this->once())
             ->method('sendNewAccountEmail')
@@ -1845,7 +1846,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(true));
 
-        $exception = new \Magento\Mail\Exception(__('The mail server is down'));
+        $exception = new MailException(__('The mail server is down'));
 
         $this->_customerModelMock->expects($this->once())
             ->method('sendNewAccountEmail')
@@ -1854,10 +1855,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_loggerMock->expects($this->once())
             ->method('logException')
             ->with($exception);
-
-        $this->_customerModelMock->expects($this->once())
-            ->method('getAttributes')
-            ->will($this->returnValue([]));
 
         $mockCustomer = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
@@ -1872,7 +1869,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(['attributeSetId' => true]));
 
         /**
-         * @var \Magento\Customer\Service\V1\Data\CustomerDetails | \PHPUnit_Framework_MockObject_MockObject
+         * @var Data\CustomerDetails | \PHPUnit_Framework_MockObject_MockObject
          */
         $mockCustomerDetail = $this->getMockBuilder('Magento\Customer\Service\V1\Data\CustomerDetails')
             ->disableOriginalConstructor()
