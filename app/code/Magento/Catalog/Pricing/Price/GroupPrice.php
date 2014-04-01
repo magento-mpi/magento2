@@ -57,11 +57,10 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
     {
         if ($this->value === null) {
             $this->value = false;
-
             $customerGroup = $this->getCustomerGroupId();
             foreach ($this->getStoredGroupPrice() as $groupPrice) {
                 if ($groupPrice['cust_group'] == $customerGroup) {
-                    $this->value = $groupPrice['website_price'];
+                    $this->value = (float) $groupPrice['website_price'];
                     break;
                 }
             }

@@ -17,6 +17,10 @@ use Magento\Pricing\Render as PricingRender;
 
 /**
  * Catalog Price Render
+ *
+ * @method string getPriceRender()
+ * @method string getPriceTypeCode()
+ * @method string getDisplayMsrpHelpMessage()
  */
 class Render extends Template
 {
@@ -34,7 +38,7 @@ class Render extends Template
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Registry $registry,
+        Registry $registry,
         array $data = []
     ) {
         $this->registry = $registry;

@@ -157,7 +157,24 @@ class Create extends \Magento\Rma\Block\Form
             }
         }
 
-        uasort($attributes, array($this, '_compareSortOrder'));
+        uasort(
+            $attributes,
+            // @codingStandardsIgnoreStart
+            /**
+             * Compares sort order of attributes, returns -1, 0 or 1 if $a sort
+             * order is less, equal or greater than $b sort order respectively.
+             *
+             * @param Attribute $a
+             * @param Attribute $b
+             *
+             * @return int
+             */
+            // @codingStandardsIgnoreEnd
+            function (Attribute $a, Attribute $b) {
+                $diff = $a->getSortOrder() - $b->getSortOrder();
+                return $diff ? ($diff > 0 ? 1 : -1) : 0;
+            }
+        );
 
         return $attributes;
     }
@@ -176,20 +193,5 @@ class Create extends \Magento\Rma\Block\Form
             $email = $this->escapeHtml($data->getCustomerCustomEmail());
         }
         return $email;
-    }
-
-    /**
-     * Compares sort order of attributes, returns -1, 0 or 1 if $a sort
-     * order is less, equal or greater than $b sort order respectively.
-     *
-     * @param Attribute $a
-     * @param Attribute $b
-     *
-     * @return int
-     */
-    protected function _compareSortOrder(Attribute $a, Attribute $b)
-    {
-        $diff = $a->getSortOrder() - $b->getSortOrder();
-        return $diff ? $diff > 0 ? 1 : -1 : 0;
     }
 }

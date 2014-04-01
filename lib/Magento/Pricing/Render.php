@@ -25,6 +25,15 @@ use Magento\Pricing\Price\PriceInterface;
 class Render extends AbstractBlock
 {
     /**
+     * Zones where prices displaying can be configured
+     */
+    const ZONE_PRODUCT_VIEW = 'product_view';
+    const ZONE_PRODUCT_LIST = 'product_list';
+    const ZONE_SALES        = 'sales';
+    const ZONE_EMAIL        = 'email';
+    const ZONE_DEFAULT      = null;
+
+    /**
      * Default type renderer
      *
      * @var string
@@ -89,6 +98,7 @@ class Render extends AbstractBlock
         // obtain concrete Price Render
         $priceRender = $rendererPool->createPriceRender($priceCode, $saleableItem, $useArguments);
         if ($priceRender) {
+            //@TODO PriceBoxRenderInterface does not contain toHtml() method
             $result = $priceRender->toHtml();
         } else {
             $result = '';

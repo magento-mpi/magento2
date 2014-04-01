@@ -150,7 +150,7 @@ class Amount extends Template implements AmountRenderInterface
      */
     protected function getAdjustmentRenders()
     {
-        return $this->rendererPool->getAdjustmentRenders();
+        return $this->rendererPool->getAdjustmentRenders($this->saleableItem, $this->price);
     }
 
     /**
@@ -195,7 +195,7 @@ class Amount extends Template implements AmountRenderInterface
      */
     protected function setAdjustmentCssClasses($adjustmentRenders)
     {
-        $cssClasses = $this->hasData('css_classes') ? $this->getData('css_classes') : [];
+        $cssClasses = $this->hasData('css_classes') ? explode(' ', $this->getData('css_classes')) : [];
         $cssClasses = array_merge($cssClasses, array_keys($adjustmentRenders));
         $this->setData('adjustment_css_classes', join(' ', $cssClasses));
         return $this;

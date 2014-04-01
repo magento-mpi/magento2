@@ -205,15 +205,22 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
      */
     public function getProductPrice(\Magento\Catalog\Model\Product $product, $type)
     {
-        return $this->getLayout()->getBlock('product.price.render.default')
-            ->render(
-                'final_price',
+        /** @var \Magento\Pricing\Render $priceRender */
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
                 $product,
                 [
-                    'price_id' => 'old-price-' . $product->getId() . '-' . $type,
+                    'price_id'              => 'old-price-' . $product->getId() . '-' . $type,
                     'display_minimal_price' => true,
-                    'include_container' => true
+                    'include_container'     => true,
+                    'zone'                  => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
                 ]
             );
+        }
+        return $price;
     }
 }
