@@ -48,9 +48,9 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\AddressFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\AddressRegistry
      */
-    private $_addressFactoryMock;
+    private $_addressRegistryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Customer
@@ -148,9 +148,9 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             )
             ->getMock();
 
-        $this->_addressFactoryMock = $this->getMockBuilder('Magento\Customer\Model\AddressFactory')
+        $this->_addressRegistryMock = $this->getMockBuilder('Magento\Customer\Model\AddressRegistry')
             ->disableOriginalConstructor()
-            ->setMethods(array('create'))
+            ->setMethods(array('retrieve', 'remove'))
             ->getMock();
 
         $this->_directoryData = $this->getMockBuilder('\Magento\Directory\Helper\Data')
@@ -287,8 +287,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $addressMock->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue(self::ID));
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
+        $this->_addressRegistryMock->expects($this->once())
+            ->method('retrieve')
             ->will($this->returnValue($addressMock));
         $this->_customerModelMock->expects($this->any())
             ->method('load')
@@ -378,8 +378,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('save');
         $mockAddress->expects($this->any())
             ->method('setData');
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
+        $mockAddress->expects($this->any())
+            ->method('setCustomer');
+        $this->_addressConverterMock->expects($this->once())
+            ->method('createAddressModel')
             ->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
@@ -479,8 +481,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('save');
         $mockAddress->expects($this->any())
             ->method('setData');
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
+        $this->_addressConverterMock->expects($this->once())
+            ->method('createAddressModel')
             ->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
@@ -549,8 +551,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $mockAddress->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue(self::ID));
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
+        $this->_addressRegistryMock->expects($this->once())
+            ->method('retrieve')
             ->will($this->returnValue($mockAddress));
 
         // verify delete is called on the mock address model
@@ -568,9 +570,9 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $mockAddress->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue(self::ID));
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockAddress));
+        $this->_addressRegistryMock->expects($this->once())
+            ->method('retrieve')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('addressId', 2)));
 
         // verify delete is called on the mock address model
         $mockAddress->expects($this->never())
@@ -609,8 +611,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         // Setup address mock, no first name
         $mockAddress = $this->_createAddress(1, '');
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
+        $this->_addressConverterMock->expects($this->once())
+            ->method('createAddressModel')
             ->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
@@ -721,8 +723,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private function _createService()
     {
         $customerService = new CustomerAddressService(
-            $this->_addressFactoryMock,
             $this->_customerConverter,
+            $this->_addressRegistryMock,
             $this->_addressConverterMock,
             $this->_directoryData
         );
@@ -760,7 +762,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                     'setFirstname', 'load', 'save', '__sleep', '__wakeup',
                     'getDefaultAttributeCodes', 'getAttributes', 'getData',
                     'getCustomerId', 'getParentId', 'delete', 'validate',
-                    'getCountryModel', 'getRegionCollection', 'getSize'
+                    'getCountryModel', 'getRegionCollection', 'getSize', 'setCustomer'
                 ]
             )
             ->getMock();

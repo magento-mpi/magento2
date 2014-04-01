@@ -47,19 +47,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\ManagerInterface
-     */
-    private $_eventManagerMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\StoreManagerInterface
      */
     private $_storeManagerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Math\Random
-     */
-    private $_mathRandomMock;
 
     /**
      * @var Converter
@@ -70,11 +60,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\Store
      */
     private $_storeMock;
-
-    /**
-     * @var \Magento\Customer\Model\Metadata\Validator
-     */
-    private $_validator;
 
     /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     private $_customerBuilder;
@@ -91,11 +76,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataService
      */
     private $_customerMetadataService;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\UrlInterface
-     */
-    private $_urlMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data
@@ -165,25 +145,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             )
             ->getMock();
 
-        $this->_eventManagerMock =
-            $this->getMockBuilder('\Magento\Event\ManagerInterface')
-                ->disableOriginalConstructor()
-                ->getMock();
-
         $this->_customerModelMock
             ->expects($this->any())
             ->method('validate')
             ->will($this->returnValue(TRUE));
 
         $this->_setupStoreMock();
-
-        $this->_mathRandomMock = $this->getMockBuilder('\Magento\Math\Random')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_validator = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Validator')
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $this->_customerMetadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
@@ -223,12 +190,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with('Magento\Customer\Helper\Data')
             ->will($this->returnValue($this->_customerHelperMock));
-
-        $this->_urlMock =
-            $this->getMockBuilder('\Magento\UrlInterface')
-                ->disableOriginalConstructor()
-                ->getMock();
-
     }
 
 
@@ -1619,20 +1580,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private function _createService()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $customerService = new CustomerAccountService(
-            $this->_customerFactoryMock,
-            $this->_eventManagerMock,
-            $this->_storeManagerMock,
-            $this->_mathRandomMock,
-            $this->_converter,
-            $this->_validator,
-            $objectManager->getObject('\Magento\Customer\Service\V1\Data\CustomerBuilder'),
-            $this->_customerDetailsBuilder,
-            new Data\SearchResultsBuilder,
-            $this->_customerAddressServiceMock,
-            $this->_customerMetadataService,
-            $this->_urlMock,
-            $this->_objectManagerMock
+        $customerService = $objectManager->getObject('Magento\Customer\Service\V1\CustomerAccountService',
+            [
+                'customerFactory' => $this->_customerFactoryMock,
+                'storeManager' => $this->_storeManagerMock,
+                'converter' => $this->_converter,
+                'searchResultsBuilder' => new Data\SearchResultsBuilder,
+                'customerDetailsBuilder' => $this->_customerDetailsBuilder,
+                'customerAddressService' => $this->_customerAddressServiceMock,
+                'customerMetadataService' => $this->_customerMetadataService,
+            ]
         );
         return $customerService;
     }
