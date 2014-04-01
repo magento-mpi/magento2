@@ -531,10 +531,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveAddresses(4200, [$this->_addressBuilder->create()]);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $nsee->getParams(),
+                $e->getParams(),
                 [
                     'customerId' => 4200,
                 ]

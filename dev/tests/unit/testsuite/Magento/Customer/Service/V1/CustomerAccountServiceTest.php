@@ -308,10 +308,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $nsee->getParams(),
+                $e->getParams(),
                 [
                     'customerId' => self::ID,
                 ]
@@ -525,10 +525,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->validateResetPasswordLinkToken(1, $resetToken);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $nsee->getParams(),
+                $e->getParams(),
                 [
                     'customerId' => self::ID,
                 ]
@@ -599,10 +599,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->initiatePasswordReset($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $nsee->getParams(),
+                $e->getParams(),
                 [
                     'email' => $email,
                     'websiteId' => 0
@@ -803,10 +803,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->resetPassword($invalidCustomerId, $resetToken, $password);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $nsee->getParams(),
+                $e->getParams(),
                 [
                     'customerId' => $invalidCustomerId,
                 ]
@@ -884,12 +884,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->resendConfirmation('email@no.customer', 1);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'email' => self::EMAIL,
                 'websiteId' => self::WEBSITE_ID
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals($expectedParams, $e->getParams());
         }
     }
 
