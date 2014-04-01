@@ -435,6 +435,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             'default_billing',
             null,
             'left'
+        )->joinAttribute(
+            'company',
+            'customer_address/company',
+            'default_billing',
+            null,
+            'left'
         );
         $this->addFiltersToCollection($searchCriteria->getFilters(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
