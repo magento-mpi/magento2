@@ -39,6 +39,11 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
      */
     protected $priceInfo;
 
+    /**
+     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $calculator;
+
     protected function setUp()
     {
         $this->saleableItem = $this->getMock(
@@ -65,6 +70,10 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('base_price'))
             ->will($this->returnValue($this->price));
 
+        $this->calculator = $this->getMockBuilder('Magento\Pricing\Adjustment\Calculator')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->helper = $this->getMock(
             '\Magento\Catalog\Helper\Data',
             ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'isMsrpEnabled', 'canApplyMsrp'],
@@ -76,6 +85,7 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
         $this->object = new MsrpPrice(
             $this->saleableItem,
             PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT,
+            $this->calculator,
             $this->helper
         );
     }
