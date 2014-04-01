@@ -44,7 +44,13 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeManager = $this->getMockForAbstractClass(
-            'Magento\Store\Model\StoreManagerInterface', array(), '', true, true, true, array('getStores')
+            'Magento\Store\Model\StoreManagerInterface',
+            array(),
+            '',
+            true,
+            true,
+            true,
+            array('getStores')
         );
         $this->_designPackage = $this->getMockForAbstractClass(
             'Magento\View\DesignInterface',

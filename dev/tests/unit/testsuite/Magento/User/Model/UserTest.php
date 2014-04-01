@@ -53,58 +53,71 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_userData = $this->getMockBuilder('Magento\User\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $this->_coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $this->_contextMock = $this->getMockBuilder('Magento\Model\Context')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $this->_resourceMock = $this->getMockBuilder('Magento\User\Model\Resource\User')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $this->_collectionMock = $this->getMockBuilder('Magento\Data\Collection\Db')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $coreRegistry = $this->getMockBuilder('Magento\Registry')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $eventManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $objectFactoryMock = $this->getMockBuilder('Magento\Validator\ObjectFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('create'))
-            ->getMock();
-        $roleFactoryMock = $this->getMockBuilder('Magento\User\Model\RoleFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('create'))
-            ->getMock();
-        $this->_transportMock = $this->getMockBuilder('Magento\Mail\TransportInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $this->_transportBuilderMock = $this->getMockBuilder('\Magento\Mail\Template\TransportBuilder')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $this->_storetMock = $this->getMockBuilder('\Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
-        $this->_storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManagerInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array())
-            ->getMock();
+        $this->_userData = $this->getMockBuilder(
+            'Magento\User\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $this->_coreData = $this->getMockBuilder(
+            'Magento\Core\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $this->_contextMock = $this->getMockBuilder(
+            'Magento\Model\Context'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $this->_resourceMock = $this->getMockBuilder(
+            'Magento\User\Model\Resource\User'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $this->_collectionMock = $this->getMockBuilder(
+            'Magento\Data\Collection\Db'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $coreRegistry = $this->getMockBuilder(
+            'Magento\Registry'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $eventManagerMock = $this->getMockBuilder(
+            'Magento\Event\ManagerInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $objectFactoryMock = $this->getMockBuilder(
+            'Magento\Validator\ObjectFactory'
+        )->disableOriginalConstructor()->setMethods(
+            array('create')
+        )->getMock();
+        $roleFactoryMock = $this->getMockBuilder(
+            'Magento\User\Model\RoleFactory'
+        )->disableOriginalConstructor()->setMethods(
+            array('create')
+        )->getMock();
+        $this->_transportMock = $this->getMockBuilder(
+            'Magento\Mail\TransportInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $this->_transportBuilderMock = $this->getMockBuilder(
+            '\Magento\Mail\Template\TransportBuilder'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $this->_storetMock = $this->getMockBuilder(
+            '\Magento\Store\Model\Store'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
+        $this->_storeManagerMock = $this->getMockBuilder(
+            '\Magento\Store\Model\StoreManagerInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array()
+        )->getMock();
 
         $this->_configMock = $this->getMockBuilder(
             '\Magento\Backend\App\ConfigInterface'

@@ -76,9 +76,12 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
         if ($returnUrl && $this->_isInternalUrl($returnUrl)) {
             $this->messageManager->getMessages()->clear();
             $this->getResponse()->setRedirect($returnUrl);
-        } elseif (!$this->_storeConfig->getValue('checkout/cart/redirect_to_cart', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            && !$this->getRequest()->getParam('in_cart')
-            && ($backUrl = $this->_redirect->getRefererUrl())
+        } elseif (!$this->_storeConfig->getValue(
+            'checkout/cart/redirect_to_cart',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && !$this->getRequest()->getParam(
+            'in_cart'
+        ) && ($backUrl = $this->_redirect->getRefererUrl())
         ) {
             $this->getResponse()->setRedirect($backUrl);
         } else {
@@ -100,9 +103,13 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId) {
             $storeId = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
-            $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
-                ->setStoreId($storeId)
-                ->load($productId);
+            $product = $this->_objectManager->create(
+                'Magento\Catalog\Model\Product'
+            )->setStoreId(
+                $storeId
+            )->load(
+                $productId
+            );
             if ($product->getId()) {
                 return $product;
             }
@@ -122,15 +129,30 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
             $this->cart->save();
 
             if (!$this->cart->getQuote()->validateMinimumAmount()) {
-                $currencyCode = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()
-                    ->getCurrentCurrencyCode();
-                $minimumAmount = $this->_objectManager->get('Magento\Locale\CurrencyInterface')
-                    ->getCurrency($currencyCode)
-                    ->toCurrency($this->_storeConfig->getValue('sales/minimum_order/amount', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+                $currencyCode = $this->_objectManager->get(
+                    'Magento\Store\Model\StoreManagerInterface'
+                )->getStore()->getCurrentCurrencyCode();
+                $minimumAmount = $this->_objectManager->get(
+                    'Magento\Locale\CurrencyInterface'
+                )->getCurrency(
+                    $currencyCode
+                )->toCurrency(
+                    $this->_storeConfig->getValue(
+                        'sales/minimum_order/amount',
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                    )
+                );
 
-                $warning = $this->_storeConfig->getValue('sales/minimum_order/description', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-                    ? $this->_storeConfig->getValue('sales/minimum_order/description', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-                    : __('Minimum order amount is %1', $minimumAmount);
+                $warning = $this->_storeConfig->getValue(
+                    'sales/minimum_order/description',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ) ? $this->_storeConfig->getValue(
+                    'sales/minimum_order/description',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ) : __(
+                    'Minimum order amount is %1',
+                    $minimumAmount
+                );
 
                 $this->messageManager->addNotice($warning);
             }
@@ -541,7 +563,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
     {
         $code = (string)$this->getRequest()->getParam('estimate_method');
         if (!empty($code)) {
-            $this->cart->getQuote()->getShippingAddress()->setShippingMethod($code)/*->collectTotals()*/->save();
+            $this->cart->getQuote()->getShippingAddress()->setShippingMethod($code)->save();
         }
         $this->_goBack();
     }

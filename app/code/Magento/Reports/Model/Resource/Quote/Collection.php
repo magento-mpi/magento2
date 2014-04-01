@@ -134,46 +134,50 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
         $productAttrPriceTable = $productAttrPrice->getBackend()->getTable();
 
         $ordersSubSelect = clone $this->getSelect();
-        $ordersSubSelect->reset()
-            ->from(
-                array('oi' => $this->getTable('sales_flat_order_item')),
-                array(
-                   'orders' => new \Zend_Db_Expr('COUNT(1)'),
-                   'product_id'))
-            ->group('oi.product_id');
+        $ordersSubSelect->reset()->from(
+            array('oi' => $this->getTable('sales_flat_order_item')),
+            array('orders' => new \Zend_Db_Expr('COUNT(1)'), 'product_id')
+        )->group(
+            'oi.product_id'
+        );
 
-        $this->getSelect()
-            ->useStraightJoin(true)
-            ->reset(\Zend_Db_Select::COLUMNS)
-            ->joinInner(
-                array('quote_items' => $this->getTable('sales_flat_quote_item')),
-                'quote_items.quote_id = main_table.entity_id',
-                null)
-            ->joinInner(
-                array('e' => $this->getTable('catalog_product_entity')),
-                'e.entity_id = quote_items.product_id',
-                null)
-            ->joinInner(
-                array('product_name' => $productAttrNameTable),
-                "product_name.entity_id = e.entity_id
-                AND product_name.attribute_id = {$productAttrNameId}
-                AND product_name.store_id = " . \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-                array('name' => 'product_name.value')
-            )
-            ->joinInner(
-                array('product_price' => $productAttrPriceTable),
-                "product_price.entity_id = e.entity_id AND product_price.attribute_id = {$productAttrPriceId}",
-                array('price' => new \Zend_Db_Expr('product_price.value * main_table.base_to_global_rate')))
-            ->joinLeft(
-                array('order_items' => new \Zend_Db_Expr(sprintf('(%s)', $ordersSubSelect))),
-                'order_items.product_id = e.entity_id',
-                array()
-            )
-            ->columns('e.*')
-            ->columns(array('carts' => new \Zend_Db_Expr('COUNT(quote_items.item_id)')))
-            ->columns('order_items.orders')
-            ->where('main_table.is_active = ?', 1)
-            ->group('quote_items.product_id');
+        $this->getSelect()->useStraightJoin(
+            true
+        )->reset(
+            \Zend_Db_Select::COLUMNS
+        )->joinInner(
+            array('quote_items' => $this->getTable('sales_flat_quote_item')),
+            'quote_items.quote_id = main_table.entity_id',
+            null
+        )->joinInner(
+            array('e' => $this->getTable('catalog_product_entity')),
+            'e.entity_id = quote_items.product_id',
+            null
+        )->joinInner(
+            array('product_name' => $productAttrNameTable),
+            "product_name.entity_id = e.entity_id\n                AND product_name.attribute_id = {$productAttrNameId}\n                AND product_name.store_id = " .
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+            array('name' => 'product_name.value')
+        )->joinInner(
+            array('product_price' => $productAttrPriceTable),
+            "product_price.entity_id = e.entity_id AND product_price.attribute_id = {$productAttrPriceId}",
+            array('price' => new \Zend_Db_Expr('product_price.value * main_table.base_to_global_rate'))
+        )->joinLeft(
+            array('order_items' => new \Zend_Db_Expr(sprintf('(%s)', $ordersSubSelect))),
+            'order_items.product_id = e.entity_id',
+            array()
+        )->columns(
+            'e.*'
+        )->columns(
+            array('carts' => new \Zend_Db_Expr('COUNT(quote_items.item_id)'))
+        )->columns(
+            'order_items.orders'
+        )->where(
+            'main_table.is_active = ?',
+            1
+        )->group(
+            'quote_items.product_id'
+        );
 
         return $this;
     }

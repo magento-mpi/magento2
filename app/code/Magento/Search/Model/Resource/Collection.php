@@ -401,16 +401,16 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _prepareBaseParams()
     {
-        $store  = $this->_storeManager->getStore();
+        $store = $this->_storeManager->getStore();
         $localeCode = $this->_storeConfig->getValue(
             $this->_localeResolver->getDefaultLocalePath(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
         $params = array(
-            'store_id'      => $store->getId(),
-            'locale_code'   => $localeCode,
-            'filters'       => $this->_searchQueryFilters
+            'store_id' => $store->getId(),
+            'locale_code' => $localeCode,
+            'filters' => $this->_searchQueryFilters
         );
         $params['filters'] = $this->_searchQueryFilters;
 
@@ -514,8 +514,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $helper = $this->_searchData;
             $searchSuggestionsEnabled = $this->_searchQueryParams != $this->_generalDefaultQuery &&
                 $helper->getSolrConfigData(
-                    'server_suggestion_enabled'
-                );
+                'server_suggestion_enabled'
+            );
             if ($searchSuggestionsEnabled) {
                 $params['solr_params']['spellcheck'] = 'true';
                 $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');

@@ -18,23 +18,28 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetReturnAddressData($useStoreAddress, $storeConfigData, $mockConfig, $expectedResult)
     {
         $storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $storeConfigMock->expects($this->atLeastOnce())
-            ->method('isSetFlag')
-            ->with(
-                \Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $mockConfig['store_id']
-            )
-            ->will($this->returnValue($useStoreAddress));
+        $storeConfigMock->expects(
+            $this->atLeastOnce()
+        )->method(
+            'isSetFlag'
+        )->with(
+            \Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $mockConfig['store_id']
+        )->will(
+            $this->returnValue($useStoreAddress)
+        );
 
-        $storeConfigMock->expects($this->atLeastOnce())
-            ->method('getValue')
-            ->will($this->returnValueMap($storeConfigData));
+        $storeConfigMock->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnValueMap($storeConfigData)
+        );
 
         $context = $this->getMock('Magento\App\Helper\Context', array('getApp'), array(), '', false, false);
-        $context->expects($this->any())
-            ->method('getApp')
-            ->will($this->returnValue($this->_getAppMock($mockConfig)));
+        $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Rma\Helper\Data $model */
@@ -76,9 +81,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $countryFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($countryMock));
+        $countryFactoryMock->expects($this->any())->method('create')->will($this->returnValue($countryMock));
 
         return $countryFactoryMock;
     }
@@ -102,9 +105,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $regionMock->expects($this->any())->method('getCode')->will($this->returnValue($mockConfig['region_id']));
         $regionMock->expects($this->any())->method('getName')->will($this->returnValue($mockConfig['region_name']));
         $regionFactoryMock = $this->getMock('Magento\Directory\Model\RegionFactory', array(), array(), '', false);
-        $regionFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($regionMock));
+        $regionFactoryMock->expects($this->any())->method('create')->will($this->returnValue($regionMock));
 
         return $regionFactoryMock;
     }
@@ -154,7 +155,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         1,
                         'Test Street 1'
-                    ),
+                    )
                 ),
                 array(
                     'store_id' => 1,
@@ -213,7 +214,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         1,
                         'Test Street 1'
-                    ),
+                    )
                 ),
                 array(
                     'store_id' => 1,
@@ -234,7 +235,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     'telephone' => null
                 )
             ),
-            // Test Case which checks that country name is an empty string for wrong country_id
             array(
                 true,
                 array(
@@ -273,7 +273,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         1,
                         'Test Street 1'
-                    ),
+                    )
                 ),
                 array(
                     'store_id' => 1,

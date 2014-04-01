@@ -131,8 +131,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_optionModel)
         );
 
-        $this->_storeManager = $this->getMock('\Magento\Store\Model\StoreManager',
-            array('getWebsites', 'getStores'), array(), '', false);
+        $this->_storeManager = $this->getMock(
+            '\Magento\Store\Model\StoreManager',
+            array('getWebsites', 'getStores'),
+            array(),
+            '',
+            false
+        );
 
         $this->_storeManager->expects($this->atLeastOnce())->method('getWebsites')->will($this->returnValue(array()));
         $this->_storeManager->expects($this->atLeastOnce())->method('getStores')->will($this->returnValue(array()));

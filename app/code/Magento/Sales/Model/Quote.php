@@ -580,7 +580,6 @@ class Quote extends \Magento\Model\AbstractModel
                 try {
                     $defaultBillingAddress = $this->_addressService->getDefaultBillingAddress($customer->getId());
                 } catch (\Magento\Exception\NoSuchEntityException $e) {
-                    /** Address does not exist */
                 }
                 if (isset($defaultBillingAddress)) {
                     /** @var \Magento\Sales\Model\Quote\Address $billingAddress */
@@ -594,7 +593,6 @@ class Quote extends \Magento\Model\AbstractModel
                 try {
                     $defaultShippingAddress = $this->_addressService->getDefaultShippingAddress($customer->getId());
                 } catch (\Magento\Exception\NoSuchEntityException $e) {
-                    /** Address does not exist */
                 }
                 if (isset($defaultShippingAddress)) {
                     /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
@@ -2000,9 +1998,21 @@ class Quote extends \Magento\Model\AbstractModel
     public function validateMinimumAmount($multishipping = false)
     {
         $storeId = $this->getStoreId();
-        $minOrderActive = $this->_storeConfig->isSetFlag('sales/minimum_order/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
-        $minOrderMulti  = $this->_storeConfig->isSetFlag('sales/minimum_order/multi_address', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
-        $minAmount      = $this->_storeConfig->getValue('sales/minimum_order/amount', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        $minOrderActive = $this->_storeConfig->isSetFlag(
+            'sales/minimum_order/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        $minOrderMulti = $this->_storeConfig->isSetFlag(
+            'sales/minimum_order/multi_address',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        $minAmount = $this->_storeConfig->getValue(
+            'sales/minimum_order/amount',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
 
         if (!$minOrderActive) {
             return true;

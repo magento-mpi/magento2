@@ -52,81 +52,91 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'magento_giftwrapping_store_attributes'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftwrapping_store_attributes'))
-    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Wrapping Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Store Id')
-    ->addColumn('design', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        ), 'Design')
-    ->addIndex($installer->getIdxName('magento_giftwrapping_store_attributes', array('store_id')),
-        array('store_id'))
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftwrapping_store_attributes',
-            'wrapping_id',
-            'magento_giftwrapping',
-            'wrapping_id'
-        ),
-        'wrapping_id', $installer->getTable('magento_giftwrapping'), 'wrapping_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftwrapping_store_attributes',
-            'store_id',
-            'store',
-            'store_id'
-        ),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Wrapping Attribute Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftwrapping_store_attributes')
+)->addColumn(
+    'wrapping_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Wrapping Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Store Id'
+)->addColumn(
+    'design',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Design'
+)->addIndex(
+    $installer->getIdxName('magento_giftwrapping_store_attributes', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName(
+        'magento_giftwrapping_store_attributes',
+        'wrapping_id',
+        'magento_giftwrapping',
+        'wrapping_id'
+    ),
+    'wrapping_id',
+    $installer->getTable('magento_giftwrapping'),
+    'wrapping_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_giftwrapping_store_attributes', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Gift Wrapping Attribute Table'
+);
 $installer->getConnection()->createTable($table);
 
 
 /**
  * Create table 'magento_giftwrapping_website'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftwrapping_website'))
-    ->addColumn('wrapping_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Wrapping Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addIndex($installer->getIdxName('magento_giftwrapping_website', array('website_id')),
-        array('website_id'))
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftwrapping_website',
-            'wrapping_id',
-            'magento_giftwrapping',
-            'wrapping_id'
-        ),
-        'wrapping_id', $installer->getTable('magento_giftwrapping'), 'wrapping_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_giftwrapping_website',
-            'website_id',
-            'store_website',
-            'website_id'
-        ),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Gift Wrapping Website Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftwrapping_website')
+)->addColumn(
+    'wrapping_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Wrapping Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addIndex(
+    $installer->getIdxName('magento_giftwrapping_website', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('magento_giftwrapping_website', 'wrapping_id', 'magento_giftwrapping', 'wrapping_id'),
+    'wrapping_id',
+    $installer->getTable('magento_giftwrapping'),
+    'wrapping_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_giftwrapping_website', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Gift Wrapping Website Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**

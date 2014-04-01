@@ -119,11 +119,18 @@ class Quote extends \Magento\Session\SessionManager
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())->load($this->getQuoteId());
             } elseif ($this->getStoreId() && $this->hasCustomerId()) {
-                $this->_quote->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId($this->_storeConfig->getValue(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                    ->assignCustomer($this->getCustomer())
-                    ->setIsActive(false)
-                    ->save();
+                $this->_quote->setStoreId(
+                    $this->getStoreId()
+                )->setCustomerGroupId(
+                    $this->_storeConfig->getValue(
+                        self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                    )
+                )->assignCustomer(
+                    $this->getCustomer()
+                )->setIsActive(
+                    false
+                )->save();
                 $this->setQuoteId($this->_quote->getId());
             }
             $this->_quote->setIgnoreOldQty(true);

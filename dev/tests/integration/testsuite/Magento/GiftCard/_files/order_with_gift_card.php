@@ -79,9 +79,14 @@ $order->addItem(
 );
 $order->save();
 
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->get('Magento\App\Config\MutableScopeConfigInterface')
-    ->setValue(\Magento\GiftCardAccount\Model\Pool::XML_CONFIG_POOL_SIZE, 1, 'website', 'base');
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\App\Config\MutableScopeConfigInterface'
+)->setValue(
+    \Magento\GiftCardAccount\Model\Pool::XML_CONFIG_POOL_SIZE,
+    1,
+    'website',
+    'base'
+);
 /** @var $pool \Magento\GiftCardAccount\Model\Pool */
 $pool = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\GiftCardAccount\Model\Pool');
 $pool->setWebsiteId(1)->generatePool();

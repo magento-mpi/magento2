@@ -26,9 +26,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeConfigMock = $this->getMock(
-            '\Magento\App\Config\ScopeConfigInterface'
-        );
+        $this->_storeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->_stockStatusMock = $this->getMock(
             '\Magento\CatalogInventory\Model\Stock\Status',
             array(),

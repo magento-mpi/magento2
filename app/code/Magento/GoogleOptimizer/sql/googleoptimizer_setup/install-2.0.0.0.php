@@ -55,11 +55,19 @@ $table = $installer->getConnection()->newTable(
         'googleoptimizer_code',
         array('store_id', 'entity_id', 'entity_type'),
         \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    ), array('store_id', 'entity_id', 'entity_type'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addForeignKey($installer->getFkName('googleoptimizer_code', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Google Experiment code');
+    ),
+    array('store_id', 'entity_id', 'entity_type'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addForeignKey(
+    $installer->getFkName('googleoptimizer_code', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Google Experiment code'
+);
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

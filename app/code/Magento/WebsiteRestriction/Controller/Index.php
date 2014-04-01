@@ -111,7 +111,10 @@ class Index extends \Magento\App\Action\Action
              */
             /** @var \Magento\Cms\Model\Page $page */
             $page = $this->_pageFactory->create()->load(
-                $this->_storeConfig->getValue($this->_stubPageIdentifier, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
+                $this->_storeConfig->getValue(
+                    $this->_stubPageIdentifier,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ),
                 'identifier'
             );
 
@@ -151,7 +154,9 @@ class Index extends \Magento\App\Action\Action
             $this->_view->renderLayout();
 
             $this->_configCacheType->save(
-                $this->getResponse()->getBody(), $this->_cacheKey, array(\Magento\Store\Model\Website::CACHE_TAG)
+                $this->getResponse()->getBody(),
+                $this->_cacheKey,
+                array(\Magento\Store\Model\Website::CACHE_TAG)
             );
         }
     }

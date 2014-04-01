@@ -348,189 +348,316 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'salesrule_label'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule_label'))
-    ->addColumn('label_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Label Id')
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Rule Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Store Id')
-    ->addColumn('label', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Label')
-    ->addIndex($installer->getIdxName('salesrule_label', array('rule_id', 'store_id'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('rule_id', 'store_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('salesrule_label', array('store_id')),
-        array('store_id'))
-    ->addIndex($installer->getIdxName('salesrule_label', array('rule_id')),
-        array('rule_id'))
-    ->addForeignKey($installer->getFkName('salesrule_label', 'rule_id', 'salesrule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule'), 'rule_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('salesrule_label', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Salesrule Label');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('salesrule_label')
+)->addColumn(
+    'label_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Label Id'
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Rule Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Store Id'
+)->addColumn(
+    'label',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Label'
+)->addIndex(
+    $installer->getIdxName(
+        'salesrule_label',
+        array('rule_id', 'store_id'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('rule_id', 'store_id'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('salesrule_label', array('store_id')),
+    array('store_id')
+)->addIndex(
+    $installer->getIdxName('salesrule_label', array('rule_id')),
+    array('rule_id')
+)->addForeignKey(
+    $installer->getFkName('salesrule_label', 'rule_id', 'salesrule', 'rule_id'),
+    'rule_id',
+    $installer->getTable('salesrule'),
+    'rule_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('salesrule_label', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Salesrule Label'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'salesrule_product_attribute'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('salesrule_product_attribute'))
-    ->addColumn('rule_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rule Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addColumn('customer_group_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Customer Group Id')
-    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Attribute Id')
-    ->addIndex($installer->getIdxName('salesrule_product_attribute', array('website_id')),
-        array('website_id'))
-    ->addIndex($installer->getIdxName('salesrule_product_attribute', array('customer_group_id')),
-        array('customer_group_id'))
-    ->addIndex($installer->getIdxName('salesrule_product_attribute', array('attribute_id')),
-        array('attribute_id'))
-    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'attribute_id', 'eav_attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'customer_group_id', 'customer_group', 'customer_group_id'),
-        'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'rule_id', 'salesrule', 'rule_id'),
-        'rule_id', $installer->getTable('salesrule'), 'rule_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_NO_ACTION)
-    ->setComment('Salesrule Product Attribute');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('salesrule_product_attribute')
+)->addColumn(
+    'rule_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rule Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addColumn(
+    'customer_group_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Customer Group Id'
+)->addColumn(
+    'attribute_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Attribute Id'
+)->addIndex(
+    $installer->getIdxName('salesrule_product_attribute', array('website_id')),
+    array('website_id')
+)->addIndex(
+    $installer->getIdxName('salesrule_product_attribute', array('customer_group_id')),
+    array('customer_group_id')
+)->addIndex(
+    $installer->getIdxName('salesrule_product_attribute', array('attribute_id')),
+    array('attribute_id')
+)->addForeignKey(
+    $installer->getFkName('salesrule_product_attribute', 'attribute_id', 'eav_attribute', 'attribute_id'),
+    'attribute_id',
+    $installer->getTable('eav_attribute'),
+    'attribute_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_NO_ACTION
+)->addForeignKey(
+    $installer->getFkName('salesrule_product_attribute', 'customer_group_id', 'customer_group', 'customer_group_id'),
+    'customer_group_id',
+    $installer->getTable('customer_group'),
+    'customer_group_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_NO_ACTION
+)->addForeignKey(
+    $installer->getFkName('salesrule_product_attribute', 'rule_id', 'salesrule', 'rule_id'),
+    'rule_id',
+    $installer->getTable('salesrule'),
+    'rule_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_NO_ACTION
+)->addForeignKey(
+    $installer->getFkName('salesrule_product_attribute', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_NO_ACTION
+)->setComment(
+    'Salesrule Product Attribute'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'coupon_aggregated'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('coupon_aggregated'))
-    ->addColumn('id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Id')
-    ->addColumn('period', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        'nullable'  => false,
-        ), 'Period')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Store Id')
-    ->addColumn('order_status', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
-        ), 'Order Status')
-    ->addColumn('coupon_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
-        ), 'Coupon Code')
-    ->addColumn('coupon_uses', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Coupon Uses')
-    ->addColumn('subtotal_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Subtotal Amount')
-    ->addColumn('discount_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Discount Amount')
-    ->addColumn('total_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Total Amount')
-    ->addColumn('subtotal_amount_actual', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Subtotal Amount Actual')
-    ->addColumn('discount_amount_actual', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Discount Amount Actual')
-    ->addColumn('total_amount_actual', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Total Amount Actual')
-    ->addIndex($installer->getIdxName('coupon_aggregated', array('period', 'store_id', 'order_status', 'coupon_code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('period', 'store_id', 'order_status', 'coupon_code'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('coupon_aggregated', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('coupon_aggregated', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Coupon Aggregated');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('coupon_aggregated')
+)->addColumn(
+    'id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Id'
+)->addColumn(
+    'period',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array('nullable' => false),
+    'Period'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Store Id'
+)->addColumn(
+    'order_status',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    50,
+    array(),
+    'Order Status'
+)->addColumn(
+    'coupon_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    50,
+    array(),
+    'Coupon Code'
+)->addColumn(
+    'coupon_uses',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Coupon Uses'
+)->addColumn(
+    'subtotal_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Subtotal Amount'
+)->addColumn(
+    'discount_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Discount Amount'
+)->addColumn(
+    'total_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Total Amount'
+)->addColumn(
+    'subtotal_amount_actual',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Subtotal Amount Actual'
+)->addColumn(
+    'discount_amount_actual',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Discount Amount Actual'
+)->addColumn(
+    'total_amount_actual',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Total Amount Actual'
+)->addIndex(
+    $installer->getIdxName(
+        'coupon_aggregated',
+        array('period', 'store_id', 'order_status', 'coupon_code'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('period', 'store_id', 'order_status', 'coupon_code'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('coupon_aggregated', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('coupon_aggregated', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Coupon Aggregated'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'coupon_aggregated_order'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('coupon_aggregated_order'))
-    ->addColumn('id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Id')
-    ->addColumn('period', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        'nullable'  => false,
-        ), 'Period')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Store Id')
-    ->addColumn('order_status', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
-        ), 'Order Status')
-    ->addColumn('coupon_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
-        ), 'Coupon Code')
-    ->addColumn('coupon_uses', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Coupon Uses')
-    ->addColumn('subtotal_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Subtotal Amount')
-    ->addColumn('discount_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Discount Amount')
-    ->addColumn('total_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, array(12,4), array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Total Amount')
-    ->addIndex($installer->getIdxName('coupon_aggregated_order', array('period', 'store_id', 'order_status', 'coupon_code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('period', 'store_id', 'order_status', 'coupon_code'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('coupon_aggregated_order', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('coupon_aggregated_order', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Coupon Aggregated Order');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('coupon_aggregated_order')
+)->addColumn(
+    'id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Id'
+)->addColumn(
+    'period',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array('nullable' => false),
+    'Period'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Store Id'
+)->addColumn(
+    'order_status',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    50,
+    array(),
+    'Order Status'
+)->addColumn(
+    'coupon_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    50,
+    array(),
+    'Coupon Code'
+)->addColumn(
+    'coupon_uses',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Coupon Uses'
+)->addColumn(
+    'subtotal_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Subtotal Amount'
+)->addColumn(
+    'discount_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Discount Amount'
+)->addColumn(
+    'total_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    array(12, 4),
+    array('nullable' => false, 'default' => '0.0000'),
+    'Total Amount'
+)->addIndex(
+    $installer->getIdxName(
+        'coupon_aggregated_order',
+        array('period', 'store_id', 'order_status', 'coupon_code'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('period', 'store_id', 'order_status', 'coupon_code'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('coupon_aggregated_order', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('coupon_aggregated_order', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Coupon Aggregated Order'
+);
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

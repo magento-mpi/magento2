@@ -762,17 +762,21 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
                         }
                     }
 
-                    $_result[0]->setParentProductId($product->getId())
-                        // add custom option to simple product for protection of process
-                        //when we add simple product separately
-                        ->addCustomOption('parent_product_id', $product->getId());
+                    $_result[0]->setParentProductId(
+                        $product->getId()
+                    )->addCustomOption(
+                        'parent_product_id',
+                        $product->getId()
+                    );
                     if ($this->_isStrictProcessMode($processMode)) {
                         $_result[0]->setCartQty(1);
                     }
                     $result[] = $_result[0];
                     return $result;
-                } else if (!$this->_isStrictProcessMode($processMode)) {
-                    return $result;
+                } else {
+                    if (!$this->_isStrictProcessMode($processMode)) {
+                        return $result;
+                    }
                 }
             }
         }
@@ -1116,11 +1120,13 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Catalog\Model\Product $parentProduct,
         $postData
     ) {
-        $product->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID)
-            ->setTypeId($postData['weight']
-                ? \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-                : \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
-            )->setAttributeSetId($parentProduct->getNewVariationsAttributeSetId());
+        $product->setStoreId(
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        )->setTypeId(
+            $postData['weight'] ? \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE : \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
+        )->setAttributeSetId(
+            $parentProduct->getNewVariationsAttributeSetId()
+        );
 
         foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             if ($attribute->getIsUnique() ||
@@ -1141,8 +1147,8 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        $postData['stock_data']['use_config_manage_stock'] =
-            $postData['stock_data']['manage_stock'] == $configDefaultValue ? 1 : 0;
+        $postData['stock_data']['use_config_manage_stock'] = $postData['stock_data']['manage_stock'] ==
+            $configDefaultValue ? 1 : 0;
         if (!empty($postData['image'])) {
             $postData['small_image'] = $postData['thumbnail'] = $postData['image'];
             $postData['media_gallery']['images'][] = array(

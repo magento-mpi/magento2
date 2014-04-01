@@ -37,19 +37,23 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $payment = $order->getPayment();
 
         /** @var \Magento\Paypal\Model\Payflowpro $instance */
-        $instance = $this->getMock('Magento\Paypal\Model\Payflowpro', array('_postRequest'), array(
-            $eventManager,
-            $paymentData,
-            $scopeConfig,
-            $logAdapterFactory,
-            $logger,
-            $moduleList,
-            $localeDate,
-            $centinelService,
-            $storeManager,
-            $configFactory,
-            $mathRandom
-        ));
+        $instance = $this->getMock(
+            'Magento\Paypal\Model\Payflowpro',
+            array('_postRequest'),
+            array(
+                $eventManager,
+                $paymentData,
+                $scopeConfig,
+                $logAdapterFactory,
+                $logger,
+                $moduleList,
+                $localeDate,
+                $centinelService,
+                $storeManager,
+                $configFactory,
+                $mathRandom
+            )
+        );
 
         $response = new \Magento\Object(
             array(

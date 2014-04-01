@@ -699,14 +699,19 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
 
         if (!empty($productWebsites)) {
-            $select = $this->getConnection()->select()
-                ->from(array('product_website' => $this->_productWebsiteTable))
-                ->join(
-                    array('website' => $this->getResource()->getTable('store_website')),
-                    'website.website_id = product_website.website_id',
-                    array('name'))
-                ->where('product_website.product_id IN (?)', array_keys($productWebsites))
-                ->where('website.website_id > ?', 0);
+            $select = $this->getConnection()->select()->from(
+                array('product_website' => $this->_productWebsiteTable)
+            )->join(
+                array('website' => $this->getResource()->getTable('store_website')),
+                'website.website_id = product_website.website_id',
+                array('name')
+            )->where(
+                'product_website.product_id IN (?)',
+                array_keys($productWebsites)
+            )->where(
+                'website.website_id > ?',
+                0
+            );
 
             $data = $this->getConnection()->fetchAll($select);
             foreach ($data as $row) {
@@ -822,7 +827,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $tableAlias = $attributeCode . '_max_value';
         $fieldAlias = 'max_' . $attributeCode;
         $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
+            AND ' . $this->_getConditionSql(
+            $tableAlias . '.attribute_id',
+            $attribute->getId()
+        );
 
         $select->join(
             array($tableAlias => $attribute->getBackend()->getTable()),
@@ -855,7 +863,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $tableAlias = $attributeCode . '_range_count_value';
 
         $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
+            AND ' . $this->_getConditionSql(
+            $tableAlias . '.attribute_id',
+            $attribute->getId()
+        );
 
         $select->reset(\Zend_Db_Select::GROUP);
         $select->join(
@@ -1221,7 +1232,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     {
         $this->_addUrlRewrite = true;
         $useCategoryUrl = $this->_storeConfig->getValue(
-            \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStoreId()
+            \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStoreId()
         );
         if ($useCategoryUrl) {
             $this->_urlRewriteCategory = $categoryId;
@@ -2021,8 +2034,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attribute = $this->getAttribute('tier_price');
         if ($attribute->isScopeGlobal()) {
             $websiteId = 0;
-        } else if ($this->getStoreId()) {
-            $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
+        } else {
+            if ($this->getStoreId()) {
+                $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
+            }
         }
 
         $adapter = $this->getConnection();
@@ -2057,8 +2072,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
                 'cust_group' => $row['all_groups'] ? CustomerGroupServiceInterface::CUST_GROUP_ALL : $row['cust_group'],
                 'price_qty' => $row['price_qty'],
                 'price' => $row['price'],
-                'website_price' => $row['price'],
-
+                'website_price' => $row['price']
             );
         }
 

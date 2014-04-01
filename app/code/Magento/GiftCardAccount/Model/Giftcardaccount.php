@@ -345,10 +345,10 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
                 }
             }
             $cards[] = array(
-                'i'=>$this->getId(),        // id
-                'c'=>$this->getCode(),      // code
-                'a'=>$this->getBalance(),   // amount
-                'ba'=>$this->getBalance(),  // base amount
+                'i' => $this->getId(),
+                'c' => $this->getCode(),
+                'a' => $this->getBalance(),
+                'ba' => $this->getBalance()
             );
             $this->_giftCardAccountData->setCards($quote, $cards);
 
@@ -631,24 +631,32 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
 
         $balance = $this->_localeCurrency->getCurrency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier(
-                $this->_storeConfig->getValue('giftcard/giftcardaccount_email/template', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $this->_storeConfig->getValue(
+                'giftcard/giftcardaccount_email/template',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
             )
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $storeId
-            ))
-            ->setTemplateVars(array(
-                'name'          => $recipientName,
-                'code'          => $code,
-                'balance'       => $balance,
-                'store'         => $recipientStore,
-                'store_name'    => $recipientStore->getName(),
-            ))
-            ->setFrom($this->_storeConfig->getValue('giftcard/giftcardaccount_email/identity', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId))
-            ->addTo($recipientEmail, $recipientName)
-            ->getTransport();
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+        )->setTemplateVars(
+            array(
+                'name' => $recipientName,
+                'code' => $code,
+                'balance' => $balance,
+                'store' => $recipientStore,
+                'store_name' => $recipientStore->getName()
+            )
+        )->setFrom(
+            $this->_storeConfig->getValue(
+                'giftcard/giftcardaccount_email/identity',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
+        )->addTo(
+            $recipientEmail,
+            $recipientName
+        )->getTransport();
 
 
         try {

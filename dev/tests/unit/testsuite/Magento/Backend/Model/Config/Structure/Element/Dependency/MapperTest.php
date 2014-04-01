@@ -67,22 +67,23 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             'field_y' => array('id' => self::FIELD_ID2)
         );
 
-        $this->_configStructureMock = $this->getMockBuilder('Magento\Backend\Model\Config\Structure')
-            ->setMethods(array('getElement'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_fieldFactoryMock = $this
-            ->getMockBuilder('Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory')
-            ->setMethods(array('create'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_scopeConfigMock = $this->getMockBuilder('\Magento\App\Config\ScopeConfigInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_configStructureMock = $this->getMockBuilder(
+            'Magento\Backend\Model\Config\Structure'
+        )->setMethods(
+            array('getElement')
+        )->disableOriginalConstructor()->getMock();
+        $this->_fieldFactoryMock = $this->getMockBuilder(
+            'Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory'
+        )->setMethods(
+            array('create')
+        )->disableOriginalConstructor()->getMock();
+        $this->_scopeConfigMock = $this->getMockBuilder(
+            '\Magento\App\Config\ScopeConfigInterface'
+        )->disableOriginalConstructor()->getMock();
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper(
-           $this->_configStructureMock, 
-           $this->_fieldFactoryMock, 
-           $this->_scopeConfigMock
+            $this->_configStructureMock,
+            $this->_fieldFactoryMock,
+            $this->_scopeConfigMock
         );
     }
 
@@ -105,22 +106,46 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         for ($i = 0; $i < count($this->_testData); ++$i) {
             $data = $rowData[$i];
             $dependentPath = 'some path ' . $i;
-            $field = $this->_getField(false, $dependentPath,
-                'Magento_Backend_Model_Config_Structure_Element_Field_' . (string)$isValueSatisfy . $i);
-            $this->_configStructureMock->expects($this->at($i))
-                ->method('getElement')
-                ->with($data['id'])
-                ->will($this->returnValue($field));
-            $dependencyField = $this->_getDependencyField($isValueSatisfy, false, $data['id'],
-                'Magento_Backend_Model_Config_Structure_Element_Dependency_Field_' . (string)$isValueSatisfy . $i);
-            $this->_fieldFactoryMock->expects($this->at($i))
-                ->method('create')
-                ->with(array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX))
-                ->will($this->returnValue($dependencyField));
-            $this->_scopeConfigMock->expects($this->at($i))
-                ->method('getValue')
-                ->with($dependentPath, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, self::STORE_CODE)
-                ->will($this->returnValue(self::VALUE_IN_STORE));
+            $field = $this->_getField(
+                false,
+                $dependentPath,
+                'Magento_Backend_Model_Config_Structure_Element_Field_' . (string)$isValueSatisfy . $i
+            );
+            $this->_configStructureMock->expects(
+                $this->at($i)
+            )->method(
+                'getElement'
+            )->with(
+                $data['id']
+            )->will(
+                $this->returnValue($field)
+            );
+            $dependencyField = $this->_getDependencyField(
+                $isValueSatisfy,
+                false,
+                $data['id'],
+                'Magento_Backend_Model_Config_Structure_Element_Dependency_Field_' . (string)$isValueSatisfy . $i
+            );
+            $this->_fieldFactoryMock->expects(
+                $this->at($i)
+            )->method(
+                'create'
+            )->with(
+                array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX)
+            )->will(
+                $this->returnValue($dependencyField)
+            );
+            $this->_scopeConfigMock->expects(
+                $this->at($i)
+            )->method(
+                'getValue'
+            )->with(
+                $dependentPath,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                self::STORE_CODE
+            )->will(
+                $this->returnValue(self::VALUE_IN_STORE)
+            );
             if (!$isValueSatisfy) {
                 $expected[$data['id']] = $dependencyField;
             }

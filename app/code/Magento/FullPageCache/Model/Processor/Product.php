@@ -83,8 +83,9 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     public function prepareContent(\Magento\App\ResponseInterface $response)
     {
         $countLimit = $this->_storeConfig->getValue(
-            \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
-        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         // save recently viewed product count limit
         $cacheId = $this->_fpcProcessor->getRecentlyViewedCountCacheId();
         if (!$this->_fpcCache->getFrontend()->test($cacheId)) {
@@ -95,7 +96,9 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
         if ($product) {
             $cacheId = $this->_fpcProcessor->getRequestCacheId() . '_current_product_id';
             $this->_fpcCache->save(
-                $product->getId(), $cacheId, array(\Magento\FullPageCache\Model\Processor::CACHE_TAG)
+                $product->getId(),
+                $cacheId,
+                array(\Magento\FullPageCache\Model\Processor::CACHE_TAG)
             );
             $this->_fpcProcessor->setMetadata(self::METADATA_PRODUCT_ID, $product->getId());
             \Magento\FullPageCache\Model\Cookie::registerViewedProducts($product->getId(), $countLimit);

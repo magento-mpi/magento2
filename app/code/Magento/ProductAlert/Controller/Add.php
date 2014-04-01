@@ -94,13 +94,17 @@ class Add extends \Magento\App\Action\Action
         }
 
         try {
-            $model = $this->_objectManager->create('Magento\ProductAlert\Model\Price')
-                ->setCustomerId($this->_objectManager->get('Magento\Customer\Model\Session')->getId())
-                ->setProductId($product->getId())
-                ->setPrice($product->getFinalPrice())
-                ->setWebsiteId(
-                    $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
-                );
+            $model = $this->_objectManager->create(
+                'Magento\ProductAlert\Model\Price'
+            )->setCustomerId(
+                $this->_objectManager->get('Magento\Customer\Model\Session')->getId()
+            )->setProductId(
+                $product->getId()
+            )->setPrice(
+                $product->getFinalPrice()
+            )->setWebsiteId(
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+            );
             $model->save();
             $this->messageManager->addSuccess(__('You saved the alert subscription.'));
         } catch (\Exception $e) {
@@ -129,12 +133,15 @@ class Add extends \Magento\App\Action\Action
         }
 
         try {
-            $model = $this->_objectManager->create('Magento\ProductAlert\Model\Stock')
-                ->setCustomerId($this->_objectManager->get('Magento\Customer\Model\Session')->getId())
-                ->setProductId($product->getId())
-                ->setWebsiteId(
-                    $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
-                );
+            $model = $this->_objectManager->create(
+                'Magento\ProductAlert\Model\Stock'
+            )->setCustomerId(
+                $this->_objectManager->get('Magento\Customer\Model\Session')->getId()
+            )->setProductId(
+                $product->getId()
+            )->setWebsiteId(
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+            );
             $model->save();
             $this->messageManager->addSuccess(__('Alert subscription has been saved.'));
         } catch (\Exception $e) {

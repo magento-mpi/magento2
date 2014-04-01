@@ -102,16 +102,25 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_productFactory->create()->getCollection()
-            ->setOrder('id')
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('sku')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('attribute_set_id')
-            ->addAttributeToFilter('entity_id', array('nin' => $this->_getSelectedProducts()))
-            ->addAttributeToFilter('type_id', array('in' => $this->getAllowedSelectionTypes()))
-            ->addFilterByRequiredOptions()
-            ->addStoreFilter(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
+        $collection = $this->_productFactory->create()->getCollection()->setOrder(
+            'id'
+        )->addAttributeToSelect(
+            'name'
+        )->addAttributeToSelect(
+            'sku'
+        )->addAttributeToSelect(
+            'price'
+        )->addAttributeToSelect(
+            'attribute_set_id'
+        )->addAttributeToFilter(
+            'entity_id',
+            array('nin' => $this->_getSelectedProducts())
+        )->addAttributeToFilter(
+            'type_id',
+            array('in' => $this->getAllowedSelectionTypes())
+        )->addFilterByRequiredOptions()->addStoreFilter(
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        );
 
         if ($this->getFirstShow()) {
             $collection->addIdFilter('-1');
@@ -205,10 +214,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         if ($products = $this->getRequest()->getPost('products', null)) {
             return $products;
-        } else if ($productss = $this->getRequest()->getParam('productss', null)) {
-            return explode(',', $productss);
         } else {
-            return array();
+            if ($productss = $this->getRequest()->getParam('productss', null)) {
+                return explode(',', $productss);
+            } else {
+                return array();
+            }
         }
     }
 

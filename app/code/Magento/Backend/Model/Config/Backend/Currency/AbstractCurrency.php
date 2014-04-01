@@ -50,14 +50,7 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
         array $data = array()
     ) {
         $this->_storeConfig = $coreStoreConfig;
-        parent::__construct(
-            $context,
-            $registry,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -83,7 +76,13 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
      */
     protected function _getInstalledCurrencies()
     {
-        return explode(',', $this->_storeConfig->getValue('system/currency/installed', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        return explode(
+            ',',
+            $this->_storeConfig->getValue(
+                'system/currency/installed',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
     }
 
     /**

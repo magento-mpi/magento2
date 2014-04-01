@@ -142,7 +142,7 @@ class Observer
         $this->_eventManager->dispatch('clear_expired_quotes_before', array('sales_observer' => $this));
 
         $lifetimes = $this->_storesConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
-        foreach ($lifetimes as $storeId=>$lifetime) {
+        foreach ($lifetimes as $storeId => $lifetime) {
             $lifetime *= 86400;
 
             /** @var $quotes \Magento\Sales\Model\Resource\Quote\Collection */

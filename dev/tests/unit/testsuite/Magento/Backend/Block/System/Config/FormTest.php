@@ -148,11 +148,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $context = $helper->getObject('Magento\Backend\Block\Template\Context', array(
-            'scopeConfig' => $this->_coreConfigMock,
-            'request' => $requestMock,
-            'urlBuilder' => $this->_urlModelMock,
-        ));
+        $context = $helper->getObject(
+            'Magento\Backend\Block\Template\Context',
+            array(
+                'scopeConfig' => $this->_coreConfigMock,
+                'request' => $requestMock,
+                'urlBuilder' => $this->_urlModelMock
+            )
+        );
 
         $data = array(
             'request' => $requestMock,
@@ -162,7 +165,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             'formFactory' => $this->_formFactoryMock,
             'fieldsetFactory' => $this->_fieldsetFactoryMock,
             'fieldFactory' => $this->_fieldFactoryMock,
-            'context' => $context,
+            'context' => $context
         );
 
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form', $data);

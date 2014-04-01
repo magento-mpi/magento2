@@ -18,14 +18,14 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockDependencies = array(
-        'request'         => 'Magento\App\RequestInterface',
-        'layout'          => 'Magento\View\LayoutInterface',
-        'eventManager'    => 'Magento\Event\ManagerInterface',
-        'translator'      => 'Magento\TranslateInterface',
-        'cache'           => 'Magento\App\CacheInterface',
-        'design'          => 'Magento\View\DesignInterface',
-        'session'         => 'Magento\Session\SessionManagerInterface',
-        'storeConfig'     => 'Magento\App\Config\ScopeConfigInterface'
+        'request' => 'Magento\App\RequestInterface',
+        'layout' => 'Magento\View\LayoutInterface',
+        'eventManager' => 'Magento\Event\ManagerInterface',
+        'translator' => 'Magento\TranslateInterface',
+        'cache' => 'Magento\App\CacheInterface',
+        'design' => 'Magento\View\DesignInterface',
+        'session' => 'Magento\Session\SessionManagerInterface',
+        'storeConfig' => 'Magento\App\Config\ScopeConfigInterface'
     );
 
     /**
@@ -34,9 +34,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_modelDependencies = array(
-        'eventManager'       => 'Magento\Event\ManagerInterface',
-        'cacheManager'       => 'Magento\App\CacheInterface',
-        'resource'           => 'Magento\Model\Resource\AbstractResource',
+        'eventManager' => 'Magento\Event\ManagerInterface',
+        'cacheManager' => 'Magento\App\CacheInterface',
+        'resource' => 'Magento\Model\Resource\AbstractResource',
         'resourceCollection' => 'Magento\Data\Collection\Db'
     );
 

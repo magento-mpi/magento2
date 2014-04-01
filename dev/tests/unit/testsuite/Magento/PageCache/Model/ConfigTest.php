@@ -36,40 +36,62 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $filesystemMock = $this->getMock('Magento\App\Filesystem', ['getDirectoryRead'], [], '', false);
+        $filesystemMock = $this->getMock('Magento\App\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->_coreConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_configMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
-        $this->_cacheState = $this->getMock('\Magento\App\Cache\State', ['isEnabled'], [], '', false);
+        $this->_cacheState = $this->getMock('\Magento\App\Cache\State', array('isEnabled'), array(), '', false);
 
-        $modulesDirectoryMock = $this->getMock('Magento\Filesystem\Directory\Write', [], [], '', false);
-        $filesystemMock->expects($this->once())
-            ->method('getDirectoryRead')
-            ->with(\Magento\App\Filesystem::MODULES_DIR)
-            ->will($this->returnValue($modulesDirectoryMock));
-        $modulesDirectoryMock->expects($this->any())
-            ->method('readFile')
-            ->will($this->returnValue(file_get_contents(__DIR__ . '/_files/test.vcl')));
-        $this->_coreConfigMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValueMap([
-                [\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_BACKEND_HOST,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, 'example.com'],
-                [\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_BACKEND_PORT,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, '8080'],
-                [\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_ACCESS_LIST,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, '127.0.0.1, 192.168.0.1'],
-                [
-                    \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                    null,
-                    serialize([
-                        [
-                            'regexp' => '(?i)pattern',
-                            'value'  => 'value_for_pattern'
-                        ]
-                    ])
-                ]
-            ]));
+        $modulesDirectoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $filesystemMock->expects(
+            $this->once()
+        )->method(
+            'getDirectoryRead'
+        )->with(
+            \Magento\App\Filesystem::MODULES_DIR
+        )->will(
+            $this->returnValue($modulesDirectoryMock)
+        );
+        $modulesDirectoryMock->expects(
+            $this->any()
+        )->method(
+            'readFile'
+        )->will(
+            $this->returnValue(file_get_contents(__DIR__ . '/_files/test.vcl'))
+        );
+        $this->_coreConfigMock->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnValueMap(
+                array(
+                    array(
+                        \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_BACKEND_HOST,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        null,
+                        'example.com'
+                    ),
+                    array(
+                        \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_BACKEND_PORT,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        null,
+                        '8080'
+                    ),
+                    array(
+                        \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_ACCESS_LIST,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        null,
+                        '127.0.0.1, 192.168.0.1'
+                    ),
+                    array(
+                        \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        null,
+                        serialize(array(array('regexp' => '(?i)pattern', 'value' => 'value_for_pattern')))
+                    )
+                )
+            )
+        );
 
         $this->_model = new \Magento\PageCache\Model\Config(
             $filesystemMock,
@@ -90,9 +112,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTll()
     {
-        $this->_configMock->expects($this->once())
-            ->method('getValue')
-            ->with(Config::XML_PAGECACHE_TTL);
+        $this->_configMock->expects($this->once())->method('getValue')->with(Config::XML_PAGECACHE_TTL);
 
         $this->_model->getTtl();
     }
@@ -104,10 +124,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_cacheState->setEnabled(\Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER, true);
 
-        $this->_cacheState->expects($this->once())
-            ->method('isEnabled')
-            ->with(\Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER)
-            ->will($this->returnValue(true));
+        $this->_cacheState->expects(
+            $this->once()
+        )->method(
+            'isEnabled'
+        )->with(
+            \Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER
+        )->will(
+            $this->returnValue(true)
+        );
         $this->_model->isEnabled();
     }
 }

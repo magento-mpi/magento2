@@ -8,21 +8,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$defaultWebsiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId();
+$defaultWebsiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\Store\Model\StoreManagerInterface'
+)->getStore()->getWebsiteId();
 
 /** @var $website \Magento\Store\Model\Website */
-$website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Store\Model\Website');
-$website->setData(array(
-    'code'             => 'base2',
-    'name'             => 'Test Website',
-    'default_group_id' => '1',
-    'is_default'       => '0'
-));
+$website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Website');
+$website->setData(array('code' => 'base2', 'name' => 'Test Website', 'default_group_id' => '1', 'is_default' => '0'));
 $website->save();
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-    ->reinitStores();
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\Store\Model\StoreManagerInterface'
+)->reinitStores();
 
 $additionalWebsiteId = $website->getId();
 

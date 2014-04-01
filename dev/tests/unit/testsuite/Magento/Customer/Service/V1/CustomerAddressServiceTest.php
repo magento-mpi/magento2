@@ -822,19 +822,21 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
     private function _setupStoreMock()
     {
-        $this->_storeManagerMock =
-            $this->getMockBuilder('\Magento\Store\Model\StoreManagerInterface')
-                ->disableOriginalConstructor()
-                ->getMock();
+        $this->_storeManagerMock = $this->getMockBuilder(
+            '\Magento\Store\Model\StoreManagerInterface'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_storeMock = $this->getMockBuilder(
+            '\Magento\Store\Model\Store'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_storeManagerMock
-            ->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_storeMock));
+        $this->_storeManagerMock->expects(
+            $this->any()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($this->_storeMock)
+        );
     }
 
     /**

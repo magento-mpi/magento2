@@ -131,12 +131,15 @@ class Config extends \Magento\Config\Data
                     $escapeHtml = false;
                 }
 
-                $type->setCode($typeCode)
-                    ->setTitle((string)$typeConfig['title'])
-                    ->setDefaultFormat($this->_scopeConfig->getValue(
-                        $path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
-                    ))
-                    ->setEscapeHtml($escapeHtml);
+                $type->setCode(
+                    $typeCode
+                )->setTitle(
+                    (string)$typeConfig['title']
+                )->setDefaultFormat(
+                    $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)
+                )->setEscapeHtml(
+                    $escapeHtml
+                );
 
                 $renderer = isset($typeConfig['renderer']) ? (string)$typeConfig['renderer'] : null;
                 if (!$renderer) {

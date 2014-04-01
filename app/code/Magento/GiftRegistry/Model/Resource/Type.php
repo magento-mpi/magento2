@@ -55,12 +55,8 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
 
-        $scopeCheckExpr = $adapter->getCheckSql(
-            'store_id = 0',
-            $adapter->quote('default'),
-            $adapter->quote('store')
-        );
-        $storeIds       = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
+        $scopeCheckExpr = $adapter->getCheckSql('store_id = 0', $adapter->quote('default'), $adapter->quote('store'));
+        $storeIds = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
         if ($object->getStoreId()) {
             $storeIds[] = (int)$object->getStoreId();
         }

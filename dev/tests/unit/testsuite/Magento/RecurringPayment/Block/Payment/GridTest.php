@@ -34,39 +34,54 @@ class GridTest extends \PHPUnit_Framework_TestCase
             array('getId', '__wakeup')
         )->getMock();
         $customer->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $registry = $this->getMockBuilder('Magento\Registry')
-            ->disableOriginalConstructor()
-            ->setMethods(array('registry'))
-            ->getMock();
-        $registry->expects($this->once())
-            ->method('registry')
-            ->with('current_customer')
-            ->will($this->returnValue($customer));
-        $store = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $collectionElement = $this->getMockBuilder('Magento\RecurringPayment\Model\Payment')
-            ->disableOriginalConstructor()
-            ->setMethods(array('setStore', 'renderData', 'getReferenceId', '__wakeup'))
-            ->getMock();
-        $collectionElement->expects($this->once())->method('setStore')
-            ->with($store)
-            ->will($this->returnValue($collectionElement));
-        $collectionElement->expects($this->once())->method('getReferenceId')
-            ->will($this->returnValue(1));
-        $collectionElement->expects($this->atLeastOnce())->method('renderData')
-            ->will($this->returnValue(2));
-        $collection = $this->getMockBuilder('Magento\RecurringPayment\Model\Resource\Payment\Collection')
-            ->disableOriginalConstructor()
-            ->setMethods(array('addFieldToFilter', 'addFieldToSelect', 'setOrder'))
-            ->getMock();
-        $collection->expects($this->once())->method('addFieldToFilter')
-            ->with('customer_id', 1)
-            ->will($this->returnValue($collection));
-        $collection->expects($this->once())->method('addFieldToSelect')
-            ->will($this->returnValue($collection));
-        $collection->expects($this->once())->method('setOrder')
-            ->will($this->returnValue(array($collectionElement)));
+        $registry = $this->getMockBuilder(
+            'Magento\Registry'
+        )->disableOriginalConstructor()->setMethods(
+            array('registry')
+        )->getMock();
+        $registry->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'current_customer'
+        )->will(
+            $this->returnValue($customer)
+        );
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
+        $collectionElement = $this->getMockBuilder(
+            'Magento\RecurringPayment\Model\Payment'
+        )->disableOriginalConstructor()->setMethods(
+            array('setStore', 'renderData', 'getReferenceId', '__wakeup')
+        )->getMock();
+        $collectionElement->expects(
+            $this->once()
+        )->method(
+            'setStore'
+        )->with(
+            $store
+        )->will(
+            $this->returnValue($collectionElement)
+        );
+        $collectionElement->expects($this->once())->method('getReferenceId')->will($this->returnValue(1));
+        $collectionElement->expects($this->atLeastOnce())->method('renderData')->will($this->returnValue(2));
+        $collection = $this->getMockBuilder(
+            'Magento\RecurringPayment\Model\Resource\Payment\Collection'
+        )->disableOriginalConstructor()->setMethods(
+            array('addFieldToFilter', 'addFieldToSelect', 'setOrder')
+        )->getMock();
+        $collection->expects(
+            $this->once()
+        )->method(
+            'addFieldToFilter'
+        )->with(
+            'customer_id',
+            1
+        )->will(
+            $this->returnValue($collection)
+        );
+        $collection->expects($this->once())->method('addFieldToSelect')->will($this->returnValue($collection));
+        $collection->expects($this->once())->method('setOrder')->will($this->returnValue(array($collectionElement)));
 
         $payment = $this->getMockBuilder(
             'Magento\RecurringPayment\Model\Payment'
@@ -75,12 +90,12 @@ class GridTest extends \PHPUnit_Framework_TestCase
         )->getMock();
         $payment->expects($this->once())->method('getCollection')->will($this->returnValue($collection));
 
-        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getStore'))
-            ->getMock();
-        $storeManager->expects($this->once())->method('getStore')
-            ->will($this->returnValue($store));
+        $storeManager = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManager'
+        )->disableOriginalConstructor()->setMethods(
+            array('getStore')
+        )->getMock();
+        $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
         $locale = $this->getMockBuilder(
             '\Magento\Stdlib\DateTime\TimezoneInterface'

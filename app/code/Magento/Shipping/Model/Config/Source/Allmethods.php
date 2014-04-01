@@ -54,12 +54,12 @@ class Allmethods implements \Magento\Option\ArrayInterface
             if (!$carrierMethods) {
                 continue;
             }
-            $carrierTitle = $this->_storeConfig->getValue('carriers/'.$carrierCode.'/title', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-            $methods[$carrierCode] = array(
-                'label'   => $carrierTitle,
-                'value' => array(),
+            $carrierTitle = $this->_storeConfig->getValue(
+                'carriers/' . $carrierCode . '/title',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
-            foreach ($carrierMethods as $methodCode=>$methodTitle) {
+            $methods[$carrierCode] = array('label' => $carrierTitle, 'value' => array());
+            foreach ($carrierMethods as $methodCode => $methodTitle) {
                 $methods[$carrierCode]['value'][] = array(
                     'value' => $carrierCode . '_' . $methodCode,
                     'label' => '[' . $carrierCode . '] ' . $methodTitle

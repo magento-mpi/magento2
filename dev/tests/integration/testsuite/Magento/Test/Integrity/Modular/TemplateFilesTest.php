@@ -19,12 +19,6 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $module
-             * @param string $template
-             * @param string $class
-             * @param string $area
-             */
             function ($module, $template, $class, $area) {
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                     'Magento\View\DesignInterface'
@@ -57,8 +51,11 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
         $blockClass = '';
         try {
             /** @var $website \Magento\Store\Model\Website */
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-                ->getStore()->setWebsiteId(0);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getStore()->setWebsiteId(
+                0
+            );
 
             $templates = array();
             $skippedBlocks = $this->_getBlocksToSkip();
@@ -87,16 +84,26 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     $area = 'adminhtml';
                 }
 
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
-                    ->getArea($area)
-                    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Config\ScopeInterface')
-                    ->setCurrentScope($area);
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-                    ->setAreaCode($area);
-                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\App\Http\Context');
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\App\AreaList'
+                )->getArea(
+                    $area
+                )->load(
+                    \Magento\Core\Model\App\Area::PART_CONFIG
+                );
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Config\ScopeInterface'
+                )->setCurrentScope(
+                    $area
+                );
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\App\State'
+                )->setAreaCode(
+                    $area
+                );
+                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\App\Http\Context'
+                );
                 $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
                 $context->setValue(
                     \Magento\Customer\Helper\Data::CONTEXT_GROUP,

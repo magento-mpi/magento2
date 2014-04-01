@@ -16,9 +16,10 @@ $maxNestingLevel = \Magento\TestFramework\Helper\Cli::getOption('categories_nest
 $anchorStep = 2;
 
 $nestingLevel = 1;
-$parentCategoryId = $defaultParentCategoryId = $this->getObjectManager()
-    ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getRootCategoryId();
-$nestingPath = "1/$parentCategoryId";
+$parentCategoryId = $defaultParentCategoryId = $this->getObjectManager()->get(
+    'Magento\Store\Model\StoreManagerInterface'
+)->getStore()->getRootCategoryId();
+$nestingPath = "1/{$parentCategoryId}";
 $categoryPath = '';
 $categoryIndex = 1;
 

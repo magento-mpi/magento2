@@ -158,19 +158,19 @@ class Settlement extends \Magento\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-<<<<<<< HEAD
-     * @param \Magento\Model\Resource\AbstractResource $resource
-=======
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
->>>>>>> MAGETWO-21585: Introduce Store module and move all Store related logic from Core module
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
-     */
+    * @param \Magento\Model\Context $context
+    * @param \Magento\Registry $registry
+    * @param \Magento\App\Filesystem $filesystem
+    * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+    * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+    <<<<<<< HEAD
+    * @param \Magento\Model\Resource\AbstractResource $resource
+    =======
+    * @param \Magento\Core\Model\Resource\AbstractResource $resource
+    >>>>>>> MAGETWO-21585: Introduce Store module and move all Store related logic from Core module
+    * @param \Magento\Data\Collection\Db $resourceCollection
+    * @param array $data
+    */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
@@ -466,31 +466,31 @@ class Settlement extends \Magento\Model\AbstractModel
                 continue;
             }
             $cfg = array(
-                'hostname'  => $this->_scopeConfig->getValue(
-                        'paypal/fetch_reports/ftp_ip',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $store
-                    ),
-                'path'      => $this->_scopeConfig->getValue(
-                        'paypal/fetch_reports/ftp_path',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $store
-                    ),
-                'username'  => $this->_scopeConfig->getValue(
-                        'paypal/fetch_reports/ftp_login',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $store
-                    ),
-                'password'  => $this->_scopeConfig->getValue(
-                        'paypal/fetch_reports/ftp_password',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $store
-                    ),
-                'sandbox'   => $this->_scopeConfig->getValue(
-                        'paypal/fetch_reports/ftp_sandbox',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $store
-                    ),
+                'hostname' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_ip',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'path' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_path',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'username' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_login',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'password' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_password',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'sandbox' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_sandbox',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                )
             );
             if (empty($cfg['username']) || empty($cfg['password'])) {
                 continue;

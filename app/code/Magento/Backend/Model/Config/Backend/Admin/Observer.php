@@ -77,9 +77,7 @@ class Observer
 
         $route = $this->_backendData->getAreaFrontName();
 
-        $this->_response
-            ->setRedirect($this->_storeManager->getStore()->getBaseUrl() . $route)
-            ->sendResponse();
+        $this->_response->setRedirect($this->_storeManager->getStore()->getBaseUrl() . $route)->sendResponse();
         exit(0);
     }
 }

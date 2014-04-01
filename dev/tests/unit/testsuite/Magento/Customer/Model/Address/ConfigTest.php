@@ -63,10 +63,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $this->_storeManagerMock
-            ->expects($this->once())
-            ->method('getStore')
-            ->will($this->returnValue($this->_storeMock));
+        $this->_storeManagerMock->expects(
+            $this->once()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($this->_storeMock)
+        );
 
         $this->_addressHelperMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
 
@@ -121,9 +124,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeMock->expects($this->once())->method('getId');
 
-        $this->_scopeConfigMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue('someValue'));
+        $this->_scopeConfigMock->expects($this->any())->method('getValue')->will($this->returnValue('someValue'));
 
         $rendererMock = $this->getMock('Magento\Object');
 

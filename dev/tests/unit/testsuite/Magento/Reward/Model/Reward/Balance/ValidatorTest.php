@@ -37,10 +37,20 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $this->_modelFactoryMock =
-            $this->getMock('Magento\Reward\Model\RewardFactory', array('create'), array(), '', false);
-        $this->_sessionMock = $this->getMock('Magento\Checkout\Model\Session',
-            array('setUpdateSection', 'setGotoSection'), array(), '', false);
+        $this->_modelFactoryMock = $this->getMock(
+            'Magento\Reward\Model\RewardFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_sessionMock = $this->getMock(
+            'Magento\Checkout\Model\Session',
+            array('setUpdateSection', 'setGotoSection'),
+            array(),
+            '',
+            false
+        );
         $this->_orderMock = $this->getMock(
             'Magento\Sales\Model\Order',
             array('getRewardPointsBalance', '__wakeup'),

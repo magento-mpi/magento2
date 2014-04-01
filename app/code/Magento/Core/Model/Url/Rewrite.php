@@ -120,7 +120,10 @@ class Rewrite extends \Magento\Model\AbstractModel
     protected function _afterSave()
     {
         if ($this->hasCategoryId()) {
-            $this->_cacheTag = array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG);
+            $this->_cacheTag = array(
+                \Magento\Catalog\Model\Category::CACHE_TAG,
+                \Magento\Store\Model\Group::CACHE_TAG
+            );
         }
 
         parent::_afterSave();
@@ -305,7 +308,7 @@ class Rewrite extends \Magento\Model\AbstractModel
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
             $this->_cookie->set(\Magento\Store\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
-            $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
+            $targetUrl = $request->getBaseUrl() . '/' . $this->getRequestPath();
 
             $this->_sendRedirectHeaders($targetUrl, true);
         }
@@ -327,15 +330,23 @@ class Rewrite extends \Magento\Model\AbstractModel
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if ($this->_storeConfig->getValue('web/url/use_store', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
-                $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
+            if ($this->_storeConfig->getValue(
+                'web/url/use_store',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ) && ($storeCode = $this->_storeManager->getStore()->getCode())
+            ) {
+                $targetUrl = $request->getBaseUrl() . '/' . $storeCode . '/' . $this->getTargetPath();
             }
 
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
-        if ($this->_storeConfig->getValue('web/url/use_store', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
-            $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
+        if ($this->_storeConfig->getValue(
+            'web/url/use_store',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && ($storeCode = $this->_storeManager->getStore()->getCode())
+        ) {
+            $targetUrl = $request->getBaseUrl() . '/' . $storeCode . '/' . $this->getTargetPath();
         }
 
         $queryString = $this->_getQueryString();

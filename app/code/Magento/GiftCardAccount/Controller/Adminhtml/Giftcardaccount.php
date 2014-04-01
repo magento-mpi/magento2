@@ -163,8 +163,11 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             }
 
             if ($this->_objectManager->get('Magento\Store\Model\StoreManager')->isSingleStoreMode()) {
-                $data['website_id'] = $this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore(true)
-                    ->getWebsiteId();
+                $data['website_id'] = $this->_objectManager->get(
+                    'Magento\Store\Model\StoreManager'
+                )->getStore(
+                    true
+                )->getWebsiteId();
             }
 
             if (!empty($data)) {

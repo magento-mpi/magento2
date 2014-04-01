@@ -71,13 +71,21 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             'store_value_title.title'
         );
         $joinExprDefaultPrice = 'default_value_price.option_type_id = main_table.option_type_id AND ' .
-            $adapter->quoteInto('default_value_price.store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+            $adapter->quoteInto(
+            'default_value_price.store_id = ?',
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        );
 
         $joinExprStorePrice = 'store_value_price.option_type_id = main_table.option_type_id AND ' .
-            $adapter->quoteInto('store_value_price.store_id = ?', $storeId);
+            $adapter->quoteInto(
+            'store_value_price.store_id = ?',
+            $storeId
+        );
 
-        $joinExprTitle = 'store_value_title.option_type_id = main_table.option_type_id AND ' .
-            $adapter->quoteInto('store_value_title.store_id = ?', $storeId);
+        $joinExprTitle = 'store_value_title.option_type_id = main_table.option_type_id AND ' . $adapter->quoteInto(
+            'store_value_title.store_id = ?',
+            $storeId
+        );
 
         $this->getSelect()->joinLeft(
             array('default_value_price' => $optionTypePriceTable),
@@ -124,7 +132,10 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         );
 
         $joinExpr = 'store_value_title.option_type_id = main_table.option_type_id AND ' .
-            $this->getConnection()->quoteInto('store_value_title.store_id = ?', $storeId);
+            $this->getConnection()->quoteInto(
+            'store_value_title.store_id = ?',
+            $storeId
+        );
         $this->getSelect()->join(
             array('default_value_title' => $optionTitleTable),
             'default_value_title.option_type_id = main_table.option_type_id',
@@ -162,10 +173,15 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         );
 
         $joinExprDefault = 'default_value_price.option_type_id = main_table.option_type_id AND ' .
-            $this->getConnection()
-                ->quoteInto('default_value_price.store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+            $this->getConnection()->quoteInto(
+            'default_value_price.store_id = ?',
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        );
         $joinExprStore = 'store_value_price.option_type_id = main_table.option_type_id AND ' .
-            $this->getConnection()->quoteInto('store_value_price.store_id = ?', $storeId);
+            $this->getConnection()->quoteInto(
+            'store_value_price.store_id = ?',
+            $storeId
+        );
         $this->getSelect()->joinLeft(
             array('default_value_price' => $optionTypeTable),
             $joinExprDefault,

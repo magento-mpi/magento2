@@ -170,11 +170,13 @@ class Customer extends \Magento\App\Action\Action
      */
     protected function _getReward()
     {
-        $reward = $this->_objectManager->create('Magento\Reward\Model\Reward')
-            ->setCustomer($this->_getCustomer())
-            ->setWebsiteId($this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')
-                ->getStore()->getWebsiteId())
-            ->loadByCustomer();
+        $reward = $this->_objectManager->create(
+            'Magento\Reward\Model\Reward'
+        )->setCustomer(
+            $this->_getCustomer()
+        )->setWebsiteId(
+            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+        )->loadByCustomer();
         return $reward;
     }
 }

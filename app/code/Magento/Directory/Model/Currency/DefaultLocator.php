@@ -48,17 +48,21 @@ class DefaultLocator
         if ($request->getParam('store')) {
             $store = $request->getParam('store');
             $currencyCode = $this->_storeManager->getStore($store)->getBaseCurrencyCode();
-        } else if ($request->getParam('website')) {
-            $website = $request->getParam('website');
-            $currencyCode = $this->_storeManager->getWebsite($website)->getBaseCurrencyCode();
-        } else if ($request->getParam('group')) {
-            $group = $request->getParam('group');
-            $currencyCode = $this->_storeManager->getGroup($group)->getWebsite()->getBaseCurrencyCode();
         } else {
-            $currencyCode = $this->_configuration->getValue(
-                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
-                'default'
-            );
+            if ($request->getParam('website')) {
+                $website = $request->getParam('website');
+                $currencyCode = $this->_storeManager->getWebsite($website)->getBaseCurrencyCode();
+            } else {
+                if ($request->getParam('group')) {
+                    $group = $request->getParam('group');
+                    $currencyCode = $this->_storeManager->getGroup($group)->getWebsite()->getBaseCurrencyCode();
+                } else {
+                    $currencyCode = $this->_configuration->getValue(
+                        \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                        'default'
+                    );
+                }
+            }
         }
 
         return $currencyCode;

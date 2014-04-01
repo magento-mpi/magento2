@@ -100,9 +100,13 @@ class Data extends \Magento\Wishlist\Helper\Data
      */
     public function isMultipleEnabled()
     {
-        return $this->isModuleOutputEnabled()
-            && $this->_storeConfig->getValue('wishlist/general/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            && $this->_storeConfig->getValue('wishlist/general/multiple_enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->isModuleOutputEnabled() && $this->_storeConfig->getValue(
+            'wishlist/general/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && $this->_storeConfig->getValue(
+            'wishlist/general/multiple_enabled',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -141,7 +145,10 @@ class Data extends \Magento\Wishlist\Helper\Data
      */
     public function getWishlistLimit()
     {
-        return $this->_storeConfig->getValue('wishlist/general/multiple_wishlist_number', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->getValue(
+            'wishlist/general/multiple_wishlist_number',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -186,7 +193,11 @@ class Data extends \Magento\Wishlist\Helper\Data
     public function getWishlistItemCount(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         $collection = $wishlist->getItemCollection();
-        if ($this->_storeConfig->getValue(self::XML_PATH_WISHLIST_LINK_USE_QTY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->_storeConfig->getValue(
+            self::XML_PATH_WISHLIST_LINK_USE_QTY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             $count = $collection->getItemsQty();
         } else {
             $count = $collection->getSize();

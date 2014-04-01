@@ -62,13 +62,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $websiteIrrelevant->setId(13);
 
         $storeGroupOne = $this->getMock(
-            'Magento\Store\Model\Group', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group',
+            array('getWebsite', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $storeGroupOne->setId(21);
         $storeGroupOne->setWebsiteId(11);
         $storeGroupOne->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteOne));
         $storeGroupTwo = $this->getMock(
-            'Magento\Store\Model\Group', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group',
+            array('getWebsite', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $storeGroupTwo->setId(22);
         $storeGroupTwo->setWebsiteId(12);
@@ -86,19 +94,27 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $storeIrrelevant->setGroupId(1);
 
         $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->_storeManager->expects($this->any())->method('getWebsites')->will($this->returnValue(array(
-            11 => $websiteOne,
-            12 => $websiteTwo,
-            13 => $websiteIrrelevant,
-        )));
-        $this->_storeManager->expects($this->any())->method('getStores')->will($this->returnValue(array(
-            31 => $storeOne,
-            32 => $storeTwo,
-            33 => $storeIrrelevant,
-        )));
+        $this->_storeManager->expects(
+            $this->any()
+        )->method(
+            'getWebsites'
+        )->will(
+            $this->returnValue(array(11 => $websiteOne, 12 => $websiteTwo, 13 => $websiteIrrelevant))
+        );
+        $this->_storeManager->expects(
+            $this->any()
+        )->method(
+            'getStores'
+        )->will(
+            $this->returnValue(array(31 => $storeOne, 32 => $storeTwo, 33 => $storeIrrelevant))
+        );
 
         $this->_storeGroups = $this->getMock(
-            'Magento\Store\Model\Resource\Group\Collection', array('load'), array(), '', false
+            'Magento\Store\Model\Resource\Group\Collection',
+            array('load'),
+            array(),
+            '',
+            false
         );
         $this->_storeGroups->addItem($storeGroupOne);
         $this->_storeGroups->addItem($storeGroupTwo);
@@ -113,25 +129,19 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_store = new \Magento\Object();
 
-        $this->_observer = $this->getMockBuilder('Magento\Event\Observer')
-            ->setMethods(array('getStore'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_observer->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $this->_observer = $this->getMockBuilder(
+            'Magento\Event\Observer'
+        )->setMethods(
+            array('getStore')
+        )->disableOriginalConstructor()->getMock();
+        $this->_observer->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
-        $this->_role = $this->getMockBuilder('Magento\AdminGws\Model\Role')
-            ->setMethods(array('getStoreIds', 'setStoreIds'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_role->expects($this->any())
-            ->method('getStoreIds')
-            ->will(
-                $this->returnValue(
-                    array(1, 2, 3, 4, 5)
-                )
-            );
+        $this->_role = $this->getMockBuilder(
+            'Magento\AdminGws\Model\Role'
+        )->setMethods(
+            array('getStoreIds', 'setStoreIds')
+        )->disableOriginalConstructor()->getMock();
+        $this->_role->expects($this->any())->method('getStoreIds')->will($this->returnValue(array(1, 2, 3, 4, 5)));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(

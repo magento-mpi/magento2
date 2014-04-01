@@ -85,8 +85,8 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_sidResolverMock = $this->getMock('\Magento\Session\SidResolverInterface', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->_storage = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', [], [], '', false);
-        $this->_httpContext = $this->getMock('Magento\App\Http\Context', [], [], '', false);
+        $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
+        $this->_httpContext = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
         $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->_model = new \Magento\Store\Model\StorageFactory(
@@ -136,21 +136,27 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->_storage->expects($this->exactly(2))->method('getStore')->will($this->returnValue($store));
 
-        $this->_scopeConfig->expects($this->at(0))
-            ->method('isSetFlag')
-            ->with(
-                \Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            )
-            ->will($this->returnValue(true));
+        $this->_scopeConfig->expects(
+            $this->at(0)
+        )->method(
+            'isSetFlag'
+        )->with(
+            \Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )->will(
+            $this->returnValue(true)
+        );
 
-        $this->_scopeConfig->expects($this->at(1))
-            ->method('isSetFlag')
-            ->with(
-                'dev/log/active',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            )
-            ->will($this->returnValue(true));
+        $this->_scopeConfig->expects(
+            $this->at(1)
+        )->method(
+            'isSetFlag'
+        )->with(
+            'dev/log/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )->will(
+            $this->returnValue(true)
+        );
 
         $this->_objectManagerMock->expects(
             $this->once()
@@ -216,40 +222,35 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
 
-        $website = $this->getMock('Magento\Store\Model\Website', [], [], '', false);
+        $website = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false);
         $website->expects($this->once())->method('getCode')->will($this->returnValue('code'));
         $website->expects($this->any())->method('getDefaultGroupId')->will($this->returnValue(1));
 
         $group = $this->getMock(
             'Magento\Store\Model\Group',
-            ['getDefaultStoreId', '__sleep', '__wakeup'],
-            [],
+            array('getDefaultStoreId', '__sleep', '__wakeup'),
+            array(),
             '',
             false
         );
         $group->expects($this->any())->method('getDefaultStoreId')->will($this->returnValue(1));
 
-        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $store->expects($this->once())->method('getCode')->will($this->returnValue(1));
         $store->expects($this->once())->method('getId')->will($this->returnValue(1));
         $store->expects($this->once())->method('getIsActive')->will($this->returnValue(true));
-        $store->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnValue(1));
+        $store->expects($this->any())->method('getConfig')->will($this->returnValue(1));
 
-        $storage = $this->getMock('Magento\Store\Model\Storage\Db', [], [], '', false);
+        $storage = $this->getMock('Magento\Store\Model\Storage\Db', array(), array(), '', false);
         $storage->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
-        $storage->expects($this->any())->method('getWebsites')->will($this->returnValue(['code' => $website]));
-        $storage->expects($this->any())->method('getGroups')->will($this->returnValue(['1' => $group]));
-        $storage->expects($this->any())->method('getStores')->will($this->returnValue(['1' => $store]));
+        $storage->expects($this->any())->method('getWebsites')->will($this->returnValue(array('code' => $website)));
+        $storage->expects($this->any())->method('getGroups')->will($this->returnValue(array('1' => $group)));
+        $storage->expects($this->any())->method('getStores')->will($this->returnValue(array('1' => $store)));
         $storage->expects($this->any())->method('setCurrentStore')->with('1');
         $storage->expects($this->any())->method('getCurrentStore')->will($this->returnValue(1));
         $storage->expects($this->any())->method('getStore')->will($this->returnValue($store));
 
-        $this->_objectManagerMock
-            ->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($storage));
+        $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($storage));
 
         $this->_cookie->expects($this->any())->method('get')->will($this->returnValue(1));
 

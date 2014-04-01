@@ -175,13 +175,21 @@ abstract class AbstractEntity
         array $data = array()
     ) {
         $this->_storeConfig = $coreStoreConfig;
-        $this->_storeManager   = $storeManager;
-        $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
-        $this->_pageSize = isset($data['page_size']) ? $data['page_size']
-            : (static::XML_PATH_PAGE_SIZE ? (int) $this->_storeConfig->getValue(static::XML_PATH_PAGE_SIZE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE) : 0);
-        $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : $resourceColFactory->create();
+        $this->_storeManager = $storeManager;
+        $this->_attributeCollection = isset(
+            $data['attribute_collection']
+        ) ? $data['attribute_collection'] : $collectionFactory->create(
+            static::ATTRIBUTE_COLLECTION_NAME
+        );
+        $this->_pageSize = isset(
+            $data['page_size']
+        ) ? $data['page_size'] : (static::XML_PATH_PAGE_SIZE ? (int)$this->_storeConfig->getValue(
+            static::XML_PATH_PAGE_SIZE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) : 0);
+        $this->_byPagesIterator = isset(
+            $data['collection_by_pages_iterator']
+        ) ? $data['collection_by_pages_iterator'] : $resourceColFactory->create();
     }
 
     /**

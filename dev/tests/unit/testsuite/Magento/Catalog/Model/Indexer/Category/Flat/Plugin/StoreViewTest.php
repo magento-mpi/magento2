@@ -56,10 +56,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
             return false;
         };
         $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store', array(), array(), '', false);
-        $this->model = new StoreView(
-            $this->indexerMock,
-            $this->stateMock
-        );
+        $this->model = new StoreView($this->indexerMock, $this->stateMock);
     }
 
     public function testAroundSaveNewObject()
@@ -67,7 +64,11 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $this->mockConfigFlatEnabled();
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $storeMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
         $this->assertFalse($this->model->aroundSave($this->subjectMock, $this->closureMock, $storeMock));
@@ -76,7 +77,11 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $this->assertFalse($this->model->aroundSave($this->subjectMock, $this->closureMock, $storeMock));
     }
@@ -85,7 +90,11 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockConfigFlatEnabledNeever();
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $this->assertFalse($this->model->aroundSave($this->subjectMock, $this->closureMock, $storeMock));
     }

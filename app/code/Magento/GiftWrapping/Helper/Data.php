@@ -112,7 +112,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isGiftWrappingAvailableForItems($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_FOR_ITEMS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_ALLOWED_FOR_ITEMS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -123,7 +127,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isGiftWrappingAvailableForOrder($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_FOR_ORDER, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_ALLOWED_FOR_ORDER,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -134,7 +142,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getWrappingTaxClass($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_TAX_CLASS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_TAX_CLASS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -145,7 +157,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function allowPrintedCard($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_ALLOW_PRINTED_CARD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_ALLOW_PRINTED_CARD,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -156,7 +172,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function allowGiftReceipt($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_ALLOW_GIFT_RECEIPT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_ALLOW_GIFT_RECEIPT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -167,7 +187,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPrintedCardPrice($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_PRINTED_CARD_PRICE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_PRINTED_CARD_PRICE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -178,9 +202,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartWrappingIncludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
-            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH ||
+            $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -191,7 +219,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartWrappingExcludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
@@ -203,7 +235,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartWrappingBothPrices($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
@@ -215,9 +251,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartCardIncludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
-            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH ||
+            $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -228,7 +268,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartCardBothPrices($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
@@ -240,9 +284,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesWrappingIncludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
-            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH ||
+            $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -253,7 +301,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesWrappingExcludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
@@ -265,7 +317,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesWrappingBothPrices($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
@@ -277,9 +333,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesCardIncludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
-            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH ||
+            $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
     /**
@@ -290,7 +350,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesCardBothPrices($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $configValue = $this->_storeConfig->getValue(
+            self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 

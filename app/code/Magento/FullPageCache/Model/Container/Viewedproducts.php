@@ -42,8 +42,15 @@ class Viewedproducts extends \Magento\FullPageCache\Model\Container\AbstractCont
         $productIds = $this->_getProductIds();
         if ($cacheId && $productIds) {
             sort($productIds);
-            $cacheId = 'CONTAINER_' . md5($cacheId . implode('_', $productIds)
-                . $this->_getCookieValue(\Magento\Store\Model\Store::COOKIE_CURRENCY, ''));
+            $cacheId = 'CONTAINER_' . md5(
+                $cacheId . implode(
+                    '_',
+                    $productIds
+                ) . $this->_getCookieValue(
+                    \Magento\Store\Model\Store::COOKIE_CURRENCY,
+                    ''
+                )
+            );
             return $cacheId;
         }
         return false;

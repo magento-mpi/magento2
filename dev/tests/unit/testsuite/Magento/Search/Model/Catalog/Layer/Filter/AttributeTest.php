@@ -79,18 +79,10 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_filterItem->expects($this->any())
-            ->method('setFilter')
-            ->will($this->returnSelf());
-        $this->_filterItem->expects($this->any())
-            ->method('setLabel')
-            ->will($this->returnSelf());
-        $this->_filterItem->expects($this->any())
-            ->method('setValue')
-            ->will($this->returnSelf());
-        $this->_filterItem->expects($this->any())
-            ->method('setCount')
-            ->will($this->returnSelf());
+        $this->_filterItem->expects($this->any())->method('setFilter')->will($this->returnSelf());
+        $this->_filterItem->expects($this->any())->method('setLabel')->will($this->returnSelf());
+        $this->_filterItem->expects($this->any())->method('setValue')->will($this->returnSelf());
+        $this->_filterItem->expects($this->any())->method('setCount')->will($this->returnSelf());
         $this->_filterItemFactory = $this->getMock(
             '\Magento\Catalog\Model\Layer\Filter\ItemFactory',
             array('create'),
@@ -98,16 +90,23 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_filterItemFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_filterItem));
+        $this->_filterItemFactory->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_filterItem)
+        );
 
         $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManager =
-            $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
-        $this->_storeManager->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $this->_storeManager = $this->getMock(
+            '\Magento\Store\Model\StoreManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->_storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
 
@@ -118,20 +117,16 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_layer->expects($this->any())
-            ->method('getProductCollection')
-            ->will($this->returnValue($this->_productCollection));
-
-        $this->_state = $this->getMock(
-            '\Magento\Catalog\Model\Layer\State',
-            array(),
-            array(),
-            '',
-            false
+        $this->_layer->expects(
+            $this->any()
+        )->method(
+            'getProductCollection'
+        )->will(
+            $this->returnValue($this->_productCollection)
         );
-        $this->_layer->expects($this->any())
-            ->method('getState')
-            ->will($this->returnValue($this->_state));
+
+        $this->_state = $this->getMock('\Magento\Catalog\Model\Layer\State', array(), array(), '', false);
+        $this->_layer->expects($this->any())->method('getState')->will($this->returnValue($this->_state));
 
         $this->_attributeFactory = $this->getMock(
             '\Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory',
@@ -147,9 +142,13 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_attributeFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_attributeItem));
+        $this->_attributeFactory->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_attributeItem)
+        );
 
         $this->_string = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false);
 
@@ -185,9 +184,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $sourceModel->expects($this->atLeastOnce())
-            ->method('getAllOptions')
-            ->will($this->returnValue($options));
+        $sourceModel->expects($this->atLeastOnce())->method('getAllOptions')->will($this->returnValue($options));
 
         $attributeModel = $this->getMock('\Magento\Catalog\Model\Resource\Eav\Attribute', array(), array(), '', false);
         $attributeModel->expects($this->atLeastOnce())->method('getSource')->will($this->returnValue($sourceModel));

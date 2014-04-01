@@ -22,9 +22,13 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
-        $this->_requestMock->expects($this->any())
-            ->method('getDistroBaseUrl')
-            ->will($this->returnValue('http://localhost/'));
+        $this->_requestMock->expects(
+            $this->any()
+        )->method(
+            'getDistroBaseUrl'
+        )->will(
+            $this->returnValue('http://localhost/')
+        );
         $this->_model = new \Magento\Store\Model\Config\Processor\Placeholder(
             $this->_requestMock,
             array(

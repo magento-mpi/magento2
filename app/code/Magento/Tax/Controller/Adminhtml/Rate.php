@@ -430,7 +430,11 @@ class Rate extends \Magento\Backend\App\Action
         $storeTaxTitleTemplate = array();
         $taxCalculationRateTitleDict = array();
 
-        foreach ($this->_objectManager->create('Magento\Store\Model\Store')->getCollection()->setLoadDefault(false) as $store) {
+        foreach ($this->_objectManager->create(
+            'Magento\Store\Model\Store'
+        )->getCollection()->setLoadDefault(
+            false
+        ) as $store) {
             $storeTitle = 'title_' . $store->getId();
             $content .= ',"' . $store->getCode() . '"';
             $template .= ',"{{' . $storeTitle . '}}"';

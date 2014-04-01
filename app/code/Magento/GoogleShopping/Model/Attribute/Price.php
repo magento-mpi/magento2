@@ -111,7 +111,11 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     {
         $product->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId());
         $product->setCustomerGroupId(
-            $this->_storeConfig->getValue(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $product->getStoreId())
+            $this->_storeConfig->getValue(
+                \Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $product->getStoreId()
+            )
         );
 
         $store = $this->_storeManager->getStore($product->getStoreId());
@@ -132,8 +136,10 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         }
         if (!is_null($salePriceMapValue) && floatval($salePriceMapValue) > .0001) {
             $finalPrice = $salePriceMapValue;
-        } else if ($isSalePriceAllowed) {
-            $finalPrice = $this->catalogPrice->getCatalogPrice($product, $store, $inclTax);
+        } else {
+            if ($isSalePriceAllowed) {
+                $finalPrice = $this->catalogPrice->getCatalogPrice($product, $store, $inclTax);
+            }
         }
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             $finalPrice = $taxHelp->getPrice(
@@ -152,11 +158,13 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $price = null;
         if (!is_null($priceMapValue) && floatval($priceMapValue) > .0001) {
             $price = $priceMapValue;
-        } else if ($isSalePriceAllowed) {
-            $price = $this->catalogPrice->getCatalogRegularPrice($product, $store);
         } else {
-            $inclTax = $priceDisplayType != \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
-            $price = $this->catalogPrice->getCatalogPrice($product, $store, $inclTax);
+            if ($isSalePriceAllowed) {
+                $price = $this->catalogPrice->getCatalogRegularPrice($product, $store);
+            } else {
+                $inclTax = $priceDisplayType != \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
+                $price = $this->catalogPrice->getCatalogPrice($product, $store, $inclTax);
+            }
         }
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             $price = $taxHelp->getPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());

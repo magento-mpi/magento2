@@ -28,9 +28,7 @@ class StockDataFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->scopeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
 
-        $this->scopeConfigMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue(1));
+        $this->scopeConfigMock->expects($this->any())->method('getValue')->will($this->returnValue(1));
 
         $this->stockDataFilter = new StockDataFilter($this->scopeConfigMock);
     }
@@ -69,13 +67,11 @@ class StockDataFilterTest extends \PHPUnit_Framework_TestCase
             ),
             'case3' => array(
                 'inputStockData' => array(
-                    'qty' =>
-                        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE +
+                    'qty' => \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE +
                     1
                 ),
                 'outputStockData' => array(
-                    'qty' =>
-                        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE,
+                    'qty' => \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE,
                     'is_decimal_divided' => 0,
                     'use_config_manage_stock' => 0
                 )

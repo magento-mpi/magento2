@@ -28,8 +28,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             'Magento\DB\Helper',
             array('modulePrefix' => 'core')
         );
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Resource\Store\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Store\Model\Resource\Store\Collection'
+        );
         $this->_select = $collection->getSelect();
     }
 

@@ -226,8 +226,13 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function canUseCheckout()
     {
-        if ($this->_storeConfig->isSetFlag('payment/hosted_pro/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            && !$this->_storeConfig->isSetFlag('payment/hosted_pro/display_ec', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+        if ($this->_storeConfig->isSetFlag(
+            'payment/hosted_pro/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && !$this->_storeConfig->isSetFlag(
+            'payment/hosted_pro/display_ec',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
         ) {
             return false;
         }

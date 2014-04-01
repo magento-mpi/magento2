@@ -31,16 +31,19 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $coreStoreConfig = $this->getMockBuilder('\Magento\App\Config\ScopeConfigInterface')
-            ->setMethods(array('isSetFlag', 'getValue'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $coreStoreConfig->expects($this->any())
-            ->method('isSetFlag')
-            ->will($this->returnValue(true));
-        $coreStoreConfig->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnCallback(array($this, 'coreStoreConfiggetValue')));
+        $coreStoreConfig = $this->getMockBuilder(
+            '\Magento\App\Config\ScopeConfigInterface'
+        )->setMethods(
+            array('isSetFlag', 'getValue')
+        )->disableOriginalConstructor()->getMock();
+        $coreStoreConfig->expects($this->any())->method('isSetFlag')->will($this->returnValue(true));
+        $coreStoreConfig->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnCallback(array($this, 'coreStoreConfiggetValue'))
+        );
 
         // xml element factory
         $xmlElFactory = $this->getMockBuilder(

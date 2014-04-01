@@ -185,22 +185,23 @@ abstract class AbstractEav extends \Magento\Catalog\Model\Resource\Product\Index
      */
     protected function _prepareRelationIndex($parentIds = null)
     {
-        $write      = $this->_getWriteAdapter();
-        $idxTable   = $this->getIdxTable();
+        $write = $this->_getWriteAdapter();
+        $idxTable = $this->getIdxTable();
 
-        $select = $write->select()
-            ->from(array('l' => $this->getTable('catalog_product_relation')), 'parent_id')
-            ->join(
-                array('cs' => $this->getTable('store')),
-                '',
-                array())
-            ->join(
-                array('i' => $idxTable),
-                'l.child_id = i.entity_id AND cs.store_id = i.store_id',
-                array('attribute_id', 'store_id', 'value'))
-            ->group(array(
-                'l.parent_id', 'i.attribute_id', 'i.store_id', 'i.value'
-            ));
+        $select = $write->select()->from(
+            array('l' => $this->getTable('catalog_product_relation')),
+            'parent_id'
+        )->join(
+            array('cs' => $this->getTable('store')),
+            '',
+            array()
+        )->join(
+            array('i' => $idxTable),
+            'l.child_id = i.entity_id AND cs.store_id = i.store_id',
+            array('attribute_id', 'store_id', 'value')
+        )->group(
+            array('l.parent_id', 'i.attribute_id', 'i.store_id', 'i.value')
+        );
         if (!is_null($parentIds)) {
             $select->where('l.parent_id IN(?)', $parentIds);
         }

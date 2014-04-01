@@ -61,58 +61,68 @@ $table = $connection->newTable(
 );
 $installer->getConnection()->createTable($table);
 
-$table = $connection->newTable($this->getTable('googleshopping_items'))
-    ->addColumn('item_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'nullable' => false,
-        'unsigned' => true,
-        'primary' => true
-        ), 'Item Id')
-    ->addColumn('type_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable' => false,
-        'unsigned' => true,
-        'default' => 0
-        ), 'Type Id')
-    ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable' => false,
-        'unsigned' => true
-        ), 'Product Id')
-    ->addColumn('gcontent_item_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable' => false
-        ), 'Google Content Item Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable' => false,
-        'unsigned' => true
-        ), 'Store Id')
-    ->addColumn('published', \Magento\DB\Ddl\Table::TYPE_DATETIME, null, array(), 'Published date')
-    ->addColumn('expires', \Magento\DB\Ddl\Table::TYPE_DATETIME, null, array(), 'Expires date')
-    ->addForeignKey(
-        $installer->getFkName(
-            'googleshopping_items',
-            'product_id',
-            'catalog_product_entity',
-            'entity_id'
-        ),
-        'product_id',
-        $this->getTable('catalog_product_entity'),
-        'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE
-     )
-    ->addForeignKey(
-        $installer->getFkName(
-            'googleshopping_items',
-            'store_id',
-            'store',
-            'store_id'
-        ),
-        'store_id',
-        $this->getTable('store'),
-        'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE
-     )
-    ->addIndex($installer->getIdxName('googleshopping_items', array('product_id', 'store_id')),
-         array('product_id', 'store_id'))
-    ->setComment('Google Content Items Products');
+$table = $connection->newTable(
+    $this->getTable('googleshopping_items')
+)->addColumn(
+    'item_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'nullable' => false, 'unsigned' => true, 'primary' => true),
+    'Item Id'
+)->addColumn(
+    'type_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'unsigned' => true, 'default' => 0),
+    'Type Id'
+)->addColumn(
+    'product_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'unsigned' => true),
+    'Product Id'
+)->addColumn(
+    'gcontent_item_id',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Google Content Item Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'unsigned' => true),
+    'Store Id'
+)->addColumn(
+    'published',
+    \Magento\DB\Ddl\Table::TYPE_DATETIME,
+    null,
+    array(),
+    'Published date'
+)->addColumn(
+    'expires',
+    \Magento\DB\Ddl\Table::TYPE_DATETIME,
+    null,
+    array(),
+    'Expires date'
+)->addForeignKey(
+    $installer->getFkName('googleshopping_items', 'product_id', 'catalog_product_entity', 'entity_id'),
+    'product_id',
+    $this->getTable('catalog_product_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('googleshopping_items', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $this->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addIndex(
+    $installer->getIdxName('googleshopping_items', array('product_id', 'store_id')),
+    array('product_id', 'store_id')
+)->setComment(
+    'Google Content Items Products'
+);
 $installer->getConnection()->createTable($table);
 
 $table = $connection->newTable(

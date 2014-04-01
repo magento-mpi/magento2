@@ -208,89 +208,118 @@ class Related extends Extended
             );
         }
 
-        $this->addColumn('entity_id', array(
-            'header'    => __('ID'),
-            'sortable'  => true,
-            'index'     => 'entity_id',
-            'header_css_class'  => 'col-id',
-            'column_css_class'  => 'col-id'
-        ));
+        $this->addColumn(
+            'entity_id',
+            array(
+                'header' => __('ID'),
+                'sortable' => true,
+                'index' => 'entity_id',
+                'header_css_class' => 'col-id',
+                'column_css_class' => 'col-id'
+            )
+        );
 
-        $this->addColumn('name', array(
-            'header'    => __('Name'),
-            'index'     => 'name',
-            'header_css_class'  => 'col-name',
-            'column_css_class'  => 'col-name'
-        ));
+        $this->addColumn(
+            'name',
+            array(
+                'header' => __('Name'),
+                'index' => 'name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
+            )
+        );
 
-        $this->addColumn('type', array(
-            'header'    => __('Type'),
-            'index'     => 'type_id',
-            'type'      => 'options',
-            'options'   => $this->_type->getOptionArray(),
-            'header_css_class'  => 'col-type',
-            'column_css_class'  => 'col-type'
-        ));
+        $this->addColumn(
+            'type',
+            array(
+                'header' => __('Type'),
+                'index' => 'type_id',
+                'type' => 'options',
+                'options' => $this->_type->getOptionArray(),
+                'header_css_class' => 'col-type',
+                'column_css_class' => 'col-type'
+            )
+        );
 
-        $sets = $this->_setsFactory->create()
-            ->setEntityTypeFilter($this->_productFactory->create()->getResource()->getTypeId())
-            ->load()
-            ->toOptionHash();
+        $sets = $this->_setsFactory->create()->setEntityTypeFilter(
+            $this->_productFactory->create()->getResource()->getTypeId()
+        )->load()->toOptionHash();
 
-        $this->addColumn('set_name', array(
-            'header'    => __('Attribute Set'),
-            'index'     => 'attribute_set_id',
-            'type'      => 'options',
-            'options'   => $sets,
-            'header_css_class'  => 'col-attr-name',
-            'column_css_class'  => 'col-attr-name'
-        ));
+        $this->addColumn(
+            'set_name',
+            array(
+                'header' => __('Attribute Set'),
+                'index' => 'attribute_set_id',
+                'type' => 'options',
+                'options' => $sets,
+                'header_css_class' => 'col-attr-name',
+                'column_css_class' => 'col-attr-name'
+            )
+        );
 
-        $this->addColumn('status', array(
-            'header'    => __('Status'),
-            'index'     => 'status',
-            'type'      => 'options',
-            'options'   => $this->_status->getOptionArray(),
-            'header_css_class'  => 'col-status',
-            'column_css_class'  => 'col-status'
-        ));
+        $this->addColumn(
+            'status',
+            array(
+                'header' => __('Status'),
+                'index' => 'status',
+                'type' => 'options',
+                'options' => $this->_status->getOptionArray(),
+                'header_css_class' => 'col-status',
+                'column_css_class' => 'col-status'
+            )
+        );
 
-        $this->addColumn('visibility', array(
-            'header'    => __('Visibility'),
-            'index'     => 'visibility',
-            'type'      => 'options',
-            'options'   => $this->_visibility->getOptionArray(),
-            'header_css_class'  => 'col-visibility',
-            'column_css_class'  => 'col-visibility'
-        ));
+        $this->addColumn(
+            'visibility',
+            array(
+                'header' => __('Visibility'),
+                'index' => 'visibility',
+                'type' => 'options',
+                'options' => $this->_visibility->getOptionArray(),
+                'header_css_class' => 'col-visibility',
+                'column_css_class' => 'col-visibility'
+            )
+        );
 
-        $this->addColumn('sku', array(
-            'header'    => __('SKU'),
-            'index'     => 'sku',
-            'header_css_class'  => 'col-sku',
-            'column_css_class'  => 'col-sku'
-        ));
+        $this->addColumn(
+            'sku',
+            array(
+                'header' => __('SKU'),
+                'index' => 'sku',
+                'header_css_class' => 'col-sku',
+                'column_css_class' => 'col-sku'
+            )
+        );
 
-        $this->addColumn('price', array(
-            'header'        => __('Price'),
-            'type'          => 'currency',
-            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-            'index'         => 'price',
-            'header_css_class'  => 'col-price',
-            'column_css_class'  => 'col-price'
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'type' => 'currency',
+                'currency_code' => (string)$this->_storeConfig->getValue(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ),
+                'index' => 'price',
+                'header_css_class' => 'col-price',
+                'column_css_class' => 'col-price'
+            )
+        );
 
-        $this->addColumn('position', array(
-            'header'            => __('Position'),
-            'name'              => 'position',
-            'type'              => 'number',
-            'validate_class'    => 'validate-number',
-            'index'             => 'position',
-            'editable'          => !$this->getProduct()->getRelatedReadonly(),
-            'edit_only'         => !$this->getProduct()->getId(),
-            'header_css_class'  => 'col-position',
-            'column_css_class'  => 'col-position'
-        ));
+        $this->addColumn(
+            'position',
+            array(
+                'header' => __('Position'),
+                'name' => 'position',
+                'type' => 'number',
+                'validate_class' => 'validate-number',
+                'index' => 'position',
+                'editable' => !$this->getProduct()->getRelatedReadonly(),
+                'edit_only' => !$this->getProduct()->getId(),
+                'header_css_class' => 'col-position',
+                'column_css_class' => 'col-position'
+            )
+        );
 
         return parent::_prepareColumns();
     }

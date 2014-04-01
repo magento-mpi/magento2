@@ -144,12 +144,9 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
                     }
                 }
             } elseif ($website['value'] == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
-                $website['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
-                                    . \Magento\Store\Model\Store::DEFAULT_STORE_ID;
-                $options[] = array(
-                    'label' => $website['label'],
-                    'value' => $website['value'],
-                );
+                $website['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE .
+                    \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+                $options[] = array('label' => $website['label'], 'value' => $website['value']);
             }
         }
         return $options;

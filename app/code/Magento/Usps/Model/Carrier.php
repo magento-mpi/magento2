@@ -281,19 +281,25 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal($this->_storeConfig->getValue(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $request->getStoreId()
-            ));
+            $r->setOrigPostal(
+                $this->_storeConfig->getValue(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStoreId()
+                )
+            );
         }
 
         if ($request->getOrigCountryId()) {
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
-            $r->setOrigCountryId($this->_storeConfig->getValue(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $request->getStoreId()
-            ));
+            $r->setOrigCountryId(
+                $this->_storeConfig->getValue(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStoreId()
+                )
+            );
         }
 
         if ($request->getDestCountryId()) {
@@ -755,7 +761,6 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                 'INT_26' => 'Priority Express',
                 'INT_27' => 'Priority Express'
             ),
-            // Added because USPS has different services but with same CLASSID value, which is "0"
             'method_to_code' => array(
                 'First-Class Mail Large Envelope' => '0_FCLE',
                 'First-Class Mail Letter' => '0_FCL',
@@ -1639,14 +1644,16 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
             $method = 'Priority';
             $rootNode = 'PriorityMailIntlRequest';
             $xml = $xmlWrap->addChild($rootNode);
-        } else if ($service == 'First Class') {
-            $method = 'FirstClass';
-            $rootNode = 'FirstClassMailIntlRequest';
-            $xml = $xmlWrap->addChild($rootNode);
         } else {
-            $method = 'Express';
-            $rootNode = 'ExpressMailIntlRequest';
-            $xml = $xmlWrap->addChild($rootNode);
+            if ($service == 'First Class') {
+                $method = 'FirstClass';
+                $rootNode = 'FirstClassMailIntlRequest';
+                $xml = $xmlWrap->addChild($rootNode);
+            } else {
+                $method = 'Express';
+                $rootNode = 'ExpressMailIntlRequest';
+                $xml = $xmlWrap->addChild($rootNode);
+            }
         }
 
         $xml->addAttribute('USERID', $this->getConfigData('userid'));
@@ -1693,10 +1700,12 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         if ($method == 'FirstClass') {
             if (stripos($shippingMethod, 'Letter') !== false) {
                 $xml->addChild('FirstClassMailType', 'LETTER');
-            } else if (stripos($shippingMethod, 'Flat') !== false) {
-                $xml->addChild('FirstClassMailType', 'FLAT');
             } else {
-                $xml->addChild('FirstClassMailType', 'PARCEL');
+                if (stripos($shippingMethod, 'Flat') !== false) {
+                    $xml->addChild('FirstClassMailType', 'FLAT');
+                } else {
+                    $xml->addChild('FirstClassMailType', 'PARCEL');
+                }
             }
         }
         if ($method != 'FirstClass') {
@@ -1817,22 +1826,28 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         if ($recipientUSCountry && $service == 'Priority Express') {
             $requestXml = $this->_formUsExpressShipmentRequest($request);
             $api = 'ExpressMailLabel';
-        } else if ($recipientUSCountry) {
-            $requestXml = $this->_formUsSignatureConfirmationShipmentRequest($request, $service);
-            if ($this->getConfigData('mode')) {
-                $api = 'SignatureConfirmationV3';
-            } else {
-                $api = 'SignatureConfirmationCertifyV3';
-            }
-        } else if ($service == 'First Class') {
-            $requestXml = $this->_formIntlShipmentRequest($request);
-            $api = 'FirstClassMailIntl';
-        } else if ($service == 'Priority') {
-            $requestXml = $this->_formIntlShipmentRequest($request);
-            $api = 'PriorityMailIntl';
         } else {
-            $requestXml = $this->_formIntlShipmentRequest($request);
-            $api = 'ExpressMailIntl';
+            if ($recipientUSCountry) {
+                $requestXml = $this->_formUsSignatureConfirmationShipmentRequest($request, $service);
+                if ($this->getConfigData('mode')) {
+                    $api = 'SignatureConfirmationV3';
+                } else {
+                    $api = 'SignatureConfirmationCertifyV3';
+                }
+            } else {
+                if ($service == 'First Class') {
+                    $requestXml = $this->_formIntlShipmentRequest($request);
+                    $api = 'FirstClassMailIntl';
+                } else {
+                    if ($service == 'Priority') {
+                        $requestXml = $this->_formIntlShipmentRequest($request);
+                        $api = 'PriorityMailIntl';
+                    } else {
+                        $requestXml = $this->_formIntlShipmentRequest($request);
+                        $api = 'ExpressMailIntl';
+                    }
+                }
+            }
         }
 
         $debugData = array('request' => $requestXml);

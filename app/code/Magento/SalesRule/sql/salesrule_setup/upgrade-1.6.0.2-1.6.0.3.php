@@ -12,8 +12,8 @@
 $installer = $this;
 $connection = $installer->getConnection();
 
-$rulesTable          = $installer->getTable('salesrule');
-$websitesTable       = $installer->getTable('store_website');
+$rulesTable = $installer->getTable('salesrule');
+$websitesTable = $installer->getTable('store_website');
 $customerGroupsTable = $installer->getTable('customer_group');
 $rulesWebsitesTable = $installer->getTable('salesrule_website');
 $rulesCustomerGroupsTable = $installer->getTable('salesrule_customer_group');

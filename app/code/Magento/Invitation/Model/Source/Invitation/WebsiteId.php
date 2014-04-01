@@ -28,9 +28,8 @@ class WebsiteId implements \Magento\Option\ArrayInterface
     /**
      * @param \Magento\Store\Model\System\Store $store
      */
-    public function __construct(
-        \Magento\Store\Model\System\Store $store
-    ) {
+    public function __construct(\Magento\Store\Model\System\Store $store)
+    {
         $this->_store = $store;
     }
 

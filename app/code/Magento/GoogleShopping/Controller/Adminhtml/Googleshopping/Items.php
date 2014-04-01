@@ -49,10 +49,14 @@ class Items extends \Magento\Backend\App\Action
         $this->_title->add(__('Google Content Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
-            $this->_redirect('adminhtml/*/', array(
-                'store' => $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')
-                    ->getAnyStoreView()->getId(),
-                '_current' => true)
+            $this->_redirect(
+                'adminhtml/*/',
+                array(
+                    'store' => $this->_objectManager->get(
+                        'Magento\Store\Model\StoreManagerInterface'
+                    )->getAnyStoreView()->getId(),
+                    '_current' => true
+                )
             );
             return;
         }
@@ -380,9 +384,12 @@ class Items extends \Magento\Backend\App\Action
      */
     public function _getStore()
     {
-        $store = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore((int)$this->getRequest()->getParam('store', 0));
-        if ((!$store) || 0 == $store->getId()) {
+        $store = $this->_objectManager->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore(
+            (int)$this->getRequest()->getParam('store', 0)
+        );
+        if (!$store || 0 == $store->getId()) {
             throw new \Magento\Core\Exception(__('Unable to select a Store View'));
         }
         return $store;

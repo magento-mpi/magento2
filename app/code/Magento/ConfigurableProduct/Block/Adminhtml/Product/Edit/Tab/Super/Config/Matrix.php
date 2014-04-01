@@ -80,7 +80,9 @@ class Matrix extends \Magento\Backend\Block\Template
     {
         return $this->_localeCurrency->getCurrency(
             $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
-        )->toCurrency(sprintf('%f', $price));
+        )->toCurrency(
+            sprintf('%f', $price)
+        );
     }
 
     /**
@@ -143,8 +145,7 @@ class Matrix extends \Magento\Backend\Block\Template
             $filledVariation = array();
             for ($attributeIndex = $attributesCount; $attributeIndex--;) {
                 $currentAttribute = $variationalAttributes[$attributeIndex];
-                $filledVariation[$currentAttribute['id']] =
-                    $currentAttribute['values'][$currentVariation[$attributeIndex]];
+                $filledVariation[$currentAttribute['id']] = $currentAttribute['values'][$currentVariation[$attributeIndex]];
             }
 
             $variations[] = $filledVariation;

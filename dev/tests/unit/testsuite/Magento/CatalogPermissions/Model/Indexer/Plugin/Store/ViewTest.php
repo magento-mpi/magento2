@@ -59,7 +59,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $storeMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
         $closureMock = function () use ($storeMock) {
@@ -74,7 +78,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $closureMock = function () use ($storeMock) {
             return $this->subjectMock;
@@ -88,7 +96,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveNoNeed()
     {
         $storeMock = $this->getMock(
-            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $closureMock = function () use ($storeMock) {
             return $this->subjectMock;

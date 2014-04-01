@@ -102,10 +102,11 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         $category = $this->getCategory();
         $childrenCategories = $category->getChildrenCategories();
 
-        $useFlat = (bool)$this->_storeConfig->getValue('catalog/frontend/flat_catalog_category', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        $categories = ($useFlat)
-            ? array_keys($childrenCategories)
-            : array_keys($childrenCategories->toArray());
+        $useFlat = (bool)$this->_storeConfig->getValue(
+            'catalog/frontend/flat_catalog_category',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        $categories = $useFlat ? array_keys($childrenCategories) : array_keys($childrenCategories->toArray());
 
         $this->getLayer()->getProductCollection()->setFacetCondition('category_ids', $categories);
 

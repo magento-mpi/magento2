@@ -104,7 +104,11 @@ class Cron extends \Magento\Model\AbstractModel
         if (!$this->_errors) {
             return $this;
         }
-        if (!$this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if (!$this->_storeConfig->getValue(
+            self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             return $this;
         }
 
@@ -147,7 +151,11 @@ class Cron extends \Magento\Model\AbstractModel
      */
     public function logClean()
     {
-        if (!$this->_storeConfig->isSetFlag(self::XML_PATH_LOG_CLEAN_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if (!$this->_storeConfig->isSetFlag(
+            self::XML_PATH_LOG_CLEAN_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             return $this;
         }
 

@@ -130,14 +130,14 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Design\ThemeInterface'
         );
         $theme->load('magento_plushe', 'theme_path');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-                $theme->getId(),
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                'fixturestore'
-            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            \Magento\View\DesignInterface::XML_PATH_THEME_ID,
+            $theme->getId(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            'fixturestore'
+        );
     }
 
     /**

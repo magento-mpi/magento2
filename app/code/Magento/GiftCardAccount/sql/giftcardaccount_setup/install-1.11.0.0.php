@@ -15,48 +15,75 @@ $installer->startSetup();
 /**
  * Create table 'magento_giftcardaccount'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_giftcardaccount'))
-    ->addColumn('giftcardaccount_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Giftcardaccount Id')
-    ->addColumn('code', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        ), 'Code')
-    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        ), 'Status')
-    ->addColumn('date_created', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        'nullable'  => false,
-        ), 'Date Created')
-    ->addColumn('date_expires', \Magento\DB\Ddl\Table::TYPE_DATE, null, array(
-        ), 'Date Expires')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Website Id')
-    ->addColumn('balance', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Balance')
-    ->addColumn('state', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'State')
-    ->addColumn('is_redeemable', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Is Redeemable')
-    ->addIndex($installer->getIdxName('magento_giftcardaccount', array('website_id')),
-        array('website_id'))
-    ->addForeignKey($installer->getFkName('magento_giftcardaccount', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Giftcardaccount');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_giftcardaccount')
+)->addColumn(
+    'giftcardaccount_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Giftcardaccount Id'
+)->addColumn(
+    'code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Code'
+)->addColumn(
+    'status',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false),
+    'Status'
+)->addColumn(
+    'date_created',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array('nullable' => false),
+    'Date Created'
+)->addColumn(
+    'date_expires',
+    \Magento\DB\Ddl\Table::TYPE_DATE,
+    null,
+    array(),
+    'Date Expires'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Website Id'
+)->addColumn(
+    'balance',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false, 'default' => '0.0000'),
+    'Balance'
+)->addColumn(
+    'state',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'State'
+)->addColumn(
+    'is_redeemable',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '1'),
+    'Is Redeemable'
+)->addIndex(
+    $installer->getIdxName('magento_giftcardaccount', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('magento_giftcardaccount', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Giftcardaccount'
+);
 $installer->getConnection()->createTable($table);
 
 /**

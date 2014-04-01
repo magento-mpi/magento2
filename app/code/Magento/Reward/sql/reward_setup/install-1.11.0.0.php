@@ -74,142 +74,228 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'magento_reward_history'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_reward_history'))
-    ->addColumn('history_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'History Id')
-    ->addColumn('reward_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Reward Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Website Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Store Id')
-    ->addColumn('action', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Action')
-    ->addColumn('entity', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        ), 'Entity')
-    ->addColumn('points_balance', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Points Balance')
-    ->addColumn('points_delta', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Points Delta')
-    ->addColumn('points_used', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Points Used')
-    ->addColumn('currency_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Currency Amount')
-    ->addColumn('currency_delta', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Currency Delta')
-    ->addColumn('base_currency_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 5, array(
-        'nullable'  => false,
-        ), 'Base Currency Code')
-    ->addColumn('additional_data', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
-        ), 'Additional Data')
-    ->addColumn('comment', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        'nullable'  => true,
-        ), 'Comment')
-    ->addColumn('created_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
-        ), 'Created At')
-    ->addColumn('expired_at_static', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Expired At Static')
-    ->addColumn('expired_at_dynamic', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Expired At Dynamic')
-    ->addColumn('is_expired', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Is Expired')
-    ->addColumn('is_duplicate_of', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Is Duplicate Of')
-    ->addColumn('notification_sent', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Notification Sent')
-    ->addIndex($installer->getIdxName('magento_reward_history', array('reward_id')),
-        array('reward_id'))
-    ->addIndex($installer->getIdxName('magento_reward_history', array('website_id')),
-        array('website_id'))
-    ->addIndex($installer->getIdxName('magento_reward_history', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('magento_reward_history', 'reward_id', 'magento_reward', 'reward_id'),
-        'reward_id', $installer->getTable('magento_reward'), 'reward_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_reward_history', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_reward_history', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Reward History');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_reward_history')
+)->addColumn(
+    'history_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'History Id'
+)->addColumn(
+    'reward_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Reward Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Website Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Store Id'
+)->addColumn(
+    'action',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Action'
+)->addColumn(
+    'entity',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array(),
+    'Entity'
+)->addColumn(
+    'points_balance',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Points Balance'
+)->addColumn(
+    'points_delta',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Points Delta'
+)->addColumn(
+    'points_used',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Points Used'
+)->addColumn(
+    'currency_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false, 'default' => '0.0000'),
+    'Currency Amount'
+)->addColumn(
+    'currency_delta',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false, 'default' => '0.0000'),
+    'Currency Delta'
+)->addColumn(
+    'base_currency_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    5,
+    array('nullable' => false),
+    'Base Currency Code'
+)->addColumn(
+    'additional_data',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => false),
+    'Additional Data'
+)->addColumn(
+    'comment',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array('nullable' => true),
+    'Comment'
+)->addColumn(
+    'created_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => false),
+    'Created At'
+)->addColumn(
+    'expired_at_static',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Expired At Static'
+)->addColumn(
+    'expired_at_dynamic',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Expired At Dynamic'
+)->addColumn(
+    'is_expired',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Is Expired'
+)->addColumn(
+    'is_duplicate_of',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true),
+    'Is Duplicate Of'
+)->addColumn(
+    'notification_sent',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Notification Sent'
+)->addIndex(
+    $installer->getIdxName('magento_reward_history', array('reward_id')),
+    array('reward_id')
+)->addIndex(
+    $installer->getIdxName('magento_reward_history', array('website_id')),
+    array('website_id')
+)->addIndex(
+    $installer->getIdxName('magento_reward_history', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('magento_reward_history', 'reward_id', 'magento_reward', 'reward_id'),
+    'reward_id',
+    $installer->getTable('magento_reward'),
+    'reward_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_reward_history', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_reward_history', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Reward History'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'magento_reward_rate'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_reward_rate'))
-    ->addColumn('rate_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Rate Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Website Id')
-    ->addColumn('customer_group_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Customer Group Id')
-    ->addColumn('direction', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Direction')
-    ->addColumn('points', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Points')
-    ->addColumn('currency_amount', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Currency Amount')
-    ->addIndex($installer->getIdxName('magento_reward_rate', array('website_id', 'customer_group_id', 'direction'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('website_id', 'customer_group_id', 'direction'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('magento_reward_rate', array('website_id')),
-        array('website_id'))
-    ->addIndex($installer->getIdxName('magento_reward_rate', array('customer_group_id')),
-        array('customer_group_id'))
-    ->addForeignKey($installer->getFkName('magento_reward_rate', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Reward Rate');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_reward_rate')
+)->addColumn(
+    'rate_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Rate Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Website Id'
+)->addColumn(
+    'customer_group_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Customer Group Id'
+)->addColumn(
+    'direction',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '1'),
+    'Direction'
+)->addColumn(
+    'points',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Points'
+)->addColumn(
+    'currency_amount',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false, 'default' => '0.0000'),
+    'Currency Amount'
+)->addIndex(
+    $installer->getIdxName(
+        'magento_reward_rate',
+        array('website_id', 'customer_group_id', 'direction'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('website_id', 'customer_group_id', 'direction'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('magento_reward_rate', array('website_id')),
+    array('website_id')
+)->addIndex(
+    $installer->getIdxName('magento_reward_rate', array('customer_group_id')),
+    array('customer_group_id')
+)->addForeignKey(
+    $installer->getFkName('magento_reward_rate', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Reward Rate'
+);
 $installer->getConnection()->createTable($table);
 
 /**

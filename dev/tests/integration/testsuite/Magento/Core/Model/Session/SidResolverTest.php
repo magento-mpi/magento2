@@ -54,10 +54,11 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Session _model */
         $this->session = $objectManager->get('Magento\Core\Model\Session');
 
-        $this->coreStoreConfig = $this->getMockBuilder('Magento\App\Config\ScopeConfigInterface')
-            ->setMethods(array('getValue'))
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $this->coreStoreConfig = $this->getMockBuilder(
+            'Magento\App\Config\ScopeConfigInterface'
+        )->setMethods(
+            array('getValue')
+        )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->urlBuilder = $this->getMockBuilder(
             'Magento\Url'
@@ -91,10 +92,16 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSid($sid, $useFrontedSid, $isOwnOriginUrl, $testSid)
     {
-        $this->coreStoreConfig->expects($this->any())
-            ->method('getValue')
-            ->with(SidResolver::XML_PATH_USE_FRONTEND_SID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ->will($this->returnValue($useFrontedSid));
+        $this->coreStoreConfig->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->with(
+            SidResolver::XML_PATH_USE_FRONTEND_SID,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )->will(
+            $this->returnValue($useFrontedSid)
+        );
 
         $this->urlBuilder->expects($this->any())->method('isOwnOriginUrl')->will($this->returnValue($isOwnOriginUrl));
 

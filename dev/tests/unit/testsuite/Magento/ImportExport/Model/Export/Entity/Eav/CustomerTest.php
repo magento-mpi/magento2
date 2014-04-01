@@ -24,10 +24,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(
-        \Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin',
-        1 => 'website1',
-    );
+    protected $_websites = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
 
     /**
      * Stores array (store id => code)

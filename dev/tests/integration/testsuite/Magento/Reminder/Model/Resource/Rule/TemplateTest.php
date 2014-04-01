@@ -20,9 +20,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testTemplate()
     {
         /** @var $store \Magento\Store\Model\Store */
-        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore();
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore();
         $storeId = $store->getId();
 
         /** @var \Magento\Email\Model\Template $template */

@@ -75,8 +75,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         );
         $payment->expects($this->once())->method('setStore')->with($store)->will($this->returnValue($payment));
         $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $storeManager->expects($this->once())->method('getStore')
-            ->will($this->returnValue($store));
+        $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $locale = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface');
         $locale->expects($this->once())->method('formatDate')->will($this->returnValue('11-11-1999'));
         $recurringCollectionFilter = $this->getMock(

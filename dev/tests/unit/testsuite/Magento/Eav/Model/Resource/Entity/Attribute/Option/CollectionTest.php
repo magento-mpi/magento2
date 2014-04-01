@@ -87,7 +87,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
         $this->connectionMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->resourceMock = $this->getMockForAbstractClass(
-            'Magento\Model\Resource\Db\AbstractDb', array(), '', false, true, true,
+            'Magento\Model\Resource\Db\AbstractDb',
+            array(),
+            '',
+            false,
+            true,
+            true,
             array('__wakeup', 'getReadConnection', 'getMainTable', 'getTable')
         );
         $this->selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);

@@ -20,11 +20,13 @@ $block->setTitle(
 <a href="{{store url=""}}">store url</a>
 <p>Config value: "{{config path="web/unsecure/base_url"}}".</p>
 <p>Custom variable: "{{customvar code="variable_code"}}".</p>
-')
-    ->setIsActive(1)
-    ->setStores(array(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore()->getId()
-    ))
-    ->save()
-;
+'
+)->setIsActive(
+    1
+)->setStores(
+    array(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore()->getId()
+    )
+)->save();

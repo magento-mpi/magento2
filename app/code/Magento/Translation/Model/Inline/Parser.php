@@ -171,11 +171,13 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
         foreach ($translateParams as $param) {
             if ($this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
                 $storeId = 0;
-            } else if (empty($param['perstore'])) {
-                $resource->deleteTranslate($param['original'], null, false);
-                $storeId = 0;
             } else {
-                $storeId = $validStoreId;
+                if (empty($param['perstore'])) {
+                    $resource->deleteTranslate($param['original'], null, false);
+                    $storeId = 0;
+                } else {
+                    $storeId = $validStoreId;
+                }
             }
             $resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
         }
@@ -395,8 +397,8 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     private function _prepareTagAttributesForContent(&$content)
     {
         $quoteHtml = $this->_getHtmlQuote();
-        $tagMatch   = array();
-        $nextTag    = 0;
+        $tagMatch = array();
+        $nextTag = 0;
         $tagRegExp = '#<([a-z]+)\s*?[^>]+?((' . self::REGEXP_TOKEN . ')[^>]*?)+\\\\?/?>#iS';
         while (preg_match($tagRegExp, $content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
             $tagHtml = $tagMatch[0][0];
@@ -584,7 +586,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
                     'translated' => $matches[2][0],
                     'original' => $matches[3][0],
                     'location' => 'Text',
-                    'scope' => $matches[4][0],
+                    'scope' => $matches[4][0]
                 )
             );
 

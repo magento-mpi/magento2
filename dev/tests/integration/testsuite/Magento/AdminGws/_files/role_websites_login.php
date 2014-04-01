@@ -8,9 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
-    ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\App\AreaList'
+)->getArea(
+    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+)->load(
+    \Magento\Core\Model\App\Area::PART_CONFIG
+);
 if (!isset($scope)) {
     $scope = 'websites';
 }
@@ -19,11 +23,17 @@ if (!isset($scope)) {
 $role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
 $role->setName('admingws_role')->setGwsIsAll(0)->setRoleType('G')->setPid('1');
 if ('websites' == $scope) {
-    $role->setGwsWebsites(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-        ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId());
+    $role->setGwsWebsites(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getWebsite()->getId()
+    );
 } else {
-    $role->setGwsStoreGroups(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-        ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getDefaultGroupId());
+    $role->setGwsStoreGroups(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getWebsite()->getDefaultGroupId()
+    );
 }
 $role->save();
 

@@ -31,15 +31,14 @@ class CartsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_customerAccountService = $this->_objectManager
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->_customerAccountService = $this->_objectManager->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
-        $this->_context = $this->_objectManager
-            ->get(
-                'Magento\Backend\Block\Template\Context',
-                array('storeManager' => $storeManager)
-            );
-
+        $this->_context = $this->_objectManager->get(
+            'Magento\Backend\Block\Template\Context',
+            array('storeManager' => $storeManager)
+        );
     }
 
     /**

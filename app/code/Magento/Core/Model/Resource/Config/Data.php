@@ -9,7 +9,6 @@
  */
 namespace Magento\Core\Model\Resource\Config;
 
-
 /**
  * Core config data resource model
  *
@@ -93,7 +92,8 @@ class Data extends \Magento\Model\Resource\Db\AbstractDb
             $scopeIds = array($scopeIds);
         }
         $this->_getWriteAdapter()->delete(
-            $this->getMainTable(), array('scope = ?' => $scopeCode, 'scope_id IN (?)' => $scopeIds)
+            $this->getMainTable(),
+            array('scope = ?' => $scopeCode, 'scope_id IN (?)' => $scopeIds)
         );
     }
 }

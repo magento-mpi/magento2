@@ -31,11 +31,8 @@ class Placeholder
      * @param string[] $urlPaths
      * @param string $urlPlaceholder
      */
-    public function __construct(
-        \Magento\App\RequestInterface $request,
-        $urlPaths,
-        $urlPlaceholder
-    ) {
+    public function __construct(\Magento\App\RequestInterface $request, $urlPaths, $urlPlaceholder)
+    {
         $this->request = $request;
         $this->urlPaths = $urlPaths;
         $this->urlPlaceholder = $urlPlaceholder;
@@ -116,9 +113,10 @@ class Placeholder
     {
         if (is_string($value) && preg_match('/{{(.*)}}.*/', $value, $matches)) {
             $placeholder = $matches[1];
-            if ($placeholder == 'unsecure_base_url'
-                || $placeholder == 'secure_base_url'
-                || strpos($value, $this->urlPlaceholder) !== false
+            if ($placeholder == 'unsecure_base_url' || $placeholder == 'secure_base_url' || strpos(
+                $value,
+                $this->urlPlaceholder
+            ) !== false
             ) {
                 return $placeholder;
             }

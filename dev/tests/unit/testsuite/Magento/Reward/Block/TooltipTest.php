@@ -11,27 +11,28 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareLayout()
     {
-        $store = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $rewardAction = $this->getMockBuilder('Magento\Reward\Model\Action\AbstractAction')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $rewardHelper = $this->getMockBuilder('Magento\Reward\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('isEnabledOnFront'))
-            ->getMock();
-        $customerSession = $this->getMockBuilder('Magento\Customer\Model\Session')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $rewardInstance = $this->getMockBuilder('Magento\Reward\Model\Reward')
-            ->disableOriginalConstructor()
-            ->setMethods(array('setWebsiteId', 'setCustomer', 'getActionInstance', '__wakeup'))
-            ->getMock();
-        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getStore', 'getWebsiteId'))
-            ->getMock();
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
+        $rewardAction = $this->getMockBuilder(
+            'Magento\Reward\Model\Action\AbstractAction'
+        )->disableOriginalConstructor()->getMock();
+        $rewardHelper = $this->getMockBuilder(
+            'Magento\Reward\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array('isEnabledOnFront')
+        )->getMock();
+        $customerSession = $this->getMockBuilder(
+            'Magento\Customer\Model\Session'
+        )->disableOriginalConstructor()->getMock();
+        $rewardInstance = $this->getMockBuilder(
+            'Magento\Reward\Model\Reward'
+        )->disableOriginalConstructor()->setMethods(
+            array('setWebsiteId', 'setCustomer', 'getActionInstance', '__wakeup')
+        )->getMock();
+        $storeManager = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManager'
+        )->disableOriginalConstructor()->setMethods(
+            array('getStore', 'getWebsiteId')
+        )->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 

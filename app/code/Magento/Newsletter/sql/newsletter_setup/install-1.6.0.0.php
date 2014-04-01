@@ -24,44 +24,66 @@ $installer->startSetup();
 /**
  * Create table 'newsletter_subscriber'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('newsletter_subscriber'))
-    ->addColumn('subscriber_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Subscriber Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'default'   => '0',
-        ), 'Store Id')
-    ->addColumn('change_status_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Change Status At')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Customer Id')
-    ->addColumn('subscriber_email', \Magento\DB\Ddl\Table::TYPE_TEXT, 150, array(
-        'nullable'  => true,
-        'default'   => null,
-        ), 'Subscriber Email')
-    ->addColumn('subscriber_status', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Subscriber Status')
-    ->addColumn('subscriber_confirm_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        'default'   => 'NULL',
-        ), 'Subscriber Confirm Code')
-    ->addIndex($installer->getIdxName('newsletter_subscriber', array('customer_id')),
-        array('customer_id'))
-    ->addIndex($installer->getIdxName('newsletter_subscriber', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('newsletter_subscriber', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Newsletter Subscriber');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('newsletter_subscriber')
+)->addColumn(
+    'subscriber_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Subscriber Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'default' => '0'),
+    'Store Id'
+)->addColumn(
+    'change_status_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Change Status At'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Customer Id'
+)->addColumn(
+    'subscriber_email',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    150,
+    array('nullable' => true, 'default' => null),
+    'Subscriber Email'
+)->addColumn(
+    'subscriber_status',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('nullable' => false, 'default' => '0'),
+    'Subscriber Status'
+)->addColumn(
+    'subscriber_confirm_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array('default' => 'NULL'),
+    'Subscriber Confirm Code'
+)->addIndex(
+    $installer->getIdxName('newsletter_subscriber', array('customer_id')),
+    array('customer_id')
+)->addIndex(
+    $installer->getIdxName('newsletter_subscriber', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('newsletter_subscriber', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Newsletter Subscriber'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -301,29 +323,40 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'newsletter_queue_store_link'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('newsletter_queue_store_link'))
-    ->addColumn('queue_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
-        ), 'Queue Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
-        ), 'Store Id')
-    ->addIndex($installer->getIdxName('newsletter_queue_store_link', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'queue_id', 'newsletter_queue', 'queue_id'),
-        'queue_id', $installer->getTable('newsletter_queue'), 'queue_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Newsletter Queue Store Link');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('newsletter_queue_store_link')
+)->addColumn(
+    'queue_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    'Queue Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    'Store Id'
+)->addIndex(
+    $installer->getIdxName('newsletter_queue_store_link', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('newsletter_queue_store_link', 'queue_id', 'newsletter_queue', 'queue_id'),
+    'queue_id',
+    $installer->getTable('newsletter_queue'),
+    'queue_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('newsletter_queue_store_link', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Newsletter Queue Store Link'
+);
 $installer->getConnection()->createTable($table);
 
 /**

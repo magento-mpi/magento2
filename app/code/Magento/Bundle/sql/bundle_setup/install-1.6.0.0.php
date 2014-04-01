@@ -215,78 +215,129 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'catalog_product_bundle_selection_price'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog_product_bundle_selection_price'))
-    ->addColumn('selection_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Selection Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addColumn('selection_price_type', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Selection Price Type')
-    ->addColumn('selection_price_value', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Selection Price Value')
-    ->addIndex($installer->getIdxName('catalog_product_bundle_selection_price', array('website_id')),
-        array('website_id'))
-    ->addForeignKey($installer->getFkName('catalog_product_bundle_selection_price', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_product_bundle_selection_price', 'selection_id', 'catalog_product_bundle_selection', 'selection_id'),
-        'selection_id', $installer->getTable('catalog_product_bundle_selection'), 'selection_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Catalog Product Bundle Selection Price');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('catalog_product_bundle_selection_price')
+)->addColumn(
+    'selection_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Selection Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addColumn(
+    'selection_price_type',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Selection Price Type'
+)->addColumn(
+    'selection_price_value',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false, 'default' => '0.0000'),
+    'Selection Price Value'
+)->addIndex(
+    $installer->getIdxName('catalog_product_bundle_selection_price', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('catalog_product_bundle_selection_price', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName(
+        'catalog_product_bundle_selection_price',
+        'selection_id',
+        'catalog_product_bundle_selection',
+        'selection_id'
+    ),
+    'selection_id',
+    $installer->getTable('catalog_product_bundle_selection'),
+    'selection_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Catalog Product Bundle Selection Price'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'catalog_product_bundle_price_index'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('catalog_product_bundle_price_index'))
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Entity Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addColumn('customer_group_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Customer Group Id')
-    ->addColumn('min_price', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        ), 'Min Price')
-    ->addColumn('max_price', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        ), 'Max Price')
-    ->addIndex($installer->getIdxName('catalog_product_bundle_price_index', array('website_id')),
-        array('website_id'))
-    ->addIndex($installer->getIdxName('catalog_product_bundle_price_index', array('customer_group_id')),
-        array('customer_group_id'))
-    ->addForeignKey($installer->getFkName('catalog_product_bundle_price_index', 'customer_group_id', 'customer_group', 'customer_group_id'),
-        'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_product_bundle_price_index', 'entity_id', 'catalog_product_entity', 'entity_id'),
-        'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_product_bundle_price_index', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Catalog Product Bundle Price Index');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('catalog_product_bundle_price_index')
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Entity Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addColumn(
+    'customer_group_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Customer Group Id'
+)->addColumn(
+    'min_price',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false),
+    'Min Price'
+)->addColumn(
+    'max_price',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false),
+    'Max Price'
+)->addIndex(
+    $installer->getIdxName('catalog_product_bundle_price_index', array('website_id')),
+    array('website_id')
+)->addIndex(
+    $installer->getIdxName('catalog_product_bundle_price_index', array('customer_group_id')),
+    array('customer_group_id')
+)->addForeignKey(
+    $installer->getFkName(
+        'catalog_product_bundle_price_index',
+        'customer_group_id',
+        'customer_group',
+        'customer_group_id'
+    ),
+    'customer_group_id',
+    $installer->getTable('customer_group'),
+    'customer_group_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('catalog_product_bundle_price_index', 'entity_id', 'catalog_product_entity', 'entity_id'),
+    'entity_id',
+    $installer->getTable('catalog_product_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('catalog_product_bundle_price_index', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Catalog Product Bundle Price Index'
+);
 $installer->getConnection()->createTable($table);
 
 /**

@@ -38,11 +38,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $this->_storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
-        $this->_context = $this->_objectManager
-            ->get(
-                'Magento\Backend\Block\Template\Context',
-                array('storeManager' => $this->_storeManager)
-            );
+        $this->_context = $this->_objectManager->get(
+            'Magento\Backend\Block\Template\Context',
+            array('storeManager' => $this->_storeManager)
+        );
 
         $this->_coreRegistry = $this->_objectManager->get('Magento\Registry');
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, self::CUSTOMER_ID_VALUE);

@@ -855,7 +855,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getTaxBasedOn($store = null)
     {
-        return $this->_storeConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            \Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -1033,7 +1037,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultCustomerTaxClass()
     {
-        return $this->_storeConfig->getValue(self::CONFIG_DEFAULT_CUSTOMER_TAX_CLASS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->getValue(
+            self::CONFIG_DEFAULT_CUSTOMER_TAX_CLASS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -1043,6 +1050,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultProductTaxClass()
     {
-        return $this->_storeConfig->getValue(self::CONFIG_DEFAULT_PRODUCT_TAX_CLASS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->getValue(
+            self::CONFIG_DEFAULT_PRODUCT_TAX_CLASS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

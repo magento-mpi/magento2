@@ -26,10 +26,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(
-        \Magento\Store\Model\Store::DEFAULT_STORE_ID  => 'admin',
-        1                                                       => 'website1',
-    );
+    protected $_websites = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
 
     /**
      * Attributes array
@@ -78,9 +75,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
 
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $storeManager->expects($this->exactly(2))
-            ->method('getWebsites')
-            ->will($this->returnCallback(array($this, 'getWebsites')));
+        $storeManager->expects(
+            $this->exactly(2)
+        )->method(
+            'getWebsites'
+        )->will(
+            $this->returnCallback(array($this, 'getWebsites'))
+        );
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance(
             $coreStoreConfig,
@@ -230,8 +231,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $websiteColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
-        $financeWebsiteCol =
-            \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteCol = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$financeWebsiteCol]);
 
         $this->assertEquals($this->_customerData[self::WEBSITE_ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

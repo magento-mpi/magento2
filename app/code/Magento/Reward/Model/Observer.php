@@ -572,12 +572,14 @@ class Observer
         $quote->setUseRewardPoints((bool)$useRewardPoints);
         if ($quote->getUseRewardPoints()) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = $this->_getRewardModel()
-                ->setCustomer($quote->getCustomer())
-                ->setWebsiteId($quote->getStore()->getWebsiteId())
-                ->loadByCustomer();
+            $reward = $this->_getRewardModel()->setCustomer(
+                $quote->getCustomer()
+            )->setWebsiteId(
+                $quote->getStore()->getWebsiteId()
+            )->loadByCustomer();
             $minPointsBalance = (int)$this->_storeConfig->getValue(
-                \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $quote->getStoreId()
             );
 
@@ -834,7 +836,6 @@ class Observer
             )->addNotificationSentFlag(
                 false
             )->addCustomerInfo()->setPageSize(
-                // limit queues for each website
                 20
             )->setCurPage(
                 1

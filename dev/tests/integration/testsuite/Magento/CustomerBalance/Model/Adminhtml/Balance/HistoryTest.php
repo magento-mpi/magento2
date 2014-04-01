@@ -29,28 +29,35 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Auth\Session')->setUser(new \Magento\Object(array(
-                'id' => 1,
-                'username' => 'Admin user'
-            )));
-        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore()
-            ->getWebsiteId();
-        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Customer')
-            ->setWebsiteId($websiteId)
-            ->loadByEmail('customer@example.com');
-        $this->_balance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CustomerBalance\Model\Balance')
-            ->setCustomer($customer)
-            ->loadByCustomer();
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CustomerBalance\Model\Balance\History')
-            ->setCustomerId($customer->getId())
-            ->setWebsiteId($websiteId)
-            ->setBalanceModel($this->_balance);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\Model\Auth\Session'
+        )->setUser(
+            new \Magento\Object(array('id' => 1, 'username' => 'Admin user'))
+        );
+        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore()->getWebsiteId();
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Customer'
+        )->setWebsiteId(
+            $websiteId
+        )->loadByEmail(
+            'customer@example.com'
+        );
+        $this->_balance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CustomerBalance\Model\Balance'
+        )->setCustomer(
+            $customer
+        )->loadByCustomer();
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CustomerBalance\Model\Balance\History'
+        )->setCustomerId(
+            $customer->getId()
+        )->setWebsiteId(
+            $websiteId
+        )->setBalanceModel(
+            $this->_balance
+        );
     }
 
     /**

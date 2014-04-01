@@ -58,28 +58,54 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->_groupMock = $this->getMock('Magento\Store\Model\Group',
+        $this->_groupMock = $this->getMock(
+            'Magento\Store\Model\Group',
             array('getCode', 'getId', '__wakeup'),
             array(),
             '',
             false,
             false
         );
-        $this->_storeFactoryMock = $this->getMock('Magento\Store\Model\StoreFactory',
-            array('create'), array(), '', false, false);
-        $this->_websiteFactoryMock = $this->getMock('Magento\Store\Model\Website\Factory',
-            array('create'), array(), '', false, false);
-        $this->_websiteFactoryMock
-            ->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->_websiteMock));
-        $this->_groupFactoryMock = $this->getMock('Magento\Store\Model\Group\Factory',
-            array('create'), array(), '', false, false);
-        $this->_groupFactoryMock
-            ->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->_groupMock));
-        $this->_storeMock = $this->getMock('Magento\Store\Model\Store',
+        $this->_storeFactoryMock = $this->getMock(
+            'Magento\Store\Model\StoreFactory',
+            array('create'),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_websiteFactoryMock = $this->getMock(
+            'Magento\Store\Model\Website\Factory',
+            array('create'),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_websiteFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_websiteMock)
+        );
+        $this->_groupFactoryMock = $this->getMock(
+            'Magento\Store\Model\Group\Factory',
+            array('create'),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_groupFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_groupMock)
+        );
+        $this->_storeMock = $this->getMock(
+            'Magento\Store\Model\Store',
             array('setId', 'setCode', 'getCode', '__sleep', '__wakeup'),
             array(),
             '',

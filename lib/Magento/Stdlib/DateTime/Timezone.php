@@ -97,10 +97,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function getConfigTimezone()
     {
-        return $this->_scopeConfig->getValue(
-            'general/locale/timezone',
-            $this->_scopeType
-        );
+        return $this->_scopeConfig->getValue('general/locale/timezone', $this->_scopeType);
     }
 
     /**
@@ -154,10 +151,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
         }
         $date = $this->_dateFactory->create(array('date' => $date, 'part' => $part, 'locale' => $locale));
         if ($useTimezone) {
-            $timezone = $this->_scopeConfig->getValue(
-                $this->getDefaultTimezonePath(),
-                $this->_scopeType
-            );
+            $timezone = $this->_scopeConfig->getValue($this->getDefaultTimezonePath(), $this->_scopeType);
             if ($timezone) {
                 $date->setTimezone($timezone);
             }
@@ -171,16 +165,10 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function scopeDate($scope = null, $date = null, $includeTime = false)
     {
-        $timezone = $this->_scopeConfig->getValue(
-            $this->getDefaultTimezonePath(),
-            $this->_scopeType,
-            $scope
+        $timezone = $this->_scopeConfig->getValue($this->getDefaultTimezonePath(), $this->_scopeType, $scope);
+        $date = $this->_dateFactory->create(
+            array('date' => $date, 'part' => null, 'locale' => $this->_localeResolver->getLocale())
         );
-        $date = $this->_dateFactory->create(array(
-            'date' => $date,
-            'part' => null,
-            'locale' => $this->_localeResolver->getLocale(),
-        ));
         $date->setTimezone($timezone);
         if (!$includeTime) {
             $date->setHour(0)->setMinute(0)->setSecond(0);
@@ -262,11 +250,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function scopeTimeStamp($scope = null)
     {
-        $timezone = $this->_scopeConfig->getValue(
-            $this->getDefaultTimezonePath(),
-            $this->_scopeType,
-            $scope
-        );
+        $timezone = $this->_scopeConfig->getValue($this->getDefaultTimezonePath(), $this->_scopeType, $scope);
         $currentTimezone = @date_default_timezone_get();
         @date_default_timezone_set($timezone);
         $date = date('Y-m-d H:i:s');

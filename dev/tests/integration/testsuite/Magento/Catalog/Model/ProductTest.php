@@ -94,13 +94,21 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanCache()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\CacheInterface')
-            ->save('test', 'catalog_product_999', array('catalog_product_999'));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\CacheInterface'
+        )->save(
+            'test',
+            'catalog_product_999',
+            array('catalog_product_999')
+        );
         // potential bug: it cleans by cache tags, generated from its ID, which doesn't make much sense
         $this->_model->setId(999)->cleanCache();
         $this->assertFalse(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\CacheInterface')
-                ->load('catalog_product_999')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\App\CacheInterface'
+            )->load(
+                'catalog_product_999'
+            )
         );
     }
 
@@ -196,8 +204,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function _undo($duplicate)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore()->setId(
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        );
         $duplicate->delete();
     }
 
@@ -382,7 +393,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         // impossible to test $_optionInstance
         $this->assertEquals(array(), $model->getOptions());
         $this->assertFalse($model->canAffectOptions());
-        // impossible to test $_errors
     }
 
     /**

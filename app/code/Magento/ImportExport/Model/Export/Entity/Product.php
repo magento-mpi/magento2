@@ -764,12 +764,12 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         try {
             $collection = $this->_getEntityCollection();
             $validAttrCodes = $this->_getExportAttrCodes();
-            $defaultStoreId  = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
-            $dataRows        = array();
-            $rowCategories   = array();
-            $rowWebsites     = array();
-            $rowTierPrices   = array();
-            $rowGroupPrices  = array();
+            $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+            $dataRows = array();
+            $rowCategories = array();
+            $rowWebsites = array();
+            $rowTierPrices = array();
+            $rowGroupPrices = array();
             $rowMultiselects = array();
             $mediaGalery = array();
 
@@ -805,10 +805,12 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                                     array_flip($attrValue)
                                 );
                                 $rowMultiselects[$itemId][$attrCode] = $attrValue;
-                            } else if (isset($this->_attributeValues[$attrCode][$attrValue])) {
-                                $attrValue = $this->_attributeValues[$attrCode][$attrValue];
                             } else {
-                                $attrValue = null;
+                                if (isset($this->_attributeValues[$attrCode][$attrValue])) {
+                                    $attrValue = $this->_attributeValues[$attrCode][$attrValue];
+                                } else {
+                                    $attrValue = null;
+                                }
                             }
                         }
                         // do not save value same as default or not existent
@@ -1156,8 +1158,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             $this->_attributeValues[$attribute->getAttributeCode()] = $this->getAttributeOptions($attribute);
             $this->_attributeTypes[$attribute
                 ->getAttributeCode()] = \Magento\ImportExport\Model\Import::getAttributeType(
-                    $attribute
-                );
+                $attribute
+            );
         }
         return $this;
     }

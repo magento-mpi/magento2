@@ -465,8 +465,8 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
          */
         if ($this->_getType() == \Magento\UrlInterface::URL_TYPE_LINK &&
             $this->_getRequest()->isDirectAccessFrontendName(
-                $this->_getRouteFrontName()
-            )
+            $this->_getRouteFrontName()
+        )
         ) {
             $this->_routeParamsResolver->setType(\Magento\UrlInterface::URL_TYPE_DIRECT_LINK);
         }
@@ -942,7 +942,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         }
         $sessionId = $this->_session->getSessionIdForHost($url);
         if ($this->_sidResolver->getUseSessionVar() && !$sessionId) {
-            $this->setQueryParam('___SID', $this->_isSecure() ? 'S' : 'U'); // Secure/Unsecure
+            $this->setQueryParam('___SID', $this->_isSecure() ? 'S' : 'U');
         } elseif ($sessionId) {
             $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam($this->_session), $sessionId);
         }

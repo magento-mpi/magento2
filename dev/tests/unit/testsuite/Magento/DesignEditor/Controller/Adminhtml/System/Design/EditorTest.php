@@ -198,10 +198,14 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
         $translate->expects($this->any())->method('translate')->will($this->returnSelf());
 
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager',
-            array('getStore', 'getBaseUrl'), array(), '', false);
-        $storeManager->expects($this->any())->method('getStore')
-            ->will($this->returnSelf());
+        $storeManager = $this->getMock(
+            'Magento\Store\Model\StoreManager',
+            array('getStore', 'getBaseUrl'),
+            array(),
+            '',
+            false
+        );
+        $storeManager->expects($this->any())->method('getStore')->will($this->returnSelf());
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');

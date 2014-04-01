@@ -7,7 +7,6 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
-
 use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use Magento\CatalogPermissions\Model\Permission;

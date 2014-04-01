@@ -118,17 +118,21 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         unset($countries[0]);
 
         if (!$rateObject->hasTaxCountryId()) {
-            $rateObject->setTaxCountryId($this->_storeConfig->getValue(
-                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ));
+            $rateObject->setTaxCountryId(
+                $this->_storeConfig->getValue(
+                    \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            );
         }
 
         if (!$rateObject->hasTaxRegionId()) {
-            $rateObject->setTaxRegionId($this->_storeConfig->getValue(
-                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ));
+            $rateObject->setTaxRegionId(
+                $this->_storeConfig->getValue(
+                    \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            );
         }
 
         $regionCollection = $this->_regionFactory->create()->getCollection()->addCountryFilter(
@@ -172,10 +176,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         if (!$rateObject->hasTaxPostcode()) {
-            $rateObject->setTaxPostcode($this->_storeConfig->getValue(
-                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ));
+            $rateObject->setTaxPostcode(
+                $this->_storeConfig->getValue(
+                    \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            );
         }
 
         $fieldset->addField(

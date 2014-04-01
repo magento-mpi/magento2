@@ -68,71 +68,125 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'magento_customersegment_website'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_customersegment_website'))
-    ->addColumn('segment_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Segment Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addIndex($installer->getIdxName('magento_customersegment_website', array('website_id')),
-        array('website_id'))
-    ->addForeignKey($installer->getFkName('magento_customersegment_website', 'segment_id', 'magento_customersegment_segment', 'segment_id'),
-        'segment_id', $installer->getTable('magento_customersegment_segment'), 'segment_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_customersegment_website', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Customersegment Website');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_customersegment_website')
+)->addColumn(
+    'segment_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Segment Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addIndex(
+    $installer->getIdxName('magento_customersegment_website', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName(
+        'magento_customersegment_website',
+        'segment_id',
+        'magento_customersegment_segment',
+        'segment_id'
+    ),
+    'segment_id',
+    $installer->getTable('magento_customersegment_segment'),
+    'segment_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_customersegment_website', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Customersegment Website'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'magento_customersegment_customer'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_customersegment_customer'))
-    ->addColumn('segment_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Segment Id')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Customer Id')
-    ->addColumn('added_date', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
-        ), 'Added Date')
-    ->addColumn('updated_date', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
-        ), 'Updated Date')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addIndex($installer->getIdxName('magento_customersegment_customer', array('segment_id', 'website_id', 'customer_id'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-        array('segment_id', 'website_id', 'customer_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('magento_customersegment_customer', array('website_id')),
-        array('website_id'))
-    ->addIndex($installer->getIdxName('magento_customersegment_customer', array('customer_id')),
-        array('customer_id'))
-    ->addForeignKey($installer->getFkName('magento_customersegment_customer', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_customersegment_customer', 'customer_id', 'customer_entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_customersegment_customer', 'segment_id', 'magento_customersegment_segment', 'segment_id'),
-        'segment_id', $installer->getTable('magento_customersegment_segment'), 'segment_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Customersegment Customer');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_customersegment_customer')
+)->addColumn(
+    'segment_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Segment Id'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Customer Id'
+)->addColumn(
+    'added_date',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => false),
+    'Added Date'
+)->addColumn(
+    'updated_date',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => false),
+    'Updated Date'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addIndex(
+    $installer->getIdxName(
+        'magento_customersegment_customer',
+        array('segment_id', 'website_id', 'customer_id'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('segment_id', 'website_id', 'customer_id'),
+    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('magento_customersegment_customer', array('website_id')),
+    array('website_id')
+)->addIndex(
+    $installer->getIdxName('magento_customersegment_customer', array('customer_id')),
+    array('customer_id')
+)->addForeignKey(
+    $installer->getFkName('magento_customersegment_customer', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_customersegment_customer', 'customer_id', 'customer_entity', 'entity_id'),
+    'customer_id',
+    $installer->getTable('customer_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName(
+        'magento_customersegment_customer',
+        'segment_id',
+        'magento_customersegment_segment',
+        'segment_id'
+    ),
+    'segment_id',
+    $installer->getTable('magento_customersegment_segment'),
+    'segment_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Customersegment Customer'
+);
 $installer->getConnection()->createTable($table);
 
 /**

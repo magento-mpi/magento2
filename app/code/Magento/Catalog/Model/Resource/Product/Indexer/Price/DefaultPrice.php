@@ -204,44 +204,48 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
     {
         $this->_prepareDefaultFinalPriceTable();
 
-        $write  = $this->_getWriteAdapter();
-        $select = $write->select()
-            ->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'))
-            ->join(
-                array('cg' => $this->getTable('customer_group')),
-                '',
-                array('customer_group_id'))
-            ->join(
-                array('cw' => $this->getTable('store_website')),
-                '',
-                array('website_id'))
-            ->join(
-                array('cwd' => $this->_getWebsiteDateTable()),
-                'cw.website_id = cwd.website_id',
-                array())
-            ->join(
-                array('csg' => $this->getTable('store_group')),
-                'csg.website_id = cw.website_id AND cw.default_group_id = csg.group_id',
-                array())
-            ->join(
-                array('cs' => $this->getTable('store')),
-                'csg.default_store_id = cs.store_id AND cs.store_id != 0',
-                array())
-            ->join(
-                array('pw' => $this->getTable('catalog_product_website')),
-                'pw.product_id = e.entity_id AND pw.website_id = cw.website_id',
-                array())
-            ->joinLeft(
-                array('tp' => $this->_getTierPriceIndexTable()),
-                'tp.entity_id = e.entity_id AND tp.website_id = cw.website_id'
-                    . ' AND tp.customer_group_id = cg.customer_group_id',
-                array())
-            ->joinLeft(
-                array('gp' => $this->_getGroupPriceIndexTable()),
-                'gp.entity_id = e.entity_id AND gp.website_id = cw.website_id'
-                    . ' AND gp.customer_group_id = cg.customer_group_id',
-                array())
-            ->where('e.type_id = ?', $this->getTypeId());
+        $write = $this->_getWriteAdapter();
+        $select = $write->select()->from(
+            array('e' => $this->getTable('catalog_product_entity')),
+            array('entity_id')
+        )->join(
+            array('cg' => $this->getTable('customer_group')),
+            '',
+            array('customer_group_id')
+        )->join(
+            array('cw' => $this->getTable('store_website')),
+            '',
+            array('website_id')
+        )->join(
+            array('cwd' => $this->_getWebsiteDateTable()),
+            'cw.website_id = cwd.website_id',
+            array()
+        )->join(
+            array('csg' => $this->getTable('store_group')),
+            'csg.website_id = cw.website_id AND cw.default_group_id = csg.group_id',
+            array()
+        )->join(
+            array('cs' => $this->getTable('store')),
+            'csg.default_store_id = cs.store_id AND cs.store_id != 0',
+            array()
+        )->join(
+            array('pw' => $this->getTable('catalog_product_website')),
+            'pw.product_id = e.entity_id AND pw.website_id = cw.website_id',
+            array()
+        )->joinLeft(
+            array('tp' => $this->_getTierPriceIndexTable()),
+            'tp.entity_id = e.entity_id AND tp.website_id = cw.website_id' .
+            ' AND tp.customer_group_id = cg.customer_group_id',
+            array()
+        )->joinLeft(
+            array('gp' => $this->_getGroupPriceIndexTable()),
+            'gp.entity_id = e.entity_id AND gp.website_id = cw.website_id' .
+            ' AND gp.customer_group_id = cg.customer_group_id',
+            array()
+        )->where(
+            'e.type_id = ?',
+            $this->getTypeId()
+        );
 
         // add enable products limitation
         $statusCond = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
@@ -393,46 +397,47 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $this->_prepareCustomOptionAggregateTable();
         $this->_prepareCustomOptionPriceTable();
 
-        $select = $write->select()
-            ->from(
-                array('i' => $this->_getDefaultFinalPriceTable()),
-                array('entity_id', 'customer_group_id', 'website_id'))
-            ->join(
-                array('cw' => $this->getTable('store_website')),
-                'cw.website_id = i.website_id',
-                array())
-            ->join(
-                array('csg' => $this->getTable('store_group')),
-                'csg.group_id = cw.default_group_id',
-                array())
-            ->join(
-                array('cs' => $this->getTable('store')),
-                'cs.store_id = csg.default_store_id',
-                array())
-            ->join(
-                array('o' => $this->getTable('catalog_product_option')),
-                'o.product_id = i.entity_id',
-                array('option_id'))
-            ->join(
-                array('ot' => $this->getTable('catalog_product_option_type_value')),
-                'ot.option_id = o.option_id',
-                array())
-            ->join(
-                array('otpd' => $this->getTable('catalog_product_option_type_price')),
-                'otpd.option_type_id = ot.option_type_id AND otpd.store_id = 0',
-                array())
-            ->joinLeft(
-                array('otps' => $this->getTable('catalog_product_option_type_price')),
-                'otps.option_type_id = otpd.option_type_id AND otpd.store_id = cs.store_id',
-                array())
-            ->group(array('i.entity_id', 'i.customer_group_id', 'i.website_id', 'o.option_id'));
+        $select = $write->select()->from(
+            array('i' => $this->_getDefaultFinalPriceTable()),
+            array('entity_id', 'customer_group_id', 'website_id')
+        )->join(
+            array('cw' => $this->getTable('store_website')),
+            'cw.website_id = i.website_id',
+            array()
+        )->join(
+            array('csg' => $this->getTable('store_group')),
+            'csg.group_id = cw.default_group_id',
+            array()
+        )->join(
+            array('cs' => $this->getTable('store')),
+            'cs.store_id = csg.default_store_id',
+            array()
+        )->join(
+            array('o' => $this->getTable('catalog_product_option')),
+            'o.product_id = i.entity_id',
+            array('option_id')
+        )->join(
+            array('ot' => $this->getTable('catalog_product_option_type_value')),
+            'ot.option_id = o.option_id',
+            array()
+        )->join(
+            array('otpd' => $this->getTable('catalog_product_option_type_price')),
+            'otpd.option_type_id = ot.option_type_id AND otpd.store_id = 0',
+            array()
+        )->joinLeft(
+            array('otps' => $this->getTable('catalog_product_option_type_price')),
+            'otps.option_type_id = otpd.option_type_id AND otpd.store_id = cs.store_id',
+            array()
+        )->group(
+            array('i.entity_id', 'i.customer_group_id', 'i.website_id', 'o.option_id')
+        );
 
-        $optPriceType   = $write->getCheckSql('otps.option_type_price_id > 0', 'otps.price_type', 'otpd.price_type');
-        $optPriceValue  = $write->getCheckSql('otps.option_type_price_id > 0', 'otps.price', 'otpd.price');
-        $minPriceRound  = new \Zend_Db_Expr("ROUND(i.price * ({$optPriceValue} / 100), 4)");
-        $minPriceExpr   = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $minPriceRound);
-        $minPriceMin    = new \Zend_Db_Expr("MIN({$minPriceExpr})");
-        $minPrice       = $write->getCheckSql("MIN(o.is_require) = 1", $minPriceMin, '0');
+        $optPriceType = $write->getCheckSql('otps.option_type_price_id > 0', 'otps.price_type', 'otpd.price_type');
+        $optPriceValue = $write->getCheckSql('otps.option_type_price_id > 0', 'otps.price', 'otpd.price');
+        $minPriceRound = new \Zend_Db_Expr("ROUND(i.price * ({$optPriceValue} / 100), 4)");
+        $minPriceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $minPriceRound);
+        $minPriceMin = new \Zend_Db_Expr("MIN({$minPriceExpr})");
+        $minPrice = $write->getCheckSql("MIN(o.is_require) = 1", $minPriceMin, '0');
 
         $tierPriceRound = new \Zend_Db_Expr("ROUND(i.base_tier * ({$optPriceValue} / 100), 4)");
         $tierPriceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $tierPriceRound);
@@ -466,43 +471,43 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $query = $select->insertFromSelect($coaTable);
         $write->query($query);
 
-        $select = $write->select()
-            ->from(
-                array('i' => $this->_getDefaultFinalPriceTable()),
-                array('entity_id', 'customer_group_id', 'website_id'))
-            ->join(
-                array('cw' => $this->getTable('store_website')),
-                'cw.website_id = i.website_id',
-                array())
-            ->join(
-                array('csg' => $this->getTable('store_group')),
-                'csg.group_id = cw.default_group_id',
-                array())
-            ->join(
-                array('cs' => $this->getTable('store')),
-                'cs.store_id = csg.default_store_id',
-                array())
-            ->join(
-                array('o' => $this->getTable('catalog_product_option')),
-                'o.product_id = i.entity_id',
-                array('option_id'))
-            ->join(
-                array('opd' => $this->getTable('catalog_product_option_price')),
-                'opd.option_id = o.option_id AND opd.store_id = 0',
-                array())
-            ->joinLeft(
-                array('ops' => $this->getTable('catalog_product_option_price')),
-                'ops.option_id = opd.option_id AND ops.store_id = cs.store_id',
-                array());
+        $select = $write->select()->from(
+            array('i' => $this->_getDefaultFinalPriceTable()),
+            array('entity_id', 'customer_group_id', 'website_id')
+        )->join(
+            array('cw' => $this->getTable('store_website')),
+            'cw.website_id = i.website_id',
+            array()
+        )->join(
+            array('csg' => $this->getTable('store_group')),
+            'csg.group_id = cw.default_group_id',
+            array()
+        )->join(
+            array('cs' => $this->getTable('store')),
+            'cs.store_id = csg.default_store_id',
+            array()
+        )->join(
+            array('o' => $this->getTable('catalog_product_option')),
+            'o.product_id = i.entity_id',
+            array('option_id')
+        )->join(
+            array('opd' => $this->getTable('catalog_product_option_price')),
+            'opd.option_id = o.option_id AND opd.store_id = 0',
+            array()
+        )->joinLeft(
+            array('ops' => $this->getTable('catalog_product_option_price')),
+            'ops.option_id = opd.option_id AND ops.store_id = cs.store_id',
+            array()
+        );
 
-        $optPriceType   = $write->getCheckSql('ops.option_price_id > 0', 'ops.price_type', 'opd.price_type');
-        $optPriceValue  = $write->getCheckSql('ops.option_price_id > 0', 'ops.price', 'opd.price');
+        $optPriceType = $write->getCheckSql('ops.option_price_id > 0', 'ops.price_type', 'opd.price_type');
+        $optPriceValue = $write->getCheckSql('ops.option_price_id > 0', 'ops.price', 'opd.price');
 
-        $minPriceRound  = new \Zend_Db_Expr("ROUND(i.price * ({$optPriceValue} / 100), 4)");
-        $priceExpr      = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $minPriceRound);
-        $minPrice       = $write->getCheckSql("{$priceExpr} > 0 AND o.is_require > 1", $priceExpr, 0);
+        $minPriceRound = new \Zend_Db_Expr("ROUND(i.price * ({$optPriceValue} / 100), 4)");
+        $priceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $minPriceRound);
+        $minPrice = $write->getCheckSql("{$priceExpr} > 0 AND o.is_require > 1", $priceExpr, 0);
 
-        $maxPrice       = $priceExpr;
+        $maxPrice = $priceExpr;
 
         $tierPriceRound = new \Zend_Db_Expr("ROUND(i.base_tier * ({$optPriceValue} / 100), 4)");
         $tierPriceExpr = $write->getCheckSql("{$optPriceType} = 'fixed'", $optPriceValue, $tierPriceRound);

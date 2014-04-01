@@ -77,12 +77,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array(
-                'field' => 'rating_code',
-                'title' => '' /* __('Rating with the same title')*/
-            )
-        );
+        $this->_uniqueFields = array(array('field' => 'rating_code', 'title' => ''));
         return $this;
     }
 
@@ -98,10 +93,10 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
 
-        $table      = $this->getMainTable();
-        $storeId    = (int)$this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId();
-        $select     = parent::_getLoadSelect($field, $value, $object);
-        $codeExpr   = $adapter->getIfNullSql('title.value', "{$table}.rating_code");
+        $table = $this->getMainTable();
+        $storeId = (int)$this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId();
+        $select = parent::_getLoadSelect($field, $value, $object);
+        $codeExpr = $adapter->getIfNullSql('title.value', "{$table}.rating_code");
 
         $select->joinLeft(
             array('title' => $this->getTable('rating_title')),

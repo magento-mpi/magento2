@@ -325,27 +325,39 @@ class Status extends \Magento\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
 
         if ($storeId === null || $storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
-            $select = $adapter->select()
-                ->from($attributeTable, array('entity_id', 'value'))
-                ->where('entity_id IN (?)', $productIds)
-                ->where('attribute_id = ?', $attribute->getAttributeId())
-                ->where('store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+            $select = $adapter->select()->from(
+                $attributeTable,
+                array('entity_id', 'value')
+            )->where(
+                'entity_id IN (?)',
+                $productIds
+            )->where(
+                'attribute_id = ?',
+                $attribute->getAttributeId()
+            )->where(
+                'store_id = ?',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            );
 
             $rows = $adapter->fetchPairs($select);
         } else {
-            $select = $adapter->select()
-                ->from(
-                    array('t1' => $attributeTable),
-                    array('value' => $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value')))
-                ->joinLeft(
-                    array('t2' => $attributeTable),
-                    't1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id = '
-                    . (int)$storeId,
-                    array('t1.entity_id')
-                )
-                ->where('t1.store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID)
-                ->where('t1.attribute_id = ?', $attribute->getAttributeId())
-                ->where('t1.entity_id IN(?)', $productIds);
+            $select = $adapter->select()->from(
+                array('t1' => $attributeTable),
+                array('value' => $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value'))
+            )->joinLeft(
+                array('t2' => $attributeTable),
+                't1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id = ' . (int)$storeId,
+                array('t1.entity_id')
+            )->where(
+                't1.store_id = ?',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            )->where(
+                't1.attribute_id = ?',
+                $attribute->getAttributeId()
+            )->where(
+                't1.entity_id IN(?)',
+                $productIds
+            );
 
             $rows = $adapter->fetchPairs($select);
         }

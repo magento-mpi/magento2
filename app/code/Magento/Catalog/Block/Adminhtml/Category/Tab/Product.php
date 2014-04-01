@@ -151,36 +151,35 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
                 )
             );
         }
-        $this->addColumn('entity_id', array(
-            'header'    => __('ID'),
-            'sortable'  => true,
-            'width'     => '60',
-            'index'     => 'entity_id'
-        ));
-        $this->addColumn('name', array(
-            'header'    => __('Name'),
-            'index'     => 'name'
-        ));
-        $this->addColumn('sku', array(
-            'header'    => __('SKU'),
-            'width'     => '80',
-            'index'     => 'sku'
-        ));
-        $this->addColumn('price', array(
-            'header'    => __('Price'),
-            'type'  => 'currency',
-            'width'     => '1',
-            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-            'index'     => 'price'
-        ));
-        $this->addColumn('position', array(
-            'header'    => __('Position'),
-            'width'     => '1',
-            'type'      => 'number',
-            'index'     => 'position',
-            'editable'  => !$this->getCategory()->getProductsReadonly()
-            //'renderer'  => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Input'
-        ));
+        $this->addColumn(
+            'entity_id',
+            array('header' => __('ID'), 'sortable' => true, 'width' => '60', 'index' => 'entity_id')
+        );
+        $this->addColumn('name', array('header' => __('Name'), 'index' => 'name'));
+        $this->addColumn('sku', array('header' => __('SKU'), 'width' => '80', 'index' => 'sku'));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'type' => 'currency',
+                'width' => '1',
+                'currency_code' => (string)$this->_storeConfig->getValue(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ),
+                'index' => 'price'
+            )
+        );
+        $this->addColumn(
+            'position',
+            array(
+                'header' => __('Position'),
+                'width' => '1',
+                'type' => 'number',
+                'index' => 'position',
+                'editable' => !$this->getCategory()->getProductsReadonly()
+            )
+        );
 
         return parent::_prepareColumns();
     }

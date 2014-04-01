@@ -35,10 +35,8 @@ class StoreGroup
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeSave(
-        \Magento\Store\Model\Resource\Group $subject,
-        \Magento\Model\AbstractModel $object
-    ) {
+    public function beforeSave(\Magento\Store\Model\Resource\Group $subject, \Magento\Model\AbstractModel $object)
+    {
         if (!$object->getId() || $object->dataHasChangedFor('root_category_id')) {
             $this->_productFlatIndexerProcessor->markIndexerAsInvalid();
         }

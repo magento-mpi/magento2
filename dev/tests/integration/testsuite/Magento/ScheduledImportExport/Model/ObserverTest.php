@@ -16,18 +16,25 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testScheduledLogClean()
     {
-        $operationFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\ScheduledImportExport\Model\Scheduled\OperationFactory');
-        $transportBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Mail\Template\TransportBuilder');
-        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManager');
-        $scopeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\ScopeConfigInterface');
-        $filesystem =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Filesystem');
+        $operationFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\ScheduledImportExport\Model\Scheduled\OperationFactory'
+        );
+        $transportBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Mail\Template\TransportBuilder'
+        );
+        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManager'
+        );
+        $scopeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\ScopeConfigInterface'
+        );
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
         $model = new \Magento\ScheduledImportExport\Model\Observer(
-            $operationFactory, $transportBuilder, $scopeConfig, $storeManager, $filesystem
+            $operationFactory,
+            $transportBuilder,
+            $scopeConfig,
+            $storeManager,
+            $filesystem
         );
         $model->scheduledLogClean('not_used', true);
 

@@ -751,13 +751,12 @@ class Reward extends \Magento\Model\AbstractModel
             $store
         );
 
-        $this->_transportBuilder
-            ->setTemplateIdentifier($templateIdentifier)
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ))
-            ->setTemplateVars(array(
+        $this->_transportBuilder->setTemplateIdentifier(
+            $templateIdentifier
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+        )->setTemplateVars(
+            array(
                 'store' => $store,
                 'customer' => $this->getCustomer(),
                 'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('update', $store->getId()),
@@ -776,9 +775,12 @@ class Reward extends \Magento\Model\AbstractModel
                 'reward_pts_change' => $delta,
                 'update_message' => $this->getHistory()->getMessage(),
                 'update_comment' => $history->getComment()
-            ))
-            ->setFrom($from)
-            ->addTo($this->getCustomer()->getEmail());
+            )
+        )->setFrom(
+            $from
+        )->addTo(
+            $this->getCustomer()->getEmail()
+        );
         $transport = $this->_transportBuilder->getTransport();
         $error = false;
         try {
@@ -828,13 +830,12 @@ class Reward extends \Magento\Model\AbstractModel
             $store
         );
 
-        $this->_transportBuilder
-            ->setTemplateIdentifier($templateIdentifier)
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $item->getStoreId()
-            ))
-            ->setTemplateVars(array(
+        $this->_transportBuilder->setTemplateIdentifier(
+            $templateIdentifier
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+        )->setTemplateVars(
+            array(
                 'store' => $store,
                 'customer_name' => $item->getCustomerFirstname() . ' ' . $item->getCustomerLastname(),
                 'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('warning'),
@@ -842,10 +843,13 @@ class Reward extends \Magento\Model\AbstractModel
                 'points_balance' => $item->getPointsBalanceTotal(),
                 'points_expiring' => $item->getTotalExpired(),
                 'reward_amount_now' => $helper->formatAmount($amount, true, $item->getStoreId()),
-                'update_message' => ($action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '')
-            ))
-            ->setFrom($from)
-            ->addTo($item->getCustomerEmail());
+                'update_message' => $action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : ''
+            )
+        )->setFrom(
+            $from
+        )->addTo(
+            $item->getCustomerEmail()
+        );
         $transport = $this->_transportBuilder->getTransport();
         $transport->sendMessage();
 

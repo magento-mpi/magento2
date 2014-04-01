@@ -163,13 +163,14 @@ class Design implements \Magento\View\DesignInterface
         $store = isset($params['store']) ? $params['store'] : null;
 
         if ($this->_isThemePerStoveView($area)) {
-            $theme = $this->_storeManager->isSingleStoreMode()
-                ? $this->_scopeConfig->getValue(self::XML_PATH_THEME_ID, \Magento\App\ScopeInterface::SCOPE_DEFAULT)
-                : (string)$this->_scopeConfig->getValue(
-                    self::XML_PATH_THEME_ID,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                    $store
-                );
+            $theme = $this->_storeManager->isSingleStoreMode() ? $this->_scopeConfig->getValue(
+                self::XML_PATH_THEME_ID,
+                \Magento\App\ScopeInterface::SCOPE_DEFAULT
+            ) : (string)$this->_scopeConfig->getValue(
+                self::XML_PATH_THEME_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            );
         }
 
         if (!$theme && isset($this->_themes[$area])) {

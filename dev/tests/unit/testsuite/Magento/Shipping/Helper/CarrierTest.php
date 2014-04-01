@@ -45,9 +45,16 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOnlineCarrierCodes($result, $carriers)
     {
-        $this->storeConfig->expects($this->once())->method('getValue')
-            ->with('carriers', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ->will($this->returnValue($carriers));
+        $this->storeConfig->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            'carriers',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )->will(
+            $this->returnValue($carriers)
+        );
         $this->assertEquals($result, $this->helper->getOnlineCarrierCodes());
     }
 
@@ -73,10 +80,16 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $carrierCode = 'carrier1';
         $configPath = 'title';
         $configValue = 'some title';
-        $this->storeConfig->expects($this->once())->method('getValue')
-            ->with(sprintf('carriers/%s/%s', $carrierCode, $configPath),
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ->will($this->returnValue($configValue));
+        $this->storeConfig->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            sprintf('carriers/%s/%s', $carrierCode, $configPath),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )->will(
+            $this->returnValue($configValue)
+        );
         $this->assertEquals($configValue, $this->helper->getCarrierConfigValue($carrierCode, $configPath));
     }
 }

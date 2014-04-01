@@ -280,7 +280,8 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     {
         if (!$origValue) {
             $origValue = $this->_storeConfig->getValue(
-                $pathToValue, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $pathToValue,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $this->getStore()
             );
         }
@@ -413,26 +414,51 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
 
         $shippingWeight = $request->getPackageWeight();
 
-        $requestObject->setValue(round($request->getPackageValue(), 2))
-            ->setValueWithDiscount($request->getPackageValueWithDiscount())
-            ->setCustomsValue($request->getPackageCustomsValue())
-            ->setDestStreet($this->string->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
-            ->setDestStreetLine2($request->getDestStreetLine2())
-            ->setDestCity($request->getDestCity())
-            ->setOrigCompanyName($request->getOrigCompanyName())
-            ->setOrigCity($request->getOrigCity())
-            ->setOrigPhoneNumber($request->getOrigPhoneNumber())
-            ->setOrigPersonName($request->getOrigPersonName())
-            ->setOrigEmail($this->_storeConfig->getValue('trans_email/ident_general/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $requestObject->getStoreId()))
-            ->setOrigCity($request->getOrigCity())
-            ->setOrigPostal($request->getOrigPostal())
-            ->setOrigStreetLine2($request->getOrigStreetLine2())
-            ->setDestPhoneNumber($request->getDestPhoneNumber())
-            ->setDestPersonName($request->getDestPersonName())
-            ->setDestCompanyName($request->getDestCompanyName());
+        $requestObject->setValue(
+            round($request->getPackageValue(), 2)
+        )->setValueWithDiscount(
+            $request->getPackageValueWithDiscount()
+        )->setCustomsValue(
+            $request->getPackageCustomsValue()
+        )->setDestStreet(
+            $this->string->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
+        )->setDestStreetLine2(
+            $request->getDestStreetLine2()
+        )->setDestCity(
+            $request->getDestCity()
+        )->setOrigCompanyName(
+            $request->getOrigCompanyName()
+        )->setOrigCity(
+            $request->getOrigCity()
+        )->setOrigPhoneNumber(
+            $request->getOrigPhoneNumber()
+        )->setOrigPersonName(
+            $request->getOrigPersonName()
+        )->setOrigEmail(
+            $this->_storeConfig->getValue(
+                'trans_email/ident_general/email',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $requestObject->getStoreId()
+            )
+        )->setOrigCity(
+            $request->getOrigCity()
+        )->setOrigPostal(
+            $request->getOrigPostal()
+        )->setOrigStreetLine2(
+            $request->getOrigStreetLine2()
+        )->setDestPhoneNumber(
+            $request->getDestPhoneNumber()
+        )->setDestPersonName(
+            $request->getDestPersonName()
+        )->setDestCompanyName(
+            $request->getDestCompanyName()
+        );
 
         $originStreet2 = $this->_storeConfig->getValue(
-            Shipment::XML_PATH_STORE_ADDRESS2, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $requestObject->getStoreId());
+            Shipment::XML_PATH_STORE_ADDRESS2,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $requestObject->getStoreId()
+        );
 
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
@@ -573,8 +599,8 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
             '9' => __('Europack'),
             'B' => __('Break bulk express'),
             'C' => __('Medical express'),
-            'D' => __('Express worldwide'), // product content code: DOX
-            'U' => __('Express worldwide'), // product content code: ECX
+            'D' => __('Express worldwide'),
+            'U' => __('Express worldwide'),
             'K' => __('Express 9:00'),
             'L' => __('Express 10:30'),
             'G' => __('Domestic economy select'),
@@ -1088,11 +1114,13 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
                 $rate->setPrice($data['price_total']);
                 $result->append($rate);
             }
-        } else if (!empty($this->_errors)) {
-            if ($this->_isShippingLabelFlag) {
-                throw new \Magento\Model\Exception($responseError);
+        } else {
+            if (!empty($this->_errors)) {
+                if ($this->_isShippingLabelFlag) {
+                    throw new \Magento\Model\Exception($responseError);
+                }
+                return $this->_showError();
             }
-            return $this->_showError();
         }
         return $result;
     }
@@ -1261,7 +1289,11 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         }
 
         $countryParams = $this->getCountryParams(
-            $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $request->getStoreId())
+            $this->_storeConfig->getValue(
+                Shipment::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $request->getStoreId()
+            )
         );
         if (!$countryParams->getData()) {
             $this->_errors[] = __('Please, specify origin country');
@@ -1383,7 +1415,11 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         $rawRequest = $this->_request;
 
         $originRegion = $this->getCountryParams(
-            $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStore())
+            $this->_storeConfig->getValue(
+                Shipment::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $this->getStore()
+            )
         )->getRegion();
 
         if (!$originRegion) {

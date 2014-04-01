@@ -79,9 +79,8 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
         if ($this->_appState->isInstalled()) {
             $website = $this->_websiteFactory->create();
             $website->load($code);
-            $collection = $this->_collectionFactory->create(array(
-                'scope' => \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES,
-                'scopeId' => $website->getId())
+            $collection = $this->_collectionFactory->create(
+                array('scope' => \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES, 'scopeId' => $website->getId())
             );
             $dbWebsiteConfig = array();
             foreach ($collection as $configValue) {

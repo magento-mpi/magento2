@@ -83,9 +83,11 @@ class Layer extends \Magento\Catalog\Model\Layer
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
             $collection = $this->_engineProvider->get()->getResultCollection();
-            $collection->setStoreId($this->getCurrentCategory()->getStoreId())
-                ->addCategoryFilter($this->getCurrentCategory())
-                ->setGeneralDefaultQuery();
+            $collection->setStoreId(
+                $this->getCurrentCategory()->getStoreId()
+            )->addCategoryFilter(
+                $this->getCurrentCategory()
+            )->setGeneralDefaultQuery();
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
@@ -101,9 +103,10 @@ class Layer extends \Magento\Catalog\Model\Layer
      */
     public function getStateTags(array $additionalTags = array())
     {
-        $additionalTags = array_merge($additionalTags, array(
-            \Magento\Catalog\Model\Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH'
-        ));
+        $additionalTags = array_merge(
+            $additionalTags,
+            array(\Magento\Catalog\Model\Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH')
+        );
 
         return parent::getStateTags($additionalTags);
     }

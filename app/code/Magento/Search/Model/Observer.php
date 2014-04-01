@@ -248,9 +248,7 @@ class Observer
         }
 
         $object = $observer->getEvent()->getDataObject();
-        if ($object instanceof \Magento\Store\Model\Website
-            || $object instanceof \Magento\Store\Model\Group
-        ) {
+        if ($object instanceof \Magento\Store\Model\Website || $object instanceof \Magento\Store\Model\Group) {
             $storeIds = $object->getStoreIds();
         } elseif ($object instanceof \Magento\Store\Model\Store) {
             $storeIds = $object->getId();

@@ -27,8 +27,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $registryData = array(
             'store_type' => 'store',
-            'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Store\Model\Store'),
+            'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Store\Model\Store'
+            ),
             'store_action' => 'add'
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */

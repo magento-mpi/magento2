@@ -98,28 +98,24 @@ class Creditmemo extends AbstractPdf
             'text' => $this->string->split(__('Total (ex)'), 12, true, true),
             'feed' => 330,
             'align' => 'right'
-            //'width' => 50,
         );
 
         $lines[0][] = array(
             'text' => $this->string->split(__('Discount'), 12, true, true),
             'feed' => 380,
             'align' => 'right'
-            //'width' => 50,
         );
 
         $lines[0][] = array(
             'text' => $this->string->split(__('Qty'), 12, true, true),
             'feed' => 445,
             'align' => 'right'
-            //'width' => 30,
         );
 
         $lines[0][] = array(
             'text' => $this->string->split(__('Tax'), 12, true, true),
             'feed' => 495,
             'align' => 'right'
-            //'width' => 45,
         );
 
         $lines[0][] = array(
@@ -167,7 +163,8 @@ class Creditmemo extends AbstractPdf
                 $page,
                 $order,
                 $this->_storeConfig->isSetFlag(
-                    self::XML_PATH_SALES_PDF_CREDITMEMO_PUT_ORDER_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    self::XML_PATH_SALES_PDF_CREDITMEMO_PUT_ORDER_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $order->getStoreId()
                 )
             );

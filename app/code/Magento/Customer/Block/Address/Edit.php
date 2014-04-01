@@ -74,10 +74,10 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         array $data = array()
     ) {
-        $this->_customerSession         = $customerSession;
-        $this->_addressService          = $addressService;
-        $this->_addressBuilder          = $addressBuilder;
-        $this->customerCurrentService   = $customerCurrentService;
+        $this->_customerSession = $customerSession;
+        $this->_addressService = $addressService;
+        $this->_addressBuilder = $addressBuilder;
+        $this->customerCurrentService = $customerCurrentService;
         parent::__construct(
             $context,
             $coreData,
@@ -104,7 +104,6 @@ class Edit extends \Magento\Directory\Block\Data
             try {
                 $this->_address = $this->_addressService->getAddress($addressId);
             } catch (NoSuchEntityException $e) {
-                // something went wrong, but we are ignore it for now
             }
         }
 

@@ -127,7 +127,10 @@ class Switcher extends \Magento\View\Element\Template
             $rawStores = $this->getRawStores();
 
             $groups = array();
-            $localeCode = $this->_storeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $localeCode = $this->_storeConfig->getValue(
+                'general/locale/code',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             foreach ($rawGroups as $group) {
                 /* @var $group Group */
                 if (!isset($rawStores[$group->getId()])) {
@@ -216,9 +219,6 @@ class Switcher extends \Magento\View\Element\Template
      */
     public function getTargetStorePostData(\Magento\Core\Model\Store $store)
     {
-        return $this->_postDataHelper->getPostData(
-            $this->getHomeUrl(),
-            array('___store' => $store->getCode())
-        );
+        return $this->_postDataHelper->getPostData($this->getHomeUrl(), array('___store' => $store->getCode()));
     }
 }

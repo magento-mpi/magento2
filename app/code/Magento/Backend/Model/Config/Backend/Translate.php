@@ -58,14 +58,7 @@ class Translate extends \Magento\Core\Model\Config\Value
     ) {
         $this->_storeConfig = $coreStoreConfig;
         $this->_cacheTypeList = $cacheTypeList;
-        parent::__construct(
-            $context,
-            $registry,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -75,7 +68,12 @@ class Translate extends \Magento\Core\Model\Config\Value
      */
     protected function _afterSave()
     {
-        $types = array_keys($this->_storeConfig->getValue(self::XML_PATH_INVALID_CACHES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $types = array_keys(
+            $this->_storeConfig->getValue(
+                self::XML_PATH_INVALID_CACHES,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
         if ($this->isValueChanged()) {
             $this->_cacheTypeList->invalidate($types);
         }

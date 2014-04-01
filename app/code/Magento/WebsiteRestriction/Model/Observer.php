@@ -172,8 +172,10 @@ class Observer
                         $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
                     if ($this->_storeConfig->isSetFlag(
-                        \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-                    , \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+                        \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                    )
+                    ) {
                         $afterLoginUrl = $this->_customerHelper->getDashboardUrl();
                     } else {
                         $afterLoginUrl = $this->getUrl();

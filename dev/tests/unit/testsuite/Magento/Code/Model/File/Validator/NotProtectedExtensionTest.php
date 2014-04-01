@@ -27,11 +27,19 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeConfig = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
-        $this->_storeConfig->expects($this->atLeastOnce())->method('getValue')->with($this->equalTo(
+        $this->_storeConfig->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getValue'
+        )->with(
+            $this->equalTo(
                 \Magento\Core\Model\File\Validator\NotProtectedExtension::XML_PATH_PROTECTED_FILE_EXTENSIONS
             ),
             $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-            $this->equalTo(null))->will($this->returnValue($this->_protectedList));
+            $this->equalTo(null)
+        )->will(
+            $this->returnValue($this->_protectedList)
+        );
         $this->_model = new \Magento\Core\Model\File\Validator\NotProtectedExtension($this->_storeConfig);
     }
 

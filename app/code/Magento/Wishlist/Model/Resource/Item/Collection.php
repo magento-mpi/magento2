@@ -381,10 +381,11 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function addStoreData()
     {
         $storeTable = $this->_coreResource->getTableName('store');
-        $this->getSelect()->join(array('store'=>$storeTable), 'main_table.store_id=store.store_id', array(
-            'store_name'=>'name',
-            'item_store_id' => 'store_id'
-        ));
+        $this->getSelect()->join(
+            array('store' => $storeTable),
+            'main_table.store_id=store.store_id',
+            array('store_name' => 'name', 'item_store_id' => 'store_id')
+        );
         return $this;
     }
 

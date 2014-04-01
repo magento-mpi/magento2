@@ -51,17 +51,39 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', array('getStore'),
-            array(), '', false, false);
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', array('isAdmin', '__wakeup'), array(),
-            '', false, false);
-        $this->_storeManagerMock->expects($this->atLeastOnce())->method('getStore')
-            ->will($this->returnValue($storeMock));
+        $this->_storeManagerMock = $this->getMock(
+            '\Magento\Store\Model\StoreManager',
+            array('getStore'),
+            array(),
+            '',
+            false,
+            false
+        );
+        $storeMock = $this->getMock(
+            '\Magento\Store\Model\Store',
+            array('isAdmin', '__wakeup'),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_storeManagerMock->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($storeMock)
+        );
 
-        $this->_stringHelperMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '',
-            false, false);
-        $this->_requestMock = $this->getMock('\Magento\App\Request\Http',
-            array('getBasePath', 'isSecure', 'getHttpHost'), array(), '', false, false);
+        $this->_stringHelperMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false, false);
+        $this->_requestMock = $this->getMock(
+            '\Magento\App\Request\Http',
+            array('getBasePath', 'isSecure', 'getHttpHost'),
+            array(),
+            '',
+            false,
+            false
+        );
         $this->_requestMock->expects($this->atLeastOnce())->method('getBasePath')->will($this->returnValue('/'));
         $this->_requestMock->expects(
             $this->atLeastOnce()

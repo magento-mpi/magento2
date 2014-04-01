@@ -50,10 +50,16 @@ class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testCaptchaIsRequiredAfterFailedLoginAttempts()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->setCurrentStore(0);
-        $captchaModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Captcha\Helper\Data')
-            ->getCaptcha('backend_login');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->setCurrentStore(
+            0
+        );
+        $captchaModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Captcha\Helper\Data'
+        )->getCaptcha(
+            'backend_login'
+        );
 
         try {
             $authModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

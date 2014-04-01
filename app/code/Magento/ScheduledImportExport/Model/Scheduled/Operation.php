@@ -185,11 +185,13 @@ class Operation extends \Magento\Model\AbstractModel
         $copyMethod = $this->getEmailCopyMethod();
 
         $receiverEmail = $this->_storeConfig->getValue(
-            self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
-        $receiverName  = $this->_storeConfig->getValue(
-            self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name', \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+        $receiverName = $this->_storeConfig->getValue(
+            self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
 

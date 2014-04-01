@@ -151,7 +151,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
                         $index++;
                     } while ($range > self::MIN_RANGE_POWER && count($items) < 2);
                 } else {
-                    $range = (float)$this->_scopeConfig->getValue(
+                    $range = (double)$this->_scopeConfig->getValue(
                         self::XML_PATH_RANGE_STEP,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     );
@@ -246,11 +246,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $formattedFromPrice = $store->formatPrice($fromPrice);
         if ($toPrice === '') {
             return __('%1 and above', $formattedFromPrice);
-        } elseif (
-            $fromPrice == $toPrice && $this->_scopeConfig->getValue(
-                self::XML_PATH_ONE_PRICE_INTERVAL,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            )
+        } elseif ($fromPrice == $toPrice && $this->_scopeConfig->getValue(
+            self::XML_PATH_ONE_PRICE_INTERVAL,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
         ) {
             return $formattedFromPrice;
         } else {
@@ -330,9 +329,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected function _getItemsData()
     {
         if ($this->_scopeConfig->getValue(
-                self::XML_PATH_RANGE_CALCULATION,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ) == self::RANGE_CALCULATION_IMPROVED
+            self::XML_PATH_RANGE_CALCULATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) == self::RANGE_CALCULATION_IMPROVED
         ) {
             return $this->_getCalculatedItemsData();
         } elseif ($this->getInterval()) {
@@ -563,10 +562,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     public function getClearLinkText()
     {
         if ($this->_scopeConfig->getValue(
-                self::XML_PATH_RANGE_CALCULATION,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ) == self::RANGE_CALCULATION_IMPROVED
-            && $this->getPriorIntervals()
+            self::XML_PATH_RANGE_CALCULATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) == self::RANGE_CALCULATION_IMPROVED && $this->getPriorIntervals()
         ) {
             return __('Clear Price');
         }

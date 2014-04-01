@@ -595,7 +595,6 @@ class Rma extends \Magento\Model\AbstractModel
                     'rma' => $this,
                     'order' => $this->getOrder(),
                     'return_address' => $returnAddress,
-                    //We cannot use $this->_items as items collection, because some items might not be loaded now
                     'item_collection' => $this->getItemsForDisplay()
                 )
             )->setFrom(
@@ -899,8 +898,8 @@ class Rma extends \Magento\Model\AbstractModel
 
                 if ($itemModel->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED &&
                     $itemModel->getOrigData(
-                        'status'
-                    ) !== $itemModel->getStatus()
+                    'status'
+                ) !== $itemModel->getStatus()
                 ) {
                     $this->setIsSendAuthEmail(1);
                 }

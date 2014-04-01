@@ -58,7 +58,6 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      */
     public function setIsSingleStoreModeAllowed($value)
     {
-        //not applicable for default storage
     }
 
     /**
@@ -182,7 +181,6 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      */
     public function reinitStores()
     {
-        //not applicable for default storage
     }
 
     /**
@@ -203,7 +201,6 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      */
     public function clearWebsiteCache($websiteId = null)
     {
-        //not applicable for default storage
     }
 
     /**
@@ -232,7 +229,6 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      */
     public function throwStoreException()
     {
-        //not applicable for default storage
     }
 
     /**

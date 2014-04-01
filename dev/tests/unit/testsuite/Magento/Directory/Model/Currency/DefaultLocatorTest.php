@@ -35,19 +35,26 @@ class DefaultLocatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
-        $this->_requestMock = $this->getMockForAbstractClass('Magento\App\RequestInterface',
-            array($backendData), '', false, false, true, array('getParam'));
+        $this->_requestMock = $this->getMockForAbstractClass(
+            'Magento\App\RequestInterface',
+            array($backendData),
+            '',
+            false,
+            false,
+            true,
+            array('getParam')
+        );
         $this->_configMock = $this->getMock('\Magento\App\ConfigInterface');
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_model = new \Magento\Directory\Model\Currency\DefaultLocator(
-            $this->_configMock, $this->_storeManagerMock
+            $this->_configMock,
+            $this->_storeManagerMock
         );
     }
 
     public function testGetDefaultCurrencyReturnDefaultStoreDefaultCurrencyIfNoStoreIsSpecified()
     {
-        $this->_configMock->expects($this->once())->method('getValue')
-            ->will($this->returnValue('storeCurrency'));
+        $this->_configMock->expects($this->once())->method('getValue')->will($this->returnValue('storeCurrency'));
         $this->assertEquals('storeCurrency', $this->_model->getDefaultCurrency($this->_requestMock));
     }
 

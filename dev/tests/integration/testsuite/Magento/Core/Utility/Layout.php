@@ -98,10 +98,10 @@ class Layout
             'argumentParser' => $objectManager->get('Magento\View\Layout\Argument\Parser'),
             'argumentInterpreter' => $objectManager->get('layoutArgumentInterpreter'),
             'scheduledStructure' => $objectManager->create('Magento\Core\Model\Layout\ScheduledStructure', array()),
-            'coreStoreConfig'    => $objectManager->create('Magento\App\Config\ScopeConfigInterface'),
-            'appState'           => $objectManager->get('Magento\App\State'),
-            'messageManager'     => $objectManager->get('Magento\Message\ManagerInterface'),
-            'objectManager'      => $objectManager
+            'coreStoreConfig' => $objectManager->create('Magento\App\Config\ScopeConfigInterface'),
+            'appState' => $objectManager->get('Magento\App\State'),
+            'messageManager' => $objectManager->get('Magento\Message\ManagerInterface'),
+            'objectManager' => $objectManager
         );
     }
 }

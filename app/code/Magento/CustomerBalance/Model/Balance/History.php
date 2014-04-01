@@ -201,24 +201,33 @@ class History extends \Magento\Model\AbstractModel
             $storeId = $this->getBalanceModel()->getStoreId();
             $customer = $this->getBalanceModel()->getCustomer();
 
-            $transport = $this->_transportBuilder
-                ->setTemplateIdentifier(
-                    $this->_storeConfig->getValue('customer/magento_customerbalance/email_template', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $this->_storeConfig->getValue(
+                    'customer/magento_customerbalance/email_template',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storeId
                 )
-                ->setTemplateOptions(array(
-                    'area' => $this->_design->getArea(),
-                    'store' => $storeId
-                ))
-                ->setTemplateVars(array(
-                    'balance' => $this->_storeManager->getWebsite($this->getBalanceModel()->getWebsiteId())
-                        ->getBaseCurrency()->format($this->getBalanceModel()->getAmount(), array(), false),
-                    'name'    => $customer->getName(),
-                    'store'    => $this->_storeManager->getStore($storeId),
-                ))
-                ->setFrom(
-                    $this->_storeConfig->getValue('customer/magento_customerbalance/email_identity', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
+            )->setTemplateOptions(
+                array('area' => $this->_design->getArea(), 'store' => $storeId)
+            )->setTemplateVars(
+                array(
+                    'balance' => $this->_storeManager->getWebsite(
+                        $this->getBalanceModel()->getWebsiteId()
+                    )->getBaseCurrency()->format(
+                        $this->getBalanceModel()->getAmount(),
+                        array(),
+                        false
+                    ),
+                    'name' => $customer->getName(),
+                    'store' => $this->_storeManager->getStore($storeId)
                 )
-            ->addTo(
+            )->setFrom(
+                $this->_storeConfig->getValue(
+                    'customer/magento_customerbalance/email_identity',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storeId
+                )
+            )->addTo(
                 $customer->getEmail(),
                 $customer->getName()
             )->getTransport();

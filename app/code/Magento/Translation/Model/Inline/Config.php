@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Translation\Model\Inline;
 
 /**
@@ -42,7 +41,11 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
      */
     public function isActive($scope = null)
     {
-        return $this->_storeConfig->isSetFlag('dev/translate_inline/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $scope);
+        return $this->_storeConfig->isSetFlag(
+            'dev/translate_inline/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $scope
+        );
     }
 
     /**

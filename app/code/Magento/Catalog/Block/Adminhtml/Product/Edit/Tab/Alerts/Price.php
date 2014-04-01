@@ -91,45 +91,33 @@ class Price extends Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('firstname', array(
-            'header'    => __('First Name'),
-            'index'     => 'firstname',
-        ));
+        $this->addColumn('firstname', array('header' => __('First Name'), 'index' => 'firstname'));
 
-        $this->addColumn('lastname', array(
-            'header'    => __('Last Name'),
-            'index'     => 'lastname',
-        ));
+        $this->addColumn('lastname', array('header' => __('Last Name'), 'index' => 'lastname'));
 
-        $this->addColumn('email', array(
-            'header'    => __('Email'),
-            'index'     => 'email',
-        ));
+        $this->addColumn('email', array('header' => __('Email'), 'index' => 'email'));
 
-        $this->addColumn('price', array(
-            'header'    => __('Price'),
-            'index'     => 'price',
-            'type'      => 'currency',
-            'currency_code'
-                        => $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'index' => 'price',
+                'type' => 'currency',
+                'currency_code' => $this->_storeConfig->getValue(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )
+        );
 
-        $this->addColumn('add_date', array(
-            'header'    => __('Subscribe Date'),
-            'index'     => 'add_date',
-            'type'      => 'date'
-        ));
+        $this->addColumn('add_date', array('header' => __('Subscribe Date'), 'index' => 'add_date', 'type' => 'date'));
 
-        $this->addColumn('last_send_date', array(
-            'header'    => __('Last Notified'),
-            'index'     => 'last_send_date',
-            'type'      => 'date'
-        ));
+        $this->addColumn(
+            'last_send_date',
+            array('header' => __('Last Notified'), 'index' => 'last_send_date', 'type' => 'date')
+        );
 
-        $this->addColumn('send_count', array(
-            'header'    => __('Send Count'),
-            'index'     => 'send_count',
-        ));
+        $this->addColumn('send_count', array('header' => __('Send Count'), 'index' => 'send_count'));
 
         return parent::_prepareColumns();
     }

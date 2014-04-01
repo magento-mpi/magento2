@@ -231,12 +231,16 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     {
         if (!isset($this->_dateFormats[$storeId])) {
             $timezone = $this->_storeConfig->getValue(
-                $this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
+                $this->_localeDate->getDefaultTimezonePath(),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
             );
-            $locale   = $this->_storeConfig->getValue(
-                $this->_localeResolver->getDefaultLocalePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
+            $locale = $this->_storeConfig->getValue(
+                $this->_localeResolver->getDefaultLocalePath(),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
             );
-            $locale   = new \Zend_Locale($locale);
+            $locale = new \Zend_Locale($locale);
 
             $dateObj = new \Magento\Stdlib\DateTime\Date(null, null, $locale);
             $dateObj->setTimezone($timezone);

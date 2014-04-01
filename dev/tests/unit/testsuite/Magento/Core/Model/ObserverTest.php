@@ -83,10 +83,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $designMock = $this->getMock('Magento\View\DesignInterface');
         $designMock->expects($this->any())->method('getDesignTheme')->will($this->returnValue($themeMock));
 
-        $this->_assetsMock = $this->getMock('Magento\View\Asset\GroupedCollection',
-            array(), array(), '', false, false);
-        $this->_configMock = $this->getMock('\Magento\App\Config\ReinitableConfigInterface',
-            array(), array(), '', false, false);
+        $this->_assetsMock = $this->getMock(
+            'Magento\View\Asset\GroupedCollection',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_configMock = $this->getMock(
+            '\Magento\App\Config\ReinitableConfigInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
 
         $this->_assetFactory = $this->getMock(
             'Magento\View\Asset\PublicFileFactory',

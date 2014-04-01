@@ -18,7 +18,7 @@ $review = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $review->setEntityId(
     $review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
 )->setEntityPkValue(
-    $product->getId() // the last product from the fixture file included above
+    $product->getId()
 )->setStatusId(
     \Magento\Review\Model\Review::STATUS_PENDING
 )->setStoreId(

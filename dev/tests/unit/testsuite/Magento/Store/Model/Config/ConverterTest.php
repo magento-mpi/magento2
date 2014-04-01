@@ -17,8 +17,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_processorMock = $this->getMock('Magento\Store\Model\Config\Processor\Placeholder',
-            array(), array(), '', false);
+        $this->_processorMock = $this->getMock(
+            'Magento\Store\Model\Config\Processor\Placeholder',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_model = new \Magento\Store\Model\Config\Converter($this->_processorMock);
     }
 

@@ -27,10 +27,12 @@ namespace Magento\Store\Model;
  * @method int getIsDefault()
  * @method \Magento\Store\Model\Website setIsDefault(int $value)
  */
-class Website extends \Magento\Model\AbstractModel
-    implements \Magento\Object\IdentityInterface, \Magento\App\ScopeInterface
+class Website extends \Magento\Model\AbstractModel implements
+    \Magento\Object\IdentityInterface,
+    \Magento\App\ScopeInterface
 {
     const ENTITY = 'store_website';
+
     const CACHE_TAG = 'website';
 
     /**
@@ -234,7 +236,11 @@ class Website extends \Magento\Model\AbstractModel
     {
         if (!isset($this->_configCache[$path])) {
 
-            $config = $this->_coreConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, $this->getCode());
+            $config = $this->_coreConfig->getValue(
+                $path,
+                \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
+                $this->getCode()
+            );
             if (!$config) {
                 return false;
             }
@@ -529,14 +535,16 @@ class Website extends \Magento\Model\AbstractModel
      */
     public function getBaseCurrencyCode()
     {
-        if ($this->getConfig(\Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE)
-            == \Magento\Store\Model\Store::PRICE_SCOPE_GLOBAL
+        if ($this->getConfig(
+            \Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE
+        ) == \Magento\Store\Model\Store::PRICE_SCOPE_GLOBAL
         ) {
-            $currencyCode = $this->_coreConfig
-                ->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
-
+            $currencyCode = $this->_coreConfig->getValue(
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                'default'
+            );
         } else {
-            $currencyCode =  $this->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
+            $currencyCode = $this->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
         }
 
         return $currencyCode;

@@ -154,13 +154,14 @@ class Observer
                     $orderItem,
                     $linkPurchased
                 );
-                $linkSectionTitle = (
-                    $product->getLinksTitle()
-                        ? $product->getLinksTitle()
-                        : $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+                $linkSectionTitle = $product->getLinksTitle() ? $product
+                    ->getLinksTitle() : $this
+                    ->_storeConfig
+                    ->getValue(
+                    \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
-                $linkPurchased->setLinkSectionTitle($linkSectionTitle)
-                    ->save();
+                $linkPurchased->setLinkSectionTitle($linkSectionTitle)->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
                         $linkPurchasedItem = $this->_createPurchasedItemModel()->setPurchasedId(
@@ -217,8 +218,8 @@ class Observer
                 if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
                     $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
                     $item->getProductOptionByCode(
-                        'is_downloadable'
-                    )
+                    'is_downloadable'
+                )
                 ) {
                     $this->_checkoutSession->setHasDownloadableProducts(true);
                     break;
@@ -255,7 +256,9 @@ class Observer
 
         $downloadableItemsStatuses = array();
         $orderItemStatusToEnable = $this->_storeConfig->getValue(
-            \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $order->getStoreId()
+            \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $order->getStoreId()
         );
 
         if ($order->getState() == \Magento\Sales\Model\Order::STATE_HOLDED) {
@@ -292,10 +295,10 @@ class Observer
                     if ($item->getStatusId() == \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED &&
                         $orderItemStatusToEnable == \Magento\Sales\Model\Order\Item::STATUS_PENDING &&
                         !in_array(
-                            \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED,
-                            $availableStatuses,
-                            true
-                        )
+                        \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED,
+                        $availableStatuses,
+                        true
+                    )
                     ) {
                         $availableStatuses[] = \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED;
                     }
@@ -355,7 +358,12 @@ class Observer
             }
         }
 
-        if ($isContain && $this->_storeConfig->isSetFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)) {
+        if ($isContain && $this->_storeConfig->isSetFlag(
+            self::XML_PATH_DISABLE_GUEST_CHECKOUT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        )
+        ) {
             $result->setIsAllowed(false);
         }
 

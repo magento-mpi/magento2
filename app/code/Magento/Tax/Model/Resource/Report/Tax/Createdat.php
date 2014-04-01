@@ -122,13 +122,13 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
             $select->reset();
 
             $columns = array(
-                'period'                => 'period',
-                'store_id'              => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
-                'code'                  => 'code',
-                'order_status'          => 'order_status',
-                'percent'               => 'MAX(' . $writeAdapter->quoteIdentifier('percent') . ')',
-                'orders_count'          => 'SUM(orders_count)',
-                'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)'
+                'period' => 'period',
+                'store_id' => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
+                'code' => 'code',
+                'order_status' => 'order_status',
+                'percent' => 'MAX(' . $writeAdapter->quoteIdentifier('percent') . ')',
+                'orders_count' => 'SUM(orders_count)',
+                'tax_base_amount_sum' => 'SUM(tax_base_amount_sum)'
             );
 
             $select->from($this->getMainTable(), $columns)->where('store_id <> ?', 0);

@@ -19,48 +19,85 @@ $installer->startSetup();
 /**
  * Create table 'paypal_billing_agreement'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('paypal_billing_agreement'))
-    ->addColumn('agreement_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-    ), 'Agreement Id')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-    ), 'Customer Id')
-    ->addColumn('method_code', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-    ), 'Method Code')
-    ->addColumn('reference_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        'nullable'  => false,
-    ), 'Reference Id')
-    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_TEXT, 20, array(
-        'nullable'  => false,
-    ), 'Status')
-    ->addColumn('created_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
-    ), 'Created At')
-    ->addColumn('updated_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-    ), 'Updated At')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-    ), 'Store Id')
-    ->addColumn('agreement_label', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-    ), 'Agreement Label')
-    ->addIndex($installer->getIdxName('paypal_billing_agreement', array('customer_id')),
-        array('customer_id'))
-    ->addIndex($installer->getIdxName('paypal_billing_agreement', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('paypal_billing_agreement', 'customer_id', 'customer_entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('paypal_billing_agreement', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Sales Billing Agreement');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('paypal_billing_agreement')
+)->addColumn(
+    'agreement_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Agreement Id'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Customer Id'
+)->addColumn(
+    'method_code',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array('nullable' => false),
+    'Method Code'
+)->addColumn(
+    'reference_id',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array('nullable' => false),
+    'Reference Id'
+)->addColumn(
+    'status',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    20,
+    array('nullable' => false),
+    'Status'
+)->addColumn(
+    'created_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => false),
+    'Created At'
+)->addColumn(
+    'updated_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Updated At'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Store Id'
+)->addColumn(
+    'agreement_label',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Agreement Label'
+)->addIndex(
+    $installer->getIdxName('paypal_billing_agreement', array('customer_id')),
+    array('customer_id')
+)->addIndex(
+    $installer->getIdxName('paypal_billing_agreement', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('paypal_billing_agreement', 'customer_id', 'customer_entity', 'entity_id'),
+    'customer_id',
+    $installer->getTable('customer_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('paypal_billing_agreement', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Sales Billing Agreement'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -280,29 +317,45 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'paypal_cert'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('paypal_cert'))
-    ->addColumn('cert_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Cert Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0'
-        ), 'Website Id')
-    ->addColumn('content', \Magento\DB\Ddl\Table::TYPE_TEXT, '64K', array(
-        ), 'Content')
-    ->addColumn('updated_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Updated At')
-    ->addIndex($installer->getIdxName('paypal_cert', array('website_id')),
-        array('website_id'))
-    ->addForeignKey($installer->getFkName('paypal_cert', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Paypal Certificate Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('paypal_cert')
+)->addColumn(
+    'cert_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Cert Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Website Id'
+)->addColumn(
+    'content',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64K',
+    array(),
+    'Content'
+)->addColumn(
+    'updated_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Updated At'
+)->addIndex(
+    $installer->getIdxName('paypal_cert', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('paypal_cert', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Paypal Certificate Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**

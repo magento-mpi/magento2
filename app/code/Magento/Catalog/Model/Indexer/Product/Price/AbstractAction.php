@@ -192,17 +192,16 @@ abstract class AbstractAction
         $write = $this->_getConnection();
         $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
 
-        $select = $write->select()
-            ->from(
-                array('cw' => $this->_getTable('store_website')),
-                array('website_id')
-            )
-            ->join(
-                array('csg' => $this->_getTable('store_group')),
-                'cw.default_group_id = csg.group_id',
-                array('store_id' => 'default_store_id')
-            )
-            ->where('cw.website_id != 0');
+        $select = $write->select()->from(
+            array('cw' => $this->_getTable('store_website')),
+            array('website_id')
+        )->join(
+            array('csg' => $this->_getTable('store_group')),
+            'cw.default_group_id = csg.group_id',
+            array('store_id' => 'default_store_id')
+        )->where(
+            'cw.website_id != 0'
+        );
 
 
         $data = array();
@@ -257,29 +256,28 @@ abstract class AbstractAction
         $this->_emptyTable($table);
 
         $websiteExpression = $write->getCheckSql('tp.website_id = 0', 'ROUND(tp.value * cwd.rate, 4)', 'tp.value');
-        $select = $write->select()
-            ->from(
-                array('tp' => $this->_getTable(array('catalog_product_entity', 'tier_price'))),
-                array('entity_id')
-            )
-            ->join(
-                array('cg' => $this->_getTable('customer_group')),
-                'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
-                array('customer_group_id')
-            )
-            ->join(
-                array('cw' => $this->_getTable('store_website')),
-                'tp.website_id = 0 OR tp.website_id = cw.website_id',
-                array('website_id')
-            )
-            ->join(
-                array('cwd' => $this->_getTable('catalog_product_index_website')),
-                'cw.website_id = cwd.website_id',
-                array()
-            )
-            ->where('cw.website_id != 0')
-            ->columns(new \Zend_Db_Expr("MIN({$websiteExpression})"))
-            ->group(array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
+        $select = $write->select()->from(
+            array('tp' => $this->_getTable(array('catalog_product_entity', 'tier_price'))),
+            array('entity_id')
+        )->join(
+            array('cg' => $this->_getTable('customer_group')),
+            'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
+            array('customer_group_id')
+        )->join(
+            array('cw' => $this->_getTable('store_website')),
+            'tp.website_id = 0 OR tp.website_id = cw.website_id',
+            array('website_id')
+        )->join(
+            array('cwd' => $this->_getTable('catalog_product_index_website')),
+            'cw.website_id = cwd.website_id',
+            array()
+        )->where(
+            'cw.website_id != 0'
+        )->columns(
+            new \Zend_Db_Expr("MIN({$websiteExpression})")
+        )->group(
+            array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id')
+        );
 
         if (!empty($entityIds)) {
             $select->where('tp.entity_id IN(?)', $entityIds);
@@ -304,29 +302,28 @@ abstract class AbstractAction
         $this->_emptyTable($table);
 
         $websiteExpression = $write->getCheckSql('gp.website_id = 0', 'ROUND(gp.value * cwd.rate, 4)', 'gp.value');
-        $select = $write->select()
-            ->from(
-                array('gp' => $this->_getTable(array('catalog_product_entity', 'group_price'))),
-                array('entity_id')
-            )
-            ->join(
-                array('cg' => $this->_getTable('customer_group')),
-                'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
-                array('customer_group_id')
-            )
-            ->join(
-                array('cw' => $this->_getTable('store_website')),
-                'gp.website_id = 0 OR gp.website_id = cw.website_id',
-                array('website_id')
-            )
-            ->join(
-                array('cwd' => $this->_getTable('catalog_product_index_website')),
-                'cw.website_id = cwd.website_id',
-                array()
-            )
-            ->where('cw.website_id != 0')
-            ->columns(new \Zend_Db_Expr("MIN({$websiteExpression})"))
-            ->group(array('gp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
+        $select = $write->select()->from(
+            array('gp' => $this->_getTable(array('catalog_product_entity', 'group_price'))),
+            array('entity_id')
+        )->join(
+            array('cg' => $this->_getTable('customer_group')),
+            'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
+            array('customer_group_id')
+        )->join(
+            array('cw' => $this->_getTable('store_website')),
+            'gp.website_id = 0 OR gp.website_id = cw.website_id',
+            array('website_id')
+        )->join(
+            array('cwd' => $this->_getTable('catalog_product_index_website')),
+            'cw.website_id = cwd.website_id',
+            array()
+        )->where(
+            'cw.website_id != 0'
+        )->columns(
+            new \Zend_Db_Expr("MIN({$websiteExpression})")
+        )->group(
+            array('gp.entity_id', 'cg.customer_group_id', 'cw.website_id')
+        );
 
         if (!empty($entityIds)) {
             $select->where('gp.entity_id IN(?)', $entityIds);

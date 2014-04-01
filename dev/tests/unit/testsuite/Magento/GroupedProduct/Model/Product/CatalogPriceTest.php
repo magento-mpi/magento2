@@ -47,8 +47,13 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->commonPriceMock
-            = $this->getMock('Magento\Catalog\Model\Product\CatalogPrice', array(), array(), '', false);
+        $this->commonPriceMock = $this->getMock(
+            'Magento\Catalog\Model\Product\CatalogPrice',
+            array(),
+            array(),
+            '',
+            false
+        );
         $productMethods = array('getWebsiteId', 'getCustomerGroupId', '__wakeup', 'getTypeInstance', 'setTaxClassId');
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $productMethods, array(), '', false);
         $methods = array('setWebsiteId', 'isSalable', '__wakeup', 'setCustomerGroupId', 'getTaxClassId');
@@ -143,14 +148,22 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
     public function testGetCatalogPriceWithCustomStoreAndSubProductIsSalable()
     {
         $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->productMock
-            ->expects($this->once())
-            ->method('getTypeInstance')
-            ->will($this->returnValue($this->productTypeMock));
-        $this->productTypeMock
-            ->expects($this->once())
-            ->method('getAssociatedProducts')
-            ->with($this->productMock)->will($this->returnValue(array($this->associatedProductMock)));
+        $this->productMock->expects(
+            $this->once()
+        )->method(
+            'getTypeInstance'
+        )->will(
+            $this->returnValue($this->productTypeMock)
+        );
+        $this->productTypeMock->expects(
+            $this->once()
+        )->method(
+            'getAssociatedProducts'
+        )->with(
+            $this->productMock
+        )->will(
+            $this->returnValue(array($this->associatedProductMock))
+        );
         $this->productMock->expects($this->once())->method('getWebsiteId')->will($this->returnValue('website_id'));
         $this->productMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue('group_id'));
         $this->associatedProductMock->expects(

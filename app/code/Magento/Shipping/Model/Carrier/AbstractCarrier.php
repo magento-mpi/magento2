@@ -122,8 +122,12 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
         if (empty($this->_code)) {
             return false;
         }
-        $path = 'carriers/'.$this->_code.'/'.$field;
-        return $this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStore());
+        $path = 'carriers/' . $this->_code . '/' . $field;
+        return $this->_storeConfig->getValue(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStore()
+        );
     }
 
     /**
@@ -137,8 +141,12 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
         if (empty($this->_code)) {
             return false;
         }
-        $path = 'carriers/'.$this->_code.'/'.$field;
-        return $this->_storeConfig->isSetFlag($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStore());
+        $path = 'carriers/' . $this->_code . '/' . $field;
+        return $this->_storeConfig->isSetFlag(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStore()
+        );
     }
 
     /**
@@ -215,10 +223,12 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
 
         if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID) {
             $direction = 'within_us';
-        } else if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient != self::USA_COUNTRY_ID) {
-            $direction = 'from_us';
         } else {
-            return $containersAll;
+            if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient != self::USA_COUNTRY_ID) {
+                $direction = 'from_us';
+            } else {
+                return $containersAll;
+            }
         }
 
         foreach ($containersFilter as $dataItem) {

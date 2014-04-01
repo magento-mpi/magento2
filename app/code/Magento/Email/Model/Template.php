@@ -216,7 +216,9 @@ class Template extends \Magento\Core\Model\Template implements \Magento\Mail\Tem
     {
         $store = $this->_storeManager->getStore($store);
         $fileName = $this->_scopeConfig->getValue(
-            self::XML_PATH_DESIGN_EMAIL_LOGO, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
+            self::XML_PATH_DESIGN_EMAIL_LOGO,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
         );
         if ($fileName) {
             $uploadDir = \Magento\Backend\Model\Config\Backend\Email\Logo::UPLOAD_DIR;
@@ -253,7 +255,9 @@ class Template extends \Magento\Core\Model\Template implements \Magento\Mail\Tem
     {
         $store = $this->_storeManager->getStore($store);
         $alt = $this->_scopeConfig->getValue(
-            self::XML_PATH_DESIGN_EMAIL_LOGO_ALT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
+            self::XML_PATH_DESIGN_EMAIL_LOGO_ALT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
         );
         if ($alt) {
             return $alt;

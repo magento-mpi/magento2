@@ -80,9 +80,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
-        $storeManager->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $currencyFactory = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
 
@@ -96,7 +94,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'coreHelper' => $this->_coreHelper,
             'storeManager' => $storeManager,
             'currencyFactory' => $currencyFactory,
-            'config' => $this->_config,
+            'config' => $this->_config
         );
         $this->_object = $objectManager->getObject('Magento\Directory\Helper\Data', $arguments);
     }
@@ -177,10 +175,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCountriesWithStatesRequired($configValue, $expected)
     {
-        $this->_config->expects($this->once())
-            ->method('getValue')
-            ->with('general/region/state_required')
-            ->will($this->returnValue($configValue));
+        $this->_config->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            'general/region/state_required'
+        )->will(
+            $this->returnValue($configValue)
+        );
 
         $result = $this->_object->getCountriesWithStatesRequired();
         $this->assertEquals($expected, $result);
@@ -193,10 +196,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCountriesWithOptionalZip($configValue, $expected)
     {
-        $this->_config->expects($this->once())
-            ->method('getValue')
-            ->with('general/country/optional_zip_countries')
-            ->will($this->returnValue($configValue));
+        $this->_config->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            'general/country/optional_zip_countries'
+        )->will(
+            $this->returnValue($configValue)
+        );
 
         $result = $this->_object->getCountriesWithOptionalZip();
         $this->assertEquals($expected, $result);

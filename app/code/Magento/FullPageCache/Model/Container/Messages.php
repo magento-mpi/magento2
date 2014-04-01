@@ -67,8 +67,12 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _isNewMessageRecived()
     {
-        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE)
-            || array_key_exists(\Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM, $_GET);
+        return $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE
+        ) || array_key_exists(
+            \Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM,
+            $_GET
+        );
     }
 
     /**

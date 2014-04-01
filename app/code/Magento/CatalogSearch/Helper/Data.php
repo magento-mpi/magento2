@@ -268,7 +268,8 @@ class Data extends AbstractHelper
     public function getMinQueryLength($store = null)
     {
         return $this->_storeConfig->getValue(
-            Query::XML_PATH_MIN_QUERY_LENGTH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            Query::XML_PATH_MIN_QUERY_LENGTH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
     }
@@ -282,7 +283,8 @@ class Data extends AbstractHelper
     public function getMaxQueryLength($store = null)
     {
         return $this->_storeConfig->getValue(
-            Query::XML_PATH_MAX_QUERY_LENGTH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            Query::XML_PATH_MAX_QUERY_LENGTH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
     }
@@ -296,7 +298,8 @@ class Data extends AbstractHelper
     public function getMaxQueryWords($store = null)
     {
         return $this->_storeConfig->getValue(
-            Query::XML_PATH_MAX_QUERY_WORDS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            Query::XML_PATH_MAX_QUERY_WORDS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
     }
@@ -352,11 +355,11 @@ class Data extends AbstractHelper
             );
         }
 
-        $searchType = $this->_storeConfig
-            ->getValue(Fulltext::XML_PATH_CATALOG_SEARCH_TYPE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        if ($searchType == Fulltext::SEARCH_TYPE_COMBINE
-            || $searchType == Fulltext::SEARCH_TYPE_LIKE
-        ) {
+        $searchType = $this->_storeConfig->getValue(
+            Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        if ($searchType == Fulltext::SEARCH_TYPE_COMBINE || $searchType == Fulltext::SEARCH_TYPE_LIKE) {
             $wordsFull = $this->filter->splitWords($this->getQueryText(), array('uniqueOnly' => true));
             $wordsLike = $this->filter->splitWords(
                 $this->getQueryText(),

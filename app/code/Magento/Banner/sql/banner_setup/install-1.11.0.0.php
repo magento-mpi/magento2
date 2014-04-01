@@ -49,33 +49,49 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'magento_banner_content'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_banner_content'))
-    ->addColumn('banner_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
-        ), 'Banner Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
-        ), 'Store Id')
-    ->addColumn('banner_content', \Magento\DB\Ddl\Table::TYPE_TEXT, '2M', array(
-        ), 'Banner Content')
-    ->addIndex($installer->getIdxName('magento_banner_content', array('banner_id')),
-        array('banner_id'))
-    ->addIndex($installer->getIdxName('magento_banner_content', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('magento_banner_content', 'banner_id', 'magento_banner', 'banner_id'),
-        'banner_id', $installer->getTable('magento_banner'), 'banner_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_banner_content', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Banner Content');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_banner_content')
+)->addColumn(
+    'banner_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    'Banner Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    'Store Id'
+)->addColumn(
+    'banner_content',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '2M',
+    array(),
+    'Banner Content'
+)->addIndex(
+    $installer->getIdxName('magento_banner_content', array('banner_id')),
+    array('banner_id')
+)->addIndex(
+    $installer->getIdxName('magento_banner_content', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('magento_banner_content', 'banner_id', 'magento_banner', 'banner_id'),
+    'banner_id',
+    $installer->getTable('magento_banner'),
+    'banner_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_banner_content', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Banner Content'
+);
 $installer->getConnection()->createTable($table);
 
 /**

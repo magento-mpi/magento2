@@ -403,9 +403,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             ') and %1$s.store_id=%2$s';
 
         $select->join(
-            array('pp_default'=>$priceTable),
+            array('pp_default' => $priceTable),
             sprintf($joinCondition, 'pp_default', \Magento\Store\Model\Store::DEFAULT_STORE_ID),
-            array('default_price'=>'pp_default.value')
+            array('default_price' => 'pp_default.value')
         );
 
         if ($websiteId !== null) {

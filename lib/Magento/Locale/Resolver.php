@@ -172,9 +172,15 @@ class Resolver implements \Magento\Locale\ResolverInterface
         $result = null;
         if ($scopeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = $this->_localeFactory->create(array(
-                'locale' => $this->_scopeConfig->getValue($this->getDefaultLocalePath(), $this->_scopeType, $scopeId)
-            ));
+            $this->_locale = $this->_localeFactory->create(
+                array(
+                    'locale' => $this->_scopeConfig->getValue(
+                        $this->getDefaultLocalePath(),
+                        $this->_scopeType,
+                        $scopeId
+                    )
+                )
+            );
             $this->_localeCode = $this->_locale->toString();
             $result = $this->_localeCode;
         } else {

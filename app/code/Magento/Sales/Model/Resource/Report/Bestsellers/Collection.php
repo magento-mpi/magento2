@@ -201,8 +201,12 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             $storeIds = array($storeIds);
         }
         $currentStoreIds = $this->_storesIds;
-        if (isset($currentStoreIds) && $currentStoreIds != \Magento\Store\Model\Store::DEFAULT_STORE_ID
-            && $currentStoreIds != array(\Magento\Store\Model\Store::DEFAULT_STORE_ID)) {
+        if (isset(
+            $currentStoreIds
+        ) && $currentStoreIds != \Magento\Store\Model\Store::DEFAULT_STORE_ID && $currentStoreIds != array(
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        )
+        ) {
             if (!is_array($currentStoreIds)) {
                 $currentStoreIds = array($currentStoreIds);
             }

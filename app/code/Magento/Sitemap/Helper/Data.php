@@ -84,7 +84,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaximumLinesNumber($storeId)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_MAX_LINES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_MAX_LINES,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -95,7 +99,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaximumFileSize($storeId)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_MAX_FILE_SIZE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_MAX_FILE_SIZE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -106,7 +114,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCategoryChangefreq($storeId)
     {
-        return (string) $this->_storeConfig->getValue(self::XML_PATH_CATEGORY_CHANGEFREQ, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->_storeConfig->getValue(
+            self::XML_PATH_CATEGORY_CHANGEFREQ,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -117,7 +129,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getProductChangefreq($storeId)
     {
-        return (string) $this->_storeConfig->getValue(self::XML_PATH_PRODUCT_CHANGEFREQ, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->_storeConfig->getValue(
+            self::XML_PATH_PRODUCT_CHANGEFREQ,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -128,7 +144,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPageChangefreq($storeId)
     {
-        return (string) $this->_storeConfig->getValue(self::XML_PATH_PAGE_CHANGEFREQ, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->_storeConfig->getValue(
+            self::XML_PATH_PAGE_CHANGEFREQ,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -139,7 +159,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCategoryPriority($storeId)
     {
-        return (string) $this->_storeConfig->getValue(self::XML_PATH_CATEGORY_PRIORITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->_storeConfig->getValue(
+            self::XML_PATH_CATEGORY_PRIORITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -150,7 +174,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getProductPriority($storeId)
     {
-        return (string) $this->_storeConfig->getValue(self::XML_PATH_PRODUCT_PRIORITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->_storeConfig->getValue(
+            self::XML_PATH_PRODUCT_PRIORITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -161,7 +189,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPagePriority($storeId)
     {
-        return (string) $this->_storeConfig->getValue(self::XML_PATH_PAGE_PRIORITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->_storeConfig->getValue(
+            self::XML_PATH_PAGE_PRIORITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -172,7 +204,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getEnableSubmissionRobots($storeId)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_SUBMISSION_ROBOTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_SUBMISSION_ROBOTS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -183,6 +219,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getProductImageIncludePolicy($storeId)
     {
-        return (string) $this->_storeConfig->getValue(self::XML_PATH_PRODUCT_IMAGES_INCLUDE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return (string)$this->_storeConfig->getValue(
+            self::XML_PATH_PRODUCT_IMAGES_INCLUDE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 }

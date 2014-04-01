@@ -209,9 +209,12 @@ class Links extends \Magento\Backend\Block\Template
      */
     public function getLinksTitle()
     {
-        return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
-            ? $this->getProduct()->getLinksTitle()
-            : $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->getProduct()->getId() &&
+            $this->getProduct()->getTypeId() ==
+            'downloadable' ? $this->getProduct()->getLinksTitle() : $this->_storeConfig->getValue(
+            \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -231,7 +234,7 @@ class Links extends \Magento\Backend\Block\Template
      */
     public function getIsPriceWebsiteScope()
     {
-        $scope =  (int) $this->_storeConfig->getValue(
+        $scope = (int)$this->_storeConfig->getValue(
             \Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -344,7 +347,10 @@ class Links extends \Magento\Backend\Block\Template
      */
     public function getConfigMaxDownloads()
     {
-        return $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->getValue(
+            \Magento\Downloadable\Model\Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

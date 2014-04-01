@@ -47,13 +47,12 @@ class Update extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\Store\Model\Store $store
      * @return string
      */
-    public function fetchUpdatesByHandle($handle, \Magento\View\Design\ThemeInterface $theme, \Magento\Store\Model\Store $store)
-    {
-        $bind = array(
-            'layout_update_handle' => $handle,
-            'theme_id' => $theme->getId(),
-            'store_id' => $store->getId(),
-        );
+    public function fetchUpdatesByHandle(
+        $handle,
+        \Magento\View\Design\ThemeInterface $theme,
+        \Magento\Store\Model\Store $store
+    ) {
+        $bind = array('layout_update_handle' => $handle, 'theme_id' => $theme->getId(), 'store_id' => $store->getId());
         $result = '';
         $readAdapter = $this->_getReadAdapter();
         if ($readAdapter) {

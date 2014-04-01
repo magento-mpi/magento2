@@ -37,11 +37,18 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
-            ->disableOriginalConstructor()->getMock();
+        $this->_storeManagerMock = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManager'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_storeMock = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
-        $this->_storeMock->expects($this->any())->method('getBaseUrl')->will(
+        $this->_storeMock = $this->getMockBuilder(
+            'Magento\Store\Model\Store'
+        )->disableOriginalConstructor()->getMock();
+        $this->_storeMock->expects(
+            $this->any()
+        )->method(
+            'getBaseUrl'
+        )->will(
             $this->returnValue('http://magento.com/')
         );
 

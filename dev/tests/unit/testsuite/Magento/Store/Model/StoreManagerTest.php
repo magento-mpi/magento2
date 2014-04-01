@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Store\Model;
 
 class StoreManagerTest extends \PHPUnit_Framework_TestCase

@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Store\Helper;
 
 /**
@@ -118,7 +117,7 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
      */
     public function getCookieRestrictionLifetime()
     {
-        return (int) $this->_scopeConfig->getValue(
+        return (int)$this->_scopeConfig->getValue(
             self::XML_PATH_COOKIE_RESTRICTION_LIFETIME,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->_currentStore

@@ -186,8 +186,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             \Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP => array(
                 'email' => 'example.com',
                 'created_at' => array($createdAtDate, ''),
-                'store_id'   => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId()
+                'store_id' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Store\Model\StoreManagerInterface'
+                )->getStore()->getId()
             )
         );
         $this->_model->setParameters($parameters);

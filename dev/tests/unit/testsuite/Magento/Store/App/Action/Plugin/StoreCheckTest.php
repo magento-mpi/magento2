@@ -43,8 +43,13 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock
-            ->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
+        $this->_storeManagerMock->expects(
+            $this->any()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($this->_storeMock)
+        );
         $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $this->closureMock = function () {
             return 'Expected';

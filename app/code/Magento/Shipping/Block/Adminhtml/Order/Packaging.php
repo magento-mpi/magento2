@@ -98,18 +98,20 @@ class Packaging extends \Magento\Backend\Block\Template
                 $itemsProductId[$item->getId()] = $item->getProductId();
                 $itemsOrderItemId[$item->getId()] = $item->getOrderItemId();
             }
-        } else if ($orderId) {
-            $urlParams['order_id'] = $orderId;
-            $createLabelUrl = $this->getUrl('adminhtml/order_shipment/save', $urlParams);
-            $itemsGridUrl = $this->getUrl('adminhtml/order_shipment/getShippingItemsGrid', $urlParams);
+        } else {
+            if ($orderId) {
+                $urlParams['order_id'] = $orderId;
+                $createLabelUrl = $this->getUrl('adminhtml/order_shipment/save', $urlParams);
+                $itemsGridUrl = $this->getUrl('adminhtml/order_shipment/getShippingItemsGrid', $urlParams);
 
-            foreach ($this->getShipment()->getAllItems() as $item) {
-                $itemsQty[$item->getOrderItemId()] = $item->getQty() * 1;
-                $itemsPrice[$item->getOrderItemId()] = $item->getPrice();
-                $itemsName[$item->getOrderItemId()] = $item->getName();
-                $itemsWeight[$item->getOrderItemId()] = $item->getWeight();
-                $itemsProductId[$item->getOrderItemId()] = $item->getProductId();
-                $itemsOrderItemId[$item->getOrderItemId()] = $item->getOrderItemId();
+                foreach ($this->getShipment()->getAllItems() as $item) {
+                    $itemsQty[$item->getOrderItemId()] = $item->getQty() * 1;
+                    $itemsPrice[$item->getOrderItemId()] = $item->getPrice();
+                    $itemsName[$item->getOrderItemId()] = $item->getName();
+                    $itemsWeight[$item->getOrderItemId()] = $item->getWeight();
+                    $itemsProductId[$item->getOrderItemId()] = $item->getProductId();
+                    $itemsOrderItemId[$item->getOrderItemId()] = $item->getOrderItemId();
+                }
             }
         }
         $data = array(
@@ -142,7 +144,11 @@ class Packaging extends \Magento\Backend\Block\Template
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
-        $countryShipper = $this->_storeConfig->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        $countryShipper = $this->_storeConfig->getValue(
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         if ($carrier) {
             $params = new \Magento\Object(
                 array(
@@ -247,8 +253,10 @@ class Packaging extends \Magento\Backend\Block\Template
         foreach ($items as $item) {
             if ($itemsOf == 'order' && $item->getOrderItemId() == $itemId) {
                 return $item;
-            } else if ($itemsOf == 'shipment' && $item->getId() == $itemId) {
-                return $item;
+            } else {
+                if ($itemsOf == 'shipment' && $item->getId() == $itemId) {
+                    return $item;
+                }
             }
         }
         return new \Magento\Object();
@@ -265,7 +273,8 @@ class Packaging extends \Magento\Backend\Block\Template
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
         $shipperAddressCountryCode = $this->_storeConfig->getValue(
-            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();
@@ -341,7 +350,11 @@ class Packaging extends \Magento\Backend\Block\Template
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
-        $countryShipper = $this->_storeConfig->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        $countryShipper = $this->_storeConfig->getValue(
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         if ($carrier) {
             $params = new \Magento\Object(
                 array(

@@ -94,19 +94,21 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             'store_option_title.title'
         );
 
-        $this->getSelect()
-            ->join(array('default_option_title' => $productOptionTitleTable),
-                'default_option_title.option_id = main_table.option_id',
-                array('default_title' => 'title'))
-            ->joinLeft(
-                array('store_option_title' => $productOptionTitleTable),
-                'store_option_title.option_id = main_table.option_id AND '
-                    . $adapter->quoteInto('store_option_title.store_id = ?', $storeId),
-                array(
-                    'store_title'   => 'title',
-                    'title'         => $titleExpr
-                ))
-            ->where('default_option_title.store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+        $this->getSelect()->join(
+            array('default_option_title' => $productOptionTitleTable),
+            'default_option_title.option_id = main_table.option_id',
+            array('default_title' => 'title')
+        )->joinLeft(
+            array('store_option_title' => $productOptionTitleTable),
+            'store_option_title.option_id = main_table.option_id AND ' . $adapter->quoteInto(
+                'store_option_title.store_id = ?',
+                $storeId
+            ),
+            array('store_title' => 'title', 'title' => $titleExpr)
+        )->where(
+            'default_option_title.store_id = ?',
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        );
 
         return $this;
     }
@@ -132,28 +134,26 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             'store_option_price.price_type'
         );
 
-        $this->getSelect()
-            ->joinLeft(
-                array('default_option_price' => $productOptionPriceTable),
-                'default_option_price.option_id = main_table.option_id AND '
-                    . $adapter->quoteInto(
-                        'default_option_price.store_id = ?',
-                        \Magento\Store\Model\Store::DEFAULT_STORE_ID
-                    ),
-                array(
-                    'default_price' => 'price',
-                    'default_price_type' => 'price_type'
-                ))
-            ->joinLeft(
-                array('store_option_price' => $productOptionPriceTable),
-                'store_option_price.option_id = main_table.option_id AND '
-                    . $adapter->quoteInto('store_option_price.store_id = ?', $storeId),
-                array(
-                    'store_price'       => 'price',
-                    'store_price_type'  => 'price_type',
-                    'price'             => $priceExpr,
-                    'price_type'        => $priceTypeExpr
-                ));
+        $this->getSelect()->joinLeft(
+            array('default_option_price' => $productOptionPriceTable),
+            'default_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto(
+                'default_option_price.store_id = ?',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            ),
+            array('default_price' => 'price', 'default_price_type' => 'price_type')
+        )->joinLeft(
+            array('store_option_price' => $productOptionPriceTable),
+            'store_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto(
+                'store_option_price.store_id = ?',
+                $storeId
+            ),
+            array(
+                'store_price' => 'price',
+                'store_price_type' => 'price_type',
+                'price' => $priceExpr,
+                'price_type' => $priceTypeExpr
+            )
+        );
 
         return $this;
     }

@@ -19,9 +19,8 @@ class QuoteItem
     /**
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
-    public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-    ) {
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $coreStoreConfig)
+    {
         $this->_storeConfig = $coreStoreConfig;
     }
 

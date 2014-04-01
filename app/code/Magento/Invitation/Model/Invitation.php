@@ -300,21 +300,23 @@ class Invitation extends \Magento\Model\AbstractModel
             $store
         );
 
-        $this->_transportBuilder
-            ->setTemplateIdentifier($templateIdentifier)
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->getStoreId(),
-            ))
-            ->setTemplateVars(array(
+        $this->_transportBuilder->setTemplateIdentifier(
+            $templateIdentifier
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+        )->setTemplateVars(
+            array(
                 'url' => $this->_invitationData->getInvitationUrl($this),
                 'message' => $this->getMessage(),
                 'store' => $store,
                 'store_name' => $store->getGroup()->getName(),
-                'inviter_name' => ($this->getInviter() ? $this->getInviter()->getName() : null)
-            ))
-            ->setFrom($from)
-            ->addTo($this->getEmail());
+                'inviter_name' => $this->getInviter() ? $this->getInviter()->getName() : null
+            )
+        )->setFrom(
+            $from
+        )->addTo(
+            $this->getEmail()
+        );
         $transport = $this->_transportBuilder->getTransport();
         try {
             $transport->sendMessage();
@@ -534,7 +536,6 @@ class Invitation extends \Magento\Model\AbstractModel
             $this->makeSureCanBeAccepted($websiteId);
             return true;
         } catch (\Magento\Model\Exception $e) {
-            // intentionally jammed
         }
         return false;
     }

@@ -17,9 +17,8 @@ class Store implements \Magento\App\ScopeResolverInterface
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
+    {
         $this->_storeManager = $storeManager;
     }
 
@@ -29,7 +28,7 @@ class Store implements \Magento\App\ScopeResolverInterface
     public function getScope($scopeId = null)
     {
         $scope = $this->_storeManager->getStore($scopeId);
-        if (!($scope instanceof \Magento\App\ScopeInterface)) {
+        if (!$scope instanceof \Magento\App\ScopeInterface) {
             throw new \Magento\Store\Model\Exception('Invalid scope object');
         }
 

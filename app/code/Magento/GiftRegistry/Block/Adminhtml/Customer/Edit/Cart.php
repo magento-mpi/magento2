@@ -95,46 +95,47 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('product_id', array(
-            'header' => __('Product ID'),
-            'index'  => 'product_id',
-            'type'   => 'number',
-            'width'  => '100px',
-        ));
+        $this->addColumn(
+            'product_id',
+            array('header' => __('Product ID'), 'index' => 'product_id', 'type' => 'number', 'width' => '100px')
+        );
 
-        $this->addColumn('name', array(
-            'header' => __('Product'),
-            'index' => 'name',
-        ));
+        $this->addColumn('name', array('header' => __('Product'), 'index' => 'name'));
 
-        $this->addColumn('sku', array(
-            'header' => __('SKU'),
-            'index' => 'sku',
-            'width' => '200px',
-        ));
+        $this->addColumn('sku', array('header' => __('SKU'), 'index' => 'sku', 'width' => '200px'));
 
-        $this->addColumn('price', array(
-            'header' => __('Price'),
-            'index' => 'price',
-            'type'  => 'currency',
-            'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'index' => 'price',
+                'type' => 'currency',
+                'width' => '120px',
+                'currency_code' => (string)$this->_storeConfig->getValue(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )
+        );
 
-        $this->addColumn('qty', array(
-            'header' => __('Quantity'),
-            'index' => 'qty',
-            'type'  => 'number',
-            'width' => '120px',
-        ));
+        $this->addColumn(
+            'qty',
+            array('header' => __('Quantity'), 'index' => 'qty', 'type' => 'number', 'width' => '120px')
+        );
 
-        $this->addColumn('total', array(
-            'header' => __('Total'),
-            'index' => 'row_total',
-            'type'  => 'currency',
-            'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-        ));
+        $this->addColumn(
+            'total',
+            array(
+                'header' => __('Total'),
+                'index' => 'row_total',
+                'type' => 'currency',
+                'width' => '120px',
+                'currency_code' => (string)$this->_storeConfig->getValue(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )
+        );
 
         return parent::_prepareColumns();
     }

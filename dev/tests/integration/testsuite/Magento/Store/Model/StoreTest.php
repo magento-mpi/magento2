@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Store\Model;
 
 class StoreTest extends \PHPUnit_Framework_TestCase
@@ -32,27 +31,23 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'context'                 => $objectManager->get('Magento\Model\Context'),
-            'registry'                => $objectManager->get('Magento\Registry'),
-            'resource'                => $objectManager->get('Magento\Store\Model\Resource\Store'),
+            'context' => $objectManager->get('Magento\Model\Context'),
+            'registry' => $objectManager->get('Magento\Registry'),
+            'resource' => $objectManager->get('Magento\Store\Model\Resource\Store'),
             'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
-            'configCacheType'         => $objectManager->get('Magento\App\Cache\Type\Config'),
-            'url'                     => $objectManager->get('Magento\Url'),
-            'request'                 => $objectManager->get('Magento\App\RequestInterface'),
-            'configDataResource'      => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
-            'filesystem'              => $objectManager->get('Magento\App\Filesystem'),
-            'config'                  => $objectManager->get('Magento\App\Config\ReinitableConfigInterface'),
-            'storeManager'            => $objectManager->get('Magento\Store\Model\StoreManager'),
-            'sidResolver'             => $objectManager->get('Magento\Session\SidResolverInterface'),
-            'cookie'                  => $objectManager->get('Magento\Stdlib\Cookie'),
-            'httpContext'             => $objectManager->get('Magento\App\Http\Context'),
+            'configCacheType' => $objectManager->get('Magento\App\Cache\Type\Config'),
+            'url' => $objectManager->get('Magento\Url'),
+            'request' => $objectManager->get('Magento\App\RequestInterface'),
+            'configDataResource' => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
+            'filesystem' => $objectManager->get('Magento\App\Filesystem'),
+            'config' => $objectManager->get('Magento\App\Config\ReinitableConfigInterface'),
+            'storeManager' => $objectManager->get('Magento\Store\Model\StoreManager'),
+            'sidResolver' => $objectManager->get('Magento\Session\SidResolverInterface'),
+            'cookie' => $objectManager->get('Magento\Stdlib\Cookie'),
+            'httpContext' => $objectManager->get('Magento\App\Http\Context')
         );
 
-        return $this->getMock(
-            'Magento\Store\Model\Store',
-            array('getUrl'),
-            $this->_modelParams
-        );
+        return $this->getMock('Magento\Store\Model\Store', array('getUrl'), $this->_modelParams);
     }
 
     protected function tearDown()
@@ -80,8 +75,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite();
+        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);
@@ -90,8 +86,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testSetGetGroup()
     {
         $this->assertFalse($this->_model->getGroup());
-        $storeGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManager')->getGroup();
+        $storeGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManager'
+        )->getGroup();
         $this->_model->setGroup($storeGroup);
         $actualResult = $this->_model->getGroup();
         $this->assertSame($storeGroup, $actualResult);
@@ -111,20 +108,20 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         /* config operations require store to be loaded */
         $this->_model->load('default');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
-                $useRewrites,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
-                $useStoreCode,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
+            $useRewrites,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+            $useStoreCode,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         $actual = $this->_model->getBaseUrl($type);
         $this->assertEquals($expected, $actual);
@@ -210,20 +207,20 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         /* config operations require store to be loaded */
         $this->_model->load('default');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
-                false,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
-                $useStoreCode,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
+            false,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+            $useStoreCode,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         // emulate custom entry point
         $_SERVER['SCRIPT_FILENAME'] = 'custom_entry.php';
@@ -352,9 +349,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testIsUseStoreInUrl($isInstalled, $storeInUrl, $disableStoreInUrl, $expectedResult)
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $configMock = $this->getMock(
-            'Magento\App\Config\ReinitableConfigInterface'
-        );
+        $configMock = $this->getMock('Magento\App\Config\ReinitableConfigInterface');
         $appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false, false);
         $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue($isInstalled));
 
@@ -364,9 +359,15 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             array('appState' => $appStateMock)
         );
 
-        $configMock->expects($this->any())->method('getValue')
-            ->with($this->stringContains(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL))
-            ->will($this->returnValue($storeInUrl));
+        $configMock->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->with(
+            $this->stringContains(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL)
+        )->will(
+            $this->returnValue($storeInUrl)
+        );
         $params['config'] = $configMock;
         $model = $objectManager->create('Magento\Store\Model\Store', $params);
         $model->setDisableStoreInUrl($disableStoreInUrl);

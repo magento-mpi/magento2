@@ -48,12 +48,27 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_restrictionMock = $this->getMock('Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface');
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $this->_modelFactoryMock
-            = $this->getMock('Magento\Reward\Model\RewardFactory', array('create'), array(), '', false);
-        $this->_resourceFactoryMock
-            = $this->getMock('Magento\Reward\Model\Resource\RewardFactory', array('create'), array(), '', false);
-        $this->_validatorMock
-            = $this->getMock('Magento\Reward\Model\Reward\Balance\Validator', array(), array(), '', false);
+        $this->_modelFactoryMock = $this->getMock(
+            'Magento\Reward\Model\RewardFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_resourceFactoryMock = $this->getMock(
+            'Magento\Reward\Model\Resource\RewardFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_validatorMock = $this->getMock(
+            'Magento\Reward\Model\Reward\Balance\Validator',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
 

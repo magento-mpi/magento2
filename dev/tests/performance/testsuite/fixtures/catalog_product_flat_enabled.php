@@ -12,10 +12,14 @@
  * @var \Magento\App\Config\ValueInterface $configData
  */
 $configData = $this->getObjectManager()->create('Magento\App\Config\ValueInterface');
-$configData->setPath('catalog/frontend/flat_catalog_product')
-    ->setScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT)
-    ->setScopeId(0)
-    ->setValue(1)
-    ->save();
+$configData->setPath(
+    'catalog/frontend/flat_catalog_product'
+)->setScope(
+    \Magento\App\ScopeInterface::SCOPE_DEFAULT
+)->setScopeId(
+    0
+)->setValue(
+    1
+)->save();
 
 $this->getObjectManager()->get('Magento\App\CacheInterface')->clean(array(\Magento\App\Config::CACHE_TAG));

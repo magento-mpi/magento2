@@ -117,10 +117,16 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->configMock->expects($this->any())
-            ->method('getValue')
-            ->with(\Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA_DATABASE, 'default')
-            ->will($this->returnValue($this->customConnectionName));
+        $this->configMock->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->with(
+            \Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA_DATABASE,
+            'default'
+        )->will(
+            $this->returnValue($this->customConnectionName)
+        );
 
         $this->contextMock->expects($this->once())->method('getLogger')->will($this->returnValue($this->loggerMock));
 

@@ -9,7 +9,6 @@
  */
 namespace Magento\PageCache\Block\System\Config\Form\Field;
 
-
 /**
  * Class Export
  */

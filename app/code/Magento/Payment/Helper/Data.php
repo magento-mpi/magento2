@@ -26,7 +26,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
-    
+
     /**
      * @var \Magento\Payment\Model\Config
      */
@@ -127,7 +127,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         uasort($methods, array($this, '_sortMethods'));
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
-            if (!$model = $this->_storeConfig->getValue($prefix . 'model', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)) {
+            if (!($model = $this->_storeConfig->getValue(
+                $prefix . 'model',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            ))
+            ) {
                 continue;
             }
             $methodInstance = $this->_methodFactory->create($model);
@@ -292,7 +297,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($asLabelValue && $withGroups) {
             $groups = $this->_paymentConfig->getGroups();
             foreach ($groups as $code => $title) {
-                $methods[$code] = $title; // for sorting, see below
+                $methods[$code] = $title;
             }
         }
         if ($sorted) {
@@ -327,8 +332,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isZeroSubTotal($store = null)
     {
-        return $this->_storeConfig
-            ->getValue(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -339,8 +347,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getZeroSubTotalOrderStatus($store = null)
     {
-        return $this->_storeConfig
-            ->getValue(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -351,7 +362,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)
     {
-        return $this->_storeConfig
-            ->getValue(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

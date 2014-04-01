@@ -334,7 +334,9 @@ class Product extends \Magento\Core\Helper\Url
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
             $this->_productUrlSuffix[$storeId] = $this->_storeConfig->getValue(
-                self::XML_PATH_PRODUCT_URL_SUFFIX, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
+                self::XML_PATH_PRODUCT_URL_SUFFIX,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
             );
         }
         return $this->_productUrlSuffix[$storeId];
@@ -348,7 +350,11 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_USE_PRODUCT_CANONICAL_TAG,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -371,8 +377,10 @@ class Product extends \Magento\Core\Helper\Url
 
         if (is_null($inputType)) {
             return $inputTypes;
-        } else if (isset($inputTypes[$inputType])) {
-            return $inputTypes[$inputType];
+        } else {
+            if (isset($inputTypes[$inputType])) {
+                return $inputTypes[$inputType];
+            }
         }
         return array();
     }
@@ -528,7 +536,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($currentConfig) {
             if (is_array($currentConfig)) {
                 $params->setCurrentConfig(new \Magento\Object($currentConfig));
-            } elseif (!($currentConfig instanceof \Magento\Object)) {
+            } elseif (!$currentConfig instanceof \Magento\Object) {
                 $params->unsCurrentConfig();
             }
         }
@@ -571,9 +579,11 @@ class Product extends \Magento\Core\Helper\Url
             $idBySku = $product->getIdBySku($productId);
             if ($idBySku) {
                 $productId = $idBySku;
-            } else if ($identifierType == 'sku') {
-                // Return empty product because it was not found by originally specified SKU identifier
-                return $product;
+            } else {
+                if ($identifierType == 'sku') {
+                    // Return empty product because it was not found by originally specified SKU identifier
+                    return $product;
+                }
             }
         }
 

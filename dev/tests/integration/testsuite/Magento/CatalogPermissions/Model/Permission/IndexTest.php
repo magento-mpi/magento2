@@ -41,10 +41,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testGetIndexForCategory()
     {
         $fixturePermission = array(
-            'category_id'                 => 6,
-            'website_id'                  => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-                get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId(),
-            'customer_group_id'           => 1,
+            'category_id' => 6,
+            'website_id' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getWebsite()->getId(),
+            'customer_group_id' => 1,
             'grant_catalog_category_view' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
             'grant_catalog_product_price' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
             'grant_checkout_items' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
@@ -141,8 +142,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRestrictedCategoryIdsWithDefaultDeny()
     {
-        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId();
+        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getWebsite()->getId();
 
         $this->assertCount(12, $this->index->getRestrictedCategoryIds(0, $websiteId));
         $this->assertCount(12, $this->index->getRestrictedCategoryIds(1, $websiteId));
@@ -163,8 +165,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRestrictedCategoryIdsWithDefaultAllow()
     {
-        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId();
+        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getWebsite()->getId();
 
         $this->assertCount(0, $this->index->getRestrictedCategoryIds(0, $websiteId));
         $this->assertCount(0, $this->index->getRestrictedCategoryIds(1, $websiteId));
@@ -434,8 +437,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIndexForProductWithDefaultAllow()
     {
-        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore()->getId();
 
         $deny = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
 
@@ -469,8 +473,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIndexForProductWithDefaultDeny()
     {
-        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore()->getId();
 
         $deny = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
 

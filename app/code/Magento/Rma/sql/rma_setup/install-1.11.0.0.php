@@ -20,63 +20,109 @@ $installer->startSetup();
 /**
  * Create table 'magento_rma'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_rma'))
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'RMA Id')
-    ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
-        ), 'Status')
-    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Is Active')
-    ->addColumn('increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
-        ), 'Increment Id')
-    ->addColumn('date_requested', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        'default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT,
-        ), 'RMA Requested At')
-    ->addColumn('order_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Order Id')
-    ->addColumn('order_increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
-        ), 'Order Increment Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Store Id')
-    ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Customer Id')
-    ->addColumn('customer_custom_email', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Customer Custom Email')
-    ->addIndex($installer->getIdxName('magento_rma', array('status')),
-        array('status'))
-    ->addIndex($installer->getIdxName('magento_rma', array('is_active')),
-        array('is_active'))
-    ->addIndex($installer->getIdxName('magento_rma', array('increment_id')),
-        array('increment_id'))
-    ->addIndex($installer->getIdxName('magento_rma', array('date_requested')),
-        array('date_requested'))
-    ->addIndex($installer->getIdxName('magento_rma', array('order_id')),
-        array('order_id'))
-    ->addIndex($installer->getIdxName('magento_rma', array('order_increment_id')),
-        array('order_increment_id'))
-    ->addIndex($installer->getIdxName('magento_rma', array('store_id')),
-        array('store_id'))
-    ->addIndex($installer->getIdxName('magento_rma', array('customer_id')),
-        array('customer_id'))
-    ->addForeignKey($installer->getFkName('magento_rma', 'customer_id', 'customer_entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_rma', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('RMA LIst');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_rma')
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'RMA Id'
+)->addColumn(
+    'status',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    32,
+    array(),
+    'Status'
+)->addColumn(
+    'is_active',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '1'),
+    'Is Active'
+)->addColumn(
+    'increment_id',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    50,
+    array(),
+    'Increment Id'
+)->addColumn(
+    'date_requested',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT),
+    'RMA Requested At'
+)->addColumn(
+    'order_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Order Id'
+)->addColumn(
+    'order_increment_id',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    50,
+    array(),
+    'Order Increment Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Store Id'
+)->addColumn(
+    'customer_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true),
+    'Customer Id'
+)->addColumn(
+    'customer_custom_email',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Customer Custom Email'
+)->addIndex(
+    $installer->getIdxName('magento_rma', array('status')),
+    array('status')
+)->addIndex(
+    $installer->getIdxName('magento_rma', array('is_active')),
+    array('is_active')
+)->addIndex(
+    $installer->getIdxName('magento_rma', array('increment_id')),
+    array('increment_id')
+)->addIndex(
+    $installer->getIdxName('magento_rma', array('date_requested')),
+    array('date_requested')
+)->addIndex(
+    $installer->getIdxName('magento_rma', array('order_id')),
+    array('order_id')
+)->addIndex(
+    $installer->getIdxName('magento_rma', array('order_increment_id')),
+    array('order_increment_id')
+)->addIndex(
+    $installer->getIdxName('magento_rma', array('store_id')),
+    array('store_id')
+)->addIndex(
+    $installer->getIdxName('magento_rma', array('customer_id')),
+    array('customer_id')
+)->addForeignKey(
+    $installer->getFkName('magento_rma', 'customer_id', 'customer_entity', 'entity_id'),
+    'customer_id',
+    $installer->getTable('customer_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_rma', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'RMA LIst'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -848,44 +894,64 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'magento_rma_item_eav_attribute_website'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_rma_item_eav_attribute_website'))
-    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Attribute Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addColumn('is_visible', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Is Visible')
-    ->addColumn('is_required', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Is Required')
-    ->addColumn('default_value', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Default Value')
-    ->addColumn('multiline_count', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Multiline Count')
-    ->addIndex($installer->getIdxName('magento_rma_item_eav_attribute_website', array('website_id')),
-        array('website_id'))
-    ->addForeignKey(
-        $installer->getFkName(
-            'magento_rma_item_eav_attribute_website',
-            'attribute_id',
-            'eav_attribute',
-            'attribute_id'),
-        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey(
-        $installer->getFkName('magento_rma_item_eav_attribute_website', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise RMA Item Eav Attribute Website');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_rma_item_eav_attribute_website')
+)->addColumn(
+    'attribute_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Attribute Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addColumn(
+    'is_visible',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Is Visible'
+)->addColumn(
+    'is_required',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Is Required'
+)->addColumn(
+    'default_value',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Default Value'
+)->addColumn(
+    'multiline_count',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Multiline Count'
+)->addIndex(
+    $installer->getIdxName('magento_rma_item_eav_attribute_website', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('magento_rma_item_eav_attribute_website', 'attribute_id', 'eav_attribute', 'attribute_id'),
+    'attribute_id',
+    $installer->getTable('eav_attribute'),
+    'attribute_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_rma_item_eav_attribute_website', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise RMA Item Eav Attribute Website'
+);
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

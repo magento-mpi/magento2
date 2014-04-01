@@ -14,15 +14,20 @@ $permission = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->creat
     'Magento\CatalogPermissions\Model\Permission'
 );
 $permission->setWebsiteId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId()
-    )
-    ->setCategoryId(6)
-    ->setCustomerGroupId(1)
-    ->setGrantCatalogCategoryView(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
-    ->setGrantCatalogProductPrice(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
-    ->setGrantCheckoutItems(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
-    ->save();
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        'Magento\Store\Model\StoreManagerInterface'
+    )->getWebsite()->getId()
+)->setCategoryId(
+    6
+)->setCustomerGroupId(
+    1
+)->setGrantCatalogCategoryView(
+    \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
+)->setGrantCatalogProductPrice(
+    \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
+)->setGrantCheckoutItems(
+    \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
+)->save();
 
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
@@ -44,7 +49,7 @@ $product->setTypeId(
 )->setName(
     'Simple Product Two'
 )->setSku(
-    '12345' // SKU intentionally contains digits only
+    '12345'
 )->setPrice(
     45.67
 )->setWeight(

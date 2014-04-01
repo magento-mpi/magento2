@@ -369,7 +369,6 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
             try {
                 $address = $this->_customerAddressService->getAddress($addressId);
             } catch (\Exception $e) {
-                /** Customer address does not exist. */
             }
             if (isset($address)) {
                 if (!($quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId()))) {
@@ -404,7 +403,6 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         try {
             $address = $this->_customerAddressService->getAddress($addressId);
         } catch (\Exception $e) {
-            /** Customer address does not exist. */
         }
         if (isset($address)) {
             $this->getQuote()->getShippingAddressByCustomerAddressId(
@@ -430,7 +428,6 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         try {
             $address = $this->_customerAddressService->getAddress($addressId);
         } catch (\Exception $e) {
-            /** Customer address does not exist. */
         }
         if (isset($address)) {
             $this->getQuote()->getBillingAddress($addressId)->importCustomerAddressData($address)->collectTotals();
@@ -653,9 +650,13 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function validateMinimumAmount()
     {
-        return !($this->_storeConfig->isSetFlag('sales/minimum_order/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            && $this->_storeConfig->isSetFlag('sales/minimum_order/multi_address', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            && !$this->getQuote()->validateMinimumAmount());
+        return !($this->_storeConfig->isSetFlag(
+            'sales/minimum_order/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && $this->_storeConfig->isSetFlag(
+            'sales/minimum_order/multi_address',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && !$this->getQuote()->validateMinimumAmount());
     }
 
     /**
@@ -665,9 +666,15 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function getMinimumAmountDescription()
     {
-        $descr = $this->_storeConfig->getValue('sales/minimum_order/multi_address_description', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $descr = $this->_storeConfig->getValue(
+            'sales/minimum_order/multi_address_description',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (empty($descr)) {
-            $descr = $this->_storeConfig->getValue('sales/minimum_order/description', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $descr = $this->_storeConfig->getValue(
+                'sales/minimum_order/description',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $descr;
     }
@@ -677,9 +684,15 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function getMinimumAmountError()
     {
-        $error = $this->_storeConfig->getValue('sales/minimum_order/multi_address_error_message', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $error = $this->_storeConfig->getValue(
+            'sales/minimum_order/multi_address_error_message',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (empty($error)) {
-            $error = $this->_storeConfig->getValue('sales/minimum_order/error_message', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $error = $this->_storeConfig->getValue(
+                'sales/minimum_order/error_message',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $error;
     }

@@ -40,9 +40,12 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     /**
      * Crawler settings
      */
-    const XML_PATH_CRAWLER_ENABLED     = 'system/page_crawl/enable';
-    const XML_PATH_CRAWLER_THREADS     = 'system/page_crawl/threads';
+    const XML_PATH_CRAWLER_ENABLED = 'system/page_crawl/enable';
+
+    const XML_PATH_CRAWLER_THREADS = 'system/page_crawl/threads';
+
     const XML_PATH_CRAWL_MULTICURRENCY = 'system/page_crawl/multicurrency';
+
     /**
      * Crawler user agent name
      */
@@ -133,39 +136,38 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     {
         $baseUrls = array();
         foreach ($this->_storeManager->getStores() as $store) {
-            $website               = $this->_storeManager->getWebsite($store->getWebsiteId());
+            $website = $this->_storeManager->getWebsite($store->getWebsiteId());
             if ($this->_websiteRestricData->getIsRestrictionEnabled($store)) {
                 continue;
             }
-            $baseUrl               = $this->_storeManager->getStore($store)->getBaseUrl();
-            $defaultCurrency       = $this->_storeManager->getStore($store)->getDefaultCurrencyCode();
-            $defaultWebsiteStore   = $website->getDefaultStore();
+            $baseUrl = $this->_storeManager->getStore($store)->getBaseUrl();
+            $defaultCurrency = $this->_storeManager->getStore($store)->getDefaultCurrencyCode();
+            $defaultWebsiteStore = $website->getDefaultStore();
             $defaultWebsiteBaseUrl = $defaultWebsiteStore->getBaseUrl();
 
             $cookie = '';
-            if (($baseUrl == $defaultWebsiteBaseUrl) && ($defaultWebsiteStore->getId() != $store->getId())) {
+            if ($baseUrl == $defaultWebsiteBaseUrl && $defaultWebsiteStore->getId() != $store->getId()) {
                 $cookie = 'store=' . $store->getCode() . ';';
             }
 
-            $baseUrls[] = array(
-                'store_id' => $store->getId(),
-                'base_url' => $baseUrl,
-                'cookie'   => $cookie,
-            );
-            ;
+            $baseUrls[] = array('store_id' => $store->getId(), 'base_url' => $baseUrl, 'cookie' => $cookie);
             if ($this->_scopeConfig->getValue(
-                    self::XML_PATH_CRAWL_MULTICURRENCY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
-                ) && $this->_scopeConfig->getValue(
-                    \Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_MULTICURRENCY,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
-                )) {
+                self::XML_PATH_CRAWL_MULTICURRENCY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            ) && $this->_scopeConfig->getValue(
+                \Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_MULTICURRENCY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            )
+            ) {
                 $currencies = $store->getAvailableCurrencyCodes(true);
                 foreach ($currencies as $currencyCode) {
                     if ($currencyCode != $defaultCurrency) {
                         $baseUrls[] = array(
                             'store_id' => $store->getId(),
                             'base_url' => $baseUrl,
-                            'cookie'   => $cookie . 'currency=' . $currencyCode . ';'
+                            'cookie' => $cookie . 'currency=' . $currencyCode . ';'
                         );
                     }
                 }
@@ -184,8 +186,8 @@ class Crawler extends \Magento\Core\Model\AbstractModel
         if (!$this->_cacheState->isEnabled('full_page')) {
             return $this;
         }
-        $storesInfo  = $this->getStoresInfo();
-        $adapter     = new \Magento\HTTP\Adapter\Curl();
+        $storesInfo = $this->getStoresInfo();
+        $adapter = new \Magento\HTTP\Adapter\Curl();
 
         foreach ($storesInfo as $info) {
             $options = array(CURLOPT_USERAGENT => self::USER_AGENT);
@@ -194,12 +196,17 @@ class Crawler extends \Magento\Core\Model\AbstractModel
 
 
             if ($this->_scopeConfig->getValue(
-                self::XML_PATH_CRAWLER_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
-            )) {
+                self::XML_PATH_CRAWLER_ENABLED,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
+            ) {
                 continue;
             }
             $threads = (int)$this->_scopeConfig->getValue(
-                self::XML_PATH_CRAWLER_THREADS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
+                self::XML_PATH_CRAWLER_THREADS,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
             );
             if (!$threads) {
                 $threads = 1;
@@ -207,10 +214,10 @@ class Crawler extends \Magento\Core\Model\AbstractModel
             if (!empty($info['cookie'])) {
                 $options[CURLOPT_COOKIE] = $info['cookie'];
             }
-            $urls       = array();
-            $baseUrl    = $info['base_url'];
-            $urlsCount  = $totalCount = 0;
-            $urlsPaths  = $this->_getResource()->getUrlsPaths($storeId);
+            $urls = array();
+            $baseUrl = $info['base_url'];
+            $urlsCount = $totalCount = 0;
+            $urlsPaths = $this->_getResource()->getUrlsPaths($storeId);
             foreach ($urlsPaths as $urlPath) {
                 $url = $baseUrl . $urlPath;
                 $urlHash = md5($url);

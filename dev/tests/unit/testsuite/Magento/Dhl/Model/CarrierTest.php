@@ -33,13 +33,19 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $coreStoreConfig = $this->getMockBuilder('\Magento\App\Config\ScopeConfigInterface')
-            ->setMethods(array('isSetFlag', 'getValue'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $coreStoreConfig = $this->getMockBuilder(
+            '\Magento\App\Config\ScopeConfigInterface'
+        )->setMethods(
+            array('isSetFlag', 'getValue')
+        )->disableOriginalConstructor()->getMock();
         $coreStoreConfig->expects($this->any())->method('isSetFlag')->will($this->returnValue(true));
-        $coreStoreConfig->expects($this->any())->method('getValue')
-            ->will($this->returnCallback(array($this, 'coreStoreConfiggetValue')));
+        $coreStoreConfig->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnCallback(array($this, 'coreStoreConfiggetValue'))
+        );
 
         // xml element factory
         $xmlElFactory = $this->getMockBuilder(
@@ -126,12 +132,16 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
             array('getDirectoryRead')
         )->getMock();
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($modulesDirectory));
-        $storeManager = $this->getMockBuilder('\Magento\Store\Model\StoreManager')->disableOriginalConstructor()
-            ->setMethods(array('getWebsite'))
-            ->getMock();
-        $website = $this->getMockBuilder('\Magento\Store\Model\Website')->disableOriginalConstructor()
-            ->setMethods(array('getBaseCurrencyCode', '__wakeup'))
-            ->getMock();
+        $storeManager = $this->getMockBuilder(
+            '\Magento\Store\Model\StoreManager'
+        )->disableOriginalConstructor()->setMethods(
+            array('getWebsite')
+        )->getMock();
+        $website = $this->getMockBuilder(
+            '\Magento\Store\Model\Website'
+        )->disableOriginalConstructor()->setMethods(
+            array('getBaseCurrencyCode', '__wakeup')
+        )->getMock();
         $website->expects($this->any())->method('getBaseCurrencyCode')->will($this->returnValue('USD'));
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 

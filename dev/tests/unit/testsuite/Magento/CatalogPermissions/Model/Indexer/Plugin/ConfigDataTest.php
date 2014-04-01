@@ -74,7 +74,11 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->storeManagerMock = $this->getMock(
-            'Magento\Store\Model\StoreManager', array('getStore', 'getWebsite'), array(), '', false
+            'Magento\Store\Model\StoreManager',
+            array('getStore', 'getWebsite'),
+            array(),
+            '',
+            false
         );
         $backendConfigMock = $this->backendConfigMock = $this->getMock(
             'Magento\Backend\Model\Config',

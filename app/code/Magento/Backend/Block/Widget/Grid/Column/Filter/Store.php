@@ -93,8 +93,8 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
                         $selected .
                         '>&nbsp;&nbsp;&nbsp;&nbsp;' .
                         $this->escapeHtml(
-                            $store->getName()
-                        ) . '</option>';
+                        $store->getName()
+                    ) . '</option>';
                 }
                 if ($groupShow) {
                     $html .= '</optgroup>';

@@ -20,17 +20,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $registry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $storeManager->expects($this->once())
-            ->method('hasSingleStore')
-            ->will($this->returnValue($isSingleStore));
+        $storeManager->expects($this->once())->method('hasSingleStore')->will($this->returnValue($isSingleStore));
 
         $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
 
         if ($isSingleStore) {
             $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-            $store->expects($this->once())
-                ->method('getId')
-                ->will($this->returnValue('test_id'));
+            $store->expects($this->once())->method('getId')->will($this->returnValue('test_id'));
 
             $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
         } else {

@@ -331,10 +331,14 @@ class Option extends Widget
 
                         if ($this->getProduct()->getStoreId() != '0') {
                             $value['optionValues'][$i]['checkboxScopeTitle'] = $this->getCheckboxScopeHtml(
-                                $_value->getOptionId(), 'title', is_null($_value->getStoreTitle()),
-                                $_value->getOptionTypeId());
-                            $value['optionValues'][$i]['scopeTitleDisabled'] = is_null($_value->getStoreTitle())
-                                ? 'disabled' : null;
+                                $_value->getOptionId(),
+                                'title',
+                                is_null($_value->getStoreTitle()),
+                                $_value->getOptionTypeId()
+                            );
+                            $value['optionValues'][$i]['scopeTitleDisabled'] = is_null(
+                                $_value->getStoreTitle()
+                            ) ? 'disabled' : null;
                             if ($scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE) {
                                 $value['optionValues'][$i]['checkboxScopePrice'] = $this->getCheckboxScopeHtml(
                                     $_value->getOptionId(),
@@ -360,8 +364,8 @@ class Option extends Widget
                     $value['file_extension'] = $option->getFileExtension();
                     $value['image_size_x'] = $option->getImageSizeX();
                     $value['image_size_y'] = $option->getImageSizeY();
-                    if ($this->getProduct()->getStoreId() != '0'
-                        && $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE
+                    if ($this->getProduct()->getStoreId() != '0' &&
+                        $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE
                     ) {
                         $value['checkboxScopePrice'] = $this->getCheckboxScopeHtml(
                             $option->getOptionId(),
@@ -429,7 +433,9 @@ class Option extends Widget
             '_use_default"' .
             $checkedHtml .
             ' /><span class="use-default-label">' .
-            __('Use Default') . '</span></label></div>';
+            __(
+            'Use Default'
+        ) . '</span></label></div>';
 
         return $useDefault;
     }

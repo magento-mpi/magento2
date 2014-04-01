@@ -83,8 +83,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $product->getResource()->getAttributeRawValue(
                 $product->getId(),
                 $this->_model->getAttribute()->getId(),
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId()
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Store\Model\StoreManagerInterface'
+                )->getStore()->getId()
             )
         );
     }

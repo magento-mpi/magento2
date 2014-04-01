@@ -56,7 +56,10 @@ class Rewrite extends \Magento\Model\Resource\Db\AbstractDb
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if (!is_null($object->getStoreId())) {
-            $select->where('store_id IN(?)', array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId()));
+            $select->where(
+                'store_id IN(?)',
+                array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId())
+            );
             $select->order('store_id ' . \Magento\DB\Select::SQL_DESC);
             $select->limit(1);
         }
@@ -117,10 +120,14 @@ class Rewrite extends \Magento\Model\Resource\Db\AbstractDb
         }
         // Form select
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('request_path IN (:' . implode(', :', array_flip($pathBind)) . ')')
-            ->where('store_id IN(?)', array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, (int)$object->getStoreId()));
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'request_path IN (:' . implode(', :', array_flip($pathBind)) . ')'
+        )->where(
+            'store_id IN(?)',
+            array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, (int)$object->getStoreId())
+        );
 
         $items = $adapter->fetchAll($select, $pathBind);
 

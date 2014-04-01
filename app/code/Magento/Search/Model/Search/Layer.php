@@ -66,9 +66,19 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
-        parent::__construct($layerStateFactory, $categoryFactory, $attributeCollectionFactory, $catalogProduct,
-            $storeManager, $catalogProductVisibility, $catalogConfig, $customerSession, $coreRegistry,
-            $fulltextCollectionFactory, $catalogSearchData);
+        parent::__construct(
+            $layerStateFactory,
+            $categoryFactory,
+            $attributeCollectionFactory,
+            $catalogProduct,
+            $storeManager,
+            $catalogProductVisibility,
+            $catalogConfig,
+            $customerSession,
+            $coreRegistry,
+            $fulltextCollectionFactory,
+            $catalogSearchData
+        );
     }
 
     /**
@@ -98,9 +108,10 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
      */
     public function getStateTags(array $additionalTags = array())
     {
-        $additionalTags = array_merge($additionalTags, array(
-            \Magento\Catalog\Model\Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH'
-        ));
+        $additionalTags = array_merge(
+            $additionalTags,
+            array(\Magento\Catalog\Model\Category::CACHE_TAG . $this->getCurrentCategory()->getId() . '_SEARCH')
+        );
 
         return parent::getStateTags($additionalTags);
     }
@@ -117,17 +128,22 @@ class Layer extends \Magento\CatalogSearch\Model\Layer
             return array();
         }
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = $this->_attributeCollectionFactory->create()
-            ->setItemObjectClass('Magento\Catalog\Model\Resource\Eav\Attribute');
+        $collection = $this->_attributeCollectionFactory->create()->setItemObjectClass(
+            'Magento\Catalog\Model\Resource\Eav\Attribute'
+        );
 
         if ($this->_searchData->getTaxInfluence()) {
             $collection->removePriceFilter();
         }
 
-        $collection
-            ->setAttributeSetFilter($setIds)
-            ->addStoreLabel($this->_storeManager->getStore()->getId())
-            ->setOrder('position', 'ASC');
+        $collection->setAttributeSetFilter(
+            $setIds
+        )->addStoreLabel(
+            $this->_storeManager->getStore()->getId()
+        )->setOrder(
+            'position',
+            'ASC'
+        );
         $collection = $this->_prepareAttributeCollection($collection);
         $collection->load();
 

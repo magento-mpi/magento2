@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Store\Model;
 
 class WebsiteTest extends \PHPUnit_Framework_TestCase
@@ -17,8 +16,9 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Website');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Store\Model\Website'
+        );
         $this->_model->load(1);
     }
 
@@ -44,8 +44,9 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     public function testSetGroupsAndStores()
     {
         /* Groups */
-        $expectedGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Group');
+        $expectedGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Store\Model\Group'
+        );
         $expectedGroup->setId(123);
         $this->_model->setDefaultGroupId($expectedGroup->getId());
         $this->_model->setGroups(array($expectedGroup));
@@ -54,8 +55,9 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedGroup, reset($groups));
 
         /* Stores */
-        $expectedStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Store');
+        $expectedStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Store\Model\Store'
+        );
         $expectedStore->setId(456);
         $expectedGroup->setDefaultStoreId($expectedStore->getId());
         $this->_model->setStores(array($expectedStore));

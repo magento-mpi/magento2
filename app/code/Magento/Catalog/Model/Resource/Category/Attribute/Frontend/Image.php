@@ -32,9 +32,8 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFronten
      *
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
+    {
         $this->_storeManager = $storeManager;
     }
 

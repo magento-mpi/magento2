@@ -9,8 +9,9 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getInstance()
-    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(
+    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+);
 
 $addressData = include __DIR__ . '/address_data.php';
 
@@ -26,19 +27,25 @@ $shippingAddress->setId(null)->setAddressType('shipping');
 $payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('ccsave')->setCcExpMonth('5')->setCcLast4('0005')->setCcType('AE')->setCcExpYear('2016');
 
-$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order');
-$order->setIncrementId('100000001')
-    ->setSubtotal(100)
-    ->setBaseSubtotal(100)
-    ->setCustomerIsGuest(true)
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
-    ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore()->getId()
-    )
-    ->setPayment($payment)
-;
+$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
+$order->setIncrementId(
+    '100000001'
+)->setSubtotal(
+    100
+)->setBaseSubtotal(
+    100
+)->setCustomerIsGuest(
+    true
+)->setBillingAddress(
+    $billingAddress
+)->setShippingAddress(
+    $shippingAddress
+)->setStoreId(
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        'Magento\Store\Model\StoreManagerInterface'
+    )->getStore()->getId()
+)->setPayment(
+    $payment
+);
 
 $order->save();

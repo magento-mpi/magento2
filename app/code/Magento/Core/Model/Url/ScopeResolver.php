@@ -23,10 +23,8 @@ class ScopeResolver implements \Magento\Url\ScopeResolverInterface
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param string|null $areaCode
      */
-    public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $areaCode = null
-    ) {
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager, $areaCode = null)
+    {
         $this->_storeManager = $storeManager;
         $this->_areaCode = $areaCode;
     }

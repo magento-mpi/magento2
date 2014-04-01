@@ -177,7 +177,9 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
             // @codingStandardsIgnoreStart
             if (!$entityStores) {
                 throw new \Magento\Store\Model\Exception(
-                    __('We can\'t set up a URL rewrite because the product you chose is not associated with a website.')
+                    __(
+                        'We can\'t set up a URL rewrite because the product you chose is not associated with a website.'
+                    )
                 );
             }
             $this->_requireStoresFilter = true;
@@ -185,7 +187,9 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
             $entityStores = (array)$category->getStoreIds();
             if (!$entityStores) {
                 throw new \Magento\Store\Model\Exception(
-                    __('We can\'t set up a URL rewrite because the category your chose is not associated with a website.')
+                    __(
+                        'We can\'t set up a URL rewrite because the category your chose is not associated with a website.'
+                    )
                 );
             }
             $this->_requireStoresFilter = true;

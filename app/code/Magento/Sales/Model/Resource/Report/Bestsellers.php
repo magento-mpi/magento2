@@ -232,17 +232,22 @@ class Bestsellers extends AbstractReport
 
 
             $columns = array(
-                'period'        => 'period',
-                'store_id'      => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
-                'product_id'    => 'product_id',
-                'product_name'  => new \Zend_Db_Expr('MIN(product_name)'),
+                'period' => 'period',
+                'store_id' => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
+                'product_id' => 'product_id',
+                'product_name' => new \Zend_Db_Expr('MIN(product_name)'),
                 'product_price' => new \Zend_Db_Expr('MIN(product_price)'),
                 'qty_ordered' => new \Zend_Db_Expr('SUM(qty_ordered)')
             );
 
             $select->reset();
-            $select->from($this->getMainTable(), $columns)
-                ->where('store_id <> ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+            $select->from(
+                $this->getMainTable(),
+                $columns
+            )->where(
+                'store_id <> ?',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            );
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));

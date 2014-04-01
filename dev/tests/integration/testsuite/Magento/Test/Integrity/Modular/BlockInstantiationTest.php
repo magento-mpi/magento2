@@ -25,11 +25,14 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
             function ($module, $class, $area) {
                 $this->assertNotEmpty($module);
                 $this->assertTrue(class_exists($class), "Block class: {$class}");
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Config\ScopeInterface')
-                    ->setCurrentScope($area);
-                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\App\Http\Context');
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Config\ScopeInterface'
+                )->setCurrentScope(
+                    $area
+                );
+                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\App\Http\Context'
+                );
                 $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
                 $context->setValue(
                     \Magento\Customer\Helper\Data::CONTEXT_GROUP,
@@ -122,11 +125,14 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
         ) {
             $area = 'adminhtml';
         }
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
-            ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-            ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
-        $templateBlocks[$module . ', ' . $blockClass . ', ' . $area]
-            = array($module, $blockClass, $area);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\AreaList'
+        )->getArea(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        )->load(
+            \Magento\Core\Model\App\Area::PART_CONFIG
+        );
+        $templateBlocks[$module . ', ' . $blockClass . ', ' . $area] = array($module, $blockClass, $area);
         return $templateBlocks;
     }
 }

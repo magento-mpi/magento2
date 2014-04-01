@@ -57,7 +57,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_storeManagerMock = $this->getMock(
-            'Magento\Store\Model\StoreManagerInterface', array(), array(), '', false
+            'Magento\Store\Model\StoreManagerInterface',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_resourceMock = $this->getMock('Magento\App\Resource', array(), array(), '', false);
         $this->_dateTimeMock = $this->getMock('Magento\Stdlib\DateTime', array(), array(), '', false);
@@ -106,9 +110,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
-        $storeMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
+        $storeMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())->method('getId')->will($this->returnValue(1));

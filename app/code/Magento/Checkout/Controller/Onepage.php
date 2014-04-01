@@ -216,9 +216,19 @@ class Onepage extends Action
             return;
         }
         if (!$quote->validateMinimumAmount()) {
-            $error = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->getValue('sales/minimum_order/error_message', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ?
-                $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->getValue('sales/minimum_order/error_message', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) :
-                __('Subtotal must exceed minimum order amount');
+            $error = $this->_objectManager->get(
+                'Magento\App\Config\ScopeConfigInterface'
+            )->getValue(
+                'sales/minimum_order/error_message',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ) ? $this->_objectManager->get(
+                'Magento\App\Config\ScopeConfigInterface'
+            )->getValue(
+                'sales/minimum_order/error_message',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ) : __(
+                'Subtotal must exceed minimum order amount'
+            );
 
             $this->messageManager->addError($error);
             $this->_redirect('checkout/cart');

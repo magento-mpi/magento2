@@ -10,19 +10,16 @@
 /** @var \Magento\DB\Adapter\AdapterInterface $connection */
 $connection = $this->getConnection();
 
-$connection
-    ->dropForeignKey(
-        $this->getTable('magento_catalogpermissions_index'),
-        $this->getFkName('magento_catalogpermissions_index', 'customer_group_id', 'customer_group', 'customer_group_id')
-    )
-    ->dropForeignKey(
-        $this->getTable('magento_catalogpermissions_index'),
-        $this->getFkName('magento_catalogpermissions_index', 'category_id', 'catalog_category_entity', 'entity_id')
-    )
-    ->dropForeignKey(
-        $this->getTable('magento_catalogpermissions_index'),
-        $this->getFkName('magento_catalogpermissions_index', 'website_id', 'store_website', 'website_id')
-    );
+$connection->dropForeignKey(
+    $this->getTable('magento_catalogpermissions_index'),
+    $this->getFkName('magento_catalogpermissions_index', 'customer_group_id', 'customer_group', 'customer_group_id')
+)->dropForeignKey(
+    $this->getTable('magento_catalogpermissions_index'),
+    $this->getFkName('magento_catalogpermissions_index', 'category_id', 'catalog_category_entity', 'entity_id')
+)->dropForeignKey(
+    $this->getTable('magento_catalogpermissions_index'),
+    $this->getFkName('magento_catalogpermissions_index', 'website_id', 'store_website', 'website_id')
+);
 
 $table = $connection->newTable(
     $this->getTable('magento_catalogpermissions_index_tmp')

@@ -28,9 +28,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped',
-            array(
-                'scopeConfig' => $this->_storeConfig,
-            )
+            array('scopeConfig' => $this->_storeConfig)
         );
     }
 
@@ -96,13 +94,16 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     protected function _initProducts($childHasThumbnail = true, $useParentThumbnail = false)
     {
         /** Set option which can force usage of parent product thumbnail when grouped product is displayed */
-        $thumbnailToBeUsed = $useParentThumbnail
-            ? ThumbnailSource::OPTION_USE_PARENT_IMAGE
-            : ThumbnailSource::OPTION_USE_OWN_IMAGE;
-        $this->_storeConfig->expects($this->any())
-            ->method('getValue')
-            ->with(Renderer::CONFIG_THUMBNAIL_SOURCE)
-            ->will($this->returnValue($thumbnailToBeUsed));
+        $thumbnailToBeUsed = $useParentThumbnail ? ThumbnailSource::OPTION_USE_PARENT_IMAGE : ThumbnailSource::OPTION_USE_OWN_IMAGE;
+        $this->_storeConfig->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->with(
+            Renderer::CONFIG_THUMBNAIL_SOURCE
+        )->will(
+            $this->returnValue($thumbnailToBeUsed)
+        );
 
         /** Initialized parent product */
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $parentProduct */

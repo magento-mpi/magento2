@@ -15,66 +15,103 @@ $installer->startSetup();
 /**
  * Create table 'customer_entity'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('customer_entity'))
-    ->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Entity Id')
-    ->addColumn('entity_type_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Entity Type Id')
-    ->addColumn('attribute_set_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Attribute Set Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Website Id')
-    ->addColumn('email', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        ), 'Email')
-    ->addColumn('group_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Group Id')
-    ->addColumn('increment_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 50, array(
-        ), 'Increment Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'default'   => '0',
-        ), 'Store Id')
-    ->addColumn('created_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
-        ), 'Created At')
-    ->addColumn('updated_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        'nullable'  => false,
-        ), 'Updated At')
-    ->addColumn('is_active', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Is Active')
-    ->addIndex($installer->getIdxName('customer_entity', array('store_id')),
-        array('store_id'))
-    ->addIndex($installer->getIdxName('customer_entity', array('entity_type_id')),
-        array('entity_type_id'))
-    ->addIndex($installer->getIdxName('customer_entity', array('email', 'website_id')),
-        array('email', 'website_id'))
-    ->addIndex($installer->getIdxName('customer_entity', array('website_id')),
-        array('website_id'))
-    ->addForeignKey($installer->getFkName('customer_entity', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('customer_entity', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Customer Entity');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('customer_entity')
+)->addColumn(
+    'entity_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Entity Id'
+)->addColumn(
+    'entity_type_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Entity Type Id'
+)->addColumn(
+    'attribute_set_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Attribute Set Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Website Id'
+)->addColumn(
+    'email',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Email'
+)->addColumn(
+    'group_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Group Id'
+)->addColumn(
+    'increment_id',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    50,
+    array(),
+    'Increment Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'default' => '0'),
+    'Store Id'
+)->addColumn(
+    'created_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => false),
+    'Created At'
+)->addColumn(
+    'updated_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => false),
+    'Updated At'
+)->addColumn(
+    'is_active',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '1'),
+    'Is Active'
+)->addIndex(
+    $installer->getIdxName('customer_entity', array('store_id')),
+    array('store_id')
+)->addIndex(
+    $installer->getIdxName('customer_entity', array('entity_type_id')),
+    array('entity_type_id')
+)->addIndex(
+    $installer->getIdxName('customer_entity', array('email', 'website_id')),
+    array('email', 'website_id')
+)->addIndex(
+    $installer->getIdxName('customer_entity', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('customer_entity', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('customer_entity', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Customer Entity'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -1077,39 +1114,64 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'customer_eav_attribute_website'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('customer_eav_attribute_website'))
-    ->addColumn('attribute_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Attribute Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addColumn('is_visible', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Is Visible')
-    ->addColumn('is_required', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Is Required')
-    ->addColumn('default_value', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Default Value')
-    ->addColumn('multiline_count', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        ), 'Multiline Count')
-    ->addIndex($installer->getIdxName('customer_eav_attribute_website', array('website_id')),
-        array('website_id'))
-    ->addForeignKey(
-        $installer->getFkName('customer_eav_attribute_website', 'attribute_id', 'eav_attribute', 'attribute_id'),
-        'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('customer_eav_attribute_website', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Customer Eav Attribute Website');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('customer_eav_attribute_website')
+)->addColumn(
+    'attribute_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Attribute Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addColumn(
+    'is_visible',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Is Visible'
+)->addColumn(
+    'is_required',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Is Required'
+)->addColumn(
+    'default_value',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Default Value'
+)->addColumn(
+    'multiline_count',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true),
+    'Multiline Count'
+)->addIndex(
+    $installer->getIdxName('customer_eav_attribute_website', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('customer_eav_attribute_website', 'attribute_id', 'eav_attribute', 'attribute_id'),
+    'attribute_id',
+    $installer->getTable('eav_attribute'),
+    'attribute_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('customer_eav_attribute_website', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Customer Eav Attribute Website'
+);
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

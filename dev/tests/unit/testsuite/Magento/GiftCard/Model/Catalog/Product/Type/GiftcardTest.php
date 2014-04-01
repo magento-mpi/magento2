@@ -58,15 +58,18 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_store = $this->getMock(
-            'Magento\Store\Model\Store', array('getCurrentCurrencyRate', '__sleep', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('getCurrentCurrencyRate', '__sleep', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getStore'))
-            ->getMockForAbstractClass();
-        $this->_storeManagerMock->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $this->_storeManagerMock = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array('getStore')
+        )->getMockForAbstractClass();
+        $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
         $this->_mockModel(array('_isStrictProcessMode'));
     }
 
@@ -212,7 +215,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             $option->setId($i);
             $option->setIsRequire(true);
             $this->_customOptions[\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX .
-            $i] = new \Magento\Object(
+                $i] = new \Magento\Object(
                 array('value' => 'value')
             );
             $this->_product->addOption($option);

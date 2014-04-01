@@ -110,9 +110,7 @@ class Config
      */
     public function getVclFile()
     {
-        $data = $this->_modulesDirectory->readFile(
-            $this->_scopeConfig->getValue(self::VARNISH_CONFIGURATION_PATH)
-        );
+        $data = $this->_modulesDirectory->readFile($this->_scopeConfig->getValue(self::VARNISH_CONFIGURATION_PATH));
         return strtr($data, $this->_getReplacements());
     }
 
@@ -176,9 +174,7 @@ class Config
     protected function _getDesignExceptions()
     {
         $result = '';
-        $tpl = "%s (req.http.user-agent ~ \"%s\") {\n"
-             . "        hash_data(\"%s\");\n"
-             . "    }";
+        $tpl = "%s (req.http.user-agent ~ \"%s\") {\n" . "        hash_data(\"%s\");\n" . "    }";
 
         $expressions = $this->_scopeConfig->getValue(
             self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX,

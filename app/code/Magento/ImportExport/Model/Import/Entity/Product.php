@@ -1644,7 +1644,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $valueArr = array(
                     'value_id' => $insertValue['value_id'],
                     'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-                    'label'    => $insertValue['label'],
+                    'label' => $insertValue['label'],
                     'position' => $insertValue['position'],
                     'disabled' => $insertValue['disabled']
                 );

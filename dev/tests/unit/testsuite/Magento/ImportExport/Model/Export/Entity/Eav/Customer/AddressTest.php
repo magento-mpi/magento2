@@ -22,10 +22,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(
-        \Magento\Store\Model\Store::DEFAULT_STORE_ID  => 'admin',
-        1 => 'website1',
-    );
+    protected $_websites = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
 
     /**
      * Attributes array
@@ -74,9 +71,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
 
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $storeManager->expects($this->once())
-            ->method('getWebsites')
-            ->will($this->returnCallback(array($this, 'getWebsites')));
+        $storeManager->expects(
+            $this->once()
+        )->method(
+            'getWebsites'
+        )->will(
+            $this->returnCallback(array($this, 'getWebsites'))
+        );
 
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address(

@@ -132,10 +132,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             return array();
         }
 
-        $isAuto = ($this->_scopeConfig->getValue(
+        $isAuto = $this->_scopeConfig->getValue(
             self::XML_PATH_RANGE_CALCULATION,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) == self::RANGE_CALCULATION_IMPROVED);
+        ) == self::RANGE_CALCULATION_IMPROVED;
         if (!$isAuto && $this->getInterval()) {
             return array();
         }

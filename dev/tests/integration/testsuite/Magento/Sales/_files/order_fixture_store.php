@@ -33,15 +33,27 @@ $orderItem->setProductId($product->getId())->setQtyOrdered(2);
 
 /** @var \Magento\Sales\Model\Order $order */
 $order = $objectManager->create('Magento\Sales\Model\Order');
-$order->setIncrementId('100000004')
-    ->setState(\Magento\Sales\Model\Order::STATE_PROCESSING)
-    ->setSubtotal(100)
-    ->setBaseSubtotal(100)
-    ->setCustomerIsGuest(true)
-    ->setCustomerEmail('customer@null.com')
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
-    ->setStoreId($objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore('fixturestore')->getId())
-    ->addItem($orderItem)
-    ->setPayment($payment);
+$order->setIncrementId(
+    '100000004'
+)->setState(
+    \Magento\Sales\Model\Order::STATE_PROCESSING
+)->setSubtotal(
+    100
+)->setBaseSubtotal(
+    100
+)->setCustomerIsGuest(
+    true
+)->setCustomerEmail(
+    'customer@null.com'
+)->setBillingAddress(
+    $billingAddress
+)->setShippingAddress(
+    $shippingAddress
+)->setStoreId(
+    $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore('fixturestore')->getId()
+)->addItem(
+    $orderItem
+)->setPayment(
+    $payment
+);
 $order->save();

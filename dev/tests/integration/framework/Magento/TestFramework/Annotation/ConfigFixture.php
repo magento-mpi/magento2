@@ -73,13 +73,23 @@ class ConfigFixture
         if ($storeCode === false) {
             if (strpos($configPath, 'default/') === 0) {
                 $configPath = substr($configPath, 8);
-                $objectManager->get('Magento\App\Config\MutableScopeConfigInterface')
-                    ->setValue($configPath, $value, \Magento\App\ScopeInterface::SCOPE_DEFAULT);
+                $objectManager->get(
+                    'Magento\App\Config\MutableScopeConfigInterface'
+                )->setValue(
+                    $configPath,
+                    $value,
+                    \Magento\App\ScopeInterface::SCOPE_DEFAULT
+                );
             }
         } else {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\App\Config\MutableScopeConfigInterface')
-                ->setValue($configPath, $value, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeCode);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\App\Config\MutableScopeConfigInterface'
+            )->setValue(
+                $configPath,
+                $value,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeCode
+            );
         }
     }
 
@@ -97,7 +107,7 @@ class ConfigFixture
         foreach ($annotations['method']['magentoConfigFixture'] as $configPathAndValue) {
             if (preg_match('/^.+?(?=_store\s)/', $configPathAndValue, $matches)) {
                 /* Store-scoped config value */
-                $storeCode = ($matches[0] != 'current' ? $matches[0] : null);
+                $storeCode = $matches[0] != 'current' ? $matches[0] : null;
                 list(, $configPath, $requiredValue) = preg_split('/\s+/', $configPathAndValue, 3);
                 $originalValue = $this->_getConfigValue($configPath, $storeCode);
                 $this->_storeConfigValues[$storeCode][$configPath] = $originalValue;

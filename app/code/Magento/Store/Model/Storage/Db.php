@@ -166,10 +166,12 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
-            $this->_store = $this->_storeFactory->create()
-                ->setId(\Magento\Store\Model\Store::DISTRO_STORE_ID)
-                ->setCode(\Magento\Store\Model\Store::DEFAULT_CODE);
-       }
+            $this->_store = $this->_storeFactory->create()->setId(
+                \Magento\Store\Model\Store::DISTRO_STORE_ID
+            )->setCode(
+                \Magento\Store\Model\Store::DEFAULT_CODE
+            );
+        }
         return $this->_store;
     }
 
@@ -360,7 +362,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
 
         $websiteStores = array();
         $websiteGroups = array();
-        $groupStores   = array();
+        $groupStores = array();
         foreach ($storeCollection as $store) {
             /** @var $store Store */
             $store->setWebsite($websiteCollection->getItemById($store->getWebsiteId()));

@@ -209,7 +209,8 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
         }
 
         $timezoneLocal = $this->_storeConfig->getValue(
-            $this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            $this->_localeDate->getDefaultTimezonePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         list($dateStart, $dateEnd) = $this->_collectionFactory->create()->getDateRange(
@@ -256,10 +257,12 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
          */
         if (count($dates) > 8 && count($dates) < 15) {
             $c = 1;
-        } else if (count($dates) >= 15) {
-            $c = 2;
         } else {
-            $c = 0;
+            if (count($dates) >= 15) {
+                $c = 2;
+            } else {
+                $c = 0;
+            }
         }
         /**
          * skipping some x labels for good reading
@@ -341,7 +344,6 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                         $chartdata[] = $dataMissing . $dataDelimiter;
                     }
                 }
-                // END SIMPLE ENCODING
             } else {
                 // EXTENDED ENCODING
                 for ($j = 0; $j < sizeof($thisdataarray); $j++) {
@@ -368,7 +370,6 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                         $chartdata[] = $dataMissing . $dataDelimiter;
                     }
                 }
-                // ============= END EXTENDED ENCODING =============
             }
             $chartdata[] = $dataSetdelimiter;
         }
@@ -427,12 +428,14 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                     } else {
                         $deltaX = 100;
                     }
-                } else if ($idx == 'y') {
-                    $valueBuffer[] = $indexid . ":|" . implode('|', $yLabels);
-                    if (sizeof($yLabels) - 1) {
-                        $deltaY = 100 / (sizeof($yLabels) - 1);
-                    } else {
-                        $deltaY = 100;
+                } else {
+                    if ($idx == 'y') {
+                        $valueBuffer[] = $indexid . ":|" . implode('|', $yLabels);
+                        if (sizeof($yLabels) - 1) {
+                            $deltaY = 100 / (sizeof($yLabels) - 1);
+                        } else {
+                            $deltaY = 100;
+                        }
                     }
                 }
                 $indexid++;

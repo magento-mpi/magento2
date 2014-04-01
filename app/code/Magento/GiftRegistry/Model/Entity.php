@@ -186,7 +186,7 @@ class Entity extends \Magento\Model\AbstractModel
      * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
-     
+
     /**
      * @var \Magento\Translate\Inline\StateInterface
      */
@@ -463,16 +463,18 @@ class Entity extends \Magento\Model\AbstractModel
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($templateIdentifier)
-            ->setTemplateOptions(array(
-                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ))
-            ->setTemplateVars($templateVars)
-            ->setFrom($identity)
-            ->addTo($recipientEmail, $recipientName)
-            ->getTransport();
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $templateIdentifier
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+        )->setTemplateVars(
+            $templateVars
+        )->setFrom(
+            $identity
+        )->addTo(
+            $recipientEmail,
+            $recipientName
+        )->getTransport();
 
         try {
             $transport->sendMessage();
@@ -561,11 +563,7 @@ class Entity extends \Magento\Model\AbstractModel
 
         $this->setUpdatedQty($updatedQty);
 
-        $templateVars = array(
-            'store' => $store,
-            'owner' => $owner,
-            'entity' => $this
-        );
+        $templateVars = array('store' => $store, 'owner' => $owner, 'entity' => $this);
 
         $templateIdentifier = $this->_scopeConfig->getValue(
             self::XML_PATH_UPDATE_EMAIL_TEMPLATE,
@@ -578,16 +576,18 @@ class Entity extends \Magento\Model\AbstractModel
             $store
         );
 
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($templateIdentifier)
-            ->setTemplateOptions(array(
-                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ))
-            ->setTemplateVars($templateVars)
-            ->setFrom($from)
-            ->addTo($owner->getEmail(), $owner->getName())
-            ->getTransport();
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $templateIdentifier
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+        )->setTemplateVars(
+            $templateVars
+        )->setFrom(
+            $from
+        )->addTo(
+            $owner->getEmail(),
+            $owner->getName()
+        )->getTransport();
 
         try {
             $transport->sendMessage();
@@ -631,16 +631,18 @@ class Entity extends \Magento\Model\AbstractModel
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($templateIdentifier)
-            ->setTemplateOptions(array(
-                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ))
-            ->setTemplateVars($templateVars)
-            ->setFrom($from)
-            ->addTo($owner->getEmail(), $owner->getName())
-            ->getTransport();
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $templateIdentifier
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+        )->setTemplateVars(
+            $templateVars
+        )->setFrom(
+            $from
+        )->addTo(
+            $owner->getEmail(),
+            $owner->getName()
+        )->getTransport();
 
         try {
             $transport->sendMessage();
@@ -910,8 +912,10 @@ class Entity extends \Magento\Model\AbstractModel
 
         if (!\Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
             $errors[] = __('Please enter correct the Privacy setting.');
-        } else if (!array_key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
-            $errors[] = __('Please enter correct the Privacy setting.');
+        } else {
+            if (!array_key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
+                $errors[] = __('Please enter correct the Privacy setting.');
+            }
         }
 
         $allCustomValues = $this->getCustomValues();
@@ -1005,8 +1009,10 @@ class Entity extends \Magento\Model\AbstractModel
         $value = null;
         if (isset($data[$field])) {
             $value = $data[$field];
-        } else if (isset($data['custom_values']) && isset($data['custom_values'][$field])) {
-            $value = $data['custom_values'][$field];
+        } else {
+            if (isset($data['custom_values']) && isset($data['custom_values'][$field])) {
+                $value = $data['custom_values'][$field];
+            }
         }
         return $value;
     }

@@ -585,30 +585,31 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
         $query = $select->deleteFromSelect('i');
         $adapter->query($query);
 
-        $select  = $adapter->select()
-            ->from(
-                array('tp' => $this->getTable('catalog_product_entity_tier_price')),
-                array('entity_id')
-            )
-            ->join(
-                array('e' => $this->getTable('catalog_product_entity')),
-                'tp.entity_id=e.entity_id',
-                array()
-            )
-            ->join(
-                array('cg' => $this->getTable('customer_group')),
-                'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
-                array('customer_group_id')
-            )
-            ->join(
-                array('cw' => $this->getTable('store_website')),
-                'tp.website_id = 0 OR tp.website_id = cw.website_id',
-                array('website_id')
-            )
-            ->where('cw.website_id != 0')
-            ->where('e.type_id=?', $this->getTypeId())
-            ->columns(new \Zend_Db_Expr('MIN(tp.value)'))
-            ->group(array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
+        $select = $adapter->select()->from(
+            array('tp' => $this->getTable('catalog_product_entity_tier_price')),
+            array('entity_id')
+        )->join(
+            array('e' => $this->getTable('catalog_product_entity')),
+            'tp.entity_id=e.entity_id',
+            array()
+        )->join(
+            array('cg' => $this->getTable('customer_group')),
+            'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
+            array('customer_group_id')
+        )->join(
+            array('cw' => $this->getTable('store_website')),
+            'tp.website_id = 0 OR tp.website_id = cw.website_id',
+            array('website_id')
+        )->where(
+            'cw.website_id != 0'
+        )->where(
+            'e.type_id=?',
+            $this->getTypeId()
+        )->columns(
+            new \Zend_Db_Expr('MIN(tp.value)')
+        )->group(
+            array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id')
+        );
 
         if (!empty($entityIds)) {
             $select->where('tp.entity_id IN(?)', $entityIds);
@@ -645,30 +646,31 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
         $query = $select->deleteFromSelect('i');
         $adapter->query($query);
 
-        $select  = $adapter->select()
-            ->from(
-                array('gp' => $this->getTable('catalog_product_entity_group_price')),
-                array('entity_id')
-            )
-            ->join(
-                array('e' => $this->getTable('catalog_product_entity')),
-                'gp.entity_id=e.entity_id',
-                array()
-            )
-            ->join(
-                array('cg' => $this->getTable('customer_group')),
-                'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
-                array('customer_group_id')
-            )
-            ->join(
-                array('cw' => $this->getTable('core_website')),
-                'gp.website_id = 0 OR gp.website_id = cw.website_id',
-                array('website_id')
-            )
-            ->where('cw.website_id != 0')
-            ->where('e.type_id=?', $this->getTypeId())
-            ->columns(new \Zend_Db_Expr('MIN(gp.value)'))
-            ->group(array('gp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
+        $select = $adapter->select()->from(
+            array('gp' => $this->getTable('catalog_product_entity_group_price')),
+            array('entity_id')
+        )->join(
+            array('e' => $this->getTable('catalog_product_entity')),
+            'gp.entity_id=e.entity_id',
+            array()
+        )->join(
+            array('cg' => $this->getTable('customer_group')),
+            'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
+            array('customer_group_id')
+        )->join(
+            array('cw' => $this->getTable('core_website')),
+            'gp.website_id = 0 OR gp.website_id = cw.website_id',
+            array('website_id')
+        )->where(
+            'cw.website_id != 0'
+        )->where(
+            'e.type_id=?',
+            $this->getTypeId()
+        )->columns(
+            new \Zend_Db_Expr('MIN(gp.value)')
+        )->group(
+            array('gp.entity_id', 'cg.customer_group_id', 'cw.website_id')
+        );
 
         if (!empty($entityIds)) {
             $select->where('gp.entity_id IN(?)', $entityIds);

@@ -106,8 +106,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Data\Form\Element\Hidden', $storeElement);
 
         // Check that store value set correctly
-        $defaultStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')->getStore(true)->getId();
+        $defaultStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore(
+            true
+        )->getId();
         $this->assertEquals($defaultStore, $storeElement->getValue());
     }
 
@@ -133,9 +136,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
 
         // Check store elements has expected values
-        $storesList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\System\Store')
-            ->getStoreValuesForForm();
+        $storesList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\System\Store'
+        )->getStoreValuesForForm();
         $this->assertInternalType('array', $storeElement->getValues());
         $this->assertNotEmpty($storeElement->getValues());
         $this->assertEquals($storesList, $storeElement->getValues());

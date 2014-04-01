@@ -41,8 +41,9 @@ class Categories
     public function __construct()
     {
 
-        $rootCategoryId = $this->getObjectManager()->create('Magento\Store\Model\StoreManager')->getDefaultStoreView()
-            ->getRootCategoryId();
+        $rootCategoryId = $this->getObjectManager()->create(
+            'Magento\Store\Model\StoreManager'
+        )->getDefaultStoreView()->getRootCategoryId();
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');

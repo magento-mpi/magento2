@@ -82,20 +82,20 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $model = $this->getMockForAbstractClass(
             'Magento\Sales\Model\Order\Pdf\AbstractPdf',
             array(
-                $paymentData, 
-                $string, 
-                $coreStoreConfig, 
+                $paymentData,
+                $string,
+                $coreStoreConfig,
                 $filesystem,
-                $pdfConfig, 
-                $pdfTotalFactory, 
-                $pdfItemsFactory, 
-                $localeMock, 
+                $pdfConfig,
+                $pdfTotalFactory,
+                $pdfItemsFactory,
+                $localeMock,
                 $translate
             ),
-            '', 
-            true, 
-            false, 
-            true, 
+            '',
+            true,
+            false,
+            true,
             array('drawLineBlocks')
         );
         $model->expects($this->once())->method('drawLineBlocks')->will($this->returnValue($page));

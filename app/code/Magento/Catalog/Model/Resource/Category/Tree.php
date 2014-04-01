@@ -614,25 +614,35 @@ class Tree extends \Magento\Data\Tree\Dbp
             $attribute = $resource->getAttribute($attributeCode);
             // join non-static attribute table
             if (!$attribute->getBackend()->isStatic()) {
-                $tableDefault   = sprintf('d_%s', $attributeCode);
-                $tableStore     = sprintf('s_%s', $attributeCode);
-                $valueExpr      = $this->_conn
-                    ->getCheckSql("{$tableStore}.value_id > 0", "{$tableStore}.value", "{$tableDefault}.value");
+                $tableDefault = sprintf('d_%s', $attributeCode);
+                $tableStore = sprintf('s_%s', $attributeCode);
+                $valueExpr = $this->_conn->getCheckSql(
+                    "{$tableStore}.value_id > 0",
+                    "{$tableStore}.value",
+                    "{$tableDefault}.value"
+                );
 
-                $select
-                    ->joinLeft(
-                        array($tableDefault => $attribute->getBackend()->getTable()),
-                        sprintf('%1$s.entity_id=e.entity_id AND %1$s.attribute_id=%2$d'
-                            . ' AND %1$s.entity_type_id=e.entity_type_id AND %1$s.store_id=%3$d',
-                            $tableDefault, $attribute->getId(), \Magento\Store\Model\Store::DEFAULT_STORE_ID),
-                        array($attributeCode => 'value'))
-                    ->joinLeft(
-                        array($tableStore => $attribute->getBackend()->getTable()),
-                        sprintf('%1$s.entity_id=e.entity_id AND %1$s.attribute_id=%2$d'
-                            . ' AND %1$s.entity_type_id=e.entity_type_id AND %1$s.store_id=%3$d',
-                            $tableStore, $attribute->getId(), $this->getStoreId()),
-                        array($attributeCode => $valueExpr)
-                    );
+                $select->joinLeft(
+                    array($tableDefault => $attribute->getBackend()->getTable()),
+                    sprintf(
+                        '%1$s.entity_id=e.entity_id AND %1$s.attribute_id=%2$d' .
+                        ' AND %1$s.entity_type_id=e.entity_type_id AND %1$s.store_id=%3$d',
+                        $tableDefault,
+                        $attribute->getId(),
+                        \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                    ),
+                    array($attributeCode => 'value')
+                )->joinLeft(
+                    array($tableStore => $attribute->getBackend()->getTable()),
+                    sprintf(
+                        '%1$s.entity_id=e.entity_id AND %1$s.attribute_id=%2$d' .
+                        ' AND %1$s.entity_type_id=e.entity_type_id AND %1$s.store_id=%3$d',
+                        $tableStore,
+                        $attribute->getId(),
+                        $this->getStoreId()
+                    ),
+                    array($attributeCode => $valueExpr)
+                );
             }
         }
 

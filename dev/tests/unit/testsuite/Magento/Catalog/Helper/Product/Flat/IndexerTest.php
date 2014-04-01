@@ -260,7 +260,11 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $stores = array();
         foreach ($storeIds as $storeId) {
             $store = $this->getMock(
-                'Magento\Store\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false
+                'Magento\Store\Model\Store',
+                array('getId', '__sleep', '__wakeup'),
+                array(),
+                '',
+                false
             );
             $store->expects($this->once())->method('getId')->will($this->returnValue($storeId));
             $stores[] = $store;

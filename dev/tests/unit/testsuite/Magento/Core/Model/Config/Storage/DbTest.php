@@ -51,9 +51,15 @@ class DbTest extends \PHPUnit_Framework_TestCase
 
     public function testDeleteWithDefaultParams()
     {
-        $this->_resourceMock->expects($this->once())
-            ->method('deleteConfig')
-            ->with('test/path', \Magento\Store\Model\Store::DEFAULT_CODE, 0);
+        $this->_resourceMock->expects(
+            $this->once()
+        )->method(
+            'deleteConfig'
+        )->with(
+            'test/path',
+            \Magento\Store\Model\Store::DEFAULT_CODE,
+            0
+        );
         $this->_model->delete('test/path');
     }
 
@@ -74,9 +80,16 @@ class DbTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveWithDefaultParams()
     {
-        $this->_resourceMock->expects($this->once())
-            ->method('saveConfig')
-            ->with('test/path', 'test_value', \Magento\Store\Model\Store::DEFAULT_CODE, 0);
+        $this->_resourceMock->expects(
+            $this->once()
+        )->method(
+            'saveConfig'
+        )->with(
+            'test/path',
+            'test_value',
+            \Magento\Store\Model\Store::DEFAULT_CODE,
+            0
+        );
         $this->_model->save('test/path', 'test_value');
     }
 }

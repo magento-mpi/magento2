@@ -243,13 +243,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_customerHelperMock)
         );
 
-        $this->_urlMock = $this->getMockBuilder('\Magento\UrlInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_urlMock = $this->getMockBuilder('\Magento\UrlInterface')->disableOriginalConstructor()->getMock();
 
-        $this->_loggerMock = $this->getMockBuilder('\Magento\Logger')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_loggerMock = $this->getMockBuilder('\Magento\Logger')->disableOriginalConstructor()->getMock();
     }
 
     public function testActivateAccount()
@@ -729,28 +725,38 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_mockReturnValue(
             $this->_customerModelMock,
             array(
-                'getId'        => self::ID,
+                'getId' => self::ID,
                 'setWebsiteId' => $this->_customerModelMock,
-                'loadByEmail'  => $this->_customerModelMock,
+                'loadByEmail' => $this->_customerModelMock
             )
         );
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
 
         $exception = new \Magento\Mail\Exception(__('The mail server is down'));
 
-        $this->_customerModelMock->expects($this->once())
-            ->method('sendPasswordResetConfirmationEmail')
-            ->will($this->throwException($exception));
+        $this->_customerModelMock->expects(
+            $this->once()
+        )->method(
+            'sendPasswordResetConfirmationEmail'
+        )->will(
+            $this->throwException($exception)
+        );
 
-        $this->_loggerMock->expects($this->once())
-            ->method('logException')
-            ->with($exception);
+        $this->_loggerMock->expects($this->once())->method('logException')->with($exception);
 
         $customerService = $this->_createService();
 
-        $customerService->initiatePasswordReset($email, self::WEBSITE_ID, CustomerAccountServiceInterface::EMAIL_RESET);
+        $customerService->initiatePasswordReset(
+            $email,
+            self::WEBSITE_ID,
+            CustomerAccountServiceInterface::EMAIL_RESET
+        );
     }
 
     public function testResetPassword()
@@ -1068,36 +1074,44 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testResendConfirmationWithMailException()
     {
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(55));
-        $this->_customerModelMock->expects($this->once())
-            ->method('setWebsiteId')
-            ->will($this->returnSelf());
-        $this->_customerModelMock->expects($this->any())
-            ->method('isConfirmationRequired')
-            ->will($this->returnValue(true));
-        $this->_customerModelMock->expects($this->any())
-            ->method('getConfirmation')
-            ->will($this->returnValue('123abc'));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(55));
+        $this->_customerModelMock->expects($this->once())->method('setWebsiteId')->will($this->returnSelf());
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'isConfirmationRequired'
+        )->will(
+            $this->returnValue(true)
+        );
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getConfirmation'
+        )->will(
+            $this->returnValue('123abc')
+        );
 
         $exception = new \Magento\Mail\Exception(__('The mail server is down'));
 
-        $this->_customerModelMock->expects($this->once())
-            ->method('sendNewAccountEmail')
-            ->withAnyParameters()
-            ->will($this->throwException($exception));
+        $this->_customerModelMock->expects(
+            $this->once()
+        )->method(
+            'sendNewAccountEmail'
+        )->withAnyParameters()->will(
+            $this->throwException($exception)
+        );
 
-        $this->_loggerMock->expects($this->once())
-            ->method('logException')
-            ->with($exception);
+        $this->_loggerMock->expects($this->once())->method('logException')->with($exception);
 
         $customerService = $this->_createService();
         $customerService->resendConfirmation('email', 1);
-        // If we call sendNewAccountEmail and no exception is returned, the test succeeds
     }
 
     /**
@@ -1814,72 +1828,71 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateAccountMailException()
     {
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_customerModelMock)
+        );
 
         // This is to get the customer model through validation
-        $this->_customerModelMock->expects($this->any())
-            ->method('getFirstname')
-            ->will($this->returnValue('John'));
+        $this->_customerModelMock->expects($this->any())->method('getFirstname')->will($this->returnValue('John'));
 
-        $this->_customerModelMock->expects($this->any())
-            ->method('getLastname')
-            ->will($this->returnValue('Doe'));
+        $this->_customerModelMock->expects($this->any())->method('getLastname')->will($this->returnValue('Doe'));
 
-        $this->_customerModelMock->expects($this->any())
-            ->method('getEmail')
-            ->will($this->returnValue('somebody@example.com'));
+        $this->_customerModelMock->expects(
+            $this->any()
+        )->method(
+            'getEmail'
+        )->will(
+            $this->returnValue('somebody@example.com')
+        );
 
         // This is to get the customer model through Converter::getCustomerModel
-        $this->_customerModelMock->expects($this->once())
-            ->method('load')
-            ->will($this->returnSelf());
+        $this->_customerModelMock->expects($this->once())->method('load')->will($this->returnSelf());
 
-        $this->_customerModelMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(true));
+        $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(true));
 
         $exception = new \Magento\Mail\Exception(__('The mail server is down'));
 
-        $this->_customerModelMock->expects($this->once())
-            ->method('sendNewAccountEmail')
-            ->will($this->throwException($exception));
+        $this->_customerModelMock->expects(
+            $this->once()
+        )->method(
+            'sendNewAccountEmail'
+        )->will(
+            $this->throwException($exception)
+        );
 
-        $this->_loggerMock->expects($this->once())
-            ->method('logException')
-            ->with($exception);
+        $this->_loggerMock->expects($this->once())->method('logException')->with($exception);
 
-        $this->_customerModelMock->expects($this->once())
-            ->method('getAttributes')
-            ->will($this->returnValue([]));
+        $this->_customerModelMock->expects($this->once())->method('getAttributes')->will($this->returnValue(array()));
 
-        $mockCustomer = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mockCustomer = $this->getMockBuilder(
+            'Magento\Customer\Service\V1\Data\Customer'
+        )->disableOriginalConstructor()->getMock();
 
-        $mockCustomer->expects($this->any())
-            ->method('getStoreId')
-            ->will($this->returnValue(true));
+        $mockCustomer->expects($this->any())->method('getStoreId')->will($this->returnValue(true));
 
-        $mockCustomer->expects($this->once())
-            ->method('__toArray')
-            ->will($this->returnValue(['attributeSetId' => true]));
+        $mockCustomer->expects(
+            $this->once()
+        )->method(
+            '__toArray'
+        )->will(
+            $this->returnValue(array('attributeSetId' => true))
+        );
 
         /**
          * @var \Magento\Customer\Service\V1\Data\CustomerDetails | \PHPUnit_Framework_MockObject_MockObject
          */
-        $mockCustomerDetail = $this->getMockBuilder('Magento\Customer\Service\V1\Data\CustomerDetails')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mockCustomerDetail = $this->getMockBuilder(
+            'Magento\Customer\Service\V1\Data\CustomerDetails'
+        )->disableOriginalConstructor()->getMock();
 
-        $mockCustomerDetail->expects($this->once())
-            ->method('getCustomer')
-            ->will($this->returnValue($mockCustomer));
+        $mockCustomerDetail->expects($this->once())->method('getCustomer')->will($this->returnValue($mockCustomer));
 
         $service = $this->_createService();
         $service->createAccount($mockCustomerDetail, 'abc123');
-        // If we get no mail exception, the test in considered a success
     }
 
     private function _setupStoreMock()
@@ -1936,6 +1949,4 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         return $customerService;
     }
-
-
 }

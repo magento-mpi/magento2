@@ -163,24 +163,40 @@ class Shipping implements RateCollectorInterface
     {
         $storeId = $request->getStoreId();
         if (!$request->getOrig()) {
-            $request
-                ->setCountryId(
-                    $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $request->getStore())
+            $request->setCountryId(
+                $this->_storeConfig->getValue(
+                    Shipment::XML_PATH_STORE_COUNTRY_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStore()
                 )
-                ->setRegionId(
-                    $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_REGION_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $request->getStore())
+            )->setRegionId(
+                $this->_storeConfig->getValue(
+                    Shipment::XML_PATH_STORE_REGION_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStore()
                 )
-                ->setCity(
-                    $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_CITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $request->getStore())
+            )->setCity(
+                $this->_storeConfig->getValue(
+                    Shipment::XML_PATH_STORE_CITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStore()
                 )
-                ->setPostcode(
-                    $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_ZIP, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $request->getStore())
-                );
+            )->setPostcode(
+                $this->_storeConfig->getValue(
+                    Shipment::XML_PATH_STORE_ZIP,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStore()
+                )
+            );
         }
 
         $limitCarrier = $request->getLimitCarrier();
         if (!$limitCarrier) {
-            $carriers = $this->_storeConfig->getValue('carriers', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+            $carriers = $this->_storeConfig->getValue(
+                'carriers',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
 
             foreach ($carriers as $carrierCode => $carrierConfig) {
                 $this->collectCarrierRates($carrierCode, $request);
@@ -190,7 +206,11 @@ class Shipping implements RateCollectorInterface
                 $limitCarrier = array($limitCarrier);
             }
             foreach ($limitCarrier as $carrierCode) {
-                $carrierConfig = $this->_storeConfig->getValue('carriers/' . $carrierCode, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+                $carrierConfig = $this->_storeConfig->getValue(
+                    'carriers/' . $carrierCode,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storeId
+                );
                 if (!$carrierConfig) {
                     continue;
                 }

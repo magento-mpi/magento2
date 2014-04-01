@@ -7,8 +7,13 @@
  */
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Config\MutableScopeConfigInterface')
-    ->setValue('carriers/flatrate/active', 1, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\App\Config\MutableScopeConfigInterface'
+)->setValue(
+    'carriers/flatrate/active',
+    1,
+    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+);
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->setTypeId(

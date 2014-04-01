@@ -95,15 +95,23 @@ class Observer
     public function scheduledUpdateCurrencyRates($schedule)
     {
         $importWarnings = array();
-        if (!$this->_storeConfig->getValue(self::IMPORT_ENABLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            || !$this->_storeConfig->getValue(self::CRON_STRING_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+        if (!$this->_storeConfig->getValue(
+            self::IMPORT_ENABLE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) || !$this->_storeConfig->getValue(
+            self::CRON_STRING_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
         ) {
             return;
         }
 
         $errors = array();
         $rates = array();
-        $service = $this->_storeConfig->getValue(self::IMPORT_SERVICE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $service = $this->_storeConfig->getValue(
+            self::IMPORT_SERVICE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if ($service) {
             try {
                 $importModel = $this->_importFactory->create($service);
@@ -128,15 +136,28 @@ class Observer
             $this->inlineTranslation->suspend();
 
             $this->_transportBuilder->setTemplateIdentifier(
-                    $this->_storeConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_TEMPLATE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
-                ->setTemplateOptions(array(
+            )->setTemplateOptions(
+                array(
                     'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $this->_storeManager->getStore()->getId(),
-                ))
-                ->setTemplateVars(array('warnings' => join("\n", $importWarnings)))
-                ->setFrom($this->_storeConfig->getValue(self::XML_PATH_ERROR_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                ->addTo($this->_storeConfig->getValue(self::XML_PATH_ERROR_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+                    'store' => $this->_storeManager->getStore()->getId()
+                )
+            )->setTemplateVars(
+                array('warnings' => join("\n", $importWarnings))
+            )->setFrom(
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_IDENTITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )->addTo(
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_RECIPIENT,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            );
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
 

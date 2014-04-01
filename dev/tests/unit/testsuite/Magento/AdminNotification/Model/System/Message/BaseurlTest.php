@@ -51,8 +51,12 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $this->_urlBuilderMock = $this->getMock('Magento\UrlInterface');
 
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $configFactoryMock = $this->getMock('Magento\Core\Model\Config\ValueFactory', array('create'),
-            array(), '', false
+        $configFactoryMock = $this->getMock(
+            'Magento\Core\Model\Config\ValueFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
         $this->_configDataMock = $this->getMock(
             'Magento\Core\Model\Config\Value',
@@ -108,12 +112,18 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
     public function testgetValueUrlWithDefaultUnsecureAndSecureBaseUrl()
     {
         $map = array(
-            array(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL, 'default', null,
+            array(
+                \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
+                'default',
+                null,
                 \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
             ),
-            array(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL, 'default', null,
+            array(
+                \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL,
+                'default',
+                null,
                 \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
-            ),
+            )
         );
         $this->_configMock->expects($this->exactly(2))->method('getValue')->will($this->returnValueMap($map));
         $this->_urlBuilderMock->expects(
@@ -154,8 +164,15 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $this->_configDataMock->expects($this->once())->method('getScopeId')->will($this->returnValue(1));
 
         $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock->expects($this->once())->method($storeMethod)
-            ->with(1)->will($this->returnValue($storeMock));
+        $this->_storeManagerMock->expects(
+            $this->once()
+        )->method(
+            $storeMethod
+        )->with(
+            1
+        )->will(
+            $this->returnValue($storeMock)
+        );
         $storeMock->expects($this->once())->method('getCode')->will($this->returnValue('some_code'));
 
         $this->_configDataMock->expects($this->any())->method('getScope')->will($this->returnValue($scope));
@@ -183,24 +200,39 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
 
     public function testIsDisplayedWithEmptyConfigUrl()
     {
-        $this->_configMock->expects($this->any())->method('getValue')
-            ->will($this->returnValue(\Magento\Store\Model\Store::BASE_URL_PLACEHOLDER));
+        $this->_configMock->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnValue(\Magento\Store\Model\Store::BASE_URL_PLACEHOLDER)
+        );
         $this->_urlBuilderMock->expects($this->once())->method('getUrl')->will($this->returnValue(''));
         $this->assertFalse($this->_model->isDisplayed());
     }
 
     public function testIsDisplayedWithNotEmptyConfigUrl()
     {
-        $this->_configMock->expects($this->any())->method('getValue')
-            ->will($this->returnValue(\Magento\Store\Model\Store::BASE_URL_PLACEHOLDER));
+        $this->_configMock->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnValue(\Magento\Store\Model\Store::BASE_URL_PLACEHOLDER)
+        );
         $this->_urlBuilderMock->expects($this->once())->method('getUrl')->will($this->returnValue('http://some_url'));
         $this->assertTrue($this->_model->isDisplayed());
     }
 
     public function testGetIdentity()
     {
-        $this->_configMock->expects($this->any())->method('getValue')
-            ->will($this->returnValue(\Magento\Store\Model\Store::BASE_URL_PLACEHOLDER));
+        $this->_configMock->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnValue(\Magento\Store\Model\Store::BASE_URL_PLACEHOLDER)
+        );
         $this->_urlBuilderMock->expects($this->once())->method('getUrl')->will($this->returnValue('some_url'));
         $this->assertEquals(md5('BASE_URLsome_url'), $this->_model->getIdentity());
     }

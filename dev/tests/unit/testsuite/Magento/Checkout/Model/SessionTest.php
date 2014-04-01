@@ -11,6 +11,7 @@
  */
 namespace Magento\Checkout\Model;
 
+
 include __DIR__ . '/../_files/session.php';
 class SessionTest extends \PHPUnit_Framework_TestCase
 {

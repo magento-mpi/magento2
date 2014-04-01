@@ -70,48 +70,83 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'wishlist_item'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('wishlist_item'))
-    ->addColumn('wishlist_item_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Wishlist item ID')
-    ->addColumn('wishlist_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Wishlist ID')
-    ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Product ID')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => true,
-        ), 'Store ID')
-    ->addColumn('added_at', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
-        ), 'Add date and time')
-    ->addColumn('description', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
-        ), 'Short description of wish list item')
-    ->addColumn('qty', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        ), 'Qty')
-    ->addIndex($installer->getIdxName('wishlist_item', 'wishlist_id'), 'wishlist_id')
-    ->addForeignKey($installer->getFkName('wishlist_item', 'wishlist_id', 'wishlist', 'wishlist_id'),
-        'wishlist_id', $installer->getTable('wishlist'), 'wishlist_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('wishlist_item', 'product_id'), 'product_id')
-    ->addForeignKey($installer->getFkName('wishlist_item', 'product_id', 'catalog_product_entity', 'entity_id'),
-        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('wishlist_item', 'store_id'), 'store_id')
-    ->addForeignKey($installer->getFkName('wishlist_item', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Wishlist items');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('wishlist_item')
+)->addColumn(
+    'wishlist_item_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Wishlist item ID'
+)->addColumn(
+    'wishlist_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Wishlist ID'
+)->addColumn(
+    'product_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Product ID'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => true),
+    'Store ID'
+)->addColumn(
+    'added_at',
+    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array(),
+    'Add date and time'
+)->addColumn(
+    'description',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    '64k',
+    array(),
+    'Short description of wish list item'
+)->addColumn(
+    'qty',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false),
+    'Qty'
+)->addIndex(
+    $installer->getIdxName('wishlist_item', 'wishlist_id'),
+    'wishlist_id'
+)->addForeignKey(
+    $installer->getFkName('wishlist_item', 'wishlist_id', 'wishlist', 'wishlist_id'),
+    'wishlist_id',
+    $installer->getTable('wishlist'),
+    'wishlist_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addIndex(
+    $installer->getIdxName('wishlist_item', 'product_id'),
+    'product_id'
+)->addForeignKey(
+    $installer->getFkName('wishlist_item', 'product_id', 'catalog_product_entity', 'entity_id'),
+    'product_id',
+    $installer->getTable('catalog_product_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addIndex(
+    $installer->getIdxName('wishlist_item', 'store_id'),
+    'store_id'
+)->addForeignKey(
+    $installer->getFkName('wishlist_item', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Wishlist items'
+);
 $installer->getConnection()->createTable($table);
 
 /**

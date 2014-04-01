@@ -201,7 +201,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->isSetFlag(Rma::XML_PATH_ENABLED,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->isSetFlag(Rma::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -305,13 +305,22 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getReturnContactName($storeId = null)
     {
         $contactName = new \Magento\Object();
-        if ($this->_storeConfig->isSetFlag(Rma::XML_PATH_USE_STORE_ADDRESS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)) {
+        if ($this->_storeConfig->isSetFlag(
+            Rma::XML_PATH_USE_STORE_ADDRESS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        )
+        ) {
             $admin = $this->_authSession->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());
         } else {
-            $name = $this->_storeConfig->getValue(Shipping::XML_PATH_CONTACT_NAME, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+            $name = $this->_storeConfig->getValue(
+                Shipping::XML_PATH_CONTACT_NAME,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
             $contactName->setFirstName('');
             $contactName->setLastName($name);
             $contactName->setName($name);
@@ -347,35 +356,76 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $store = $this->_storeManager->getStore();
         }
 
-        if ($this->_storeConfig->isSetFlag(Rma::XML_PATH_USE_STORE_ADDRESS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)) {
+        if ($this->_storeConfig->isSetFlag(
+            Rma::XML_PATH_USE_STORE_ADDRESS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        )
+        ) {
             $data = array(
-                'city' => $this->_storeConfig
-                    ->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'countryId' => $this->_storeConfig
-                    ->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'postcode' => $this->_storeConfig
-                    ->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'region_id' => $this->_storeConfig
-                    ->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'street2' => $this->_storeConfig
-                    ->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'street1' => $this->_storeConfig
-                    ->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
+                'city' => $this->_storeConfig->getValue(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'countryId' => $this->_storeConfig->getValue(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'postcode' => $this->_storeConfig->getValue(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'region_id' => $this->_storeConfig->getValue(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'street2' => $this->_storeConfig->getValue(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'street1' => $this->_storeConfig->getValue(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                )
             );
         } else {
             $data = array(
-                'city' => $this->_storeConfig
-                    ->getValue(Shipping::XML_PATH_CITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'countryId' => $this->_storeConfig
-                    ->getValue(Shipping::XML_PATH_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'postcode' => $this->_storeConfig
-                    ->getValue(Shipping::XML_PATH_ZIP, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'region_id' => $this->_storeConfig
-                    ->getValue(Shipping::XML_PATH_REGION_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'street2' => $this->_storeConfig
-                    ->getValue(Shipping::XML_PATH_ADDRESS2, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
-                'street1' => $this->_storeConfig
-                    ->getValue(Shipping::XML_PATH_ADDRESS1, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store),
+                'city' => $this->_storeConfig->getValue(
+                    Shipping::XML_PATH_CITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'countryId' => $this->_storeConfig->getValue(
+                    Shipping::XML_PATH_COUNTRY_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'postcode' => $this->_storeConfig->getValue(
+                    Shipping::XML_PATH_ZIP,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'region_id' => $this->_storeConfig->getValue(
+                    Shipping::XML_PATH_REGION_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'street2' => $this->_storeConfig->getValue(
+                    Shipping::XML_PATH_ADDRESS2,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'street1' => $this->_storeConfig->getValue(
+                    Shipping::XML_PATH_ADDRESS1,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                )
             );
         }
 
@@ -385,8 +435,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $region = $this->_regionFactory->create()->load($data['region_id']);
         $data['region_id'] = $region->getCode();
         $data['region'] = $region->getName();
-        $data['company'] = $this->_storeConfig->getValue(\Magento\Store\Model\Store::XML_PATH_STORE_STORE_NAME, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-        $data['telephone']  = $this->_storeConfig->getValue(\Magento\Store\Model\Store::XML_PATH_STORE_STORE_PHONE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $data['company'] = $this->_storeConfig->getValue(
+            \Magento\Store\Model\Store::XML_PATH_STORE_STORE_NAME,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $data['telephone'] = $this->_storeConfig->getValue(
+            \Magento\Store\Model\Store::XML_PATH_STORE_STORE_PHONE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
 
         return $data;
     }
@@ -553,8 +611,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 return true;
             case \Magento\Rma\Model\Product\Source::ATTRIBUTE_ENABLE_RMA_NO:
                 return false;
-            default: //Use config and NULL
-                return $this->_storeConfig->getValue(\Magento\Rma\Model\Product\Source::XML_PATH_PRODUCTS_ALLOWED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+            default:
+                //Use config and NULL
+                return $this->_storeConfig->getValue(
+                    \Magento\Rma\Model\Product\Source::XML_PATH_PRODUCTS_ALLOWED,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storeId
+                );
         }
     }
 

@@ -486,9 +486,10 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if (isset($data['page_size'])) {
             $this->_pageSize = $data['page_size'];
         } else {
-            $this->_pageSize = self::XML_PATH_PAGE_SIZE
-                ? (int) $this->_storeConfig->getValue(self::XML_PATH_PAGE_SIZE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-                : 0;
+            $this->_pageSize = self::XML_PATH_PAGE_SIZE ? (int)$this->_storeConfig->getValue(
+                self::XML_PATH_PAGE_SIZE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ) : 0;
         }
         return $this;
     }
@@ -1184,20 +1185,17 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
                 // ensure default title is set
                 if (!isset($typeTitles[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID])) {
-                    $typeTitles[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID]
-                        = $specificTypeData['title'];
+                    $typeTitles[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID] = $specificTypeData['title'];
                 }
                 $typeTitles[$nextValueId][$this->_rowStoreId] = $specificTypeData['title'];
 
                 if ($specificTypeData['price']) {
                     if ($this->_isPriceGlobal) {
-                        $typePrices[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID]
-                            = $specificTypeData['price'];
+                        $typePrices[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID] = $specificTypeData['price'];
                     } else {
                         // ensure default price is set
                         if (!isset($typePrices[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID])) {
-                            $typePrices[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID]
-                                = $specificTypeData['price'];
+                            $typePrices[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID] = $specificTypeData['price'];
                         }
                         $typePrices[$nextValueId][$this->_rowStoreId] = $specificTypeData['price'];
                     }
@@ -1398,8 +1396,8 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         ) > 0
         ) {
             $priceData = array(
-                'option_id'  => $optionId,
-                'store_id'   => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+                'option_id' => $optionId,
+                'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
                 'price_type' => 'fixed'
             );
 

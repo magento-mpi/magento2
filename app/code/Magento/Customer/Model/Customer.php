@@ -738,7 +738,11 @@ class Customer extends \Magento\Model\AbstractModel
         }
         $storeId = $this->getStoreId() ? $this->getStoreId() : null;
 
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_IS_CONFIRM, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return (bool)$this->_storeConfig->getValue(
+            self::XML_PATH_IS_CONFIRM,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -780,16 +784,18 @@ class Customer extends \Magento\Model\AbstractModel
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
         /** @var \Magento\Mail\TransportInterface $transport */
-        $transport =  $this->_transportBuilder
-            ->setTemplateIdentifier($this->_storeConfig->getValue($template, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId))
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $storeId
-            ))
-            ->setTemplateVars($templateParams)
-            ->setFrom($this->_storeConfig->getValue($sender, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId))
-            ->addTo($this->getEmail(), $this->getName())
-            ->getTransport();
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $this->_storeConfig->getValue($template, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+        )->setTemplateVars(
+            $templateParams
+        )->setFrom(
+            $this->_storeConfig->getValue($sender, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
+        )->addTo(
+            $this->getEmail(),
+            $this->getName()
+        )->getTransport();
         $transport->sendMessage();
 
         return $this;
@@ -830,18 +836,26 @@ class Customer extends \Magento\Model\AbstractModel
         }
 
         /** @var \Magento\Mail\TransportInterface $transport */
-        $transport =  $this->_transportBuilder
-            ->setTemplateIdentifier(
-                $this->_storeConfig->getValue(self::XML_PATH_RESET_PASSWORD_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $this->_storeConfig->getValue(
+                self::XML_PATH_RESET_PASSWORD_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
             )
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $storeId
-            ))
-            ->setTemplateVars(array('customer' => $this, 'store' => $this->getStore()))
-            ->setFrom($this->_storeConfig->getValue(self::XML_PATH_FORGOT_EMAIL_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId))
-            ->addTo($this->getEmail(), $this->getName())
-            ->getTransport();
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+        )->setTemplateVars(
+            array('customer' => $this, 'store' => $this->getStore())
+        )->setFrom(
+            $this->_storeConfig->getValue(
+                self::XML_PATH_FORGOT_EMAIL_IDENTITY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
+        )->addTo(
+            $this->getEmail(),
+            $this->getName()
+        )->getTransport();
         $transport->sendMessage();
 
         return $this;

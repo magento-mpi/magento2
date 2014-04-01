@@ -27,24 +27,30 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
     public function testLoadByRequestPath()
     {
         $this->_model->setStoreId(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
-            )
-            ->setRequestPath('fancy/url.html')
-            ->setTargetPath('catalog/product/view')
-            ->setIsSystem(1)
-            ->setOptions('RP')
-            ->save();
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getDefaultStoreView()->getId()
+        )->setRequestPath(
+            'fancy/url.html'
+        )->setTargetPath(
+            'catalog/product/view'
+        )->setIsSystem(
+            1
+        )->setOptions(
+            'RP'
+        )->save();
 
         try {
             $read = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Core\Model\Url\Rewrite'
             );
             $read->setStoreId(
-                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-                        get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
-                )
-                ->loadByRequestPath('fancy/url.html');
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Store\Model\StoreManagerInterface'
+                )->getDefaultStoreView()->getId()
+            )->loadByRequestPath(
+                'fancy/url.html'
+            );
 
             $this->assertEquals($this->_model->getStoreId(), $read->getStoreId());
             $this->assertEquals($this->_model->getRequestPath(), $read->getRequestPath());
@@ -61,25 +67,32 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
     public function testLoadByIdPath()
     {
         $this->_model->setStoreId(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
-            )
-            ->setRequestPath('product1.html')
-            ->setTargetPath('catalog/product/view/id/1')
-            ->setIdPath('product/1')
-            ->setIsSystem(1)
-            ->setOptions('RP')
-            ->save();
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getDefaultStoreView()->getId()
+        )->setRequestPath(
+            'product1.html'
+        )->setTargetPath(
+            'catalog/product/view/id/1'
+        )->setIdPath(
+            'product/1'
+        )->setIsSystem(
+            1
+        )->setOptions(
+            'RP'
+        )->save();
 
         try {
             $read = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Core\Model\Url\Rewrite'
             );
             $read->setStoreId(
-                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                        ->get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
-                )
-                ->loadByIdPath('product/1');
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Store\Model\StoreManagerInterface'
+                )->getDefaultStoreView()->getId()
+            )->loadByIdPath(
+                'product/1'
+            );
             $this->assertEquals($this->_model->getStoreId(), $read->getStoreId());
             $this->assertEquals($this->_model->getRequestPath(), $read->getRequestPath());
             $this->assertEquals($this->_model->getTargetPath(), $read->getTargetPath());
@@ -142,10 +155,10 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
 
     public function testRewriteNonExistingRecordCorrectStore()
     {
-        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\RequestInterface');
-        $_GET['___from_store'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView()->getCode();
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\RequestInterface');
+        $_GET['___from_store'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getDefaultStoreView()->getCode();
         $this->assertFalse($this->_model->rewrite($request));
     }
 
@@ -158,14 +171,18 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
     public function testCRUD()
     {
         $this->_model->setStoreId(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
-            )
-            ->setRequestPath('fancy/url.html')
-            ->setTargetPath('catalog/product/view')
-            ->setIsSystem(1)
-            ->setOptions('RP')
-        ;
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getDefaultStoreView()->getId()
+        )->setRequestPath(
+            'fancy/url.html'
+        )->setTargetPath(
+            'catalog/product/view'
+        )->setIsSystem(
+            1
+        )->setOptions(
+            'RP'
+        );
         $crud = new \Magento\TestFramework\Entity($this->_model, array('request_path' => 'fancy/url2.html'));
         $crud->testCrud();
     }

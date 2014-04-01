@@ -83,12 +83,21 @@ class Option extends \Magento\Model\Resource\Db\AbstractDb
         $attributeTable = $attribute->getBackend()->getTable();
         $attributeCode = $attribute->getAttributeCode();
 
-        $joinConditionTemplate = "%s.entity_id = %s.entity_id"
-            . " AND %s.entity_type_id = " . $attribute->getEntityTypeId()
-            . " AND %s.attribute_id = " . $attribute->getId()
-            . " AND %s.store_id = %d";
-        $joinCondition = sprintf($joinConditionTemplate, 'e', 't1', 't1', 't1', 't1',
-            \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+        $joinConditionTemplate = "%s.entity_id = %s.entity_id" .
+            " AND %s.entity_type_id = " .
+            $attribute->getEntityTypeId() .
+            " AND %s.attribute_id = " .
+            $attribute->getId() .
+            " AND %s.store_id = %d";
+        $joinCondition = sprintf(
+            $joinConditionTemplate,
+            'e',
+            't1',
+            't1',
+            't1',
+            't1',
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        );
         if ($attribute->getFlatAddChildData()) {
             $joinCondition .= ' AND e.child_id = t1.entity_id';
         }

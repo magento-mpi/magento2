@@ -190,7 +190,8 @@ class Observer
                 continue;
             }
             if (!$this->_storeConfig->getValue(
-                self::XML_PATH_PRICE_ALLOW, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                self::XML_PATH_PRICE_ALLOW,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
             )
             ) {
@@ -277,7 +278,8 @@ class Observer
                 continue;
             }
             if (!$this->_storeConfig->getValue(
-                self::XML_PATH_STOCK_ALLOW, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                self::XML_PATH_STOCK_ALLOW,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
             )
             ) {
@@ -358,22 +360,39 @@ class Observer
     protected function _sendErrorEmail()
     {
         if (count($this->_errors)) {
-            if (!$this->_storeConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+            if (!$this->_storeConfig->getValue(
+                self::XML_PATH_ERROR_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+            ) {
                 return $this;
             }
 
             $this->inlineTranslation->suspend();
 
-            $transport = $this->_transportBuilder
-                ->setTemplateIdentifier($this->_storeConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                ->setTemplateOptions(array(
-                    'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_TEMPLATE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )->setTemplateOptions(
+                array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId()
-                ))
-                ->setTemplateVars(array('warnings' => join("\n", $this->_errors)))
-                ->setFrom($this->_storeConfig->getValue(self::XML_PATH_ERROR_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                ->addTo($this->_storeConfig->getValue(self::XML_PATH_ERROR_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                ->getTransport();
+                )
+            )->setTemplateVars(
+                array('warnings' => join("\n", $this->_errors))
+            )->setFrom(
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_IDENTITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )->addTo(
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_RECIPIENT,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )->getTransport();
 
             $transport->sendMessage();
 

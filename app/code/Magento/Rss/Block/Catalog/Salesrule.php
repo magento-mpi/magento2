@@ -66,10 +66,10 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
         $storeModel = $this->_storeManager->getStore($storeId);
         $websiteId = $storeModel->getWebsiteId();
         $customerGroup = $this->_getCustomerGroupId();
-        $now           = date('Y-m-d');
-        $url           = $this->_urlBuilder->getUrl('');
-        $newUrl        = $this->_urlBuilder->getUrl('rss/catalog/salesrule');
-        $title         = __('%1 - Discounts and Coupons', $storeModel->getName());
+        $now = date('Y-m-d');
+        $url = $this->_urlBuilder->getUrl('');
+        $newUrl = $this->_urlBuilder->getUrl('rss/catalog/salesrule');
+        $title = __('%1 - Discounts and Coupons', $storeModel->getName());
         $lang = $this->_storeConfig->getValue(
             'general/locale/code',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -110,9 +110,9 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
                 $ruleModel->getDescription() .
                 '<br/>Discount Start Date: ' .
                 $this->formatDate(
-                    $ruleModel->getFromDate(),
-                    'medium'
-                );
+                $ruleModel->getFromDate(),
+                'medium'
+            );
             if ($ruleModel->getToDate()) {
                 $description .= '<br/>Discount End Date: ' . $this->formatDate($ruleModel->getToDate(), 'medium');
             }

@@ -21,12 +21,16 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     public function testGetScopeValue($isSingleStore, $scope, $expectedResult)
     {
 
-        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $storeManagerMock->expects($this->any())
-            ->method('isSingleStoreMode')
-            ->will($this->returnValue($isSingleStore));
+        $storeManagerMock = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManager'
+        )->disableOriginalConstructor()->getMock();
+        $storeManagerMock->expects(
+            $this->any()
+        )->method(
+            'isSingleStoreMode'
+        )->will(
+            $this->returnValue($isSingleStore)
+        );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $block = $objectManagerHelper->getObject(

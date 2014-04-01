@@ -69,26 +69,40 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'cms_block_store'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('cms_block_store'))
-    ->addColumn('block_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Block ID')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Store ID')
-    ->addIndex($installer->getIdxName('cms_block_store', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('cms_block_store', 'block_id', 'cms_block', 'block_id'),
-        'block_id', $installer->getTable('cms_block'), 'block_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('cms_block_store', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('CMS Block To Store Linkage Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('cms_block_store')
+)->addColumn(
+    'block_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'primary' => true),
+    'Block ID'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Store ID'
+)->addIndex(
+    $installer->getIdxName('cms_block_store', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('cms_block_store', 'block_id', 'cms_block', 'block_id'),
+    'block_id',
+    $installer->getTable('cms_block'),
+    'block_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('cms_block_store', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'CMS Block To Store Linkage Table'
+);
 $installer->getConnection()->createTable($table);
 
 /**
@@ -215,26 +229,40 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'cms_page_store'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('cms_page_store'))
-    ->addColumn('page_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Page ID')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Store ID')
-    ->addIndex($installer->getIdxName('cms_page_store', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('cms_page_store', 'page_id', 'cms_page', 'page_id'),
-        'page_id', $installer->getTable('cms_page'), 'page_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('cms_page_store', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('CMS Page To Store Linkage Table');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('cms_page_store')
+)->addColumn(
+    'page_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'primary' => true),
+    'Page ID'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Store ID'
+)->addIndex(
+    $installer->getIdxName('cms_page_store', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('cms_page_store', 'page_id', 'cms_page', 'page_id'),
+    'page_id',
+    $installer->getTable('cms_page'),
+    'page_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('cms_page_store', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'CMS Page To Store Linkage Table'
+);
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

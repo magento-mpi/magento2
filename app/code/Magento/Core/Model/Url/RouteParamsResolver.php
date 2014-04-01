@@ -109,8 +109,11 @@ class RouteParamsResolver extends \Magento\Object implements \Magento\Url\RouteP
         }
 
         if (isset($data['_scope_to_url']) && (bool)$data['_scope_to_url'] === true) {
-            if (!$this->_storeConfig->getValue(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getScope())
-                && !$this->_storeManager->hasSingleStore()
+            if (!$this->_storeConfig->getValue(
+                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $this->getScope()
+            ) && !$this->_storeManager->hasSingleStore()
             ) {
                 $this->_queryParamsResolver->setQueryParam('___store', $this->getScope()->getCode());
             }

@@ -38,30 +38,35 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         )->getMock();
         $this->_payment->expects($this->once())->method('setStore')->will($this->returnValue($this->_payment));
 
-        $registry = $this->getMockBuilder('Magento\Registry')
-            ->disableOriginalConstructor()
-            ->setMethods(array('registry'))
-            ->getMock();
-        $registry->expects($this->once())
-            ->method('registry')
-            ->with('current_recurring_payment')
-            ->will($this->returnValue($this->_payment));
+        $registry = $this->getMockBuilder(
+            'Magento\Registry'
+        )->disableOriginalConstructor()->setMethods(
+            array('registry')
+        )->getMock();
+        $registry->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'current_recurring_payment'
+        )->will(
+            $this->returnValue($this->_payment)
+        );
 
-        $store = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
 
-        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getStore'))
-            ->getMock();
-        $storeManager->expects($this->once())->method('getStore')
-            ->will($this->returnValue($store));
+        $storeManager = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManager'
+        )->disableOriginalConstructor()->setMethods(
+            array('getStore')
+        )->getMock();
+        $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
-        $this->_addressFactory = $this->getMockBuilder('Magento\Sales\Model\Order\AddressFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('create'))
-            ->getMock();
+        $this->_addressFactory = $this->getMockBuilder(
+            'Magento\Sales\Model\Order\AddressFactory'
+        )->disableOriginalConstructor()->setMethods(
+            array('create')
+        )->getMock();
 
         $this->_block = $objectManager->getObject(
             'Magento\RecurringPayment\Block\Payment\View\Address',

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogSearch\Model;
 
 use Magento\Catalog\Model\CategoryFactory;
@@ -101,8 +100,17 @@ class Layer extends ModelLayer
         $this->_catalogConfig = $catalogConfig;
         $this->_storeManager = $storeManager;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($layerStateFactory, $categoryFactory, $attributeCollectionFactory, $catalogProduct,
-            $storeManager, $catalogProductVisibility, $catalogConfig, $customerSession, $coreRegistry);
+        parent::__construct(
+            $layerStateFactory,
+            $categoryFactory,
+            $attributeCollectionFactory,
+            $catalogProduct,
+            $storeManager,
+            $catalogProductVisibility,
+            $catalogConfig,
+            $customerSession,
+            $coreRegistry
+        );
     }
 
     /**
@@ -130,16 +138,15 @@ class Layer extends ModelLayer
      */
     public function prepareProductCollection($collection)
     {
-        $collection
-            ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
-            ->addSearchFilter($this->_catalogSearchData->getQuery()->getQueryText())
-            ->setStore($this->_storeManager->getStore())
-            ->addMinimalPrice()
-            ->addFinalPrice()
-            ->addTaxPercents()
-            ->addStoreFilter()
-            ->addUrlRewrite()
-            ->setVisibility($this->_catalogProductVisibility->getVisibleInSearchIds());
+        $collection->addAttributeToSelect(
+            $this->_catalogConfig->getProductAttributes()
+        )->addSearchFilter(
+            $this->_catalogSearchData->getQuery()->getQueryText()
+        )->setStore(
+            $this->_storeManager->getStore()
+        )->addMinimalPrice()->addFinalPrice()->addTaxPercents()->addStoreFilter()->addUrlRewrite()->setVisibility(
+            $this->_catalogProductVisibility->getVisibleInSearchIds()
+        );
 
         return $this;
     }
@@ -152,8 +159,7 @@ class Layer extends ModelLayer
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'Q_' . $this->_catalogSearchData->getQuery()->getId()
-                . '_'. parent::getStateKey();
+            $this->_stateKey = 'Q_' . $this->_catalogSearchData->getQuery()->getId() . '_' . parent::getStateKey();
         }
         return $this->_stateKey;
     }
@@ -179,8 +185,7 @@ class Layer extends ModelLayer
      */
     protected function _prepareAttributeCollection($collection)
     {
-        $collection->addIsFilterableInSearchFilter()
-            ->addVisibleFilter();
+        $collection->addIsFilterableInSearchFilter()->addVisibleFilter();
         return $collection;
     }
 

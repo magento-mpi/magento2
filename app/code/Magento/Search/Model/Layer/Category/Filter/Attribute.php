@@ -42,7 +42,14 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
-        \Magento\Catalog\Model\Layer\Filter\Attribute::__construct($filterItemFactory, $storeManager, $layer, $filterAttributeFactory, $string, $data);
+        \Magento\Catalog\Model\Layer\Filter\Attribute::__construct(
+            $filterItemFactory,
+            $storeManager,
+            $layer,
+            $filterAttributeFactory,
+            $string,
+            $data
+        );
     }
 
     /**
@@ -65,8 +72,10 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         foreach ($options as $option) {
             $optionId = $option['value'];
             // Check filter type
-            if ($this->_getIsFilterableAttribute($attribute) != \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS
-                || !empty($optionsFacetedData[$optionId])
+            if ($this->_getIsFilterableAttribute(
+                $attribute
+            ) != \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS ||
+                !empty($optionsFacetedData[$optionId])
             ) {
                 $data[] = array(
                     'label' => $option['label'],

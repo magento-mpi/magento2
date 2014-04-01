@@ -182,14 +182,17 @@ class Product extends \Magento\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->getReadConnection();
         $attribute = $this->_getAttribute($attributeCode);
-        $this->_select
-            ->joinLeft(
-                array('t1_' . $attributeCode => $attribute['table']),
-                'e.entity_id = t1_' . $attributeCode . '.entity_id AND '
-                . $adapter->quoteInto(' t1_' . $attributeCode . '.store_id = ?',
-                    \Magento\Store\Model\Store::DEFAULT_STORE_ID)
-                . $adapter->quoteInto(' AND t1_'.$attributeCode . '.attribute_id = ?', $attribute['attribute_id']),
-                array());
+        $this->_select->joinLeft(
+            array('t1_' . $attributeCode => $attribute['table']),
+            'e.entity_id = t1_' . $attributeCode . '.entity_id AND ' . $adapter->quoteInto(
+                ' t1_' . $attributeCode . '.store_id = ?',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            ) . $adapter->quoteInto(
+                ' AND t1_' . $attributeCode . '.attribute_id = ?',
+                $attribute['attribute_id']
+            ),
+            array()
+        );
 
         if (!$attribute['is_global']) {
             $this->_select->joinLeft(

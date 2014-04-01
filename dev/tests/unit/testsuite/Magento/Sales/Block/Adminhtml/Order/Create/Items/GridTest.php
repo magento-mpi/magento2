@@ -43,10 +43,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
             array('getStore', '__wakeup')
         )->getMock();
 
-        $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__wakeup', 'convertPrice'))
-            ->getMock();
+        $storeMock = $this->getMockBuilder(
+            'Magento\Store\Model\Store'
+        )->disableOriginalConstructor()->setMethods(
+            array('__wakeup', 'convertPrice')
+        )->getMock();
         $storeMock->expects($this->any())->method('convertPrice')->will($this->returnArgument(0));
 
         $quoteMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));

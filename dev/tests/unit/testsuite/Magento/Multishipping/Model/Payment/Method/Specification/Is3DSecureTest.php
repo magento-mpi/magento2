@@ -53,10 +53,20 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
         $method = 'method-name';
         $methodsInfo = array($method => $methodsInfo);
 
-        $this->paymentConfigMock->expects($this->once())->method('getMethodsInfo')
-            ->will($this->returnValue($methodsInfo));
-        $this->storeConfigMock->expects($this->any())->method('isSetFlag')
-            ->will($this->returnValue($is3DSecureEnabled));
+        $this->paymentConfigMock->expects(
+            $this->once()
+        )->method(
+            'getMethodsInfo'
+        )->will(
+            $this->returnValue($methodsInfo)
+        );
+        $this->storeConfigMock->expects(
+            $this->any()
+        )->method(
+            'isSetFlag'
+        )->will(
+            $this->returnValue($is3DSecureEnabled)
+        );
 
         $configSpecification = $this->objectManager->getObject(
             'Magento\Multishipping\Model\Payment\Method\Specification\Is3DSecure',

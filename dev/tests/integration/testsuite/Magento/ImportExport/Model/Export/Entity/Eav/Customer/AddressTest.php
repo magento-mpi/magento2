@@ -36,8 +36,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address'
         );
 
-        $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')->getWebsites(true);
+        $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getWebsites(
+            true
+        );
         /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $this->_websites[$website->getId()] = $website->getCode();
@@ -64,8 +67,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         }
 
         // Get customer default addresses column name to customer attribute mapping array.
-        $defaultAddressMap =
-            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping();
+        $defaultAddressMap = \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping();
 
         $this->_model->setWriter(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

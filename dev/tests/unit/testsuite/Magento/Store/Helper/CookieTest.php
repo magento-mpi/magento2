@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Store\Helper;
 
 class CookieTest extends \PHPUnit_Framework_TestCase
@@ -37,10 +36,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
             $context,
             $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false, false),
             $this->_getConfigStub(),
-            array(
-                'current_store' => $this->_getStoreStub(),
-                'website' => $this->_getWebsiteStub(),
-            )
+            array('current_store' => $this->_getStoreStub(), 'website' => $this->_getWebsiteStub())
         );
         $this->assertTrue($this->_object->isUserNotAllowSaveCookie());
     }
@@ -58,18 +54,20 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->_context->expects($this->once())->method('getRequest')->will($this->returnValue($this->_request));
         $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $storeStub = $this->_getStoreStub();
-        $scopeConfig->expects($this->once())
-            ->method('getValue')
-            ->will($this->returnCallback(array($this, 'getConfigMethodStub')))
-            ->with($this->equalTo('web/cookie/cookie_restriction_lifetime'));
+        $scopeConfig->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnCallback(array($this, 'getConfigMethodStub'))
+        )->with(
+            $this->equalTo('web/cookie/cookie_restriction_lifetime')
+        );
         $this->_object = new \Magento\Store\Helper\Cookie(
             $this->_context,
             $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false, false),
             $scopeConfig,
-            array(
-                'current_store' => $storeStub,
-                'website' => $this->_getWebsiteStub()
-            )
+            array('current_store' => $storeStub, 'website' => $this->_getWebsiteStub())
         );
         $this->assertEquals($this->_object->getCookieRestrictionLifetime(), 60 * 60 * 24 * 365);
     }
@@ -83,10 +81,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
             $this->_context,
             $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false, false),
             $this->_getConfigStub(),
-            array(
-                'current_store' => $this->_getStoreStub(),
-                'website' => $this->_getWebsiteStub(),
-            )
+            array('current_store' => $this->_getStoreStub(), 'website' => $this->_getWebsiteStub())
         );
         return $this;
     }
@@ -109,9 +104,13 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     protected function _getConfigStub()
     {
         $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $scopeConfig->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnCallback(array($this, 'getConfigMethodStub')));
+        $scopeConfig->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnCallback(array($this, 'getConfigMethodStub'))
+        );
 
         return $scopeConfig;
     }

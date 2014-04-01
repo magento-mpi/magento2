@@ -261,9 +261,9 @@ abstract class AbstractModel extends \Magento\Object
         }
         return $this->_resourceCollection ? clone $this
             ->_resourceCollection : \Magento\App\ObjectManager::getInstance()
-                ->create(
-                    $this->_collectionName
-                );
+            ->create(
+            $this->_collectionName
+        );
     }
 
     /**

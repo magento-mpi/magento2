@@ -25,10 +25,11 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_storeManager = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
-            ->setMethods(array('getStore'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_storeManager = $this->getMockBuilder(
+            '\Magento\Store\Model\StoreManager'
+        )->setMethods(
+            array('getStore')
+        )->disableOriginalConstructor()->getMock();
         $context = $helper->getObject(
             'Magento\View\Element\Template\Context',
             array('storeManager' => $this->_storeManager)
@@ -97,12 +98,8 @@ class InfoTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getStoreMock($storeCode)
     {
-        $storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $storeMock->expects($this->any())
-            ->method('getCode')
-            ->will($this->returnValue($storeCode));
+        $storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
+        $storeMock->expects($this->any())->method('getCode')->will($this->returnValue($storeCode));
         return $storeMock;
     }
 }

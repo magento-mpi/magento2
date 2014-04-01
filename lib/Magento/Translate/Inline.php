@@ -121,8 +121,7 @@ class Inline implements \Magento\Translate\InlineInterface
             if (!$scope instanceof \Magento\App\ScopeInterface) {
                 $scope = $this->_scopeResolver->getScope($scope);
             }
-            $this->isAllowed = $this->config->isActive($scope)
-                && $this->config->isDevAllowed($scope);
+            $this->isAllowed = $this->config->isActive($scope) && $this->config->isDevAllowed($scope);
         }
         return $this->state->isEnabled() && $this->isAllowed;
     }
@@ -227,7 +226,7 @@ class Inline implements \Magento\Translate\InlineInterface
     {
         return $this->url->getUrl(
             $this->translatorRoute,
-            ['_secure' => $this->scopeResolver->getScope()->isCurrentlySecure()]
+            array('_secure' => $this->scopeResolver->getScope()->isCurrentlySecure())
         );
     }
 
@@ -243,8 +242,10 @@ class Inline implements \Magento\Translate\InlineInterface
             foreach ($body as &$part) {
                 $this->stripInlineTranslations($part);
             }
-        } else if (is_string($body)) {
-            $body = preg_replace('#' . \Magento\Translate\Inline\ParserInterface::REGEXP_TOKEN . '#', '$1', $body);
+        } else {
+            if (is_string($body)) {
+                $body = preg_replace('#' . \Magento\Translate\Inline\ParserInterface::REGEXP_TOKEN . '#', '$1', $body);
+            }
         }
         return $this;
     }

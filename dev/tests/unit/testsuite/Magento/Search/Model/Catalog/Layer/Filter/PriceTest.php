@@ -67,18 +67,30 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManager =
-            $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
-        $this->_storeManager->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $this->_storeManager = $this->getMock(
+            '\Magento\Store\Model\StoreManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->_storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
-        $this->_productCollection = $this->getMock('\Magento\Search\Model\Resource\Collection', array(), array(), '',
-            false);
+        $this->_productCollection = $this->getMock(
+            '\Magento\Search\Model\Resource\Collection',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer\Category', array(), array(), '', false);
-        $this->_layer->expects($this->any())
-            ->method('getProductCollection')
-            ->will($this->returnValue($this->_productCollection));
+        $this->_layer->expects(
+            $this->any()
+        )->method(
+            'getProductCollection'
+        )->will(
+            $this->returnValue($this->_productCollection)
+        );
 
         $this->_priceFactory = $this->getMock(
             '\Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory',
@@ -94,9 +106,13 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_priceFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_priceFilterItem));
+        $this->_priceFactory->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_priceFilterItem)
+        );
 
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 
@@ -136,13 +152,16 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFacetConditionImprovedAndCached()
     {
-        $this->_scopeConfig->expects($this->once())
-            ->method('getValue')
-            ->with(
-                \Magento\Search\Model\Catalog\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            )
-            ->will($this->returnValue(\Magento\Search\Model\Catalog\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED));
+        $this->_scopeConfig->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            \Magento\Search\Model\Catalog\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )->will(
+            $this->returnValue(\Magento\Search\Model\Catalog\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED)
+        );
 
         $separators = '*-9,9-19';
         $this->_cache->expects($this->once())->method('load')->will($this->returnValue($separators));

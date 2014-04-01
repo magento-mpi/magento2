@@ -215,11 +215,13 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
                 self::$_methodLevelFixtures[$fixturesNamespace] = array();
             }
             self::$_methodLevelFixtures[$fixturesNamespace][] = $key;
-        } else if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
-            if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
-                self::$_classLevelFixtures[$fixturesNamespace] = array();
+        } else {
+            if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
+                if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
+                    self::$_classLevelFixtures[$fixturesNamespace] = array();
+                }
+                self::$_classLevelFixtures[$fixturesNamespace][] = $key;
             }
-            self::$_classLevelFixtures[$fixturesNamespace][] = $key;
         }
     }
 
@@ -481,8 +483,12 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         $config->setSection($section)->setGroups($data)->save();
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
-            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento\App\Config\ScopeConfigInterface')
-                ->getNode($path, 'default');
+            $this->_origConfigValues[$path] = (string)$objectManager->get(
+                'Magento\App\Config\ScopeConfigInterface'
+            )->getNode(
+                $path,
+                'default'
+            );
         }
 
         //refresh local cache

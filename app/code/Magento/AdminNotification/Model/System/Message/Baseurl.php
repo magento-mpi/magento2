@@ -55,18 +55,12 @@ class Baseurl implements \Magento\AdminNotification\Model\System\MessageInterfac
     protected function _getConfigUrl()
     {
         $output = '';
-        $defaultUnsecure = $this->_config->getValue(
-            \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
-            'default'
-        );
+        $defaultUnsecure = $this->_config->getValue(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL, 'default');
 
-        $defaultSecure = $this->_config->getValue(
-            \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL,
-            'default'
-        );
+        $defaultSecure = $this->_config->getValue(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL, 'default');
 
-        if ($defaultSecure == \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
-            || $defaultUnsecure == \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
+        if ($defaultSecure == \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER ||
+            $defaultUnsecure == \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
         ) {
             $output = $this->_urlBuilder->getUrl('adminhtml/system_config/edit', array('section' => 'web'));
         } else {

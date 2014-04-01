@@ -7,7 +7,7 @@
  */
 namespace Magento\Theme\Block\Html;
 
-use \Magento\Customer\Helper\Data;
+use Magento\Customer\Helper\Data;
 
 /**
  * Html page header block
@@ -35,7 +35,6 @@ class Header extends \Magento\View\Element\Template
      * @var \Magento\App\Http\Context
      */
     protected $httpContext;
-
 
     /**
      * @param \Magento\View\Element\Template\Context $context

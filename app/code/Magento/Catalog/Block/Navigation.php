@@ -115,13 +115,12 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
      */
     protected function _construct()
     {
-        $this->addData(array(
-            'cache_lifetime'    => false,
-            'cache_tags'        => array(
-                Category::CACHE_TAG,
-                \Magento\Store\Model\Group::CACHE_TAG
-            ),
-        ));
+        $this->addData(
+            array(
+                'cache_lifetime' => false,
+                'cache_tags' => array(Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG)
+            )
+        );
     }
 
     /**

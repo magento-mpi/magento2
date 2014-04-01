@@ -231,115 +231,163 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'rating_option_vote_aggregated'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('rating_option_vote_aggregated'))
-    ->addColumn('primary_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Vote aggregation id')
-    ->addColumn('rating_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Rating id')
-    ->addColumn('entity_pk_value', \Magento\DB\Ddl\Table::TYPE_BIGINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Product id')
-    ->addColumn('vote_count', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Vote dty')
-    ->addColumn('vote_value_sum', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'General vote sum')
-    ->addColumn('percent', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Vote percent')
-    ->addColumn('percent_approved', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'default'   => '0',
-        ), 'Vote percent approved by admin')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0
-        ), 'Store Id')
-    ->addIndex($installer->getIdxName('rating_option_vote_aggregated', array('rating_id')),
-        array('rating_id'))
-    ->addIndex($installer->getIdxName('rating_option_vote_aggregated', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('rating_option_vote_aggregated', 'rating_id', 'rating', 'rating_id'),
-        'rating_id', $installer->getTable('rating'), 'rating_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('rating_option_vote_aggregated', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Rating vote aggregated');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('rating_option_vote_aggregated')
+)->addColumn(
+    'primary_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'nullable' => false, 'primary' => true),
+    'Vote aggregation id'
+)->addColumn(
+    'rating_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Rating id'
+)->addColumn(
+    'entity_pk_value',
+    \Magento\DB\Ddl\Table::TYPE_BIGINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Product id'
+)->addColumn(
+    'vote_count',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Vote dty'
+)->addColumn(
+    'vote_value_sum',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'General vote sum'
+)->addColumn(
+    'percent',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => 0),
+    'Vote percent'
+)->addColumn(
+    'percent_approved',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('default' => '0'),
+    'Vote percent approved by admin'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Store Id'
+)->addIndex(
+    $installer->getIdxName('rating_option_vote_aggregated', array('rating_id')),
+    array('rating_id')
+)->addIndex(
+    $installer->getIdxName('rating_option_vote_aggregated', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('rating_option_vote_aggregated', 'rating_id', 'rating', 'rating_id'),
+    'rating_id',
+    $installer->getTable('rating'),
+    'rating_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('rating_option_vote_aggregated', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Rating vote aggregated'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'rating_store'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('rating_store'))
-    ->addColumn('rating_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0,
-        'primary'   => true,
-        ), 'Rating id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0,
-        'primary'   => true
-        ), 'Store id')
-    ->addIndex($installer->getIdxName('rating_store', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('rating_store', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('rating_store', 'rating_id', 'rating', 'rating_id'),
-        'rating_id', $installer->getTable('rating'), 'rating_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_NO_ACTION)
-    ->setComment('Rating Store');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('rating_store')
+)->addColumn(
+    'rating_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0, 'primary' => true),
+    'Rating id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0, 'primary' => true),
+    'Store id'
+)->addIndex(
+    $installer->getIdxName('rating_store', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('rating_store', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('rating_store', 'rating_id', 'rating', 'rating_id'),
+    'rating_id',
+    $installer->getTable('rating'),
+    'rating_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_NO_ACTION
+)->setComment(
+    'Rating Store'
+);
 $installer->getConnection()->createTable($table);
 
 /**
  * Create table 'rating_title'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('rating_title'))
-    ->addColumn('rating_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0,
-        'primary'   => true,
-        ), 'Rating Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => 0,
-        'primary'   => true
-        ), 'Store Id')
-    ->addColumn('value', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => false
-        ), 'Rating Label')
-    ->addIndex($installer->getIdxName('rating_title', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('rating_title', 'rating_id', 'rating', 'rating_id'),
-        'rating_id', $installer->getTable('rating'), 'rating_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('rating_title', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Rating Title');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('rating_title')
+)->addColumn(
+    'rating_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0, 'primary' => true),
+    'Rating Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0, 'primary' => true),
+    'Store Id'
+)->addColumn(
+    'value',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Rating Label'
+)->addIndex(
+    $installer->getIdxName('rating_title', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('rating_title', 'rating_id', 'rating', 'rating_id'),
+    'rating_id',
+    $installer->getTable('rating'),
+    'rating_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('rating_title', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Rating Title'
+);
 $installer->getConnection()->createTable($table);
 
 /**

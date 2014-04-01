@@ -477,21 +477,26 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $ok = false;
         if (!$saveNewlyCreated) {
             $ok = true;
-        } else if ($this->getId()) {
-            for ($attemptNum = 0; $attemptNum < $saveAttemptCount; $attemptNum++) {
-                try {
-                    $coupon->save();
-                } catch (\Exception $e) {
-                    if ($e instanceof \Magento\Model\Exception || $coupon->getId()) {
-                        throw $e;
+        } else {
+            if ($this->getId()) {
+                for ($attemptNum = 0; $attemptNum < $saveAttemptCount; $attemptNum++) {
+                    try {
+                        $coupon->save();
+                    } catch (\Exception $e) {
+                        if ($e instanceof \Magento\Model\Exception || $coupon->getId()) {
+                            throw $e;
+                        }
+                        $coupon->setCode(
+                            $couponCode . self::getCouponCodeGenerator()->getDelimiter() . sprintf(
+                                '%04u',
+                                rand(0, 9999)
+                            )
+                        );
+                        continue;
                     }
-                    $coupon->setCode(
-                        $couponCode . self::getCouponCodeGenerator()->getDelimiter() . sprintf('%04u', rand(0, 9999))
-                    );
-                    continue;
+                    $ok = true;
+                    break;
                 }
-                $ok = true;
-                break;
             }
         }
         if (!$ok) {

@@ -145,7 +145,7 @@ class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Bl
         $dataKeys = array(
             $key . '_' . $this->_getStoreId(),
             $key . '_' . \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-            $key,
+            $key
         );
         foreach ($dataKeys as $value) {
             if ($this->getData($value) !== null) {

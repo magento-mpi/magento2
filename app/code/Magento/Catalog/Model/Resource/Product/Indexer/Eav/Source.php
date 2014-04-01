@@ -121,17 +121,16 @@ class Source extends AbstractEav
         }
 
         /**@var $subSelect \Magento\DB\Select*/
-        $subSelect = $adapter->select()
-            ->from(
-                array('s' => $this->getTable('store')),
-                array('store_id', 'website_id')
-            )
-            ->joinLeft(
-                array('d' => $this->getTable('catalog_product_entity_int')),
-                '1 = 1 AND d.store_id = 0',
-                array('entity_id', 'attribute_id', 'value')
-            )
-            ->where('s.store_id != 0');
+        $subSelect = $adapter->select()->from(
+            array('s' => $this->getTable('store')),
+            array('store_id', 'website_id')
+        )->joinLeft(
+            array('d' => $this->getTable('catalog_product_entity_int')),
+            '1 = 1 AND d.store_id = 0',
+            array('entity_id', 'attribute_id', 'value')
+        )->where(
+            's.store_id != 0'
+        );
 
         if (!is_null($entityIds)) {
             $subSelect->where('d.entity_id IN(?)', $entityIds);
@@ -216,22 +215,27 @@ class Source extends AbstractEav
 
         // prepare get multiselect values query
         $productValueExpression = $adapter->getCheckSql('pvs.value_id > 0', 'pvs.value', 'pvd.value');
-        $select = $adapter->select()
-            ->from(
-                array('pvd' => $this->getTable('catalog_product_entity_varchar')),
-                array('entity_id', 'attribute_id'))
-            ->join(
-                array('cs' => $this->getTable('store')),
-                '',
-                array('store_id'))
-            ->joinLeft(
-                array('pvs' => $this->getTable('catalog_product_entity_varchar')),
-                'pvs.entity_id = pvd.entity_id AND pvs.attribute_id = pvd.attribute_id'
-                    . ' AND pvs.store_id=cs.store_id',
-                array('value' => $productValueExpression))
-            ->where('pvd.store_id=?', \Magento\Store\Model\Store::DEFAULT_STORE_ID)
-            ->where('cs.store_id!=?', \Magento\Store\Model\Store::DEFAULT_STORE_ID)
-            ->where('pvd.attribute_id IN(?)', $attrIds);
+        $select = $adapter->select()->from(
+            array('pvd' => $this->getTable('catalog_product_entity_varchar')),
+            array('entity_id', 'attribute_id')
+        )->join(
+            array('cs' => $this->getTable('store')),
+            '',
+            array('store_id')
+        )->joinLeft(
+            array('pvs' => $this->getTable('catalog_product_entity_varchar')),
+            'pvs.entity_id = pvd.entity_id AND pvs.attribute_id = pvd.attribute_id' . ' AND pvs.store_id=cs.store_id',
+            array('value' => $productValueExpression)
+        )->where(
+            'pvd.store_id=?',
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        )->where(
+            'cs.store_id!=?',
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        )->where(
+            'pvd.attribute_id IN(?)',
+            $attrIds
+        );
 
         $statusCond = $adapter->quoteInto('=?', ProductStatus::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'pvd.entity_id', 'cs.store_id', $statusCond);

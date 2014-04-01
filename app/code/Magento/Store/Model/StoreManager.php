@@ -13,10 +13,12 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      * Application run code
      */
     const PARAM_RUN_CODE = 'MAGE_RUN_CODE';
+
     /**
      * Application run type (store|website)
      */
     const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
+
     /**
      * Store storage factory model
      *

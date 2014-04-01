@@ -23,8 +23,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->reinitStores();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->reinitStores();
     }
 
     /**
@@ -51,8 +52,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         foreach ($websites as $website) {
             $key = $website->getCode() .
                 '_' .
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-                COLUMN_REWARD_POINTS;
+                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
             $rewardPoints = $customer->getData($key);
             $this->assertNotEmpty($rewardPoints);
             $this->assertEquals(
@@ -86,8 +86,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         foreach ($websites as $website) {
             $key = $website->getCode() .
                 '_' .
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-                COLUMN_CUSTOMER_BALANCE;
+                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
             $customerBalance = $customer->getData($key);
             $this->assertNotEmpty($customerBalance);
             $this->assertEquals(

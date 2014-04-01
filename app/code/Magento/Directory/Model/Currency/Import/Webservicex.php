@@ -59,11 +59,18 @@ class Webservicex extends \Magento\Directory\Model\Currency\Import\AbstractImpor
         $url = str_replace('{{CURRENCY_TO}}', $currencyTo, $url);
 
         try {
-            $response = $this->_httpClient
-                ->setUri($url)
-                ->setConfig(array('timeout' => $this->_storeConfig->getValue('currency/webservicex/timeout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)))
-                ->request('GET')
-                ->getBody();
+            $response = $this->_httpClient->setUri(
+                $url
+            )->setConfig(
+                array(
+                    'timeout' => $this->_storeConfig->getValue(
+                        'currency/webservicex/timeout',
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                    )
+                )
+            )->request(
+                'GET'
+            )->getBody();
 
             $xml = simplexml_load_string($response, null, LIBXML_NOERROR);
             if (!$xml) {

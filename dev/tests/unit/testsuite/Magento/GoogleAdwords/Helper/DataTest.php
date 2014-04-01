@@ -37,9 +37,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->_storeConfigMock = $this->getMock(
-            'Magento\App\Config\ScopeConfigInterface'
-        );
+        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);

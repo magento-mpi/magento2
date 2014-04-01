@@ -32,14 +32,24 @@ $payment = $this->getObjectManager()->create('Magento\Sales\Model\Order\Payment'
 $payment->setMethod('checkmo');
 
 $order = $this->getObjectManager()->create('Magento\Sales\Model\Order');
-$order->setBaseSubtotal(100)
-    ->setSubtotal(100)
-    ->setBaseGrandTotal(100)
-    ->setGrandTotal(100)
-    ->setTotalPaid(100)
-    ->setCustomerIsGuest(true)
-    ->setState(\Magento\Sales\Model\Order::STATE_NEW, true)
-    ->setStoreId($this->getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId());
+$order->setBaseSubtotal(
+    100
+)->setSubtotal(
+    100
+)->setBaseGrandTotal(
+    100
+)->setGrandTotal(
+    100
+)->setTotalPaid(
+    100
+)->setCustomerIsGuest(
+    true
+)->setState(
+    \Magento\Sales\Model\Order::STATE_NEW,
+    true
+)->setStoreId(
+    $this->getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId()
+);
 
 for ($i = 1; $i <= 100000; $i++) {
     $billingAddress->setId(

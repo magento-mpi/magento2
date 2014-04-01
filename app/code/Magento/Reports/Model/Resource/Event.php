@@ -154,8 +154,12 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
                     $stores[] = $store->getId();
                 }
             }
-        } else { // get all stores, required by configuration in current store scope
-            switch ($this->_storeConfig->getValue('catalog/recently_products/scope', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        } else {
+            // get all stores, required by configuration in current store scope
+            switch ($this->_storeConfig->getValue(
+                'catalog/recently_products/scope',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )) {
                 case 'website':
                     $resourceStore = $this->_storeManager->getStore()->getWebsite()->getStores();
                     break;

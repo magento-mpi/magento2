@@ -407,20 +407,29 @@ class Calculation extends \Magento\Model\AbstractModel
     public function getRateOriginRequest($store = null)
     {
         $request = new \Magento\Object();
-        $request->setCountryId($this->_storeConfig->getValue(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+        $request->setCountryId(
+            $this->_storeConfig->getValue(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
-            ))
-            ->setRegionId($this->_storeConfig->getValue(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            )
+        )->setRegionId(
+            $this->_storeConfig->getValue(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
-            ))
-            ->setPostcode($this->_storeConfig->getValue(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            )
+        )->setPostcode(
+            $this->_storeConfig->getValue(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
-            ))
-            ->setCustomerClassId($this->getDefaultCustomerTaxClass($store))
-            ->setStore($store);
+            )
+        )->setCustomerClassId(
+            $this->getDefaultCustomerTaxClass($store)
+        )->setStore(
+            $store
+        );
         return $request;
     }
 
@@ -449,9 +458,13 @@ class Calculation extends \Magento\Model\AbstractModel
         if ($shippingAddress === false && $billingAddress === false && $customerTaxClass === false) {
             return $this->getRateOriginRequest($store);
         }
-        $address    = new \Magento\Object();
-        $customerData   = $this->getCustomerData();
-        $basedOn    = $this->_storeConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $address = new \Magento\Object();
+        $customerData = $this->getCustomerData();
+        $basedOn = $this->_storeConfig->getValue(
+            \Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
 
         if ($shippingAddress === false && $basedOn == 'shipping' || $billingAddress === false && $basedOn == 'billing'
         ) {
@@ -467,13 +480,11 @@ class Calculation extends \Magento\Model\AbstractModel
                     try {
                         $defaultBilling = $this->_addressService->getDefaultBillingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
-                        /** Address does not exist */
                     }
 
                     try {
                         $defaultShipping = $this->_addressService->getDefaultShippingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
-                        /** Address does not exist */
                     }
 
                     if ($basedOn == 'billing' && $defaultBilling && $defaultBilling->getCountryId()) {
@@ -500,16 +511,25 @@ class Calculation extends \Magento\Model\AbstractModel
                 $address = $this->getRateOriginRequest($store);
                 break;
             case 'default':
-                $address
-                    ->setCountryId($this->_storeConfig->getValue(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $store))
-                    ->setRegionId($this->_storeConfig->getValue(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $store))
-                    ->setPostcode($this->_storeConfig->getValue(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        $store));
+                $address->setCountryId(
+                    $this->_storeConfig->getValue(
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        $store
+                    )
+                )->setRegionId(
+                    $this->_storeConfig->getValue(
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        $store
+                    )
+                )->setPostcode(
+                    $this->_storeConfig->getValue(
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        $store
+                    )
+                );
                 break;
             default:
                 break;

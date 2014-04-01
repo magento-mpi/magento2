@@ -99,35 +99,42 @@ class Value extends \Magento\Model\Resource\Db\AbstractDb
 
         if (!$object->getData('scope', 'price')) {
             //save for store_id = 0
-            $select = $this->_getReadAdapter()->select()
-                ->from($priceTable, 'option_type_id')
-                ->where('option_type_id = ?', (int)$object->getId())
-                ->where('store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+            $select = $this->_getReadAdapter()->select()->from(
+                $priceTable,
+                'option_type_id'
+            )->where(
+                'option_type_id = ?',
+                (int)$object->getId()
+            )->where(
+                'store_id = ?',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            );
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
 
             if ($optionTypeId) {
                 if ($object->getStoreId() == '0') {
                     $bind = array('price' => $price, 'price_type' => $priceType);
                     $where = array(
-                        'option_type_id = ?'    => $optionTypeId,
-                        'store_id = ?'          => \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                        'option_type_id = ?' => $optionTypeId,
+                        'store_id = ?' => \Magento\Store\Model\Store::DEFAULT_STORE_ID
                     );
 
                     $this->_getWriteAdapter()->update($priceTable, $bind, $where);
                 }
             } else {
-                $bind  = array(
-                    'option_type_id'    => (int)$object->getId(),
-                    'store_id'          => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-                    'price'             => $price,
-                    'price_type'        => $priceType
+                $bind = array(
+                    'option_type_id' => (int)$object->getId(),
+                    'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+                    'price' => $price,
+                    'price_type' => $priceType
                 );
                 $this->_getWriteAdapter()->insert($priceTable, $bind);
             }
         }
 
         $scope = (int)$this->_config->getValue(
-            \Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         if ($object->getStoreId() != '0' && $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE) {
@@ -183,12 +190,14 @@ class Value extends \Magento\Model\Resource\Db\AbstractDb
                     }
                 }
             }
-        } else if ($scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
-            $where = array(
-                'option_type_id = ?' => (int)$object->getId(),
-                'store_id = ?' => (int)$object->getStoreId()
-            );
-            $this->_getWriteAdapter()->delete($priceTable, $where);
+        } else {
+            if ($scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
+                $where = array(
+                    'option_type_id = ?' => (int)$object->getId(),
+                    'store_id = ?' => (int)$object->getStoreId()
+                );
+                $this->_getWriteAdapter()->delete($priceTable, $where);
+            }
         }
     }
 
@@ -203,29 +212,33 @@ class Value extends \Magento\Model\Resource\Db\AbstractDb
         $titleTable = $this->getTable('catalog_product_option_type_title');
 
         if (!$object->getData('scope', 'title')) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($titleTable, array('option_type_id'))
-                ->where('option_type_id = ?', (int)$object->getId())
-                ->where('store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+            $select = $this->_getReadAdapter()->select()->from(
+                $titleTable,
+                array('option_type_id')
+            )->where(
+                'option_type_id = ?',
+                (int)$object->getId()
+            )->where(
+                'store_id = ?',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            );
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
 
             if ($optionTypeId) {
                 if ($object->getStoreId() == '0') {
                     $where = array(
-                        'option_type_id = ?'    => (int)$optionTypeId,
-                        'store_id = ?'          => \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                        'option_type_id = ?' => (int)$optionTypeId,
+                        'store_id = ?' => \Magento\Store\Model\Store::DEFAULT_STORE_ID
                     );
-                    $bind  = array(
-                        'title' => $object->getTitle()
-                    );
+                    $bind = array('title' => $object->getTitle());
                     $bind = array('title' => $object->getTitle());
                     $this->_getWriteAdapter()->update($titleTable, $bind, $where);
                 }
             } else {
-                $bind  = array(
-                    'option_type_id'    => (int)$object->getId(),
-                    'store_id'          => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-                    'title'             => $object->getTitle()
+                $bind = array(
+                    'option_type_id' => (int)$object->getId(),
+                    'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+                    'title' => $object->getTitle()
                 );
                 $this->_getWriteAdapter()->insert($titleTable, $bind);
             }
@@ -259,12 +272,14 @@ class Value extends \Magento\Model\Resource\Db\AbstractDb
                 );
                 $this->_getWriteAdapter()->insert($titleTable, $bind);
             }
-        } else if ($object->getData('scope', 'title')) {
-            $where = array(
-                'option_type_id = ?' => (int)$object->getId(),
-                'store_id = ?' => (int)$object->getStoreId()
-            );
-            $this->_getWriteAdapter()->delete($titleTable, $where);
+        } else {
+            if ($object->getData('scope', 'title')) {
+                $where = array(
+                    'option_type_id = ?' => (int)$object->getId(),
+                    'store_id = ?' => (int)$object->getStoreId()
+                );
+                $this->_getWriteAdapter()->delete($titleTable, $where);
+            }
         }
     }
 

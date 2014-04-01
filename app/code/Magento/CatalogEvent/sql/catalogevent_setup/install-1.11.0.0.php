@@ -76,30 +76,46 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'magento_catalogevent_event_image'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('magento_catalogevent_event_image'))
-    ->addColumn('event_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Event Id')
-    ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Store Id')
-    ->addColumn('image', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
-        ), 'Image')
-    ->addIndex($installer->getIdxName('magento_catalogevent_event_image', array('store_id')),
-        array('store_id'))
-    ->addForeignKey($installer->getFkName('magento_catalogevent_event_image', 'event_id', 'magento_catalogevent_event', 'event_id'),
-        'event_id', $installer->getTable('magento_catalogevent_event'), 'event_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_catalogevent_event_image', 'store_id', 'store', 'store_id'),
-        'store_id', $installer->getTable('store'), 'store_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->setComment('Enterprise Catalogevent Event Image');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('magento_catalogevent_event_image')
+)->addColumn(
+    'event_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Event Id'
+)->addColumn(
+    'store_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Store Id'
+)->addColumn(
+    'image',
+    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('nullable' => false),
+    'Image'
+)->addIndex(
+    $installer->getIdxName('magento_catalogevent_event_image', array('store_id')),
+    array('store_id')
+)->addForeignKey(
+    $installer->getFkName('magento_catalogevent_event_image', 'event_id', 'magento_catalogevent_event', 'event_id'),
+    'event_id',
+    $installer->getTable('magento_catalogevent_event'),
+    'event_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('magento_catalogevent_event_image', 'store_id', 'store', 'store_id'),
+    'store_id',
+    $installer->getTable('store'),
+    'store_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Enterprise Catalogevent Event Image'
+);
 $installer->getConnection()->createTable($table);
 
 $installer->addAttribute('quote_item', 'event_id', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));

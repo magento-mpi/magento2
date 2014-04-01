@@ -220,56 +220,68 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'cataloginventory_stock_status'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('cataloginventory_stock_status'))
-    ->addColumn('product_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Product Id')
-    ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Website Id')
-    ->addColumn('stock_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Stock Id')
-    ->addColumn('qty', \Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4', array(
-        'nullable'  => false,
-        'default'   => '0.0000',
-        ), 'Qty')
-    ->addColumn('stock_status', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        ), 'Stock Status')
-    ->addIndex($installer->getIdxName('cataloginventory_stock_status', array('stock_id')),
-        array('stock_id')
-    )
-    ->addIndex($installer->getIdxName('cataloginventory_stock_status', array('website_id')),
-        array('website_id')
-    )
-    ->addForeignKey(
-        $installer->getFkName(
-            'cataloginventory_stock_status', 'stock_id', 'cataloginventory_stock', 'stock_id'
-        ),
-        'stock_id', $installer->getTable('cataloginventory_stock'), 'stock_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->addForeignKey(
-        $installer->getFkName(
-            'cataloginventory_stock_status', 'product_id', 'catalog_product_entity', 'entity_id'
-        ),
-        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->addForeignKey($installer->getFkName('cataloginventory_stock_status', 'website_id', 'store_website', 'website_id'),
-        'website_id', $installer->getTable('store_website'), 'website_id',
-        \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->setComment('Cataloginventory Stock Status');
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('cataloginventory_stock_status')
+)->addColumn(
+    'product_id',
+    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Product Id'
+)->addColumn(
+    'website_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website Id'
+)->addColumn(
+    'stock_id',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Stock Id'
+)->addColumn(
+    'qty',
+    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false, 'default' => '0.0000'),
+    'Qty'
+)->addColumn(
+    'stock_status',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Stock Status'
+)->addIndex(
+    $installer->getIdxName('cataloginventory_stock_status', array('stock_id')),
+    array('stock_id')
+)->addIndex(
+    $installer->getIdxName('cataloginventory_stock_status', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName('cataloginventory_stock_status', 'stock_id', 'cataloginventory_stock', 'stock_id'),
+    'stock_id',
+    $installer->getTable('cataloginventory_stock'),
+    'stock_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('cataloginventory_stock_status', 'product_id', 'catalog_product_entity', 'entity_id'),
+    'product_id',
+    $installer->getTable('catalog_product_entity'),
+    'entity_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('cataloginventory_stock_status', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Cataloginventory Stock Status'
+);
 $installer->getConnection()->createTable($table);
 
 /**

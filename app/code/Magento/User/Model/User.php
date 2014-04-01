@@ -211,8 +211,8 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
         $this->_validatorObject = $objectManager->get('Magento\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
-        $this->_transportBuilder =  $objectManager->get('Magento\Mail\Template\TransportBuilder');
-        $this->_storeManager =  $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        $this->_transportBuilder = $objectManager->get('Magento\Mail\Template\TransportBuilder');
+        $this->_storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
     }
 
     /**

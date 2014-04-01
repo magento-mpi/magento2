@@ -171,10 +171,7 @@ class Block extends \Magento\Model\Resource\Db\AbstractDb
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
-            $stores = array(
-                (int) $object->getStoreId(),
-                \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-            );
+            $stores = array((int)$object->getStoreId(), \Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             $select->join(
                 array('cbs' => $this->getTable('cms_block_store')),

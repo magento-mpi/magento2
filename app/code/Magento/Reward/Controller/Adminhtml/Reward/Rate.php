@@ -192,8 +192,8 @@ class Rate extends \Magento\Backend\App\Action
     public function validateAction()
     {
         $response = new \Magento\Object(array('error' => false));
-        $post     = $this->getRequest()->getParam('rate');
-        $message  = null;
+        $post = $this->getRequest()->getParam('rate');
+        $message = null;
         /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
         $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         if ($storeManager->isSingleStoreMode()) {

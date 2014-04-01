@@ -48,16 +48,14 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_payment)
         );
 
-        $store = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
 
-        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getStore'))
-            ->getMock();
-        $storeManager->expects($this->once())->method('getStore')
-            ->will($this->returnValue($store));
+        $storeManager = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManager'
+        )->disableOriginalConstructor()->setMethods(
+            array('getStore')
+        )->getMock();
+        $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
         $this->_block = $objectManager->getObject(
             'Magento\RecurringPayment\Block\Payment\View\Schedule',

@@ -224,8 +224,10 @@ class Stock extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function setInStockFilterToCollection($collection)
     {
-        $manageStock = $this->_storeConfig
-            ->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $manageStock = $this->_storeConfig->getValue(
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         $cond = array(
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0'
@@ -263,7 +265,10 @@ class Stock extends \Magento\Model\Resource\Db\AbstractDb
             );
 
             foreach ($configMap as $field => $const) {
-                $this->$field = (int)$this->_storeConfig->getValue($const, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                $this->{$field} = (int)$this->_storeConfig->getValue(
+                    $const,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
             }
 
             $this->_isConfig = true;

@@ -143,10 +143,12 @@ class Event extends AbstractDb
         foreach ($this->_eventCategories as $categoryId => $category) {
             if ($category['event_id'] === null && isset($category['level']) && $category['level'] > 2) {
                 $result[$categoryId] = $this->_getEventFromParent($categoryId, self::EVENT_FROM_PARENT_LAST);
-            } else if ($category['event_id'] !== null) {
-                $result[$categoryId] = $category['event_id'];
             } else {
-                $result[$categoryId] = null;
+                if ($category['event_id'] !== null) {
+                    $result[$categoryId] = $category['event_id'];
+                } else {
+                    $result[$categoryId] = null;
+                }
             }
         }
 
@@ -198,8 +200,10 @@ class Event extends AbstractDb
         if ($flag == self::EVENT_FROM_PARENT_LAST) {
             if (isset($eventId) && $eventId !== null) {
                 return $eventId;
-            } else if ($eventId === null) {
-                return $this->_getEventFromParent($parentId, $flag);
+            } else {
+                if ($eventId === null) {
+                    return $this->_getEventFromParent($parentId, $flag);
+                }
             }
         }
         return null;

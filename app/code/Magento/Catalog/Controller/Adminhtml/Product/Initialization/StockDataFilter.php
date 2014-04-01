@@ -22,9 +22,8 @@ class StockDataFilter
     /**
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig
-    ) {
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
+    {
         $this->scopeConfig = $scopeConfig;
     }
 

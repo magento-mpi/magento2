@@ -123,7 +123,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 $this->getUrl('customer/index/edit', array('id' => $customer->getId(), 'active_tab' => 'review')),
                 $this->escapeHtml($customer->getFirstname()),
                 $this->escapeHtml($customer->getLastname()),
-                $this->escapeHtml($customer->getEmail()));
+                $this->escapeHtml($customer->getEmail())
+            );
         } elseif ($review->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
             $customerText = __('Administrator');
         } else {

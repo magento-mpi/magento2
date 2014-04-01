@@ -164,11 +164,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testAddSegmentFieldsToFormDisabled()
     {
-        $this->_storeConfig
-            ->expects($this->once())
-            ->method('getValue')
-            ->with(\Magento\CustomerSegment\Helper\Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER)
-            ->will($this->returnValue('0'));
+        $this->_storeConfig->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            \Magento\CustomerSegment\Helper\Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER
+        )->will(
+            $this->returnValue('0')
+        );
 
         $this->_segmentCollection->expects($this->never())->method('toOptionArray');
 

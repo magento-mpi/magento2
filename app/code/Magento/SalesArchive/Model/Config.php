@@ -31,9 +31,8 @@ class Config
     /**
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
-    public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-    ) {
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $coreStoreConfig)
+    {
         $this->_storeConfig = $coreStoreConfig;
     }
 
@@ -44,7 +43,10 @@ class Config
      */
     public function isArchiveActive()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_ARCHIVE_ACTIVE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->isSetFlag(
+            self::XML_PATH_ARCHIVE_ACTIVE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -54,7 +56,10 @@ class Config
      */
     public function getArchiveAge()
     {
-        return (int) $this->_storeConfig->getValue(self::XML_PATH_ARCHIVE_AGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (int)$this->_storeConfig->getValue(
+            self::XML_PATH_ARCHIVE_AGE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -64,7 +69,10 @@ class Config
      */
     public function getArchiveOrderStatuses()
     {
-        $statuses = $this->_storeConfig->getValue(self::XML_PATH_ARCHIVE_ORDER_STATUSES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $statuses = $this->_storeConfig->getValue(
+            self::XML_PATH_ARCHIVE_ORDER_STATUSES,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         if (empty($statuses)) {
             return array();

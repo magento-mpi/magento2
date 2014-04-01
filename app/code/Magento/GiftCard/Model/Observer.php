@@ -308,10 +308,12 @@ class Observer extends \Magento\Model\AbstractModel
                         )->setTemplateOptions(
                             array(
                                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                                'store' => $item->getOrder()->getStoreId(),
-                            ))
-                            ->setTemplateVars($templateData)
-                            ->setFrom($this->_scopeConfig->getValue(
+                                'store' => $item->getOrder()->getStoreId()
+                            )
+                        )->setTemplateVars(
+                            $templateData
+                        )->setFrom(
+                            $this->_scopeConfig->getValue(
                                 \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                                 $item->getOrder()->getStoreId()

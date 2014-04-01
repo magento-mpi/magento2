@@ -56,10 +56,8 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
         $this->_eventManager = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
         $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_context = $helper->getObject(
-            'Magento\Backend\Block\Template\Context', [
-                'eventManager' => $this->_eventManager,
-                'scopeConfig' => $this->_storeConfig
-            ]
+            'Magento\Backend\Block\Template\Context',
+            array('eventManager' => $this->_eventManager, 'scopeConfig' => $this->_storeConfig)
         );
 
         $this->_testModel = $helper->getObject(

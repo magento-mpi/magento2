@@ -77,7 +77,10 @@ class Log extends \Magento\Model\AbstractModel
      */
     public function getLogCleanTime()
     {
-        return $this->_storeConfig->getValue(self::XML_LOG_CLEAN_DAYS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE) * 60 * 60 * 24;
+        return $this->_storeConfig->getValue(
+            self::XML_LOG_CLEAN_DAYS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) * 60 * 60 * 24;
     }
 
     /**

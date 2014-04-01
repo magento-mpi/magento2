@@ -166,7 +166,11 @@ class Fulltext extends AbstractModel
      */
     public function getSearchType($storeId = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_CATALOG_SEARCH_TYPE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return $this->_storeConfig->getValue(
+            self::XML_PATH_CATALOG_SEARCH_TYPE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     // Deprecated methods

@@ -167,7 +167,7 @@ class Compare extends \Magento\App\Action\Action
             $product = $this->_productFactory->create();
             $product->setStoreId($this->_storeManager->getStore()->getId())->load($productId);
 
-            if ($product->getId()/* && !$product->isSuper()*/) {
+            if ($product->getId()) {
                 $this->_catalogProductCompareList->addProduct($product);
                 $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
                 $this->messageManager->addSuccess(__('You added product %1 to the comparison list.', $productName));

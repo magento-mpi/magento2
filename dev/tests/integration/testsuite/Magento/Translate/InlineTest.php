@@ -43,16 +43,21 @@ class InlineTest extends \PHPUnit_Framework_TestCase
             'Magento\Translate\Inline\StateInterface'
         );
         /* Called getConfig as workaround for setConfig bug */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                'dev/translate_inline/active',
-                true,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $this->_storeId
-            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore(
+            $this->_storeId
+        )->getConfig(
+            'dev/translate_inline/active'
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            'dev/translate_inline/active',
+            true,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
     }
 
     public function testIsAllowed()
@@ -61,8 +66,11 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isAllowed($this->_storeId));
         $this->assertTrue(
             $this->_model->isAllowed(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Store\Model\StoreManagerInterface')->getStore($this->_storeId)
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Store\Model\StoreManagerInterface'
+                )->getStore(
+                    $this->_storeId
+                )
             )
         );
         $this->state->suspend();
@@ -70,8 +78,11 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isAllowed($this->_storeId));
         $this->assertFalse(
             $this->_model->isAllowed(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Store\Model\StoreManagerInterface')->getStore($this->_storeId)
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Store\Model\StoreManagerInterface'
+                )->getStore(
+                    $this->_storeId
+                )
             )
         );
     }

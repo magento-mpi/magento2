@@ -11,13 +11,17 @@ namespace Magento\FullPageCache\Model;
 
 class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterface
 {
-    const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
-    const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
-    const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
-    const CACHE_TAG                     = \Magento\FullPageCache\Model\Cache\Type::CACHE_TAG;
+    const XML_PATH_ALLOWED_DEPTH = 'system/page_cache/allowed_depth';
 
-    const CACHE_SIZE_KEY                = 'FPC_CACHE_SIZE_CAHCE_KEY';
-    const XML_PATH_CACHE_MAX_SIZE       = 'system/page_cache/max_cache_size';
+    const XML_PATH_CACHE_MULTICURRENCY = 'system/page_cache/multicurrency';
+
+    const XML_PATH_CACHE_DEBUG = 'system/page_cache/debug';
+
+    const CACHE_TAG = \Magento\FullPageCache\Model\Cache\Type::CACHE_TAG;
+
+    const CACHE_SIZE_KEY = 'FPC_CACHE_SIZE_CAHCE_KEY';
+
+    const XML_PATH_CACHE_MAX_SIZE = 'system/page_cache/max_cache_size';
 
     /**
      * Cache tags related with request
@@ -232,7 +236,6 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $this->_allowedCache = $allowedCache;
     }
 
-
     /**
      * Get HTTP request identifier
      *
@@ -360,9 +363,11 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     public function getRecentlyViewedCountCacheId()
     {
         $cookieName = \Magento\Store\Model\Store::COOKIE_NAME;
-        $additional = $this->_environment->hasCookie($cookieName) ?
-            '_' . $this->_environment->getCookie($cookieName) :
-            '';
+        $additional = $this->_environment->hasCookie(
+            $cookieName
+        ) ? '_' . $this->_environment->getCookie(
+            $cookieName
+        ) : '';
         return 'recently_viewed_count' . $additional;
     }
 
@@ -374,9 +379,11 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     public function getSessionInfoCacheId()
     {
         $cookieName = \Magento\Store\Model\Store::COOKIE_NAME;
-        $additional = $this->_environment->hasCookie($cookieName) ?
-            '_' . $this->_environment->getCookie($cookieName) :
-            '';
+        $additional = $this->_environment->hasCookie(
+            $cookieName
+        ) ? '_' . $this->_environment->getCookie(
+            $cookieName
+        ) : '';
         return 'full_page_cache_session_info' . $additional;
     }
 
@@ -398,14 +405,29 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         if ($sessionInfo) {
             $sessionInfo = unserialize($sessionInfo);
             foreach ($sessionInfo as $cookieName => $cookieInfo) {
-                if ($this->_environment->hasCookie($cookieName) && isset($cookieInfo['lifetime'])
-                    && isset($cookieInfo['path']) && isset($cookieInfo['domain'])
-                    && isset($cookieInfo['secure']) && isset($cookieInfo['httponly'])
+                if ($this->_environment->hasCookie(
+                    $cookieName
+                ) && isset(
+                    $cookieInfo['lifetime']
+                ) && isset(
+                    $cookieInfo['path']
+                ) && isset(
+                    $cookieInfo['domain']
+                ) && isset(
+                    $cookieInfo['secure']
+                ) && isset(
+                    $cookieInfo['httponly']
+                )
                 ) {
-                    $lifeTime = (0 == $cookieInfo['lifetime']) ? 0 : time() + $cookieInfo['lifetime'];
-                    setcookie($cookieName, $this->_environment->getCookie($cookieName), $lifeTime,
-                        $cookieInfo['path'], $cookieInfo['domain'],
-                        $cookieInfo['secure'], $cookieInfo['httponly']
+                    $lifeTime = 0 == $cookieInfo['lifetime'] ? 0 : time() + $cookieInfo['lifetime'];
+                    setcookie(
+                        $cookieName,
+                        $this->_environment->getCookie($cookieName),
+                        $lifeTime,
+                        $cookieInfo['path'],
+                        $cookieInfo['domain'],
+                        $cookieInfo['secure'],
+                        $cookieInfo['httponly']
                     );
                 }
             }
@@ -425,17 +447,22 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         } else {
             $this->_registry->register('cached_page_content', $content);
             $this->_registry->register('cached_page_containers', $containers);
-            $request->setModuleName('pagecache')
-                ->setControllerName('request')
-                ->setActionName('process')
-                ->isStraight(true);
+            $request->setModuleName(
+                'pagecache'
+            )->setControllerName(
+                'request'
+            )->setActionName(
+                'process'
+            )->isStraight(
+                true
+            );
 
             // restore original routing info
             $routingInfo = array(
-                'aliases'              => $this->_metadata->getMetadata('routing_aliases'),
-                'requested_route'      => $this->_metadata->getMetadata('routing_requested_route'),
+                'aliases' => $this->_metadata->getMetadata('routing_aliases'),
+                'requested_route' => $this->_metadata->getMetadata('routing_requested_route'),
                 'requested_controller' => $this->_metadata->getMetadata('routing_requested_controller'),
-                'requested_action'     => $this->_metadata->getMetadata('routing_requested_action')
+                'requested_action' => $this->_metadata->getMetadata('routing_requested_action')
             );
 
             $request->setRoutingInfo($routingInfo);
@@ -454,7 +481,9 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $placeholders = array();
         preg_match_all(
             \Magento\FullPageCache\Model\Container\Placeholder::HTML_NAME_PATTERN,
-            $content, $placeholders, PREG_PATTERN_ORDER
+            $content,
+            $placeholders,
+            PREG_PATTERN_ORDER
         );
         $placeholders = array_unique($placeholders[1]);
         $containers = array();
@@ -473,7 +502,11 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 preg_match($placeholder->getPattern(), $content, $matches);
                 if (array_key_exists(1, $matches)) {
                     $containers = array_merge($this->_processContainers($matches[1]), $containers);
-                    $content = preg_replace($placeholder->getPattern(), str_replace('$', '\\$', $matches[1]), $content);
+                    $content = preg_replace(
+                        $placeholder->getPattern(),
+                        str_replace('$', '\\$', $matches[1]),
+                        $content
+                    );
                 }
             }
         }
@@ -537,9 +570,12 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 }
 
                 $contentSize = strlen($content);
-                $currentStorageSize = (int) $this->_fpcCache->load(self::CACHE_SIZE_KEY);
+                $currentStorageSize = (int)$this->_fpcCache->load(self::CACHE_SIZE_KEY);
 
-                $maxSizeInBytes = $this->_storeConfig->getValue(self::XML_PATH_CACHE_MAX_SIZE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE) * 1024 * 1024;
+                $maxSizeInBytes = $this->_storeConfig->getValue(
+                    self::XML_PATH_CACHE_MAX_SIZE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
                     $this->_typeList->invalidate('full_page');
@@ -593,13 +629,19 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $output = $this->isAllowed();
 
         if ($output) {
-            $maxDepth = $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_DEPTH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $maxDepth = $this->_storeConfig->getValue(
+                self::XML_PATH_ALLOWED_DEPTH,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $queryParams = $request->getQuery();
             unset($queryParams[\Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM]);
             $output = count($queryParams) <= $maxDepth;
         }
         if ($output) {
-            $multiCurrency = $this->_storeConfig->getValue(self::XML_PATH_CACHE_MULTICURRENCY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $multiCurrency = $this->_storeConfig->getValue(
+                self::XML_PATH_CACHE_MULTICURRENCY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $currency = $this->_environment->getCookie('currency');
             if (!$multiCurrency && !empty($currency)) {
                 $output = false;
@@ -625,8 +667,12 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 if (is_array($this->_allowedCache[$module]) && isset($this->_allowedCache[$module][$controller])) {
                     $model = $this->_allowedCache[$module][$controller];
                     $action = $request->getActionName();
-                    if (is_array($this->_allowedCache[$module][$controller])
-                            && isset($this->_allowedCache[$module][$controller][$action])) {
+                    if (is_array(
+                        $this->_allowedCache[$module][$controller]
+                    ) && isset(
+                        $this->_allowedCache[$module][$controller][$action]
+                    )
+                    ) {
                         $model = $this->_allowedCache[$module][$controller][$action];
                     }
                 }

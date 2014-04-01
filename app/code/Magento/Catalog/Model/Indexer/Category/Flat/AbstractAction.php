@@ -422,9 +422,13 @@ class AbstractAction
                     $this->getReadAdapter()->quoteIdentifier('def.value')
                 )
             )
-       )
-       ->where('def.entity_id IN (?)', $entityIds)
-       ->where('def.store_id IN (?)', array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $storeId));
+        )->where(
+            'def.entity_id IN (?)',
+            $entityIds
+        )->where(
+            'def.store_id IN (?)',
+            array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $storeId)
+        );
 
         return $this->getReadAdapter()->fetchAll($select);
     }

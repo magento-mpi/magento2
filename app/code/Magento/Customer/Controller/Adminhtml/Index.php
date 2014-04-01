@@ -237,7 +237,6 @@ class Index extends \Magento\Backend\App\Action
                         $customerData['address'][$address->getId()]['id'] = $address->getId();
                     }
                 } catch (NoSuchEntityException $e) {
-                    //do nothing
                 }
             } catch (NoSuchEntityException $e) {
                 $this->messageManager->addException($e, __('An error occurred while editing the customer.'));
@@ -729,11 +728,13 @@ class Index extends \Magento\Backend\App\Action
         // delete an item from cart
         $deleteItemId = $this->getRequest()->getPost('delete');
         if ($deleteItemId) {
-            $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')
-                ->setWebsite(
-                    $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
-                )
-                ->loadByCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
+            $quote = $this->_objectManager->create(
+                'Magento\Sales\Model\Quote'
+            )->setWebsite(
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
+            )->loadByCustomer(
+                $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+            );
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -1023,8 +1024,11 @@ class Index extends \Magento\Backend\App\Action
         $plain = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
-                ->urlDecode($this->getRequest()->getParam('file'));
+            $file = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->urlDecode(
+                $this->getRequest()->getParam('file')
+            );
         } elseif ($this->getRequest()->getParam('image')) {
             // show plain image
             $file = $this->_objectManager->get(

@@ -342,14 +342,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $customBehaviorRows = array(
             array(
                 \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update',
-                \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID =>
-                    $this->_customBehaviour['update_id']
+                \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => $this->_customBehaviour['update_id']
             ),
             array(
-                \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
-                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
-                \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID =>
-                    $this->_customBehaviour['delete_id']
+                \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
+                \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => $this->_customBehaviour['delete_id']
             )
         );
         $updateResult = array(
@@ -438,9 +435,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', array('getWebsites'), array(), '', false);
-        $storeManager->expects($this->once())
-            ->method('getWebsites')
-            ->will($this->returnCallback(array($this, 'getWebsites')));
+        $storeManager->expects(
+            $this->once()
+        )->method(
+            'getWebsites'
+        )->will(
+            $this->returnCallback(array($this, 'getWebsites'))
+        );
 
         $modelMock = new \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address(
             $this->_coreDataMock,

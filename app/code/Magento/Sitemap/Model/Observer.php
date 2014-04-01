@@ -100,7 +100,11 @@ class Observer
         $errors = array();
 
         // check if scheduled generation enabled
-        if (!$this->_storeConfig->isSetFlag(self::XML_PATH_GENERATION_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if (!$this->_storeConfig->isSetFlag(
+            self::XML_PATH_GENERATION_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             return;
         }
 
@@ -116,21 +120,37 @@ class Observer
             }
         }
 
-        if ($errors && $this->_storeConfig->getValue(self::XML_PATH_ERROR_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($errors && $this->_storeConfig->getValue(
+            self::XML_PATH_ERROR_RECIPIENT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             $translate = $this->_translateModel->getTranslateInline();
             $this->_translateModel->setTranslateInline(false);
 
-            $this->_transportBuilder
-                ->setTemplateIdentifier(
-                    $this->_storeConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            $this->_transportBuilder->setTemplateIdentifier(
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_TEMPLATE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
-                ->setTemplateOptions(array(
+            )->setTemplateOptions(
+                array(
                     'area' => \Magento\Core\Model\App\Area::AREA_ADMIN,
-                    'store' => $this->_storeManager->getStore()->getId(),
-                ))
-                ->setTemplateVars(array('warnings' => join("\n", $errors)))
-                ->setFrom($this->_storeConfig->getValue(self::XML_PATH_ERROR_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
-                ->addTo($this->_storeConfig->getValue(self::XML_PATH_ERROR_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+                    'store' => $this->_storeManager->getStore()->getId()
+                )
+            )->setTemplateVars(
+                array('warnings' => join("\n", $errors))
+            )->setFrom(
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_IDENTITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )->addTo(
+                $this->_storeConfig->getValue(
+                    self::XML_PATH_ERROR_RECIPIENT,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            );
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
 

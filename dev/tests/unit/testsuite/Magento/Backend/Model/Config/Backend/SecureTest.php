@@ -16,7 +16,11 @@ class SecureTest extends \PHPUnit_Framework_TestCase
         $cacheManager = $this->getMock('Magento\App\CacheInterface');
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
-            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+            '\Magento\Model\ActionValidator\RemoveAction',
+            array(),
+            array(),
+            '',
+            false
         );
         $context = new \Magento\Model\Context(
             $logger,

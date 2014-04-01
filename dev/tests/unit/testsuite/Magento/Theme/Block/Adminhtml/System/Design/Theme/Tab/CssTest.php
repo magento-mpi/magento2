@@ -94,10 +94,15 @@ class CssTest extends \PHPUnit_Framework_TestCase
         /** @var $configModel \Magento\App\Config\ScopeConfigInterface */
         $configModel = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->with('Magento\App\Config\ScopeConfigInterface')
-            ->will($this->returnValue($configModel));
+        $this->_objectManager->expects(
+            $this->any()
+        )->method(
+            'get'
+        )->with(
+            'Magento\App\Config\ScopeConfigInterface'
+        )->will(
+            $this->returnValue($configModel)
+        );
 
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = array(

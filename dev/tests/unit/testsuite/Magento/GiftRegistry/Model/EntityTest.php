@@ -48,13 +48,12 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $translate = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
 
         $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getStore'))
-            ->getMockForAbstractClass();
-        $this->_storeManagerMock->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $this->_storeManagerMock = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array('getStore')
+        )->getMockForAbstractClass();
+        $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $this->_transportBuilderMock = $this->getMock(
             '\Magento\Mail\Template\TransportBuilder',
@@ -93,16 +92,28 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
-            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+            '\Magento\Model\ActionValidator\RemoveAction',
+            array(),
+            array(),
+            '',
+            false
         );
         $context = new \Magento\Model\Context(
-            $logger, $eventDispatcher, $cacheManager, $appState, $actionValidatorMock
+            $logger,
+            $eventDispatcher,
+            $cacheManager,
+            $appState,
+            $actionValidatorMock
         );
-        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
-            array(), '', false, false);
-        $giftRegistryData->expects($this->any())
-            ->method('getRegistryLink')
-            ->will($this->returnArgument(0));
+        $giftRegistryData = $this->getMock(
+            'Magento\GiftRegistry\Helper\Data',
+            array('getRegistryLink'),
+            array(),
+            '',
+            false,
+            false
+        );
+        $giftRegistryData->expects($this->any())->method('getRegistryLink')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
@@ -132,10 +143,32 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false, false);
 
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $context, $coreRegistry, $giftRegistryData, $this->_storeManagerMock, $translate,
-            $this->_transportBuilderMock, $type, $attributeConfig, $item, $inventoryStockItem, $session,
-            $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
-            $dateFactory, $loggingEventFactory, $request, $escaper, $mathRandom, $scopeConfig, $resource, null, array()
+            $context,
+            $coreRegistry,
+            $giftRegistryData,
+            $this->_storeManagerMock,
+            $translate,
+            $this->_transportBuilderMock,
+            $type,
+            $attributeConfig,
+            $item,
+            $inventoryStockItem,
+            $session,
+            $quoteFactory,
+            $customerFactory,
+            $personFactory,
+            $itemFactory,
+            $addressFactory,
+            $productFactory,
+            $dateFactory,
+            $loggingEventFactory,
+            $request,
+            $escaper,
+            $mathRandom,
+            $scopeConfig,
+            $resource,
+            null,
+            array()
         );
     }
 

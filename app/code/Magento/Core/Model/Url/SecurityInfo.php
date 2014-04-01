@@ -34,10 +34,8 @@ class SecurityInfo implements \Magento\Url\SecurityInfoInterface
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $secureUrlList
      */
-    public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        array $secureUrlList = array()
-    ) {
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig, array $secureUrlList = array())
+    {
         $this->_scopeConfig = $scopeConfig;
         $this->_secureUrlList = $secureUrlList;
     }
@@ -52,7 +50,8 @@ class SecurityInfo implements \Magento\Url\SecurityInfoInterface
     {
         if (!$this->_scopeConfig->getValue(
             \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
         ) {
             return false;
         }

@@ -300,9 +300,19 @@ class Email extends \Magento\Model\AbstractModel
         $store = $this->_website->getDefaultStore();
         $storeId = $store->getId();
 
-        if ($this->_type == 'price' && !$this->_storeConfig->getValue(self::XML_PATH_EMAIL_PRICE_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)) {
+        if ($this->_type == 'price' && !$this->_storeConfig->getValue(
+            self::XML_PATH_EMAIL_PRICE_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        )
+        ) {
             return false;
-        } elseif ($this->_type == 'stock' && !$this->_storeConfig->getValue(self::XML_PATH_EMAIL_STOCK_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)) {
+        } elseif ($this->_type == 'stock' && !$this->_storeConfig->getValue(
+            self::XML_PATH_EMAIL_STOCK_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        )
+        ) {
             return false;
         }
 
@@ -319,7 +329,11 @@ class Email extends \Magento\Model\AbstractModel
                 $this->_getPriceBlock()->addProduct($product);
             }
             $block = $this->_getPriceBlock()->toHtml();
-            $templateId = $this->_storeConfig->getValue(self::XML_PATH_EMAIL_PRICE_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+            $templateId = $this->_storeConfig->getValue(
+                self::XML_PATH_EMAIL_PRICE_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
         } else {
             $this->_getStockBlock()->setStore($store)->reset();
             foreach ($this->_stockProducts as $product) {
@@ -327,24 +341,31 @@ class Email extends \Magento\Model\AbstractModel
                 $this->_getStockBlock()->addProduct($product);
             }
             $block = $this->_getStockBlock()->toHtml();
-            $templateId = $this->_storeConfig->getValue(self::XML_PATH_EMAIL_STOCK_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+            $templateId = $this->_storeConfig->getValue(
+                self::XML_PATH_EMAIL_STOCK_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
         }
 
         $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($templateId)
-            ->setTemplateOptions(array(
-                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $storeId
-            ))
-            ->setTemplateVars(array(
-                'customerName'  => $this->_customer->getName(),
-                'alertGrid'     => $block
-            ))
-            ->setFrom($this->_storeConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId))
-            ->addTo($this->_customer->getEmail(), $this->_customer->getName())
-            ->getTransport();
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $templateId
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+        )->setTemplateVars(
+            array('customerName' => $this->_customer->getName(), 'alertGrid' => $block)
+        )->setFrom(
+            $this->_storeConfig->getValue(
+                self::XML_PATH_EMAIL_IDENTITY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
+        )->addTo(
+            $this->_customer->getEmail(),
+            $this->_customer->getName()
+        )->getTransport();
 
         $transport->sendMessage();
 

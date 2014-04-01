@@ -117,10 +117,13 @@ class Category extends AbstractHelper
             return array();
         }
 
-        $recursionLevel  = max(0, (int) $this->_scopeConfig->getValue(
-            'catalog/navigation/max_depth',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ));
+        $recursionLevel = max(
+            0,
+            (int)$this->_scopeConfig->getValue(
+                'catalog/navigation/max_depth',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
         $storeCategories = $category->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
 
         $this->_storeCategories[$cacheKey] = $storeCategories;
@@ -181,7 +184,9 @@ class Category extends AbstractHelper
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {
             $this->_categoryUrlSuffix[$storeId] = $this->_scopeConfig->getValue(
-                self::XML_PATH_CATEGORY_URL_SUFFIX, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
+                self::XML_PATH_CATEGORY_URL_SUFFIX,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
             );
         }
         return $this->_categoryUrlSuffix[$storeId];
@@ -220,6 +225,10 @@ class Category extends AbstractHelper
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_scopeConfig->getValue(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_USE_CATEGORY_CANONICAL_TAG,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

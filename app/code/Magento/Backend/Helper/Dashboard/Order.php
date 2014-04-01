@@ -57,7 +57,8 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
             $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
         } elseif (!$this->_collection->isLive()) {
-            $this->_collection->addFieldToFilter('store_id',
+            $this->_collection->addFieldToFilter(
+                'store_id',
                 array('eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId())
             );
         }

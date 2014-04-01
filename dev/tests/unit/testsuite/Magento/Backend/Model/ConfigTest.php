@@ -72,7 +72,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_configStructure = $this->getMock('Magento\Backend\Model\Config\Structure', array(), array(), '', false);
+        $this->_configStructure = $this->getMock(
+            'Magento\Backend\Model\Config\Structure',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_structureReaderMock->expects(
             $this->any()
@@ -84,7 +90,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_transFactoryMock = $this->getMock(
             'Magento\DB\TransactionFactory',
-            array('create'), array(), '', false
+            array('create'),
+            array(),
+            '',
+            false
         );
         $this->_appConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_configLoaderMock = $this->getMock(
@@ -135,9 +144,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveToCheckAdminSystemConfigChangedSectionEvent()
     {
-        $transactionMock = $this->getMock(
-            'Magento\DB\Transaction', array(), array(), '', false
-        );
+        $transactionMock = $this->getMock('Magento\DB\Transaction', array(), array(), '', false);
 
         $this->_transFactoryMock->expects($this->any())->method('create')->will($this->returnValue($transactionMock));
 
@@ -167,71 +174,95 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveToCheckScopeDataSet()
     {
-        $transactionMock = $this->getMock(
-            'Magento\Core\Model\Resource\Transaction', [], [], '', false
+        $transactionMock = $this->getMock('Magento\Core\Model\Resource\Transaction', array(), array(), '', false);
+
+        $this->_transFactoryMock->expects($this->any())->method('create')->will($this->returnValue($transactionMock));
+
+        $this->_configLoaderMock->expects($this->any())->method('getConfigByPath')->will($this->returnValue(array()));
+
+        $this->_eventManagerMock->expects(
+            $this->at(1)
+        )->method(
+            'dispatch'
+        )->with(
+            $this->equalTo('admin_system_config_changed_section_'),
+            $this->arrayHasKey('website')
         );
 
-        $this->_transFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($transactionMock));
-
-        $this->_configLoaderMock->expects($this->any())
-            ->method('getConfigByPath')
-            ->will($this->returnValue([]));
-
-        $this->_eventManagerMock->expects($this->at(1))
-            ->method('dispatch')
-            ->with($this->equalTo('admin_system_config_changed_section_'), $this->arrayHasKey('website'));
-
-        $this->_eventManagerMock->expects($this->at(1))
-            ->method('dispatch')
-            ->with($this->equalTo('admin_system_config_changed_section_'), $this->arrayHasKey('store'));
-
-        $group = $this->getMock(
-            'Magento\Backend\Model\Config\Structure\Element\Group', [], [], '', false
+        $this->_eventManagerMock->expects(
+            $this->at(1)
+        )->method(
+            'dispatch'
+        )->with(
+            $this->equalTo('admin_system_config_changed_section_'),
+            $this->arrayHasKey('store')
         );
 
-        $field = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Field', [], [], '', false);
+        $group = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Group', array(), array(), '', false);
 
-        $this->_configStructure->expects($this->at(0))
-            ->method('getElement')
-            ->with('/1')
-            ->will($this->returnValue($group));
+        $field = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Field', array(), array(), '', false);
 
-        $this->_configStructure->expects($this->at(1))
-            ->method('getElement')
-            ->with('/1/key')
-            ->will($this->returnValue($field));
+        $this->_configStructure->expects(
+            $this->at(0)
+        )->method(
+            'getElement'
+        )->with(
+            '/1'
+        )->will(
+            $this->returnValue($group)
+        );
 
-        $website = $this->getMock('Magento\Store\Model\Website', [], [], '', false);
+        $this->_configStructure->expects(
+            $this->at(1)
+        )->method(
+            'getElement'
+        )->with(
+            '/1/key'
+        )->will(
+            $this->returnValue($field)
+        );
+
+        $website = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false);
         $this->_storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
-        $this->_storeManager->expects($this->any())->method('getWebsites')->will($this->returnValue([$website]));
+        $this->_storeManager->expects($this->any())->method('getWebsites')->will($this->returnValue(array($website)));
         $this->_storeManager->expects($this->any())->method('isSingleStoreMode')->will($this->returnValue(true));
 
         $this->_model->setWebsite('website');
 
-        $this->_model->setGroups(['1' => ['fields' => ['key' => ['data']]]]);
+        $this->_model->setGroups(array('1' => array('fields' => array('key' => array('data')))));
 
         $backendModel = $this->getMock(
             'Magento\Core\Model\Config\Value',
-            ['setPath', 'addData', '__sleep', '__wakeup'],
-            [],
+            array('setPath', 'addData', '__sleep', '__wakeup'),
+            array(),
             '',
             false
         );
-        $backendModel->expects($this->once())->method('addData')->with([
-            'field' => 'key',
-            'groups' => [1 => [
-                'fields' => ['key' => ['data']]
-            ]],
-            'group_id' => null,
-            'scope' => 'websites',
-            'scope_id' => 0,
-            'scope_code' => 'website',
-            'field_config' => null,
-            'fieldset_data' => ['key' => null]
-        ]);
-        $backendModel->expects($this->once())->method('setPath')->with('/key')->will($this->returnValue($backendModel));
+        $backendModel->expects(
+            $this->once()
+        )->method(
+            'addData'
+        )->with(
+            array(
+                'field' => 'key',
+                'groups' => array(1 => array('fields' => array('key' => array('data')))),
+                'group_id' => null,
+                'scope' => 'websites',
+                'scope_id' => 0,
+                'scope_code' => 'website',
+                'field_config' => null,
+                'fieldset_data' => array('key' => null)
+            )
+        );
+        $backendModel->expects(
+            $this->once()
+        )->method(
+            'setPath'
+        )->with(
+            '/key'
+        )->will(
+            $this->returnValue($backendModel)
+        );
 
         $this->_dataFactoryMock->expects($this->any())->method('create')->will($this->returnValue($backendModel));
 

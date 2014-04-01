@@ -27,8 +27,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionNone()
     {
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sitemap\Model\Resource\Catalog\Product'
+        );
         $products = $model->getCollection(\Magento\Store\Model\Store::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
@@ -53,8 +54,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionAll()
     {
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sitemap\Model\Resource\Catalog\Product'
+        );
         $products = $model->getCollection(\Magento\Store\Model\Store::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
@@ -120,8 +122,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionBase()
     {
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sitemap\Model\Resource\Catalog\Product'
+        );
         $products = $model->getCollection(\Magento\Store\Model\Store::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));

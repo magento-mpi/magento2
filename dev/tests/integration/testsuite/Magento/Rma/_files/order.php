@@ -45,19 +45,28 @@ $orderItem->setProductId(
 );
 
 /** @var $order \Magento\Sales\Model\Order */
-$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order');
-$order->addItem($orderItem)
-    ->setIncrementId('100000001')
-    ->setSubtotal(100)
-    ->setBaseSubtotal(100)
-    ->setCustomerIsGuest(true)
-    ->setCustomerEmail('admin@example.com')
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
-    ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore()->getId()
-    )
-    ->setPayment($payment);
+$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
+$order->addItem(
+    $orderItem
+)->setIncrementId(
+    '100000001'
+)->setSubtotal(
+    100
+)->setBaseSubtotal(
+    100
+)->setCustomerIsGuest(
+    true
+)->setCustomerEmail(
+    'admin@example.com'
+)->setBillingAddress(
+    $billingAddress
+)->setShippingAddress(
+    $shippingAddress
+)->setStoreId(
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        'Magento\Store\Model\StoreManagerInterface'
+    )->getStore()->getId()
+)->setPayment(
+    $payment
+);
 $order->save();

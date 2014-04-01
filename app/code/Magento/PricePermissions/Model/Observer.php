@@ -147,7 +147,7 @@ class Observer
         \Magento\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\ProductFactory  $productFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -611,12 +611,10 @@ class Observer
                 'special_from_date',
                 'special_to_date',
                 'cost',
-                // GiftCard attributes
                 'open_amount_max',
                 'open_amount_min',
                 'allow_open_amount',
                 'giftcard_amounts',
-                // MAP attributes
                 'msrp_enabled',
                 'msrp_display_actual_price_type',
                 'msrp'

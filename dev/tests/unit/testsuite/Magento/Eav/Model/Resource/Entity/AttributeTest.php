@@ -237,13 +237,15 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         );
 
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('getStores'), array(), '', false);
-        $storeManager->expects($this->any())
-            ->method('getStores')
-            ->with(true)
-            ->will($this->returnValue(array(
-                new \Magento\Object(array('id' => 0)),
-                new \Magento\Object(array('id' => 1)),
-            )));
+        $storeManager->expects(
+            $this->any()
+        )->method(
+            'getStores'
+        )->with(
+            true
+        )->will(
+            $this->returnValue(array(new \Magento\Object(array('id' => 0)), new \Magento\Object(array('id' => 1))))
+        );
 
         /** @var $resource \Magento\App\Resource */
         $resource = $this->getMock(

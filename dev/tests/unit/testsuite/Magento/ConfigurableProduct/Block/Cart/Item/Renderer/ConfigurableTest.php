@@ -23,7 +23,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $productConfigMock;
-    
+
     /** @var Renderer */
     protected $_renderer;
 
@@ -53,7 +53,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
                 'viewConfig' => $this->_configManager,
                 'imageHelper' => $this->_imageHelper,
                 'scopeConfig' => $this->_storeConfig,
-                'productConfig' =>$this->productConfigMock,
+                'productConfig' => $this->productConfigMock
             )
         );
     }
@@ -182,9 +182,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     protected function _initProducts($childHasThumbnail = true, $useParentThumbnail = false)
     {
         /** Set option which can force usage of parent product thumbnail when configurable product is displayed */
-        $thumbnailToBeUsed = $useParentThumbnail ?
-            ThumbnailSource::OPTION_USE_PARENT_IMAGE :
-            ThumbnailSource::OPTION_USE_OWN_IMAGE;
+        $thumbnailToBeUsed = $useParentThumbnail ? ThumbnailSource::OPTION_USE_PARENT_IMAGE : ThumbnailSource::OPTION_USE_OWN_IMAGE;
         $this->_storeConfig->expects(
             $this->any()
         )->method(

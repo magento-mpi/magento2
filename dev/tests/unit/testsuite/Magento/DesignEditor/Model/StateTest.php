@@ -145,31 +145,40 @@ class StateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_application = $this->getMock('Magento\Core\Model\App', array('getStore', 'getValue'),
-            array(), '', false);
+        $this->_application = $this->getMock(
+            'Magento\Core\Model\App',
+            array('getStore', 'getValue'),
+            array(),
+            '',
+            false
+        );
 
         $mutableConfig = $this->getMockForAbstractClass('\Magento\App\Config\MutableScopeConfigInterface');
-        $mutableConfig->expects($this->any())
-            ->method('setValue')
-            ->with(
-                $this->equalTo(\Magento\View\DesignInterface::XML_PATH_THEME_ID),
-                $this->equalTo(self::THEME_ID),
-                $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            )
-            ->will($this->returnSelf());
+        $mutableConfig->expects(
+            $this->any()
+        )->method(
+            'setValue'
+        )->with(
+            $this->equalTo(\Magento\View\DesignInterface::XML_PATH_THEME_ID),
+            $this->equalTo(self::THEME_ID),
+            $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+        )->will(
+            $this->returnSelf()
+        );
 
         $this->_configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->_configMock->expects($this->any())
-            ->method('setNode')
-            ->with(
-                $this->equalTo('default/' . \Magento\View\DesignInterface::XML_PATH_THEME_ID),
-                $this->equalTo(self::THEME_ID)
-            )
-            ->will($this->returnSelf());
+        $this->_configMock->expects(
+            $this->any()
+        )->method(
+            'setNode'
+        )->with(
+            $this->equalTo('default/' . \Magento\View\DesignInterface::XML_PATH_THEME_ID),
+            $this->equalTo(self::THEME_ID)
+        )->will(
+            $this->returnSelf()
+        );
 
-        $this->_application->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue($configMock));
+        $this->_application->expects($this->any())->method('getValue')->will($this->returnValue($configMock));
 
         $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('getId', '__wakeup'), array(), '', false);
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(self::THEME_ID));

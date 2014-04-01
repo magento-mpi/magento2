@@ -39,7 +39,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager',
+        $this->_storeManagerMock = $this->getMock(
+            'Magento\Store\Model\StoreManager',
             array(),
             array(),
             '',

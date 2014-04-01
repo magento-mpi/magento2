@@ -62,13 +62,15 @@ class Unsubscribe extends \Magento\App\Action\Action
         }
 
         try {
-            $model = $this->_objectManager->create('Magento\ProductAlert\Model\Price')
-                ->setCustomerId($this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId())
-                ->setProductId($product->getId())
-                ->setWebsiteId(
-                    $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
-                )
-                ->loadByParam();
+            $model = $this->_objectManager->create(
+                'Magento\ProductAlert\Model\Price'
+            )->setCustomerId(
+                $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId()
+            )->setProductId(
+                $product->getId()
+            )->setWebsiteId(
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+            )->loadByParam();
             if ($model->getId()) {
                 $model->delete();
             }
@@ -123,13 +125,15 @@ class Unsubscribe extends \Magento\App\Action\Action
         }
 
         try {
-            $model = $this->_objectManager->create('Magento\ProductAlert\Model\Stock')
-                ->setCustomerId($this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId())
-                ->setProductId($product->getId())
-                ->setWebsiteId(
-                    $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
-                )
-                ->loadByParam();
+            $model = $this->_objectManager->create(
+                'Magento\ProductAlert\Model\Stock'
+            )->setCustomerId(
+                $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId()
+            )->setProductId(
+                $product->getId()
+            )->setWebsiteId(
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+            )->loadByParam();
             if ($model->getId()) {
                 $model->delete();
             }

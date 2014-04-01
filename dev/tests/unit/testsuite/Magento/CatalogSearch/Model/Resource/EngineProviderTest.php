@@ -36,9 +36,7 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_storeConfigMock = $this->getMock(
-            'Magento\App\Config\ScopeConfigInterface'
-        );
+        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->_model = new \Magento\CatalogSearch\Model\Resource\EngineProvider(
             $this->_engineFactoryMock,

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Store\Block;
 
 class SwitchTest extends \PHPUnit_Framework_TestCase
@@ -31,7 +30,8 @@ class SwitchTest extends \PHPUnit_Framework_TestCase
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject(
-            'Magento\Store\Block\Switcher', array('storeManager' => $this->_storeManagerMock)
+            'Magento\Store\Block\Switcher',
+            array('storeManager' => $this->_storeManagerMock)
         );
     }
 

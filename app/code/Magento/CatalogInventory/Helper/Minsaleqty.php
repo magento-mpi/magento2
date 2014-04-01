@@ -63,19 +63,21 @@ class Minsaleqty
         if (is_numeric($value)) {
             $data = (double)$value;
             return (string)$data;
-        } else if (is_array($value)) {
-            $data = array();
-            foreach ($value as $groupId => $qty) {
-                if (!array_key_exists($groupId, $data)) {
-                    $data[$groupId] = $this->_fixQty($qty);
-                }
-            }
-            if (count($data) == 1 && array_key_exists(\Magento\Customer\Model\Group::CUST_GROUP_ALL, $data)) {
-                return (string)$data[\Magento\Customer\Model\Group::CUST_GROUP_ALL];
-            }
-            return serialize($data);
         } else {
-            return '';
+            if (is_array($value)) {
+                $data = array();
+                foreach ($value as $groupId => $qty) {
+                    if (!array_key_exists($groupId, $data)) {
+                        $data[$groupId] = $this->_fixQty($qty);
+                    }
+                }
+                if (count($data) == 1 && array_key_exists(\Magento\Customer\Model\Group::CUST_GROUP_ALL, $data)) {
+                    return (string)$data[\Magento\Customer\Model\Group::CUST_GROUP_ALL];
+                }
+                return serialize($data);
+            } else {
+                return '';
+            }
         }
     }
 
@@ -180,7 +182,11 @@ class Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = $this->_storeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $value = $this->_storeConfig->getValue(
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         $value = $this->_unserializeValue($value);
         if ($this->_isEncodedArrayFieldValue($value)) {
             $value = $this->_decodeArrayFieldValue($value);
@@ -190,8 +196,10 @@ class Minsaleqty
             if ($groupId == $customerGroupId) {
                 $result = $qty;
                 break;
-            } else if ($groupId == \Magento\Customer\Model\Group::CUST_GROUP_ALL) {
-                $result = $qty;
+            } else {
+                if ($groupId == \Magento\Customer\Model\Group::CUST_GROUP_ALL) {
+                    $result = $qty;
+                }
             }
         }
         return $this->_fixQty($result);

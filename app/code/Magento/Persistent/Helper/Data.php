@@ -86,7 +86,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isEnabled($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(
+            self::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -97,7 +101,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isRememberMeEnabled($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_REMEMBER_ME_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(
+            self::XML_PATH_REMEMBER_ME_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -108,7 +116,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isRememberMeCheckedDefault($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_REMEMBER_ME_DEFAULT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(
+            self::XML_PATH_REMEMBER_ME_DEFAULT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -119,7 +131,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isShoppingCartPersist($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_SHOPPING_CART, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(
+            self::XML_PATH_PERSIST_SHOPPING_CART,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -130,8 +146,14 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getLifeTime($store = null)
     {
-        $lifeTime = intval($this->_storeConfig->getValue(self::XML_PATH_LIFE_TIME, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store));
-        return ($lifeTime < 0) ? 0 : $lifeTime;
+        $lifeTime = intval(
+            $this->_storeConfig->getValue(
+                self::XML_PATH_LIFE_TIME,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            )
+        );
+        return $lifeTime < 0 ? 0 : $lifeTime;
     }
 
     /**
@@ -141,7 +163,10 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getClearOnLogout()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_LOGOUT_CLEAR, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->isSetFlag(
+            self::XML_PATH_LOGOUT_CLEAR,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

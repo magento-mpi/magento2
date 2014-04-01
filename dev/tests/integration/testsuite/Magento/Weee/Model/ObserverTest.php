@@ -43,13 +43,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Registry')->register('current_product', $product->load(1));
 
         foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\App\Config\MutableScopeConfigInterface')
-                ->setValue(
-                    'tax/weee/display',
-                    $mode,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                );
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\App\Config\MutableScopeConfigInterface'
+            )->setValue(
+                'tax/weee/display',
+                $mode,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateProductOptions($eventObserver);
             $this->assertEquals(
@@ -59,14 +59,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         }
 
         foreach (array(
-            \Magento\Weee\Model\Tax::DISPLAY_EXCL, \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\App\Config\MutableScopeConfigInterface')
-                ->setValue(
-                    'tax/weee/display',
-                    $mode,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                );
+            \Magento\Weee\Model\Tax::DISPLAY_EXCL,
+            \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
+        ) as $mode) {
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\App\Config\MutableScopeConfigInterface'
+            )->setValue(
+                'tax/weee/display',
+                $mode,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateProductOptions($eventObserver);
             $this->assertEquals(

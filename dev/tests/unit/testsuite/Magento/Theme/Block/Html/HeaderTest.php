@@ -17,27 +17,30 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLogoSrc()
     {
-        $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false );
-        $mediaDirectory = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false );
+        $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
+        $mediaDirectory = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
         $storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $urlBuilder = $this->getMock('Magento\UrlInterface');
 
-        $storeConfig->expects($this->once())
-            ->method('getValue')
-            ->will($this->returnValue('default/image.gif'));
-        $urlBuilder->expects($this->once())
-            ->method('getBaseUrl')
-            ->will($this->returnValue('http://localhost/pub/media/'));
-        $mediaDirectory->expects($this->any())
-            ->method('isFile')
-            ->will($this->returnValue(true));
+        $storeConfig->expects($this->once())->method('getValue')->will($this->returnValue('default/image.gif'));
+        $urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getBaseUrl'
+        )->will(
+            $this->returnValue('http://localhost/pub/media/')
+        );
+        $mediaDirectory->expects($this->any())->method('isFile')->will($this->returnValue(true));
 
-        $filesystem->expects($this->any())
-            ->method('getDirectoryRead')
-            ->will($this->returnValue($mediaDirectory));
-        $helper = $this->getMock('Magento\Core\Helper\File\Storage\Database',
-            array('checkDbUsage'), array(), '', false, false
+        $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($mediaDirectory));
+        $helper = $this->getMock(
+            'Magento\Core\Helper\File\Storage\Database',
+            array('checkDbUsage'),
+            array(),
+            '',
+            false,
+            false
         );
         $helper->expects($this->once())->method('checkDbUsage')->will($this->returnValue(false));
 

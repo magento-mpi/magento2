@@ -71,10 +71,16 @@ class Group extends \Magento\Model\Resource\Db\AbstractDb
     protected function _changeWebsite(\Magento\Model\AbstractModel $model)
     {
         if ($model->getOriginalWebsiteId() && $model->getWebsiteId() != $model->getOriginalWebsiteId()) {
-            $select = $this->_getWriteAdapter()->select()
-               ->from($this->getTable('store_website'), 'default_group_id')
-               ->where('website_id = :website_id');
-            $groupId = $this->_getWriteAdapter()->fetchOne($select, array('website_id' => $model->getOriginalWebsiteId()));
+            $select = $this->_getWriteAdapter()->select()->from(
+                $this->getTable('store_website'),
+                'default_group_id'
+            )->where(
+                'website_id = :website_id'
+            );
+            $groupId = $this->_getWriteAdapter()->fetchOne(
+                $select,
+                array('website_id' => $model->getOriginalWebsiteId())
+            );
 
             if ($groupId == $model->getId()) {
                 $bind = array('default_group_id' => 0);

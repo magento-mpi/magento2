@@ -223,10 +223,17 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         }
         $this->_methodInstance->expects($this->once())->method('getCode')->will($this->returnValue('some_code'));
         $path = 'payment/some_code/some_field';
-        $this->_storeConfig->expects($this->once())
-            ->method('getValue')
-            ->with($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $newStoreId)
-            ->will($this->returnValue('config value'));
+        $this->_storeConfig->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $newStoreId
+        )->will(
+            $this->returnValue('config value')
+        );
         $this->assertEquals('config value', $this->_model->getConfigData('some_field', $storeId));
     }
 

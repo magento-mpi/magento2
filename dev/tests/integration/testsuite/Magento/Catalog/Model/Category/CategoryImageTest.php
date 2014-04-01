@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Category;
 
-use Magento\Catalog\Model\Category\CategoryImageTest\StubZendLogWriterStreamTest as StubZendLogWriterStreamTest;
+use Magento\Catalog\Model\Category\CategoryImageTest\StubZendLogWriterStreamTest;
 
 class CategoryImageTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,27 +33,37 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_oldLogActive = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getConfig('dev/log/active');
-        $this->_oldExceptionFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getConfig('dev/log/exception_file');
+        $this->_oldLogActive = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore()->getConfig(
+            'dev/log/active'
+        );
+        $this->_oldExceptionFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore()->getConfig(
+            'dev/log/exception_file'
+        );
     }
 
     protected function tearDown()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue('dev/log/active', $this->_oldLogActive, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            'dev/log/active',
+            $this->_oldLogActive,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         $this->_oldLogActive = null;
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                'dev/log/exception_file',
-                $this->_oldExceptionFile,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            'dev/log/exception_file',
+            $this->_oldExceptionFile,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         $this->_oldExceptionFile = null;
 

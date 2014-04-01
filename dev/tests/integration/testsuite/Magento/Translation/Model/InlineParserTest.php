@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Translation\Model;
 
 class InlineParserTest extends \PHPUnit_Framework_TestCase
@@ -30,10 +29,9 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var $inline \Magento\Translate\Inline */
-        $inline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Translate\Inline');
+        $inline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Translate\Inline');
         $this->_inlineParser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Translation\Model\Inline\Parser', 
+            'Magento\Translation\Model\Inline\Parser',
             array('translateInline' => $inline)
         );
         /* Called getConfig as workaround for setConfig bug */

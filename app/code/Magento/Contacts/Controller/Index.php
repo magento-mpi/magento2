@@ -64,7 +64,13 @@ class Index extends \Magento\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if (!$this->_objectManager->get(
+            'Magento\App\Config\ScopeConfigInterface'
+        )->isSetFlag(
+            self::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);

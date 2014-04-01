@@ -789,17 +789,22 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             /** @var $website \Magento\Store\Model\Website */
             $website = $this->_websiteFactory->create()->load($this->_requestHttp->getParam('website'));
             $secure = $this->_storeConfig->isSetFlag(
-                \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $website->getDefaultStore()
             );
-            $path = $secure
-                ? \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LINK_URL
-                : \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL;
-            $websiteUrl = $this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $website->getDefaultStore());
+            $path = $secure ? \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LINK_URL : \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL;
+            $websiteUrl = $this->_storeConfig->getValue(
+                $path,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $website->getDefaultStore()
+            );
         } else {
-            $secure = $this->_storeConfig->isSetFlag(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-            $websiteUrl = $this->_storeManager->getStore()
-                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, $secure);
+            $secure = $this->_storeConfig->isSetFlag(
+                \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+            $websiteUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, $secure);
         }
 
         return $websiteUrl . 'paypal/' . $this->getCallbackController() . '/' . $actionName;

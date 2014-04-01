@@ -50,14 +50,16 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
      */
     protected function _prepareData()
     {
-        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->setMethods(array('isVirtual', '__wakeup'))
-            ->getMock();
-        $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice', 'getId', '__wakeup'))
-            ->getMock();
+        $product = $this->getMockBuilder(
+            'Magento\Catalog\Model\Product'
+        )->disableOriginalConstructor()->setMethods(
+            array('isVirtual', '__wakeup')
+        )->getMock();
+        $storeMock = $this->getMockBuilder(
+            'Magento\Store\Model\Store'
+        )->disableOriginalConstructor()->setMethods(
+            array('convertPrice', 'getId', '__wakeup')
+        )->getMock();
         $this->_wrappingMock = $this->getMock(
             'Magento\GiftWrapping\Model\Wrapping',
             array('load', 'setStoreId', 'getBasePrice', '__wakeup'),
