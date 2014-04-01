@@ -112,7 +112,7 @@ class Proxy extends \Magento\App\AreaList
      */
     public function getFrontName($areaCode)
     {
-        return $this->_getSubject()->getCodeByFrontName($frontName);
+        return $this->_getSubject()->getFrontName($areaCode);
     }
 
     /**
@@ -122,7 +122,7 @@ class Proxy extends \Magento\App\AreaList
      */
     public function getCodes()
     {
-        return $this->_getSubject()->getCodeByFrontName($frontName);
+        return $this->_getSubject()->getCodes();
     }
 
     /**
@@ -133,7 +133,7 @@ class Proxy extends \Magento\App\AreaList
      */
     public function getDefaultRouter($areaCode)
     {
-        return $this->_getSubject()->getCodeByFrontName($frontName);
+        return $this->_getSubject()->getDefaultRouter($areaCode);
     }
 
     /**
@@ -144,6 +144,6 @@ class Proxy extends \Magento\App\AreaList
      */
     public function getArea($code)
     {
-        return $this->_getSubject()->getCodeByFrontName($frontName);
+        return $this->_getSubject()->getArea($code);
     }
 }
