@@ -13,8 +13,6 @@
 /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
 $tierPriceModel = $this->getPrice();
 $tierPrices = $tierPriceModel->getTierPriceList();
-/** @var float $minPrice is a minimal available price */
-$minPrice = $this->getPriceType(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
 ?>
 <?php if (count($tierPrices)) : ?>
     <ul class="<?php echo ($this->hasListClass() ? $this->getListClass() : 'prices tier items'); ?>">
@@ -34,7 +32,7 @@ $minPrice = $this->getPriceType(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_
                     )
                 );
             ?>&nbsp;<?php echo __('each') ?>
-            <?php if ($this->getShowDetailedPrice() !== false && $minPrice > $price['price']): ?>
+            <?php if ($this->getShowDetailedPrice() !== false): ?>
                 <?php echo __('and') ?>&nbsp;<strong class="benefit">
                     <?php echo __('save')?>
                     <span class="percent tier-<?php echo $index ?>"><?php echo $price['savePercent']?></span>%

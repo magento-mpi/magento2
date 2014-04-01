@@ -86,7 +86,7 @@ class RegularPrice implements PriceInterface
     {
         if ($this->value === null) {
             $price = $this->salableItem->getPrice();
-            $this->value = $price ? $price : false;
+            $this->value = $price ? floatval($price) : false;
         }
         return $this->value;
     }
