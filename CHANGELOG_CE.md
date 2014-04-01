@@ -37,6 +37,7 @@
   * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
   * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
   * [#516] (https://github.com/magento/magento2/issues/516) -- Make Sure That save_before Event Is Dispatched
+  * [#465] (https://github.com/magento/magento2/issues/465) -- Absolute path is assembled incorrectly when merging js/css files
 * Customer Service usage:
   * Refactored Log Module to use Customer Service (MAGETWO-20475)
   * Refactored RSS module to use Customer Service (MAGETWO-20495)
