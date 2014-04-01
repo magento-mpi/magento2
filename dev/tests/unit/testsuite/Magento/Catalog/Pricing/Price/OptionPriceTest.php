@@ -29,6 +29,19 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
      */
     protected $priceInfo;
 
+    /**
+     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $calculator;
+
+    /**
+     * @var \Magento\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $amount;
+
+    /**
+     * SetUp
+     */
     protected function setUp()
     {
         $this->product = $this->getMock(
@@ -51,7 +64,27 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfo));
 
-        $this->object = new OptionPrice($this->product, PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT);
+        $this->calculator = $this->getMock(
+            'Magento\Pricing\Adjustment\Calculator',
+            [],
+            [],
+            '',
+            false
+        );
+
+        $this->amount = $this->getMock(
+            'Magento\Pricing\Amount\Base',
+            [],
+            [],
+            '',
+            false
+        );
+
+        $this->object = new OptionPrice(
+            $this->product,
+            PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT,
+            $this->calculator
+        );
     }
 
     /**
@@ -126,6 +159,15 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
         $id = 1;
         $expected = [$id => [$price => ['base_amount' => $price, 'adjustment' => $displayValue]]];
 
+
+        $this->amount->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue(120));
+
+        $this->calculator->expects($this->once())
+            ->method('getAmount')
+            ->will($this->returnValue($this->amount));
+
         $amountMock = $this->getMockBuilder('Magento\Pricing\Amount')
             ->disableOriginalConstructor()
             ->getMock();
@@ -147,25 +189,15 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getValues', '__wakeup'])
             ->getMock();
-        $optionItemMock->expects($this->once())
+        $optionItemMock->expects($this->any())
             ->method('getValues')
             ->will($this->returnValue(array($optionValueMock)));
-        $this->priceInfo->expects($this->once())
-            ->method('getAmount')
-            ->with($this->equalTo($price))
-            ->will($this->returnValue($amountMock));
-        $amountMock->expects($this->once())
-            ->method('getDisplayAmount')
-            ->with($this->equalTo(null))
-            ->will($this->returnValue($displayValue));
         $options = [$optionItemMock];
         $this->product->expects($this->once())
             ->method('getOptions')
             ->will($this->returnValue($options));
         $result = $this->object->getOptions();
         $this->assertEquals($expected, $result);
-
-        // Return from cache
         $result = $this->object->getOptions();
         $this->assertEquals($expected, $result);
     }
