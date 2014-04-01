@@ -134,34 +134,24 @@ class Config
     public function getRestRoutes(\Magento\Webapi\Controller\Rest\Request $request)
     {
         $serviceBaseUrl = $this->_getServiceBaseUrl($request);
-        $httpMethod = $request->getHttpMethod();
+        $requestHttpMethod = $request->getHttpMethod();
         $routes = array();
-        foreach ($this->_config->getServices() as $serviceName => $serviceData) {
+        foreach ($this->_config->getServices()['routes'] as $url => $httpMethods) {
             // skip if baseurl is not null and does not match
-            if (!isset(
-                $serviceData[Converter::KEY_BASE_URL]
-            ) || !$serviceBaseUrl || strcasecmp(
-                trim($serviceBaseUrl, '/'),
-                trim($serviceData[Converter::KEY_BASE_URL], '/')
-            ) !== 0
-            ) {
+            if (!$serviceBaseUrl || strpos(trim($url, '/'), trim($serviceBaseUrl, '/')) !== 0) {
                 // baseurl does not match, just skip this service
                 continue;
             }
-            foreach ($serviceData[Converter::KEY_SERVICE_METHODS] as $methodName => $methodInfo) {
-                if (strtoupper($methodInfo[Converter::KEY_HTTP_METHOD]) == strtoupper($httpMethod)) {
-                    $secure = $methodInfo[Converter::KEY_IS_SECURE];
-                    $methodRoute = $methodInfo[Converter::KEY_METHOD_ROUTE];
-                    $aclResources = $methodInfo[Converter::KEY_ACL_RESOURCES];
-                    $routes[] = $this->_createRoute(
-                        array(
-                            self::KEY_ROUTE_PATH => $serviceData[Converter::KEY_BASE_URL] . $methodRoute,
-                            self::KEY_CLASS => $serviceName,
-                            self::KEY_METHOD => $methodName,
-                            self::KEY_IS_SECURE => $secure,
-                            self::KEY_ACL_RESOURCES => $aclResources
-                        )
-                    );
+            foreach ($httpMethods as $httpMethod => $methodInfo) {
+                if (strtoupper($httpMethod) == strtoupper($requestHttpMethod)) {
+                    $aclResources = array_keys($methodInfo[Converter::KEY_ACL_RESOURCES]);
+                    $routes[] = $this->_createRoute([
+                        self::KEY_ROUTE_PATH => $url,
+                        self::KEY_CLASS => $methodInfo['service']['class'],
+                        self::KEY_METHOD => $methodInfo['service']['method'],
+                        self::KEY_IS_SECURE => $methodInfo[Converter::KEY_IS_SECURE],
+                        self::KEY_ACL_RESOURCES => $aclResources
+                    ]);
                 }
             }
         }

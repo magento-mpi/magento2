@@ -24,7 +24,7 @@
             <xs:element name="resources" type="resourcesType"/>
             <xs:element name="data" type="dataType" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="method">
+        <xs:attribute name="method" use="required">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="GET"/>
@@ -34,12 +34,13 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="url" type="xs:string"/>
+        <xs:attribute name="url" type="xs:string" use="required"/>
+        <xs:attribute name="secure" type="xs:boolean"/>
     </xs:complexType>
 
     <xs:complexType name="serviceType">
-        <xs:attribute name="class" type="xs:string"/>
-        <xs:attribute name="method" type="xs:string"/>
+        <xs:attribute name="class" type="xs:string" use="required"/>
+        <xs:attribute name="method" type="xs:string" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="resourcesType" >
@@ -49,7 +50,7 @@
     </xs:complexType>
 
     <xs:complexType name="resourceType">
-       <xs:attribute name="ref">
+       <xs:attribute name="ref" use="required">
            <xs:simpleType>
                <xs:restriction base="xs:string">
                    <xs:pattern value=".+::.+(, ?.+::.+)*"/>
@@ -67,7 +68,7 @@
     <xs:complexType name="parameterType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute name="name" type="xs:string"/>
+                <xs:attribute name="name" type="xs:string" use="required"/>
                 <xs:attribute name="force" type="xs:boolean"/>
             </xs:extension>
         </xs:simpleContent>

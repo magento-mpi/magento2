@@ -130,18 +130,15 @@ class Config
         // TODO: Implement caching if this approach is approved
         if (is_null($this->_soapServices)) {
             $this->_soapServices = array();
-            foreach ($this->_config->getServices() as $serviceData) {
-                $serviceClass = $serviceData[Converter::KEY_SERVICE_CLASS];
+            foreach ($this->_config->getServices()['services'] as $serviceClass => $serviceData) {
                 $serviceName = $this->_helper->getServiceName($serviceClass);
-                foreach ($serviceData[Converter::KEY_SERVICE_METHODS] as $methodMetadata) {
-                    // TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST
-                    $methodName = $methodMetadata[Converter::KEY_SERVICE_METHOD];
-                    $this->_soapServices[$serviceName]['methods'][$methodName] = array(
+                foreach ($serviceData as $methodName => $methodMetadata) {
+                    $this->_soapServices[$serviceName]['methods'][$methodName] = [
                         self::KEY_METHOD => $methodName,
                         self::KEY_IS_REQUIRED => (bool)$methodMetadata[Converter::KEY_IS_SECURE],
                         self::KEY_IS_SECURE => $methodMetadata[Converter::KEY_IS_SECURE],
-                        self::KEY_ACL_RESOURCES => $methodMetadata[Converter::KEY_ACL_RESOURCES]
-                    );
+                        self::KEY_ACL_RESOURCES => array_keys($methodMetadata[Converter::KEY_ACL_RESOURCES]),
+                    ];
                     $this->_soapServices[$serviceName][self::KEY_CLASS] = $serviceClass;
                 }
                 $reflectedMethodsMetadata = $this->_classReflector->reflectClassMethods(

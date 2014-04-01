@@ -17,11 +17,11 @@ class Converter implements \Magento\Config\ConverterInterface
      */
     const KEY_SERVICE_CLASS = 'class';
 
-    const KEY_BASE_URL = 'baseUrl';
+    const KEY_URL = 'url';
 
     const KEY_SERVICE_METHOD = 'method';
 
-    const KEY_IS_SECURE = 'isSecure';
+    const KEY_IS_SECURE = 'secure';
 
     const KEY_HTTP_METHOD = 'httpMethod';
 
@@ -38,53 +38,69 @@ class Converter implements \Magento\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array();
-        /** @var \DOMNodeList $services */
-        $services = $source->getElementsByTagName('service');
-        /** @var \DOMElement $service */
-        foreach ($services as $service) {
-            if ($service->nodeType != XML_ELEMENT_NODE) {
+        $result = [];
+        /** @var \DOMNodeList $routes */
+        $routes = $source->getElementsByTagName('route');
+        /** @var \DOMElement $route */
+        foreach ($routes as $route) {
+            if ($route->nodeType != XML_ELEMENT_NODE) {
                 continue;
             }
+            /** @var \DOMElement $service */
+            $service = $route->getElementsByTagName('service')->item(0);
             $serviceClass = $service->attributes->getNamedItem('class')->nodeValue;
-            $result[$serviceClass] = array(
-                self::KEY_SERVICE_CLASS => $serviceClass,
-                self::KEY_SERVICE_METHODS => array()
-            );
+            $serviceMethod = $service->attributes->getNamedItem('method')->nodeValue;
 
-            /** @var \DOMAttr $baseUrlNode */
-            $baseUrlNode = $service->attributes->getNamedItem('baseUrl');
-            if ($baseUrlNode) {
-                $result[$serviceClass][self::KEY_BASE_URL] = $baseUrlNode->nodeValue;
-            }
-
-            /** @var \DOMNodeList $restRoutes */
-            $restRoutes = $service->getElementsByTagName('rest-route');
-            /** @var \DOMElement $restRoute */
-            foreach ($restRoutes as $restRoute) {
-                if ($restRoute->nodeType != XML_ELEMENT_NODE) {
+            $resources = $route->getElementsByTagName('resource');
+            $resourceReferences = [];
+            /** @var \DOMElement $resource */
+            foreach ($resources as $resource) {
+                if ($resource->nodeType != XML_ELEMENT_NODE) {
                     continue;
                 }
-                $httpMethod = $restRoute->attributes->getNamedItem('httpMethod')->nodeValue;
-                $method = $restRoute->attributes->getNamedItem('method')->nodeValue;
-
-                $resources = $restRoute->attributes->getNamedItem('resources')->nodeValue;
-                /** Allow whitespace usage after comma. */
-                $resources = str_replace(', ', ',', $resources);
-                $resources = explode(',', $resources);
-
-                $isSecureAttribute = $restRoute->attributes->getNamedItem('isSecure');
-                $isSecure = $isSecureAttribute ? true : false;
-                $path = (string)$restRoute->nodeValue;
-
-                $result[$serviceClass][self::KEY_SERVICE_METHODS][$method] = array(
-                    self::KEY_HTTP_METHOD => $httpMethod,
-                    self::KEY_SERVICE_METHOD => $method,
-                    self::KEY_METHOD_ROUTE => $path,
-                    self::KEY_IS_SECURE => $isSecure,
-                    self::KEY_ACL_RESOURCES => $resources
-                );
+                $ref = $resource->attributes->getNamedItem('ref')->nodeValue;
+                $resourceReferences[$ref] = true;
+                // For SOAP
+                $result['services'][$serviceClass][$serviceMethod]['resources'][$ref] = true;
             }
+
+            $parameters = $route->getElementsByTagName('parameter');
+            $data = [];
+            /** @var \DOMElement $parameter */
+            foreach ($parameters as $parameter) {
+                if ($parameter->nodeType != XML_ELEMENT_NODE) {
+                    continue;
+                }
+                $name = $parameter->attributes->getNamedItem('name')->nodeValue;
+                $forceNode = $parameter->attributes->getNamedItem('force');
+                $force = $forceNode ? (bool)$forceNode->nodeValue : false;
+                $value = $parameter->nodeValue;
+                $data[$name] = [
+                    'force' => $force,
+                    'value' => $value,
+                ];
+            }
+
+            $method = $route->attributes->getNamedItem('method')->nodeValue;
+            $url = trim($route->attributes->getNamedItem('url')->nodeValue);
+            $secureNode = $route->attributes->getNamedItem('secure');
+            $secure = $secureNode ? (bool)trim($secureNode->nodeValue) : false;
+            // We could handle merging here by checking if the route already exists
+            $result['routes'][$url][$method] = [
+                'secure' => $secure,
+                'service' => [
+                    'class' => $serviceClass,
+                    'method' => $serviceMethod,
+                ],
+                'resources' => $resourceReferences,
+                'parameters' => $data,
+            ];
+            $serviceSecure = false;
+            if (isset($result['services'][$serviceClass][$serviceMethod]['secure'])) {
+                $serviceSecure = $result['services'][$serviceClass][$serviceMethod]['secure'];
+            }
+            $result['services'][$serviceClass][$serviceMethod]['secure'] = $serviceSecure || $secure;
+
         }
         return $result;
     }
