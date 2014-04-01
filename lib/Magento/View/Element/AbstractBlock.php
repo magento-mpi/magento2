@@ -157,6 +157,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_isScopePrivate = false;
 
     /**
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_storeConfig;
+
+    /**
      * Constructor
      *
      * @param \Magento\View\Element\Context $context
