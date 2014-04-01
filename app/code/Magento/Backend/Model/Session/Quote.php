@@ -116,11 +116,15 @@ class Quote extends \Magento\Session\SessionManager
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())->load($this->getQuoteId());
             } elseif ($this->getStoreId() && $this->hasCustomerId()) {
-                $customerData = $this->_customerService->getCustomer($this->getCustomerId());
+                try {
+                    $customerData = $this->_customerService->getCustomer($this->getCustomerId());
+                    $this->_quote->assignCustomer($customerData);
+                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                    /** Customer does not exist */
+                }
                 $this->_quote
                     ->setStoreId($this->getStoreId())
                     ->setCustomerGroupId($this->_coreStoreConfig->getConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
-                    ->assignCustomer($customerData)
                     ->setIsActive(false)
                     ->save();
                 $this->setQuoteId($this->_quote->getId());
