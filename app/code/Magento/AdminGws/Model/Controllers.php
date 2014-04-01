@@ -931,7 +931,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento\Core\Model\Url\Rewrite')->load($id);
+            $object = $this->_objectManager->create('Magento\UrlRewrite\Model\UrlRewrite')->load($id);
             if ($object && $object->getId()) {
                 if (!$this->_role->hasStoreAccess($object->getStoreId())) {
                     $this->_forward();
