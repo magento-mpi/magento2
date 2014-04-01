@@ -16,21 +16,16 @@ class Converter implements \Magento\Config\ConverterInterface
      * Array keys for config internal representation.
      */
     const KEY_SERVICE_CLASS = 'class';
-
     const KEY_URL = 'url';
-
     const KEY_SERVICE_METHOD = 'method';
-
-    const KEY_IS_SECURE = 'secure';
-
-    const KEY_HTTP_METHOD = 'httpMethod';
-
-    const KEY_SERVICE_METHODS = 'methods';
-
-    const KEY_METHOD_ROUTE = 'route';
-
+    const KEY_SECURE = 'secure';
+    const KEY_ROUTES = 'routes';
     const KEY_ACL_RESOURCES = 'resources';
-
+    const KEY_SERVICE = 'service';
+    const KEY_SERVICES = 'services';
+    const KEY_FORCE = 'force';
+    const KEY_VALUE = 'value';
+    const KEY_DATA_PARAMETERS = 'parameters';
     /**#@-*/
 
     /**
@@ -61,7 +56,7 @@ class Converter implements \Magento\Config\ConverterInterface
                 $ref = $resource->attributes->getNamedItem('ref')->nodeValue;
                 $resourceReferences[$ref] = true;
                 // For SOAP
-                $result['services'][$serviceClass][$serviceMethod]['resources'][$ref] = true;
+                $result[self::KEY_SERVICES][$serviceClass][$serviceMethod][self::KEY_ACL_RESOURCES][$ref] = true;
             }
 
             $parameters = $route->getElementsByTagName('parameter');
@@ -76,8 +71,8 @@ class Converter implements \Magento\Config\ConverterInterface
                 $force = $forceNode ? (bool)$forceNode->nodeValue : false;
                 $value = $parameter->nodeValue;
                 $data[$name] = [
-                    'force' => $force,
-                    'value' => $value,
+                    self::KEY_FORCE => $force,
+                    self::KEY_VALUE => $value,
                 ];
             }
 
@@ -86,20 +81,20 @@ class Converter implements \Magento\Config\ConverterInterface
             $secureNode = $route->attributes->getNamedItem('secure');
             $secure = $secureNode ? (bool)trim($secureNode->nodeValue) : false;
             // We could handle merging here by checking if the route already exists
-            $result['routes'][$url][$method] = [
-                'secure' => $secure,
-                'service' => [
-                    'class' => $serviceClass,
-                    'method' => $serviceMethod,
+            $result[self::KEY_ROUTES][$url][$method] = [
+                self::KEY_SECURE => $secure,
+                self::KEY_SERVICE => [
+                    self::KEY_SERVICE_CLASS => $serviceClass,
+                    self::KEY_SERVICE_METHOD => $serviceMethod,
                 ],
-                'resources' => $resourceReferences,
-                'parameters' => $data,
+                self::KEY_ACL_RESOURCES => $resourceReferences,
+                self::KEY_DATA_PARAMETERS => $data,
             ];
             $serviceSecure = false;
-            if (isset($result['services'][$serviceClass][$serviceMethod]['secure'])) {
-                $serviceSecure = $result['services'][$serviceClass][$serviceMethod]['secure'];
+            if (isset($result[self::KEY_SERVICES][$serviceClass][$serviceMethod][self::KEY_SECURE])) {
+                $serviceSecure = $result[self::KEY_SERVICES][$serviceClass][$serviceMethod][self::KEY_SECURE];
             }
-            $result['services'][$serviceClass][$serviceMethod]['secure'] = $serviceSecure || $secure;
+            $result[self::KEY_SERVICES][$serviceClass][$serviceMethod][self::KEY_SECURE] = $serviceSecure || $secure;
 
         }
         return $result;

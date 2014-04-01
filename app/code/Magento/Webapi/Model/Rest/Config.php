@@ -136,7 +136,7 @@ class Config
         $serviceBaseUrl = $this->_getServiceBaseUrl($request);
         $requestHttpMethod = $request->getHttpMethod();
         $routes = array();
-        foreach ($this->_config->getServices()['routes'] as $url => $httpMethods) {
+        foreach ($this->_config->getServices()[Converter::KEY_ROUTES] as $url => $httpMethods) {
             // skip if baseurl is not null and does not match
             if (!$serviceBaseUrl || strpos(trim($url, '/'), trim($serviceBaseUrl, '/')) !== 0) {
                 // baseurl does not match, just skip this service
@@ -147,9 +147,9 @@ class Config
                     $aclResources = array_keys($methodInfo[Converter::KEY_ACL_RESOURCES]);
                     $routes[] = $this->_createRoute([
                         self::KEY_ROUTE_PATH => $url,
-                        self::KEY_CLASS => $methodInfo['service']['class'],
-                        self::KEY_METHOD => $methodInfo['service']['method'],
-                        self::KEY_IS_SECURE => $methodInfo[Converter::KEY_IS_SECURE],
+                        self::KEY_CLASS => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_CLASS],
+                        self::KEY_METHOD => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_METHOD],
+                        self::KEY_IS_SECURE => $methodInfo[Converter::KEY_SECURE],
                         self::KEY_ACL_RESOURCES => $aclResources
                     ]);
                 }
