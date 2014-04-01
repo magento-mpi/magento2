@@ -72,7 +72,7 @@ class OptionPrice extends RegularPrice implements OptionPriceInterface
                     $price = $optionValue->getPrice($optionValue->getPriceType() == 'percent');
                     $this->priceOptions[$optionValue->getId()][$price] = [
                         'base_amount' => $price,
-                        'adjustment' => $this->getDisplayValue($price)
+                        'adjustment' => $this->getAmount()->getValue()
                     ];
                 }
             }
