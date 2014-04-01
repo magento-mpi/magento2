@@ -9,6 +9,7 @@
  */
 namespace Magento\TestFramework\Authentication\Rest;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Client\ClientInterface;
 use OAuth\Common\Http\Exception\TokenResponseException;
@@ -82,7 +83,9 @@ class OauthClient extends AbstractService
      */
     public function getTestApiEndpoint()
     {
-        return new Uri(TESTS_BASE_URL . '/rest/V1/testmodule1');
+        $defaultStoreCode = Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->getCode();
+        return new Uri(TESTS_BASE_URL . '/rest/' . $defaultStoreCode . '/V1/testmodule1');
     }
 
     /**
