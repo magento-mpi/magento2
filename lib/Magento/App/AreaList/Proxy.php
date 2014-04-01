@@ -46,8 +46,11 @@ class Proxy extends \Magento\App\AreaList
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\App\AreaList', $shared = true)
-    {
+    public function __construct(
+        \Magento\ObjectManager $objectManager,
+        $instanceName = 'Magento\App\AreaList',
+        $shared = true
+    ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
         $this->_isShared = $shared;
