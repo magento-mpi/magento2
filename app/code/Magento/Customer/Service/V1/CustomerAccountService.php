@@ -223,9 +223,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // load customer by email
         $customer = $this->_customerRegistry->retrieveByEmail($email, $websiteId);
 
-        if (!$customer->getId()) {
-            throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
-        }
         $newPasswordToken = $this->_mathRandom->getUniqueHash();
         $customer->changeResetPasswordLinkToken($newPasswordToken);
         $resetUrl = $this->_url
