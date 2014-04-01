@@ -37,7 +37,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -102,8 +102,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->any())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
-        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->_storeConfigMock->expects($this->any())
+        $this->_scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfigMock->expects($this->any())
             ->method('getValue')
             ->with(\Magento\Backend\Model\Url::XML_PATH_STARTUP_MENU_ITEM)
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
@@ -124,7 +124,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 'Magento\Core\Model\Url\RouteParamsResolver', array(), array(), '', false
             )));
         $this->_model = $helper->getObject('Magento\Backend\Model\Url', array(
-            'coreStoreConfig' => $this->_storeConfigMock,
+            'scopeConfig' => $this->_scopeConfigMock,
             'backendHelper' => $helperMock,
             'formKey' => $this->_formKey,
             'menuConfig' => $this->_menuConfigMock,

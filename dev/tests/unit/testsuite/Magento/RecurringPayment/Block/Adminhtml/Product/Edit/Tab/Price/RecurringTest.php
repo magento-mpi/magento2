@@ -56,7 +56,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
         $this->_context = $helper->getObject(
             'Magento\Backend\Block\Template\Context', [
                 'eventManager' => $this->_eventManager,
-                'storeConfig' => $this->_storeConfig
+                'scopeConfig' => $this->_storeConfig
             ]
         );
 

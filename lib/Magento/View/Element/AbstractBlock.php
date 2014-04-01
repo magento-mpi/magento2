@@ -166,6 +166,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public $ttl;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_storeConfig;
+
+    /**
      * Constructor
      *
      * @param \Magento\View\Element\Context $context

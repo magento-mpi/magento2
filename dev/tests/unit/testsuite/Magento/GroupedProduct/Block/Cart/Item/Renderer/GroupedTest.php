@@ -30,7 +30,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped',
             array(
-                'storeConfig' => $this->_storeConfig,
+                'scopeConfig' => $this->_storeConfig,
             )
         );
     }

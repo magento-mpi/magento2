@@ -34,7 +34,7 @@ class ResetTest extends \PHPUnit_Framework_TestCase
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $objectHelper->getObject('Magento\Backend\Block\Template\Context', array(
-            'storeConfig' => $this->configMock
+            'scopeConfig' => $this->configMock
         ));
 
         $this->_resetRobotsBlock = new Reset(

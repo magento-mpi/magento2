@@ -27,7 +27,7 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
         $this->storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->alerts = $helper->getObject('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts', array(
-                'storeConfig' => $this->storeConfigMock
+                'scopeConfig' => $this->storeConfigMock
             )
         );
     }

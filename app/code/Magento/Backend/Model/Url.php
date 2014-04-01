@@ -61,24 +61,9 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $_encryptor;
 
     /**
-     * @var \Magento\Backend\App\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * @var \Magento\Store\Model\StoreFactory
      */
     protected $_storeFactory;
-
-    /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_coreConfig;
-
-    /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_storeConfig;
 
     /**
      * @var \Magento\Data\Form\FormKey
@@ -94,16 +79,14 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param Menu\Config $menuConfig
      * @param \Magento\App\CacheInterface $cache
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Backend\App\ConfigInterface $config
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param string $scopeType
      * @param array $data
      *
@@ -118,17 +101,14 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Backend\App\ConfigInterface $config,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         $scopeType,
         array $data = array()
     ) {
@@ -146,15 +126,12 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
             $scopeType,
             $data
         );
-        $this->_config = $config;
         $this->_backendHelper = $backendHelper;
         $this->_menuConfig = $menuConfig;
         $this->_cache = $cache;
         $this->_session = $authSession;
         $this->formKey = $formKey;
         $this->_storeFactory = $storeFactory;
-        $this->_coreConfig = $coreConfig;
-        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -167,7 +144,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
         }
-        return $this->_config->isSetFlag('web/secure/use_in_adminhtml');
+        return $this->_scopeConfig->isSetFlag('web/secure/use_in_adminhtml');
     }
 
     /**
@@ -272,7 +249,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      */
     public function useSecretKey()
     {
-        return $this->_config->isSetFlag('admin/security/use_form_key') && !$this->getNoSecret();
+        return $this->_scopeConfig->isSetFlag('admin/security/use_form_key') && !$this->getNoSecret();
     }
 
     /**
@@ -314,7 +291,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      */
     public function getStartupPageUrl()
     {
-        $menuItem = $this->_getMenu()->get($this->_storeConfig->getValue(
+        $menuItem = $this->_getMenu()->get($this->_scopeConfig->getValue(
             self::XML_PATH_STARTUP_MENU_ITEM, $this->_scopeType
         ));
         if (!is_null($menuItem)) {
@@ -445,6 +422,6 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      */
     protected function _getConfig($path)
     {
-        return $this->_coreConfig->getValue($path, 'default');
+        return $this->_scopeConfig->getValue($path);
     }
 }

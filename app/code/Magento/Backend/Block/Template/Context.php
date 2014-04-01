@@ -49,7 +49,7 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Session\Generic $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
@@ -81,7 +81,7 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\View\DesignInterface $design,
         \Magento\Session\Generic $session,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
@@ -116,7 +116,7 @@ class Context extends \Magento\View\Element\Template\Context
             $design,
             $session,
             $sidResolver,
-            $storeConfig,
+            $scopeConfig,
             $viewUrl,
             $viewConfig,
             $cacheState,

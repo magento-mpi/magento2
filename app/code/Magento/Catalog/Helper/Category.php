@@ -39,11 +39,11 @@ class Category extends AbstractHelper
     protected $_categoryUrlSuffix = array();
 
     /**
-     * Core store config
+     * Scope config
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Store manager
@@ -70,20 +70,20 @@ class Category extends AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Data\CollectionFactory $dataCollectionFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Data\CollectionFactory $dataCollectionFactory
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_storeManager = $storeManager;
         $this->_dataCollectionFactory = $dataCollectionFactory;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -115,7 +115,7 @@ class Category extends AbstractHelper
             return array();
         }
 
-        $recursionLevel  = max(0, (int) $this->_storeConfig->getValue(
+        $recursionLevel  = max(0, (int) $this->_scopeConfig->getValue(
             'catalog/navigation/max_depth',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ));
@@ -180,7 +180,7 @@ class Category extends AbstractHelper
         }
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {
-            $this->_categoryUrlSuffix[$storeId] = $this->_storeConfig->getValue(
+            $this->_categoryUrlSuffix[$storeId] = $this->_scopeConfig->getValue(
                 self::XML_PATH_CATEGORY_URL_SUFFIX, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
             );
         }
@@ -221,6 +221,6 @@ class Category extends AbstractHelper
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_scopeConfig->getValue(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

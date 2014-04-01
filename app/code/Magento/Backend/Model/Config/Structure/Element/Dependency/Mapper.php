@@ -32,13 +32,11 @@ class Mapper
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Config\Structure\SearchInterface $fieldLocator
      * @param FieldFactory $fieldFactory
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Config\Structure\SearchInterface $fieldLocator,
         FieldFactory $fieldFactory,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig
