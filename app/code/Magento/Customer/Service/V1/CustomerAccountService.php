@@ -564,7 +564,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
     }
 
-
     /**
      * Adds some filters from a filter group to a collection.
      *
