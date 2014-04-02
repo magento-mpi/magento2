@@ -50,7 +50,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         );
         $this->priceCurrencyMock = $this->getMock('Magento\Directory\Model\PriceCurrency', [], [], '', false);
         $this->priceHelperMock = $this->getMock(
-            'Magento\Catalog\Helper\Product\Price',
+            'Magento\Tax\Helper\Data',
             [],
             [],
             '',

@@ -73,16 +73,6 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Check if we have display in catalog prices excluding tax
-     *
-     * @return bool
-     */
-    public function displayPriceExcludingTax()
-    {
-        return $this->taxData->displayPriceExcludingTax();
-    }
-
-    /**
      * Check if product prices on input include tax
      *
      * @return bool

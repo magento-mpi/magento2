@@ -12,7 +12,7 @@ namespace Magento\Tax\Pricing\Render;
 
 use Magento\View\Element\Template;
 use Magento\Pricing\Render\AbstractAdjustment;
-use Magento\Catalog\Helper\Product\Price as PriceHelper;
+use Magento\Tax\Helper\Data;
 use Magento\Pricing\PriceCurrencyInterface;
 
 /**
@@ -24,21 +24,21 @@ class Adjustment extends AbstractAdjustment
     /**
      * @var \Magento\Catalog\Helper\Product\Price
      */
-    protected $priceHelper;
+    protected $taxHelper;
 
     /**
      * @param Template\Context $context
-     * @param PriceHelper $helper
+     * @param Data $taxHelper
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         PriceCurrencyInterface $priceCurrency,
-        PriceHelper $helper,
+        Data $taxHelper,
         array $data = []
     ) {
-        $this->priceHelper = $helper;
+        $this->taxHelper = $taxHelper;
         parent::__construct($context, $priceCurrency, $data);
     }
 
@@ -60,7 +60,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function displayBothPrices()
     {
-        return $this->priceHelper->displayBothPrices();
+        return $this->taxHelper->displayBothPrices();
     }
 
     /**
@@ -103,7 +103,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function displayPriceIncludingTax()
     {
-        return $this->priceHelper->displayPriceIncludingTax();
+        return $this->taxHelper->displayPriceIncludingTax();
     }
 
     /**
@@ -113,6 +113,6 @@ class Adjustment extends AbstractAdjustment
      */
     public function displayPriceExcludingTax()
     {
-        return $this->priceHelper->displayPriceExcludingTax();
+        return $this->taxHelper->displayPriceExcludingTax();
     }
 }
