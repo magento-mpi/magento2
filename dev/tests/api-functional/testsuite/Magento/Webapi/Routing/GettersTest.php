@@ -29,21 +29,24 @@ class GettersTest extends \Magento\Webapi\Routing\BaseService
     protected function setUp()
     {
         $this->_version = 'V1';
-        $this->_soapService = 'testModule5AllSoapAndRestV1';
-        $this->_restResourcePath = "/{$this->_version}/testmodule5/";
+        $this->_soapService = "testModule5AllSoapAndRest{$this->_version}";
+        $this->_restResourcePath = "/{$this->_version}/TestModule5/";
     }
 
     public function testGetters()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Item')
-        );
-        $requestData = array('id' => $itemId);
+            ],
+            'soap' => [
+                'service' => $this->_soapService,
+                'operation' => $this->_soapService . 'Item'
+            ],
+        ];
+        $requestData = ['id' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
         $isEnabled = isset($item['isEnabled']) && $item['isEnabled'] === true;
