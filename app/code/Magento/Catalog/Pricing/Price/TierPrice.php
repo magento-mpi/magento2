@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
@@ -34,11 +35,6 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     protected $customerGroup;
 
     /**
-     * @var bool|float
-     */
-    protected $value;
-
-    /**
      * Raw price list stored in DB
      *
      * @var array
@@ -54,22 +50,29 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
-     * @param float $quantity
+     * @param $quantity
+     * @param Calculator $calculator
      * @param Session $customerSession
      */
-    public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)
-    {
+    public function __construct(
+        SaleableInterface $salableItem,
+        $quantity,
+        Calculator $calculator,
+        Session $customerSession
+    ) {
+        parent::__construct($salableItem, $quantity, $calculator);
         $this->customerSession = $customerSession;
-        if ($salableItem->getCustomerGroupId()) {
+        if ($salableItem->hasCustomerGroupId()) {
             $this->customerGroup = (int) $salableItem->getCustomerGroupId();
         } else {
             $this->customerGroup = (int) $this->customerSession->getCustomerGroupId();
         }
-        parent::__construct($salableItem, $quantity);
     }
 
     /**
-     * {@inheritdoc}
+     * Get price value
+     *
+     * @return bool|float
      */
     public function getValue()
     {
@@ -83,7 +86,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                 if (!$this->canApplyTierPrice($price, $priceGroup, $prevQty)) {
                     continue;
                 }
-                if (false === $prevPrice || $price['website_price'] < $prevPrice) {
+                if (false === $prevPrice || $this->isFirstPriceBetter($price['website_price'], $prevPrice)) {
                     $tierPrice = $prevPrice = $price['website_price'];
                     $prevQty = $price['price_qty'];
                     $priceGroup = $price['cust_group'];
@@ -92,6 +95,20 @@ class TierPrice extends RegularPrice implements TierPriceInterface
             $this->value = $tierPrice;
         }
         return $this->value;
+    }
+
+    /**
+     * Returns true if first price is better
+     *
+     * Method filters tiers price values, lower tier price value is better
+     *
+     * @param float $firstPrice
+     * @param float $secondPrice
+     * @return bool
+     */
+    protected function isFirstPriceBetter($firstPrice, $secondPrice)
+    {
+        return $firstPrice < $secondPrice;
     }
 
     /**
@@ -110,14 +127,12 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         if (null === $this->priceList) {
             $prices = $this->getStoredTierPrices();
             $qtyCache = [];
-            /** @var float $productPrice s a minimal available price */
-            $productPrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
             foreach ($prices as $priceKey => $price) {
                 if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
                     unset($prices[$priceKey]);
                 } elseif (isset($qtyCache[$price['price_qty']])) {
                     $priceQty = $qtyCache[$price['price_qty']];
-                    if ($prices[$priceQty]['website_price'] > $price['website_price']) {
+                    if ($this->isFirstPriceBetter($price['website_price'], $prices[$priceQty]['website_price'])) {
                         unset($prices[$priceQty]);
                         $qtyCache[$price['price_qty']] = $priceKey;
                     } else {
@@ -127,62 +142,73 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                     $qtyCache[$price['price_qty']] = $priceKey;
                 }
             }
-
-            $applicablePrices = [];
-            foreach ($prices as $price) {
-                $price['price_qty'] = $price['price_qty'] * 1;
-
-                if ($price['price'] < $productPrice) {
-                    $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
-                    $applicablePrices[] = $this->applyAdjustment($price);
-                }
-            }
-            $this->priceList = $applicablePrices;
+            $this->priceList = $this->filterByBasePrice($prices);
         }
         return $this->priceList;
     }
 
     /**
-     * @param float $price
+     * @param array $priceList
+     * @return array
+     */
+    protected function filterByBasePrice($priceList)
+    {
+        /** @var float $productPrice is a minimal available price */
+        $productPrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
+
+        $applicablePrices = [];
+        foreach ($priceList as $price) {
+            // convert string value to float
+            $price['price_qty'] = $price['price_qty'] * 1;
+
+            if ($price['price'] < $productPrice) {
+                $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
+                $price['price'] = $this->applyAdjustment($price['price']);
+                $applicablePrices[] = $price;
+            }
+        }
+        return $applicablePrices;
+    }
+
+    /**
+     * @param float|string $price
      * @return array
      */
     protected function applyAdjustment($price)
     {
-        foreach (array_reverse($this->priceInfo->getAdjustments()) as $adjustment) {
-            /** @var \Magento\Pricing\Adjustment\AdjustmentInterface $adjustment */
-            if ($adjustment->isIncludedInBasePrice()) {
-                $price['adjustedAmount'] = $adjustment->extractAdjustment($price['website_price'], $this->salableItem);
-                $price['website_price'] = $price['website_price'] - $price['adjustedAmount'];
-            }
-        }
-        return $price;
+        return $this->calculator->getAmount($price, $this->salableItem);
     }
 
     /**
-     * @param array $price
-     * @param int $currentPriceGroup
-     * @param float|string $currentQty
+     * Can apply tier price
+     *
+     * @param array $currentTierPrice
+     * @param int $prevPriceGroup
+     * @param float|string $prevQty
      * @return bool
      */
-    protected function canApplyTierPrice(array $price, $currentPriceGroup, $currentQty)
+    protected function canApplyTierPrice(array $currentTierPrice, $prevPriceGroup, $prevQty)
     {
-        if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
-            // tier not for current customer group nor is for all groups
-            return false;
-        }
-        if ($this->quantity < $price['price_qty']) {
-            // tier is higher than product qty
-            return false;
-        }
-        if ($price['price_qty'] < $currentQty) {
-            // higher tier qty already found
-            return false;
-        }
-        if ($price['price_qty'] == $currentQty
-            && $currentPriceGroup !== Group::CUST_GROUP_ALL
-            && $price['cust_group'] === Group::CUST_GROUP_ALL
+        // Tier price can be applied, if:
+        // tier price is for current customer group or is for all groups
+        if ($currentTierPrice['cust_group'] !== $this->customerGroup
+            && $currentTierPrice['cust_group'] !== Group::CUST_GROUP_ALL
         ) {
-            // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
+            return false;
+        }
+        // and tier qty is lower than product qty
+        if ($this->quantity < $currentTierPrice['price_qty']) {
+            return false;
+        }
+        // and tier qty is bigger than previous qty
+        if ($currentTierPrice['price_qty'] < $prevQty) {
+            return false;
+        }
+        // and found tier qty is same as previous tier qty, but current tier group isn't ALL_GROUPS
+        if ($currentTierPrice['price_qty'] == $prevQty
+            && $prevPriceGroup !== Group::CUST_GROUP_ALL
+            && $currentTierPrice['cust_group'] === Group::CUST_GROUP_ALL
+        ) {
             return false;
         }
         return true;
@@ -198,6 +224,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         if (null === $this->rawPriceList) {
             $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_TIER);
             if (null === $this->rawPriceList) {
+                /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
                 $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_TYPE_TIER);
                 if ($attribute) {
                     $attribute->getBackend()->afterLoad($this->salableItem);

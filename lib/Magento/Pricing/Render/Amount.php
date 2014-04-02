@@ -10,6 +10,7 @@
 
 namespace Magento\Pricing\Render;
 
+use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\View\Element\Template;
@@ -37,7 +38,7 @@ class Amount extends Template implements AmountRenderInterface
     protected $price;
 
     /**
-     * @var array
+     * @var AdjustmentRenderInterface[]
      */
     protected $adjustmentRenders;
 
@@ -47,80 +48,101 @@ class Amount extends Template implements AmountRenderInterface
     protected $priceCurrency;
 
     /**
+     * @var RendererPool
+     */
+    protected $rendererPool;
+
+    /**
+     * @var float
+     */
+    protected $amount;
+
+    /**
      * @param Template\Context $context
+     * @param AmountInterface $amount
      * @param PriceCurrencyInterface $priceCurrency
-     * @param string $template
+     * @param RendererPool $rendererPool
+     * @param SaleableInterface $saleableItem
+     * @param \Magento\Pricing\Price\PriceInterface $price
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
+        AmountInterface $amount,
         PriceCurrencyInterface $priceCurrency,
-        $template,
-        array $data = array()
+        RendererPool $rendererPool,
+        SaleableInterface $saleableItem = null,
+        PriceInterface $price = null,
+        array $data = []
     ) {
         parent::__construct($context, $data);
+        $this->amount = $amount;
+        $this->saleableItem = $saleableItem;
+        $this->price = $price;
         $this->priceCurrency = $priceCurrency;
-        $this->setTemplate($template);
+        $this->rendererPool = $rendererPool;
     }
 
     /**
-     * Retrieve amount html for given price, item and arguments
-     *
-     * @param PriceInterface $price
-     * @param SaleableInterface $saleableItem
-     * @param array $arguments
+     * @return float
+     */
+    public function getDisplayValue()
+    {
+        return $this->getAmount()->getValue();
+    }
+
+    /**
+     * @return AmountInterface
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return SaleableInterface
+     */
+    public function getSaleableItem()
+    {
+        return $this->saleableItem;
+    }
+
+    /**
+     * @return \Magento\Pricing\Price\PriceInterface
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
      * @return string
      */
-    public function render(PriceInterface $price, SaleableInterface $saleableItem, array $arguments = [])
+    protected function _toHtml()
     {
-        $this->price = $price;
-        $this->saleableItem = $saleableItem;
-
-        // @todo probably use block vars instead
-        $origArguments = $this->getData();
-        $this->setData(array_replace($origArguments, $arguments));
-
-        $adjustmentRenders = $this->getApplicableAdjustmentRenders();
+        $html = parent::_toHtml();
 
         // render Price Adjustment Renders if available
-        $html = $adjustmentRenders ? $this->applyAdjustments($adjustmentRenders) : $this->toHtml();
-
-        // restore original block arguments
-        $this->setData($origArguments);
+        $adjustmentRenders = $this->getApplicableAdjustmentRenders();
+        if ($adjustmentRenders) {
+            $html = $this->applyAdjustments($html, $adjustmentRenders);
+        }
 
         return $html;
     }
 
     /**
-     * (to use in templates only)
+     * Collect correspondent Price Adjustment Renders
      *
-     * @return float
+     * @return AdjustmentRenderInterface[]
      */
-    public function getAmount()
+    protected function getApplicableAdjustmentRenders()
     {
-        return $this->price->getDisplayValue();
-    }
-
-    /**
-     * (to use in templates only)
-     *
-     * @return PriceInterface
-     */
-    public function getPrice()
-    {
-        // @todo move to abstract pricing block
-        return $this->price;
-    }
-
-    /**
-     * (to use in templates only)
-     *
-     * @return SaleableInterface
-     */
-    public function getSaleableItem()
-    {
-        // @todo move to abstract pricing block
-        return $this->saleableItem;
+        if (!$this->hasSkipAdjustments()) {
+            return $this->getAdjustmentRenders();
+        } else {
+            return [];
+        }
     }
 
     /**
@@ -128,19 +150,24 @@ class Amount extends Template implements AmountRenderInterface
      */
     protected function getAdjustmentRenders()
     {
-        if ($this->adjustmentRenders === null) {
-            $this->adjustmentRenders = [];
-            /** @var \Magento\View\Element\RendererList $adjustmentsList */
-            $adjustmentsList = $this->getLayout()->getBlock('price.render.adjustments');
-            if ($adjustmentsList) {
-                $adjustments = $adjustmentsList->getChildNames();
-                foreach ($adjustments as $adjustmentBlockName) {
-                    $this->adjustmentRenders[] = $adjustmentsList->getLayout()->getBlock($adjustmentBlockName);
-                }
-            }
-        }
-        return $this->adjustmentRenders;
+        return $this->rendererPool->getAdjustmentRenders($this->saleableItem, $this->price);
     }
+
+    /**
+     * @param string $html
+     * @param AdjustmentRenderInterface[] $adjustmentRenders
+     * @return string
+     */
+    protected function applyAdjustments($html, $adjustmentRenders)
+    {
+        $this->setAdjustmentCssClasses($adjustmentRenders);
+        $data = $this->getData();
+        foreach ($adjustmentRenders as $adjustmentRender) {
+            $html = $adjustmentRender->render($html, $this, $data);
+        }
+        return $html;
+    }
+
 
     /**
      * Convert and format price value
@@ -163,55 +190,14 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
-     * Collect correspondent Price Adjustment Renders
-     *
-     * @return AdjustmentRenderInterface[]
-     */
-    protected function getApplicableAdjustmentRenders()
-    {
-        $adjustmentRenders = [];
-
-        if (!$this->getSkipAdjustments()) {
-            foreach ($this->getAdjustmentRenders() as $adjustmentRender) {
-                $adjustmentCode = $adjustmentRender->getAdjustmentCode();
-                    $cssClass = 'adj-' . $adjustmentCode;
-                    $adjustmentRenders[$cssClass] = $adjustmentRender;
-            }
-        }
-
-        return $adjustmentRenders;
-    }
-
-    /**
      * @param AdjustmentRenderInterface[] $adjustmentRenders
      * @return array
      */
     protected function setAdjustmentCssClasses($adjustmentRenders)
     {
-        $cssClasses = $this->hasData('css_classes') ? $this->getData('css_classes') : [];
+        $cssClasses = $this->hasData('css_classes') ? explode(' ', $this->getData('css_classes')) : [];
         $cssClasses = array_merge($cssClasses, array_keys($adjustmentRenders));
-
         $this->setData('adjustment_css_classes', join(' ', $cssClasses));
-
         return $this;
-    }
-
-    /**
-     * @param AdjustmentRenderInterface[] $adjustmentRenders
-     * @return string
-     */
-    protected function applyAdjustments($adjustmentRenders)
-    {
-        // @todo resolve the key issue with decoration
-
-        $html = $this->toHtml();
-
-        $this->setAdjustmentCssClasses($adjustmentRenders);
-        $data = $this->getData();
-        foreach ($adjustmentRenders as $adjustmentRender) {
-            $html = $adjustmentRender->render($html, $this, $data);
-        }
-
-        return $html;
     }
 }

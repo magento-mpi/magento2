@@ -17,6 +17,8 @@ use Magento\Pricing\PriceCurrencyInterface;
 
 /**
  * Adjustment render abstract
+ *
+ * @method string getZone()
  */
 abstract class AbstractAdjustment extends Template implements AdjustmentRenderInterface
 {
@@ -74,16 +76,6 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     }
 
     /**
-     * (to use in templates only)
-     *
-     * @return \Magento\Pricing\Price\PriceInterface
-     */
-    public function getPrice()
-    {
-        return $this->amountRender->getPrice();
-    }
-
-    /**
      * @param string $priceCode
      * @return PriceInterface
      */
@@ -93,8 +85,14 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     }
 
     /**
-     * (to use in templates only)
-     *
+     * @return \Magento\Pricing\Price\PriceInterface
+     */
+    public function getPrice()
+    {
+        return $this->amountRender->getPrice();
+    }
+
+    /**
      * @return SaleableInterface
      */
     public function getSaleableItem()

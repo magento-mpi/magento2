@@ -27,7 +27,7 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
     {
         $this->layout = $this->getMock('Magento\Core\Model\Layout', ['getBlock'], [], '', false);
 
-        $context = $this->getMock('Magento\View\Element\Template\Context', ['getLayout'], [], '', false);
+        $context = $this->getMock('Magento\Catalog\Block\Product\Context', ['getLayout'], [], '', false);
         $context->expects($this->any())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
@@ -65,7 +65,8 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
                 $product,
                 [
                     'price_id' => 'product-price-' . $productId . '-compare-list-top',
-                    'display_minimal_price' => true
+                    'display_minimal_price' => true,
+                    'zone' => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
                 ]
             )
             ->will($this->returnValue($expectedResult));

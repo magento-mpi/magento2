@@ -59,8 +59,8 @@ class PriceComposite
      * @param SaleableInterface $salableItem
      * @param string $priceCode
      * @param float $quantity
-     * @throws \InvalidArgumentException
      * @return PriceInterface
+     * @throws \InvalidArgumentException
      */
     public function createPriceObject(SaleableInterface $salableItem, $priceCode, $quantity)
     {

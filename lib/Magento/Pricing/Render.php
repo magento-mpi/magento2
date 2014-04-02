@@ -10,10 +10,12 @@
 
 namespace Magento\Pricing;
 
+use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Render\Layout;
 use Magento\View\Element\Template;
 use Magento\View\Element\AbstractBlock;
+use Magento\Pricing\Price\PriceInterface;
 
 /**
  * Base price render
@@ -22,6 +24,15 @@ use Magento\View\Element\AbstractBlock;
  */
 class Render extends AbstractBlock
 {
+    /**
+     * Zones where prices displaying can be configured
+     */
+    const ZONE_PRODUCT_VIEW = 'product_view';
+    const ZONE_PRODUCT_LIST = 'product_list';
+    const ZONE_SALES        = 'sales';
+    const ZONE_EMAIL        = 'email';
+    const ZONE_DEFAULT      = null;
+
     /**
      * Default type renderer
      *
@@ -46,7 +57,7 @@ class Render extends AbstractBlock
     public function __construct(
         Template\Context $context,
         Layout $priceLayout,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceLayout = $priceLayout;
         parent::__construct($context, $data);
@@ -67,19 +78,28 @@ class Render extends AbstractBlock
     /**
      * Render price
      *
-     * @param string $priceType
-     * @param SaleableInterface $product
+     * @param string $priceCode
+     * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return string
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
-    public function render($priceType, SaleableInterface $product, array $arguments = [])
+    public function render($priceCode, SaleableInterface $saleableItem, array $arguments = [])
     {
         $useArguments = array_replace($this->_data, $arguments);
 
-        // obtain concrete Price Render from "Pricing Layout Object"
-        $priceRender = $this->getPriceBoxRender($product->getTypeId(), $priceType);
+        /** @var \Magento\Pricing\Render\RendererPool $rendererPool */
+        $rendererPool = $this->priceLayout->getBlock('render.product.prices');
+        if (!$rendererPool) {
+            throw new \RuntimeException('Wrong Price Rendering layout configuration. Factory block is missed');
+        }
+
+        // obtain concrete Price Render
+        $priceRender = $rendererPool->createPriceRender($priceCode, $saleableItem, $useArguments);
         if ($priceRender) {
-            $result = $priceRender->render($priceType, $product, $useArguments);
+            //@TODO PriceBoxRenderInterface does not contain toHtml() method
+            $result = $priceRender->toHtml();
         } else {
             $result = '';
         }
@@ -88,25 +108,37 @@ class Render extends AbstractBlock
     }
 
     /**
-     * Obtain price box renderer
+     * Render price amount
      *
-     * @param string $objectType
-     * @param string $priceType
-     * @return \Magento\Pricing\Render\PriceBoxRenderInterface
+     * @param AmountInterface $amount
+     * @param PriceInterface $price
+     * @param SaleableInterface $saleableItem
+     * @param array $arguments
+     * @return string
+     * @throws \RuntimeException
      */
-    protected function getPriceBoxRender($objectType, $priceType)
-    {
-        $priceRender = false;
-        $renderList = $this->priceLayout->getBlock('price.render.prices');
-        if ($renderList) {
-            $priceRender = $renderList->getChildBlock($objectType . '.' . $priceType);
-            if (!$priceRender) {
-                $priceRender = $renderList->getChildBlock('default.' . $priceType);
-                if (!$priceRender) {
-                    $priceRender = $renderList->getChildBlock('default.default');
-                }
-            }
+    public function renderAmount(
+        AmountInterface $amount,
+        PriceInterface $price,
+        SaleableInterface $saleableItem = null,
+        array $arguments = []
+    ) {
+        $useArguments = array_replace($this->_data, $arguments);
+
+        /** @var \Magento\Pricing\Render\RendererPool $rendererPool */
+        $rendererPool = $this->priceLayout->getBlock('render.product.prices');
+        if (!$rendererPool) {
+            throw new \RuntimeException('Wrong Price Rendering layout configuration. Factory block is missed');
         }
-        return $priceRender;
+
+        // obtain concrete Amount Render
+        $amountRender = $rendererPool->createAmountRender($amount, $saleableItem, $price, $useArguments);
+        if ($amountRender) {
+            $result = $amountRender->toHtml();
+        } else {
+            $result = '';
+        }
+        // return rendered output
+        return $result;
     }
 }

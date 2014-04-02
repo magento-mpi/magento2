@@ -17,7 +17,7 @@
 /** @var Magento\Catalog\Pricing\Price\MsrpPriceInterface $priceType */
 $priceType = $this->getPrice();
 
-/** @var $product \Magento\Catalog\Model\Product */
+/** @var $product \Magento\Catalog\Model\Product|\Magento\Pricing\Object\SaleableInterface */
 $product = $this->getSaleableItem();
 $productId = $product->getId();
 $msrpPrice = '';
@@ -25,7 +25,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 ?>
 
 <?php if ($product->getMsrp()): ?>
-    <?php $msrpPrice = $this->renderAmount($priceType, [
+    <?php $msrpPrice = $this->renderAmount($priceType->getAmount(), [
 //        'display_label' => __('Regular Price:'),
         'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $productId,
         'include_container' => false,

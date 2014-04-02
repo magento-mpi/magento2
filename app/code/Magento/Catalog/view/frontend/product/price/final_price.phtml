@@ -22,20 +22,19 @@ $finalPriceModel = $this->getPriceType('final_price');
 ?>
 <?php
 if (isset($_GET['showmeprice'])) {
-    echo 'Regular Price :' . $this->getPriceType('regular_price')->getDisplayValue() . "<br />";
-    echo 'Special Price :' . $this->getPriceType('special_price')->getDisplayValue(). "<br />";
-    echo 'Group Price :' . $this->getPriceType('group_price')->getDisplayValue(). "<br />";
-    echo 'Catalog Rule Price :' . $this->getPriceType('catalog_rule_price')->getDisplayValue(). "<br />";
-    echo 'Tier Price :' . $this->getPriceType('tier_price')->getDisplayValue(). "<br />";
-    echo 'Base Price :' . $this->getPriceType('base_price')->getDisplayValue(). "<br />";
-    echo 'Final Price :' . $this->getPriceType('final_price')->getDisplayValue(). "<br />";
+    echo 'Regular Price :' . $this->getPriceType('regular_price')->getValue() . "<br />";
+    echo 'Special Price :' . $this->getPriceType('special_price')->getValue(). "<br />";
+    echo 'Group Price :' . $this->getPriceType('group_price')->getValue(). "<br />";
+    echo 'Catalog Rule Price :' . $this->getPriceType('catalog_rule_price')->getValue(). "<br />";
+    echo 'Tier Price :' . $this->getPriceType('tier_price')->getValue(). "<br />";
+    echo 'Base Price :' . $this->getPriceType('base_price')->getValue(). "<br />";
+    echo 'Final Price :' . $this->getPriceType('final_price')->getValue(). "<br />";
     echo  "<br />";
 }
-
 ?>
 <?php if ($this->showSpecialPrice()): ?>
     <p class="old-price">
-        <?php echo $this->renderAmount($priceModel, [
+        <?php echo $this->renderAmount($priceModel->getAmount(), [
             'display_label'     => __('Regular Price:'),
             'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
             'include_container' => true,
@@ -43,14 +42,14 @@ if (isset($_GET['showmeprice'])) {
         ]); ?>
     </p>
     <p class="special-price">
-        <?php echo $this->renderAmount($finalPriceModel, [
+        <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('Special Price:'),
             'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
             'include_container' => false
         ]); ?>
     </p>
 <?php else: ?>
-    <?php echo $this->renderAmount($finalPriceModel, [
+    <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
         'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'regular-price-' . $id,
         'include_container' => true
     ]); ?>

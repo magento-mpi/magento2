@@ -9,6 +9,8 @@
  */
 namespace Magento\Catalog\Model\Resource;
 
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+
 /**
  * Catalog entity abstract model
  */
@@ -73,7 +75,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     }
 
     /**
-     * Redeclare attribute model
+     * Re-declare attribute model
      *
      * @return string
      */
@@ -103,13 +105,13 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     {
         $applyTo = $attribute->getApplyTo();
         return (count($applyTo) == 0 || in_array($object->getTypeId(), $applyTo))
-        && $attribute->isInSet($object->getAttributeSetId());
+            && $attribute->isInSet($object->getAttributeSetId());
     }
 
     /**
      * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend|\Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend|\Magento\Eav\Model\Entity\Attribute\Source\AbstractSource $instance
+     * @param AbstractAttribute|\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend|\Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend|\Magento\Eav\Model\Entity\Attribute\Source\AbstractSource $instance
      * @param string $method
      * @param array $args array of arguments
      * @return boolean
@@ -144,9 +146,9 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
          * to single store mode. We should load correct values
          */
         if ($this->_storeManager->hasSingleStore()) {
-            $storeId = (int)$this->_storeManager->getStore(true)->getId();
+            $storeId = (int) $this->_storeManager->getStore(true)->getId();
         } else {
-            $storeId = (int)$object->getStoreId();
+            $storeId = (int) $object->getStoreId();
         }
 
         $setId = $object->getAttributeSetId();
@@ -155,16 +157,12 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
             $storeIds[] = $storeId;
         }
 
-        $select = $this->_getReadAdapter()->select()->from(
-            array('attr_table' => $table),
-            array()
-        )->where(
-            "attr_table.{$this->getEntityIdField()} = ?",
-            $object->getId()
-        )->where(
-            'attr_table.store_id IN (?)',
-            $storeIds
-        );
+        $select = $this->_getReadAdapter()
+            ->select()
+            ->from(array('attr_table' => $table), array())
+            ->where("attr_table.{$this->getEntityIdField()} = ?", $object->getId())
+            ->where('attr_table.store_id IN (?)', $storeIds);
+
         if ($setId) {
             $select->join(
                 array('set_table' => $this->getTable('eav_entity_attribute')),
@@ -234,14 +232,14 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * Insert or Update attribute data
      *
      * @param \Magento\Catalog\Model\AbstractModel $object
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param AbstractAttribute $attribute
      * @param mixed $value
      * @return $this
      */
     protected function _saveAttributeValue($object, $attribute, $value)
     {
         $write = $this->_getWriteAdapter();
-        $storeId = (int)$this->_storeManager->getStore($object->getStoreId())->getId();
+        $storeId = (int) $this->_storeManager->getStore($object->getStoreId())->getId();
         $table = $attribute->getBackend()->getTable();
 
         /**
@@ -283,7 +281,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
              */
             $storeIds = $this->_storeManager->getStore($storeId)->getWebsite()->getStoreIds(true);
             foreach ($storeIds as $storeId) {
-                $bind['store_id'] = (int)$storeId;
+                $bind['store_id'] = (int) $storeId;
                 $this->_attributeValuesToSave[$table][] = $bind;
             }
         } else {
@@ -301,7 +299,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * Insert entity attribute value
      *
      * @param \Magento\Object $object
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param AbstractAttribute $attribute
      * @param mixed $value
      * @return $this
      */
@@ -310,7 +308,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         /**
          * save required attributes in global scope every time if store id different from default
          */
-        $storeId = (int)$this->_storeManager->getStore($object->getStoreId())->getId();
+        $storeId = (int) $this->_storeManager->getStore($object->getStoreId())->getId();
         if ($attribute->getIsRequired() && $this->getDefaultStoreId() != $storeId) {
             $table = $attribute->getBackend()->getTable();
 
@@ -344,7 +342,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * Update entity attribute value
      *
      * @param \Magento\Object $object
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param AbstractAttribute $attribute
      * @param mixed $valueId
      * @param mixed $value
      * @return $this
@@ -386,16 +384,16 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
          */
         if ($valueId) {
             $bind = array('value' => $this->_prepareValueForSave($value, $attribute));
-            $where = array('value_id = ?' => (int)$valueId);
+            $where = array('value_id = ?' => (int) $valueId);
 
             $adapter->update($table, $bind, $where);
         } else {
             $bind = array(
-                $entityIdField => (int)$object->getId(),
-                'entity_type_id' => (int)$object->getEntityTypeId(),
-                'attribute_id' => (int)$attribute->getId(),
+                $entityIdField => (int) $object->getId(),
+                'entity_type_id' => (int) $object->getEntityTypeId(),
+                'attribute_id' => (int) $attribute->getId(),
                 'value' => $this->_prepareValueForSave($value, $attribute),
-                'store_id' => (int)$storeId
+                'store_id' => (int) $storeId
             );
 
             $adapter->insert($table, $bind);
@@ -426,11 +424,11 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         foreach ($info as $itemData) {
             $attribute = $this->getAttribute($itemData['attribute_id']);
             if ($attribute->isScopeStore()) {
-                $storeAttributes[] = (int)$itemData['attribute_id'];
+                $storeAttributes[] = (int) $itemData['attribute_id'];
             } elseif ($attribute->isScopeWebsite()) {
-                $websiteAttributes[] = (int)$itemData['attribute_id'];
+                $websiteAttributes[] = (int) $itemData['attribute_id'];
             } elseif ($itemData['value_id'] !== null) {
-                $globalValues[] = (int)$itemData['value_id'];
+                $globalValues[] = (int) $itemData['value_id'];
             }
         }
 
@@ -466,7 +464,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         if (!empty($storeAttributes)) {
             $delCondition = $condition;
             $delCondition['attribute_id IN(?)'] = $storeAttributes;
-            $delCondition['store_id = ?'] = (int)$object->getStoreId();
+            $delCondition['store_id = ?'] = (int) $object->getStoreId();
 
             $adapter->delete($table, $delCondition);
         }
@@ -494,11 +492,11 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Check is attribute value empty
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param AbstractAttribute $attribute
      * @param mixed $value
      * @return bool
      */
-    protected function _isAttributeValueEmpty(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute, $value)
+    protected function _isAttributeValueEmpty(AbstractAttribute $attribute, $value)
     {
         return $value === false;
     }
@@ -508,23 +506,20 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * Checks also attribute's store scope:
      * We should insert on duplicate key update values if we unchecked 'STORE VIEW' checkbox in store view.
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param AbstractAttribute $attribute
      * @param mixed $value New value of the attribute.
      * @param array &$origData
      * @return bool
      */
-    protected function _canUpdateAttribute(
-        \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
-        $value,
-        array &$origData
-    ) {
+    protected function _canUpdateAttribute(AbstractAttribute $attribute, $value, array &$origData)
+    {
         $result = parent::_canUpdateAttribute($attribute, $value, $origData);
-        if ($result && ($attribute->isScopeStore() || $attribute->isScopeWebsite()) && !$this->_isAttributeValueEmpty(
-                $attribute,
-                $value
-            ) && $value == $origData[$attribute->getAttributeCode()] && isset(
-            $origData['store_id']
-            ) && $origData['store_id'] != $this->getDefaultStoreId()
+        if ($result
+            && ($attribute->isScopeStore() || $attribute->isScopeWebsite())
+            && !$this->_isAttributeValueEmpty($attribute, $value)
+            && $value == $origData[$attribute->getAttributeCode()]
+            && isset($origData['store_id'])
+            && $origData['store_id'] != $this->getDefaultStoreId()
         ) {
             return false;
         }
@@ -536,7 +531,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * Retrieve attribute's raw value from DB.
      *
      * @param int $entityId
-     * @param int|string|array $attribute atrribute's ids or codes
+     * @param int|string|array $attribute attribute ids or codes
      * @param int|\Magento\Core\Model\Store $store
      * @return bool|string|array
      */
@@ -555,15 +550,15 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         $staticTable = null;
         $adapter = $this->_getReadAdapter();
 
-        foreach ($attribute as $_attribute) {
+        foreach ($attribute as $item) {
             /* @var $attribute \Magento\Catalog\Model\Entity\Attribute */
-            $_attribute = $this->getAttribute($_attribute);
-            if (!$_attribute) {
+            $item = $this->getAttribute($item);
+            if (!$item) {
                 continue;
             }
-            $attributeCode = $_attribute->getAttributeCode();
-            $attrTable = $_attribute->getBackend()->getTable();
-            $isStatic = $_attribute->getBackend()->isStatic();
+            $attributeCode = $item->getAttributeCode();
+            $attrTable = $item->getBackend()->getTable();
+            $isStatic = $item->getBackend()->isStatic();
 
             if ($isStatic) {
                 $staticAttributes[] = $attributeCode;
@@ -572,7 +567,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
                 /**
                  * That structure needed to avoid farther sql joins for getting attribute's code by id
                  */
-                $typedAttributes[$attrTable][$_attribute->getId()] = $attributeCode;
+                $typedAttributes[$attrTable][$item->getId()] = $attributeCode;
             }
         }
 
@@ -596,23 +591,16 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
             $store = $store->getId();
         }
 
-        $store = (int)$store;
+        $store = (int) $store;
         if ($typedAttributes) {
             foreach ($typedAttributes as $table => $_attributes) {
-                $select = $adapter->select()->from(
-                    array('default_value' => $table),
-                    array('attribute_id')
-                )->where(
-                    'default_value.attribute_id IN (?)',
-                    array_keys($_attributes)
-                )->where(
-                    'default_value.entity_type_id = :entity_type_id'
-                )->where(
-                    'default_value.entity_id = :entity_id'
-                )->where(
-                    'default_value.store_id = ?',
-                    0
-                );
+                $select = $adapter->select()
+                    ->from(array('default_value' => $table), array('attribute_id'))
+                    ->where('default_value.attribute_id IN (?)', array_keys($_attributes))
+                    ->where('default_value.entity_type_id = :entity_type_id')
+                    ->where('default_value.entity_id = :entity_id')
+                    ->where('default_value.store_id = ?', 0);
+
                 $bind = array('entity_type_id' => $this->getTypeId(), 'entity_id' => $entityId);
 
                 if ($store != $this->getDefaultStoreId()) {

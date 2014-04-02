@@ -8,15 +8,8 @@
 
 namespace Magento\Tax\Pricing;
 
-use Magento\Tax\Helper\Data as TaxHelper;
-use Magento\Pricing\Object\SaleableInterface;
-
 class AdjustmentTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     /**
      * @param int $configValue
      * @param bool $isShippingPriceExcludeTax
@@ -50,6 +43,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     */
     public function isIncludedInBasePriceDataProvider()
     {
         return [
@@ -75,9 +71,6 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Tax\Pricing\Adjustment $model */
         $model = $objectManager->create('Magento\Tax\Pricing\Adjustment');
 
-        /** @var SaleableInterface|\PHPUnit_Framework_MockObject_MockObject $taxHelper */
-        $object = $this->getMockBuilder('Magento\Pricing\Object\SaleableInterface')->getMock();
-
         // Set fixtures
         $storeManager->getStore()
             ->setConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE, $configValue);
@@ -90,6 +83,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     */
     public function isIncludedInDisplayPriceDataProvider()
     {
         return [

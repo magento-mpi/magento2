@@ -11,6 +11,7 @@
 namespace Magento\CatalogRule\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\RegularPrice;
+use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Core\Model\StoreManager;
@@ -48,38 +49,33 @@ class CatalogRulePrice extends RegularPrice
     protected $customerSession;
 
     /**
-     * @var
-     */
-    protected $value;
-
-    /**
      * @var \Magento\CatalogRule\Model\Resource\RuleFactory
      */
     protected $resourceRuleFactory;
 
     /**
      * @param SaleableInterface $salableItem
+     * @param float $quantity
+     * @param Calculator $calculator
      * @param TimezoneInterface $dateTime
      * @param StoreManager $storeManager
      * @param Session $customerSession
-     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleResourceFactory
-     * @param float $quantity
      * @param RuleFactory $catalogRuleResourceFactory
-     * @param float $quantity
      */
     public function __construct(
         SaleableInterface $salableItem,
+        $quantity,
+        Calculator $calculator,
         TimezoneInterface $dateTime,
         StoreManager $storeManager,
         Session $customerSession,
-        RuleFactory $catalogRuleResourceFactory,
-        $quantity
+        RuleFactory $catalogRuleResourceFactory
     ) {
+        parent::__construct($salableItem, $quantity, $calculator);
         $this->dateTime = $dateTime;
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
         $this->resourceRuleFactory = $catalogRuleResourceFactory;
-        parent::__construct($salableItem, $quantity);
     }
 
     /**
@@ -89,7 +85,7 @@ class CatalogRulePrice extends RegularPrice
      */
     public function getValue()
     {
-        if (!$this->value) {
+        if (null === $this->value) {
             $this->value = $this->resourceRuleFactory->create()
                 ->getRulePrice(
                     $this->dateTime->scopeTimeStamp($this->storeManager->getStore()->getId()),
@@ -97,7 +93,8 @@ class CatalogRulePrice extends RegularPrice
                     $this->customerSession->getCustomerGroupId(),
                     $this->salableItem->getId()
                 );
+            $this->value = $this->value ? floatval($this->value) : false;
         }
-        return $this->value ? floatval($this->value) : false;
+        return $this->value;
     }
 }

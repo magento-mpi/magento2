@@ -254,18 +254,29 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     }
 
     /**
+     * Render price block
+     *
      * @param \Magento\Catalog\Model\Product $product
-     * @return mixed
+     * @return string
      */
     public function getProductPrice(\Magento\Catalog\Model\Product $product)
     {
-        return $this->getLayout()->getBlock('product.price.render.default')->render(
-            'final_price',
-            $product,
-            [
-                'price_id' => 'product-price-' . $product->getId() . '-compare-list-top',
-                'display_minimal_price' => true
-            ]
-        );
+        /** @var \Magento\Pricing\Render $priceRender */
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                $product,
+                [
+                    'price_id'              => 'product-price-' . $product->getId() . '-compare-list-top',
+                    'display_minimal_price' => true,
+                    'zone'                  => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                ]
+            );
+        }
+
+        return $price;
     }
 }

@@ -10,24 +10,31 @@
 
 namespace Magento\Pricing\Price;
 
+use Magento\Pricing\Amount\AmountInterface;
+
 /**
  * Catalog price interface
  */
 interface PriceInterface
 {
     /**
+     * Get price type code
+     *
+     * @return string
+     */
+    public function getPriceType();
+
+    /**
      * Get price value
      *
-     * Returns float if price value exists and false if not
-     *
-     * @return float|false
+     * @return float
      */
     public function getValue();
 
     /**
-     * @param float $baseAmount
-     * @param string|null $excludedCode
-     * @return float
+     * Get Price Amount object
+     *
+     * @return AmountInterface
      */
-    public function getDisplayValue($baseAmount = null, $excludedCode = null);
+    public function getAmount();
 }

@@ -2,15 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\AdjustmentInterface;
+use Magento\Pricing\Adjustment\Calculator;
+use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\Object\SaleableInterface;
@@ -41,85 +40,75 @@ class RegularPrice implements PriceInterface
     protected $priceInfo;
 
     /**
-     * @var AdjustmentInterface[]
-     */
-    protected $adjustments;
-
-    /**
-     * @var float|null
-     */
-    protected $baseAmount;
-
-    /**
-     * @var float|null
-     */
-    protected $adjustedAmount;
-
-    /**
-     * @var float[]
-     */
-    protected $adjustedAmounts = [];
-
-    /**
      * @var float
      */
     protected $quantity;
 
     /**
+     * @var \Magento\Pricing\Adjustment\Calculator
+     */
+    protected $calculator;
+
+    /**
+     * @var bool|float
+     */
+    protected $value;
+
+    /**
+     * @var AmountInterface
+     */
+    protected $amount;
+
+    /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
+     * @param Calculator $calculator
      */
-    public function __construct(SaleableInterface $salableItem, $quantity)
-    {
+    public function __construct(
+        SaleableInterface $salableItem,
+        $quantity,
+        Calculator $calculator
+    ) {
         $this->salableItem = $salableItem;
         $this->quantity = $quantity;
+        $this->calculator = $calculator;
         $this->priceInfo = $salableItem->getPriceInfo();
-        $this->baseAmount = $this->getValue();
-
-        $adjustments = [];
-        foreach (array_reverse($this->priceInfo->getAdjustments()) as $adjustment) {
-            /** @var AdjustmentInterface $adjustment */
-            if ($adjustment->isIncludedInBasePrice()) {
-                $code = $adjustment->getAdjustmentCode();
-                $adjustments[$code] = $adjustment;
-                $adjustedAmount = $adjustment->extractAdjustment($this->baseAmount, $this->salableItem);
-                $this->baseAmount = $this->baseAmount - $adjustedAmount;
-                $this->adjustedAmount += $adjustedAmount;
-                $this->adjustedAmounts[$code] = $adjustedAmount;
-            }
-        }
-        $this->adjustments = $adjustments;
     }
 
     /**
-     * {@inheritdoc}
+     * Get price value
+     *
+     * @return float|bool
      */
     public function getValue()
     {
-        $price = $this->salableItem->getPrice();
-        return $price !== null ? $price : false;
+        if ($this->value === null) {
+            $price = $this->salableItem->getPrice();
+            $this->value = $price ? floatval($price) : false;
+        }
+        return $this->value;
     }
 
     /**
-     * {@inheritdoc}
+     * Get Price Amount object
+     *
+     * @return AmountInterface
      */
-    public function getDisplayValue($baseAmount = null, $excludedCode = null)
+    public function getAmount()
     {
-        $amount = is_null($baseAmount) ? $this->baseAmount : $baseAmount;
-        foreach ($this->priceInfo->getAdjustments() as $adjustment) {
-            $code = $adjustment->getAdjustmentCode();
-            $exclude = false;
-            if ($excludedCode && $adjustment->isExcludedWith($excludedCode)) {
-                $exclude = true;
-            }
-            if ($adjustment->isIncludedInDisplayPrice($this->salableItem) && !$exclude) {
-                if (isset($this->adjustedAmounts[$code]) && is_null($baseAmount)) {
-                    $amount = $amount + $this->adjustedAmounts[$code];
-                } else {
-                    $amount = $adjustment->applyAdjustment($amount, $this->salableItem);
-                }
-            }
+        if (!$this->amount) {
+            $this->amount = $this->calculator->getAmount($this->getValue(), $this->salableItem);
         }
-        return $amount;
+        return $this->amount;
+    }
+
+    /**
+     * Get price type code
+     *
+     * @return string
+     */
+    public function getPriceType()
+    {
+        return $this->priceType;
     }
 }

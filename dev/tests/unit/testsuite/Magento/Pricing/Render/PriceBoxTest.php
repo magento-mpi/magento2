@@ -16,170 +16,161 @@ namespace Magento\Pricing\Render;
 class PriceBoxTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
+    /**
      * @var PriceBox
      */
     protected $model;
 
     /**
-     * @var AmountRenderFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $amountRenderFactory;
+    protected $context;
 
     /**
-     * @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Pricing\Render\RendererPool|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $layout;
+    protected $rendererPool;
+
+    /**
+     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $saleable;
+
+    /**
+     * @var \Magento\Pricing\Price\PriceInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $price;
 
     public function setUp()
     {
-        $this->amountRenderFactory = $this->getMockBuilder('Magento\Pricing\Render\AmountRenderFactory')
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $this->rendererPool = $this->getMockBuilder('Magento\Pricing\Render\RendererPool')
             ->disableOriginalConstructor()
-            ->setMethods(['create'])
+            ->setMethods(['createAmountRender'])
             ->getMock();
 
-        $this->layout = $this->getMock('Magento\View\LayoutInterface');
-        $context = $this->getMockBuilder('Magento\View\Element\Template\Context')
+        $layout = $this->getMock('Magento\View\LayoutInterface');
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface');
+        $storeConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $context->expects($this->once())
+        $this->context = $this->getMockBuilder('Magento\View\Element\Template\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->context->expects($this->any())
             ->method('getLayout')
-            ->will($this->returnValue($this->layout));
+            ->will($this->returnValue($layout));
+        $this->context->expects($this->any())
+            ->method('getEventManager')
+            ->will($this->returnValue($eventManager));
+        $this->context->expects($this->any())
+            ->method('getStoreConfig')
+            ->will($this->returnValue($storeConfig));
 
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = $objectManager->getConstructArguments('Magento\Pricing\Render\PriceBox', array(
-            'context' => $context,
-            'amountRenderFactory' => $this->amountRenderFactory
+        $this->saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
+
+        $this->price = $this->getMock('Magento\Pricing\Price\PriceInterface');
+
+        $this->model = $this->objectManager->getObject('Magento\Pricing\Render\PriceBox', array(
+            'context' => $this->context,
+            'saleableItem' => $this->saleable,
+            'price' => $this->price,
+            'rendererPool' => $this->rendererPool
         ));
-        $this->model = $this->getMockBuilder('Magento\Pricing\Render\PriceBox')
-            ->setMethods(['toHtml'])
-            ->setConstructorArgs($arguments)
-            ->getMock();
     }
 
     /**
-     * @covers PriceBox::render
-     * @covers PriceBox::getSaleableItem
-     * @covers PriceBox::getPrice
+     * @param array $data
+     * @param string $priceType
+     * @param array $cssClasses
+     * @dataProvider toHtmlDataProvider
      */
-    public function testRender()
+    public function testToHtml($data, $priceType, $cssClasses)
     {
-        $priceType = 'final';
-        $arguments = ['param' => 'some_value'];
-        $resultHtml = 'some html';
+        $this->price->expects($this->once())
+            ->method('getPriceType')
+            ->will($this->returnValue($priceType));
 
-        $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
+        $priceBox = $this->objectManager->getObject('Magento\Pricing\Render\PriceBox', array(
+            'context' => $this->context,
+            'saleableItem' => $this->saleable,
+            'price' => $this->price,
+            'rendererPool' => $this->rendererPool,
+            'data' => $data
+        ));
+        $priceBox->toHtml();
+        $this->assertEquals($cssClasses, $priceBox->getData('css_classes'));
+    }
 
-        $priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface');
-        $priceInfo->expects($this->atLeastOnce())
-            ->method('getPrice')
-            ->with($priceType)
-            ->will($this->returnValue($price));
+    public function toHtmlDataProvider()
+    {
+        return array(
+            array(
+                'data' => [],
+                'price_type' => 'test_price',
+                'css_classes' => 'price-test_price'
+            ),
+            array(
+                'data' => ['css_classes' => 'some_css_class'],
+                'price_type' => 'test_price',
+                'css_classes' => 'some_css_class price-test_price'
+        ));
+    }
 
-        $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $saleable->expects($this->atLeastOnce())
-            ->method('getPriceInfo')
-            ->will($this->returnValue($priceInfo));
+    public function testGetSaleableItem()
+    {
+        $this->assertEquals($this->saleable, $this->model->getSaleableItem());
+    }
 
-        $this->model->expects($this->once())
-            ->method('toHtml')
-            ->will($this->returnValue($resultHtml));
-
-        $origArguments = $this->model->getData();
-        $this->assertEquals($resultHtml, $this->model->render($priceType, $saleable, $arguments));
-        $this->assertEquals($origArguments, $this->model->getData());
-        $this->assertEquals($saleable, $this->model->getSaleableItem());
-        $this->assertEquals($price, $this->model->getPrice());
+    public function testGetPrice()
+    {
+        $this->assertEquals($this->price, $this->model->getPrice());
     }
 
     public function testGetPriceType()
     {
-        $priceType = 'final';
-        $priceCode = 'final';
-        $quantity = 2;
-
-        $priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface');
-        $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $saleable->expects($this->atLeastOnce())
-            ->method('getPriceInfo')
-            ->will($this->returnValue($priceInfo));
-        $this->model->render($priceType, $saleable);
-
-        $priceType = $this->getMock('Magento\Pricing\Price\PriceInterface');
-        $priceInfo->expects($this->once())
-            ->method('getPrice')
-            ->with($priceCode, $quantity)
-            ->will($this->returnValue($priceType));
-        $this->assertEquals($priceType, $this->model->getPriceType($priceCode, $quantity));
-    }
-
-    /**
-     * @dataProvider renderAmountDataProvider
-     */
-    public function testRenderAmount($amountRenderClass, $amountRenderTemplate, $amountRenderData)
-    {
-        $priceType = 'final';
-        $argumentsRenderAmount = ['some_param' => 'some_value'];
-        $resultRender = 'result_render';
-
-        if ($amountRenderClass) {
-            $this->model->setData('amount_render', $amountRenderClass);
-        }
-        $this->model->setData('amount_render_template', $amountRenderTemplate);
-        if ($amountRenderData) {
-            $this->model->setData('amount_render_data', $amountRenderData);
-        }
-
-        $priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface');
-        $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $saleable->expects($this->atLeastOnce())
-            ->method('getPriceInfo')
-            ->will($this->returnValue($priceInfo));
-        $this->model->render($priceType, $saleable);
-
+        $priceCode = 'test_price';
+        $quantity = 1.;
 
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
 
-        $amountRender = $this->getMock('Magento\Pricing\Render\AmountRenderInterface');
-        $amountRender->expects($this->once())
-            ->method('render')
-            ->with($price, $saleable, $argumentsRenderAmount)
-            ->will($this->returnValue($resultRender));
+        $priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface');
+        $priceInfo->expects($this->once())
+            ->method('getPrice')
+            ->with($priceCode, $quantity)
+            ->will($this->returnValue($price));
 
-        $this->amountRenderFactory->expects($this->once())
-            ->method('create')
-            ->with(
-                $this->layout,
-                ($amountRenderClass ? :  AmountRenderFactory::AMOUNT_RENDERER_DEFAULT),
-                $amountRenderTemplate,
-                ($amountRenderData ? : [])
-            )
-            ->will($this->returnValue($amountRender));
+        $this->saleable->expects($this->once())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($priceInfo));
 
-        $this->assertEquals($resultRender, $this->model->renderAmount($price, $argumentsRenderAmount));
+        $this->assertEquals($price, $this->model->getPriceType($priceCode, $quantity));
     }
 
-    /**
-     * @return array
-     */
-    public function renderAmountDataProvider()
+    public function testRenderAmount()
     {
-        return array(
-            array(
-                'amountRender' => 'Some\Render\Class',
-                'amountRenderTemplate' => 'path_to_template',
-                'amountRenderData' => ['some_key' => 'some_value']
-            ),
-            array(
-                'amountRender' => false,
-                'amountRenderTemplate' => 'path_to_template',
-                'amountRenderData' => []
-            ),
-            array(
-                'amountRender' => 'Some\Render\Class',
-                'amountRenderTemplate' => 'path_to_template',
-                'amountRenderData' => false
-            ),
+        $amount = $this->getMock('Magento\Pricing\Amount\AmountInterface');
+        $arguments = [];
+        $resultHtml = 'result_html';
 
-        );
+        $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
+            ->disableOriginalConstructor()
+            ->setMethods(['toHtml'])
+            ->getMock();
+        $amountRender->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue($resultHtml));
+
+        $this->rendererPool->expects($this->once())
+            ->method('createAmountRender')
+            ->with($amount, $this->saleable, $this->price, $arguments)
+            ->will($this->returnValue($amountRender));
+
+        $this->assertEquals($resultHtml, $this->model->renderAmount($amount, $arguments));
     }
 }

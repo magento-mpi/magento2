@@ -13,6 +13,9 @@ namespace Magento\Pricing\Render;
 use Magento\View\LayoutFactory;
 use Magento\View\LayoutInterface;
 
+/**
+ * Pricing render's layout model
+ */
 class Layout
 {
     /**

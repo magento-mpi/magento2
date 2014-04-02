@@ -54,13 +54,24 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Get weee amount
+     *
+     * @return float
+     */
+    protected function getWeeeTaxAmount()
+    {
+        $product = $this->getSaleableItem();
+        return $this->weeeHelper->getAmount($product);
+    }
+
+    /**
      * Define if adjustment should be shown with including tax, description
      *
      * @return bool
      */
     public function showInclDescr()
     {
-        return $this->isDisplayFpt() && $this->getAmount() && $this->typeOfDisplay(Tax::DISPLAY_INCL_DESCR);
+        return $this->isDisplayFpt() && $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_INCL_DESCR);
     }
 
     /**
@@ -70,7 +81,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function showExclDescrIncl()
     {
-        return $this->isDisplayFpt() && $this->getAmount() && $this->typeOfDisplay(Tax::DISPLAY_EXCL_DESCR_INCL);
+        return $this->isDisplayFpt() && $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_EXCL_DESCR_INCL);
     }
 
     /**
@@ -98,24 +109,12 @@ class Adjustment extends AbstractAdjustment
      * Returns display type for price accordingly to current zone
      *
      * @param int|int[]|null $compareTo
-     * @param string|null $zone
      * @param \Magento\Core\Model\Store|null $store
      * @return bool|int
      */
-    protected function typeOfDisplay($compareTo = null, $zone = null, $store = null)
+    protected function typeOfDisplay($compareTo = null, $store = null)
     {
-        return $this->weeeHelper->typeOfDisplay($compareTo, $zone, $store);
-    }
-
-    /**
-     * Get amount
-     *
-     * @return float
-     */
-    protected function getAmount()
-    {
-        $product = $this->getSaleableItem();
-        return $this->weeeHelper->getAmount($product);
+        return $this->weeeHelper->typeOfDisplay($compareTo, $this->getZone(), $store);
     }
 
     /**
@@ -127,18 +126,6 @@ class Adjustment extends AbstractAdjustment
     {
         $product = $this->getSaleableItem();
         return $this->weeeHelper->getProductWeeeAttributesForDisplay($product);
-    }
-
-    /**
-     * Get Weee tax amount
-     *
-     * @TODO Seems not used
-     *
-     * @return float|null
-     */
-    protected function getWeeeTaxAmount()
-    {
-        return $this->isDisplayFpt() ? $this->getAmount() : null;
     }
 
     /**

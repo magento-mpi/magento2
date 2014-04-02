@@ -10,6 +10,7 @@
 
 namespace Magento\Pricing\PriceInfo;
 
+use Magento\Pricing\Amount\AmountFactory;
 use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\PriceComposite;
 use Magento\Pricing\Price\PriceInterface;
@@ -25,7 +26,7 @@ class Base implements PriceInfoInterface
     /**
      * @var SaleableInterface
      */
-    protected $product;
+    protected $saleableItem;
 
     /**
      * @var PriceComposite
@@ -48,20 +49,28 @@ class Base implements PriceInfoInterface
     protected $quantity;
 
     /**
-     * @param SaleableInterface $product
+     * @var AmountFactory
+     */
+    protected $amountFactory;
+
+    /**
+     * @param SaleableInterface $saleableItem
      * @param PriceComposite $prices
      * @param AdjustmentComposite $adjustments
+     * @param AmountFactory $amountFactory
      * @param float $quantity
      */
     public function __construct(
-        SaleableInterface $product,
+        SaleableInterface $saleableItem,
         PriceComposite $prices,
         AdjustmentComposite $adjustments,
+        AmountFactory $amountFactory,
         $quantity = self::PRODUCT_QUANTITY_DEFAULT
     ) {
-        $this->product = $product;
+        $this->saleableItem = $saleableItem;
         $this->prices = $prices;
         $this->adjustments = $adjustments;
+        $this->amountFactory = $amountFactory;
         $this->quantity = $quantity;
     }
 
@@ -85,7 +94,11 @@ class Base implements PriceInfoInterface
         $prices = $this->prices->getPriceCodes();
         foreach ($prices as $code) {
             if (!isset($this->priceInstances[$code])) {
-                $this->priceInstances[$code] = $this->prices->createPriceObject($this->product, $code, $this->quantity);
+                $this->priceInstances[$code] = $this->prices->createPriceObject(
+                    $this->saleableItem,
+                    $code,
+                    $this->quantity
+                );
             }
         }
         return $this;
@@ -100,7 +113,7 @@ class Base implements PriceInfoInterface
     {
         if (!isset($this->priceInstances[$priceCode]) && $quantity === null) {
             $this->priceInstances[$priceCode] = $this->prices->createPriceObject(
-                $this->product,
+                $this->saleableItem,
                 $priceCode,
                 $this->quantity
             );
@@ -108,7 +121,7 @@ class Base implements PriceInfoInterface
         } elseif (isset($this->priceInstances[$priceCode]) && $quantity === null) {
             return $this->priceInstances[$priceCode];
         } else {
-            return $this->prices->createPriceObject($this->product, $priceCode, $quantity);
+            return $this->prices->createPriceObject($this->saleableItem, $priceCode, $quantity);
         }
     }
 
@@ -149,7 +162,7 @@ class Base implements PriceInfoInterface
         foreach ($this->prices->getMetadata() as $code => $price) {
             if (isset($price['include_in_base_price']) && $price['include_in_base_price']) {
                 $priceModel = $this->getPrice($code, $this->quantity);
-                if ($priceModel->getValue()) {
+                if ($priceModel->getValue() !== false) {
                     $prices[] = $priceModel;
                 }
             }

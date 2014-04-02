@@ -28,11 +28,6 @@ class BasePrice extends RegularPrice
     /**
      * @var bool|float|null
      */
-    protected $value;
-
-    /**
-     * @var bool|float|null
-     */
     protected $maxValue;
 
     /**
@@ -42,7 +37,7 @@ class BasePrice extends RegularPrice
      */
     public function getValue()
     {
-        if (is_null($this->value)) {
+        if ($this->value === null) {
             $this->value = false;
             foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
                 $this->value = min($price->getValue(), $this->value ?: $price->getValue());
@@ -58,7 +53,7 @@ class BasePrice extends RegularPrice
      */
     public function getMaxValue()
     {
-        if (is_null($this->maxValue)) {
+        if ($this->maxValue === null) {
             $this->value = false;
             foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
                 $this->maxValue = max($price->getValue(), $this->maxValue ?: $price->getValue());

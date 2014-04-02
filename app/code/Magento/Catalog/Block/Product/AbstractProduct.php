@@ -800,4 +800,28 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     {
         return $this->_mathRandom->getRandomString($length, $chars);
     }
+
+    /**
+     * Return HTML block with price
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    public function getProductPrice(\Magento\Catalog\Model\Product $product)
+    {
+        /** @var \Magento\Pricing\Render $priceRender */
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                $product,
+                [
+                    'zone' => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                ]
+            );
+        }
+        return $price;
+    }
 }

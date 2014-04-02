@@ -10,8 +10,8 @@
 <?php /** @var \Magento\Pricing\Render\Amount $this */ ?>
 
 <?php if ($this->getDisplayLabel()): ?>
-<span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
+    <span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
 <?php endif; ?>
 <span class="price <?php echo $this->getAdjustmentCssClasses() ?>" id="<?php echo $this->getPriceId() ?>">
-    <?php echo $this->convertAndFormatCurrency($this->getAmount(), (bool) $this->getIncludeContainer()) ?>
+    <?php echo $this->convertAndFormatCurrency($this->getDisplayValue(), (bool) $this->getIncludeContainer()) ?>
 </span>

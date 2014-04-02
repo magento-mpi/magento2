@@ -12,7 +12,6 @@ namespace Magento\Tax\Pricing\Render;
 
 use Magento\View\Element\Template;
 use Magento\Pricing\Render\AbstractAdjustment;
-use Magento\Catalog\Helper\Product\Price as PriceHelper;
 use Magento\Pricing\PriceCurrencyInterface;
 
 /**
@@ -22,23 +21,23 @@ use Magento\Pricing\PriceCurrencyInterface;
 class Adjustment extends AbstractAdjustment
 {
     /**
-     * @var \Magento\Catalog\Helper\Product\Price
+     * @var \Magento\Tax\Helper\Data
      */
-    protected $priceHelper;
+    protected $taxHelper;
 
     /**
      * @param Template\Context $context
-     * @param PriceHelper $helper
+     * @param \Magento\Tax\Helper\Data $helper
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         PriceCurrencyInterface $priceCurrency,
-        PriceHelper $helper,
+        \Magento\Tax\Helper\Data $helper,
         array $data = []
     ) {
-        $this->priceHelper = $helper;
+        $this->taxHelper = $helper;
         parent::__construct($context, $priceCurrency, $data);
     }
 
@@ -60,7 +59,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function displayBothPrices()
     {
-        return $this->priceHelper->displayBothPrices();
+        return $this->taxHelper->displayBothPrices();
     }
 
     /**
@@ -70,7 +69,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function getDisplayAmountExclTax()
     {
-        return $this->convertAndFormatCurrency($this->getPrice()->getDisplayValue(null, 'tax'), false);
+        return $this->convertAndFormatCurrency($this->amountRender->getAmount()->getValue('tax'), false);
     }
 
     /**
@@ -81,7 +80,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function getDisplayAmount($includeContainer = true)
     {
-         return $this->convertAndFormatCurrency($this->getPrice()->getDisplayValue(), $includeContainer);
+         return $this->convertAndFormatCurrency($this->amountRender->getAmount()->getValue(), $includeContainer);
     }
 
     /**
@@ -94,5 +93,25 @@ class Adjustment extends AbstractAdjustment
     {
         $productId = $this->getSaleableItem()->getId();
         return $prefix . $productId . $this->getIdSuffix();
+    }
+
+    /**
+     * Should be displayed price including tax
+     *
+     * @return bool
+     */
+    public function displayPriceIncludingTax()
+    {
+        return $this->taxHelper->displayPriceIncludingTax();
+    }
+
+    /**
+     * Should be displayed price excluding tax
+     *
+     * @return bool
+     */
+    public function displayPriceExcludingTax()
+    {
+        return $this->taxHelper->displayPriceExcludingTax();
     }
 }

@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_Directory
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model;
+namespace Magento\Directory\Model;
 
 class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,7 +44,7 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->priceCurrency = $objectManager->getObject('Magento\Catalog\Model\PriceCurrency', array(
+        $this->priceCurrency = $objectManager->getObject('Magento\Directory\Model\PriceCurrency', array(
             'storeManager' => $this->storeManager,
             'currencyFactory' => $this->currencyFactory
         ));

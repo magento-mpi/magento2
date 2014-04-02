@@ -10,10 +10,10 @@
 
 namespace Magento\Catalog\Pricing\Render;
 
-use Magento\Pricing\Object\SaleableInterface;
-use Magento\Pricing\Render\PriceBox;
+use Magento\Pricing\Render\PriceBox as BasePriceBox;
 use Magento\Catalog\Pricing\Price\MsrpPrice;
 use Magento\Pricing\Render;
+use Magento\Catalog\Pricing\Price;
 
 /**
  * Class for final_price rendering
@@ -21,34 +21,31 @@ use Magento\Pricing\Render;
  * @method bool getUseLinkForAsLowAs()
  * @method float getDisplayMinimalPrice()
  */
-class FinalPriceBox extends PriceBox
+class FinalPriceBox extends BasePriceBox
 {
-    /**
-     * Renders MAP price in case it is enabled
-     *
-     * @param string $priceType
-     * @param SaleableInterface $saleableItem
-     * @param array $arguments
-     * @return string
-     */
-    public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
+    protected function _toHtml()
     {
-        $result = parent::render($priceType, $saleableItem, $arguments);
+        $result = parent::_toHtml();
 
         try {
             /** @var MsrpPrice $msrpPriceType */
-            $msrpPriceType = $saleableItem->getPriceInfo()->getPrice('msrp');
+            $msrpPriceType = $this->getSaleableItem()->getPriceInfo()->getPrice('msrp');
         } catch (\InvalidArgumentException $e) {
             $this->_logger->logException($e);
             return $this->wrapResult($result);
         }
-        if ($msrpPriceType->canApplyMsrp($saleableItem)) {
-            /** @var PriceBox $msrpBlock */
-            $msrpBlock = $this->getChildBlock('default.msrp');
-            if ($msrpBlock instanceof PriceBox) {
-                $arguments['real_price_html'] = $this->wrapResult($result);
-                $result = $msrpBlock->render('msrp', $saleableItem, $arguments);
-            }
+
+        //Renders MAP price in case it is enabled
+        if ($msrpPriceType->canApplyMsrp($this->getSaleableItem())) {
+            /** @var BasePriceBox $msrpBlock */
+            $msrpBlock = $this->rendererPool->createPriceRender(
+                'msrp',
+                $this->getSaleableItem(),
+                [
+                    'real_price_html' => $result
+                ]
+            );
+            $result = $msrpBlock->toHtml();
         }
 
         return $this->wrapResult($result);
@@ -74,10 +71,10 @@ class FinalPriceBox extends PriceBox
     {
         //@TODO Implement 'minimal_price' final price is a minimum price
 
-        $price = $this->getPriceType('final_price');
+        $price = $this->getPriceType(\Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL);
         $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
         return $this->renderAmount(
-            $price,
+            $price->getMinimalPrice(),
             [
                 'display_label'     => __('As low as:'),
                 'price_id'          => $id,
@@ -93,9 +90,8 @@ class FinalPriceBox extends PriceBox
      */
     public function showSpecialPrice()
     {
-        $displayRegularPrice = $this->getPriceType('regular_price')->getDisplayValue();
-        $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
-
+        $displayRegularPrice = $this->getPriceType(Price\RegularPrice::PRICE_TYPE_PRICE_DEFAULT)->getAmount();
+        $displayFinalPrice = $this->getPriceType(Price\FinalPriceInterface::PRICE_TYPE_FINAL)->getAmount();
         return $displayFinalPrice < $displayRegularPrice;
     }
 
@@ -106,8 +102,10 @@ class FinalPriceBox extends PriceBox
      */
     public function showMinimalPrice()
     {
-        $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
-        $minimalPrice = $this->getPriceType('final_price')->getMinimalPrice();
+        /** @var Price\FinalPrice $finalPrice */
+        $finalPrice = $this->getPriceType(Price\FinalPriceInterface::PRICE_TYPE_FINAL);
+        $displayFinalPrice = $finalPrice->getAmount();
+        $minimalPrice = $finalPrice->getMinimalPrice();
 
         return $this->getDisplayMinimalPrice() && $minimalPrice && $minimalPrice < $displayFinalPrice;
     }

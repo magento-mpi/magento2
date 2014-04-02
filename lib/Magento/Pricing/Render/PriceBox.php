@@ -10,6 +10,7 @@
 
 namespace Magento\Pricing\Render;
 
+use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\View\Element\Template;
@@ -33,81 +34,39 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     protected $price;
 
     /**
-     * @var string
+     * @var RendererPool
      */
-    protected $defaultTemplate = '';
+    protected $rendererPool;
 
     /**
-     * @var \Magento\Pricing\Render\Amount
-     */
-    protected $amountRender;
-
-    /**
-     * @var AmountRenderFactory
-     */
-    protected $amountRenderFactory;
-
-    /**
-     * @param Template\Context $context
-     * @param AmountRenderFactory $amountRenderFactory
-     * @param array $data
+     * @param Template\Context  $context
+     * @param SaleableInterface $saleableItem
+     * @param PriceInterface    $price
+     * @param RendererPool      $rendererPool
+     * @param array             $data
      */
     public function __construct(
         Template\Context $context,
-        AmountRenderFactory $amountRenderFactory,
-        array $data = array()
+        SaleableInterface $saleableItem,
+        PriceInterface $price,
+        RendererPool $rendererPool,
+        array $data = []
     ) {
-        $this->amountRenderFactory = $amountRenderFactory;
+        $this->saleableItem = $saleableItem;
+        $this->price = $price;
+        $this->rendererPool = $rendererPool;
         parent::__construct($context, $data);
     }
 
-    /**
-     * Retrieve pricebox html for given price type, item and arguments
-     *
-     * @param string $priceType
-     * @param SaleableInterface $saleableItem
-     * @param array $arguments
-     * @return string
-     */
-    public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
+    protected function _toHtml()
     {
-        $origArguments = $this->getData();
-        // @todo probably use block vars instead
-        $this->setData(array_replace($origArguments, $arguments));
-
-        $this->saleableItem = $saleableItem;
-        $this->price = $saleableItem->getPriceInfo()->getPrice($priceType);
-
-        $cssClasses = explode(' ', $this->getData('css_classes'));
-        $cssClasses[] = 'price-' . $priceType;
+        $cssClasses = $this->hasData('css_classes') ? explode(' ', $this->getData('css_classes')) : [];
+        $cssClasses[] = 'price-' . $this->getPrice()->getPriceType();
         $this->setData('css_classes', implode(' ', $cssClasses));
-
-        if (!$this->getTemplate() && $this->defaultTemplate) {
-            $this->setTemplate($this->defaultTemplate);
-        }
-
-        $result = $this->toHtml();
-        // restore original block arguments after toHtml
-        $this->setData($origArguments);
-        return $result;
+        return parent::_toHtml();
     }
 
     /**
-     * Retrieve amount html for given price and arguments
-     * (to use in templates only)
-     *
-     * @param PriceInterface $price
-     * @param array $arguments
-     * @return string
-     */
-    public function renderAmount(PriceInterface $price, array $arguments = [])
-    {
-        return $this->getAmountRender()->render($price, $this->saleableItem, $arguments);
-    }
-
-    /**
-     * (to use in templates only)
-     *
      * @return SaleableInterface
      */
     public function getSaleableItem()
@@ -117,8 +76,6 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     }
 
     /**
-     * (to use in templates only)
-     *
      * @return PriceInterface
      */
     public function getPrice()
@@ -140,22 +97,30 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     }
 
     /**
-     * @return Amount|\Magento\View\Element\BlockInterface
+     * @param AmountInterface $amount
+     * @param array $arguments
+     * @return string
      */
-    protected function getAmountRender()
+    public function renderAmount(AmountInterface $amount, array $arguments = [])
     {
-        if (!$this->amountRender) {
-            $rendererClass = AmountRenderFactory::AMOUNT_RENDERER_DEFAULT;
-            if ($this->hasData('amount_render')) {
-                $rendererClass = $this->getData('amount_render');
-            }
-            $this->amountRender = $this->amountRenderFactory->create(
-                $this->_layout,
-                $rendererClass,
-                $this->getData('amount_render_template'),
-                $this->hasData('amount_render_data') ? $this->getData('amount_render_data') : []
-            );
-        }
-        return $this->amountRender;
+        $arguments = array_replace($this->getData(), $arguments);
+
+        //@TODO AmountInterface does not contain toHtml() method
+        return $this->getAmountRender($amount, $arguments)->toHtml();
+    }
+
+    /**
+     * @param AmountInterface $amount
+     * @param array $arguments
+     * @return AmountRenderInterface
+     */
+    protected function getAmountRender(AmountInterface $amount, array $arguments = [])
+    {
+        return $this->rendererPool->createAmountRender(
+            $amount,
+            $this->getSaleableItem(),
+            $this->getPrice(),
+            $arguments
+        );
     }
 }

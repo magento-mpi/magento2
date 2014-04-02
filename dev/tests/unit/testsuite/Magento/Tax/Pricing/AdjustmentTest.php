@@ -13,10 +13,6 @@ use Magento\Pricing\Object\SaleableInterface;
 
 class AdjustmentTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-    }
-
     public function testGetAdjustmentCode()
     {
         // Instantiate/mock objects
@@ -72,9 +68,6 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $taxHelper = $this->getMockBuilder('Magento\Tax\Helper\Data')->disableOriginalConstructor()
             ->setMethods(array('displayPriceIncludingTax', 'displayBothPrices'))
             ->getMock();
-        /** @var SaleableInterface|\PHPUnit_Framework_MockObject_MockObject $taxHelper */
-        $object = $this->getMockBuilder('Magento\Pricing\Object\SaleableInterface')->getMock();
-        $model = new Adjustment($taxHelper);
 
         // Avoid execution of irrelevant functionality
         $taxHelper->expects($this->any())
@@ -84,6 +77,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->method('displayBothPrices')
             ->will($this->returnValue($displayBothPrices));
 
+        $model = new Adjustment($taxHelper);
         // Run tested method
         $result = $model->isIncludedInDisplayPrice();
 
@@ -92,6 +86,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     */
     public function isIncludedInDisplayPriceDataProvider()
     {
         return [
@@ -182,6 +179,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     */
     public function applyAdjustmentDataProvider()
     {
         return [

@@ -30,4 +30,9 @@ interface SaleableInterface
      * @return string
      */
     public function getTypeId();
+
+    /**
+     * @return int
+     */
+    public function getId();
 }

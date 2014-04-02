@@ -47,7 +47,7 @@ class Factory
         $arguments['salableItem'] = $salableItem;
         $arguments['quantity'] = $quantity;
         $price = $this->objectManager->create($className, $arguments);
-        if (!$price instanceof \Magento\Pricing\Price\PriceInterface) {
+        if (!$price instanceof PriceInterface) {
             throw new \InvalidArgumentException(
                 $className . ' doesn\'t implement \Magento\Pricing\Price\PriceInterface'
             );

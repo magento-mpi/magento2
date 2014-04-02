@@ -11,18 +11,17 @@ namespace Magento\Catalog\Block\Product\Widget;
 
 /**
  * New products widget
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Magento\Widget\Block\BlockInterface
 {
     /**
-     * Display products type
+     * Display products type - all products
      */
     const DISPLAY_TYPE_ALL_PRODUCTS = 'all_products';
 
+    /**
+     * Display products type - new products
+     */
     const DISPLAY_TYPE_NEW_PRODUCTS = 'new_products';
 
     /**
@@ -91,16 +90,11 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
         $collection = $this->_productCollectionFactory->create();
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
-        $collection = $this->_addProductAttributesAndPrices(
-            $collection
-        )->addStoreFilter()->addAttributeToSort(
-            'created_at',
-            'desc'
-        )->setPageSize(
-            $this->getProductsCount()
-        )->setCurPage(
-            1
-        );
+        $collection = $this->_addProductAttributesAndPrices($collection)
+            ->addStoreFilter()
+            ->addAttributeToSort('created_at', 'desc')
+            ->setPageSize($this->getProductsCount())
+            ->setCurPage(1);
         return $collection;
     }
 
@@ -187,21 +181,13 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
                     'widget.new.product.list.pager'
                 );
 
-                $this->_pager->setUseContainer(
-                    true
-                )->setShowAmounts(
-                    true
-                )->setShowPerPage(
-                    false
-                )->setPageVarName(
-                    self::PAGE_VAR_NAME
-                )->setLimit(
-                    $this->getProductsPerPage()
-                )->setTotalLimit(
-                    $this->getProductsCount()
-                )->setCollection(
-                    $this->getProductCollection()
-                );
+                $this->_pager->setUseContainer(true)
+                    ->setShowAmounts(true)
+                    ->setShowPerPage(false)
+                    ->setPageVarName(self::PAGE_VAR_NAME)
+                    ->setLimit($this->getProductsPerPage())
+                    ->setTotalLimit($this->getProductsCount())
+                    ->setCollection($this->getProductCollection());
             }
             if ($this->_pager instanceof \Magento\View\Element\AbstractBlock) {
                 return $this->_pager->toHtml();
@@ -215,19 +201,26 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param string $type
-     * @return mixed
+     * @return string
      */
-    public function getProductPrice(\Magento\Catalog\Model\Product $product, $type)
+    public function getProductPriceHtml(\Magento\Catalog\Model\Product $product, $type = null)
     {
-        return $this->getLayout()->getBlock('product.price.render.default')
-            ->render(
-                'final_price',
+        /** @var \Magento\Pricing\Render $priceRender */
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
                 $product,
                 [
-                    'price_id' => 'old-price-' . $product->getId() . '-' . $type,
+                    'price_id'              => 'old-price-' . $product->getId() . '-' . $type,
                     'display_minimal_price' => true,
-                    'include_container' => true
+                    'include_container'     => true,
+                    'zone'                  => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
                 ]
             );
+        }
+        return $price;
     }
 }

@@ -10,6 +10,9 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Pricing\Adjustment\Calculator;
+use Magento\Pricing\Object\SaleableInterface;
+
 /**
  * Final price model
  */
@@ -26,16 +29,42 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     protected $basePrice;
 
     /**
-     * @param \Magento\Pricing\Object\SaleableInterface $salableItem
+     * @param SaleableInterface $salableItem
      * @param float $quantity
+     * @param Calculator $calculator
      */
-    public function __construct(\Magento\Pricing\Object\SaleableInterface $salableItem, $quantity)
-    {
-        $this->salableItem = $salableItem;
-        $this->quantity = $quantity;
-        $this->priceInfo = $salableItem->getPriceInfo();
-        $this->basePrice = $this->priceInfo->getPrice('base_price');
+    public function __construct(
+        SaleableInterface $salableItem,
+        $quantity,
+        Calculator $calculator
+    ) {
+        parent::__construct($salableItem, $quantity, $calculator);
+        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE);
         $this->baseAmount = $this->getValue();
+    }
+
+    /**
+     * @return float|bool
+     */
+    public function getValue()
+    {
+        return $this->basePrice->getValue(); // + custom options price
+    }
+
+    /**
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    public function getMinimalPrice()
+    {
+        return $this->calculator->getAmount($this->getValue(), $this->salableItem);
+    }
+
+    /**
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    public function getMaximalPrice()
+    {
+        return $this->calculator->getAmount($this->getMaxValue(), $this->salableItem);
     }
 
     /**
@@ -43,40 +72,6 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
      */
     public function getMaxValue()
     {
-        return $this->getDisplayValue($this->basePrice->getMaxValue());
-    }
-
-    /**
-     * @return float
-     */
-    public function getValue()
-    {
-        return $this->basePrice->getDisplayValue();
-    }
-
-    /**
-     * @param float $baseAmount
-     * @param string|null $excludedCode
-     * @return float
-     */
-    public function getDisplayValue($baseAmount = null, $excludedCode = null)
-    {
-        return $this->basePrice->getDisplayValue($baseAmount, $excludedCode);
-    }
-
-    /**
-     * @return float
-     */
-    public function getMinimalPrice()
-    {
-        return $this->getValue();
-    }
-
-    /**
-     * @return float
-     */
-    public function getMaximumPrice()
-    {
-        return $this->getMaxValue();
+        return $this->basePrice->getMaxValue();
     }
 }
