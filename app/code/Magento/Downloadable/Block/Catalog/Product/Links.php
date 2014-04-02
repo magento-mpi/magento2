@@ -235,9 +235,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     }
 
     /**
-     * Returns Link Amount
-     *
      * @param Link $link
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     protected function getLinkAmount($link)
     {
@@ -248,11 +247,10 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param Link $link
      * @return string
      */
-    public function getLinkPrice($link)
+    public function getLinkPrice(Link $link)
     {
-        $linkAmount = $this->getLinkAmount($link);
         return $this->getLayout()->getBlock('product.price.render.default')->renderAmount(
-            $linkAmount,
+            $this->getLinkAmount($link),
             $this->getPriceType(),
             $this->getProduct()
         );
@@ -265,7 +263,6 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function getPriceType()
     {
-        $priceType = $this->getProduct()->getPriceInfo()->getPrice('link_price');
-        return $priceType;
+        return $this->getProduct()->getPriceInfo()->getPrice('link_price');
     }
 }

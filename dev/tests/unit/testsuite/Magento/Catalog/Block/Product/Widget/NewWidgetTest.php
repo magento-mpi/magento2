@@ -42,7 +42,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
         $this->block = null;
     }
 
-    public function testGetProductPrice()
+    public function testGetProductPriceHtml()
     {
         $id = 6;
         $expectedHtml = '
@@ -75,7 +75,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
             ->with('final_price', $productMock, $arguments)
             ->will($this->returnValue($expectedHtml));
 
-        $result = $this->block->getProductPrice($productMock, $type);
+        $result = $this->block->getProductPriceHtml($productMock, $type);
         $this->assertEquals($expectedHtml, $result);
     }
 }

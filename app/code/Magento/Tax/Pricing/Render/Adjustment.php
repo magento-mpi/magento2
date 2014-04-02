@@ -12,7 +12,6 @@ namespace Magento\Tax\Pricing\Render;
 
 use Magento\View\Element\Template;
 use Magento\Pricing\Render\AbstractAdjustment;
-use Magento\Tax\Helper\Data;
 use Magento\Pricing\PriceCurrencyInterface;
 
 /**
@@ -22,23 +21,23 @@ use Magento\Pricing\PriceCurrencyInterface;
 class Adjustment extends AbstractAdjustment
 {
     /**
-     * @var \Magento\Catalog\Helper\Product\Price
+     * @var \Magento\Tax\Helper\Data
      */
     protected $taxHelper;
 
     /**
      * @param Template\Context $context
-     * @param Data $taxHelper
+     * @param \Magento\Tax\Helper\Data $helper
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         PriceCurrencyInterface $priceCurrency,
-        Data $taxHelper,
+        \Magento\Tax\Helper\Data $helper,
         array $data = []
     ) {
-        $this->taxHelper = $taxHelper;
+        $this->taxHelper = $helper;
         parent::__construct($context, $priceCurrency, $data);
     }
 

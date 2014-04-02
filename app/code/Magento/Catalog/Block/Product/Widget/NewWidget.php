@@ -203,7 +203,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
      * @param string $type
      * @return string
      */
-    public function getProductPrice(\Magento\Catalog\Model\Product $product, $type)
+    public function getProductPriceHtml(\Magento\Catalog\Model\Product $product, $type = null)
     {
         /** @var \Magento\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
