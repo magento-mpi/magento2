@@ -15,7 +15,7 @@ use Mtf\Fixture\FixtureInterface;
  * Class CustomOptions
  *
  * Data keys:
- *  - preset (bundle options preset name)
+ *  - preset (Custom options preset name)
  *  - products (comma separated sku identifiers)
  *
  * @package Magento\Bundle\Test\Fixture
@@ -40,7 +40,7 @@ class CustomOptions implements FixtureInterface
     }
 
     /**
-     * Persist bundle selections products
+     * Persist custom selections products
      *
      * @return void
      */
@@ -109,11 +109,7 @@ class CustomOptions implements FixtureInterface
                 ]
             ]
         ];
-        if (!isset($presets[$name])) {
-            throw new \InvalidArgumentException(
-                sprintf('Wrong Bundle Selections preset name: %s', $name)
-            );
-        }
+
         return $presets[$name];
     }
 }
