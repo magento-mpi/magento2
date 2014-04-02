@@ -13,7 +13,7 @@
             <attribute name="refundable" value="true"/>
         </customAttributes>
     </type>
-    <type name="virtual" label="Virtual Product" modelInstance="Magento\Catalog\Model\Product\Type\Virtual" indexPriority="20">
+    <type name="virtual" label="Virtual Product" modelInstance="Magento\Catalog\Model\Product\Type\Virtual" indexPriority="20" sortOrder="40">
         <customAttributes>
             <attribute name="is_real_product" value="false"/>
             <attribute name="refundable" value="false"/>
