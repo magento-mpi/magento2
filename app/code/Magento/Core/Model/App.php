@@ -455,4 +455,9 @@ class App implements \Magento\AppInterface
             'number' => '67'
         );
     }
+
+    public function launch() {
+
+    }
+
 }

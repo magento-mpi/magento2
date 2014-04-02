@@ -41,7 +41,8 @@ class Notices extends \Magento\View\Element\Template
      */
     public function displayNoLocalStorageNotice()
     {
-        return $this->_storeConfig->getConfig('web/browser_capabilities/local_storage');
+        return $this->_storeConfig->getValue('web/browser_capabilities/local_storage',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

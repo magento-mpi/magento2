@@ -33,7 +33,7 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $scope = null
     ) {
         $this->_localeResolver = $localeResolver;

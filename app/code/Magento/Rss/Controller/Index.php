@@ -89,7 +89,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function wishlistAction()
     {
-        if ($this->_storeConfig->getConfig('rss/wishlist/active')) {
+        if ($this->_storeConfig->getValue('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $wishlist = $this->_getWishlist();
             if ($wishlist && ($wishlist->getVisibility() || $this->_objectManager->get(
                 'Magento\Customer\Model\Session'

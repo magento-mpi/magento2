@@ -35,7 +35,7 @@
     <preference for="Magento\View\Asset\MergeStrategyInterface" type="Magento\View\Asset\MergeStrategy\Direct" />
     <preference for="Magento\App\ViewInterface" type="Magento\App\View" />
     <preference for="Magento\TranslateInterface" type="Magento\Translate" />
-    <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
+    <preference for="Magento\App\Response\RedirectInterface" type="Magento\Store\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
@@ -51,7 +51,7 @@
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
     <preference for="Magento\Translate\ResourceInterface" type="Magento\Core\Model\Resource\Translate" />
-    <preference for="Magento\BaseScopeResolverInterface" type="Magento\Core\Model\BaseScopeResolver" />
+    <preference for="Magento\App\ScopeResolverInterface" type="Magento\Store\Model\Resolver\Store" />
     <preference for="Magento\LocaleInterface" type="Magento\Locale" />
     <preference for="Magento\Locale\CurrencyInterface" type="Magento\Locale\Currency" />
     <preference for="Magento\CurrencyInterface" type="Magento\Currency" />

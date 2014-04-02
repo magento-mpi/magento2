@@ -63,6 +63,9 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      */
     protected function _isMemoryLimitReached()
     {
+        if (ini_get('memory_limit') == -1) {
+            return;
+        }
         $limit = $this->_convertToByte(ini_get('memory_limit'));
         $requiredMemory = $this->_getImageNeedMemorySize($this->_fileName);
         return memory_get_usage(true) + $requiredMemory > $limit;

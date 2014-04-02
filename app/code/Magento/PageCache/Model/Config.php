@@ -100,7 +100,7 @@ class Config
      */
     public function getTtl()
     {
-        return $this->_config->getValue(self::XML_PAGECACHE_TTL);
+        return $this->_scopeConfig->getValue(self::XML_PAGECACHE_TTL);
     }
 
     /**
