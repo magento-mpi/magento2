@@ -26,12 +26,12 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
-     * @var | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Product | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $productMock;
 
     /**
-     * @var | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Pricing\Price\BasePrice | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceMock;
 
