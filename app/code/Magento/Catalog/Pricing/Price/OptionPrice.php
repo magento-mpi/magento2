@@ -10,6 +10,7 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price;
+use Magento\Catalog\Model\Product\Option\Value;
 
 /**
  * Class OptionPrice
@@ -90,7 +91,7 @@ class OptionPrice extends RegularPrice implements OptionPriceInterface
             foreach ($options as $optionItem) {
                 /** @var $optionValue \Magento\Catalog\Model\Product\Option\Value */
                 foreach ($optionItem->getValues() as $optionValue) {
-                    $price = $optionValue->getPrice($optionValue->getPriceType() == 'percent');
+                    $price = $optionValue->getPrice($optionValue->getPriceType() == Value::TYPE_PERCENT);
                     $this->priceOptions[$optionValue->getId()][$price] = [
                         'base_amount' => $price,
                         'adjustment' => $this->getAmount()->getValue()
