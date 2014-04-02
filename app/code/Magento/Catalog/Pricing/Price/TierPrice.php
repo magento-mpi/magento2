@@ -173,7 +173,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
     /**
      * @param float|string $price
-     * @return array
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     protected function applyAdjustment($price)
     {
