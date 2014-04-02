@@ -46,7 +46,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        \Magento\Catalog\Model\Layer\Filter\Category::__construct(
+        parent::__construct(
             $filterItemFactory,
             $storeManager,
             $layer,
