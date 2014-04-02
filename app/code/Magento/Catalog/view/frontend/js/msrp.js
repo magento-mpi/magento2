@@ -11,7 +11,8 @@
 (function($) {
     $.widget('mage.addToCart', {
         options: {
-            showAddToCart: true
+            showAddToCart: true,
+            cartForm: '.form.map.checkout'
         },
 
         _create: function() {
@@ -65,16 +66,9 @@
         _addToCartSubmit: function() {
             this.element.trigger('addToCart', this.element);
             if (this.options.addToCartUrl) {
-                $('#map-popup').hide();
-                if (opener) {
-                    opener.location.href = this.options.addToCartUrl;
-                } else {
-                    location.href = this.options.addToCartUrl;
-                }
-
-            } else if (this.options.cartForm) {
-                $(this.options.cartForm).submit();
+                $(this.options.cartForm).attr('action', this.options.addToCartUrl);
             }
+            $(this.options.cartForm).submit();
         }
     });
 })(jQuery);

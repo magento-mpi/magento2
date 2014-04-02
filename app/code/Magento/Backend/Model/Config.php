@@ -43,7 +43,7 @@ class Config extends \Magento\Object
     /**
      * Application config
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\ReinitableConfigInterface
      */
     protected $_appConfig;
 
@@ -81,7 +81,7 @@ class Config extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\ReinitableConfigInterface $config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\DB\TransactionFactory $transactionFactory
@@ -91,7 +91,7 @@ class Config extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\ReinitableConfigInterface $config,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\DB\TransactionFactory $transactionFactory,
@@ -156,7 +156,7 @@ class Config extends \Magento\Object
             $saveTransaction->save();
 
             // re-init configuration
-            $this->_eventManager->dispatch('application_process_reinit_config');
+            $this->_appConfig->reinit();
             $this->_storeManager->reinitStores();
 
             // website and store codes can be used in event implementation, so set them as well
@@ -166,7 +166,7 @@ class Config extends \Magento\Object
             );
         } catch (\Exception $e) {
             // re-init configuration
-            $this->_eventManager->dispatch('application_process_reinit_config');
+            $this->_appConfig->reinit();
             $this->_storeManager->reinitStores();
             throw $e;
         }

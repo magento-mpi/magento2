@@ -62,7 +62,7 @@ class Observer
     }
 
     /**
-     * @param Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return void
      */
     public function salesQuoteSaveAfter($observer)
