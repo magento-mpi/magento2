@@ -68,11 +68,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private $_storeManagerMock;
 
     /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    private $_customerConverter;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\Store
      */
     private $_storeMock;
@@ -211,11 +206,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\Data\AddressBuilder',
             ['regionBuilder' => $regionBuilder, 'metadataService' => $metadataService]
         );
-
-        $customerBuilder = new CustomerBuilder($metadataService);
-
-        $this->_customerConverter
-            = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
 
         $this->_addressConverterMock = $this->getMockBuilder('\Magento\Customer\Model\Address\Converter')
             ->disableOriginalConstructor()
@@ -739,7 +729,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private function _createService()
     {
         $customerService = new CustomerAddressService(
-            $this->_customerConverter,
             $this->_addressRegistryMock,
             $this->_addressConverterMock,
             $this->_customerRegistryMock,

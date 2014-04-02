@@ -53,7 +53,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
-        $customerRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\CustomerRegistry');
+        $customerRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\CustomerRegistry');
         //Cleanup customer from registry
         $customerRegistry->remove(1);
     }

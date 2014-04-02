@@ -21,11 +21,6 @@ use Magento\Exception\InputException;
 class CustomerAddressService implements CustomerAddressServiceInterface
 {
     /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    private $converter;
-
-    /**
      * @var AddressConverter
      */
     private $addressConverter;
@@ -50,19 +45,17 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * Constructor
      *
-     * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Model\AddressRegistry $addressRegistry
      * @param AddressConverter $addressConverter
+     * @param CustomerRegistry $customerRegistry
      * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
-        \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Model\AddressRegistry $addressRegistry,
         AddressConverter $addressConverter,
         CustomerRegistry $customerRegistry,
         \Magento\Directory\Helper\Data $directoryData
     ) {
-        $this->converter = $converter;
         $this->addressRegistry = $addressRegistry;
         $this->addressConverter = $addressConverter;
         $this->customerRegistry = $customerRegistry;
