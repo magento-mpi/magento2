@@ -51,5 +51,4 @@ class CustomerGroup extends \Magento\Service\Data\AbstractObject
     {
         return $this->_get('class_name');
     }
-
 }
