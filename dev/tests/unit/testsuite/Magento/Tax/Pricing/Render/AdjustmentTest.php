@@ -27,9 +27,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     /**
      * Price helper mock
      *
-     * @var \Magento\Catalog\Helper\Product\Price
+     * @var \Magento\Tax\Helper\Data
      */
-    protected $priceHelperMock;
+    protected $taxHelperMock;
 
     /**
      * @var \Magento\Tax\Pricing\Render\Adjustment
@@ -49,7 +49,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->priceCurrencyMock = $this->getMock('Magento\Directory\Model\PriceCurrency', [], [], '', false);
-        $this->priceHelperMock = $this->getMock(
+        $this->taxHelperMock = $this->getMock(
             'Magento\Tax\Helper\Data',
             [],
             [],
@@ -75,7 +75,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->model = new \Magento\Tax\Pricing\Render\Adjustment(
             $this->contextMock,
             $this->priceCurrencyMock,
-            $this->priceHelperMock);
+            $this->taxHelperMock);
     }
 
     /**
@@ -92,7 +92,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     public function testDisplayBothPrices()
     {
         $shouldDisplayBothPrices = true;
-        $this->priceHelperMock->expects($this->once())
+        $this->taxHelperMock->expects($this->once())
             ->method('displayBothPrices')
             ->will($this->returnValue($shouldDisplayBothPrices));
         $this->assertEquals($shouldDisplayBothPrices, $this->model->displayBothPrices());
@@ -249,7 +249,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     {
         $expectedResult = true;
 
-        $this->priceHelperMock->expects($this->once())
+        $this->taxHelperMock->expects($this->once())
             ->method('displayPriceIncludingTax')
             ->will($this->returnValue($expectedResult));
 
@@ -265,7 +265,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     {
         $expectedResult = true;
 
-        $this->priceHelperMock->expects($this->once())
+        $this->taxHelperMock->expects($this->once())
             ->method('displayPriceExcludingTax')
             ->will($this->returnValue($expectedResult));
 
