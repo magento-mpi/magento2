@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\TargetRule\Model\Resource\Setup */
+/** @var $this \Magento\Eav\Model\Entity\Setup */
 $installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 

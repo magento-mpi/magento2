@@ -15,7 +15,7 @@
     <type name="Magento\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
-                <item name="salesrule_setup" xsi:type="string">Magento\SalesRule\Model\Resource\Setup</item>
+                <item name="salesrule_setup" xsi:type="string">Magento\Module\Setup</item>
             </argument>
         </arguments>
     </type>

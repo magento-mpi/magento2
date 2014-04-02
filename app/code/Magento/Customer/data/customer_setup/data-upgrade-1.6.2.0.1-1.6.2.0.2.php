@@ -8,8 +8,9 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Module\Setup */
-$installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
+/** @var $this \Magento\Customer\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup\Migration */
+$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace(

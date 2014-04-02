@@ -810,4 +810,15 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     {
         return $this->filesystem;
     }
+
+    /**
+     * Create migration setup
+     *
+     * @param array $data
+     * @return \Magento\Module\Setup\Migration
+     */
+    public function createMigrationSetup(array $data = array())
+    {
+        return $this->_migrationFactory->create($data);
+    }
 }

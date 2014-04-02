@@ -79,17 +79,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     }
 
     /**
-     * Creates setup migration model
-     *
-     * @param array $data
-     * @return \Magento\Module\Setup\Migration
-     */
-    public function createSetupMigration($data = array())
-    {
-        return $this->_migrationFactory->create($data);
-    }
-
-    /**
      * Creates eav attribute resource model
      *
      * @param array $data

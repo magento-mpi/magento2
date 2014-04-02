@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\SalesRule\Model\Resource\Setup */
-$installer = $this->getMigrationModel();
+/** @var $this \Magento\Module\Setup */
+$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace(

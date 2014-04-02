@@ -77,17 +77,6 @@ class Setup extends \Magento\Module\Setup
     protected $_defaultAttributeSetName = 'Default';
 
     /**
-     * Create migration setup
-     *
-     * @param array $data
-     * @return \Magento\Module\Setup\Migration
-     */
-    public function createMigrationSetup(array $data = array())
-    {
-        return $this->_migrationFactory->create($data);
-    }
-
-    /**
      * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection
      */
     public function getAttributeGroupCollectionFactory()
