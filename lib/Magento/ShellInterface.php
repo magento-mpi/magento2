@@ -18,7 +18,8 @@ interface ShellInterface
      * Execute a command through the command line, passing properly escaped arguments
      *
      * @param string $command Command with optional argument markers '%s'
-     * @param array $arguments Argument values to substitute markers with
+     * @param [] $arguments Argument values to substitute markers with
+     * @return void
      */
     public function execute($command, array $arguments = array());
 }

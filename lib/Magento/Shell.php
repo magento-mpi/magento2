@@ -40,9 +40,9 @@ class Shell
      * Execute a command through the command line, passing properly escaped arguments, and return its output
      *
      * @param string $command Command with optional argument markers '%s'
-     * @param array $arguments Argument values to substitute markers with
+     * @param [] $arguments Argument values to substitute markers with
      * @return string Output of an executed command
-     * @throws \Magento\Exception if a command returns non-zero exit code
+     * @throws \Magento\Exception If a command returns non-zero exit code
      */
     public function execute($command, array $arguments = array())
     {
@@ -65,6 +65,7 @@ class Shell
      * Log a message, if a logger is specified
      *
      * @param string $message
+     * @return void
      */
     protected function log($message)
     {

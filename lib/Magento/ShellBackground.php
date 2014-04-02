@@ -42,7 +42,8 @@ class ShellBackground implements ShellInterface
      * Execute a command through the command line, passing properly escaped arguments in background
      *
      * @param string $command Command with optional argument markers '%s'
-     * @param array $arguments Argument values to substitute markers with
+     * @param [] $arguments Argument values to substitute markers with
+     * @return void
      */
     public function execute($command, array $arguments = array())
     {
@@ -63,6 +64,7 @@ class ShellBackground implements ShellInterface
      * Log a message, if a logger is specified
      *
      * @param string $message
+     * @return void
      */
     protected function log($message)
     {
