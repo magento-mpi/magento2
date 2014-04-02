@@ -135,7 +135,7 @@ class Items extends \Magento\Checkout\Block\Cart
                 );
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if ($this->_catalogHelper->canApplyMsrp($product)) {
+                if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         $this->_storeManager->getStore()->formatPrice(
