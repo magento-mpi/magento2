@@ -70,7 +70,8 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem, $viewFilesystem);
-        $this->_tmpDir = TESTS_TEMP_DIR . '/tool_theme_deployment';
+        $this->_tmpDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()
+            ->getBootstrap()->getApplication()->getInstallDir() . '/tool_theme_deployment';
 
         $this->filesystemAdapter = new \Magento\Filesystem\Driver\File();
         $this->filesystemAdapter->createDirectory($this->_tmpDir, 0777);

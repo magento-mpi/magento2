@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tools\View;
+namespace Magento\Test\Tools\View;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
