@@ -1,5 +1,6 @@
 * Framework Improvements:
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
+  * Extracted vendor name from app/design/*/magento_<theme> into app/design/*/Magento/<theme> (MAGETWO-20865)
 * Modularity improvements:
   * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
   * Moved resource model to Magento_Install module(MAGETWO-21599)
@@ -556,7 +557,7 @@
   * Design loader moved to library
   * Theme label moved to library
 * Themes update:
-  * Reduced amount of templates and layouts in magento_plushe theme
+  * Reduced amount of templates and layouts in Magento/plushe theme
   * Responsive design improvements
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator

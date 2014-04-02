@@ -45,7 +45,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Design'
         );
         $designChange->loadChange($storeId)->changeDesign($design);
-        $this->assertEquals('magento_plushe', $design->getDesignTheme()->getThemePath());
+        $this->assertEquals('Magento/plushe', $design->getDesignTheme()->getThemePath());
     }
 
     public function testCRUD()
@@ -53,7 +53,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $this->_model->setData(
             array(
                 'store_id' => 1,
-                'design' => 'magento_blank',
+                'design' => 'Magento/blank',
                 /* Note: in order to load a design change it should be active within the store's time zone */
                 'date_from' => date('Y-m-d', strtotime('-1 day')),
                 'date_to' => date('Y-m-d', strtotime('+1 day'))
@@ -124,7 +124,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('design', $cachedDesign);
         $this->assertEquals($cachedDesign['design'], $design->getDesign());
 
-        $design->setDesign('magento_blank')->save();
+        $design->setDesign('Magento/blank')->save();
 
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Design');
         $design->loadChange($storeId, $date);
