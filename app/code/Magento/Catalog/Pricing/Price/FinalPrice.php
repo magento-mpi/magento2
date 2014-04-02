@@ -48,7 +48,7 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
      */
     public function getValue()
     {
-        return $this->basePrice->getValue(); // + custom options price
+        return max(0, $this->basePrice->getValue()); // + custom options price
     }
 
     /**

@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/** @var \Magento\Pricing\Render\PriceBox $this */
+
+/** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
+$tierPriceModel = $this->getPrice();
+$tierPrices = $tierPriceModel->getTierPriceList();
+?>
+<?php if (count($tierPrices)) : ?>
+    <ul class="<?php echo ($this->hasListClass() ? $this->getListClass() : 'prices tier items'); ?>">
+        <?php foreach ($tierPrices as $index => $price) : ?>
+            <li class="item">
+                <?php echo __(
+                    'Buy %1 with %2 discount each',
+                    $price['price_qty'],
+                    '<strong class="benefit">' . $price['price']->getBaseAmount() . '%</strong>'
+                ); ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
