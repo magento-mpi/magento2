@@ -123,7 +123,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         array_shift($pathParts);
         $path = '/' . implode('/', $pathParts);
         $path = $this->_pathProcessor->processStore($path);
-        $request->setPathInfo($path);
+        $this->_request->setPathInfo($path);
         $this->areaList->getArea($this->_layout->getArea())
             ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
