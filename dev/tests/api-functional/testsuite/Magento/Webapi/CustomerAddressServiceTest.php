@@ -250,6 +250,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'lastname' => 'Smith',
             'city' => 'CityM',
             'country_id' => 'US',
+            'company' => 'CompanyName',
             'postcode' => '75477',
             'telephone' => '3468676',
             'street' => array('Green str, 67'),
