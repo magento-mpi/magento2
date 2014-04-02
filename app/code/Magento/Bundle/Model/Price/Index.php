@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,10 +20,6 @@ namespace Magento\Bundle\Model\Price;
  * @method \Magento\Bundle\Model\Price\Index setMinPrice(float $value)
  * @method float getMaxPrice()
  * @method \Magento\Bundle\Model\Price\Index setMaxPrice(float $value)
- *
- * @category    Magento
- * @package     Magento_Bundle
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Index extends \Magento\Model\AbstractModel
 {

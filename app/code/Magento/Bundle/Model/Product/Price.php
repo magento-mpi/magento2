@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,6 @@ namespace Magento\Bundle\Model\Product;
 
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
-/**
- * Bundle Price Model
- *
- * @category Magento
- * @package  Magento_Bundle
- * @author   Magento Core Team <core@magentocommerce.com>
- */
 class Price extends \Magento\Catalog\Model\Product\Type\Price
 {
     const PRICE_TYPE_FIXED = 1;
