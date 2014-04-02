@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Magento\Webapi\Model;
+
 use Magento\TestFramework\Integrity\AbstractConfig;
 
 /**
