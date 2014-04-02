@@ -371,22 +371,22 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = 'Customer Group already exists.\n'
-            . '{\n'
-            . '\tcode: INVALID_FIELD_VALUE\n'
-            . '\tcode: ' . $duplicateGroupCode . '\n'
-            . '\tparams: []\n'
-            . ' }';
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "Exception does not contain expected message."
+            $errorData = json_decode($e->getMessage(), true);
+
+            $this->assertTrue(
+                isset($errorData['errors'][0]['message']),
+                'Invalid error message format: ' . $e->getMessage()
             );
+
+            $this->assertCount(1, $errorData['errors']);
+            $errorData = $errorData['errors'][0];
+
+            $this->assertEquals('Customer Group already exists.', $errorData['message'], 'Invalid error message');
+            $this->assertEquals(500, $errorData['http_code'], 'Invalid HTTP code');
         }
     }
 
