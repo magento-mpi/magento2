@@ -1332,24 +1332,6 @@ return array(
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
-    array('setArguments', 'Magento\ObjectManager\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array('setArguments', 'Magento\ObjectManager\Factory\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array('setArguments', 'Magento\Interception\FactoryDecorator', 'Magento\App\Arguments\ArgumentInterpreter'),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\Interception\FactoryDecorator',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
     array(
         '_processArrayNode',
         'Magento\ObjectManager\Config\Mapper\Dom',
@@ -1569,6 +1551,7 @@ return array(
     array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
     array('loadByCustomer', 'Magento\Wishlist\Model\Wishlist'),
     ['_sessionVarCallback', 'Magento\Url', 'Replaced with inlined closure'],
+    array('processReinitConfig', 'Magento\Core\Model\Observer'),
     array(
         'reviewsAction',
         'Magento\Catalog\Controller\Adminhtml\Product',
@@ -1576,7 +1559,6 @@ return array(
     ),
     ['_insertInlineScriptsHtml', 'Magento\DesignEditor\Model\Translate\Inline', 'addInlineScript'],
     ['initializeTranslation', 'Magento\Backend\Model\Observer'],
-    ['getTranslateJson', 'Magento\Core\Helper\Js'],
     ['_isEmptyTranslateArg', 'Magento\Translate'],
     ['_getTranslatedString', 'Magento\Translate'],
     ['initLocale', 'Magento\Translate'],

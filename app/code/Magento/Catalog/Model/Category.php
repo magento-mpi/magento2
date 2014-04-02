@@ -71,7 +71,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * URL rewrite model
      *
-     * @var \Magento\Core\Model\Url\Rewrite
+     * @var \Magento\UrlRewrite\Model\UrlRewrite
      */
     protected $_urlRewrite;
 
@@ -134,7 +134,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Url rewrite factory
      *
-     * @var \Magento\Core\Model\Url\RewriteFactory
+     * @var \Magento\UrlRewrite\Model\UrlRewriteFactory
      */
     protected $_urlRewriteFactory;
 
@@ -179,7 +179,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory
      * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      * @param \Magento\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
@@ -200,7 +200,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory,
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory,
         \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
         \Magento\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
@@ -285,7 +285,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Get url rewrite model
      *
-     * @return \Magento\Core\Model\Url\Rewrite
+     * @return \Magento\UrlRewrite\Model\UrlRewrite
      */
     public function getUrlRewrite()
     {

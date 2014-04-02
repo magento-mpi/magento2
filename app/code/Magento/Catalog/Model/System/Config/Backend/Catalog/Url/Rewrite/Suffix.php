@@ -18,7 +18,7 @@ class Suffix extends \Magento\Core\Model\Config\Value
     /**
      * Core url rewrite
      *
-     * @var \Magento\Core\Helper\Url\Rewrite
+     * @var \Magento\UrlRewrite\Helper\UrlRewrite
      */
     protected $_coreUrlRewrite = null;
 
@@ -27,7 +27,7 @@ class Suffix extends \Magento\Core\Model\Config\Value
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Helper\Url\Rewrite $coreUrlRewrite
+     * @param \Magento\UrlRewrite\Helper\UrlRewrite $coreUrlRewrite
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -37,7 +37,7 @@ class Suffix extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Helper\Url\Rewrite $coreUrlRewrite,
+        \Magento\UrlRewrite\Helper\UrlRewrite $coreUrlRewrite,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
