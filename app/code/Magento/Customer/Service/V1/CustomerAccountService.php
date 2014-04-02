@@ -147,9 +147,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->customerAddressService = $customerAddressService;
         $this->customerMetadataService = $customerMetadataService;
+        $this->customerRegistry = $customerRegistry;
         $this->addressRegistry = $addressRegistry;
         $this->url = $url;
-        $this->customerRegistry = $customerRegistry;
     }
 
     /**
