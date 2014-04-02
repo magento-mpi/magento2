@@ -303,7 +303,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup->setTaxClassId($taxClassId);
         try {
             $customerGroup->save();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             /* Would like a better way to determine this error condition but
                difficult to do without imposing more database calls
             */
