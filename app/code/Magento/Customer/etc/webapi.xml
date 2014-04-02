@@ -75,13 +75,13 @@
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/customerMetadata/customer" method="GET">
+    <route url="/V1/customerMetadata/customer/all" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getAllCustomerAttributeMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/customerMetadata/customer" method="GET">
+    <route url="/V1/customerMetadata/customer/custom" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getCustomCustomerAttributeMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
@@ -93,13 +93,13 @@
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/customerMetadata/address" method="GET">
+    <route url="/V1/customerMetadata/address/all" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getAllAddressAttributeMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/customerMetadata/address" method="GET">
+    <route url="/V1/customerMetadata/address/custom" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getCustomAddressAttributeMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
@@ -121,7 +121,7 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customerAccounts" method="PUT">
+    <route url="/V1/customerAccounts/customer" method="PUT">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="saveCustomer"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>

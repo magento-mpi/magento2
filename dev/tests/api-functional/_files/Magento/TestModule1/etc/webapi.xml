@@ -33,32 +33,32 @@
             <resource ref="Magento_TestModule1::resource2" />
         </resources>
     </route>
-    <route method="GET" url="/V1/testmodule1/:id">
+    <route method="GET" url="/V2/testmodule1/:id">
         <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="item" />
         <resources>
             <resource ref="Magento_TestModule1::resource1" />
         </resources>
     </route>
-    <route method="GET" url="/V1/testmodule1">
+    <route method="GET" url="/V2/testmodule1">
         <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="items" />
         <resources>
             <resource ref="Magento_TestModule1::resource2" />
         </resources>
     </route>
-    <route method="POST" url="/V1/testmodule1">
+    <route method="POST" url="/V2/testmodule1">
         <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="create" />
         <resources>
             <resource ref="Magento_TestModule1::resource3" />
         </resources>
     </route>
-    <route method="PUT" url="/V1/testmodule1/:id">
+    <route method="PUT" url="/V2/testmodule1/:id">
         <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="update" />
         <resources>
             <resource ref="Magento_TestModule1::resource1" />
             <resource ref="Magento_TestModule1::resource2" />
         </resources>
     </route>
-    <route method="DELETE" url="/V1/testmodule1/:id">
+    <route method="DELETE" url="/V2/testmodule1/:id">
         <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="delete" />
         <resources>
             <resource ref="Magento_TestModule1::resource1" />

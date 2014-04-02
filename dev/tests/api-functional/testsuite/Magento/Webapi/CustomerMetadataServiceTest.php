@@ -194,7 +194,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => self::RESOURCE_PATH . "/customer",
+                'resourcePath' => self::RESOURCE_PATH . "/customer/all",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
             'soap' => array(
@@ -267,7 +267,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     {
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => self::RESOURCE_PATH . "/address",
+                'resourcePath' => self::RESOURCE_PATH . "/address/all",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
             'soap' => array(
