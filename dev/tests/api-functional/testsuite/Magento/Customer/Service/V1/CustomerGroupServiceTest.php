@@ -349,7 +349,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $duplicateGroupCode = 'Duplicate Group Code REST';
 
-        $groupId = $this->createGroup(
+        $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
                 'id' => null,
                 'code' => $duplicateGroupCode,
@@ -371,6 +371,13 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
+        $expectedMessage = "Customer Group already exists.\n"
+            . "{\n"
+            . "\tcode: INVALID_FIELD_VALUE\n"
+            . "\tcode: " . $duplicateGroupCode . "\n"
+            . "\tparams: []\n"
+            . " }\n";
+
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
@@ -385,8 +392,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->assertCount(1, $errorData['errors']);
             $errorData = $errorData['errors'][0];
 
-            $this->assertEquals('Customer Group already exists.', $errorData['message'], 'Invalid error message');
-            $this->assertEquals(500, $errorData['http_code'], 'Invalid HTTP code');
+            $this->assertEquals($expectedMessage, $errorData['message'], 'Invalid error message');
+            $this->assertEquals(400, $errorData['http_code'], 'Invalid HTTP code');
         }
     }
 
