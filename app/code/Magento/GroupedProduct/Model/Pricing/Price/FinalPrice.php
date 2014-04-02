@@ -11,6 +11,7 @@
 namespace Magento\GroupedProduct\Pricing\Price;
 
 use Magento\Pricing\Adjustment\Calculator;
+use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Catalog\Pricing\Price\FinalPriceInterface;
 use Magento\Pricing\Price\PriceInterface;
@@ -62,6 +63,11 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
      * @var ProductFactory
      */
     protected $productFactory;
+
+    /**
+     * @var AmountInterface
+     */
+    protected $amount;
 
     /**
      * @param SaleableInterface $salableItem
@@ -135,5 +141,28 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
             }
         }
         return $this->maxValue;
+    }
+
+    /**
+     * Get price type code
+     *
+     * @return string
+     */
+    public function getPriceType()
+    {
+        return $this->priceType;
+    }
+
+    /**
+     * Get Price Amount object
+     *
+     * @return AmountInterface
+     */
+    public function getAmount()
+    {
+        if (!$this->amount) {
+            $this->amount = $this->calculator->getAmount($this->getValue(), $this->salableItem);
+        }
+        return $this->amount;
     }
 }
