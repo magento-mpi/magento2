@@ -6,6 +6,8 @@
   * Eliminated Core\Helper\Js class (MAGETWO-21600)
   * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
+* Fixed bugs:
+  * Fixed an issue with active tab is changed to upper one after attribute set has been changed (MAGETWO-10611)
 
 2.0.0.0-dev71
 =============
