@@ -154,7 +154,8 @@ interface CustomerAccountServiceInterface
      *
      * @param string $email
      * @param string $template Type of email to send.  Must be one of the email constants.
-     * @param int    $websiteId optional id
+     * @param int $websiteId Optional id.  If the website id is not provided
+     *                       it will be retrieved from the store manager
      * @return void
      */
     public function initiatePasswordReset($email, $template, $websiteId = null);

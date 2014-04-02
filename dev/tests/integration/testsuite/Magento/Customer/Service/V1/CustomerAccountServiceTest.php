@@ -353,6 +353,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testSendPasswordResetLinkDefaultWebsite()
+    {
+        $email = 'customer@example.com';
+
+        $this->_customerAccountService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET);
+    }
+
+    /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      */
@@ -369,6 +380,26 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = array('email' => $email, 'websiteId' => 0);
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     */
+    public function testSendPasswordResetLinkBadEmailDefaultWebsite()
+    {
+        $email = 'foo@example.com';
+
+        try {
+            $this->_customerAccountService->initiatePasswordReset(
+                $email,
+                CustomerAccountServiceInterface::EMAIL_RESET
+            );
+            $this->fail('Expected exception not thrown.');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = array('email' => $email, 'websiteId' => 1);
             $this->assertEquals($expectedParams, $nsee->getParams());
         }
     }
@@ -1074,7 +1105,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param Data\Filter[] $filters
-     * @param Datao\Filter[] $orGroup
+     * @param Data\Filter[] $orGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider
