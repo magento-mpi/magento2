@@ -119,10 +119,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
-        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
-        array_shift($pathParts);
-        $path = '/' . implode('/', $pathParts);
-        $path = $this->_pathProcessor->processStore($path);
+        $path = $this->_pathProcessor->process($request->getPathInfo());
         $this->_request->setPathInfo($path);
         $this->areaList->getArea($this->_layout->getArea())
             ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
