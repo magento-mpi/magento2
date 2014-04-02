@@ -8,6 +8,11 @@
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
+* Customer Service usage:
+  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
+* Fixed bugs:
+  * Fixed an issue where admin could not unsubscribe customer from backend customer edit page (MAGETWO-22982)
+  * Fixed an issue where customers are always subscribed even if not selected during registration (MAGETWO-22966)
 
 2.0.0.0-dev71
 =============
@@ -52,7 +57,6 @@
   * Refactored the Review module to use Customer Service
   * Refactored the Catalog module to use Customer service layer
   * Refactored the Downloadable module to use Customer service layer
-  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
 
 2.0.0.0-dev70
 =============
