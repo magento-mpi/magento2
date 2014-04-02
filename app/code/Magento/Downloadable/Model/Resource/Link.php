@@ -26,7 +26,7 @@ class Link extends \Magento\Model\Resource\Db\AbstractDb
     protected $_catalogData;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_configuration;
 
@@ -43,14 +43,14 @@ class Link extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\App\ConfigInterface $configuration
+     * @param \Magento\App\Config\ScopeConfigInterface $configuration
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\App\ConfigInterface $configuration,
+        \Magento\App\Config\ScopeConfigInterface $configuration,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {

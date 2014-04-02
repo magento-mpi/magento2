@@ -33,7 +33,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_transFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ReinitableConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appConfigMock;
 
@@ -95,7 +95,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_appConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_appConfigMock = $this->getMock('Magento\App\Config\ReinitableConfigInterface');
         $this->_configLoaderMock = $this->getMock(
             'Magento\Backend\Model\Config\Loader',
             array('getConfigByPath'),

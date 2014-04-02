@@ -37,12 +37,12 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpRequestMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeMock;
 
@@ -82,9 +82,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $this->httpRequestMock = $this->getMock('Magento\App\Request\Http',
             array('getCookie', 'getParam'), array(), '', false);
-        $this->storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager',
+        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager',
             array('getWebsite', '__wakeup'), array(), '', false);
-        $this->storeMock = $this->getMock('Magento\Core\Model\Store',
+        $this->storeMock = $this->getMock('Magento\Store\Model\Store',
             array('__wakeup', 'getDefaultCurrency'), array(), '', false);
         $this->currencyMock = $this->getMock('Magento\Directory\Model\Currency',
             array('getCode', '__wakeup'), array(), '', false);
@@ -131,7 +131,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->httpRequestMock->expects($this->once())
             ->method('getCookie')
-            ->with($this->equalTo(\Magento\Core\Model\Store::COOKIE_NAME))
+            ->with($this->equalTo(\Magento\Store\Model\Store::COOKIE_NAME))
             ->will($this->returnValue(null));
 
         $this->httpContextMock->expects($this->atLeastOnce())

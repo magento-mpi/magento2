@@ -54,9 +54,9 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->subjectMock = $this->getMock('Magento\Catalog\Model\Layer\AvailabilityFlagInterface');
         $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->engineMock = $this->getMock('\Magento\CatalogSearch\Model\Resource\EngineInterface');
-        $this->storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $this->storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->collectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
         );
@@ -83,7 +83,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->storeMock->expects($this->never())
-            ->method('getConfig');
+            ->method('getValue');
 
         $proceed = function () {
             $this->fail('Proceed should not be called in this scenario');
@@ -108,7 +108,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->storeMock->expects($this->once())
-            ->method('getConfig')
+            ->method('getValue')
             ->with(Plugin::XML_PATH_DISPLAY_LAYER_COUNT)
             ->will($this->returnValue($availableResCount));
 
@@ -152,7 +152,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->storeMock->expects($this->once())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(10));
 
         $this->collectionMock->expects($this->once())

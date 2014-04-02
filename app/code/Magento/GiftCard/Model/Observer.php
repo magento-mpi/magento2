@@ -109,7 +109,7 @@ class Observer extends \Magento\Model\AbstractModel
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()

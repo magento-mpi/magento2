@@ -14,7 +14,7 @@ use Magento\App\Action\NotFoundException;
 class Index extends \Magento\App\Action\Action
 {
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 

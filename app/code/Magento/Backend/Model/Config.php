@@ -81,7 +81,7 @@ class Config extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\App\Config\ReinitableConfigInterface $config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\DB\TransactionFactory $transactionFactory
@@ -91,7 +91,7 @@ class Config extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\App\Config\ReinitableConfigInterface $config,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\DB\TransactionFactory $transactionFactory,

@@ -15,7 +15,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeConfigMock;
 
@@ -26,13 +26,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeConfigMock = $this->getMock(
-            'Magento\Core\Model\Store\Config',
-            array('getConfigFlag'),
-            array(),
-            '',
-            false
-        );
+        $this->storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->helperMock = $this->getMock('Magento\Core\Helper\Data', array('isDevAllowed'), array(), '', false);
         $this->model = new Config(
             $this->storeConfigMock,

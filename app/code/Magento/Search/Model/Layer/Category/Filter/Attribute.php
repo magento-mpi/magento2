@@ -42,7 +42,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
-        \Magento\Catalog\Model\Layer\Filter\Attribute::__construct(
+        parent::__construct(
             $filterItemFactory,
             $storeManager,
             $layer,

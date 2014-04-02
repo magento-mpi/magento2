@@ -37,7 +37,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $customerSegmentMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -79,7 +79,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManagerMock = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface',
+        $this->storeManagerMock = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface',
             array(),
             '',
             false

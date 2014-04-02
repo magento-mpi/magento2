@@ -25,7 +25,7 @@ class ProductList
 
     const DEFAULT_SORT_DIRECTION = 'asc';
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $storeConfig;
 
@@ -37,10 +37,10 @@ class ProductList
     protected $_defaultAvailableLimit  = array(10=>10,20=>20,50=>50);
 
     /**
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $storeConfig
     ) {
         $this->storeConfig = $storeConfig;
     }

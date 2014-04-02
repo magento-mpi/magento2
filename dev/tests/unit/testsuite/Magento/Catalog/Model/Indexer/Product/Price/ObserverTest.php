@@ -108,12 +108,23 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($idsToProcess)
         );
+        $this->_resourceMock->expects(
+            $this->once()
+        )
+        ->method(
+            'getConnection'
+        )
+        ->with(
+            'write'
+        )
+        ->will(
+            $this->returnValue($connectionMock)
+        );
+
 
         $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
-        $storeMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $this->_storeManagerMock->expects(
             $this->once()

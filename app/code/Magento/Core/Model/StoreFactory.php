@@ -32,6 +32,6 @@ class StoreFactory
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento\Core\Model\Store', $arguments);
+        return $this->_objectManager->create('Magento\Store\Model\Store', $arguments);
     }
 }

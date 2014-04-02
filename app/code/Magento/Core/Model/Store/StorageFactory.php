@@ -29,7 +29,7 @@ class StorageFactory
     protected $_installedStoreClassName;
 
     /**
-     * @var \Magento\Core\Model\Store\StorageInterface[]
+     * @var \Magento\Store\Model\Store\StorageInterface[]
      */
     protected $_cache = array();
 

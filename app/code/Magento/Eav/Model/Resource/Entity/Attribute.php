@@ -31,7 +31,7 @@ class Attribute extends \Magento\Model\Resource\Db\AbstractDb
     protected static $_entityAttributes = array();
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

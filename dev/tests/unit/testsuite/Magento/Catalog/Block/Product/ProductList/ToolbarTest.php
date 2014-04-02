@@ -31,7 +31,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     protected $helper;
 
     /**
-     * @var \Magento\Core\Model\Store\Config | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopeConfigInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeConfig;
     /**
@@ -60,7 +60,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->urlBuilder = $this->getMock('Magento\Url', array('getUrl'), array(), '', false);
-        $this->storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
+        $this->storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $storeConfig = array(
             array(\Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY, null, 'name'),
@@ -71,7 +71,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValueMap($storeConfig));
 
         $this->catalogConfig = $this->getMock(

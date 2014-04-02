@@ -39,7 +39,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
 
         $context = $this->getMock('Magento\App\Helper\Context', array('getApp'), array(), '', false, false);
-        $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Rma\Helper\Data $model */

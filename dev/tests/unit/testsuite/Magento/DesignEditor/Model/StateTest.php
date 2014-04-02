@@ -86,7 +86,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
@@ -145,13 +145,6 @@ class StateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_application = $this->getMock(
-            'Magento\Core\Model\App',
-            array('getStore', 'getValue'),
-            array(),
-            '',
-            false
-        );
 
         $mutableConfig = $this->getMockForAbstractClass('\Magento\App\Config\MutableScopeConfigInterface');
         $mutableConfig->expects(
@@ -177,8 +170,6 @@ class StateTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnSelf()
         );
-
-        $this->_application->expects($this->any())->method('getValue')->will($this->returnValue($configMock));
 
         $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('getId', '__wakeup'), array(), '', false);
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(self::THEME_ID));

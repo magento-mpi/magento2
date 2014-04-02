@@ -405,7 +405,7 @@ class Base extends \Magento\App\Router\AbstractRouter
             $this->_storeConfig->getConfig('web/unsecure/base_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
             PHP_URL_SCHEME
         ) === 'https' || $this->_storeConfig->isSetFlag(
-            \Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND,
+            \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && parse_url(
             $this->_storeConfig->getConfig('web/secure/base_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),

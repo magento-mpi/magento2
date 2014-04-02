@@ -14,7 +14,7 @@ class DefaultLocator
     /**
      * Config object
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_configuration;
 
@@ -26,12 +26,12 @@ class DefaultLocator
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\ConfigInterface $configuration
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $configuration
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\ConfigInterface $configuration,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\App\Config\ScopeConfigInterface $configuration,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_configuration = $configuration;
         $this->_storeManager = $storeManager;

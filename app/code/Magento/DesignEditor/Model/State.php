@@ -66,7 +66,7 @@ class State
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_configuration;
 
@@ -84,7 +84,7 @@ class State
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\DesignEditor\Helper\Data $dataHelper
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\ConfigInterface $configuration
+     * @param \Magento\App\Config\ScopeConfigInterface $configuration
      * @param Theme\Context $themeContext
      * @param \Magento\App\Config\MutableScopeConfigInterface $mutableConfig
      */
@@ -95,7 +95,7 @@ class State
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\DesignEditor\Helper\Data $dataHelper,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\ConfigInterface $configuration,
+        \Magento\App\Config\ScopeConfigInterface $configuration,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
         \Magento\App\Config\MutableScopeConfigInterface $mutableConfig
     ) {

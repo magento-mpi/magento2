@@ -2115,14 +2115,6 @@ return array(
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ),
     array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
-    array('Magento\Catalog\Model\Product\Indexer\Price'),
-    array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
-    array('Magento\App\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
-    array('Magento\Core\Model\Store\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
-    array('Magento\Core\Model\Store\Config', 'Magento\App\Config\ScopeConfigInterface'),
-    array('Magento\App\Locale\ScopeConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
-    array('Magento\BaseScopeInterface', 'Magento\App\Config\ScopeInterface'),
-    array('Magento\BaseScopeResolverInterface', 'Magento\App\ScopeResolverInterface'),
     ['Magento\PubSub'], // unused library code which was removed
     ['Magento\Outbound'], // unused library code which was removed
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
@@ -2203,8 +2195,6 @@ return array(
     ['Magento\Core\Model\Store\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'],
     ['Magento\Core\Model\Store\Config', 'Magento\App\Config\ScopeConfigInterface'],
     ['Magento\App\Locale\ScopeConfigInterface', 'Magento\App\Config\ScopeConfigInterface'],
-    ['Magento\BaseScopeInterface', 'Magento\App\Config\ScopeInterface'],
-    ['Magento\BaseScopeResolverInterface', 'Magento\App\ScopeResolverInterface'],
     ['Magento\Core\App\Action\Plugin\StoreCheck', 'Magento\Store\App\Action\Plugin\StoreCheck'],
     [
         'Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler',

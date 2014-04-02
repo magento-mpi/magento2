@@ -71,7 +71,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $formKey;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_scope;
 

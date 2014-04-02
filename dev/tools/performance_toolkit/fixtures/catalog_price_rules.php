@@ -9,8 +9,8 @@
 $catalogPriceRulesCount = \Magento\ToolkitFramework\Config::getInstance()->getValue('catalog_price_rules', 3);
 $this->resetObjectManager();
 
-/** @var \Magento\Core\Model\StoreManager $storeManager */
-$storeManager = $this->getObjectManager()->create('\Magento\Core\Model\StoreManager');
+/** @var \Magento\Store\Model\StoreManager $storeManager */
+$storeManager = $this->getObjectManager()->create('\Magento\Store\Model\StoreManager');
 /** @var $category \Magento\Catalog\Model\Category */
 $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');
 /** @var $model  \Magento\CatalogRule\Model\Rule*/

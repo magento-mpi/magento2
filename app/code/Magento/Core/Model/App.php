@@ -34,11 +34,6 @@ class App implements \Magento\AppInterface
     protected $_currentEdition = self::EDITION_COMMUNITY;
 
     /**
-     * Magento version
-     */
-    const VERSION = '2.0.0.0-dev67';
-
-    /**
      * Application run code
      */
     const PARAM_RUN_CODE = 'MAGE_RUN_CODE';

@@ -154,7 +154,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 
-        $this->_model = new \Magento\Search\Model\Catalog\Layer\Filter\Attribute(
+        $this->_model = new \Magento\Search\Model\Layer\Category\Filter\Attribute(
             $this->_filterItemFactory,
             $this->_storeManager,
             $this->_layer,

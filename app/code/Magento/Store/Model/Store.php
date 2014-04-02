@@ -300,7 +300,7 @@ class Store extends AbstractModel implements
     protected $_httpContext;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_appConfig;
 
@@ -319,7 +319,7 @@ class Store extends AbstractModel implements
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\App\ConfigInterface $appConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $appConfig
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
@@ -339,7 +339,7 @@ class Store extends AbstractModel implements
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Http\Context $httpContext,
-        \Magento\App\ConfigInterface $appConfig,
+        \Magento\App\Config\ScopeConfigInterface $appConfig,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()

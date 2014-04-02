@@ -458,7 +458,7 @@
     <type name="Magento\Model\ActionValidator\RemoveAction">
         <arguments>
             <argument name="protectedModels" xsi:type="array">
-                <item name="store" xsi:type="string">Magento\Core\Model\Store</item>
+                <item name="store" xsi:type="string">Magento\Store\Model\Store</item>
                 <item name="website" xsi:type="string">Magento\Core\Model\Website</item>
                 <item name="storeGroup" xsi:type="string">Magento\Core\Model\Store\Group</item>
             </argument>

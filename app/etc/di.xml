@@ -152,8 +152,8 @@
     </type>
     <type name="Magento\Store\Model\StoreManager">
         <arguments>
-            <argument name="scopeCode" xsi:type="init_parameter">Magento\Core\Model\StoreManager::PARAM_RUN_CODE</argument>
-            <argument name="scopeType" xsi:type="init_parameter">Magento\Core\Model\StoreManager::PARAM_RUN_TYPE</argument>
+            <argument name="scopeCode" xsi:type="init_parameter">Magento\Store\Model\StoreManager::PARAM_RUN_CODE</argument>
+            <argument name="scopeType" xsi:type="init_parameter">Magento\Store\Model\StoreManager::PARAM_RUN_TYPE</argument>
         </arguments>
     </type>
     <type name="Magento\Translate">

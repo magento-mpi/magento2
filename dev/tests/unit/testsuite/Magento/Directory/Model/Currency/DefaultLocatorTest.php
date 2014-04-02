@@ -44,7 +44,7 @@ class DefaultLocatorTest extends \PHPUnit_Framework_TestCase
             true,
             array('getParam')
         );
-        $this->_configMock = $this->getMock('\Magento\App\ConfigInterface');
+        $this->_configMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_model = new \Magento\Directory\Model\Currency\DefaultLocator(
             $this->_configMock,

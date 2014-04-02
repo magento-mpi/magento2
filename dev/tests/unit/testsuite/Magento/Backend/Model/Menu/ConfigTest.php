@@ -108,7 +108,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_menuFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_menuMock));
 
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue(array()));
 

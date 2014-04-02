@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for \Magento\Core\Model\Store\StoresConfig
+ * Test class for \Magento\Store\Model\Store\StoresConfig
  *
  * {license_notice}
  *
