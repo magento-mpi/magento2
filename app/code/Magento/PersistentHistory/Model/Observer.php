@@ -186,8 +186,9 @@ class Observer
         }
 
         if ($this->_isLoggedOut()) {
-            /** @var $customer \Magento\Customer\Service\V1\Data\Customer */
-            $customer = $this->_customerAccountService->getCustomer(
+            /** TODO DTO should be initialized instead of CustomerModel after refactoring of segment_customer */
+            /** @var \Magento\Customer\Model\Customer $customer */
+            $customer = $this->_customerFactory->create()->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
             $this->_customerSession->setCustomerId($customer->getId())->setCustomerGroupId($customer->getGroupId());
@@ -195,7 +196,11 @@ class Observer
             // apply persistent data to segments
             $this->_coreRegistry->register('segment_customer', $customer, true);
             if ($this->_isWishlistPersist()) {
-                $this->_wishlistData->setCustomer($customer);
+                /** @var \Magento\Customer\Service\V1\Data\Customer $customerDto */
+                $customerDto = $this->_customerAccountService->getCustomer(
+                    $this->_getPersistentHelper()->getSession()->getCustomerId()
+                );
+                $this->_wishlistData->setCustomer($customerDto);
             }
         }
         return $this;
