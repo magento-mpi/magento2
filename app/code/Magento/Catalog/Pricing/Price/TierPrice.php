@@ -143,6 +143,11 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                 }
             }
             $this->priceList = $this->filterByBasePrice($prices);
+            foreach ($this->priceList as $index => $priceData) {
+                // convert string value to float
+                $this->priceList[$index]['price_qty'] = $priceData['price_qty'] * 1;
+                $this->priceList[$index]['price'] = $this->applyAdjustment($priceData['price']);
+            }
         }
         return $this->priceList;
     }
@@ -158,12 +163,8 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
         $applicablePrices = [];
         foreach ($priceList as $price) {
-            // convert string value to float
-            $price['price_qty'] = $price['price_qty'] * 1;
-
             if ($price['price'] < $productPrice) {
                 $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
-                $price['price'] = $this->applyAdjustment($price['price']);
                 $applicablePrices[] = $price;
             }
         }
@@ -172,7 +173,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
     /**
      * @param float|string $price
-     * @return array
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     protected function applyAdjustment($price)
     {

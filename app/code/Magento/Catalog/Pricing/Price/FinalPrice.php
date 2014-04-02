@@ -47,9 +47,9 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
      * @return float|bool
      */
     public function getValue()
-{
-    return $this->basePrice->getValue(); // + custom options price
-}
+    {
+        return max(0, $this->basePrice->getValue()); // + custom options price
+    }
 
     /**
      * @return \Magento\Pricing\Amount\AmountInterface

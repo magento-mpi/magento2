@@ -8,13 +8,8 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Pricing\Adjustment\Calculator;
-use Magento\Pricing\Object\SaleableInterface;
-use Magento\Customer\Model\Group;
-use Magento\Customer\Model\Session;
-
 /**
- * Tire prices model
+ * Bundle tire prices model
  */
 class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice
 {
@@ -33,8 +28,8 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice
         $tierPrice = parent::getValue();
 
         if ($tierPrice) {
-            $regularPrice = $this->getRegularPrice();
-            $this->value = $regularPrice - $regularPrice * ($tierPrice / 100);
+            $basePrice = $this->getBasePrice();
+            $this->value = $basePrice - $basePrice * ($tierPrice / 100);
         } else {
             $this->value = false;
         }
@@ -45,10 +40,10 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice
      * @param null|float $qty
      * @return bool|float
      */
-    protected function getRegularPrice($qty = null)
+    protected function getBasePrice($qty = null)
     {
         return $this->priceInfo
-            ->getPrice(\Magento\Catalog\Pricing\Price\RegularPrice::PRICE_TYPE_PRICE_DEFAULT, $qty)
+            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, $qty)
             ->getValue();
     }
 

@@ -58,6 +58,9 @@ class PriceBox extends Template implements PriceBoxRenderInterface
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $cssClasses = $this->hasData('css_classes') ? explode(' ', $this->getData('css_classes')) : [];
