@@ -9,7 +9,7 @@
  */
 namespace Magento\App\AreaList;
 
-class Proxy extends \Magento\App\AreaList 
+class Proxy extends \Magento\App\AreaList
 {
     /**
      * Object Manager instance
@@ -66,6 +66,8 @@ class Proxy extends \Magento\App\AreaList
 
     /**
      * Retrieve ObjectManager from global scope
+     *
+     * @return void
      */
     public function __wakeup()
     {
@@ -74,6 +76,8 @@ class Proxy extends \Magento\App\AreaList
 
     /**
      * Clone proxied instance
+     *
+     * @return void
      */
     public function __clone()
     {

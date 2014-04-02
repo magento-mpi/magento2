@@ -62,7 +62,9 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         // environment-dependent quote character
         foreach ($expectedLogRecords as $logRecordIndex => $expectedLogMessage) {
             $expectedLogMessage = str_replace('`', $quoteChar, $expectedLogMessage);
-            $this->logger->expects($this->at($logRecordIndex))->method('log')->with($expectedLogMessage, \Zend_Log::INFO);
+            $this->logger->expects($this->at($logRecordIndex))
+                ->method('log')
+                ->with($expectedLogMessage, \Zend_Log::INFO);
         }
         $this->_testExecuteCommand(
             new \Magento\Shell($this->logger),
