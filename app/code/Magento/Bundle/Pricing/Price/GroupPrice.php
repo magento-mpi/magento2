@@ -13,7 +13,7 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\Customer\Model\Session;
 
 /**
- * Group price model
+ * Bundle droup price model
  */
 class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice
 {
@@ -28,7 +28,7 @@ class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice
 
         $groupPrice = parent::getValue();
         if ($groupPrice) {
-            $regularPrice = $this->getRegularPrice();
+            $regularPrice = $this->getBasePrice();
             $this->value = $regularPrice - $regularPrice * ($groupPrice / 100);
         } else {
             $this->value = false;
@@ -40,10 +40,10 @@ class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice
      * @param null|float $qty
      * @return bool|float
      */
-    protected function getRegularPrice($qty = null)
+    protected function getBasePrice($qty = null)
     {
         return $this->priceInfo
-            ->getPrice(\Magento\Catalog\Pricing\Price\RegularPrice::PRICE_TYPE_PRICE_DEFAULT, $qty)
+            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, $qty)
             ->getValue();
     }
 }

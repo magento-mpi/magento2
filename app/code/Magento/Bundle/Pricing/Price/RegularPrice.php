@@ -8,15 +8,16 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
+use Magento\Bundle\Model\Product\Price;
+
 /**
- * Class RegularPrice
+ * Bundle regular price model
  */
 class RegularPrice extends \Magento\Catalog\Pricing\Price\RegularPrice
 {
     /**
      * Get price value
      *
-     * @throws \Exception
      * @return float|bool
      */
     public function getValue()
@@ -24,8 +25,10 @@ class RegularPrice extends \Magento\Catalog\Pricing\Price\RegularPrice
         if ($this->value !== null) {
             return $this->value;
         }
-        if ($this->salableItem->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
+        if ($this->salableItem->getPriceType() == Price::PRICE_TYPE_FIXED) {
             $this->value = parent::getValue();
+        } else {
+            $this->value = false;
         }
         return $this->value;
     }
