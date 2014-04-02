@@ -175,8 +175,10 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             $inputException = $this->_validate($addressModel, $inputException, $i);
             $addressModels[] = $addressModel;
         }
+
+        $this->customerRegistry->remove($customerId);
+
         if ($inputException->getErrors()) {
-            $this->customerRegistry->remove($customerId);
             throw $inputException;
         }
         $addressIds = [];
@@ -188,7 +190,6 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             $addressIds[] = $addressModel->getId();
         }
 
-        $this->customerRegistry->remove($customerId);
         return $addressIds;
     }
 
