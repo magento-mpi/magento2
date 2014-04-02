@@ -17,6 +17,7 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class View
@@ -114,11 +115,19 @@ class View extends Block
     /**
      * Add product to shopping cart
      *
-     * @param Product $product
+     * @param FixtureInterface $product
      */
-    public function addToCart(Product $product)
+    public function addToCart(FixtureInterface $product)
     {
         $this->fillOptions($product);
+        $this->clickAddToCart();
+    }
+
+    /**
+     * Click link
+     */
+    public function clickAddToCart()
+    {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 

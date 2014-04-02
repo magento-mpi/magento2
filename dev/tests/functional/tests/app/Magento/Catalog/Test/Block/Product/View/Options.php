@@ -90,4 +90,15 @@ class Options extends Block
             $select->setValue($attributeValue);
         }
     }
+
+    public function selectProductCustomOption($productOption)
+    {
+            $select = $this->_rootElement->find(
+                '//*[@class="product options wrapper"]//option[text()="' . $productOption . '"]/..',
+                Locator::SELECTOR_XPATH,
+                'select'
+            );
+            $select->setValue($productOption);
+    }
+
 }

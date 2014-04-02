@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -35,16 +36,19 @@ class AssertProductPrices extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogProductSimple $product
      * @param Category $category
+     * @param CheckoutCart $checkoutCart
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
         CatalogProductSimple $product,
-        Category $category
+        Category $category,
+        CheckoutCart $checkoutCart
     ) {
         $this->assertOnCategoryList($cmsIndex,$category, $product, $catalogCategoryView);
         $this->assertOnProductView($product, $catalogProductView);
+        $this->assertOnShoppingCart($product, $checkoutCart);
     }
 
     /**
@@ -65,14 +69,17 @@ class AssertProductPrices extends AbstractConstraint
             $product->getName()
         )->getRegularPrice();
         \PHPUnit_Framework_Assert::assertTrue(
-            ($price == '$10.00'),
+            ($price == '$100.00'),
             'Product price is wrong.'
         );
     }
 
     /**
+     * Assert prices on the product view Page
+     *
      * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
+     * @param @dataProvider dataProvider
      */
     protected function assertOnProductView(CatalogProductSimple $product, CatalogProductView $catalogProductView)
     {
@@ -80,23 +87,34 @@ class AssertProductPrices extends AbstractConstraint
         $catalogProductView->open();
         $price = $catalogProductView->getViewBlock()->getProductPrice();
         \PHPUnit_Framework_Assert::assertTrue(
-            ($price == 10),
+            ($price == 100),
             'Product price is wrong.'
         );
-        $customOption = $catalogProductView->getCustomOptionBlock();
+        $customOption = $catalogProductView->getOptionsBlock();
         $options = $customOption->getProductCustomOptions();
-        $customOption->fillProductOptions($options[1]);
+        $productOptions = $product->getCustomOptions();
+        $key = $productOptions[0]['title'];
+        $customOption->selectProductCustomOption($options[$key][1]);
         $addToCart = $catalogProductView->getViewBlock();
-        $addToCart->addToCart($product);
+        $addToCart->clickAddToCart();
     }
 
     /**
+     * Assert prices on the shopping Cart
+     *
      * @param CatalogProductSimple $product
-     * @param CatalogProductView $catalogProductView
+     * @param CheckoutCart $checkoutCart
      */
-    protected function assertOnShoppingCart(CatalogProductSimple $product, CatalogProductView $catalogProductView)
+    protected function assertOnShoppingCart(
+        CatalogProductSimple $product,
+        CheckoutCart $checkoutCart
+    )
     {
-        return true;
+        $price = $checkoutCart->getCartBlock()->getProductPriceByName($product->getName());
+        \PHPUnit_Framework_Assert::assertTrue(
+            ($price == "$130.00"),
+            'Product price is wrong.'
+        );
     }
     /**
      * Text of Visible in category assert
@@ -108,12 +126,20 @@ class AssertProductPrices extends AbstractConstraint
         return 'Product price is wrong.';
     }
 
+
+    /**
+     * @var array
+     */
     protected $assertions = [
-        'set1' => [
-            'final_price' => 10
-        ],
-        'set2' => [
-            'final_price' => 20
-        ]
-    ];
+            'MAGETWO-23062' => [
+                'catalog_price' => '$100.00',
+                'product_price' => '100.00',
+                'cart_price' => '$130.00'
+            ],
+            'MAGETWO-23063' => [
+                'catalog_price' => '$100.00',
+                'product_price' => '100.00',
+                'cart_price' => '$140.00'
+            ]
+        ];
 }

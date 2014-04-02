@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
- * Test Coverage for CreateProductEntity
+ * Test Coverage for Price
  *
  * General Flow:
  * 1. Log in to Backend.
@@ -27,7 +27,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  *
  * @ticketId MAGETWO-20024
  */
-class CreateSimpleEntityTest extends Injectable
+class PriceTest extends Injectable
 {
     /**
      * @var Category
@@ -76,7 +76,7 @@ class CreateSimpleEntityTest extends Injectable
      * @param CatalogProductSimple $product
      * @param Category $category
      */
-    public function testCreate(CatalogProductSimple $product, Category $category)
+    public function testCreatePrice(CatalogProductSimple $product, Category $category)
     {
         // Steps
         $this->productPageGrid->open();

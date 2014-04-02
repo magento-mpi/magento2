@@ -78,7 +78,7 @@ class CustomOptions implements FixtureInterface
     protected function getPreset($name)
     {
         $presets = [
-            'default' => [
+            'MAGETWO-23062' => [
                 [
                     'title' => 'custom option drop down',
                     'is_require' => true,
@@ -88,6 +88,21 @@ class CustomOptions implements FixtureInterface
                             'title' => '30 bucks',
                             'price' => 30,
                             'price_type' => 'Fixed',
+                            'sku' => 'sku_drop_down_row_1'
+                        ]
+                    ]
+                ]
+            ],
+            'MAGETWO-23063' => [
+                [
+                    'title' => 'custom option drop down',
+                    'is_require' => true,
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => '40 bucks',
+                            'price' => 40,
+                            'price_type' => 'Percent',
                             'sku' => 'sku_drop_down_row_1'
                         ]
                     ]
