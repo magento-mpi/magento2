@@ -13,7 +13,7 @@ use Magento\View\Asset;
 /**
  * A publishing service for view assets
  */
-class Publisher implements Asset\PublishInterface
+class Publisher
 {
     /**
      * @var \Magento\App\State

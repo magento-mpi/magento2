@@ -24,11 +24,6 @@ class Merged implements \Iterator
     protected $mergeStrategy;
 
     /**
-     * @var \Magento\App\Filesystem
-     */
-    private $appFileSystem;
-
-    /**
      * @var \Magento\View\Asset\Repository
      */
     private $assetRepo;
@@ -51,7 +46,6 @@ class Merged implements \Iterator
     /**
      * @param \Magento\Logger $logger
      * @param MergeStrategyInterface $mergeStrategy
-     * @param \Magento\App\Filesystem $appFileSystem
      * @param \Magento\View\Asset\Repository $assetRepo
      * @param array $assets
      * @throws \InvalidArgumentException
@@ -59,13 +53,11 @@ class Merged implements \Iterator
     public function __construct(
         \Magento\Logger $logger,
         MergeStrategyInterface $mergeStrategy,
-        \Magento\App\Filesystem $appFileSystem,
         \Magento\View\Asset\Repository $assetRepo,
         array $assets
     ) {
         $this->logger = $logger;
         $this->mergeStrategy = $mergeStrategy;
-        $this->appFileSystem = $appFileSystem;
         $this->assetRepo = $assetRepo;
 
         if (!$assets) {
@@ -112,7 +104,7 @@ class Merged implements \Iterator
      * Create an asset object for merged file
      *
      * @param array $assets
-     * @return FileId
+     * @return MergeableInterface
      */
     private function createMergedAsset(array $assets)
     {
@@ -122,9 +114,8 @@ class Merged implements \Iterator
             $paths[] = $asset->getRelativePath();
         }
         $paths = array_unique($paths);
-        $filePath = self::getRelativeDir() . '/' . md5(implode('|', $paths)) . '.' . $this->contentType;
-        $sourceFile = $this->appFileSystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/' . $filePath;
-        return $this->assetRepo->createFileAsset($filePath, $sourceFile);
+        $filePath = md5(implode('|', $paths)) . '.' . $this->contentType;
+        return $this->assetRepo->createArbitrary($filePath, self::getRelativeDir());
     }
 
     /**

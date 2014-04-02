@@ -14,53 +14,64 @@ namespace Magento\View\Asset;
 class File implements MergeableInterface
 {
     /**
-     * @var string
+     * Scope separator for module notation of file ID
      */
-    private $filePath;
+    const FILE_ID_SEPARATOR = '::';
 
     /**
      * @var string
      */
-    private $contentType;
+    protected $filePath;
 
     /**
      * @var string
      */
-    protected $file;
+    protected $module;
 
     /**
      * @var string
      */
-    protected $baseUrl;
+    protected $contentType;
 
     /**
-     * @param string $filePath
-     * @param string $sourceFile
-     * @param string $baseUrl
-     * @throws \LogicException
+     * @var File\Context
      */
-    public function __construct($filePath, $sourceFile, $baseUrl)
+    protected $context;
+
+    /**
+     * @var File\Source
+     */
+    protected $source;
+
+    /**
+     * @var string|bool
+     */
+    private $resolvedFile;
+
+    /**
+     * @param File\Source $source
+     * @param File\Context $context
+     * @param string $fileId
+     * @param string $contentType
+     */
+    public function __construct(File\Source $source, File\Context $context, $fileId, $contentType)
     {
-        $this->filePath = $filePath;
-        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        if (!$extension) {
-            throw new \LogicException("An extension is expected in file path: {$filePath}");
-        }
-        $this->contentType = $extension;
-        $this->file = $sourceFile;
-        $this->baseUrl = $baseUrl;
+        $this->source = $source;
+        $this->context = $context;
+        list($this->module, $this->filePath) = self::extractModule($fileId);
+        $this->contentType = $contentType;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getUrl()
     {
-        return $this->baseUrl . $this->getRelativePath();
+        return $this->context->getBaseUrl() . $this->getRelativePath();
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getContentType()
     {
@@ -68,28 +79,71 @@ class File implements MergeableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getSourceFile()
+    public function getRelativePath()
     {
-        return $this->file;
+        $contextPath = trim($this->context->getPath() . '/' . ($this->module ? $this->module . '/' : ''), '/');
+        return ($contextPath ? $contextPath . '/' : '') . $this->filePath;
     }
 
     /**
      * @inheritdoc
      */
-    public function getRelativePath()
+    public function getSourceFile()
+    {
+        if (null === $this->resolvedFile) {
+            $this->resolvedFile = $this->source->getFile($this);
+        }
+        return $this->resolvedFile;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFilePath()
     {
         return $this->filePath;
     }
 
     /**
-     * Getter for file path
+     * @inheritdoc
+     * @return File\Context
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Get the module context of path (if any)
      *
      * @return string
      */
-    public function getFilePath()
+    public function getModule()
     {
-        return $this->filePath;
+        return $this->module;
+    }
+
+    /**
+     * Extract module name from specified file ID
+     *
+     * @param string $fileId
+     * @return array
+     * @throws \Magento\Exception
+     */
+    public static function extractModule($fileId)
+    {
+        if (strpos(str_replace('\\', '/', $fileId), './') !== false) {
+            throw new \Magento\Exception("File name '{$fileId}' is forbidden for security reasons.");
+        }
+        if (strpos($fileId, self::FILE_ID_SEPARATOR) === false) {
+            return array('', $fileId);
+        }
+        $result = explode(self::FILE_ID_SEPARATOR, $fileId, 2);
+        if (empty($result[0])) {
+            throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
+        }
+        return array($result[0], $result[1]);
     }
 }

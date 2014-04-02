@@ -11,9 +11,14 @@ namespace Magento\View\Asset\ModuleNotation;
 class ResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Asset\FileId|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
      */
     private $asset;
+
+    /**
+     * @var \Magento\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $assetRepo;
     
     /**
      * @var \Magento\View\Asset\ModuleNotation\Resolver;
@@ -22,14 +27,15 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
-        $this->object = new \Magento\View\Asset\ModuleNotation\Resolver();
+        $this->asset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
+        $this->assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
+        $this->object = new \Magento\View\Asset\ModuleNotation\Resolver($this->assetRepo);
     }
 
     public function testConvertModuleNotationToPathNoModularSeparator()
     {
         $this->asset->expects($this->never())->method('getRelativePath');
-        $this->asset->expects($this->never())->method('createSimilar');
+        $this->assetRepo->expects($this->never())->method('createUsingContext');
         $textNoSeparator = 'name_without_double_colon.ext';
         $this->assertEquals(
             $textNoSeparator,
@@ -47,17 +53,17 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     public function testConvertModuleNotationToPathModularSeparator(
         $assetRelPath, $relatedFieldId, $similarRelPath, $expectedResult
     ) {
-        $similarasset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
-        $similarasset->expects($this->any())
+        $similarAsset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
+        $similarAsset->expects($this->any())
             ->method('getRelativePath')
             ->will($this->returnValue($similarRelPath));
         $this->asset->expects($this->once())
             ->method('getRelativePath')
             ->will($this->returnValue($assetRelPath));
-        $this->asset->expects($this->once())
-            ->method('createRelative')
-            ->with($relatedFieldId)
-            ->will($this->returnValue($similarasset));
+        $this->assetRepo->expects($this->once())
+            ->method('createSimilar')
+            ->with($relatedFieldId, $this->asset)
+            ->will($this->returnValue($similarAsset));
         $this->assertEquals(
             $expectedResult,
             $this->object->convertModuleNotationToPath($this->asset, $relatedFieldId)

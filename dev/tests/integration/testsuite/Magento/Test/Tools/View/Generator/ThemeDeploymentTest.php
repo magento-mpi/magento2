@@ -44,11 +44,6 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     protected $versionGenerator;
 
     /**
-     * @var \Magento\View\Asset\PathGenerator
-     */
-    protected $path;
-
-    /**
      * @var \Magento\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $notationResolver;
@@ -77,8 +72,14 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->versionStorage = $this->getMock('Magento\App\View\Deployment\Version\StorageInterface');
         $this->versionGenerator = $this->getMock('Magento\App\View\Deployment\Version\GeneratorInterface');
 
-        $this->path = new \Magento\View\Asset\PathGenerator(\Magento\App\State::MODE_PRODUCTION);
-        $this->notationResolver = $this->getMock('Magento\View\Asset\ModuleNotation\Resolver', null);
+        $assetRepository = new \Magento\View\Asset\Repository(
+            $this->getMockForAbstractClass('Magento\UrlInterface'),
+            $this->getMockForAbstractClass('Magento\View\DesignInterface'),
+            $this->getMock('Magento\View\Design\Theme\Provider', array(), array(), '', false),
+            $this->getMock('Magento\View\Asset\File\Source', array(), array(), '', false),
+            \Magento\App\State::MODE_PRODUCTION
+        );
+        $this->notationResolver = new \Magento\View\Asset\ModuleNotation\Resolver($assetRepository);
     }
 
     protected function tearDown()
@@ -99,7 +100,6 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
-            $this->path,
             $this->notationResolver,
             $this->_tmpDir,
             $permitted,
@@ -144,7 +144,6 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
-            $this->path,
             $this->notationResolver,
             $this->_tmpDir,
             $permitted,
@@ -214,7 +213,6 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
-            $this->path,
             $this->notationResolver,
             $this->_tmpDir,
             $permitted,
@@ -241,7 +239,6 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
-            $this->path,
             $this->notationResolver,
             $this->_tmpDir,
             $permitted,
@@ -259,7 +256,6 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->_cssUrlResolver,
             $this->versionStorage,
             $this->versionGenerator,
-            $this->path,
             $this->notationResolver,
             $this->_tmpDir,
             $permitted

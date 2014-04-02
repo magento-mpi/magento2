@@ -61,11 +61,6 @@ class ThemeDeployment
     private $_isDryRun;
 
     /**
-     * @var \Magento\View\Asset\PathGenerator
-     */
-    private $_path;
-
-    /**
      * @var \Magento\View\Asset\ModuleNotation\Resolver
      */
     private $_notationResolver;
@@ -76,7 +71,6 @@ class ThemeDeployment
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\App\View\Deployment\Version\StorageInterface $versionStorage
      * @param \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator
-     * @param \Magento\View\Asset\PathGenerator $path
      * @param \Magento\View\Asset\ModuleNotation\Resolver $notationResolver
      * @param string $destinationHomeDir
      * @param string $configPermitted
@@ -88,7 +82,6 @@ class ThemeDeployment
         \Magento\View\Url\CssResolver $cssUrlResolver,
         \Magento\App\View\Deployment\Version\StorageInterface $versionStorage,
         \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
-        \Magento\View\Asset\PathGenerator $path,
         \Magento\View\Asset\ModuleNotation\Resolver $notationResolver,
         $destinationHomeDir,
         $configPermitted,
@@ -100,7 +93,6 @@ class ThemeDeployment
         $this->_versionGenerator = $versionGenerator;
         $this->_destinationHomeDir = $destinationHomeDir;
         $this->_isDryRun = $isDryRun;
-        $this->_path = $path;
         $this->_notationResolver = $notationResolver;
         $this->_permitted = $this->_loadConfig($configPermitted);
         if ($configForbidden) {
@@ -141,20 +133,15 @@ class ThemeDeployment
     public function run($copyRules)
     {
         foreach ($copyRules as $copyRule) {
-            $destinationContext = $copyRule['destinationContext'];
+            $destContext = $copyRule['destinationContext'];
             $context = array(
                 'source' => $copyRule['source'],
-                'destinationContext' => $destinationContext,
+                'destinationContext' => $destContext,
             );
 
-            $destDir = $this->_path->getPath(
-                $destinationContext['area'],
-                $destinationContext['themePath'],
-                $destinationContext['locale'],
-                $destinationContext['module']
-            );
+            $destDir =  $destContext['area'] . '/' . $destContext['themePath'] . '/' . $destContext['module'];
+            // $destContext['locale'] is not used as it is not implemented
             $destDir = rtrim($destDir, '\\/');
-            $destDir = str_replace('//', '/', $destDir); // workaround for missing locale code
 
             $this->_copyDirStructure(
                 $copyRule['source'],
@@ -224,12 +211,13 @@ class ThemeDeployment
         if (strtolower($extension) == 'css') { // For CSS files we need to process content and fix urls
             // Callback to resolve relative urls to the file names
             $fileId = ltrim(str_replace('\\', '/', str_replace($context['source'], '', $fileSource)), '/');
-            $thisAsset = new \Magento\Tools\View\Generator\Asset(
-                $this->_path,
-                $fileId,
+            $assetContext = new \Magento\View\Asset\File\FallbackContext(
+                '',
                 $context['destinationContext']['area'],
-                $context['destinationContext']['themePath']
+                $context['destinationContext']['themePath'],
+                ''
             );
+            $thisAsset = new \Magento\Tools\View\Generator\Asset($assetContext, $fileId, 'css');
             $callback = function ($path) use ($thisAsset) {
                 return $this->_notationResolver->convertModuleNotationToPath($thisAsset, $path);
             };

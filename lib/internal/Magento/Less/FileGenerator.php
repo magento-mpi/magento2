@@ -8,7 +8,8 @@
 
 namespace Magento\Less;
 
-use Magento\View\Asset\FileId;
+use Magento\View\Asset\LocalInterface;
+use Magento\View\Asset\File\Source;
 
 class FileGenerator
 {
@@ -28,9 +29,14 @@ class FileGenerator
     protected $rootDirectory;
 
     /**
-     * @var \Magento\View\Asset\FileId\Source
+     * @var \Magento\View\Asset\File\Source
      */
-    private $viewService;
+    private $assetSource;
+
+    /**
+     * @var \Magento\View\Asset\Repository
+     */
+    private $assetRepo;
 
     /**
      * @var \Magento\Less\PreProcessor\Instruction\MagentoImport
@@ -44,19 +50,22 @@ class FileGenerator
 
     /**
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Asset\FileId\Source $assetSource
+     * @param \Magento\View\Asset\File\Source $assetSource
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param PreProcessor\Instruction\MagentoImport $magentoImportProcessor
      * @param PreProcessor\Instruction\Import $importProcessor
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Asset\FileId\Source $assetSource,
+        \Magento\View\Asset\File\Source $assetSource,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Less\PreProcessor\Instruction\MagentoImport $magentoImportProcessor,
         \Magento\Less\PreProcessor\Instruction\Import $importProcessor
     ) {
         $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->viewService = $assetSource;
+        $this->assetSource = $assetSource;
+        $this->assetRepo = $assetRepo;
         $this->magentoImportProcessor = $magentoImportProcessor;
         $this->importProcessor = $importProcessor;
     }
@@ -65,10 +74,10 @@ class FileGenerator
      * Create a tree of self-sustainable files and return the topmost LESS file, ready for passing to 3rd party library
      *
      * @param string $lessContent
-     * @param FileId $cssFileAsset
+     * @param LocalInterface $cssFileAsset
      * @return string Absolute path of generated LESS file
      */
-    public function generateLessFileTree($lessContent, FileId $cssFileAsset)
+    public function generateLessFileTree($lessContent, LocalInterface $cssFileAsset)
     {
         list($lessContent) = $this->magentoImportProcessor->process($lessContent, 'less', $cssFileAsset);
 
@@ -99,12 +108,12 @@ class FileGenerator
      * Create file, referenced relatively to an asset
      *
      * @param string $relatedFileId
-     * @param FileId $asset
+     * @param LocalInterface $asset
      */
-    protected function generateRelatedFile($relatedFileId, FileId $asset)
+    protected function generateRelatedFile($relatedFileId, LocalInterface $asset)
     {
-        $relatedAsset = $asset->createRelative($relatedFileId);
-        $resolvedPath = $this->viewService->getSourceFile($relatedAsset); // indirect recursion
+        $relatedAsset = $this->assetRepo->createRelative($relatedFileId, $asset);
+        $resolvedPath = $this->assetSource->getFile($relatedAsset); // indirect recursion
         $contents = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($resolvedPath));
         $this->createFile($relatedAsset->getRelativePath(), $contents);
     }
@@ -118,7 +127,7 @@ class FileGenerator
      */
     protected function createFile($relativePath, $contents)
     {
-        $filePath = FileId\Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/' . $relativePath;
+        $filePath = Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/' . $relativePath;
         $this->tmpDirectory->writeFile($filePath, $contents);
         return $this->tmpDirectory->getAbsolutePath($filePath);
     }

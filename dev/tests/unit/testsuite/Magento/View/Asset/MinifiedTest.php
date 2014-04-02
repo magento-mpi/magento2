@@ -183,6 +183,22 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
         $this->assertStringMatchesFormat($expectedPath, $this->_model->getRelativePath());
     }
 
+    public function testGetFilePath()
+    {
+        $this->_prepareProcessMock(self::ORIG_FILE);
+        $this->assertStringMatchesFormat('%s_original.min.js', $this->_model->getFilePath());
+    }
+
+    public function testGetContext()
+    {
+        $this->_prepareProcessMock(self::ORIG_FILE);
+        $result = $this->_model->getContext();
+        $this->assertInstanceOf('\Magento\View\Asset\ContextInterface', $result);
+        $this->assertEquals('_cache/minified', $result->getPath());
+        $this->assertEquals(\Magento\App\Filesystem::STATIC_VIEW_DIR, $result->getBaseDirType());
+        $this->assertEquals('http://localhost/static_dir/', $result->getBaseUrl());
+    }
+
     /**
      * @return array
      */

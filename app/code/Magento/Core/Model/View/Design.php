@@ -219,6 +219,23 @@ class Design implements \Magento\View\DesignInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getThemePath(\Magento\View\Design\ThemeInterface $theme)
+    {
+        $themePath = $theme->getThemePath();
+        if (!$themePath) {
+            $themeId = $theme->getId();
+            if ($themeId) {
+                $themePath = self::PUBLIC_THEME_DIR . $themeId;
+            } else {
+                $themePath = self::PUBLIC_VIEW_DIR;
+            }
+        }
+        return $themePath;
+    }
+
+    /**
      * Get locale
      *
      * @return string

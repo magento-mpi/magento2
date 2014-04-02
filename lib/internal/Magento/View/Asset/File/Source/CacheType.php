@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\FileId\Source;
+namespace Magento\View\Asset\File\Source;
 
 class CacheType extends \Magento\Cache\Frontend\Decorator\TagScope
 {

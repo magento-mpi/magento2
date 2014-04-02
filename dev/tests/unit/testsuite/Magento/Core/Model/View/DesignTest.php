@@ -52,4 +52,30 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $actual = $this->model->getLocale();
         $this->assertSame($expected, $actual);
     }
+
+    /**
+     * @param string $themePath
+     * @param string $themeId
+     * @param string $expectedResult
+     * @dataProvider getThemePathDataProvider
+     */
+    public function testGetThemePath($themePath, $themeId, $expectedResult)
+    {
+        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getThemePath')->will($this->returnValue($themePath));
+        $theme->expects($this->any())->method('getId')->will($this->returnValue($themeId));
+        $this->assertEquals($expectedResult, $this->model->getThemePath($theme));
+    }
+
+    /**
+     * @return array
+     */
+    public function getThemePathDataProvider()
+    {
+        return array(
+            array('some_path', '', 'some_path'),
+            array('', '2', \Magento\View\DesignInterface::PUBLIC_THEME_DIR . '2'),
+            array('', '', \Magento\View\DesignInterface::PUBLIC_VIEW_DIR),
+        );
+    }
 }

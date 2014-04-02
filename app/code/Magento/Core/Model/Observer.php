@@ -127,7 +127,14 @@ class Observer
                 $service = $themeFile->getCustomizationService();
                 if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
                     $identifier = $themeFile->getData('file_path');
-                    $asset = $this->_assetRepo->createFileAsset($identifier, $themeFile->getFullPath());
+                    $dirPath = \Magento\View\Design\Theme\Customization\Path::DIR_NAME
+                        . '/' . $this->_currentTheme->getId();
+                    $asset = $this->_assetRepo->createArbitrary(
+                        $identifier,
+                        $dirPath,
+                        \Magento\App\Filesystem::MEDIA_DIR,
+                        \Magento\UrlInterface::URL_TYPE_MEDIA
+                    );
                     $this->_pageAssets->add($identifier, $asset);
                 }
             } catch (\InvalidArgumentException $e) {

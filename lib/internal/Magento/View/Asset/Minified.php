@@ -42,6 +42,16 @@ class Minified implements MergeableInterface
     protected $relativePath;
 
     /**
+     * @var string
+     */
+    protected $filePath;
+
+    /**
+     * @var \Magento\View\Asset\File\Context
+     */
+    protected $context;
+
+    /**
      * URL
      *
      * @var string
@@ -142,6 +152,28 @@ class Minified implements MergeableInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getFilePath()
+    {
+        if (null === $this->filePath) {
+            $this->process();
+        }
+        return $this->filePath;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getContext()
+    {
+        if (null === $this->context) {
+            $this->process();
+        }
+        return $this->context;
+    }
+
+    /**
      * Minify content of child asset
      *
      * @return void
@@ -205,6 +237,8 @@ class Minified implements MergeableInterface
     {
         $this->file = $this->originalAsset->getSourceFile();
         $this->relativePath = $this->originalAsset->getRelativePath();
+        $this->filePath = $this->originalAsset->getFilePath();
+        $this->context = $this->originalAsset->getContext();
         $this->url = $this->originalAsset->getUrl();
     }
 
@@ -215,6 +249,8 @@ class Minified implements MergeableInterface
     {
         $this->file = $this->composeMinifiedName($this->originalAsset->getSourceFile());
         $this->relativePath = $this->composeMinifiedName($this->originalAsset->getRelativePath());
+        $this->filePath = $this->composeMinifiedName($this->originalAsset->getFilePath());
+        $this->context = $this->originalAsset->getContext();
         $this->url = $this->composeMinifiedName($this->originalAsset->getUrl());
     }
 
@@ -225,26 +261,17 @@ class Minified implements MergeableInterface
     {
         $originalFile = $this->originalAsset->getSourceFile();
         $originalFileRelRoot = $this->rootDir->getRelativePath($originalFile);
-
         $origRelativePath = $this->originalAsset->getRelativePath();
-        $minifiedName = md5($origRelativePath) . '_' . $this->composeMinifiedName(basename($origRelativePath));
-        $minifiedFileRelView = self::getRelativeDir() . '/' . $minifiedName;
 
-        $this->strategy->minifyFile($originalFileRelRoot, $minifiedFileRelView);
-
-        $this->file = $this->staticViewDir->getAbsolutePath($minifiedFileRelView);
-        $this->relativePath = $minifiedFileRelView;
-        $this->url = $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
-            . $this->relativePath;
-    }
-
-    /**
-     * Returns directory for storing minified files relative to STATIC_VIEW_DIR
-     *
-     * @return string
-     */
-    public static function getRelativeDir()
-    {
-        return \Magento\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified';
+        $this->context = new \Magento\View\Asset\File\Context(
+            $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC)),
+            \Magento\App\Filesystem::STATIC_VIEW_DIR,
+            \Magento\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified'
+        );
+        $this->filePath = md5($origRelativePath) . '_' . $this->composeMinifiedName(basename($origRelativePath));
+        $this->relativePath = $this->context->getPath() . '/' . $this->filePath;
+        $this->strategy->minifyFile($originalFileRelRoot, $this->relativePath);
+        $this->file = $this->staticViewDir->getAbsolutePath($this->relativePath);
+        $this->url = $this->context->getBaseUrl() . $this->relativePath;
     }
 }

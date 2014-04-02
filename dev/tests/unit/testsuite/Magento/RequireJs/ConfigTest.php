@@ -26,11 +26,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     private $baseDir;
 
     /**
-     * @var \Magento\View\Asset\PathGenerator|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $path;
-
-    /**
      * @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $baseUrl;
@@ -46,7 +41,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '\Magento\RequireJs\Config\File\Collector\Aggregated', array(), array(), '', false
         );
         $this->design = $this->getMockForAbstractClass('\Magento\View\DesignInterface');
-        $this->path = $this->getMock('\Magento\View\Asset\PathGenerator', array(), array(), '', false);
         $this->baseUrl = $this->getMockForAbstractClass('\Magento\UrlInterface');
 
         $this->baseDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
@@ -57,7 +51,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->baseDir));
 
         $this->object = new \Magento\RequireJs\Config(
-            $this->fileSource, $this->design, $filesystem, $this->path, $this->baseUrl
+            $this->fileSource, $this->design, $filesystem, $this->baseUrl
         );
     }
 
@@ -117,7 +111,7 @@ expected;
     {
         $this->mockContextPath();
         $actual = $this->object->getConfigFileRelativePath();
-        $this->assertSame('_requirejs/area/theme/locale/requirejs-config.js', $actual);
+        $this->assertSame('_requirejs/area/theme/requirejs-config.js', $actual);
     }
 
     public function testGetBaseConfig()
@@ -129,7 +123,7 @@ expected;
             ->will($this->returnValue('http://base.url/'));
         $expected = <<<expected
 require.config({
-    "baseUrl": "http://base.url/area/theme/locale",
+    "baseUrl": "http://base.url/area/theme",
     "paths": {
         "magento": "mage/requirejs/plugin/id-normalizer"
     },
@@ -148,7 +142,7 @@ expected;
             ->method('getBaseUrl')
             ->with(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
             ->will($this->returnValue('http://base.url/'));
-        $expected = 'http://base.url/_requirejs/area/theme/locale/requirejs-config.js';
+        $expected = 'http://base.url/_requirejs/area/theme/requirejs-config.js';
         $actual = $this->object->getConfigUrl();
         $this->assertSame($expected, $actual);
     }
@@ -174,11 +168,8 @@ expected;
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));
         $this->design->expects($this->once())
-            ->method('getLocale')
-            ->will($this->returnValue('locale'));
-        $this->path->expects($this->once())
-            ->method('getPathUsingTheme')
-            ->with('area', $theme, 'locale')
-            ->will($this->returnValue('area/theme/locale'));
+            ->method('getThemePath')
+            ->with($theme)
+            ->will($this->returnValue('theme'));
     }
 }

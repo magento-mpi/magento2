@@ -21,11 +21,6 @@ class Repository
     private $baseUrl;
 
     /**
-     * @var \Magento\View\Asset\PathGenerator
-     */
-    private $pathGenerator;
-
-    /**
      * @var \Magento\View\DesignInterface
      */
     private $design;
@@ -36,29 +31,34 @@ class Repository
     private $themeProvider;
 
     /**
-     * @var \Magento\View\Asset\FileId\Source
+     * @var \Magento\View\Asset\File\Source
      */
     private $assetSource;
 
     /**
+     * @var string
+     */
+    private $appMode;
+
+    /**
      * @param \Magento\UrlInterface $baseUrl
-     * @param PathGenerator $pathGenerator
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Design\Theme\Provider $themeProvider
-     * @param \Magento\View\Asset\FileId\Source $assetSource
+     * @param \Magento\View\Asset\File\Source $assetSource
+     * @param string $appMode
      */
     public function __construct(
         \Magento\UrlInterface $baseUrl,
-        PathGenerator $pathGenerator,
         \Magento\View\DesignInterface $design,
         \Magento\View\Design\Theme\Provider $themeProvider,
-        \Magento\View\Asset\FileId\Source $assetSource
+        \Magento\View\Asset\File\Source $assetSource,
+        $appMode = \Magento\App\State::MODE_DEFAULT
     ) {
         $this->baseUrl = $baseUrl;
-        $this->pathGenerator = $pathGenerator;
         $this->design = $design;
         $this->themeProvider = $themeProvider;
         $this->assetSource = $assetSource;
+        $this->appMode = $appMode;
     }
 
     /**
@@ -125,7 +125,7 @@ class Repository
      */
     public function extractScope($fileId, array &$params)
     {
-        list($module, $file) = FileId::extractModule($fileId);
+        list($module, $file) = File::extractModule($fileId);
         if (!empty($module)) {
             $params['module'] = $module;
         }
@@ -133,48 +133,97 @@ class Repository
     }
 
     /**
-     * Create instance of a local asset
-     *
-     * The asset is merely a value object that doesn't know whether the resources it refers to actually exist or not.
-     * The asset object is immutable by design.
+     * Create a file asset that's subject of fallback system
      *
      * @param string $fileId
      * @param array $params
-     * @return FileId
+     * @return File
      */
     public function createAsset($fileId, array $params = array())
     {
         $this->updateDesignParams($params);
-        $fileId = $this->extractScope($fileId, $params);
+        $filePath = $this->extractScope($fileId, $params);
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         if ($params['module']) {
-            $fileId = $params['module'] . FileId::FILE_ID_SEPARATOR . $fileId;
+            $fileId = $params['module'] . File::FILE_ID_SEPARATOR . $filePath;
         }
-        return new FileId(
-            $this->pathGenerator,
-            $this->assetSource,
-            $fileId,
+        $themePath = $this->design->getThemePath($params['themeModel']);
+        if ($this->appMode == \Magento\App\State::MODE_PRODUCTION) {
+            $locale = ''; // a workaround while support for locale is not implemented in production mode
+        } else {
+            $locale = $params['locale'];
+        }
+        $context = new File\FallbackContext(
             $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure)),
             $params['area'],
-            $this->pathGenerator->getThemePath($params['themeModel']),
-            $params['locale']
+            $themePath,
+            $locale
         );
+        return new File($this->assetSource, $context, $fileId, $this->inferContentType($filePath));
     }
 
     /**
-     * Create a file asset value object
+     * Create a file asset similar to an existing local asset by using its context
      *
-     * @param string $filePath Invariant path of the file relative to directory or a base URL
-     * @param string $sourcePath Absolute path in file system where its contents may be read
-     * @param string|null $baseUrl
+     * @param string $fileId
+     * @param LocalInterface $similarTo
      * @return File
      */
-    public function createFileAsset($filePath, $sourcePath, $baseUrl = null)
+    public function createSimilar($fileId, LocalInterface $similarTo)
     {
-        if (null === $baseUrl) {
-            $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC));
+        return new File($this->assetSource, $similarTo->getContext(), $fileId, $this->inferContentType($fileId));
+    }
+
+    /**
+     * Create a file asset with an arbitrary path
+     *
+     * This kind of file is not subject of fallback system
+     * Client code is responsible for ensuring that the file is in specified directory
+     *
+     * @param string $filePath
+     * @param string $dirPath
+     * @param string $baseDirType
+     * @param string $baseUrlType
+     * @return File
+     */
+    public function createArbitrary(
+        $filePath,
+        $dirPath,
+        $baseDirType = \Magento\App\Filesystem::STATIC_VIEW_DIR,
+        $baseUrlType = UrlInterface::URL_TYPE_STATIC
+    ) {
+        $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => $baseUrlType));
+        $context = new File\Context($baseUrl, $baseDirType, $dirPath);
+        $contentType = $this->inferContentType($filePath);
+        return new File($this->assetSource, $context, $filePath, $contentType);
+    }
+
+    /**
+     * Create a file asset with path relative to specified local asset
+     *
+     * @param string $fileId
+     * @param LocalInterface $relativeTo
+     * @return File
+     */
+    public function createRelative($fileId, LocalInterface $relativeTo)
+    {
+        list($module, $filePath) = File::extractModule($fileId);
+        if ($module) {
+            return $this->createSimilar($fileId, $relativeTo);
         }
-        return new File($filePath, $sourcePath, $baseUrl);
+        $newFileId = \Magento\View\FileSystem::normalizePath(dirname($relativeTo->getFilePath()) . '/' . $filePath);
+        return $this->createSimilar($newFileId, $relativeTo);
+    }
+
+    /**
+     * Attempt to detect content type of an asset by evaluating extension of file path
+     *
+     * @param string $path
+     * @return string
+     */
+    private function inferContentType($path)
+    {
+        return pathinfo($path, PATHINFO_EXTENSION);
     }
 
     /**

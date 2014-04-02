@@ -6,29 +6,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\FileId;
+namespace Magento\View\Asset\File;
 
-use \Magento\View\Asset;
+use Magento\View\Asset\File;
+use Magento\View\Asset\LocalInterface;
 
-/**
- * A source file locator service for view assets
- */
-class Source implements Asset\SourceFileInterface
+class Source
 {
     /**
      * A suffix for temporary materialization directory where pre-processed files will be written (if necessary)
      */
     const TMP_MATERIALIZATION_DIR = 'view_preprocessed';
 
-    /**#@+
-     * Public directories prefix group
+     /**
+     * @var \Magento\App\Filesystem
      */
-    const PUBLIC_VIEW_DIR   = '_view';
-    const PUBLIC_THEME_DIR  = '_theme';
-    /**#@-*/
+    private $filesystem;
 
     /**
-     * @var \Magento\View\Asset\FileId\Source\Cache
+     * @var \Magento\View\Asset\File\Source\Cache
      */
     protected $cachePreProcessing;
 
@@ -57,20 +53,14 @@ class Source implements Asset\SourceFileInterface
      */
     protected $themeProvider;
 
-    /**
-     * @param \Magento\View\Asset\FileId\Source\CacheFactory $cacheFactory
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory
-     * @param \Magento\View\Design\FileResolution\Fallback $viewFileResolution
-     * @param \Magento\View\Design\Theme\Provider $themeProvider
-     */
     public function __construct(
-        Source\CacheFactory $cacheFactory,
+        \Magento\View\Asset\File\Source\CacheFactory $cacheFactory,
         \Magento\App\Filesystem $filesystem,
         \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory,
         \Magento\View\Design\FileResolution\Fallback $viewFileResolution,
         \Magento\View\Design\Theme\Provider $themeProvider
     ) {
+        $this->filesystem = $filesystem;
         $this->rootDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $this->varDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $this->cachePreProcessing = $cacheFactory->create(
@@ -86,32 +76,36 @@ class Source implements Asset\SourceFileInterface
     }
 
     /**
-     * Determine the original source file for an asset
-     *
-     * The original source file is always different from what asset "claims" or it may not even exist.
-     * This method will either locate the original file and process (materialize) it if necessary.
-     * Materialization will occur only if result of preprocessing is different from the originally located file.
+     * @inheritdoc
      */
-    public function getSourceFile(Asset\LocalInterface $asset)
+    public function getFile(File $asset)
     {
-        $assetSourceFile = $this->getOriginalSourceFile($asset);
-        if ($assetSourceFile) {
-            $assetSourceFile = $this->getProcessedFile($asset, $assetSourceFile);
+        $context = $asset->getContext();
+        if ($context instanceof FallbackContext) {
+            $sourceFile = $this->findFileThroughFallback($asset, $context);
+        } else {
+            $sourceFile = $this->findFile($asset, $context);
         }
-        return $assetSourceFile;
+        if ($sourceFile) {
+            return $this->getProcessedFile($asset, $sourceFile);
+        }
+        return false;
     }
 
     /**
-     * @param Asset\FileId $asset
+     * Find asset file via fallback mechanism
+     *
+     * @param File $asset
+     * @param FallbackContext $context
      * @return bool|string
      */
-    private function getOriginalSourceFile(Asset\FileId $asset)
+    private function findFileThroughFallback(File $asset, FallbackContext $context)
     {
-        $themeModel = $this->themeProvider->getThemeModel($asset->getThemePath(), $asset->getAreaCode());
+        $themeModel = $this->themeProvider->getThemeModel($context->getThemePath(), $context->getAreaCode());
         $sourceFile = $this->viewFileResolution->getViewFile(
-            $asset->getAreaCode(),
+            $context->getAreaCode(),
             $themeModel,
-            $asset->getLocaleCode(),
+            $context->getLocaleCode(),
             $asset->getFilePath(),
             $asset->getModule()
         );
@@ -119,12 +113,25 @@ class Source implements Asset\SourceFileInterface
     }
 
     /**
-     * @param Asset\FileId $asset
+     * Find asset file by simply appending its path to the directory in context
+     *
+     * @param LocalInterface $asset
+     * @param Context $context
+     * @return string
+     */
+    private function findFile(LocalInterface $asset, Context $context)
+    {
+        $dir = $this->filesystem->getDirectoryRead($context->getBaseDirType());
+        return $dir->getAbsolutePath($asset->getRelativePath());
+    }
+
+    /**
+     * @param LocalInterface $asset
      * @param string $sourceFile
      * @return bool|string
      * @throws \LogicException
      */
-    private function getProcessedFile(Asset\FileId $asset, $sourceFile)
+    private function getProcessedFile(LocalInterface $asset, $sourceFile)
     {
         $processedFile = $this->cachePreProcessing->getProcessedFileFromCache($sourceFile, $asset);
         if (!$processedFile) {

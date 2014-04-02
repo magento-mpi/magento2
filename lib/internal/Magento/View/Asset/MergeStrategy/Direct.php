@@ -42,7 +42,6 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
      */
     public function merge(array $assetsToMerge, Asset\LocalInterface $resultAsset)
     {
-        /** @var Asset\File $resultAsset */
         $mergedContent = $this->composeMergedContent($assetsToMerge, $resultAsset);
         $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $dir->writeFile($resultAsset->getRelativePath(), $mergedContent);
@@ -60,7 +59,7 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
     {
         $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $result = array();
-        /** @var Asset\FileId $asset */
+        /** @var Asset\MergeableInterface $asset */
         foreach ($assetsToMerge as $asset) {
             $file = $dir->getRelativePath($asset->getSourceFile());
             if (!$dir->isExist($file)) {

@@ -16,14 +16,19 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
     private $mergerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\Directory\WriteInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\Directory\ReadInterface
      */
-    private $dirMock;
+    private $sourceDir;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Asset\LocalInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\Directory\WriteInterface
      */
-    private $resultMock;
+    private $targetDir;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Asset\File
+     */
+    private $resultAsset;
 
     /**
      * @var \Magento\View\Asset\MergeStrategy\Checksum
@@ -33,70 +38,76 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->mergerMock = $this->getMockForAbstractClass('\Magento\View\Asset\MergeStrategyInterface');
-        $this->dirMock = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\WriteInterface');
+        $this->sourceDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
+        $this->targetDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\WriteInterface');
         $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
-            ->method('getDirectoryWrite')
+            ->method('getDirectoryRead')
             ->with(\Magento\App\Filesystem::ROOT_DIR)
-            ->will($this->returnValue($this->dirMock))
+            ->will($this->returnValue($this->sourceDir))
+        ;
+        $filesystem->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+            ->will($this->returnValue($this->targetDir))
         ;
         $this->checksum = new Checksum($this->mergerMock, $filesystem);
-        $this->resultMock = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $this->resultAsset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
     }
 
     public function testMergeNoAssets()
     {
         $this->mergerMock->expects($this->never())->method('merge');
-        $this->checksum->merge(array(), $this->resultMock);
+        $this->checksum->merge(array(), $this->resultAsset);
     }
 
     public function testMergeNoDatFile()
     {
-        $this->dirMock->expects($this->once())
+        $this->targetDir->expects($this->once())
             ->method('isExist')
             ->with('merged/result.txt.dat')
             ->will($this->returnValue(false))
         ;
         $assets = $this->getAssetsToMerge();
-        $this->mergerMock->expects($this->once())->method('merge')->with($assets, $this->resultMock);
-        $this->dirMock->expects($this->once())->method('writeFile')->with('merged/result.txt.dat', '11');
-        $this->checksum->merge($assets, $this->resultMock);
+        $this->mergerMock->expects($this->once())->method('merge')->with($assets, $this->resultAsset);
+        $this->targetDir->expects($this->once())->method('writeFile')->with('merged/result.txt.dat', '11');
+        $this->checksum->merge($assets, $this->resultAsset);
     }
 
     public function testMergeMtimeChanged()
     {
-        $this->dirMock->expects($this->once())
+        $this->targetDir->expects($this->once())
             ->method('isExist')
             ->with('merged/result.txt.dat')
             ->will($this->returnValue(true))
         ;
-        $this->dirMock->expects($this->once())
+        $this->targetDir->expects($this->once())
             ->method('readFile')
             ->with('merged/result.txt.dat')
             ->will($this->returnValue('10'))
         ;
         $assets = $this->getAssetsToMerge();
-        $this->mergerMock->expects($this->once())->method('merge')->with($assets, $this->resultMock);
-        $this->dirMock->expects($this->once())->method('writeFile')->with('merged/result.txt.dat', '11');
-        $this->checksum->merge($assets, $this->resultMock);
+        $this->mergerMock->expects($this->once())->method('merge')->with($assets, $this->resultAsset);
+        $this->targetDir->expects($this->once())->method('writeFile')->with('merged/result.txt.dat', '11');
+        $this->checksum->merge($assets, $this->resultAsset);
     }
 
     public function testMergeMtimeUnchanged()
     {
-        $this->dirMock->expects($this->once())
+        $this->targetDir->expects($this->once())
             ->method('isExist')
             ->with('merged/result.txt.dat')
             ->will($this->returnValue(true))
         ;
-        $this->dirMock->expects($this->once())
+        $this->targetDir->expects($this->once())
             ->method('readFile')
             ->with('merged/result.txt.dat')
             ->will($this->returnValue('11'))
         ;
         $assets = $this->getAssetsToMerge();
         $this->mergerMock->expects($this->never())->method('merge');
-        $this->dirMock->expects($this->never())->method('writeFile');
-        $this->checksum->merge($assets, $this->resultMock);
+        $this->targetDir->expects($this->never())->method('writeFile');
+        $this->checksum->merge($assets, $this->resultAsset);
     }
 
     /**
@@ -106,18 +117,18 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
      */
     private function getAssetsToMerge()
     {
-        $one = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $one = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $one->expects($this->once())->method('getSourceFile')->will($this->returnValue('/dir/file/one.txt'));
-        $two = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $two = $this->getMock('\Magento\View\Asset\File',  array(), array(), '', false);
         $two->expects($this->once())->method('getSourceFile')->will($this->returnValue('/dir/file/two.txt'));
-        $this->dirMock->expects($this->exactly(3))
+        $this->sourceDir->expects($this->exactly(2))
             ->method('getRelativePath')
-            ->will($this->onConsecutiveCalls('file/one.txt', 'file/two.txt', 'merged/result.txt.dat'))
+            ->will($this->onConsecutiveCalls('file/one.txt', 'file/two.txt'))
         ;
-        $this->dirMock->expects($this->exactly(2))->method('stat')->will($this->returnValue(array('mtime' => '1')));
-        $this->resultMock->expects($this->once())
-            ->method('getSourceFile')
-            ->will($this->returnValue('/dir/merged/result.txt'))
+        $this->sourceDir->expects($this->exactly(2))->method('stat')->will($this->returnValue(array('mtime' => '1')));
+        $this->resultAsset->expects($this->once())
+            ->method('getRelativePath')
+            ->will($this->returnValue('merged/result.txt'))
         ;
         return array($one, $two);
     }

@@ -8,7 +8,7 @@
 
 namespace Magento\View\Asset;
 
-class ServiceTest extends \PHPUnit_Framework_TestCase
+class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\View\Design\Theme\Provider|\PHPUnit_Framework_MockObject_MockObject
@@ -23,10 +23,9 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->themeProvider = $this->getMock('\Magento\View\Design\Theme\Provider', array(), array(), '', false);
-        $assetSource = $this->getMock('Magento\View\Asset\FileId\Source', array(), array(), '', false);
+        $assetSource = $this->getMock('Magento\View\Asset\File\Source', array(), array(), '', false);
         $this->object = new Repository(
             $this->getMockForAbstractClass('\Magento\UrlInterface'),
-            $this->getMock('\Magento\View\Asset\PathGenerator', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\View\DesignInterface'),
             $this->themeProvider,
             $assetSource

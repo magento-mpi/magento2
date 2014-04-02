@@ -80,7 +80,7 @@ class FlyweightFactory
      */
     private function extractThemeId($path)
     {
-        $dir = \Magento\View\Asset\PathGenerator::PUBLIC_THEME_DIR;
+        $dir = \Magento\View\DesignInterface::PUBLIC_THEME_DIR;
         if (preg_match('/^' . preg_quote($dir, '/') . '(\d+)$/', $path, $matches)) {
             return $matches[1];
         }

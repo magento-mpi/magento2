@@ -24,7 +24,7 @@
         <label>View files fallback</label>
         <description>Paths to view files (e.g., PHTML templates, images, CSS, JS files).</description>
     </type>
-    <type name="view_files_preprocessing" translate="label,description" instance="Magento\View\Asset\FileId\Source\CacheType">
+    <type name="view_files_preprocessing" translate="label,description" instance="Magento\View\Asset\File\Source\CacheType">
         <label>View files pre-processing</label>
         <description>Paths to pre-processed view files (e.g, CSS files with fixed paths or generated from LESS files).</description>
     </type>

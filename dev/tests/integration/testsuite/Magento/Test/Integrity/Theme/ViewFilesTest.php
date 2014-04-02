@@ -95,7 +95,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     private function resolveFileUsingFallback($fileId, $area, $themeId)
     {
         $params = array('area' => $area, 'themeId' => $themeId);
-        list($params['module'], $fileId) = \Magento\View\Asset\FileId::extractModule($fileId);
+        list($params['module'], $fileId) = \Magento\View\Asset\File::extractModule($fileId);
         $this->assetRepo->updateDesignParams($params);
         $themeModel = $this->themeRepo->create($themeId, $area);
         return $this->fallback->getViewFile($area, $themeModel, $params['locale'], $fileId, $params['module']);
@@ -115,7 +115,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
              */
             function ($file, $area, $themeId) {
                 $params = array('area' => $area, 'themeId' => $themeId);
-                list($params['module'], $file) = \Magento\View\Asset\FileId::extractModule($file);
+                list($params['module'], $file) = \Magento\View\Asset\File::extractModule($file);
                 $this->assetRepo->updateDesignParams($params);
                 $originalViewFile = $this->fallback->getViewFile(
                     $params['area'], $params['themeModel'], $params['locale'], $file, $params['module']
@@ -131,7 +131,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                         $originalRelatedSource = $relatedSource;
                         $relatedSource = $this->_addCssDirectory($relatedSource, $file);
                         list($module, $relatedSource) =
-                            \Magento\View\Asset\FileId::extractModule($relatedSource);
+                            \Magento\View\Asset\File::extractModule($relatedSource);
                         if (!empty($module)) {
                             $relatedParams['module'] = $module;
                         }

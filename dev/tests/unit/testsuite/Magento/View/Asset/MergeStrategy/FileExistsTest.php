@@ -21,9 +21,9 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     private $dirMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Asset\LocalInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Asset\File
      */
-    private $resultMock;
+    private $resultAsset;
 
     /**
      * @var \Magento\View\Asset\MergeStrategy\FileExists
@@ -41,21 +41,21 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->dirMock))
         ;
         $this->fileExists = new FileExists($this->mergerMock, $filesystem);
-        $this->resultMock = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
-        $this->resultMock->expects($this->once())->method('getRelativePath')->will($this->returnValue('foo/file'));
+        $this->resultAsset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $this->resultAsset->expects($this->once())->method('getRelativePath')->will($this->returnValue('foo/file'));
     }
 
     public function testMergeExists()
     {
         $this->dirMock->expects($this->once())->method('isExist')->with('foo/file')->will($this->returnValue(true));
         $this->mergerMock->expects($this->never())->method('merge');
-        $this->fileExists->merge(array(), $this->resultMock);
+        $this->fileExists->merge(array(), $this->resultAsset);
     }
 
     public function testMergeNotExists()
     {
         $this->dirMock->expects($this->once())->method('isExist')->with('foo/file')->will($this->returnValue(false));
-        $this->mergerMock->expects($this->once())->method('merge')->with(array(), $this->resultMock);
-        $this->fileExists->merge(array(), $this->resultMock);
+        $this->mergerMock->expects($this->once())->method('merge')->with(array(), $this->resultAsset);
+        $this->fileExists->merge(array(), $this->resultAsset);
     }
 }

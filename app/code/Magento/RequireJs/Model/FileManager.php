@@ -28,28 +28,33 @@ class FileManager
      */
     private $appState;
 
+    /**
+     * @var \Magento\View\Asset\Repository
+     */
+    private $assetRepo;
+
     public function __construct(
         \Magento\RequireJs\Config $config,
         \Magento\App\Filesystem $appFilesystem,
-        \Magento\App\State $appState
+        \Magento\App\State $appState,
+        \Magento\View\Asset\Repository $assetRepo
     ) {
         $this->config = $config;
         $this->filesystem = $appFilesystem;
         $this->appState = $appState;
+        $this->assetRepo = $assetRepo;
     }
 
     /**
      * Create a view asset representing the aggregated configuration file
      *
-     * @return \Magento\View\Asset\LocalInterface
+     * @return \Magento\View\Asset\File
      */
     public function createRequireJsAsset()
     {
         $relPath = $this->config->getConfigFileRelativePath();
-        $sourceFile = $this->filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/' . $relPath;
-        $result = new \Magento\View\Asset\File($relPath, $sourceFile, $this->config->getBaseUrl());
         $this->ensureSourceFile($relPath);
-        return $result;
+        return $this->assetRepo->createArbitrary($relPath, '');
     }
 
     /**

@@ -18,6 +18,13 @@ interface DesignInterface
      */
     const DEFAULT_AREA = 'frontend';
 
+    /**#@+
+     * Public directories prefix group
+     */
+    const PUBLIC_VIEW_DIR   = '_view';
+    const PUBLIC_THEME_DIR  = '_theme';
+    /**#@-*/
+
     /**
      * Common node path to theme design configuration
      */
@@ -70,6 +77,14 @@ interface DesignInterface
      * @return Design\ThemeInterface
      */
     public function getDesignTheme();
+
+    /**
+     * Convert theme model into a theme path literal
+     *
+     * @param Design\ThemeInterface $theme
+     * @return string
+     */
+    public function getThemePath(Design\ThemeInterface $theme);
 
     /**
      * Get locale

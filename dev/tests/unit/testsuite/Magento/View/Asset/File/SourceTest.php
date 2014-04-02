@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\FileId;
+namespace Magento\View\Asset\File;
 
 class SourceTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     private $staticDirWrite;
 
     /**
-     * @var \Magento\View\Asset\FileId\Source\Cache|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\File\Source\Cache|\PHPUnit_Framework_MockObject_MockObject
      */
     private $cache;
 
@@ -68,7 +68,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->cache = $this->getMock(
-            'Magento\View\Asset\FileId\Source\Cache', array(), array(), '', false
+            'Magento\View\Asset\File\Source\Cache', array(), array(), '', false
         );
         $this->preprocessorFactory = $this->getMock(
             'Magento\View\Asset\PreProcessor\Factory', array(), array(), '', false
@@ -78,7 +78,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         );
         $this->theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
 
-        $cacheFactory = $this->getMock('Magento\View\Asset\FileId\Source\CacheFactory', array(), array(), '', false);
+        $cacheFactory = $this->getMock('Magento\View\Asset\File\Source\CacheFactory', array(), array(), '', false);
         $cacheFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->cache));
@@ -100,16 +100,25 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetSourceFileNoOriginalFile()
+    public function testGetFileNoOriginalFile()
     {
         $this->viewFileResolution->expects($this->once())
             ->method('getViewFile')
             ->with('frontend', $this->theme, 'en_US', 'some/file.ext', 'Magento_Module')
             ->will($this->returnValue(false));
-        $this->assertFalse($this->object->getSourceFile($this->getAsset()));
+        $this->assertFalse($this->object->getFile($this->getAsset()));
     }
 
-    public function testGetSourceFileCached()
+    public function testGetFileNoOriginalFileBasic()
+    {
+        $this->staticDirRead->expects($this->once())
+            ->method('getAbsolutePath')
+            ->with('some/file.ext')
+            ->will($this->returnValue(false));
+        $this->assertFalse($this->object->getFile($this->getAsset(false)));
+    }
+
+    public function testGetFileCached()
     {
         $originalFile = '/root/some/file.ext';
         $expected = '/var/some/file.ext';
@@ -121,7 +130,23 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             ->method('getProcessedFileFromCache')
             ->with($originalFile)
             ->will($this->returnValue($expected));
-        $actual = $this->object->getSourceFile($this->getAsset());
+        $actual = $this->object->getFile($this->getAsset());
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testGetFileCachedBasic()
+    {
+        $originalFile = '/root/some/file.ext';
+        $expected = '/var/some/file.ext';
+        $this->staticDirRead->expects($this->once())
+            ->method('getAbsolutePath')
+            ->with('some/file.ext')
+            ->will($this->returnValue($originalFile));
+        $this->cache->expects($this->once())
+            ->method('getProcessedFileFromCache')
+            ->with($originalFile)
+            ->will($this->returnValue($expected));
+        $actual = $this->object->getFile($this->getAsset(false));
         $this->assertSame($expected, $actual);
     }
 
@@ -129,22 +154,22 @@ class SourceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \LogicException
      * @expectedExceptionMessage The requested asset type was 'ext', but ended up with 'ext2'
      */
-    public function testGetSourceFileBadContentType()
+    public function testGetFileBadContentType()
     {
         $originalFile = '/root/some/file.ext2';
         $updatedContent = 'Updated content';
         $asset = $this->getAsset();
         $this->mockPreProcessing($asset, $originalFile, $updatedContent, 'ext2', 'ext2');
-        $this->object->getSourceFile($asset);
+        $this->object->getFile($asset);
     }
 
     /**
      * @param string $updatedContent
      * @param string $originalFile
      * @param string $originalContentType
-     * @dataProvider getSourceFileDataProvider
+     * @dataProvider getFileDataProvider
      */
-    public function testGetSourceFile($updatedContent, $originalFile, $originalContentType)
+    public function testGetFile($updatedContent, $originalFile, $originalContentType)
     {
         $expected = '/var/view_preprocessed/some/file.ext';
         $asset = $this->getAsset();
@@ -161,11 +186,11 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             ->method('saveProcessedFileToCache')
             ->with($expected, $originalFile);
 
-        $actual = $this->object->getSourceFile($asset);
+        $actual = $this->object->getFile($asset);
         $this->assertSame($expected, $actual);
     }
 
-    public function getSourceFileDataProvider()
+    public function getFileDataProvider()
     {
         return [
             'updated content' => ['Updated content', '/root/some/file.ext', 'ext'],
@@ -174,7 +199,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testGetSourceFileNotChanged()
+    public function testGetFileNotChanged()
     {
         $originalFile = '/root/some/file.ext';
         $updatedContent = "Content of '/root/some/file.ext'";
@@ -188,7 +213,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             ->method('saveProcessedFileToCache')
             ->with($originalFile, $originalFile);
 
-        $actual = $this->object->getSourceFile($asset);
+        $actual = $this->object->getFile($asset);
         $this->assertSame($originalFile, $actual);
     }
 
@@ -220,7 +245,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\View\Asset\FileId|\PHPUnit_Framework_MockObject_MockObject $asset
+     * @param \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject $asset
      * @param string $originalFile
      * @param string $updatedContent
      * @param string $originalContentType
@@ -258,20 +283,28 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\View\Asset\FileId|\PHPUnit_Framework_MockObject_MockObject
+     * Create an asset mock
+     *
+     * @param bool $isFallback
+     * @return \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getAsset()
+    protected function getAsset($isFallback = true)
     {
-        $asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
+        if ($isFallback) {
+            $context = new FallbackContext(
+                'http://example.com/static/',
+                'frontend',
+                'magento_theme',
+                'en_US'
+            );
+        } else {
+            $context = new Context('http://example.com/static/', \Magento\App\Filesystem::STATIC_VIEW_DIR, '');
+        }
+
+        $asset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
         $asset->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue('magento_theme'));
-        $asset->expects($this->any())
-            ->method('getAreaCode')
-            ->will($this->returnValue('frontend'));
-        $asset->expects($this->any())
-            ->method('getLocaleCode')
-            ->will($this->returnValue('en_US'));
+            ->method('getContext')
+            ->will($this->returnValue($context));
         $asset->expects($this->any())
             ->method('getFilePath')
             ->will($this->returnValue('some/file.ext'));

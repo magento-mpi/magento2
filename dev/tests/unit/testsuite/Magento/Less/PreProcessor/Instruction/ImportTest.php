@@ -22,7 +22,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver');
+        $this->notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver', [], [], '', false);
         $this->object = new \Magento\Less\PreProcessor\Instruction\Import($this->notationResolver);
     }
 
@@ -36,7 +36,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess($originalContent, $foundPath, $resolvedPath, $expectedContent)
     {
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')
             ->with($asset, $foundPath)
@@ -89,7 +89,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $originalContent = 'color: #000000;';
         $expectedContent = 'color: #000000;';
 
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->notationResolver->expects($this->never())
             ->method('convertModuleNotationToPath');
         $actual = $this->object->process($originalContent, 'css', $asset);
@@ -103,7 +103,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame([], $this->object->getRelatedFiles());
 
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')
             ->with($asset, 'Magento_Module::something.css')

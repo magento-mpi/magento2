@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\FileId\Source;
+namespace Magento\View\Asset\File\Source;
 
 class Cache
 {
     /**
-     * @var \Magento\View\Asset\FileId\Source\CacheType
+     * @var \Magento\View\Asset\File\Source\CacheType
      */
     private $cache;
 
@@ -28,13 +28,13 @@ class Cache
     private $directories = [];
 
     /**
-     * @param \Magento\View\Asset\FileId\Source\CacheType $cache
+     * @param \Magento\View\Asset\File\Source\CacheType $cache
      * @param \Magento\Filesystem\Directory\ReadInterface $sourceDir
      * @param array $directories
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\View\Asset\FileId\Source\CacheType $cache,
+        \Magento\View\Asset\File\Source\CacheType $cache,
         \Magento\Filesystem\Directory\ReadInterface $sourceDir,
         array $directories
     ) {
@@ -55,10 +55,10 @@ class Cache
      * Retrieve data from cache with replacement of relative paths back to absolute ones
      *
      * @param string $sourceFile
-     * @param \Magento\View\Asset\FileId $asset
+     * @param \Magento\View\Asset\LocalInterface $asset
      * @return bool|string
      */
-    public function getProcessedFileFromCache($sourceFile, \Magento\View\Asset\FileId $asset)
+    public function getProcessedFileFromCache($sourceFile, \Magento\View\Asset\LocalInterface $asset)
     {
         $path = false;
         $cacheId = $this->getCacheId($sourceFile, $asset);
@@ -74,10 +74,10 @@ class Cache
      *
      * @param string $processedFile
      * @param string $sourceFile
-     * @param \Magento\View\Asset\FileId $asset
+     * @param \Magento\View\Asset\LocalInterface $asset
      * @return bool
      */
-    public function saveProcessedFileToCache($processedFile, $sourceFile, \Magento\View\Asset\FileId $asset)
+    public function saveProcessedFileToCache($processedFile, $sourceFile, \Magento\View\Asset\LocalInterface $asset)
     {
         $cacheId = $this->getCacheId($sourceFile, $asset);
         $relativePath = $this->getRelativePath($processedFile);
@@ -131,10 +131,10 @@ class Cache
 
     /**
      * @param string $sourceFile
-     * @param \Magento\View\Asset\FileId $asset
+     * @param \Magento\View\Asset\LocalInterface $asset
      * @return string
      */
-    protected function getCacheId($sourceFile, \Magento\View\Asset\FileId $asset)
+    protected function getCacheId($sourceFile, \Magento\View\Asset\LocalInterface $asset)
     {
         return $this->sourceDir->getRelativePath($sourceFile) . ':' . $asset->getRelativePath();
     }

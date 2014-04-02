@@ -8,8 +8,6 @@
 
 namespace Magento\View\Asset\MergeStrategy;
 
-use Magento\Filesystem\Directory\Write;
-
 class DirectTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -53,7 +51,7 @@ class DirectTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\App\Filesystem::ROOT_DIR)
             ->will($this->returnValue($this->readDir))
         ;
-        $this->resultAsset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $this->resultAsset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->object = new Direct($filesystem, $this->cssUrlResolver);
     }
 
@@ -121,8 +119,12 @@ class DirectTest extends \PHPUnit_Framework_TestCase
     private function prepareAssetsToMerge(array $data)
     {
         $result = array();
+        /** @var \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject $fileMock */
+        $fileMock = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
+        $fileMock->expects($this->any())->method('getSourceFile')->will($this->returnValue('/absolute/path.ext'));
+        $fileMock->expects($this->any())->method('getFilePath')->will($this->returnValue('path.ext'));
         for ($i = 0; $i < count($data); $i++) {
-            $result[] = new \Magento\View\Asset\File('path.ext', '/absolute/path.ext', 'http://example.com/');
+            $result[] = $fileMock;
         }
         $this->readDir->expects($this->any())
             ->method('readFile')

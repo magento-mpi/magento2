@@ -10,7 +10,6 @@ namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\View\Asset\PreProcessorInterface;
 use Magento\View\Asset\LocalInterface;
-use Magento\View\Asset\FileId;
 use Magento\View\Asset\ModuleNotation;
 
 /**
@@ -76,9 +75,9 @@ class Import implements PreProcessorInterface
      * Add related file to the record of processed files
      *
      * @param string $matchedFileId
-     * @param FileId $asset
+     * @param LocalInterface $asset
      */
-    protected function recordRelatedFile($matchedFileId, FileId $asset)
+    protected function recordRelatedFile($matchedFileId, LocalInterface $asset)
     {
         $this->relatedFiles[] = array($matchedFileId, $asset);
     }
@@ -87,10 +86,10 @@ class Import implements PreProcessorInterface
      * Return replacement of an original @import directive
      *
      * @param array $matchedContent
-     * @param FileId $asset
+     * @param LocalInterface $asset
      * @return string
      */
-    protected function replace(array $matchedContent, FileId $asset)
+    protected function replace(array $matchedContent, LocalInterface $asset)
     {
         $matchedFileId = $this->fixFileExtension($matchedContent['path']);
         $this->recordRelatedFile($matchedFileId, $asset);

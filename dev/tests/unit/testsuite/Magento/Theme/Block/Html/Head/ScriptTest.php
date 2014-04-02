@@ -45,7 +45,7 @@ class ScriptTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAsset()
     {
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false );
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false );
 
         $this->_assetRepo->expects($this->once())
             ->method('createAsset')

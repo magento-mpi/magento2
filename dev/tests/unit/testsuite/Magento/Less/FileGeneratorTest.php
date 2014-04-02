@@ -31,7 +31,12 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
     private $rootDirectory;
 
     /**
-     * @var \Magento\View\Asset\FileId\Source|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $assetRepo;
+
+    /**
+     * @var \Magento\View\Asset\File\Source|\PHPUnit_Framework_MockObject_MockObject
      */
     private $assetSource;
 
@@ -61,13 +66,14 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryRead')
             ->with(\Magento\App\Filesystem::ROOT_DIR)
             ->will($this->returnValue($this->rootDirectory));
-        $this->assetSource = $this->getMock('\Magento\View\Asset\FileId\Source', array(), array(), '', false);
+        $this->assetRepo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
+        $this->assetSource = $this->getMock('\Magento\View\Asset\File\Source', array(), array(), '', false);
         $this->magentoImport = $this->getMock(
             '\Magento\Less\PreProcessor\Instruction\MagentoImport', array(), array(), '', false
         );
         $this->import = $this->getMock('\Magento\Less\PreProcessor\Instruction\Import', array(), array(), '', false);
         $this->object = new \Magento\Less\FileGenerator(
-            $filesystem, $this->assetSource, $this->magentoImport, $this->import
+            $filesystem, $this->assetSource, $this->assetRepo, $this->magentoImport, $this->import
         );
     }
 
@@ -79,7 +85,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
         $expectedRelativePath = 'view_preprocessed/less/some/file.less';
         $expectedPath = '/var/view_preprocessed/less/some/file.less';
 
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $asset->expects($this->once())
             ->method('getRelativePath')
             ->will($this->returnValue('some/file.css'));
@@ -93,19 +99,19 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->with($magentoContent, 'less', $asset)
             ->will($this->returnValue([$expectedContent]));
 
-        $relatedAssetOne = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $relatedAssetOne = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $relatedAssetOne->expects($this->any())
             ->method('getRelativePath')
             ->will($this->returnValue('related/file_one.css'));
-        $relatedAssetTwo = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $relatedAssetTwo = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $relatedAssetTwo->expects($this->any())
             ->method('getRelativePath')
             ->will($this->returnValue('related/file_two.css'));
         $assetsMap = [
-            ['related/file_one.css', $relatedAssetOne],
-            ['related/file_two.css', $relatedAssetTwo],
+            ['related/file_one.css', $asset, $relatedAssetOne],
+            ['related/file_two.css', $asset, $relatedAssetTwo],
         ];
-        $asset->expects($this->any())
+        $this->assetRepo->expects($this->any())
             ->method('createRelative')
             ->will($this->returnValueMap($assetsMap));
 
@@ -122,8 +128,8 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([]));
 
         $this->assetSource->expects($this->exactly(2))
-            ->method('getSourceFile')
-            ->will($this->returnCallback(function (\Magento\View\Asset\FileId $asset) {
+            ->method('getFile')
+            ->will($this->returnCallback(function (\Magento\View\Asset\File $asset) {
                 return $asset->getRelativePath();
             }));
 

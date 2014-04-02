@@ -40,7 +40,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $this->design = $this->getMockForAbstractClass('\Magento\View\DesignInterface');
         $this->fileSource = $this->getMockForAbstractClass('\Magento\View\File\CollectorInterface');
         $this->errorHandler = $this->getMockForAbstractClass('\Magento\Less\PreProcessor\ErrorHandlerInterface');
-        $this->notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver');
+        $this->notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver', [], [], '', false);
 
         $this->object = new \Magento\Less\PreProcessor\Instruction\MagentoImport(
             $this->design, $this->fileSource, $this->errorHandler, $this->notationResolver
@@ -58,7 +58,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess($originalContent, $foundPath, $resolvedPath, $foundFiles, $expectedContent)
     {
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')
             ->with($asset, $foundPath)
@@ -119,7 +119,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $originalContent = 'color: #000000;';
         $expectedContent = 'color: #000000;';
 
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->notationResolver->expects($this->never())
             ->method('convertModuleNotationToPath');
         $actual = $this->object->process($originalContent, 'css', $asset);
@@ -128,7 +128,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessException()
     {
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $exception = new \LogicException('Error happened');
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')

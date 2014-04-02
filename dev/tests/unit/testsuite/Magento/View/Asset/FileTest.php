@@ -11,54 +11,34 @@ namespace Magento\View\Asset;
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Asset\File
+     * @param string $file
+     * @param string $expectedErrorMessage
+     * @dataProvider extractModuleExceptionDataProvider
      */
-    protected $_asset;
-
-    public function setUp()
+    public function testExtractModuleException($file, $expectedErrorMessage)
     {
-        $this->_asset = new \Magento\View\Asset\File(
-            'filePath.ext',
-            'fileSource.ext',
-            'baseUrl'
-        );
+        $this->setExpectedException('\Magento\Exception', $expectedErrorMessage);
+        File::extractModule($file);
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage An extension is expected in file path: fileNoExt
+     * @return array
      */
-    public function testConstructorException()
+    public function extractModuleExceptionDataProvider()
     {
-        $this->_asset = new \Magento\View\Asset\File(
-            'fileNoExt',
-            'fileSource.ext',
-            'baseUrl'
+        return array(
+            array('::no_scope.ext', 'Scope separator "::" cannot be used without scope identifier.'),
+            array('../file.ext', 'File name \'../file.ext\' is forbidden for security reasons.'),
         );
     }
 
-    public function testGetUrl()
+    public function testExtractModule()
     {
-        $this->assertEquals('baseUrlfilePath.ext', $this->_asset->getUrl());
-    }
-
-    public function testGetContentType()
-    {
-        $this->assertEquals('ext', $this->_asset->getContentType());
-    }
-
-    public function testGetSourceFile()
-    {
-        $this->assertEquals('fileSource.ext', $this->_asset->getSourceFile());
-    }
-
-    public function testGetRelativePath()
-    {
-        $this->assertEquals('filePath.ext', $this->_asset->getRelativePath());
-    }
-
-    public function testGetFilePath()
-    {
-        $this->assertEquals('filePath.ext', $this->_asset->getFilePath());
+        $this->assertEquals(array('Module_One', 'File'), File::extractModule('Module_One::File'));
+        $this->assertEquals(array('', 'File'), File::extractModule('File'));
+        $this->assertEquals(
+            array('Module_One', 'File::SomethingElse'),
+            File::extractModule('Module_One::File::SomethingElse')
+        );
     }
 }

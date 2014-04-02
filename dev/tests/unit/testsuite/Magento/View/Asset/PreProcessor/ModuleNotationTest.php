@@ -27,10 +27,10 @@ class ModuleNotationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->assetMock = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
+        $this->assetMock = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
         $this->cssResolverMock = $this->getMock('Magento\View\Url\CssResolver', array(), array(), '', false);
-        $notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver');
-        $this->moduleNotation = new \Magento\View\Asset\PreProcessor\ModuleNotation(
+        $notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver', array(), array(), '', false);
+        $this->moduleNotation = new ModuleNotation(
             $this->cssResolverMock, $notationResolver
         );
     }

@@ -41,7 +41,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
     {
         $expectedContent = 'updated content';
         $tmpFile = 'tmp/file.ext';
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->fileGenerator->expects($this->once())
             ->method('generateLessFileTree')
             ->with('content', $asset)
@@ -61,7 +61,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessException($exception)
     {
-        $asset = $this->getMock('\Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->fileGenerator->expects($this->once())
             ->method('generateLessFileTree')
             ->with('content', $asset)

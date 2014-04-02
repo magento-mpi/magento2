@@ -31,6 +31,11 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
     private $appState;
 
     /**
+     * @var \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $asset;
+
+    /**
      * @var \Magento\RequireJs\Model\FileManager
      */
     private $object;
@@ -40,23 +45,23 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
         $this->config = $this->getMock('\Magento\RequireJs\Config', array(), array(), '', false);
         $this->fileSystem = $this->getMock('\Magento\App\FileSystem', array(), array(), '', false);
         $this->appState = $this->getMock('\Magento\App\State', array(), array(), '', false);
-        $this->object = new FileManager($this->config, $this->fileSystem, $this->appState);
-        $this->fileSystem->expects($this->once())
-            ->method('getPath')
-            ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
-            ->will($this->returnValue('/source/dir'))
-        ;
+        $assetRepo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
+        $this->object = new FileManager($this->config, $this->fileSystem, $this->appState, $assetRepo);
         $this->dir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\WriteInterface');
         $this->fileSystem->expects($this->once())
             ->method('getDirectoryWrite')
             ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
             ->will($this->returnValue($this->dir))
         ;
-        $this->config->expects($this->once())->method('getBaseUrl')->will($this->returnValue('http://example.com/'));
         $this->config->expects($this->once())
             ->method('getConfigFileRelativePath')
             ->will($this->returnValue('requirejs/file.js'))
         ;
+        $this->asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $assetRepo->expects($this->once())
+            ->method('createArbitrary')
+            ->with('requirejs/file.js', '')
+            ->will($this->returnValue($this->asset));
     }
 
     /**
@@ -79,7 +84,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
             $this->config->expects($this->once())->method('getConfig')->will($this->returnValue($data));
             $this->dir->expects($this->once())->method('writeFile')->with('requirejs/file.js', $data);
         }
-        $this->assertAsset($this->object->createRequireJsAsset());
+        $this->assertSame($this->asset, $this->object->createRequireJsAsset());
     }
 
     /**
@@ -100,18 +105,6 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
         $data = 'requirejs config data';
         $this->config->expects($this->once())->method('getConfig')->will($this->returnValue($data));
         $this->dir->expects($this->once())->method('writeFile')->with('requirejs/file.js', $data);
-        $this->assertAsset($this->object->createRequireJsAsset());
-    }
-
-    /**
-     * @param \Magento\View\Asset\LocalInterface $asset
-     */
-    private function assertAsset($asset)
-    {
-        $this->assertInstanceOf('\Magento\View\Asset\LocalInterface', $asset);
-        $this->assertEquals('requirejs/file.js', $asset->getRelativePath());
-        $this->assertEquals('js', $asset->getContentType());
-        $this->assertEquals('/source/dir/requirejs/file.js', $asset->getSourceFile());
-        $this->assertEquals('http://example.com/requirejs/file.js', $asset->getUrl());
+        $this->assertSame($this->asset, $this->object->createRequireJsAsset());
     }
 }

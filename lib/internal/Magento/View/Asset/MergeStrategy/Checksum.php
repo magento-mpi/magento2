@@ -43,23 +43,21 @@ class Checksum implements \Magento\View\Asset\MergeStrategyInterface
      */
     public function merge(array $assetsToMerge, \Magento\View\Asset\LocalInterface $resultAsset)
     {
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $sourceDir = $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $mTime = null;
         /** @var \Magento\View\Asset\MergeableInterface $asset */
         foreach ($assetsToMerge as $asset) {
-            $assetFile = $dir->getRelativePath($asset->getSourceFile());
-            $mTime .= $dir->stat($assetFile)['mtime'];
+            $mTime .= $sourceDir->stat($sourceDir->getRelativePath($asset->getSourceFile()))['mtime'];
         }
         if (null === $mTime) {
             return; // nothing to merge
         }
 
-        $file = $resultAsset->getSourceFile();
-        $dat = $file . '.dat';
-        $dat = $dir->getRelativePath($dat);
-        if (!$dir->isExist($dat) || strcmp($mTime, $dir->readFile($dat)) !== 0) {
+        $dat = $resultAsset->getRelativePath() . '.dat';
+        $targetDir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
+        if (!$targetDir->isExist($dat) || strcmp($mTime, $targetDir->readFile($dat)) !== 0) {
             $this->strategy->merge($assetsToMerge, $resultAsset);
-            $dir->writeFile($dat, $mTime);
+            $targetDir->writeFile($dat, $mTime);
         }
     }
 }

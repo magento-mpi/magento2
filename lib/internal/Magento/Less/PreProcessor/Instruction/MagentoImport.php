@@ -11,8 +11,6 @@ namespace Magento\Less\PreProcessor\Instruction;
 use Magento\Less\PreProcessor\ErrorHandlerInterface;
 use Magento\View\Asset\PreProcessorInterface;
 use Magento\View\Asset\LocalInterface;
-use Magento\View\Asset\FileId;
-use Magento\View\Asset\PreProcessor\ModuleNotation;
 use Magento\View\DesignInterface;
 use Magento\View\File\CollectorInterface;
 
@@ -80,10 +78,10 @@ class MagentoImport implements PreProcessorInterface
      * Replace @magento_import to @import less instructions
      *
      * @param array $matchedContent
-     * @param FileId $asset
+     * @param LocalInterface $asset
      * @return string
      */
-    protected function replace(array $matchedContent, FileId $asset)
+    protected function replace(array $matchedContent, LocalInterface $asset)
     {
         $importsContent = '';
         try {

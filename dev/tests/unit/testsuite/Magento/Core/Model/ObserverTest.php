@@ -95,8 +95,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('\Magento\App\ReinitableConfigInterface',
             array(), array(), '', false, false);
 
-        $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository',
-            array('createFileAsset'), array(), '', false);
+        $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
 
         $this->_model = new Observer(
             $this->_frontendPoolMock,
@@ -138,14 +137,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testApplyThemeCustomization()
     {
-        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
-        $fileService = $this->getMock('Magento\View\Design\Theme\Customization\File\Css', array(), array(), '', false);
+        $fileService = $this->getMockForAbstractClass('\Magento\View\Design\Theme\Customization\FileAssetInterface');
         $file->expects($this->any())->method('getCustomizationService')->will($this->returnValue($fileService));
-        $file->expects($this->atLeastOnce())->method('getFullPath')->will($this->returnValue('test.css'));
 
         $this->_assetRepo->expects($this->once())
-            ->method('createFileAsset')
+            ->method('createArbitrary')
             ->will($this->returnValue($asset));
 
         $this->_themeCustomization->expects($this->once())->method('getFiles')->will($this->returnValue(array($file)));

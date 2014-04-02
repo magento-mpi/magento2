@@ -62,11 +62,6 @@ config;
     private $design;
 
     /**
-     * @var \Magento\View\Asset\PathGenerator
-     */
-    private $path;
-
-    /**
      * @var \Magento\UrlInterface
      */
     private $baseUrl;
@@ -80,12 +75,10 @@ config;
         Config\File\Collector\Aggregated $fileSource,
         \Magento\View\DesignInterface $design,
         \Magento\App\Filesystem $appFilesystem,
-        \Magento\View\Asset\PathGenerator $path,
         \Magento\UrlInterface $baseUrl
     ) {
         $this->fileSource = $fileSource;
         $this->design = $design;
-        $this->path = $path;
         $this->baseUrl = $baseUrl;
         $this->baseDir = $appFilesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
     }
@@ -177,10 +170,6 @@ config;
      */
     protected function getContextPath()
     {
-        return $this->path->getPathUsingTheme(
-            $this->design->getArea(),
-            $this->design->getDesignTheme(),
-            $this->design->getLocale()
-        );
+        return $this->design->getArea() . '/' . $this->design->getThemePath($this->design->getDesignTheme());
     }
 }

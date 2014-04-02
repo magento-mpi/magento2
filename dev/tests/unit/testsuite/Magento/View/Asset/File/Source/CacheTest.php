@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\FileId\Source;
+namespace Magento\View\Asset\File\Source;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Asset\FileId\Source\CacheType|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\File\Source\CacheType|\PHPUnit_Framework_MockObject_MockObject
      */
     private $cacheStorage;
 
@@ -26,14 +26,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     private $directory;
 
     /**
-     * @var \Magento\View\Asset\FileId\Source\Cache
+     * @var \Magento\View\Asset\File\Source\Cache
      */
     private $object;
 
     protected function setUp()
     {
         $this->cacheStorage = $this->getMock(
-            'Magento\View\Asset\FileId\Source\CacheType', array(), array(), '', false
+            'Magento\View\Asset\File\Source\CacheType', array(), array(), '', false
         );
         $this->sourceDir = $this->getMockForAbstractClass('Magento\Filesystem\Directory\ReadInterface');
         $this->sourceDir->expects($this->any())
@@ -74,7 +74,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('getAbsolutePath')
             ->with('some/file')
             ->will($this->returnValue($expectedFile));
-        $asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
         $asset->expects($this->once())
             ->method('getRelativePath')
             ->will($this->returnValue('some/path.ext'));
@@ -98,7 +98,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($expectedData));
         $this->directory->expects($this->never())
             ->method('getAbsolutePath');
-        $asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
         $asset->expects($this->once())
             ->method('getRelativePath')
             ->will($this->returnValue('some/path.ext'));
@@ -120,7 +120,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('getRelativePath')
             ->with($processedFile)
             ->will($this->returnValue('some/file'));
-        $asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
         $asset->expects($this->once())
             ->method('getRelativePath')
             ->will($this->returnValue('some/path.ext'));
