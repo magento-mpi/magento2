@@ -13,13 +13,6 @@ namespace Magento\View\Asset;
  */
 interface AssetInterface
 {
-    /**#@+
-     * Common content types
-     */
-    const CONTENT_TYPE_CSS = 'css';
-    const CONTENT_TYPE_JS  = 'js';
-    /**#@-*/
-
     /**
      * Retrieve URL pointing to a resource
      *

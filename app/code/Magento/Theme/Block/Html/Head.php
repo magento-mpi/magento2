@@ -156,10 +156,10 @@ class Head extends \Magento\View\Element\Template
                 }
             }
 
-            if ($contentType == \Magento\View\Asset\AssetInterface::CONTENT_TYPE_JS ) {
+            if ($contentType == 'js') {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
-                if ($contentType == \Magento\View\Asset\AssetInterface::CONTENT_TYPE_CSS) {
+                if ($contentType == 'css') {
                     $attributes = ' rel="stylesheet" type="text/css"' . ($attributes ?: ' media="all"');
                 }
                 $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";
