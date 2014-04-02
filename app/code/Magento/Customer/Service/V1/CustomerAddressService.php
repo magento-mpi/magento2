@@ -8,9 +8,10 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Address as CustomerAddressModel;
+use Magento\Customer\Model\Address\Converter as AddressConverter;
+use Magento\Customer\Model\CustomerRegistry;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\InputException;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
 
 /**
  * Service related to Customer Address related functions
@@ -19,11 +20,6 @@ use Magento\Customer\Model\Address\Converter as AddressConverter;
  */
 class CustomerAddressService implements CustomerAddressServiceInterface
 {
-    /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    private $converter;
-
     /**
      * @var AddressConverter
      */
@@ -42,22 +38,27 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     protected $addressRegistry;
 
     /**
+     * @var CustomerRegistry
+     */
+    protected $customerRegistry;
+
+    /**
      * Constructor
      *
-     * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Model\AddressRegistry $addressRegistry
      * @param AddressConverter $addressConverter
+     * @param CustomerRegistry $customerRegistry
      * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
-        \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Model\AddressRegistry $addressRegistry,
         AddressConverter $addressConverter,
+        CustomerRegistry $customerRegistry,
         \Magento\Directory\Helper\Data $directoryData
     ) {
-        $this->converter = $converter;
         $this->addressRegistry = $addressRegistry;
         $this->addressConverter = $addressConverter;
+        $this->customerRegistry = $customerRegistry;
         $this->directoryData = $directoryData;
     }
 
@@ -66,8 +67,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      */
     public function getAddresses($customerId)
     {
-        //TODO: use cache MAGETWO-16862
-        $customer = $this->converter->getCustomerModel($customerId);
+        $customer = $this->customerRegistry->retrieve($customerId);
         $addresses = $customer->getAddresses();
         $defaultBillingId = $customer->getDefaultBilling();
         $defaultShippingId = $customer->getDefaultShipping();
@@ -89,8 +89,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      */
     public function getDefaultBillingAddress($customerId)
     {
-        //TODO: use cache MAGETWO-16862
-        $customer = $this->converter->getCustomerModel($customerId);
+        $customer = $this->customerRegistry->retrieve($customerId);
         $address = $customer->getDefaultBillingAddress();
         if ($address === false) {
             return null;
@@ -107,8 +106,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      */
     public function getDefaultShippingAddress($customerId)
     {
-        //TODO: use cache MAGETWO-16862
-        $customer = $this->converter->getCustomerModel($customerId);
+        $customer = $this->customerRegistry->retrieve($customerId);
         $address = $customer->getDefaultShippingAddress();
         if ($address === false) {
             return null;
@@ -125,7 +123,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     public function getAddress($addressId)
     {
         $address = $this->addressRegistry->retrieve($addressId);
-        $customer = $this->converter->getCustomerModel($address->getCustomerId());
+        $customer = $this->customerRegistry->retrieve($address->getCustomerId());
 
         return $this->addressConverter->createAddressFromModel(
             $address,
@@ -149,7 +147,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      */
     public function saveAddresses($customerId, $addresses)
     {
-        $customerModel = $this->converter->getCustomerModel($customerId);
+        $customerModel = $this->customerRegistry->retrieve($customerId);
         $addressModels = [];
 
         $inputException = new InputException();
@@ -170,6 +168,9 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             $inputException = $this->_validate($addressModel, $inputException, $i);
             $addressModels[] = $addressModel;
         }
+
+        $this->customerRegistry->remove($customerId);
+
         if ($inputException->getErrors()) {
             throw $inputException;
         }

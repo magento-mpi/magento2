@@ -53,11 +53,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $searchResultsBuilder;
 
     /**
-     * @var CustomerRegistry
-     */
-    private $customerRegistry;
-
-    /**
      * @var ManagerInterface
      */
     private $eventManager;
@@ -98,6 +93,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $url;
 
     /**
+     * @var CustomerRegistry
+     */
+    private $customerRegistry;
+
+    /**
      * @var AddressRegistry
      */
     private $addressRegistry;
@@ -132,8 +132,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Data\SearchResultsBuilder $searchResultsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataServiceInterface $customerMetadataService,
-        AddressRegistry $addressRegistry,
         CustomerRegistry $customerRegistry,
+        AddressRegistry $addressRegistry,
         UrlInterface $url
     ) {
         $this->customerFactory = $customerFactory;
@@ -147,9 +147,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->customerAddressService = $customerAddressService;
         $this->customerMetadataService = $customerMetadataService;
+        $this->customerRegistry = $customerRegistry;
         $this->addressRegistry = $addressRegistry;
         $this->url = $url;
-        $this->customerRegistry = $customerRegistry;
     }
 
     /**
@@ -355,7 +355,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         $customer = $customerDetails->getCustomer();
         // Making this call first will ensure the customer already exists.
-        $this->getCustomer($customer->getId());
+        $this->customerRegistry->retrieve($customer->getId());
         $this->saveCustomer($customer);
 
         $addresses = $customerDetails->getAddresses();
