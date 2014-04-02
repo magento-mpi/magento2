@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Pricing\Price;
 
-use \Magento\Catalog\Pricing\Price;
+use Magento\Catalog\Pricing\Price;
 
 /**
  * Class OptionPrice
@@ -29,7 +29,7 @@ class OptionPrice extends RegularPrice implements OptionPriceInterface
     protected $priceOptions;
 
     /**
-     * @return bool|false|float|null
+     * @return bool|float
      */
     public function getValue()
     {
@@ -38,20 +38,41 @@ class OptionPrice extends RegularPrice implements OptionPriceInterface
         }
         $this->value = false;
         $optionIds = $this->salableItem->getCustomOption('option_ids');
-        if ($optionIds) {
-            $this->value = 0.;
-            foreach (explode(',', $optionIds->getValue()) as $optionId) {
-                if ($option = $this->salableItem->getOptionById($optionId)) {
-                    $confItemOption = $this->salableItem->getCustomOption('option_' . $option->getId());
+        if (!$optionIds) {
+            return $this->value;
+        }
+        $this->value = 0.;
 
-                    $group = $option->groupFactory($option->getType())
-                        ->setOption($option)
-                        ->setConfigurationItemOption($confItemOption);
-                    $this->value += $group->getOptionPrice($confItemOption->getValue(), $this->value);
-                }
+        if ($optionIds) {
+            $values = explode(',', $optionIds->getValue());
+            $values = array_filter($values);
+            if (!empty($values)) {
+                $this->value = $this->processOptions($values);
             }
         }
         return $this->value;
+    }
+
+    /**
+     * @param array $values
+     * @return float
+     */
+    protected function processOptions(array $values)
+    {
+        $value = 0.;
+        foreach ($values as $optionId) {
+            $option = $this->salableItem->getOptionById($optionId);
+            if (!$option) {
+                continue;
+            }
+            $confItemOption = $this->salableItem->getCustomOption('option_' . $option->getId());
+
+            $group = $option->groupFactory($option->getType())
+                ->setOption($option)
+                ->setConfigurationItemOption($confItemOption);
+            $value += $group->getOptionPrice($confItemOption->getValue(), $this->value);
+        }
+        return $value;
     }
 
     /**

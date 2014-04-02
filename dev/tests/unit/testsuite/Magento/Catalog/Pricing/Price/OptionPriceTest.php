@@ -2,12 +2,15 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Catalog
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Catalog\Pricing\Price;
 
-use \Magento\Pricing\PriceInfoInterface;
+use Magento\Pricing\PriceInfoInterface;
 
 /**
  * Class OptionPriceTest
