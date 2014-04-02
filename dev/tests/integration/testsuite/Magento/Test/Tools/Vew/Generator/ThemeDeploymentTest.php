@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Tools
- * @package     unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -163,7 +161,9 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         // Verify content of files
         foreach ($fixture['expectedFileContent'] as $relFile => $expectedContent) {
             $actualContent = trim(file_get_contents($this->_tmpDir . '/' . $relFile));
-            $this->assertEquals($expectedContent, $actualContent, "Actual content is wrong in file {$relFile}");
+            $this->assertStringMatchesFormat(
+                "%a$expectedContent", $actualContent, "Actual content is wrong in file {$relFile}"
+            );
         }
     }
 
