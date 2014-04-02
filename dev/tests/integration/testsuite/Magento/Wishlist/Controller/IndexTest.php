@@ -146,6 +146,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
             'message' => 'message',
             'rss_url' => null // no rss
         ];
+
         foreach ($request as $key => $value) {
             $this->getRequest()->setPost($key, $value);
         }
@@ -174,6 +175,11 @@ class MockedTransportBuilder extends \Magento\Mail\Template\TransportBuilder
      */
     protected $_sentMessage;
 
+    /**
+     * Reset object state
+     *
+     * @return $this
+     */
     protected function reset()
     {
         $this->_sentMessage = $this->message;
@@ -181,7 +187,9 @@ class MockedTransportBuilder extends \Magento\Mail\Template\TransportBuilder
     }
 
     /**
-     * @return \Magento\Mail\Message
+     * Returns message object with prepared data
+     *
+     * @return \Magento\Mail\Message|null
      */
     public function getSentMessage()
     {
@@ -191,6 +199,11 @@ class MockedTransportBuilder extends \Magento\Mail\Template\TransportBuilder
 
 class MockedMailTransport implements \Magento\Mail\TransportInterface
 {
+    /**
+     * Mock of send a mail using transport
+     *
+     * @return void
+     */
     public function sendMessage()
     {
         return;
