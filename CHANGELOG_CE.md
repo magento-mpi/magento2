@@ -8,18 +8,19 @@
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
+* Fixed bugs:
+  * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
+  * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
 
 2.0.0.0-dev71
 =============
 * Fixed bugs:
-  * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
-  * Fixed applying catalog price rule on category level (MAGETWO-22143)
-  * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
-  * Fixed problem with placing order with customer which is assigned to VAT group (MAGETWO-21975)
-  * Fixed problem with update failed registration message & provide resend confirmation email button for registrations failing to complete (MAGETWO-22021)
-  * Fixed problem with Magento Catalog module resource Setup Upgrade logic is broken (MAGETWO-22414)
-  * Fixed problem with reset customer password from frontend (MAGETWO-22860)
-  * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
+  * Fixed an issue with displaying product on the frontend when the product flat indexer is enabled
+  * Fixed an issue with applying catalog price rules on the category level
+  * Fixed an issue where the essential cookies like CUSTOMER, CART, and so on were not created in Google Chrome
+  * Fixed an issue with placing orders by customers assigned to a VAT group
+  * Fixed an issue with incorrect error message during registration, and inability for a shopper to ask for resending a confirmation email
+  * Fixed an issue where the Catalog module resource Setup Upgrade logic was broken
 * Modularity improvements:
   * Moved abstract Core models and related logic to the Magento/Model library
   * Moved the abstract DB logic and Core resource helpers to the Magento/DB library
