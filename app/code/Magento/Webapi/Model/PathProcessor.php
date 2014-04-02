@@ -26,15 +26,29 @@ class PathProcessor
     }
 
     /**
+     * Process path
+     *
+     * @param string $pathInfo
+     * @return array
+     */
+
+    private function stripPathBeforeStorecode($pathInfo)
+    {
+        $pathParts = explode('/', trim($pathInfo, '/'));
+        array_shift($pathParts);
+        $path = '/' . implode('/', $pathParts);
+        return explode('/', ltrim($path, '/'), 2);
+    }
+    /**
      * Process path info
      *
-     * @param string $path
+     * @param string $pathInfo
      * @return string
      * @throws NoSuchEntityException
      */
-    public function processStore($path)
+    public function process($pathInfo)
     {
-        $pathParts = explode('/', ltrim($path, '/'), 2);
+        $pathParts = $this->stripPathBeforeStorecode($pathInfo);
         $storeCode = $pathParts[0];
         $stores = $this->storeManager->getStores(false, true);
         if (isset($stores[$storeCode])) {
