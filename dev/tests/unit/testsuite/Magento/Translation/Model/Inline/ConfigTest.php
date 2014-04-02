@@ -38,19 +38,24 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $store = 'some store';
         $result = 'result';
-
-        $this->storeConfigMock->expects(
+        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $coreStoreConfig->expects(
             $this->once()
         )->method(
-            'getConfigFlag'
+            'isSetFlag'
         )->with(
             $this->equalTo('dev/translate_inline/active'),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->equalTo($store)
         )->will(
             $this->returnValue($result)
         );
-
-        $this->assertEquals($result, $this->model->isActive($store));
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $config = $objectManager->getObject(
+            '\Magento\Translation\Model\Inline\Config',
+            array('coreStoreConfig' => $coreStoreConfig)
+        );
+        $this->assertEquals($result, $config->isActive($store));
     }
 
     public function testIsDevAllowed()

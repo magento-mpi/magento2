@@ -89,21 +89,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetSystemConfigValues()
     {
         $config = array('enterprise_checkout' => 1, 'customer' => 1);
-        $this->_store->expects(
-            $this->once()
-        )->method(
-            'getConfig'
-        )->with(
-            $this->equalTo('admin/magento_logging/actions')
-        )->will(
-            $this->returnValue(serialize($config))
-        );
         $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'
         )->with(
-            $this->equalTo('admin/magento_logging/actions')
+            $this->equalTo('admin/magento_logging/actions'), \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue(serialize($config))
         );
@@ -113,21 +104,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetSystemConfigValuesNegative()
     {
         $expected = array('test' => 1, 'configured_log_group' => 1);
-        $this->_store->expects(
-            $this->once()
-        )->method(
-            'getConfig'
-        )->with(
-            $this->equalTo('admin/magento_logging/actions')
-        )->will(
-            $this->returnValue(null)
-        );
         $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'
         )->with(
-            $this->equalTo('admin/magento_logging/actions')
+            $this->equalTo('admin/magento_logging/actions'), \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue(null)
         );
@@ -138,22 +120,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $config = array('enterprise_checkout' => 1, 'customer' => 1);
 
-        $this->_store->expects(
-            $this->once()
-        )->method(
-            'getConfig'
-        )->with(
-            $this->equalTo('admin/magento_logging/actions')
-        )->will(
-            $this->returnValue(serialize($config))
-        );
-
         $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'
         )->with(
-            $this->equalTo('admin/magento_logging/actions')
+            $this->equalTo('admin/magento_logging/actions'), \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue(serialize($config))
         );
@@ -166,22 +138,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $config = array('enterprise_checkout' => 1, 'customer' => 1);
 
-        $this->_store->expects(
-            $this->once()
-        )->method(
-            'getConfig'
-        )->with(
-            $this->equalTo('admin/magento_logging/actions')
-        )->will(
-            $this->returnValue(serialize($config))
-        );
-
         $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'
         )->with(
-            $this->equalTo('admin/magento_logging/actions')
+            $this->equalTo('admin/magento_logging/actions'), \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue(serialize($config))
         );

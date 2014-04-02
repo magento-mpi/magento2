@@ -157,7 +157,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_model = $helper->getObject(
             'Magento\Backend\Model\Url',
             array(
-                'coreStoreConfig' => $this->_storeConfigMock,
+                'scopeConfig' => $this->_scopeConfigMock,
                 'backendHelper' => $helperMock,
                 'formKey' => $this->_formKey,
                 'menuConfig' => $this->_menuConfigMock,

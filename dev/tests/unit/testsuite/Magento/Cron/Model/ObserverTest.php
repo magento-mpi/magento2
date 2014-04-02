@@ -73,7 +73,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $this->_cache = $this->getMock('Magento\App\CacheInterface');
         $this->_config = $this->getMockBuilder('Magento\Cron\Model\Config')->disableOriginalConstructor()->getMock();
-        $this->_coreStoreConfig = $this->getMockBuilder(
+        $this->_storeConfig = $this->getMockBuilder(
             'Magento\App\Config\ScopeConfigInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_collection = $this->getMockBuilder(

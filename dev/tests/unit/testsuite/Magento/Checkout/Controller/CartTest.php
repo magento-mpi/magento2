@@ -81,7 +81,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $configMock->expects(
             $this->once()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             'checkout/cart/redirect_to_cart'
         )->will(

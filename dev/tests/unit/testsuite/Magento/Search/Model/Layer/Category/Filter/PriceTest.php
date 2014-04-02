@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Catalog\Layer\Filter;
+namespace Magento\Search\Model\Layer\Category\Filter;
 
 /**
  * Suppress coupling warning, because it is rather issue of the class tested, than the test itself
@@ -121,7 +121,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(
-            '\Magento\Search\Model\Layer\Category\Filter\Price',
+            'Magento\Search\Model\Layer\Category\Filter\Price',
             array(
                 'storeManager' => $this->_storeManager,
                 'layer' => $this->_layer,
@@ -157,10 +157,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getValue'
         )->with(
-            \Magento\Search\Model\Catalog\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION,
+            \Magento\Catalog\Model\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
-            $this->returnValue(\Magento\Search\Model\Catalog\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED)
+            $this->returnValue(\Magento\Catalog\Model\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED)
         );
 
         $separators = '*-9,9-19';

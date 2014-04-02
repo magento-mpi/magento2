@@ -22,11 +22,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_coreConfigMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_configMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
@@ -38,7 +33,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $filesystemMock = $this->getMock('Magento\App\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->_coreConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->_configMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
         $this->_cacheState = $this->getMock('\Magento\App\Cache\State', array('isEnabled'), array(), '', false);
 
         $modulesDirectoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
@@ -96,7 +90,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\PageCache\Model\Config(
             $filesystemMock,
             $this->_coreConfigMock,
-            $this->_configMock,
             $this->_cacheState
         );
     }
@@ -112,8 +105,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTll()
     {
-        $this->_configMock->expects($this->once())->method('getValue')->with(Config::XML_PAGECACHE_TTL);
-
+        $this->_coreConfigMock->expects($this->once())->method('getValue')->with(Config::XML_PAGECACHE_TTL);
         $this->_model->getTtl();
     }
 

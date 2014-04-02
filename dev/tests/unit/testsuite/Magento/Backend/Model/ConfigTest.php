@@ -174,14 +174,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveToCheckScopeDataSet()
     {
-        $transactionMock = $this->getMock('Magento\Core\Model\Resource\Transaction', array(), array(), '', false);
+        $transactionMock = $this->getMock('Magento\DB\Transaction', array(), array(), '', false);
 
         $this->_transFactoryMock->expects($this->any())->method('create')->will($this->returnValue($transactionMock));
 
         $this->_configLoaderMock->expects($this->any())->method('getConfigByPath')->will($this->returnValue(array()));
 
         $this->_eventManagerMock->expects(
-            $this->at(1)
+            $this->at(0)
         )->method(
             'dispatch'
         )->with(
@@ -190,7 +190,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_eventManagerMock->expects(
-            $this->at(1)
+            $this->at(0)
         )->method(
             'dispatch'
         )->with(

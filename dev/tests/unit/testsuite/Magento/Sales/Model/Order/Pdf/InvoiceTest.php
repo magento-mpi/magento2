@@ -88,8 +88,8 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             $totalFactoryMock,
             $pdfItemsFactoryMock,
             $localeDateMock,
-            $translateMock,
             $storeManagerMock,
+            $translateMock,
             $localeResolverMock,
             array()
         );

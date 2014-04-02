@@ -250,7 +250,7 @@ class Observer
         /**
          * check if schedule generation is needed
          */
-        $lastRun = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
+        $lastRun = (int)$this->_cache->load(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
         $rawSchedulePeriod = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -345,7 +345,7 @@ class Observer
     protected function _cleanup($groupId)
     {
         // check if history cleanup is needed
-        $lastCleanup = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
+        $lastCleanup = (int)$this->_cache->load(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
         $historyCleanUp = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE

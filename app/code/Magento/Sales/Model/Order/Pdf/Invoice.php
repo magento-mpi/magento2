@@ -50,6 +50,7 @@ class Invoice extends AbstractPdf
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {

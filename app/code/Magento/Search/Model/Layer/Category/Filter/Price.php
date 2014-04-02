@@ -64,7 +64,6 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Search\Model\Layer\Category\CacheStateTags $cacheStateTags
      * @param array $data
      */
@@ -79,14 +78,13 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\App\CacheInterface $cache,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Search\Model\Layer\Category\CacheStateTags $cacheStateTags,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
         $this->_cache = $cache;
         $this->cacheStateTags = $cacheStateTags;
-        \Magento\Catalog\Model\Layer\Filter\Price::__construct(
+        parent::__construct(
             $filterItemFactory,
             $storeManager,
             $layer,

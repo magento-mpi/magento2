@@ -45,7 +45,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
-        $translate = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
 
         $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockBuilder(
@@ -86,7 +85,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 
         $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
@@ -141,13 +139,20 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
         $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $inlineTranslate = $this->getMock(
+            '\Magento\Translate\Inline\StateInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
 
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
             $context,
             $coreRegistry,
             $giftRegistryData,
             $this->_storeManagerMock,
-            $translate,
             $this->_transportBuilderMock,
             $type,
             $attributeConfig,
@@ -166,6 +171,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $escaper,
             $mathRandom,
             $scopeConfig,
+            $inlineTranslate,
             $resource,
             null,
             array()

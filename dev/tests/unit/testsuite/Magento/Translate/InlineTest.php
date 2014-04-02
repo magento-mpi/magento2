@@ -10,7 +10,7 @@ namespace Magento\Translate;
 class InlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\BaseScopeResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\ScopeResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeResolverMock;
 
@@ -41,7 +41,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->scopeResolverMock = $this->getMock('Magento\BaseScopeResolverInterface', array(), array(), '', false);
+        $this->scopeResolverMock = $this->getMock('Magento\App\ScopeResolverInterface', array(), array(), '', false);
         $this->urlMock = $this->getMock('Magento\UrlInterface', array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\View\LayoutInterface', array(), array(), '', false);
         $this->configMock = $this->getMock('Magento\Translate\Inline\ConfigInterface', array(), array(), '', false);
