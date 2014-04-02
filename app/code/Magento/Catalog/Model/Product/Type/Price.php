@@ -399,6 +399,7 @@ class Price
      * @param int $qty
      * @param float $finalPrice
      * @return float
+     * @deprecated
      */
     protected function _applyOptionsPrice($product, $qty, $finalPrice)
     {

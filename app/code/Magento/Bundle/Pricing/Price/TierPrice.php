@@ -28,8 +28,8 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice
         $tierPrice = parent::getValue();
 
         if ($tierPrice) {
-            $regularPrice = $this->getBasePrice();
-            $this->value = $regularPrice - $regularPrice * ($tierPrice / 100);
+            $basePrice = $this->getBasePrice();
+            $this->value = $basePrice - $basePrice * ($tierPrice / 100);
         } else {
             $this->value = false;
         }
