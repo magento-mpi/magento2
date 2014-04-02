@@ -1,13 +1,10 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Magento_Weee
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Weee\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -27,17 +24,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = $this->getMock('Magento\Weee\Helper\Data', [], [], '', false);
-        $helper->expects($this->any())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $helper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $attribute = $this->getMock('Magento\Eav\Model\Entity\Attribute', [], [], '', false);
-        $attribute->expects($this->any())
-            ->method('getAttributeCodesByFrontendType')
-            ->will($this->returnValue(['entity_id']));
+        $attribute->expects($this->any())->method('getAttributeCodesByFrontendType')->will(
+            $this->returnValue(['entity_id'])
+        );
         $attributeFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', [], [], '', false);
-        $attributeFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($attribute));
+        $attributeFactory->expects($this->any())->method('create')->will($this->returnValue($attribute));
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Weee\Model\Tax', ['weeeData' => $helper, 'attributeFactory' => $attributeFactory]
         );
@@ -45,9 +38,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProductWeeeAttributes()
     {
-        $customerAccountService = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-
+        $customerAccountService = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         $customerMetadataService = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\CustomerMetadataService'
         );

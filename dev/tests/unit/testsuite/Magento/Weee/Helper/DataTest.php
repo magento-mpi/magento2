@@ -23,13 +23,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\ConfigInterface', [], [], '', false);
-        $coreStoreConfig->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnValue(true));
+        $coreStoreConfig->expects($this->any())->method('getConfig')->will($this->returnValue(true));
         $weeeTax = $this->getMock('Magento\Weee\Model\Tax', [], [], '', false);
-        $weeeTax->expects($this->any())
-            ->method('getWeeeAmount')
-            ->will($this->returnValue('11.26'));
+        $weeeTax->expects($this->any())->method('getWeeeAmount')->will($this->returnValue('11.26'));
         $arguments = array(
             'coreStoreConfig' => $coreStoreConfig,
             'weeeTax' => $weeeTax
