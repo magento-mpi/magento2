@@ -57,7 +57,6 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $this->amountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
         $this->linkMock = $this->getMock('Magento\Downloadable\Model\Link', [], [], '', false);
         $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
-        $registry = $this->getMock('Magento\Registry', [], [], '', false);
         $contextMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
