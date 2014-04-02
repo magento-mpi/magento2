@@ -809,16 +809,35 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getProductPrice(\Magento\Catalog\Model\Product $product)
     {
+        return $this->getProductPriceHtml(
+            $product,
+            \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+            \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+        );
+    }
+
+    /**
+     * Return HTML block with tier price
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param $priceType
+     * @param string $renderZone
+     * @return string
+     */
+    public function getProductPriceHtml(
+        \Magento\Catalog\Model\Product $product,
+        $priceType,
+        $renderZone = \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+    ) {
         /** @var \Magento\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
-
         $price = '';
         if ($priceRender) {
             $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                $priceType,
                 $product,
                 [
-                    'zone' => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                    'zone' => $renderZone
                 ]
             );
         }
