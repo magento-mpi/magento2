@@ -9,7 +9,7 @@
 namespace Magento\Contacts\Helper;
 
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Helper\View as ViewHelper;
+use Magento\Customer\Helper\View as CustomerViewHelper;
 
 /**
  * Contacts base helper
@@ -35,23 +35,23 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @var \Magento\Customer\Helper\View
      */
-    protected $_viewHelper;
+    protected $_customerViewHelper;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param ViewHelper $viewHelper
+     * @param CustomerViewHelper $customerViewHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Session $customerSession,
-        ViewHelper $viewHelper
+        CustomerViewHelper $customerViewHelper
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
-        $this->_viewHelper = $viewHelper;
+        $this->_customerViewHelper = $customerViewHelper;
         parent::__construct($context);
     }
 
@@ -79,7 +79,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
          * @var Customer $customer
          */
         $customer = $this->_customerSession->getCustomerDataObject();
-        return trim($this->_viewHelper->getCustomerName($customer));
+        return trim($this->_customerViewHelper->getCustomerName($customer));
     }
 
     /**

@@ -53,7 +53,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify if username is set in session
+     * Verify if user email is set in session
      */
     public function testGetEmail()
     {
