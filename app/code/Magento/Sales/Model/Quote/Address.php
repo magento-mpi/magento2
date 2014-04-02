@@ -532,6 +532,12 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         );
         $customerAddressDataWithRegion = array();
         $customerAddressDataWithRegion['region']['region'] = $customerAddressData['region'];
+        if (isset($customerAddressData['region_code'])) {
+            $customerAddressDataWithRegion['region']['region_code'] = $customerAddressData['region_code'];
+        }
+        if ($customerAddressData['region_id']) {
+            $customerAddressDataWithRegion['region']['region_id'] = $customerAddressData['region_id'];
+        }
         $customerAddressData = array_merge($customerAddressData, $customerAddressDataWithRegion);
         return $this->_customerAddressBuilder->populateWithArray($customerAddressData)->create();
     }
