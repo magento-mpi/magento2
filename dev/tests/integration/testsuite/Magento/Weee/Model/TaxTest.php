@@ -62,10 +62,12 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'quote' =>  $quote
         ]);
         $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
+        $product->setId(1);
+        $product->save();
         $weeeTax = Bootstrap::getObjectManager()->create('Magento\Weee\Model\Tax');
         $weeeTaxData = array(
             'website_id' => '1',
-            'entity_id' => '0',
+            'entity_id' => '1',
             'country' => 'US',
             'value' => '12.4',
             'state' => '0',
