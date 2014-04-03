@@ -52,15 +52,28 @@
             <simple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
         </require>
     </assertProductSearchableBySku>
-    <assertProductPrices module="Magento_Catalog">
+    <assertProductInCategory module="Magento_Catalog">
         <severeness>low</severeness>
         <require>
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
             <category class="Magento\Catalog\Test\Fixture\Category" />
+        </require>
+    </assertProductInCategory>
+    <assertProductView module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+        </require>
+    </assertProductView>
+    <assertProductInCart module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
-    </assertProductPrices>
+    </assertProductInCart>
 </constraint>

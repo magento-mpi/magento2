@@ -13,8 +13,7 @@
         <allow>
             <namespace>Magento</namespace>
             <!--<class>Magento\Bundle\Test\TestCase\CreateBundleEntityTest</class>-->
-            <!--<class>Magento\Catalog\Test\TestCase\Product\CreateSimpleEntityTest</class>-->
-            <class>Magento\Catalog\Test\TestCase\Product\PriceTest</class>
+            <class>Magento\Catalog\Test\TestCase\Product\CreateSimpleEntityTest</class>
             <!--<class>Magento\User\Test\TestCase\LoginUserTest</class>-->
             <!--<module>Magento_Cms</module>-->
             <type>injectable</type>

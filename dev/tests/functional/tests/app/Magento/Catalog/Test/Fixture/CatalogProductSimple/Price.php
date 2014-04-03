@@ -79,8 +79,7 @@ class Price implements FixtureInterface
     }
 
     /**
-     * @return array
-     * @throws \Exception
+     * @return array|null
      */
     public function getPreset()
     {
@@ -111,7 +110,7 @@ class Price implements FixtureInterface
             ]
         ];
         if (!isset($presets[$this->currentPreset])) {
-            throw new \Exception(sprintf('Preset %s does not exist!', $this->currentPreset));
+            return null;
         }
         return $presets[$this->currentPreset];
     }
