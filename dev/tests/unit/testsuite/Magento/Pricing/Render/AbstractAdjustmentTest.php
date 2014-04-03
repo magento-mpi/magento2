@@ -43,22 +43,14 @@ class AbstractAdjustmentTest extends \PHPUnit_Framework_TestCase
         $amount = '100';
         $includeContainer = true;
         $precision = \Magento\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION;
-        $store = 1;
-        $currency = null;
 
         $result = '100.0 grn';
 
         $this->priceCurrency->expects($this->once())
             ->method('convertAndFormat')
-            ->with($amount, $includeContainer, $precision, $store, $currency)
+            ->with($amount, $includeContainer, $precision)
             ->will($this->returnValue($result));
 
-        $this->assertEquals($result, $this->model->convertAndFormatCurrency(
-            $amount,
-            $includeContainer,
-            $precision,
-            $store,
-            $currency
-        ));
+        $this->assertEquals($result, $this->model->convertAndFormatCurrency($amount, $includeContainer, $precision));
     }
 }

@@ -13,40 +13,6 @@ namespace Magento\Bundle\Pricing\Price;
  */
 class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice
 {
-
-    /**
-     * Get price value
-     *
-     * @return bool|float
-     */
-    public function getValue()
-    {
-        if ($this->value !== null) {
-            return $this->value;
-        }
-
-        $tierPrice = parent::getValue();
-
-        if ($tierPrice) {
-            $basePrice = $this->getBasePrice();
-            $this->value = $basePrice - $basePrice * ($tierPrice / 100);
-        } else {
-            $this->value = false;
-        }
-        return $this->value;
-    }
-
-    /**
-     * @param null|float $qty
-     * @return bool|float
-     */
-    protected function getBasePrice($qty = null)
-    {
-        return $this->priceInfo
-            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, $qty)
-            ->getValue();
-    }
-
     /**
      * Returns true if first price is better
      *

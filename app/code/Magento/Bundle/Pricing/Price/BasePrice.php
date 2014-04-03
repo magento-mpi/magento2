@@ -10,10 +10,12 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
+use Magento\Catalog\Pricing\Price as CatalogPrice;
+
 /**
  * Bundle Base Price model
  */
-class BasePrice extends \Magento\Catalog\Pricing\Price\BasePrice
+class BasePrice extends CatalogPrice\BasePrice
 {
     /**
      * Get Base Price Value
@@ -23,19 +25,14 @@ class BasePrice extends \Magento\Catalog\Pricing\Price\BasePrice
     public function getValue()
     {
         if ($this->value === null) {
-            $this->value = false;
-            foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
-                $this->value = min($price->getValue(), $this->value ?: $price->getValue());
-            }
-            $discount = max(
+            $this->value = parent::getValue();
+            $discount = [
                 0,
-                $this->priceInfo->getPrice(\Magento\Catalog\Pricing\Price\TierPriceInterface::PRICE_TYPE_TIER)
-                    ->getValue(),
-                $this->priceInfo->getPrice(\Magento\Catalog\Pricing\Price\GroupPriceInterface::PRICE_TYPE_GROUP)
-                    ->getValue(),
-                $this->priceInfo->getPrice(\Magento\Catalog\Pricing\Price\SpecialPriceInterface::PRICE_TYPE_SPECIAL)
-                    ->getValue()
-            );
+                $this->priceInfo->getPrice(CatalogPrice\TierPriceInterface::PRICE_TYPE_TIER)->getValue(),
+                $this->priceInfo->getPrice(CatalogPrice\GroupPriceInterface::PRICE_TYPE_GROUP)->getValue(),
+                $this->priceInfo->getPrice(CatalogPrice\SpecialPriceInterface::PRICE_TYPE_SPECIAL)->getValue()
+            ];
+            $discount = max($discount);
             if ($discount) {
                 $this->value = $this->value - $this->value * ($discount / 100);
             }
