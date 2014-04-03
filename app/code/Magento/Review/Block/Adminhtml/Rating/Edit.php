@@ -57,7 +57,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         parent::_construct();
         $this->_objectId = 'id';
-        $this->_controller = 'adminhtml';
+        $this->_controller = 'adminhtml_rating';
         $this->_blockGroup = 'Magento_Review';
 
         $this->_updateButton('save', 'label', __('Save Rating'));
