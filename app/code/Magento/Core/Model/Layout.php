@@ -234,7 +234,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA,
-        $cacheable = false
+        $cacheable = null
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
