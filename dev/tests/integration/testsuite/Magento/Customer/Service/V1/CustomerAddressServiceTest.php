@@ -44,7 +44,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
 
-        $region = (new V1\Data\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create();
+        $region = (new \Magento\Customer\Service\V1\Data\RegionBuilder())
+            ->setRegionCode('AL')
+            ->setRegion('Alabama')
+            ->setRegionId(1)
+            ->create();
         $this->_addressBuilder
             ->setId(1)
             ->setCountryId('US')
