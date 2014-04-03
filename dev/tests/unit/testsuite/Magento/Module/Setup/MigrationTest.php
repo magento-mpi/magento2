@@ -171,10 +171,10 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
 
         $setupModel = new \Magento\Module\Setup\Migration(
             $contextMock,
-            $migrationData,
-            'app/etc/aliases_to_classes_map.json',
             'core_setup',
-            array()
+            'Magento_Core',
+            $migrationData,
+            'app/etc/aliases_to_classes_map.json'
         );
 
         $setupModel->appendClassAliasReplace(

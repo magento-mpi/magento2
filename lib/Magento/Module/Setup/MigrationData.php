@@ -35,7 +35,7 @@ class MigrationData
      * @throws \InvalidArgumentException
      */
     public function __construct(
-       array $data
+        array $data
     ) {
         foreach ($this->_requiredParams as $param) {
             if (!isset($data[$param])) {
@@ -45,21 +45,41 @@ class MigrationData
         }
     }
 
+    /**
+     * Get replace pattern
+     *
+     * @return string
+     */
     public function getPlainFindPattern()
     {
         return $this->_patterns['plain'];
     }
 
+    /**
+     * Get replace pattern
+     *
+     * @return string
+     */
     public function getWikiFindPattern()
     {
         return $this->_patterns['xml'];
     }
 
+    /**
+     * Get replace pattern
+     *
+     * @return string
+     */
     public function getXmlFindPattern()
     {
         return $this->_patterns['wiki'];
     }
 
+    /**
+     * Get replace pattern
+     *
+     * @return string
+     */
     public function getSerializedFindPattern()
     {
         return $this->_patterns['serialized'];

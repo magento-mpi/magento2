@@ -20,7 +20,6 @@
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>
             <module name="Magento_User"/>
-            <module name="Magento_Enterprise"/>
             <module name="Magento_Theme"/>
         </depends>
     </module>

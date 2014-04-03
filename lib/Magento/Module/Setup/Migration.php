@@ -128,7 +128,7 @@ class Migration extends \Magento\Module\Setup
     /**
      * @param \Magento\Module\Setup\Context $context
      * @param \Magento\Module\Setup\MigrationData $migrationData
-     * @param $confPathToMapFile
+     * @param string $confPathToMapFile
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
@@ -136,10 +136,10 @@ class Migration extends \Magento\Module\Setup
      */
     public function __construct(
         \Magento\Module\Setup\Context $context,
-        \Magento\Module\Setup\MigrationData $migrationData,
-        $confPathToMapFile,
         $resourceName,
         $moduleName,
+        \Magento\Module\Setup\MigrationData $migrationData,
+        $confPathToMapFile,
         $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION,
         $compositeModules = array()
     ) {

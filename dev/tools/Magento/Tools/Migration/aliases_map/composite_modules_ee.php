@@ -13,8 +13,8 @@
  */
 require_once __DIR__ . '/../../../../../../app/bootstrap.php';
 require_once realpath(
-    dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))))
-) . '/app/code/Magento/Core/Model/Resource/SetupInterface.php';
+        dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))))
+    ) . '/app/code/Magento/Core/Model/Resource/SetupInterface.php';
 require_once realpath(
         dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))))
     ) . '/app/code/Magento/Core/Model/Resource/Setup.php';
