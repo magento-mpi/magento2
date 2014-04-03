@@ -20,24 +20,5 @@
                 </field>
             </group>
         </section>
-        <section id="reviews" type="text" translate="label" sortOrder="900" showInDefault="1" showInWebsite="1" showInStore="1">
-            <tab>customer</tab>
-            <label>Reviews and Rating</label>
-            <resource>Magento_Adminhtml::marketing_user_content</resource>
-            <group id="review" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Product Reviews</label>
-                <field id="allow_display" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Display on Frontend</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
-            <group id="rating" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Product Ratings</label>
-                <field id="allow_display" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Display on Frontend</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
-        </section>
     </system>
 </config>

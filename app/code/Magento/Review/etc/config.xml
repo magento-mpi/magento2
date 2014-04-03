@@ -16,13 +16,5 @@
                 <allow_guest>1</allow_guest>
             </review>
         </catalog>
-        <reviews>
-            <review>
-                <allow_display>1</allow_display>
-            </review>
-            <rating>
-                <allow_display>1</allow_display>
-            </rating>
-        </reviews>
     </default>
 </config>
