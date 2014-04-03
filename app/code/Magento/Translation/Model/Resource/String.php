@@ -28,7 +28,7 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\App\Resource $resource
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param null $scope
+     * @param string|null $scope
      */
     public function __construct(
         \Magento\App\Resource $resource,
@@ -37,7 +37,7 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
         $scope = null
     ) {
         $this->_localeResolver = $localeResolver;
-        $this->scopeResolver = $scopeResolver;
+        $this->scopeResolver = $storeManager;
         $this->scope = $scope;
         parent::__construct($resource);
     }
