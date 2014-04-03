@@ -728,8 +728,21 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
 
         $this->_indexIndexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
-        $this->_priceInfo = null;
+        $this->reloadPriceInfo();
         return $result;
+    }
+
+    /**
+     * Set qty
+     *
+     * @param $qty
+     * @return $this
+     */
+    public function setQty($qty)
+    {
+        $this->setData('qty', $qty);
+        $this->reloadPriceInfo();
+        return $this;
     }
 
     /**
@@ -2085,5 +2098,18 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
             $identities[] = self::CACHE_CATEGORY_TAG . '_' . $categoryId;
         }
         return $identities;
+    }
+
+    /**
+     * Reload PriceInfo object
+     *
+     * @return \Magento\Pricing\PriceInfo\Base
+     */
+    public function reloadPriceInfo()
+    {
+        if ($this->_priceInfo) {
+            $this->_priceInfo = null;
+            return $this->getPriceInfo();
+        }
     }
 }

@@ -205,4 +205,30 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_priceInfoMock));
         $this->assertEquals($this->model->getPriceInfo(), $this->_priceInfoMock);
     }
+
+    /**
+     * Test for set qty
+     */
+    public function testSetQty()
+    {
+        $this->productTypeMock->expects($this->once())
+            ->method('getPriceInfo')
+            ->with($this->equalTo($this->model))
+            ->will($this->returnValue($this->_priceInfoMock));
+        $this->assertEquals($this->model, $this->model->setQty(1));
+        $this->assertEquals($this->model->getPriceInfo(), $this->_priceInfoMock);
+    }
+
+    /**
+     * Test reload PriceInfo
+     */
+    public function testReloadPriceInfo()
+    {
+        $this->productTypeMock->expects($this->exactly(2))
+            ->method('getPriceInfo')
+            ->with($this->equalTo($this->model))
+            ->will($this->returnValue($this->_priceInfoMock));
+        $this->assertEquals($this->_priceInfoMock, $this->model->getPriceInfo());
+        $this->assertEquals($this->_priceInfoMock, $this->model->reloadPriceInfo());
+    }
 }
