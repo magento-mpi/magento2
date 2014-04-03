@@ -106,6 +106,8 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
 
     /**
      * By default attribute value is considered non-scalar that can be stored in a generic way
+     *
+     * @return bool
      */
     public function isScalar()
     {
