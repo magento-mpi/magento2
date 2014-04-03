@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Backend\Model\Search;
 
 use Magento\TestFramework\Helper\Bootstrap;

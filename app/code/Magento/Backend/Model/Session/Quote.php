@@ -15,6 +15,14 @@ namespace Magento\Backend\Model\Session;
  * @method Quote setCustomerId($id)
  * @method int getCustomerId()
  * @method bool hasCustomerId()
+ * @method Quote setStoreId($storeId)
+ * @method int getStoreId()
+ * @method Quote setQuoteId($quoteId)
+ * @method int getQuoteId()
+ * @method Quote setCurrencyId($currencyId)
+ * @method int getCurrencyId()
+ * @method Quote setOrderId($orderId)
+ * @method int getOrderId()
  */
 class Quote extends \Magento\Session\SessionManager
 {

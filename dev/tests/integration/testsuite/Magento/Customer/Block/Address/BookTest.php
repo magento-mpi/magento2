@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Block\Address;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;

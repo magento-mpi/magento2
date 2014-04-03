@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage;
 
 /**

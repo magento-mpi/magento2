@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Multishipping\Block\Checkout\Address;
 
 use Magento\TestFramework\Helper\Bootstrap;
