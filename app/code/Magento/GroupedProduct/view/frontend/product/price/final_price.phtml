@@ -1,0 +1,12 @@
+<?php
+$showMinPrice = $this->showMinimalPrice();
+$_product = $this->getSaleableItem();
+?>
+=============================================================================
+<!--пабам больше кода тут не надо-->
+<?php if ($showMinPrice): ?>
+    <?php echo $this->getProductPrice($_product) ?>
+    Starting at<?php echo $this->getPriceType('grouped_final_price')->getValue(); ?>
+<?php endif; ?>
+bladlas
+=============================================================================
