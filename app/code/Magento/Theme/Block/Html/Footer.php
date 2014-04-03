@@ -65,7 +65,7 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
             $this->_storeManager->getStore()->getId(),
             (int)$this->_storeManager->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            $this->_customerSession->isLoggedIn()
+            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH),
         );
     }
 

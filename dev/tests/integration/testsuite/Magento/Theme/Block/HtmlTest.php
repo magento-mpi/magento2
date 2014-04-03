@@ -18,10 +18,10 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrintLogoUrl($configData, $returnValue)
     {
-        $storeConfig = $this->getMockBuilder(
+        $scopeConfig = $this->getMockBuilder(
             'Magento\App\Config\ScopeConfigInterface'
         )->disableOriginalConstructor()->getMock();
-        $storeConfig->expects($this->atLeastOnce())->method('getValue')->will($this->returnValueMap($configData));
+        $scopeConfig->expects($this->atLeastOnce())->method('getValue')->will($this->returnValueMap($configData));
 
         $securityInfoMock = $this->getMock('Magento\Url\SecurityInfoInterface');
         $codeData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
@@ -38,7 +38,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
                 $this->getMock('Magento\Url\RouteParamsResolverFactory', array(), array(), '', false),
                 $this->getMock('Magento\Url\QueryParamsResolver', array(), array(), '', false),
                 $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false),
-                $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false),
+                Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 array()
             )
         );
@@ -52,7 +52,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\View\Element\Template\Context',
-            array('storeConfig' => $storeConfig, 'urlBuilder' => $urlBuilder)
+            array('scopeConfig' => $scopeConfig, 'urlBuilder' => $urlBuilder)
         );
         $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
