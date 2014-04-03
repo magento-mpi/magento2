@@ -79,6 +79,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return float
+     * @deprecated
      */
     public function getPrice($product)
     {
@@ -290,7 +291,6 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
                             }
 
                             $multiTypes = array(
-                                //Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
                                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX,
                                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE
                             );
@@ -416,6 +416,9 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         $multiplyQty = true,
         $takeTierPrice = true
     ) {
+        if (null === $bundleQty) {
+            $bundleQty = 1.;
+        }
         if (is_null($selectionQty)) {
             $selectionQty = $selectionProduct->getSelectionQty();
         }

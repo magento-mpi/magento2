@@ -26,6 +26,9 @@ class BasePrice extends CatalogPrice\BasePrice
     {
         if ($this->value === null) {
             $this->value = parent::getValue();
+            $this->value += $this->priceInfo
+                ->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION)
+                ->getValue();
             $discount = [
                 0,
                 $this->priceInfo->getPrice(CatalogPrice\TierPriceInterface::PRICE_TYPE_TIER)->getValue(),
@@ -48,10 +51,10 @@ class BasePrice extends CatalogPrice\BasePrice
     public function getMaxValue()
     {
         if ($this->maxValue === null) {
-            $this->value = false;
-            foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
-                $this->maxValue = max($price->getValue(), $this->maxValue ?: $price->getValue());
-            }
+            $this->value = parent::getMaxValue();
+            $this->value += $this->priceInfo
+                ->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION)
+                ->getMaxValue();
         }
         return $this->maxValue;
     }

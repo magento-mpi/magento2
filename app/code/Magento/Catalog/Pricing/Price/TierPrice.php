@@ -79,7 +79,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         if (null === $this->value) {
             $prices = $this->getStoredTierPrices();
             $prevQty = PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT;
-            $prevPrice = $tierPrice = false;
+            $this->value = $prevPrice = $tierPrice = false;
             $priceGroup = Group::CUST_GROUP_ALL;
 
             foreach ($prices as $price) {
@@ -90,9 +90,9 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                     $tierPrice = $prevPrice = $price['website_price'];
                     $prevQty = $price['price_qty'];
                     $priceGroup = $price['cust_group'];
+                    $this->value = (float) $tierPrice;
                 }
             }
-            $this->value = (float) $tierPrice;
         }
         return $this->value;
     }
