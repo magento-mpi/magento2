@@ -26,13 +26,21 @@ class Layout
     protected $layout;
 
     /**
+     * @var \Magento\View\LayoutInterface
+     */
+    protected $generalLayout;
+
+    /**
      * Constructor
      *
      * @param LayoutFactory $layoutFactory
+     * @param LayoutInterface $generalLayout
      */
-    public function __construct(LayoutFactory $layoutFactory)
-    {
-        $this->layout = $layoutFactory->create();
+    public function __construct(LayoutFactory $layoutFactory,
+        \Magento\View\LayoutInterface $generalLayout
+        ) {
+        $this->generalLayout = $generalLayout;
+        $this->layout = $layoutFactory->create(['cacheable' => $this->generalLayout->isCacheable()]);
     }
 
     /**

@@ -199,6 +199,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      */
     protected $isPrivate = false;
 
+    protected $cacheable = false;
+
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
@@ -231,7 +233,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
-        $area = \Magento\View\DesignInterface::DEFAULT_AREA
+        $area = \Magento\View\DesignInterface::DEFAULT_AREA,
+        $cacheable = false
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
@@ -1656,7 +1659,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      */
     public function isCacheable()
     {
-        return !(bool)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
+        if (null === $this->cacheable) {
+            $this->cacheable = !(bool)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
+        }
+        return $this->cacheable;
     }
 
     /**
