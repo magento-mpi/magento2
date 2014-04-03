@@ -105,6 +105,8 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>text</input>
+            <group>advanced-pricing</group>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions</fixture>
         </group_price>
         <has_options>
             <attribute_code>has_options</attribute_code>
