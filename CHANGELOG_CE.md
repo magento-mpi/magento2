@@ -8,6 +8,9 @@
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
+* Fixed bugs:
+  * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
+  * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
 
 2.0.0.0-dev71
 =============

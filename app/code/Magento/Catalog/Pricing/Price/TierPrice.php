@@ -224,7 +224,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     {
         if (null === $this->rawPriceList) {
             $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_TIER);
-            if (null === $this->rawPriceList) {
+            if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
                 /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
                 $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_TYPE_TIER);
                 if ($attribute) {
