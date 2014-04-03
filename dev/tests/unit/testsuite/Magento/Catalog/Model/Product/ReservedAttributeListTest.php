@@ -12,15 +12,42 @@ class ReservedAttributeListTest extends \PHPUnit_Framework_TestCase
     /**
      * @var ReservedAttributeList
      */
-    protected $_model;
+    protected $model;
     
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to be implemented');
+        $this->model = new ReservedAttributeList('Magento\Catalog\Model\Product', ['some_value'], ['some_attribute']);
     }
 
-    public function testIsReservedAttribute()
+    /**
+     * @covers \Magento\Catalog\Model\Product\ReservedAttributeList::isReservedAttribute
+     * @dataProvider dataProvider
+     */
+    public function testIsReservedAttribute($isUserDefined, $attributeCode, $expected)
     {
-        $this->markTestIncomplete('Need to be implemented');
+        $attribute = $this->getMock(
+            '\Magento\Catalog\Model\Entity\Attribute',
+            ['getIsUserDefined', 'getAttributeCode', '__sleep', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+        $attribute->expects($this->once())->method('getIsUserDefined')->will($this->returnValue($isUserDefined));
+        $attribute->expects($this->any())->method('getAttributeCode')->will($this->returnValue($attributeCode));
+
+        $this->assertEquals($expected, $this->model->isReservedAttribute($attribute));
+    }
+
+    public function dataProvider()
+    {
+        return [
+            [false, 'some_code', false],
+            [true, 'some_value', true],
+            [true, 'name', true],
+            [true, 'price', true],
+            [true, 'category_id', true],
+            [true, 'some_code', false],
+        ];
     }
 }
