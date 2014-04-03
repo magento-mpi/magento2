@@ -66,7 +66,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Shipment\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/shipmentsgrid', array('_current' => true));
+        return $this->getUrl('*/*/shipmentsgrid', array('_current' => true));
     }
 
     /**
