@@ -27,17 +27,18 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param string|null $scope
+     * @internal param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\ScopeResolverInterface $scopeResolver,
         $scope = null
     ) {
         $this->_localeResolver = $localeResolver;
-        $this->scopeResolver = $storeManager;
+        $this->scopeResolver = $scopeResolver;
         $this->scope = $scope;
         parent::__construct($resource);
     }
