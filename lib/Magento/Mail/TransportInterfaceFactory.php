@@ -51,4 +51,4 @@ class TransportInterfaceFactory
     {
         return $this->_objectManager->create($this->_instanceName, $data);
     }
-} 
+}

@@ -27,5 +27,4 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Weee\Block\Element\Weee\Tax" type="Magento\Data\Form\Element\AbstractElement"/>
 </config>
