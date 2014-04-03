@@ -10,6 +10,9 @@
  */
 namespace Magento\Pricing\Render;
 
+use Magento\Pricing\Object\SaleableInterface;
+use Magento\Pricing\Price\PriceInterface;
+
 /**
  * Test class for \Magento\Pricing\Render\Amount
  */
@@ -26,9 +29,24 @@ class AmountTest extends \PHPUnit_Framework_TestCase
     protected $priceCurrency;
 
     /**
-     * @var RendererPool $rendererPool|\PHPUnit_Framework_MockObject_MockObject
+     * @var RendererPool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rendererPool;
+
+    /**
+     * @var \Magento\Core\Model\Layout|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $layout;
+
+    /**
+     * @var SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $saleableItemMock;
+
+    /**
+     * @var PriceInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceMock;
 
     public function setUp()
     {
@@ -55,10 +73,27 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
+
+        $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
+        $config = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
+
+        $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
+        $context->expects($this->any())
+            ->method('getEventManager')
+            ->will($this->returnValue($eventManager));
+        $context->expects($this->any())
+            ->method('getStoreConfig')
+            ->will($this->returnValue($config));
+        $context->expects($this->any())
+            ->method('getLayout')
+            ->will($this->returnValue($this->layout));
+
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             'Magento\Pricing\Render\Amount',
             [
+                'context' => $context,
                 'priceCurrency' => $this->priceCurrency,
                 'rendererPool' => $this->rendererPool
             ]
@@ -79,5 +114,18 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($result));
 
         $this->assertEquals($result, $this->model->convertAndFormatCurrency($amount, $includeContainer, $precision));
+    }
+
+    /**
+     * Test case for getAdjustmentRenders method through toHtml()
+     */
+    public function testToHtmlGetAdjustmentRenders()
+    {
+        $adjustmentRender = [];
+        $this->rendererPool->expects($this->once())
+            ->method('getAdjustmentRenders')
+            ->will($this->returnValue($adjustmentRender));
+
+        $this->model->toHtml();
     }
 }

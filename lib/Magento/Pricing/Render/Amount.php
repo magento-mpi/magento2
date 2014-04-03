@@ -168,7 +168,6 @@ class Amount extends Template implements AmountRenderInterface
         return $html;
     }
 
-
     /**
      * Convert and format price value
      *
