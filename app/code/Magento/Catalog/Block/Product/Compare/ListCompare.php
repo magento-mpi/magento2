@@ -272,7 +272,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
                 [
                     'price_id'              => 'product-price-' . $product->getId() . '-compare-list-top',
                     'display_minimal_price' => true,
-                    'zone'                  => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                    'zone'                  => \Magento\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }

@@ -12,8 +12,6 @@ namespace Magento\Bundle\Model;
 /**
  * Bundle Option Model
  *
- * @method \Magento\Bundle\Model\Resource\Option _getResource()
- * @method \Magento\Bundle\Model\Resource\Option getResource()
  * @method int getParentId()
  * @method \Magento\Bundle\Model\Option setParentId(int $value)
  * @method int getRequired()
@@ -22,10 +20,6 @@ namespace Magento\Bundle\Model;
  * @method \Magento\Bundle\Model\Option setPosition(int $value)
  * @method string getType()
  * @method \Magento\Bundle\Model\Option setType(string $value)
- *
- * @category    Magento
- * @package     Magento_Bundle
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Option extends \Magento\Model\AbstractModel
 {
@@ -78,7 +72,7 @@ class Option extends \Magento\Model\AbstractModel
                     $saleable++;
                 }
             }
-            return (bool)$saleable;
+            return (bool) $saleable;
         } else {
             return false;
         }
@@ -136,12 +130,11 @@ class Option extends \Magento\Model\AbstractModel
      */
     public function getSelectionById($selectionId)
     {
-        $selections = $this->getSelections();
-        $i = count($selections);
-
-        while ($i-- && $selections[$i]->getSelectionId() != $selectionId) {
+        foreach ($this->getSelections() as $option) {
+            if ($option->getSelectionId() == $selectionId) {
+                return $option;
+            }
         }
-
-        return $i == -1 ? false : $selections[$i];
+        return false;
     }
 }

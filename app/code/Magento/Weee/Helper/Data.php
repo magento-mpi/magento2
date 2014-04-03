@@ -191,10 +191,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
             return false;
         }
         switch ($zone) {
-            case \Magento\Pricing\Render::ZONE_PRODUCT_VIEW:
+            case \Magento\Pricing\Render::ZONE_ITEM_VIEW:
                 $type = $this->getPriceDisplayType($store);
                 break;
-            case \Magento\Pricing\Render::ZONE_PRODUCT_LIST:
+            case \Magento\Pricing\Render::ZONE_ITEM_LIST:
                 $type = $this->getListPriceDisplayType($store);
                 break;
             case \Magento\Pricing\Render::ZONE_SALES:

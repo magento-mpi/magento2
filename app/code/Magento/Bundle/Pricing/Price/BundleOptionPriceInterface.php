@@ -5,17 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Pricing\Price;
+namespace Magento\Bundle\Pricing\Price;
 
 /**
  * Option price interface
  */
-interface OptionPriceInterface
+interface BundleOptionPriceInterface
 {
     /**
      * Price model code
      */
-    const PRICE_TYPE_CUSTOM_OPTION = 'custom_option';
+    const PRICE_TYPE_BUNDLE_OPTION = 'bundle_option';
 
     /**
      * Return calculated options

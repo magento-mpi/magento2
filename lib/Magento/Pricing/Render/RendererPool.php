@@ -74,6 +74,7 @@ class RendererPool extends AbstractBlock
         $arguments['price'] = $price;
         $arguments['saleableItem'] = $saleableItem;
 
+        /** @var \Magento\View\Element\Template $renderBlock */
         $renderBlock = $this->getLayout()->createBlock($renderClassName, '', $arguments);
         if (!$renderBlock instanceof PriceBoxRenderInterface) {
             throw new \InvalidArgumentException(
@@ -136,6 +137,7 @@ class RendererPool extends AbstractBlock
             }
         }
 
+        /** @var \Magento\View\Element\Template $amountBlock */
         $amountBlock = $this->getLayout()->createBlock($renderClassName, '', $arguments);
         if (!$amountBlock instanceof AmountRenderInterface) {
             throw new \InvalidArgumentException(
@@ -165,6 +167,7 @@ class RendererPool extends AbstractBlock
         $renders = $this->findDataByPattern($fallbackPattern);
         if ($renders) {
             foreach ($renders as $code => $configuration) {
+                /** @var \Magento\View\Element\Template $render */
                 $render = $this->getLayout()->createBlock($configuration['adjustment_render_class']);
                 $render->setTemplate($configuration['adjustment_render_template']);
                 $renders[$code] = $render;

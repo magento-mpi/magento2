@@ -96,7 +96,7 @@ class RegularPrice implements PriceInterface
      */
     public function getAmount()
     {
-        if (!$this->amount) {
+        if (null === $this->amount) {
             $this->amount = $this->calculator->getAmount($this->getValue(), $this->salableItem);
         }
         return $this->amount;
