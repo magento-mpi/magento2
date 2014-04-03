@@ -60,9 +60,9 @@ class Installer extends \Magento\Object
     protected $_coreData = null;
 
     /**
-     * @var \Magento\Module\Updater\SetupFactory
+     * @var \Magento\Install\Model\Setup
      */
-    protected $_setupFactory;
+    protected $_installSetup;
 
     /**
      * Install installer pear
@@ -180,7 +180,7 @@ class Installer extends \Magento\Object
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\App\Cache\StateInterface $cacheState
-     * @param \Magento\Module\Updater\SetupFactory $setupFactory
+     * @param \Magento\Install\Model\Setup $installSetup
      * @param \Magento\App\Arguments $arguments
      * @param \Magento\App\AreaList $areaList
      * @param \Magento\App\State $appState
@@ -207,7 +207,7 @@ class Installer extends \Magento\Object
         \Magento\App\CacheInterface $cache,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\App\Cache\StateInterface $cacheState,
-        \Magento\Module\Updater\SetupFactory $setupFactory,
+        \Magento\Install\Model\Setup $installSetup,
         \Magento\App\Arguments $arguments,
         \Magento\App\AreaList $areaList,
         \Magento\App\State $appState,
@@ -233,7 +233,7 @@ class Installer extends \Magento\Object
         $this->_cache = $cache;
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
-        $this->_setupFactory = $setupFactory;
+        $this->_installSetup = $installSetup;
         $this->_encryptor = $encryptor;
         $this->mathRandom = $mathRandom;
         $this->_arguments = $arguments;
@@ -392,37 +392,34 @@ class Installer extends \Magento\Object
         /**
          * Saving host information into DB
          */
-        /** @var $setupModel \Magento\Module\Setup */
-        $setupModel = $this->_setupFactory->create('core_setup', 'Magento_Core');
-
         if (!empty($data['use_rewrites'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 1);
+            $this->_installSetup->setConfigData(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 1);
         }
 
         if (!empty($data['enable_charts'])) {
-            $setupModel->setConfigData(\Magento\Backend\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 1);
+            $this->_installSetup->setConfigData(\Magento\Backend\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 1);
         } else {
-            $setupModel->setConfigData(\Magento\Backend\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 0);
+            $this->_installSetup->setConfigData(\Magento\Backend\Block\Dashboard::XML_PATH_ENABLE_CHARTS, 0);
         }
 
         if (!empty($data['admin_no_form_key'])) {
-            $setupModel->setConfigData('admin/security/use_form_key', 0);
+            $this->_installSetup->setConfigData('admin/security/use_form_key', 0);
         }
 
         $unsecureBaseUrl = $this->_storeManager->getStore()->getBaseUrl('web');
         if (!empty($data['unsecure_base_url'])) {
             $unsecureBaseUrl = $data['unsecure_base_url'];
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
+            $this->_installSetup->setConfigData(\Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
         }
 
         if (!empty($data['use_secure'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND, 1);
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
+            $this->_installSetup->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND, 1);
+            $this->_installSetup->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
             if (!empty($data['use_secure_admin'])) {
-                $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
+                $this->_installSetup->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
             }
         } elseif (!empty($data['unsecure_base_url'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
+            $this->_installSetup->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
         }
 
         /**
@@ -430,25 +427,25 @@ class Installer extends \Magento\Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData($this->_localeResolver->getDefaultLocalePath(), $locale['locale']);
+            $this->_installSetup->setConfigData($this->_localeResolver->getDefaultLocalePath(), $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData($this->_localeDate->getDefaultTimezonePath(), $locale['timezone']);
+            $this->_installSetup->setConfigData($this->_localeDate->getDefaultTimezonePath(), $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
-            $setupModel->setConfigData(
+            $this->_installSetup->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
+            $this->_installSetup->setConfigData(
                 \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
                 $locale['currency']
             );
-            $setupModel->setConfigData(
+            $this->_installSetup->setConfigData(
                 \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
                 $locale['currency']
             );
         }
 
         if (!empty($data['order_increment_prefix'])) {
-            $this->_setOrderIncrementPrefix($setupModel, $data['order_increment_prefix']);
+            $this->_setOrderIncrementPrefix($this->_installSetup, $data['order_increment_prefix']);
         }
 
         return $this;

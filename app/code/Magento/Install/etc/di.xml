@@ -124,4 +124,10 @@
             <argument name="areaCode" xsi:type="string">adminhtml</argument>
         </arguments>
     </type>
+    <type name="Magento\Install\Model\Setup">
+        <arguments>
+            <argument name="resourceName" xsi:type="string">core_setup</argument>
+            <argument name="moduleName" xsi:type="string">Magento_Core</argument>
+        </arguments>
+    </type>
 </config>

@@ -76,26 +76,6 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->_model->updateTableRow('core_resource', 'code', 'adminnotification_setup', 'version', $original);
     }
 
-    public function testSetDeleteConfigData()
-    {
-        $select = $this->_model->getConnection()->select()->from(
-            $this->_model->getTable('core_config_data'),
-            'value'
-        )->where(
-            'path=?',
-            'my/test/path'
-        );
-
-        $this->_model->setConfigData('my/test/path', 'test_value');
-        $this->assertEquals('test_value', $this->_model->getConnection()->fetchOne($select));
-
-        $this->_model->deleteConfigData('my/test/path', 'test');
-        $this->assertNotEmpty($this->_model->getConnection()->fetchRow($select));
-
-        $this->_model->deleteConfigData('my/test/path');
-        $this->assertEmpty($this->_model->getConnection()->fetchRow($select));
-    }
-
     /**
      * @expectedException \Zend_Db_Statement_Exception
      */

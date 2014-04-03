@@ -674,45 +674,6 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         return $this->getConnection()->isTableExists($table);
     }
 
-    /******************* CONFIG *****************/
-
-    /**
-     * Save configuration data
-     *
-     * @param string $path
-     * @param string $value
-     * @param int|string $scope
-     * @param int $scopeId
-     * @return $this
-     */
-    public function setConfigData($path, $value, $scope = \Magento\Core\Model\Store::DEFAULT_CODE, $scopeId = 0)
-    {
-        $table = $this->getTable('core_config_data');
-        // this is a fix for mysql 4.1
-        $this->getConnection()->showTableStatus($table);
-
-        $data = array('scope' => $scope, 'scope_id' => $scopeId, 'path' => $path, 'value' => $value);
-        $this->getConnection()->insertOnDuplicate($table, $data, array('value'));
-        return $this;
-    }
-
-    /**
-     * Delete config field values
-     *
-     * @param string $path
-     * @param string $scope (default|stores|websites|config)
-     * @return $this
-     */
-    public function deleteConfigData($path, $scope = null)
-    {
-        $where = array('path = ?' => $path);
-        if (null !== $scope) {
-            $where['scope = ?'] = $scope;
-        }
-        $this->getConnection()->delete($this->getTable('core_config_data'), $where);
-        return $this;
-    }
-
     /**
      * Run plain SQL query(ies)
      *
