@@ -2235,7 +2235,7 @@ return array(
     ['Magento\Core\Model\Website', 'Magento\Store\Model\Website'],
     ['Magento\Core\Model\Website\Factory', 'Magento\Store\Model\Website\Factory'],
     ['Magento\App\ReinitableConfigInterface', 'Magento\App\Config\ReinitableConfigInterface'],
-    ['Magento\BaseScopeInterface', 'Magento\App\Config\ScopeConfigInterface'],
+    ['Magento\BaseScopeInterface', 'Magento\App\ScopeInterface'],
     ['Magento\BaseScopeResolverInterface', 'Magento\App\ScopeResolverInterface'],
     ['Magento\Locale\ScopeConfigInterface'],
 

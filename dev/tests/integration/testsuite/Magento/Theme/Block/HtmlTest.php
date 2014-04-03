@@ -38,7 +38,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
                 $this->getMock('Magento\Url\RouteParamsResolverFactory', array(), array(), '', false),
                 $this->getMock('Magento\Url\QueryParamsResolver', array(), array(), '', false),
                 $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false),
-                Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 array()
             )
         );

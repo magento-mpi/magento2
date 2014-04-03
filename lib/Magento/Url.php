@@ -289,7 +289,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     {
         return $this->_scopeConfig->getValue(
             $path,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_scopeType,
             $this->_getScope()
         );
     }

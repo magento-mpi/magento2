@@ -143,7 +143,7 @@ class Translate extends \Magento\Model\Resource\Db\AbstractDb implements \Magent
     /**
      * Retrieve current store identifier
      *
-     * @return \Magento\BaseScopeInterface
+     * @return int
      */
     protected function getStoreId()
     {

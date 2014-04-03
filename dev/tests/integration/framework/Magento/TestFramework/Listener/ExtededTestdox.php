@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-//namespace Magento\TestFramework\Listener;
+namespace Magento\TestFramework\Listener;
 
-class Magento_TestFramework_Listener_ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework_TestListener
+class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework_TestListener
 {
     /**
      * @var \PHPUnit_Util_TestDox_NamePrettifier

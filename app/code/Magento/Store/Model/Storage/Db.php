@@ -9,7 +9,6 @@
  */
 namespace Magento\Store\Model\Storage;
 
-use Magento\Model\Exception;
 use Magento\App\State;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\Group;
@@ -189,16 +188,16 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
 
         if (empty($this->_scopeCode) && false == is_null($this->_website)) {
             $this->_scopeCode = $this->_website->getCode();
-            $this->_scopeType = StoreManagerInterface::SCOPE_TYPE_WEBSITE;
+            $this->_scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE;
         }
         switch ($this->_scopeType) {
-            case StoreManagerInterface::SCOPE_TYPE_STORE:
+            case \Magento\Store\Model\ScopeInterface::SCOPE_STORE:
                 $this->_currentStore = $this->_scopeCode;
                 break;
-            case StoreManagerInterface::SCOPE_TYPE_GROUP:
+            case \Magento\Store\Model\ScopeInterface::SCOPE_GROUP:
                 $this->_currentStore = $this->_getStoreByGroup($this->_scopeCode);
                 break;
-            case StoreManagerInterface::SCOPE_TYPE_WEBSITE:
+            case \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE:
                 $this->_currentStore = $this->_getStoreByWebsite($this->_scopeCode);
                 break;
             default:

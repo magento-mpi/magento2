@@ -15,7 +15,7 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
     protected $_localeResolver;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
     protected $scopeResolver;
 
@@ -268,7 +268,7 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Retrieve current store identifier
      *
-     * @return \Magento\BaseScopeInterface
+     * @return int
      */
     protected function getStoreId()
     {

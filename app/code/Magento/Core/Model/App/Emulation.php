@@ -30,11 +30,6 @@ class Emulation extends \Magento\Object
     protected $_translate;
 
     /**
-     * @var \Magento\Core\Helper\Translate
-     */
-    protected $_helperTranslate;
-
-    /**
      * Core store config
      *
      * @var \Magento\App\Config\ScopeConfigInterface
