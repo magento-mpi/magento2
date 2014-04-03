@@ -140,7 +140,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
                 [
                     'display_minimal_price'  => $displayMinimalPrice,
                     'use_link_for_as_low_as' => $this->_useLinkForAsLowAs,
-                    'zone'                   => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                    'zone'                   => \Magento\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }

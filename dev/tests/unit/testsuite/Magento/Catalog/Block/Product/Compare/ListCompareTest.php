@@ -66,7 +66,7 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
                 [
                     'price_id' => 'product-price-' . $productId . '-compare-list-top',
                     'display_minimal_price' => true,
-                    'zone' => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
                 ]
             )
             ->will($this->returnValue($expectedResult));

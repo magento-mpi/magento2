@@ -33,7 +33,7 @@
                         <arguments>
                             <argument name="price_render" xsi:type="string">product.price.render.default</argument>
                             <argument name="price_type_code" xsi:type="string">final_price</argument>
-                            <argument name="zone" xsi:type="string">product_list</argument>
+                            <argument name="zone" xsi:type="string">item_list</argument>
                         </arguments>
                     </block>
                 </block>

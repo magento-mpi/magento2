@@ -812,7 +812,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         return $this->getProductPriceHtml(
             $product,
             \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
-            \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+            \Magento\Pricing\Render::ZONE_ITEM_LIST
         );
     }
 
@@ -827,7 +827,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     public function getProductPriceHtml(
         \Magento\Catalog\Model\Product $product,
         $priceType,
-        $renderZone = \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST
     ) {
         /** @var \Magento\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');

@@ -217,7 +217,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
                     'price_id'              => 'old-price-' . $product->getId() . '-' . $type,
                     'display_minimal_price' => true,
                     'include_container'     => true,
-                    'zone'                  => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                    'zone'                  => \Magento\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }

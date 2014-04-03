@@ -349,7 +349,7 @@ class ListProduct
                 [
                    'include_container'     => true,
                    'display_minimal_price' => true,
-                   'zone'                  => \Magento\Pricing\Render::ZONE_PRODUCT_LIST
+                   'zone'                  => \Magento\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }
