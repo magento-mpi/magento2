@@ -11,6 +11,8 @@
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
 * Fixed bugs:
+  * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
+  * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
   * Fixed REST route paths to support query parameter syntax (MAGETWO-21996)
   * Fixed WebAPI issue with camel-case parameters in SOAP (MAGETWO-21848)
   * Fixed errors running api-functional tests with modules other than WebAPI (MAGETWO-21848)
