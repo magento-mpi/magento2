@@ -35,7 +35,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_moduleList;
 
     /**
-     * @var \Magento\Core\Model\Resource\Resource
+     * @var \Magento\Module\ResourceInterface
      */
     protected $_resourceResource;
 
@@ -138,7 +138,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Resource
+     * @return \Magento\Module\ResourceInterface
      */
     public function getResourceResource()
     {

@@ -37,7 +37,7 @@ class Setup extends \Magento\Module\Setup
         $resourceName,
         \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig,
         $moduleName = 'Magento_Index',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_indexerConfig = $indexerConfig;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

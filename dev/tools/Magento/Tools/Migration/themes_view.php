@@ -41,7 +41,7 @@ try {
 function updateFieldForTable($objectManager, $table, $col)
 {
     /** @var $installer \Magento\Module\Setup */
-    $installer = $objectManager->create('Magento\Module\Setup', array('resourceName' => 'core_setup'));
+    $installer = $objectManager->create('Magento\Module\Setup');
     $installer->startSetup();
 
     $table = $installer->getTable($table);

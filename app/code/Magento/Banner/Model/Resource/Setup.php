@@ -51,7 +51,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Banner\Model\BannerFactory $bannerFactory,
         \Magento\Math\Random $mathRandom,
         $moduleName = 'Magento_Banner',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;

@@ -35,4 +35,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="catalogrule" xsi:type="string">Magento_CatalogRule</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

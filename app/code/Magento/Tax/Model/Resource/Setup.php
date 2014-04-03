@@ -44,7 +44,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Catalog\Model\Resource\SetupFactory $setupFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_Tax',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_setupFactory = $setupFactory;
         $this->productTypeConfig = $productTypeConfig;

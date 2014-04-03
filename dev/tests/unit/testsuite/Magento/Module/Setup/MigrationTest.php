@@ -173,7 +173,8 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
             $contextMock,
             $migrationData,
             'app/etc/aliases_to_classes_map.json',
-            'core_setup'
+            'core_setup',
+            array()
         );
 
         $setupModel->appendClassAliasReplace(
@@ -280,22 +281,6 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
             'wiki markup replace' => include __DIR__ . '/_files/data_content_wiki.php',
             'serialized php replace' => include __DIR__ . '/_files/data_content_serialized.php'
         );
-    }
-
-    /**
-     * @covers \Magento\Module\Setup\Migration::getCompositeModules
-     */
-    public function testGetCompositeModules()
-    {
-        $compositeModules = \Magento\Module\Setup\Migration::getCompositeModules();
-        $this->assertInternalType('array', $compositeModules);
-        $this->assertNotEmpty($compositeModules);
-        foreach ($compositeModules as $classAlias => $className) {
-            $this->assertInternalType('string', $classAlias);
-            $this->assertInternalType('string', $className);
-            $this->assertNotEmpty($classAlias);
-            $this->assertNotEmpty($className);
-        }
     }
 
     /**

@@ -32,7 +32,7 @@ class Setup extends \Magento\Module\Setup
         $resourceName,
         \Magento\Cms\Model\BlockFactory $modelBlockFactory,
         $moduleName = 'Magento_Enterprise',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_modelBlockFactory = $modelBlockFactory;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

@@ -9,7 +9,7 @@
  */
 
 /** @var $this \Magento\Module\Setup */
-$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
+$installer = $this->createMigrationSetup();
 $installer->startSetup();
 
 $installer->appendClassAliasReplace(

@@ -20,15 +20,9 @@ class Setup extends \Magento\Module\Setup
     protected $_coreDate;
 
     /**
-     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
-     */
-    protected $_entMigrationFactory;
-
-    /**
      * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
-     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -36,12 +30,10 @@ class Setup extends \Magento\Module\Setup
         \Magento\Module\Setup\Context $context,
         $resourceName,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
-        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
         $moduleName = 'Magento_VersionsCms',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_coreDate = $coreDate;
-        $this->_entMigrationFactory = $entMigrationFactory;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 }

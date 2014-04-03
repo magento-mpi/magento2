@@ -66,7 +66,7 @@ class Setup extends \Magento\Module\Setup
         $resourceName,
         \Magento\SalesArchive\Model\Resource\Helper $salesHelper,
         $moduleName = 'Magento_SalesArchive',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_salesHelper = $salesHelper;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

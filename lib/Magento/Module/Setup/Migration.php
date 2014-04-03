@@ -127,19 +127,21 @@ class Migration extends \Magento\Module\Setup
 
     /**
      * @param \Magento\Module\Setup\Context $context
+     * @param \Magento\Module\Setup\MigrationData $migrationData
+     * @param $confPathToMapFile
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
-     * @param $confPathToMapFile
-     * @param \Magento\Module\Setup\MigrationData $migrationData
+     * @param array $compositeModules
      */
     public function __construct(
         \Magento\Module\Setup\Context $context,
         \Magento\Module\Setup\MigrationData $migrationData,
         $confPathToMapFile,
         $resourceName,
-        $moduleName = 'Magento_Core',
-        $connectionName = ''
+        $moduleName,
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION,
+        $compositeModules = array()
     ) {
         $this->_directory = $context->getFilesystem()->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $this->_pathToMapFile = $confPathToMapFile;
@@ -148,6 +150,7 @@ class Migration extends \Magento\Module\Setup
             self::FIELD_CONTENT_TYPE_WIKI => $this->_migrationData->getWikiFindPattern(),
             self::FIELD_CONTENT_TYPE_XML => $this->_migrationData->getXmlFindPattern()
         );
+        $this->_compositeModules = $compositeModules;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
@@ -537,9 +540,6 @@ class Migration extends \Magento\Module\Setup
      */
     protected function _getCompositeModuleName($moduleAlias)
     {
-        if (null === $this->_compositeModules) {
-            $this->_compositeModules = static::getCompositeModules();
-        }
         if (array_key_exists($moduleAlias, $this->_compositeModules)) {
             return $this->_compositeModules[$moduleAlias];
         }
@@ -674,25 +674,11 @@ class Migration extends \Magento\Module\Setup
     /**
      * List of correspondence between composite module aliases and module names
      *
-     * @static
      * @return array
      */
-    public static function getCompositeModules()
+    public function getCompositeModules()
     {
-        return array(
-            'adminnotification' => 'Magento_AdminNotification',
-            'catalogindex' => 'Magento_CatalogIndex',
-            'cataloginventory' => 'Magento_CatalogInventory',
-            'catalogrule' => 'Magento_CatalogRule',
-            'catalogsearch' => 'Magento_CatalogSearch',
-            'currencysymbol' => 'Magento_CurrencySymbol',
-            'giftmessage' => 'Magento_GiftMessage',
-            'googleanalytics' => 'Magento_GoogleAnalytics',
-            'googlebase' => 'Magento_GoogleBase',
-            'importexport' => 'Magento_ImportExport',
-            'productalert' => 'Magento_ProductAlert',
-            'salesrule' => 'Magento_SalesRule'
-        );
+        return $this->_compositeModules;
     }
 
     /**

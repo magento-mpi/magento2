@@ -36,7 +36,7 @@ class Setup extends \Magento\Module\Setup
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
         \Magento\Core\Model\Theme\CollectionFactory $themeFactory,
         $moduleName = 'Magento_Core',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_themeResourceFactory = $themeResourceFactory;
         $this->_themeFactory = $themeFactory;

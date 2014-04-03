@@ -38,11 +38,11 @@ class MigrationData
        array $data
     ) {
         foreach ($this->_requiredParams as $param) {
-            if (!isset($data[$param]) || is_null($data[$param])) {
+            if (!isset($data[$param])) {
                 throw new \InvalidArgumentException("Missing required param " . $param);
             }
+            $this->_patterns[$param] = $data[$param];
         }
-        $this->_patterns = $data;
     }
 
     public function getPlainFindPattern()

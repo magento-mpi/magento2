@@ -34,7 +34,7 @@ class Setup extends \Magento\Module\Setup
         $resourceName,
         Manager $integrationManager,
         $moduleName = 'Magento_Integration',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_integrationManager = $integrationManager;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

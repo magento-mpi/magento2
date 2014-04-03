@@ -40,7 +40,7 @@ class Setup extends \Magento\Module\Setup
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         $moduleName = 'Magento_Eav',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_cache = $cache;
         $this->_attrGroupCollectionFactory = $attrGroupCollectionFactory;

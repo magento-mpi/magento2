@@ -77,7 +77,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\Resource\Resource
+     * @var \Magento\Module\ResourceInterface
      */
     protected $_resourceResource;
 
@@ -91,7 +91,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      *
      * @var string
      */
-    protected $_connectionName = 'core_setup';
+    protected $_connectionName;
 
     /**
      * Filesystem instance
@@ -115,7 +115,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         \Magento\Module\Setup\Context $context,
         $resourceName,
         $moduleName,
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_eventManager = $context->getEventManager();
         $this->_resourceModel = $context->getResourceModel();
@@ -127,7 +127,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
         $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
-        $this->_connectionName = $connectionName ?: $this->_connectionName;
+        $this->_connectionName = $connectionName;
     }
 
     /**

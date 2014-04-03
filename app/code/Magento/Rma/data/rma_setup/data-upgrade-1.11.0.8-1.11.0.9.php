@@ -10,14 +10,14 @@
 
 /** @var $this \Magento\Rma\Model\Resource\Setup */
 /** @var $installer \Magento\Module\Setup\Migration */
-$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
+$installer = $this->createMigrationSetup();
 $installer->startSetup();
 
 $installer->appendClassAliasReplace(
     'magento_rma_item_eav_attribute',
     'data_model',
-    \Magento\Enterprise\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL,
-    \Magento\Enterprise\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
+    \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL,
+    \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
     array('attribute_id')
 );
 $installer->doUpdateClassAliases();

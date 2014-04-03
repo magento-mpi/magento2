@@ -19,4 +19,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="salesrule" xsi:type="string">Magento_SalesRule</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

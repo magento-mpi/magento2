@@ -341,6 +341,9 @@
     <type name="Magento\Module\Setup\Migration">
         <arguments>
             <argument name="confPathToMapFile" xsi:type="string">app/etc/aliases_to_classes_map.json</argument>
+            <argument name="resourceName" xsi:type="string">core_setup</argument>
+            <argument name="moduleName" xsi:type="string">Magento_Core</argument>
+            <argument name="connectionName" xsi:type="string">\Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION</argument>
         </arguments>
     </type>
     <type name="Magento\Encryption\Encryptor">
@@ -546,6 +549,12 @@
             <argument name="resourceTypes" xsi:type="array">
                 <item name="core_setup" xsi:type="string">Magento\Core\Model\Resource\Setup</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Module\Setup">
+        <arguments>
+            <argument name="resourceName" xsi:type="string">core_setup</argument>
+            <argument name="connectionName" xsi:type="string">Magento\Module\Updater::DEFAULT_SETUP_CONNECTION</argument>
         </arguments>
     </type>
 </config>

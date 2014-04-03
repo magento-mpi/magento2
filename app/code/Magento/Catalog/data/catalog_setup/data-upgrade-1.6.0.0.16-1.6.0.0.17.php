@@ -11,7 +11,7 @@
 /** @var $this \Magento\Catalog\Model\Resource\Setup */
 
 /** @var $installer \Magento\Module\Setup\Migration */
-$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
+$installer = $this->createMigrationSetup();
 $installer->startSetup();
 
 $attributeData = $this->getAttribute('catalog_category', 'custom_layout_update');

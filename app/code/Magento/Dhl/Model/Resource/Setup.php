@@ -27,7 +27,7 @@ class Setup extends \Magento\Module\Setup
         $resourceName,
         $moduleName,
         \Magento\Locale\ListsInterface $localeLists,
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_localeLists = $localeLists;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

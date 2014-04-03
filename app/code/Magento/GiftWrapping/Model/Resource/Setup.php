@@ -48,7 +48,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_GiftWrapping',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;

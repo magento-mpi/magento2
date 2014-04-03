@@ -61,7 +61,7 @@ class Setup extends \Magento\Module\Setup
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\User\Model\RulesFactory $rulesFactory,
         $moduleName = 'Magento_User',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_roleCollectionFactory = $roleCollectionFactory;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;

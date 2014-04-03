@@ -36,7 +36,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\App\ConfigInterface $config,
         \Magento\Cms\Model\BlockFactory $modelBlockFactory,
         $moduleName = 'Magento_CatalogEvent',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_blockFactory = $modelBlockFactory;
         parent::__construct(

@@ -40,7 +40,7 @@ class Setup extends \Magento\Module\Setup
         \Magento\Cms\Model\BlockFactory $blockFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
         $moduleName = 'Magento_Cms',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_blockFactory = $blockFactory;
         $this->_pageFactory = $pageFactory;

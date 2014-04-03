@@ -34,7 +34,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         $moduleName = 'Magento_GiftMessage',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
         parent::__construct(

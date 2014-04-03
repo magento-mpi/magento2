@@ -25,4 +25,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_targetrule" xsi:type="string">Magento_TargetRule</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

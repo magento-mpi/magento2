@@ -33,7 +33,7 @@ class Setup extends \Magento\Module\Setup
         \Magento\GoogleShopping\Model\ConfigFactory $configFactory,
         \Magento\GoogleShopping\Helper\Data $googleShoppingData,
         $moduleName = 'Magento_GoogleShopping',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_configFactory = $configFactory;
         $this->_googleShoppingData = $googleShoppingData;

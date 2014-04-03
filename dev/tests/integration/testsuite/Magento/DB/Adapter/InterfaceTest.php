@@ -41,7 +41,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
         $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Module\Setup',
             array(
-                'resourceName' => \Magento\Module\Setup::DEFAULT_SETUP_CONNECTION,
+                'resourceName' => 'core_setup',
                 'moduleName' => 'Magento_Core'
             )
         );

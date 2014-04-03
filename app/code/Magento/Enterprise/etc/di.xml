@@ -8,7 +8,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Module\Setup\Migration" type="Magento\Enterprise\Model\Resource\Setup\Migration" />
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="themes" xsi:type="array">

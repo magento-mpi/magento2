@@ -36,7 +36,7 @@ class Setup extends \Magento\Module\Setup
         $resourceName,
         \Magento\Directory\Helper\Data $directoryData,
         $moduleName = 'Magento_Directory',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_directoryData = $directoryData;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

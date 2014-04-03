@@ -36,7 +36,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\App\ConfigInterface $config,
         \Magento\Cms\Model\PageFactory $pageFactory,
         $moduleName = 'Magento_Reward',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_pageFactory = $pageFactory;
         parent::__construct(

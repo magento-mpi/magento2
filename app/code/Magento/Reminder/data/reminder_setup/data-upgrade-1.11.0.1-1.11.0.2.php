@@ -10,14 +10,14 @@
 
 /** @var $this \Magento\Module\Setup */
 /** @var $installer \Magento\Module\Setup\Migration */
-$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
+$installer = $this->createMigrationSetup();
 $installer->startSetup();
 
 $installer->appendClassAliasReplace(
     'magento_reminder_rule',
     'conditions_serialized',
-    \Magento\Enterprise\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL,
-    \Magento\Enterprise\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED,
+    \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL,
+    \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED,
     array('rule_id')
 );
 $installer->doUpdateClassAliases();
