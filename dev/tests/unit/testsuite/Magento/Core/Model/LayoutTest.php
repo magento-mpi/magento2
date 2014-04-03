@@ -26,16 +26,14 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_structureMock = $this->getMockBuilder(
-            'Magento\Data\Structure'
-        )->setMethods(
-            array('createElement')
-        )->disableOriginalConstructor()->getMock();
-        $this->_blockFactoryMock = $this->getMockBuilder(
-            'Magento\View\Element\BlockFactory'
-        )->setMethods(
-            array('createBlock')
-        )->disableOriginalConstructor()->getMock();
+        $this->_structureMock = $this->getMockBuilder('Magento\Data\Structure')
+            ->setMethods(['createElement'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_blockFactoryMock = $this->getMockBuilder('Magento\View\Element\BlockFactory')
+            ->setMethods(['createBlock'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
@@ -55,8 +53,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     /**
      * Test _getBlockInstance() with Exception
      *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Exception during block creating
+     * @expectedException \Magento\Model\Exception
+     * @expectedExceptionMessage Invalid block type: test.block
      */
     public function testGetBlockInstanceException()
     {
@@ -84,5 +82,18 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->createBlock('type', 'blockname', array());
         $this->assertInstanceOf('Magento\View\Element\AbstractBlock', $this->_model->getBlock('blockname'));
+    }
+
+    public function testIsCacheable()
+    {
+        $xpath = '/block[@cacheable="false"]';
+        $dom = new \DOMDocument();
+        $parent = $dom->createElement('parent');
+        $parent->setAttribute('xpath', $xpath);
+        $dom->appendChild($parent);
+
+        $expected = true;
+        $result = $this->_model->isCacheable();
+        $this->assertEquals($expected, $result);
     }
 }

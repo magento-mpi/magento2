@@ -199,7 +199,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      */
     protected $isPrivate = false;
 
-    protected $cacheable = false;
+    /**
+     * @var bool
+     */
+    protected $cacheable;
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
@@ -217,6 +220,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param string $area
+     * @param bool $cacheable
      */
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
@@ -254,6 +258,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->themeFactory = $themeFactory;
         $this->_logger = $logger;
         $this->messageManager = $messageManager;
+        $this->cacheable = $cacheable;
     }
 
     /**
@@ -1396,7 +1401,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             try {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             } catch (\ReflectionException $e) {
-                throw new \Exception($e->getMessage());
+                //throw new \Exception($e->getMessage());
                 // incorrect class name
             }
         }
@@ -1659,10 +1664,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      */
     public function isCacheable()
     {
-        if (null === $this->cacheable) {
-            $this->cacheable = !(bool)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
-        }
-        return $this->cacheable;
+        $cacheableXml = !(bool)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
+        return null === $this->cacheable ? $cacheableXml : $this->cacheable && $cacheableXml;
     }
 
     /**
