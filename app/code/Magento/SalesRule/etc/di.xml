@@ -12,13 +12,6 @@
     <type name="Magento\Sales\Model\Quote\Config">
         <plugin name="append_sales_rule_keys_to_quote" type="Magento\SalesRule\Model\Plugin\QuoteConfigProductAttributes"/>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
-        <arguments>
-            <argument name="resourceTypes" xsi:type="array">
-                <item name="salesrule_setup" xsi:type="string">Magento\Module\Setup</item>
-            </argument>
-        </arguments>
-    </type>
     <type name="Magento\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">

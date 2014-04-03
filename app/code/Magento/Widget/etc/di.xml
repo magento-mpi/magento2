@@ -27,11 +27,4 @@
             <argument name="blockFilter" xsi:type="string">Magento\Widget\Model\Template\Filter</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
-        <arguments>
-            <argument name="resourceTypes" xsi:type="array">
-                <item name="widget_setup" xsi:type="string">Magento\Module\Setup</item>
-            </argument>
-        </arguments>
-    </type>
 </config>

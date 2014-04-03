@@ -20,11 +20,4 @@
         </arguments>
         <plugin name="usps" type="Magento\Usps\Block\Adminhtml\Order\Packaging\Plugin\DisplayGirth"/>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
-        <arguments>
-            <argument name="resourceTypes" xsi:type="array">
-                <item name="usps_setup" xsi:type="string">Magento\Module\Setup</item>
-            </argument>
-        </arguments>
-    </type>
 </config>

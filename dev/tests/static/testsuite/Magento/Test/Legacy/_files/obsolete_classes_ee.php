@@ -112,4 +112,6 @@ return array(
     array('Magento\FullPageCache\Controller\Request'),
     array('Magento\FullPageCache\Helper\*'),
     array('Magento\FullPageCache\Model\*'),
+    array('Magento\TargetRule\Model\Resource\Setup'),
+    array('Magento\Enterprise\Model\Resource\Setup\Migration'),
 );
