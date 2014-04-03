@@ -34,7 +34,7 @@ class CentinelPaymentsValidCcTest extends AbstractCentinelPaymentsTest
     {
         //Data
         $fixture->persist();
-
+        $this->clearShoppingCart();
         //Steps
         if ($fixture->getCustomerName()) {
             $this->_createCustomer($fixture);
