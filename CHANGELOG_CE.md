@@ -11,6 +11,17 @@
 * Fixed bugs:
   * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
   * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
+  * Fixed: Tax class id instead tax class name is displayed on "Customer Groups" grid (MAGETWO-21826)
+  * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
+  * Fixed: Impossible export several entyties (Credit Memos, Report Shopping Cart ...) for user with restricted permission (MAGETWO-19346)
+  * Fixed: Checkout is blocked by "Please enter the State/Province pop-up" pop-up for customer that have saved address (MAGETWO-22006)
+  * Fixed: Fatal error on OnePageCheckout when trying to checkout second time (MAGETWO-23071)
+  * Fixed: Fatal error if provide online invoice for order placed with PayPal express checkout (Payment Action order) (MAGETWO-22617)
+  * Fixed: Wrong special price calculating for Bundle Product (MAGETWO-22562)
+  * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
+  * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
+* GitHub requests:
+  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 
 2.0.0.0-dev71
 =============
