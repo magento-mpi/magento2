@@ -271,7 +271,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
      */
     protected function prepareIsAllowed($isEnabled, $isActive, $isDevAllowed, $scope = null)
     {
-        $scopeMock = $this->getMock('Magento\BaseScopeInterface', array(), array(), '', false);
+        $scopeMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
         $this->stateMock->expects($this->any())->method('isEnabled')->will($this->returnValue($isEnabled));
         $this->scopeResolverMock->expects(
             $this->once()

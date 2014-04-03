@@ -12,7 +12,7 @@ $this->resetObjectManager();
  */
 $configData = $this->getObjectManager()->create('Magento\Core\Model\Config\Value');
 $configData->setPath('admin/security/use_form_key')
-    ->setScope(\Magento\BaseScopeInterface::SCOPE_DEFAULT)
+    ->setScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT)
     ->setScopeId(0)
     ->setValue(0)
     ->save();
