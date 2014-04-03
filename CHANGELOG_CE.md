@@ -10,6 +10,8 @@
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
+* Customer Service usage:
+  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
 * Fixed bugs:
   * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
   * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
@@ -31,6 +33,8 @@
   * Fixed incorrect output format for CustomerMetadataServiceInterface (MAGETWO-22598)
   * Fixed empty array in response body using deleteCustomer() (MAGETWO-22693)
   * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
+  * Fixed an issue where admin could not unsubscribe customer from backend customer edit page (MAGETWO-22982)
+  * Fixed an issue where customers are always subscribed even if not selected during registration (MAGETWO-22966)
 * Customer Service usage:
   * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
   * Refactor PayPal module to use Customer Service (MAGETWO-20477)
