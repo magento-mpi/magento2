@@ -247,6 +247,7 @@
             <default_value></default_value>
             <input>price</input>
             <group>product_info_tabs_product-details</group>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</fixture>
         </price>
         <quantity_and_stock_status>
             <attribute_code>quantity_and_stock_status</attribute_code>
@@ -413,11 +414,9 @@
             <attribute_code>custom_options</attribute_code>
             <backend_type>virtual</backend_type>
             <group>product_info_tabs_customer_options</group>
+            <is_required>0</is_required>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</fixture>
         </custom_options>
-        <data_set_name>
-            <attribute_code>data_set_name</attribute_code>
-            <backend_type>virtual</backend_type>
-        </data_set_name>
     </fields>
     <data_set>
         <sku></sku>

@@ -71,9 +71,9 @@ class CustomOptions implements FixtureInterface
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return mixed
-     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     protected function getPreset($name)
     {
@@ -109,7 +109,9 @@ class CustomOptions implements FixtureInterface
                 ]
             ]
         ];
-
+        if (!isset($presets[$name])) {
+            throw new \Exception(sprintf('Preset %s does not exist!', $name));
+        }
         return $presets[$name];
     }
 }

@@ -31,25 +31,11 @@ class AssertProductPrices extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * @var string
-     */
-    protected $currentDataSet;
-
-    /**
+     * Prices for verification
+     *
      * @var array
      */
-    protected $assertions = [
-        'MAGETWO-23062' => [
-            'category_price' => '$100.00',
-            'product_price' => '100.00',
-            'cart_price' => '$130.00'
-        ],
-        'MAGETWO-23063' => [
-            'category_price' => '$100.00',
-            'product_price' => '100.00',
-            'cart_price' => '$140.00'
-        ]
-    ];
+    protected $presetData;
 
     /**
      * @param CatalogProductView $catalogProductView
@@ -67,7 +53,7 @@ class AssertProductPrices extends AbstractConstraint
         Category $category,
         CheckoutCart $checkoutCart
     ) {
-        $this->currentDataSet = $product->getDataSetName();
+        $this->presetData = $product->getPriceFixture()->getPreset();
 
         $this->assertOnCategoryList($cmsIndex,$category, $product, $catalogCategoryView);
         $this->assertOnProductView($product, $catalogProductView);
@@ -92,7 +78,7 @@ class AssertProductPrices extends AbstractConstraint
             $product->getName()
         )->getRegularPrice();
         \PHPUnit_Framework_Assert::assertEquals(
-            $this->assertions[$this->currentDataSet]['category_price'],
+            $this->presetData['category_price'],
             $price,
             'Product price on category is wrong.'
         );
@@ -111,7 +97,7 @@ class AssertProductPrices extends AbstractConstraint
         $catalogProductView->open();
         $price = $catalogProductView->getViewBlock()->getProductPrice();
         \PHPUnit_Framework_Assert::assertEquals(
-            $this->assertions[$this->currentDataSet]['product_price'],
+            $this->presetData['product_price'],
             $price,
             'Product price on product view page is wrong.'
         );
@@ -137,7 +123,7 @@ class AssertProductPrices extends AbstractConstraint
     {
         $price = $checkoutCart->getCartBlock()->getProductPriceByName($product->getName());
         \PHPUnit_Framework_Assert::assertEquals(
-            $this->assertions[$this->currentDataSet]['cart_price'],
+            $this->presetData['cart_price'],
             $price,
             'Product price is wrong in shopping cart.'
         );
