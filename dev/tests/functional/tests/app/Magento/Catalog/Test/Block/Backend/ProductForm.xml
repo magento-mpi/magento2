@@ -41,6 +41,17 @@
             </product_website_1>
         </fields>
     </websites>
+    <advanced-pricing>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#product_info_tabs_advanced-pricing</selector>
+        <strategy>css selector</strategy>
+        <wrapper>product</wrapper>
+        <fields>
+            <special_price>
+                <selector>[name='product[special_price]']</selector>
+            </special_price>
+        </fields>
+    </advanced-pricing>
     <advanced-inventory>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#product_info_tabs_advanced-inventory</selector>
