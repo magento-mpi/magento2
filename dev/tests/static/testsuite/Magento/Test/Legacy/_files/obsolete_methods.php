@@ -244,7 +244,6 @@ return array(
     array('bundlesAction', 'Magento\Catalog\Controller\Adminhtml\Product'),
     array('calcTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
     array('callbackQueryHook', 'Magento\Core\Model\Resource\Setup'),
-    array('calculateSpecialPrice', 'Magento\Bundle\Model\Product\Price'),
     array('canCreateUser', 'Magento\User\Model\Resource\User'),
     array('canPrint', 'Magento\Checkout\Block\Onepage\Success'),
     array(

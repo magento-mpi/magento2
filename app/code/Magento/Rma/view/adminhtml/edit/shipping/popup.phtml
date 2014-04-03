@@ -90,7 +90,7 @@ document.observe("dom:loaded", function() {
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-                            <?php if ($this->isGirthAllowed()): ?>
+                            <?php if ($this->isGirthAllowed() && !empty($sizeSource)): ?>
                                 <td>
                                     <select name="package_size" onchange="packaging.checkSizeAndGirthParameter(this, <?php echo  $this->isGirthAllowed() ?>);" class="<?php echo $sizeClass?>" <?php echo $sizeDisable?>>
                                         <?php foreach ($sizeSource as $key => $value): ?>
