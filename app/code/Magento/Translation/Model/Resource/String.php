@@ -127,11 +127,6 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
             ->where('string = :string')
             ->where('store_id = :store_id');
 
-        $bind = array(
-            'string'   => $object->getString(),
-            'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID
-        );
-
         $bind = array('string' => $object->getString(), 'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
         $object->setId($adapter->fetchOne($select, $bind));

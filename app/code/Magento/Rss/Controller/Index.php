@@ -24,13 +24,15 @@ class Index extends \Magento\App\Action\Action
     protected $_wishlistHelper;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\Rss\Helper\WishlistRss $wishlistHelper
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -90,12 +92,10 @@ class Index extends \Magento\App\Action\Action
     public function wishlistAction()
     {
         if ($this->_storeConfig->getValue('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-            $wishlist = $this->_getWishlist();
-            if ($wishlist && ($wishlist->getVisibility() || $this->_objectManager->get(
-                'Magento\Customer\Model\Session'
-            )->authenticate(
-                $this
-            ) && $wishlist->getCustomerId() == $this->_getCustomer()->getId())
+            $wishlist = $this->_wishlistHelper->getWishlist();
+            if ($wishlist && ($wishlist->getVisibility()
+                || $this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)
+                && $wishlist->getCustomerId() == $this->_wishlistHelper->getCustomer()->getId())
             ) {
                 $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
                 $this->_view->loadLayout(false);
