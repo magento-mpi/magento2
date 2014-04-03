@@ -60,7 +60,7 @@
                     <item name="include_in_base_price" xsi:type="boolean">false</item>
                 </item>
                 <item name="group_price" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Bundle\Pricing\Price\GroupPrice</item>
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\GroupPrice</item>
                     <item name="include_in_base_price" xsi:type="boolean">false</item>
                 </item>
                 <item name="special_price" xsi:type="array">
