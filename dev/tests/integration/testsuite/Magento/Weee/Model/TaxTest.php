@@ -13,6 +13,7 @@ use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+ * @magentoDataFixture Magento/Catalog/_files/products.php
  */
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +28,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $helper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $attribute = $this->getMock('Magento\Eav\Model\Entity\Attribute', [], [], '', false);
         $attribute->expects($this->any())->method('getAttributeCodesByFrontendType')->will(
-            $this->returnValue(['entity_id'])
+            $this->returnValue(['price'])
         );
         $attributeFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', [], [], '', false);
         $attributeFactory->expects($this->any())->method('create')->will($this->returnValue($attribute));
@@ -62,8 +63,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'quote' =>  $quote
         ]);
         $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-        $product->setId(1);
-        $product->save();
+        $product->load(1);
         $weeeTax = Bootstrap::getObjectManager()->create('Magento\Weee\Model\Tax');
         $weeeTaxData = array(
             'website_id' => '1',
@@ -71,7 +71,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'country' => 'US',
             'value' => '12.4',
             'state' => '0',
-            'attribute_id' => '0',
+            'attribute_id' => '75',
             'entity_type_id' => '0'
         );
         $weeeTax->setData($weeeTaxData);
