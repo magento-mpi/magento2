@@ -32,7 +32,7 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Core/_files/store.php
      */
-    public function testProcessStoreWithValidStoreCode()
+    public function testProcessWithValidStoreCode()
     {
         $storeCode = 'fixturestore';
         $basePath = "rest/{$storeCode}";
@@ -46,7 +46,7 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with storeCode = InvalidStorecode
      */
-    public function testProcessStoreInWithValidStoreCode()
+    public function testProcessWithInValidStoreCode()
     {
         $storeCode = 'InvalidStorecode';
         $path = '/rest/' . $storeCode . '/V1/customerAccounts/createAccount';

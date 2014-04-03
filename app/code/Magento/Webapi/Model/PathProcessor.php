@@ -31,7 +31,6 @@ class PathProcessor
      * @param string $pathInfo
      * @return array
      */
-
     private function stripPathBeforeStorecode($pathInfo)
     {
         $pathParts = explode('/', trim($pathInfo, '/'));
