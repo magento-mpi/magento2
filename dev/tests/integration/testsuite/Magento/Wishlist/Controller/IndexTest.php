@@ -126,9 +126,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
                 'Magento\Wishlist\Controller\Index' => [
                     'arguments' => [
                         'transportBuilder' => [
-                            'value' => 'Magento\Wishlist\Controller\MockedTransportBuilder',
-                            'name' => 'transportBuilder',
-                            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'object'
+                            'instance' => 'Magento\Wishlist\Controller\MockedTransportBuilder'
                         ]
                     ]
                 ],

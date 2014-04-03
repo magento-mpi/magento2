@@ -77,7 +77,6 @@ class TransportBuilder
      * @param \Magento\Mail\Message $message
      * @param \Magento\Mail\Template\SenderResolverInterface $senderResolver
      * @param \Magento\ObjectManager $objectManager
-     *
      * @param \Magento\Mail\TransportInterfaceFactory $mailTransportFactory
      */
     public function __construct(
