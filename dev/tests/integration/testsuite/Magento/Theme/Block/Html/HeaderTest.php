@@ -14,6 +14,7 @@ use Magento\TestFramework\Helper\Bootstrap;
  * Test for Magento\Theme\Block\Html\Header
  *
  * @magentoDataFixture Magento/Customer/_files/customer.php
+ * @magentoAppArea frontend
  */
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +33,6 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         $objectManager = Bootstrap::getObjectManager();
         $this->context = $objectManager->get('Magento\App\Http\Context');
         $this->context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
@@ -49,13 +49,8 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $customerSession->setCustomerDataObject($customerData);
 
         //Create block and inject customer session
-        /**
-         * @var \Magento\View\LayoutInterface $layout
-         */
-        $layout = $objectManager->get('Magento\View\LayoutInterface');
-        $this->block = $layout->createBlock(
+        $this->block = $objectManager->create(
             'Magento\Theme\Block\Html\Header',
-            '',
             ['customerSession' => $customerSession]
         );
 

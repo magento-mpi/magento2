@@ -8,7 +8,7 @@
 
 namespace Magento\Theme\Block\Html;
 
-use \Magento\Customer\Helper\Data;
+use Magento\Customer\Helper\Data;
 use Magento\Customer\Helper\View as CustomerViewHelper;
 
 /**
@@ -42,7 +42,6 @@ class Header extends \Magento\View\Element\Template
      * @var \Magento\Customer\Helper\View
      */
     protected $_customerViewHelper;
-
 
     /**
      * @param \Magento\View\Element\Template\Context $context
