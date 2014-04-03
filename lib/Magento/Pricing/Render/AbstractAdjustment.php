@@ -116,18 +116,14 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
      * @param float $amount
      * @param bool $includeContainer
      * @param int $precision
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
      * @return string
      */
     public function convertAndFormatCurrency(
         $amount,
         $includeContainer = true,
-        $precision = PriceCurrencyInterface::DEFAULT_PRECISION,
-        $store = null,
-        $currency = null
+        $precision = PriceCurrencyInterface::DEFAULT_PRECISION
     ) {
-        return $this->priceCurrency->convertAndFormat($amount, $includeContainer, $precision, $store, $currency);
+        return $this->priceCurrency->convertAndFormat($amount, $includeContainer, $precision);
     }
 
     /**
