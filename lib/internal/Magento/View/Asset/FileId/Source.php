@@ -126,7 +126,7 @@ class Source implements Asset\SourceFileInterface
      */
     private function getProcessedFile(Asset\FileId $asset, $sourceFile)
     {
-        $processedFile = $this->cachePreProcessing->getProcessedFileFromCache($sourceFile);
+        $processedFile = $this->cachePreProcessing->getProcessedFileFromCache($sourceFile, $asset);
         if (!$processedFile) {
             $processedFile = $sourceFile;
             $origContent = $this->rootDir->readFile($this->rootDir->getRelativePath($sourceFile));
@@ -149,7 +149,7 @@ class Source implements Asset\SourceFileInterface
                 $processedFile = $this->varDir->getAbsolutePath() . '/' . $relPath;
                 $this->varDir->writeFile($relPath, $content);
             }
-            $this->cachePreProcessing->saveProcessedFileToCache($processedFile, $sourceFile);
+            $this->cachePreProcessing->saveProcessedFileToCache($processedFile, $sourceFile, $asset);
         }
         return $processedFile;
     }

@@ -59,11 +59,12 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testGetProcessedFileFromCache()
     {
         $sourceFile = 'some/file';
+        $cacheId = 'some/file:some/path.ext';
         $expectedFile = '/root/tmp/some/file';
         $expectedData = '%tmp%/some/file';
         $this->cacheStorage->expects($this->once())
             ->method('load')
-            ->with($sourceFile)
+            ->with($cacheId)
             ->will($this->returnValue($expectedData));
         $this->directory->expects($this->once())
             ->method('isExist')
@@ -73,14 +74,19 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('getAbsolutePath')
             ->with('some/file')
             ->will($this->returnValue($expectedFile));
+        $asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset->expects($this->once())
+            ->method('getRelativePath')
+            ->will($this->returnValue('some/path.ext'));
 
-        $actualFile = $this->object->getProcessedFileFromCache($sourceFile);
+        $actualFile = $this->object->getProcessedFileFromCache($sourceFile, $asset);
         $this->assertSame($expectedFile, $actualFile);
     }
 
     public function testGetProcessedFileFromCacheNonexistent()
     {
         $sourceFile = 'some/file';
+        $cacheId = 'some/file:some/path.ext';
         $this->directory->expects($this->once())
             ->method('isExist')
             ->with($sourceFile)
@@ -88,12 +94,16 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $expectedData = '%tmp%/some/file';
         $this->cacheStorage->expects($this->once())
             ->method('load')
-            ->with($sourceFile)
+            ->with($cacheId)
             ->will($this->returnValue($expectedData));
         $this->directory->expects($this->never())
             ->method('getAbsolutePath');
+        $asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset->expects($this->once())
+            ->method('getRelativePath')
+            ->will($this->returnValue('some/path.ext'));
 
-        $actualFile = $this->object->getProcessedFileFromCache($sourceFile);
+        $actualFile = $this->object->getProcessedFileFromCache($sourceFile, $asset);
         $this->assertSame(false, $actualFile);
     }
 
@@ -110,11 +120,15 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ->method('getRelativePath')
             ->with($processedFile)
             ->will($this->returnValue('some/file'));
+        $asset = $this->getMock('Magento\View\Asset\FileId', array(), array(), '', false);
+        $asset->expects($this->once())
+            ->method('getRelativePath')
+            ->will($this->returnValue('some/path.ext'));
 
         $this->cacheStorage->expects($this->once())
             ->method('save')
-            ->with('%tmp%/some/file', 'some/file');
+            ->with('%tmp%/some/file', 'some/file:some/path.ext');
 
-        $this->object->saveProcessedFileToCache($processedFile, $sourceFile);
+        $this->object->saveProcessedFileToCache($processedFile, $sourceFile, $asset);
     }
 }

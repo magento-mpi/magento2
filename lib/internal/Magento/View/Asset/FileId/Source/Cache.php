@@ -55,13 +55,13 @@ class Cache
      * Retrieve data from cache with replacement of relative paths back to absolute ones
      *
      * @param string $sourceFile
+     * @param \Magento\View\Asset\FileId $asset
      * @return bool|string
-     * @throws \UnexpectedValueException
      */
-    public function getProcessedFileFromCache($sourceFile)
+    public function getProcessedFileFromCache($sourceFile, \Magento\View\Asset\FileId $asset)
     {
         $path = false;
-        $cacheId = $this->sourceDir->getRelativePath($sourceFile);
+        $cacheId = $this->getCacheId($sourceFile, $asset);
         $relativePath = $this->cache->load($cacheId);
         if ($relativePath) {
             $path = $this->getAbsolutePath($relativePath);
@@ -74,11 +74,12 @@ class Cache
      *
      * @param string $processedFile
      * @param string $sourceFile
+     * @param \Magento\View\Asset\FileId $asset
      * @return bool
      */
-    public function saveProcessedFileToCache($processedFile, $sourceFile)
+    public function saveProcessedFileToCache($processedFile, $sourceFile, \Magento\View\Asset\FileId $asset)
     {
-        $cacheId = $this->sourceDir->getRelativePath($sourceFile);
+        $cacheId = $this->getCacheId($sourceFile, $asset);
         $relativePath = $this->getRelativePath($processedFile);
         return $this->cache->save($relativePath, $cacheId);
     }
@@ -126,5 +127,15 @@ class Cache
             }
         }
         return $cachedPath;
+    }
+
+    /**
+     * @param string $sourceFile
+     * @param \Magento\View\Asset\FileId $asset
+     * @return string
+     */
+    protected function getCacheId($sourceFile, \Magento\View\Asset\FileId $asset)
+    {
+        return $this->sourceDir->getRelativePath($sourceFile) . ':' . $asset->getRelativePath();
     }
 }
