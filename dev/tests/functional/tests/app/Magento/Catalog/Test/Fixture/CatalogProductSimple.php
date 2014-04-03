@@ -418,6 +418,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
+        'group' => 'advanced-pricing'
     ];
 
     protected $special_to_date = [

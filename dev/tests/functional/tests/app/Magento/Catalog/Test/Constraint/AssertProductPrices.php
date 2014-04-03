@@ -82,6 +82,16 @@ class AssertProductPrices extends AbstractConstraint
             $price,
             'Product price on category is wrong.'
         );
+        if (isset($this->presetData['category_special_price'])) {
+            $specialPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
+                $product->getName()
+            )->getSpecialPrice();
+            \PHPUnit_Framework_Assert::assertEquals(
+                $this->presetData['category_special_price'],
+                $specialPrice,
+                'Product price on category is wrong.'
+            );
+        }
     }
 
     /**
@@ -95,12 +105,20 @@ class AssertProductPrices extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
-        $price = $catalogProductView->getViewBlock()->getProductPrice();
+        $price = $catalogProductView->getViewBlock()->getProductPriceBlock()->getRegularPrice();
         \PHPUnit_Framework_Assert::assertEquals(
             $this->presetData['product_price'],
             $price,
             'Product price on product view page is wrong.'
         );
+        if (isset($this->presetData['product_special_price'])) {
+            $specialPrice = $catalogProductView->getViewBlock()->getProductPriceBlock()->getSpecialPrice();
+            \PHPUnit_Framework_Assert::assertEquals(
+                $this->presetData['product_special_price'],
+                $specialPrice,
+                'Product price on category is wrong.'
+            );
+        }
         $productOptions = $product->getCustomOptions();
         if ($productOptions) {
             $customOption = $catalogProductView->getOptionsBlock();
