@@ -22,32 +22,32 @@
                 <argument name="options" xsi:type="array">
                     <updater>Magento\SalesArchive\Model\Order\Archive\Grid\Massaction\ItemsUpdater</updater>
                     <item name="cancel_order" xsi:type="array">
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massCancel</item>
+                        <item name="url" xsi:type="string">sales/archive/massCancel</item>
                     </item>
                     <item name="hold_order" xsi:type="array">
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massHold</item>
+                        <item name="url" xsi:type="string">sales/archive/massHold</item>
                     </item>
                     <item name="unhold_order" xsi:type="array">
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massUnhold</item>
+                        <item name="url" xsi:type="string">sales/archive/massUnhold</item>
                     </item>
                     <item name="remove_order_from_archive" xsi:type="array">
                         <item name="label" xsi:type="string" translate="true">Move to Orders Management</item>
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massRemove</item>
+                        <item name="url" xsi:type="string">sales/archive/massRemove</item>
                     </item>
                     <item name="pdfinvoices_order" xsi:type="array">
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massPrintInvoices</item>
+                        <item name="url" xsi:type="string">sales/archive/massPrintInvoices</item>
                     </item>
                     <item name="pdfshipments_order" xsi:type="array">
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massPrintPackingSlips</item>
+                        <item name="url" xsi:type="string">sales/archive/massPrintPackingSlips</item>
                     </item>
                     <item name="pdfcreditmemos_order" xsi:type="array">
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massPrintCreditMemos</item>
+                        <item name="url" xsi:type="string">sales/archive/massPrintCreditMemos</item>
                     </item>
                     <item name="pdfdocs_order" xsi:type="array">
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massPrintAllDocuments</item>
+                        <item name="url" xsi:type="string">sales/archive/massPrintAllDocuments</item>
                     </item>
                     <item name="print_shipping_label" xsi:type="array">
-                        <item name="url" xsi:type="string">adminhtml/sales_archive/massPrintShippingLabel</item>
+                        <item name="url" xsi:type="string">sales/archive/massPrintShippingLabel</item>
                     </item>
                 </argument>
             </arguments>
