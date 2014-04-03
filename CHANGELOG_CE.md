@@ -6,6 +6,8 @@
   * Eliminated Core\Helper\Js class (MAGETWO-21600)
   * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
+  * Eliminated dependency of Magento_Catalog on Magento_Rating Module (MAGETWO-21481)
+  * Coupled Magento_Rating and Magento_Rating modules. Magento_Rating is removed (MAGETWO-23048)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
 * Fixed bugs:
