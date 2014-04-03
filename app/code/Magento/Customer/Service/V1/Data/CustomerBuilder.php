@@ -241,4 +241,15 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
     {
         return $this->_set(Customer::WEBSITE_ID, $websiteId);
     }
+
+    /**
+     * Set password hash
+     *
+     * @param string $passwordHash
+     * @return $this
+     */
+    public function setPasswordHash($passwordHash)
+    {
+        return $this->_set(Customer::PASSWORD_HASH, $passwordHash);
+    }
 }

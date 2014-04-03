@@ -827,6 +827,9 @@
             <field name="gender">
                 <aspect name="to_quote" targetField="customer_gender" />
             </field>
+            <field name="password_hash">
+                <aspect name="to_quote" targetField="password_hash" />
+            </field>
         </fieldset>
         <fieldset id="customer_address">
             <field name="id">

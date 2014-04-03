@@ -95,6 +95,9 @@
             <field name="customer_gender">
                 <aspect name="to_customer" targetField="gender" />
             </field>
+            <field name="password_hash">
+                <aspect name="to_customer" targetField="password_hash" />
+            </field>
         </fieldset>
     </scope>
 </config>
