@@ -26,26 +26,41 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     protected $layout;
 
     /**
-     * @var \Magento\View\LayoutFactory
+     * @var \Magento\View\LayoutFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layoutFactory;
+
+    /**
+     * @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $generalLayout;
 
     public function setUp()
     {
         $this->layout = $this->getMock('Magento\View\LayoutInterface');
+        $this->generalLayout = $this->getMock('Magento\View\LayoutInterface');
 
+        $isCacheable = false;
+        $this->generalLayout->expects($this->once())
+            ->method('isCacheable')
+            ->will($this->returnValue(false));
         $layoutFactory = $this->getMockBuilder('Magento\View\LayoutFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
         $layoutFactory->expects($this->once())
             ->method('create')
+            ->with($this->equalTo(['cacheable' => $isCacheable]))
             ->will($this->returnValue($this->layout));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Pricing\Render\Layout', array(
-            'layoutFactory' => $layoutFactory
-        ));
+        $this->model = $objectManager->getObject(
+            'Magento\Pricing\Render\Layout',
+            [
+                'layoutFactory' => $layoutFactory,
+                'generalLayout' => $this->generalLayout
+            ]
+        );
     }
 
     public function testAddHandle()

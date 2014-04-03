@@ -29,9 +29,9 @@ class Render extends AbstractBlock
      */
     const ZONE_PRODUCT_VIEW = 'product_view';
     const ZONE_PRODUCT_LIST = 'product_list';
-    const ZONE_SALES        = 'sales';
-    const ZONE_EMAIL        = 'email';
-    const ZONE_DEFAULT      = null;
+    const ZONE_SALES = 'sales';
+    const ZONE_EMAIL = 'email';
+    const ZONE_DEFAULT = null;
 
     /**
      * Default type renderer
