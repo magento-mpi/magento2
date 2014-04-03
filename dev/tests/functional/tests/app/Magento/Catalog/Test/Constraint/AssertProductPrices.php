@@ -53,7 +53,7 @@ class AssertProductPrices extends AbstractConstraint
         Category $category,
         CheckoutCart $checkoutCart
     ) {
-        $this->presetData = $product->getPriceFixture()->getPreset();
+        $this->presetData = $product->getDataFieldConfig('price')['fixture']->getPreset();
 
         $this->assertOnCategoryList($cmsIndex,$category, $product, $catalogCategoryView);
         $this->assertOnProductView($product, $catalogProductView);
@@ -101,11 +101,13 @@ class AssertProductPrices extends AbstractConstraint
             $price,
             'Product price on product view page is wrong.'
         );
-        $customOption = $catalogProductView->getOptionsBlock();
-        $options = $customOption->getProductCustomOptions();
         $productOptions = $product->getCustomOptions();
-        $key = $productOptions[0]['title'];
-        $customOption->selectProductCustomOption($options[$key][1]);
+        if ($productOptions) {
+            $customOption = $catalogProductView->getOptionsBlock();
+            $options = $customOption->getProductCustomOptions();
+            $key = $productOptions[0]['title'];
+            $customOption->selectProductCustomOption($options[$key][1]);
+        }
         $addToCart = $catalogProductView->getViewBlock();
         $addToCart->clickAddToCart();
     }

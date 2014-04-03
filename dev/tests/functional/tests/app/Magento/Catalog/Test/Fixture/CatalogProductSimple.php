@@ -704,11 +704,6 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('price');
     }
 
-    public function getPriceFixture()
-    {
-        return $this->price['fixture'];
-    }
-
     public function getQuantityAndStockStatus()
     {
         return $this->getData('quantity_and_stock_status');
