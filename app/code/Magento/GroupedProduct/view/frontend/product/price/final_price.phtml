@@ -1,12 +1,20 @@
 <?php
-$showMinPrice = $this->showMinimalPrice();
-$_product = $this->getSaleableItem();
+$minProduct = $this->getSaleableItem()
+    ->getPriceInfo()
+    ->getPrice('grouped_final_price')
+    ->getMinProduct();
+$amountRender = $this->getRendererPool()
+    ->createAmountRender(
+        $minProduct->getPriceInfo()->getPrice('final_price')->getAmount(),
+        $minProduct,
+        $minProduct->getPriceInfo()->getPrice('final_price'),
+        []
+    );
 ?>
-=============================================================================
-<!--пабам больше кода тут не надо-->
-<?php if ($showMinPrice): ?>
-    <?php echo $this->getProductPrice($_product) ?>
-    Starting at<?php echo $this->getPriceType('grouped_final_price')->getValue(); ?>
-<?php endif; ?>
-bladlas
-=============================================================================
+<div class="price-box" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+    <?php if (\Magento\Pricing\Render::ZONE_ITEM_VIEW != $this->getZone()): ?>
+    <p class="minimal-price">
+        <span class="price-label"><?php echo __('Starting at:') . $amountRender->toHtml();?></span>
+    </p>
+    <?php endif ?>
+</div>

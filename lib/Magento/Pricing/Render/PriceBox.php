@@ -126,4 +126,12 @@ class PriceBox extends Template implements PriceBoxRenderInterface
             $arguments
         );
     }
+
+    /**
+     * @return RendererPool
+     */
+    public function getRendererPool()
+    {
+        return $this->rendererPool;
+    }
 }
