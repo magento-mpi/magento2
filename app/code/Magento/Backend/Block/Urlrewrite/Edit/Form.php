@@ -78,7 +78,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\UrlRewrite\Model\UrlRewrite\TypeProviderFactory $typesFactory
      * @param \Magento\UrlRewrite\Model\UrlRewrite\OptionProviderFactory $optionFactory
      * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param array $data
      *

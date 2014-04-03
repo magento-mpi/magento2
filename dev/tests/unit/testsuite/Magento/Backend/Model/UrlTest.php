@@ -74,6 +74,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     protected $_encryptor;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->_menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);

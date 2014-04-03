@@ -95,6 +95,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception $e
      * @param  float $time
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -110,6 +111,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      * @param  PHPUnit_Framework_Test $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
      * @param  float $time
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
@@ -125,6 +127,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception $e
      * @param  float $time
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -141,6 +144,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      * @param  Exception $e
      * @param  float $time
      * @since  Method available since Release 3.0.0
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -155,6 +159,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      *
      * @param  PHPUnit_Framework_TestSuite $suite
      * @since  Method available since Release 2.2.0
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
@@ -165,6 +170,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      *
      * @param  PHPUnit_Framework_TestSuite $suite
      * @since  Method available since Release 2.2.0
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
@@ -238,6 +244,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      * Handler for 'start class' event.
      *
      * @param  string $name
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function startClass($name)
     {
@@ -248,6 +255,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      * Handler for 'end class' event.
      *
      * @param  string $name
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function endClass($name)
     {
