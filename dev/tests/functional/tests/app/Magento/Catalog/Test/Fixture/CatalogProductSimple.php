@@ -538,6 +538,13 @@ class CatalogProductSimple extends InjectableFixture
         'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
+    protected $data_set_name = [
+        'attribute_code' => 'data_set_name',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'default_value' => ''
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -826,5 +833,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getCustomOptions()
     {
         return $this->getData('custom_options');
+    }
+
+    public function getDataSetName()
+    {
+        return $this->getData('data_set_name');
     }
 }

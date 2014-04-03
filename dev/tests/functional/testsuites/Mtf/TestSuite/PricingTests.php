@@ -17,57 +17,8 @@ use Mtf\TestRunner\Configuration;
  *
  * @package Mtf\TestSuite
  */
-class PricingTests extends \PHPUnit_Framework_TestSuite
+class PricingTests extends InjectableTests
 {
-    /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @var \PHPUnit_Framework_TestSuite
-     */
-    protected $suite;
-
-    /**
-     * @var \PHPUnit_Framework_TestResult
-     */
-    protected $result;
-
-    /**
-     * Run collected tests
-     *
-     * @param \PHPUnit_Framework_TestResult $result
-     * @param bool $filter
-     * @param array $groups
-     * @param array $excludeGroups
-     * @param bool $processIsolation
-     *
-     * @return \PHPUnit_Framework_TestResult|void
-     */
-    public function run(
-        \PHPUnit_Framework_TestResult $result = null,
-        $filter = false,
-        array $groups = [],
-        array $excludeGroups = [],
-        $processIsolation = false
-    ) {
-        if ($result === null) {
-            $this->result = $this->createResult();
-        }
-    }
-
-    /**
-     * Prepare test suite
-     *
-     * @return mixed
-     */
-    public static function suite()
-    {
-        $suite = new self();
-        return $suite->prepareSuite();
-    }
-
     /**
      * Prepare test suite and apply application state
      *
@@ -77,34 +28,5 @@ class PricingTests extends \PHPUnit_Framework_TestSuite
     {
         $this->init();
         return $this->objectManager->create('Mtf\TestSuite\TestCase');
-    }
-
-    /**
-     * Call the initialization of ObjectManager
-     */
-    public function init()
-    {
-        $this->initObjectManager();
-    }
-
-    /**
-     * Initialize ObjectManager
-     */
-    private function initObjectManager()
-    {
-        if (!isset($this->objectManager)) {
-            $objectManagerFactory = new ObjectManagerFactory();
-            $configurationFileName = isset($_ENV['configuration:Mtf/TestSuite/InjectableTests'])
-                ? $_ENV['configuration:Mtf/TestSuite/InjectableTests']
-                : 'basic';
-            $confFilePath = __DIR__ . '/InjectableTests/' . $configurationFileName . '.xml';
-            $testRunnerConfiguration = new Configuration();
-            $testRunnerConfiguration->load($confFilePath);
-
-            $shared = array(
-                'Mtf\TestRunner\Configuration' => $testRunnerConfiguration
-            );
-            $this->objectManager = $objectManagerFactory->create($shared);
-        }
     }
 }

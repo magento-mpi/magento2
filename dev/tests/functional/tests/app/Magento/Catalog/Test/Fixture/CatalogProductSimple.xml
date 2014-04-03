@@ -414,6 +414,10 @@
             <backend_type>virtual</backend_type>
             <group>product_info_tabs_customer_options</group>
         </custom_options>
+        <data_set_name>
+            <attribute_code>data_set_name</attribute_code>
+            <backend_type>virtual</backend_type>
+        </data_set_name>
     </fields>
     <data_set>
         <sku></sku>

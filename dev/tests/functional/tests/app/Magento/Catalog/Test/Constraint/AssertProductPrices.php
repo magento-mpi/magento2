@@ -31,6 +31,27 @@ class AssertProductPrices extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * @var string
+     */
+    protected $currentDataSet;
+
+    /**
+     * @var array
+     */
+    protected $assertions = [
+        'MAGETWO-23062' => [
+            'category_price' => '$100.00',
+            'product_price' => '100.00',
+            'cart_price' => '$130.00'
+        ],
+        'MAGETWO-23063' => [
+            'category_price' => '$100.00',
+            'product_price' => '100.00',
+            'cart_price' => '$140.00'
+        ]
+    ];
+
+    /**
      * @param CatalogProductView $catalogProductView
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
@@ -46,6 +67,8 @@ class AssertProductPrices extends AbstractConstraint
         Category $category,
         CheckoutCart $checkoutCart
     ) {
+        $this->currentDataSet = $product->getDataSetName();
+
         $this->assertOnCategoryList($cmsIndex,$category, $product, $catalogCategoryView);
         $this->assertOnProductView($product, $catalogProductView);
         $this->assertOnShoppingCart($product, $checkoutCart);
@@ -68,9 +91,10 @@ class AssertProductPrices extends AbstractConstraint
         $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
             $product->getName()
         )->getRegularPrice();
-        \PHPUnit_Framework_Assert::assertTrue(
-            ($price == '$100.00'),
-            'Product price is wrong.'
+        \PHPUnit_Framework_Assert::assertEquals(
+            $this->assertions[$this->currentDataSet]['category_price'],
+            $price,
+            'Product price on category is wrong.'
         );
     }
 
@@ -86,9 +110,10 @@ class AssertProductPrices extends AbstractConstraint
         $catalogProductView->init($product);
         $catalogProductView->open();
         $price = $catalogProductView->getViewBlock()->getProductPrice();
-        \PHPUnit_Framework_Assert::assertTrue(
-            ($price == 100),
-            'Product price is wrong.'
+        \PHPUnit_Framework_Assert::assertEquals(
+            $this->assertions[$this->currentDataSet]['product_price'],
+            $price,
+            'Product price on product view page is wrong.'
         );
         $customOption = $catalogProductView->getOptionsBlock();
         $options = $customOption->getProductCustomOptions();
@@ -111,11 +136,13 @@ class AssertProductPrices extends AbstractConstraint
     )
     {
         $price = $checkoutCart->getCartBlock()->getProductPriceByName($product->getName());
-        \PHPUnit_Framework_Assert::assertTrue(
-            ($price == "$130.00"),
-            'Product price is wrong.'
+        \PHPUnit_Framework_Assert::assertEquals(
+            $this->assertions[$this->currentDataSet]['cart_price'],
+            $price,
+            'Product price is wrong in shopping cart.'
         );
     }
+
     /**
      * Text of Visible in category assert
      *
@@ -125,21 +152,4 @@ class AssertProductPrices extends AbstractConstraint
     {
         return 'Product price is wrong.';
     }
-
-
-    /**
-     * @var array
-     */
-    protected $assertions = [
-            'MAGETWO-23062' => [
-                'catalog_price' => '$100.00',
-                'product_price' => '100.00',
-                'cart_price' => '$130.00'
-            ],
-            'MAGETWO-23063' => [
-                'catalog_price' => '$100.00',
-                'product_price' => '100.00',
-                'cart_price' => '$140.00'
-            ]
-        ];
 }
