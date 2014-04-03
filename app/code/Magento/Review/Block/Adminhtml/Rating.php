@@ -13,7 +13,7 @@ namespace Magento\Review\Block\Adminhtml;
  * Ratings grid
  *
  * @category   Magento
- * @package    Magento_Adminhtml
+ * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rating extends \Magento\Backend\Block\Widget\Grid\Container

@@ -362,6 +362,12 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => 0),
     'Rating Position On Frontend'
+)->addColumn(
+    'is_active',
+    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => 1),
+    'Rating is active.'
 )->addIndex(
     $installer->getIdxName('rating', array('rating_code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
     array('rating_code'),
