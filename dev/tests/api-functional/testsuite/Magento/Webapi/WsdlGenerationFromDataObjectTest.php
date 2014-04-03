@@ -21,7 +21,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
     protected $_storeCode ;
 
     /** @var string */
-    protected $_url;
+    protected $_soapUrl;
 
     protected function setUp()
     {
