@@ -29,4 +29,15 @@ class PricingTests extends InjectableTests
         $this->init();
         return $this->objectManager->create('Mtf\TestSuite\TestCase');
     }
+
+    /**
+     * Prepare test suite
+     *
+     * @return mixed
+     */
+    public static function suite()
+    {
+        $suite = new self();
+        return $suite->prepareSuite();
+    }
 }
