@@ -22,7 +22,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Store cache context
      */
-    const CONTEXT_STORE = 'core_store';
+    const CONTEXT_STORE = 'store';
 
     const XML_PATH_DEFAULT_COUNTRY = 'general/country/default';
 

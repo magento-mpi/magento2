@@ -658,7 +658,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
             'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
             array('customer_group_id')
         )->join(
-            array('cw' => $this->getTable('core_website')),
+            array('cw' => $this->getTable('store_website')),
             'gp.website_id = 0 OR gp.website_id = cw.website_id',
             array('website_id')
         )->where(

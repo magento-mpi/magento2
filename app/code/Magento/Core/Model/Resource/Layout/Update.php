@@ -71,7 +71,7 @@ class Update extends \Magento\Model\Resource\Db\AbstractDb
     protected function _getFetchUpdatesByHandleSelect($loadAllUpdates = false)
     {
         //@todo Why it also loads layout updates for store_id=0, isn't it Admin Store View?
-        //If 0 means 'all stores' why it then refers by foreign key to Admin in `core_store` and not to something named
+        //If 0 means 'all stores' why it then refers by foreign key to Admin in `store` and not to something named
         // 'All Stores'?
 
         $select = $this->_getReadAdapter()->select()->from(
