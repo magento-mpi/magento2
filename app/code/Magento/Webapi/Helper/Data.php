@@ -42,9 +42,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Translate service interface name into service name.
      * Example:
      * <pre>
-     * - Magento\Customer\Service\V1\CustomerAccountInterface  => customerCustomerAccount  // $preserveVersion == false
-     * - Magento\Customer\Service\V1\CustomerAddressInterface  => customerCustomerAddressV1 // $preserveVersion == true
-     * - Magento\Catalog\Service\V2\ProductInterface           => catalogProductV2  // $preserveVersion == true
+     * - 'Magento\Customer\Service\V1\CustomerAccountInterface', false => customerCustomerAccount
+     * - 'Magento\Customer\Service\V1\CustomerAddressInterface', true  => customerCustomerAddressV1
+     * - 'Magento\Catalog\Service\V2\ProductInterface', true           => catalogProductV2
      * </pre>
      *
      * @param string $interfaceName
@@ -61,10 +61,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Identify the list of service name parts including sub-services using class name.
      *
-     * Examples of input/output pairs: <br/>
-     * - 'Magento\Customer\Service\V1\CustomerAccountInterface' => array('CustomerCustomerAccount') // $preserveVersion = false <br/>
-     * - 'Vendor\Customer\Service\V1\Customer\AddressInterface' => array('VendorCustomer', 'Address', 'V1') // $preserveVersion = false <br/>
-     * - 'Magento\Catalog\Service\V2\ProductInterface' => array('CatalogProduct', 'V2') // $preserveVersion = true
+     * Examples of input/output pairs:
+     * <pre>
+     * - 'Magento\Customer\Service\V1\CustomerAccountInterface', false => ['CustomerCustomerAccount']
+     * - 'Vendor\Customer\Service\V1\Customer\AddressInterface', true  => ['VendorCustomer', 'Address', 'V1']
+     * - 'Magento\Catalog\Service\V2\ProductInterface', true           => ['CatalogProduct', 'V2']
+     * </pre>
      *
      * @param string $className
      * @param bool $preserveVersion Should version be preserved during class name conversion into service name
