@@ -52,7 +52,7 @@ class Observer
         \Magento\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\App\ResponseInterface $response,
-        \Magento\Store\Model\StoreManagerInterfac $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_backendData = $backendData;
         $this->_coreRegistry = $coreRegistry;

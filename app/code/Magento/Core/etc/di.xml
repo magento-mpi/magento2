@@ -50,7 +50,7 @@
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
-    <preference for="Magento\Translate\ResourceInterface" type="Magento\Core\Model\Resource\Translate" />
+    <preference for="Magento\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
     <preference for="Magento\App\ScopeResolverInterface" type="Magento\Store\Model\Resolver\Store" />
     <preference for="Magento\LocaleInterface" type="Magento\Locale" />
     <preference for="Magento\Locale\CurrencyInterface" type="Magento\Locale\Currency" />
@@ -444,7 +444,7 @@
         <plugin name="initLocale" type="Magento\Translate\Locale\Resolver\Plugin" sortOrder="10"/>
         <arguments>
             <argument name="defaultLocalePath" xsi:type="string">general/locale/code</argument>
-            <argument name="scopeType" xsi:type="string">store</argument>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
     <type name="Magento\App\ScopeResolverPool">

@@ -62,7 +62,7 @@ class Resolver extends \Magento\Locale\Resolver
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
-        parent::__construct($scopeConfig, $cache, $localeFactory, $defaultLocalePath, $locale);
+        parent::__construct($scopeConfig, $cache, $localeFactory, $defaultLocalePath, $scopeType, $locale);
     }
 
     /**

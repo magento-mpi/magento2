@@ -380,7 +380,7 @@ class Items extends \Magento\Backend\App\Action
      * Get store object, basing on request
      *
      * @return \Magento\Store\Model\Store
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function _getStore()
     {
@@ -390,7 +390,7 @@ class Items extends \Magento\Backend\App\Action
             (int)$this->getRequest()->getParam('store', 0)
         );
         if (!$store || 0 == $store->getId()) {
-            throw new \Magento\Core\Exception(__('Unable to select a Store View'));
+            throw new \Magento\Model\Exception(__('Unable to select a Store View'));
         }
         return $store;
     }

@@ -163,11 +163,7 @@ class Settlement extends \Magento\Model\AbstractModel
     * @param \Magento\App\Filesystem $filesystem
     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-    <<<<<<< HEAD
     * @param \Magento\Model\Resource\AbstractResource $resource
-    =======
-    * @param \Magento\Core\Model\Resource\AbstractResource $resource
-    >>>>>>> MAGETWO-21585: Introduce Store module and move all Store related logic from Core module
     * @param \Magento\Data\Collection\Db $resourceCollection
     * @param array $data
     */

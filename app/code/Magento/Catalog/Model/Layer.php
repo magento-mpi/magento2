@@ -104,7 +104,7 @@ class Layer extends \Magento\Object
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Registry $coreRegistry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_layerStateFactory = $layerStateFactory;

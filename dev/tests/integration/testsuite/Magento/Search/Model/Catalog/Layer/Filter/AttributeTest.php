@@ -47,7 +47,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Search\Model\Resource\Collection'
         );
-        $layer = $this->getMock('Magento\Search\Model\Catalog\Layer');
+        $layer = $this->getMock('Magento\Catalog\Model\Layer\Category');
         $layer->expects($this->any())->method('getProductCollection')->will($this->returnValue($productCollection));
 
         /**
