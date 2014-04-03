@@ -300,11 +300,6 @@ class Store extends AbstractModel implements
     protected $_httpContext;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_appConfig;
-
-    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\Resource\Store $resource
@@ -319,7 +314,6 @@ class Store extends AbstractModel implements
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\App\Config\ScopeConfigInterface $appConfig
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
@@ -339,7 +333,6 @@ class Store extends AbstractModel implements
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Http\Context $httpContext,
-        \Magento\App\Config\ScopeConfigInterface $appConfig,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -356,7 +349,6 @@ class Store extends AbstractModel implements
         $this->_sidResolver = $sidResolver;
         $this->_cookie = $cookie;
         $this->_httpContext = $httpContext;
-        $this->_appConfig = $appConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -797,7 +789,10 @@ class Store extends AbstractModel implements
     {
         $configValue = $this->_getConfig(self::XML_PATH_PRICE_SCOPE);
         if ($configValue == self::PRICE_SCOPE_GLOBAL) {
-            return $this->_appConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
+            return $this->_config->getValue(
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                \Magento\App\ScopeInterface::SCOPE_DEFAULT
+            );
         } else {
             return $this->_getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
         }
