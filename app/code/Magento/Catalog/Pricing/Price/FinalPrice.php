@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\Calculator;
+use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Pricing\Object\SaleableInterface;
 
 /**
@@ -31,12 +31,12 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
-     * @param Calculator $calculator
+     * @param CalculatorInterface $calculator
      */
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator
+        CalculatorInterface $calculator
     ) {
         parent::__construct($salableItem, $quantity, $calculator);
         $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE);

@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\Calculator;
+use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
@@ -57,13 +57,13 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     /**
      * @param SaleableInterface $salableItem
      * @param $quantity
-     * @param Calculator $calculator
+     * @param CalculatorInterface $calculator
      * @param Session $customerSession
      */
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator,
+        CalculatorInterface $calculator,
         Session $customerSession
     ) {
         parent::__construct($salableItem, $quantity, $calculator);

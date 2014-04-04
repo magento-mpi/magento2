@@ -52,7 +52,7 @@
                     <item name="include_in_base_price" xsi:type="boolean">true</item>
                 </item>
                 <item name="final_price" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\FinalPrice</item>
+                    <item name="class" xsi:type="string">Magento\Bundle\Pricing\Price\FinalPrice</item>
                     <item name="include_in_base_price" xsi:type="boolean">false</item>
                 </item>
                 <item name="tier_price" xsi:type="array">
