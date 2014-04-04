@@ -60,10 +60,6 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-//        $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-//            ->disableOriginalConstructor()
-//            ->setMethods(['getPriceInfo', '__wakeup'])
-//            ->getMock();
         $this->product = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface', [], '', true, true, true, ['getPriceInfo', '__wakeup']);
 
         $this->priceType = $this->getMockBuilder('Magento\Catalog\Pricing\Price\MsrpPrice')

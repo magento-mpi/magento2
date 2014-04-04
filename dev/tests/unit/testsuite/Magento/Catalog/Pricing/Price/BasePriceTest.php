@@ -57,6 +57,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $qty = 1;
         $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
         $this->regularPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
@@ -72,7 +73,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
             'group_price' => $this->groupPriceMock,
             'special_price' => $this->specialPriceMock
         ];
-        $this->basePrice = new BasePrice($this->salableItemMock, 1, $this->calculatorMock);
+        $this->basePrice = new BasePrice($this->salableItemMock, $qty, $this->calculatorMock);
     }
 
     /**
@@ -80,6 +81,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue()
     {
+        $specialPriceValue = 77;
         $this->priceInfoMock->expects($this->once())
             ->method('getPricesIncludedInBase')
             ->will($this->returnValue($this->prices));
@@ -91,8 +93,8 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(99));
         $this->specialPriceMock->expects($this->once())
             ->method('getValue')
-            ->will($this->returnValue(77));
-        $this->assertSame(77, $this->basePrice->getValue());
+            ->will($this->returnValue($specialPriceValue));
+        $this->assertSame($specialPriceValue, $this->basePrice->getValue());
     }
 
     /**
@@ -100,18 +102,19 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMaxValue()
     {
+        $regularPriceValue = 100;
         $this->priceInfoMock->expects($this->once())
             ->method('getPricesIncludedInBase')
             ->will($this->returnValue($this->prices));
         $this->regularPriceMock->expects($this->exactly(2))
             ->method('getValue')
-            ->will($this->returnValue(100));
+            ->will($this->returnValue($regularPriceValue));
         $this->groupPriceMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue(99));
         $this->specialPriceMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue(77));
-        $this->assertSame(100, $this->basePrice->getMaxValue());
+        $this->assertSame($regularPriceValue, $this->basePrice->getMaxValue());
     }
 }
