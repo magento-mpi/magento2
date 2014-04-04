@@ -654,6 +654,7 @@ return array(
     array('load', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('loadBaseContents', 'Magento\Email\Model\Template'),
     array('loadBase', 'Magento\Core\Model\Config'),
+    array('loadByCustomer', 'Magento\Newsletter\Model\Resource\Subscriber', 'loadByCustomerData'),
     array('loadDb', 'Magento\Core\Model\Config'),
     array('loadDiConfiguration', 'Magento\Core\Model\Config'),
     array('loadEventObservers', 'Magento\Core\Model\Config'),
