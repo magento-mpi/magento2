@@ -76,19 +76,6 @@ interface CustomerAccountServiceInterface
     public function updateCustomer(\Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails);
 
     /**
-     * Create or update customer information
-     *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
-     * @param string $password Plain text password
-     * @param string $hash Hashed password ready to be saved
-     * @throws \Magento\Customer\Exception If something goes wrong during save
-     * @throws \Magento\Exception\InputException If bad input is provided
-     * @return int customer ID
-     * @deprecated use createAccount or updateCustomer instead
-     */
-    public function saveCustomer(\Magento\Customer\Service\V1\Data\Customer $customer, $password = null, $hash = null);
-
-    /**
      * Retrieve Customer
      *
      * @param int $customerId

@@ -549,10 +549,20 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Create or update customer information
+     *
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
+     * @param string $password Plain text password
+     * @param string $hash Hashed password ready to be saved
+     * @throws \Magento\Customer\Exception If something goes wrong during save
+     * @throws \Magento\Exception\InputException If bad input is provided
+     * @return int customer ID
      */
-    public function saveCustomer(Data\Customer $customer, $password = null, $hash = null)
-    {
+    protected function saveCustomer(
+        \Magento\Customer\Service\V1\Data\Customer $customer,
+        $password = null,
+        $hash = null
+    ) {
         $customerModel = $this->_converter->createCustomerModel($customer);
 
         // Priority: hash, password, auto generated password

@@ -1242,7 +1242,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         return array('true' => array(true), 'false' => array(false));
     }
 
-    public function testSaveCustomer()
+    public function testCreateCustomer()
     {
         $customerData = array(
             'customer_id' => self::ID,
@@ -1254,6 +1254,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
 
         $this->_customerFactoryMock->expects(
             $this->any()
@@ -1262,6 +1263,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_customerModelMock)
         );
+
+        $this->_converter = $this->getMock('Magento\Customer\Model\Converter', [], [], '', false);
+        $this->_converter
+            ->expects($this->once())
+            ->method('createCustomerFromModel')
+            ->will($this->returnValue($customerEntity));
+        $this->_converter
+            ->expects($this->any())
+            ->method('getCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -1286,64 +1297,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         // verify
-        $this->_customerModelMock->expects($this->atLeastOnce())->method('setData');
+        $this->_converter
+            ->expects($this->once())
+            ->method('createCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
 
         $customerService = $this->_createService();
 
-        $this->assertEquals(self::ID, $customerService->saveCustomer($customerEntity));
+        $this->assertSame($customerEntity, $customerService->createAccount($customerDetails));
     }
 
-    public function testSaveNonexistingCustomer()
-    {
-        $customerData = array(
-            'customer_id' => self::ID,
-            'email' => self::EMAIL,
-            'firstname' => self::FIRSTNAME,
-            'lastname' => self::LASTNAME,
-            'create_in' => 'Admin',
-            'password' => 'password'
-        );
-        $this->_customerBuilder->populateWithArray($customerData);
-        $customerEntity = $this->_customerBuilder->create();
-
-        $this->_customerFactoryMock->expects(
-            $this->atLeastOnce()
-        )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
-
-        $this->_mockReturnValue(
-            $this->_customerModelMock,
-            array(
-                'getId' => '2',
-                'getEmail' => self::EMAIL,
-                'getFirstname' => self::FIRSTNAME,
-                'getLastname' => self::LASTNAME
-            )
-        );
-
-        $mockAttribute = $this->getMockBuilder(
-            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata'
-        )->disableOriginalConstructor()->getMock();
-        $this->_customerMetadataService->expects(
-            $this->any()
-        )->method(
-            'getCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue($mockAttribute)
-        );
-
-        // verify
-        $this->_customerModelMock->expects($this->atLeastOnce())->method('setData');
-
-        $customerService = $this->_createService();
-
-        $this->assertEquals(2, $customerService->saveCustomer($customerEntity));
-    }
-
-    public function testSaveNewCustomer()
+    public function testCreateNewCustomer()
     {
         $customerData = array(
             'email' => self::EMAIL,
@@ -1354,6 +1318,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
+
+        $this->_converter = $this->getMock('Magento\Customer\Model\Converter', [], [], '', false);
+        $this->_converter
+            ->expects($this->once())
+            ->method('createCustomerFromModel')
+            ->will($this->returnValue($customerEntity));
+        $this->_converter
+            ->expects($this->any())
+            ->method('getCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
 
         $this->_customerFactoryMock->expects(
             $this->any()
@@ -1385,18 +1360,21 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         // verify
-        $this->_customerModelMock->expects($this->atLeastOnce())->method('setData');
+        $this->_converter
+            ->expects($this->once())
+            ->method('createCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
 
         $customerService = $this->_createService();
 
-        $this->assertEquals(self::ID, $customerService->saveCustomer($customerEntity));
+        $this->assertSame($customerEntity, $customerService->createAccount($customerDetails));
     }
 
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage exception message
      */
-    public function testSaveCustomerWithException()
+    public function testCreateCustomerWithException()
     {
         $customerData = array(
             'email' => self::EMAIL,
@@ -1407,6 +1385,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
+
+        $this->_converter = $this->getMock('Magento\Customer\Model\Converter', [], [], '', false);
+        $this->_converter
+            ->expects($this->once())
+            ->method('createCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_converter
+            ->expects($this->any())
+            ->method('getCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
 
         $this->_customerFactoryMock->expects(
             $this->any()
@@ -1437,21 +1426,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($mockAttribute)
         );
 
-        $this->_customerModelMock->expects(
-            $this->once()
-        )->method(
-            'save'
-        )->will(
-            $this->throwException(new \Exception('exception message'))
-        );
+        $this->_converter
+            ->expects($this->once())
+            ->method('createCustomerFromModel')
+            ->will($this->throwException(new \Exception('exception message')));
 
-        // verify
         $customerService = $this->_createService();
-
-        $customerService->saveCustomer($customerEntity);
+        $customerService->createAccount($customerDetails);
     }
 
-    public function testSaveCustomerWithInputException()
+    public function testCreateCustomerWithInputException()
     {
         $customerData = array(
             'email' => self::EMAIL,
@@ -1462,6 +1446,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
+
+        $this->_converter = $this->getMock('Magento\Customer\Model\Converter', [], [], '', false);
+        $this->_converter
+            ->expects($this->once())
+            ->method('createCustomerModel')
+            ->will($this->returnValue($this->_customerModelMock));
 
         $this->_customerFactoryMock->expects(
             $this->any()
@@ -1489,7 +1480,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->saveCustomer($customerEntity);
+            $customerService->createAccount($customerDetails);
         } catch (InputException $inputException) {
             $this->assertContains(
                 array('fieldName' => 'firstname', 'code' => InputException::REQUIRED_FIELD, 'value' => null),
@@ -1931,7 +1922,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_mathRandomMock,
             $this->_converter,
             $this->_validator,
-            $objectManager->getObject('\Magento\Customer\Service\V1\Data\CustomerBuilder'),
+            $this->_customerBuilder,
             $this->_customerDetailsBuilder,
             new Data\SearchResultsBuilder,
             new Data\CustomerValidationResultsBuilder(),
