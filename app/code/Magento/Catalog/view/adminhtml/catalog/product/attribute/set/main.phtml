@@ -234,6 +234,9 @@
 
                     addGroup : function() {
                         var group_name = prompt("<?php echo __('Please enter a new group name.') ?>","");
+                        if (!group_name) {
+                            return;
+                        }
                         group_name = group_name.strip();
                         if( group_name == '' ) {
                             this.addGroup();
