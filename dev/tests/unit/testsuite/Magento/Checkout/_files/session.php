@@ -8,13 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Session;
-
+namespace Magento\Session;
 
 /**
  * Mock headers_sent function to prevent check whether headers have been already sent
  *
- * @see \Magento\Core\Model\Session\AbstractSession
+ * @see \Magento\Session\SessionManager
  */
 function headers_sent()
 {
@@ -24,7 +23,7 @@ function headers_sent()
 /**
  * Mock session_start function to prevent check whether headers have been already sent
  *
- * @see \Magento\Core\Model\Session\AbstractSession
+ * @see \Magento\Session\SessionManager
  */
 function session_start()
 {

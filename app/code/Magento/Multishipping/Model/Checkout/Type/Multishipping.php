@@ -36,7 +36,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
@@ -74,7 +74,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -89,7 +89,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         CustomerAddressServiceInterface $customerAddressService,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\Session $session,
+        \Magento\Session\Generic $session,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

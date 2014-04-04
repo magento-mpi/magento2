@@ -70,7 +70,7 @@ class Quote extends \Magento\Session\SessionManager
     protected $_storeConfig;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\Request\Http $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -83,7 +83,7 @@ class Quote extends \Magento\Session\SessionManager
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\App\Request\Http $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,

@@ -44,7 +44,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\PageCache\FormKey */
     protected $_formKey;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Session */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Session\Generic */
     protected $_session;
 
     /**
@@ -63,7 +63,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', array(), array(), '', false);
         $this->_typeListMock = $this->getMock('Magento\App\Cache\TypeList', array(), array(), '', false);
         $this->_formKey = $this->getMock('Magento\App\PageCache\FormKey', array(), array(), '', false);
-        $this->_session = $this->getMock('Magento\Core\Model\Session', array('setData'), array(), '', false);
+        $this->_session = $this->getMock('Magento\Session\Generic', array('setData'), array(), '', false);
 
         $this->_model = new \Magento\PageCache\Model\Observer(
             $this->_configMock,

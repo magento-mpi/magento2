@@ -7,14 +7,14 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Session\Config
+ * Test class for \Magento\Session\Config
  */
-namespace Magento\Core\Model\Session;
+namespace Magento\Session;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Session\Config
+     * @var \Magento\Session\Config
      */
     protected $config;
 
@@ -22,11 +22,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_configMock;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $_storeManagerMock;
 
     /**
      * @var \Magento\Stdlib\String
@@ -51,29 +46,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->_storeManagerMock = $this->getMock(
-            '\Magento\Store\Model\StoreManager',
-            array('getStore'),
-            array(),
-            '',
-            false,
-            false
-        );
-        $storeMock = $this->getMock(
-            '\Magento\Store\Model\Store',
-            array('isAdmin', '__wakeup'),
-            array(),
-            '',
-            false,
-            false
-        );
-        $this->_storeManagerMock->expects(
-            $this->atLeastOnce()
-        )->method(
-            'getStore'
-        )->will(
-            $this->returnValue($storeMock)
-        );
 
         $this->_stringHelperMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false, false);
         $this->_requestMock = $this->getMock(
@@ -96,13 +68,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
         $this->_filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false, false);
 
-        $this->config = new \Magento\Core\Model\Session\Config(
+        $this->config = new \Magento\Session\Config(
             $this->_configMock,
-            $this->_storeManagerMock,
             $this->_stringHelperMock,
             $this->_requestMock,
             $this->_appState,
             $this->_filesystem,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
             __DIR__
         );
@@ -112,7 +84,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             '\InvalidArgumentException',
-            'Parameter provided to Magento\Core\Model\Session\Config::setOptions must be an array or Traversable'
+            'Parameter provided to Magento\Session\Config::setOptions must be an array or Traversable'
         );
         $this->config->setOptions('');
     }
@@ -168,7 +140,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOptions()
     {
-        $appStateProperty = new \ReflectionProperty('Magento\Core\Model\Session\Config', 'options');
+        $appStateProperty = new \ReflectionProperty('Magento\Session\Config', 'options');
         $appStateProperty->setAccessible(true);
         $original = $appStateProperty->getValue($this->config);
         $valueForTest = array('test' => 'test2');
@@ -182,7 +154,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testHasOption()
     {
-        $appStateProperty = new \ReflectionProperty('Magento\Core\Model\Session\Config', 'options');
+        $appStateProperty = new \ReflectionProperty('Magento\Session\Config', 'options');
         $appStateProperty->setAccessible(true);
         $original = $appStateProperty->getValue($this->config);
         $valueForTest = array('session.test' => 'test2');
@@ -261,7 +233,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             '\BadMethodCallException',
-            'Method "methodThatNotExist" does not exist in Magento\Core\Model\Session\Config'
+            'Method "methodThatNotExist" does not exist in Magento\Session\Config'
         );
         $this->config->methodThatNotExist();
     }

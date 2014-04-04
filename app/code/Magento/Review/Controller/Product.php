@@ -79,7 +79,7 @@ class Product extends \Magento\App\Action\Action
     /**
      * Core session model
      *
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
@@ -113,7 +113,7 @@ class Product extends \Magento\App\Action\Action
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Session\Generic $reviewSession
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -128,7 +128,7 @@ class Product extends \Magento\App\Action\Action
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
-        \Magento\Core\Model\Session $session,
+        \Magento\Session\Generic $session,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Session\Generic $reviewSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -297,7 +297,7 @@ class Product extends \Magento\App\Action\Action
 
         if (($product = $this->_initProduct()) && !empty($data)) {
             $session = $this->_session;
-            /* @var $session \Magento\Core\Model\Session */
+            /* @var $session \Magento\Session\Generic */
             $review = $this->_reviewFactory->create()->setData($data);
             /* @var $review Review */
 

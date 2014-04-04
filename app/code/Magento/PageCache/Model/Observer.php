@@ -37,12 +37,12 @@ class Observer
     protected $_typeList;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\App\PageCache\FormKey
      */
     protected $_formKey;
 
@@ -53,7 +53,7 @@ class Observer
      * @param \Magento\App\PageCache\Cache $cache
      * @param \Magento\PageCache\Helper\Data $helper
      * @param \Magento\App\Cache\TypeListInterface $typeList
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\App\PageCache\FormKey $formKey
      */
     public function __construct(
@@ -62,7 +62,7 @@ class Observer
         \Magento\PageCache\Helper\Data $helper,
         \Magento\App\Cache\TypeListInterface $typeList,
         \Magento\App\PageCache\FormKey $formKey,
-        \Magento\Core\Model\Session $session
+        \Magento\Session\Generic $session
     ) {
         $this->_config = $config;
         $this->_cache = $cache;

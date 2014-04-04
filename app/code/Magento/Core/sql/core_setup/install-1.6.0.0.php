@@ -199,7 +199,7 @@ $table = $installer->getConnection()->newTable(
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core_session'
+ * Create table 'session'
  */
 $table = $installer->getConnection()->newTable(
     $installer->getTable('core_session')

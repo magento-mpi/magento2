@@ -80,7 +80,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Backend\Model\Url\ScopeResolver $scopeResolver
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
@@ -102,7 +102,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\App\RequestInterface $request,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Backend\Model\Url\ScopeResolver $scopeResolver,
-        \Magento\Core\Model\Session $session,
+        \Magento\Session\Generic $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,

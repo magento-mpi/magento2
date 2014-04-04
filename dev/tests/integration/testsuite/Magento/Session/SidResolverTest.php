@@ -2,23 +2,21 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Session;
+namespace Magento\Session;
 
 class SidResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Session\SidResolver
+     * @var \Magento\Session\SidResolver
      */
     protected $model;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $session;
 
@@ -51,8 +49,8 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Core\Model\Session _model */
-        $this->session = $objectManager->get('Magento\Core\Model\Session');
+        /** @var \Magento\Session\Generic _model */
+        $this->session = $objectManager->get('Magento\Session\Generic');
 
         $this->coreStoreConfig = $this->getMockBuilder(
             'Magento\App\Config\ScopeConfigInterface'
@@ -67,7 +65,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->model = $objectManager->create(
-            'Magento\Core\Model\Session\SidResolver',
+            'Magento\Session\SidResolver',
             array(
                 'coreStoreConfig' => $this->coreStoreConfig,
                 'urlBuilder' => $this->urlBuilder,
@@ -97,7 +95,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getValue'
         )->with(
-            SidResolver::XML_PATH_USE_FRONTEND_SID,
+            \Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue($useFrontedSid)

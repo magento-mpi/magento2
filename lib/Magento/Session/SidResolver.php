@@ -9,10 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Session;
-
-use Magento\Session\SessionManagerInterface;
-use Magento\Session\SidResolverInterface;
+namespace Magento\Session;
 
 class SidResolver implements SidResolverInterface
 {
@@ -57,21 +54,29 @@ class SidResolver implements SidResolverInterface
     protected $_useSessionInUrl = true;
 
     /**
+     * @var string
+     */
+    protected $_scopeType;
+
+    /**
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\App\RequestInterface $request
+     * @param string $scopeType
      * @param array $sidNameMap
      */
     public function __construct(
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\UrlInterface $urlBuilder,
         \Magento\App\RequestInterface $request,
+        $scopeType,
         array $sidNameMap = array()
     ) {
         $this->coreStoreConfig = $coreStoreConfig;
         $this->urlBuilder = $urlBuilder;
         $this->request = $request;
         $this->sidNameMap = $sidNameMap;
+        $this->_scopeType = $scopeType;
     }
 
     /**
@@ -83,7 +88,7 @@ class SidResolver implements SidResolverInterface
         $sidKey = null;
         $useSidOnFrontend = $this->coreStoreConfig->getValue(
             self::XML_PATH_USE_FRONTEND_SID,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            $this->_scopeType
         );
         if ($useSidOnFrontend && $this->request->getQuery(
             $this->getSessionIdQueryParam($session),

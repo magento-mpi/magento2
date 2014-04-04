@@ -127,4 +127,19 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
+    <type name="Magento\Session\Config">
+        <arguments>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Session\SidResolver">
+        <arguments>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Session\Validator">
+        <arguments>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+        </arguments>
+    </type>
 </config>

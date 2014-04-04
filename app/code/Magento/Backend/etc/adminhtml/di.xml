@@ -30,7 +30,7 @@
             <argument name="backendUrl" xsi:type="object">Magento\Backend\Model\UrlInterface\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Session">
+    <type name="Magento\Session\Generic">
         <arguments>
             <argument name="sessionName" xsi:type="string">adminhtml</argument>
         </arguments>

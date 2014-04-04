@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Session;
+namespace Magento\Session;
 
 use Magento\Session\Config\ConfigInterface;
 
@@ -71,11 +71,6 @@ class Config implements ConfigInterface
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Stdlib\String
      */
     protected $_stringHelper;
@@ -108,33 +103,38 @@ class Config implements ConfigInterface
     protected $_filesystem;
 
     /**
+     * @var string
+     */
+    protected $_scopeType;
+
+    /**
      * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
      * @param \Magento\App\Filesystem $filesystem
+     * @param string $scopeType
      * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
      */
     public function __construct(
         \Magento\App\Config\ScopeConfigInterface $storeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\App\Filesystem $filesystem,
+        $scopeType,
         $saveMethod = \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
         $cacheLimiter = null
     ) {
         $this->_storeConfig = $storeConfig;
-        $this->_storeManager = $storeManager;
         $this->_stringHelper = $stringHelper;
         $this->_httpRequest = $request;
         $this->_appState = $appState;
         $this->_filesystem = $filesystem;
+        $this->_scopeType = $scopeType;
 
         $this->setSaveHandler($saveMethod === 'db' ? 'user' : $saveMethod);
 
@@ -147,22 +147,22 @@ class Config implements ConfigInterface
             $this->setOption('session.cache_limiter', $cacheLimiter);
         }
 
-        $lifetime = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_LIFETIME, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeManager->getStore());
+        $lifetime = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_LIFETIME, $this->_scopeType);
         $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
         $this->setCookieLifetime($lifetime);
 
-        $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeManager->getStore());
+        $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, $this->_scopeType);
         if (empty($path)) {
             $path = $this->_httpRequest->getBasePath();
         }
         $this->setCookiePath($path);
 
-        $domain = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_DOMAIN, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeManager->getStore());
+        $domain = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_DOMAIN, $this->_scopeType);
         $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
         $this->setCookieDomain((string)$domain);
 
         $this->setCookieHttpOnly(
-            $this->_storeConfig->getValue(self::XML_PATH_COOKIE_HTTPONLY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeManager->getStore())
+            $this->_storeConfig->getValue(self::XML_PATH_COOKIE_HTTPONLY, $this->_scopeType)
         );
     }
 
@@ -373,7 +373,7 @@ class Config implements ConfigInterface
     public function getCookiePath()
     {
         if (!$this->hasOption('session.cookie_path')) {
-            $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeManager->getStore());
+            $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, $this->_scopeType);
             if (empty($path)) {
                 $path = $this->_httpRequest->getBasePath();
             }

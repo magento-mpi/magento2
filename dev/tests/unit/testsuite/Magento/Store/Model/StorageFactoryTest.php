@@ -141,7 +141,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'isSetFlag'
         )->with(
-            \Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+            \Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue(true)

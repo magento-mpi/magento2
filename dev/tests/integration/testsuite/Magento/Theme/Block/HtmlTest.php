@@ -33,7 +33,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
                 $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
                 $securityInfoMock,
                 $this->getMock('Magento\Url\ScopeResolverInterface', array(), array(), '', false),
-                $this->getMock('Magento\Core\Model\Session', array(), array(), '', false),
+                $this->getMock('Magento\Session\Generic', array(), array(), '', false),
                 $this->getMock('Magento\Session\SidResolverInterface', array(), array(), '', false),
                 $this->getMock('Magento\Url\RouteParamsResolverFactory', array(), array(), '', false),
                 $this->getMock('Magento\Url\QueryParamsResolver', array(), array(), '', false),

@@ -10,10 +10,6 @@
 
 /**
  * Newsletter subscribe controller
- *
- * @category    Magento
- * @package     Magento_Newsletter
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Newsletter\Controller;
 

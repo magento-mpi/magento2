@@ -137,7 +137,7 @@ class StorageFactory
             if ($className === $this->_installedStoreClassName) {
                 $this->_reinitStores($storage, $arguments);
                 $useSid = $this->_scopeConfig->isSetFlag(
-                    \Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+                    \Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $storage->getStore()
                 );
