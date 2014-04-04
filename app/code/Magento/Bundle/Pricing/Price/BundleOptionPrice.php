@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\RegularPrice;
-use Magento\Bundle\Model\Product\Price;
-use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
 
 /**
@@ -38,8 +35,6 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
      */
     protected $maximalPrice;
 
-    protected $amountData;
-
     /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
@@ -59,8 +54,6 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
 
     /**
      * {@inheritdoc}
-     *
-     * @return bool|float
      */
     public function getValue()
     {
@@ -117,20 +110,10 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
                     ->create($this->salableItem, $selection, $selection->getSelectionQty())
                     ->getValue();
                 $selectionPrices[] = $selectionPrice;
-
-                // AMOUNT CALCULATION START
-                if ($this->salableItem->getPriceType() == Price::PRICE_TYPE_FIXED) {
-                    $item = $this->salableItem;
-                } else {
-                    $item = $selection;
-                }
-                $this->amountData[] = $this->calculator->getAmount($selectionPrice, $item);
-                // AMOUNT CALCULATION END
             }
             if (count($selectionPrices)) {
-                $selMinPrice = min($selectionPrices);
                 if ($option->getRequired()) {
-                    $minimalPrice += $selMinPrice;
+                    $minimalPrice += min($selectionPrices);
                 }
 
                 if ($option->isMultiSelection()) {
@@ -152,5 +135,13 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
     public function getMaxValue()
     {
         return $this->maximalPrice;
+    }
+
+    /**
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    public function getAmount()
+    {
+        return $this->calculator->getAmount(0, $this->salableItem);
     }
 }

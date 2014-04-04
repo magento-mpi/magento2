@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,11 +23,7 @@ class BasePrice extends CatalogPrice\BasePrice
     public function getValue()
     {
         if ($this->value === null) {
-            $this->value = parent::getValue();
-            $this->value += $this->priceInfo
-                ->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION)
-                ->getValue();
-            $this->value = $this->applyDiscount($this->value);
+            $this->value = $this->applyDiscount(parent::getValue());
         }
         return $this->value;
     }
@@ -44,9 +38,15 @@ class BasePrice extends CatalogPrice\BasePrice
     {
         $discount = [
             0,
-            $this->priceInfo->getPrice(CatalogPrice\TierPriceInterface::PRICE_TYPE_TIER)->getValue(),
-            $this->priceInfo->getPrice(CatalogPrice\GroupPriceInterface::PRICE_TYPE_GROUP)->getValue(),
-            $this->priceInfo->getPrice(CatalogPrice\SpecialPriceInterface::PRICE_TYPE_SPECIAL)->getValue()
+            $this->priceInfo
+                ->getPrice(CatalogPrice\TierPriceInterface::PRICE_TYPE_TIER, $this->quantity)
+                ->getValue(),
+            $this->priceInfo
+                ->getPrice(CatalogPrice\GroupPriceInterface::PRICE_TYPE_GROUP, $this->quantity)
+                ->getValue(),
+            $this->priceInfo
+                ->getPrice(CatalogPrice\SpecialPriceInterface::PRICE_TYPE_SPECIAL, $this->quantity)
+                ->getValue()
         ];
         $discount = max($discount);
         if ($discount) {
@@ -63,11 +63,7 @@ class BasePrice extends CatalogPrice\BasePrice
     public function getMaxValue()
     {
         if ($this->maxValue === null) {
-            $this->value = parent::getMaxValue();
-            $this->value += $this->priceInfo
-                ->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION)
-                ->getMaxValue();
-            $this->value = $this->applyDiscount($this->value);
+            $this->value = $this->applyDiscount(parent::getMaxValue());
         }
         return $this->maxValue;
     }

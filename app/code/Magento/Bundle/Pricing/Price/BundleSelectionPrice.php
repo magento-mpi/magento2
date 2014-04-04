@@ -10,6 +10,7 @@
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\RegularPrice;
+use Magento\Catalog\Pricing\Price\BasePrice;
 use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Model\Product\Price;
@@ -86,7 +87,7 @@ class BundleSelectionPrice extends RegularPrice implements BundleSelectionPriceI
 
                 $price = $product->getData('final_price') * ($this->salableItem->getSelectionPriceValue() / 100);
                 $this->value = $product->getPriceInfo()
-                    ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, $this->quantity)
+                    ->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE, $this->quantity)
                     ->applyDiscount($price);
             } else {
                 // calculate price for selection type fixed

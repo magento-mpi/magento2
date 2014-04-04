@@ -17,7 +17,7 @@ use Magento\Pricing\Object\SaleableInterface;
 /**
  * Class Calculator
  */
-class Calculator
+class Calculator implements CalculatorInterface
 {
     /**
      * @var AmountFactory
