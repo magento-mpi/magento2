@@ -9,9 +9,18 @@
   * Moved View related components from Magento\Core module to Magento\View (MAGETWO-21590)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
+* Customer Service usage:
+  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
+* GitHub requests:
+  * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
+  * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
+  * [#516] (https://github.com/magento/magento2/issues/516) -- Make Sure That save_before Event Is Dispatched
+  * [#465] (https://github.com/magento/magento2/issues/465) -- Absolute path is assembled incorrectly when merging js/css files
 * Fixed bugs:
   * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
   * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
+  * Fixed an issue where admin could not unsubscribe customer from backend customer edit page (MAGETWO-22982)
+  * Fixed an issue where customers are always subscribed even if not selected during registration (MAGETWO-22966)
 
 2.0.0.0-dev71
 =============
@@ -48,7 +57,7 @@
   * Updated the whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:
   * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
-  * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
+  * [#502] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
 * Customer Service usage:
   * Refactored the Log module to use Customer Service
