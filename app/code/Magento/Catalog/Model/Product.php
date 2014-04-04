@@ -733,7 +733,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     }
 
     /**
-     * Set qty
+     * Set quantity for product
      *
      * @param $qty
      * @return $this

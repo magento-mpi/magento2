@@ -76,6 +76,10 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMinProduct()
     {
+        $valueMap = [
+            [90],
+            [70]
+        ];
         $this->salableItemMock->expects($this->once())
             ->method('getTypeInstance')
             ->will($this->returnValue($this->typeInstanceMock));
@@ -100,12 +104,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->priceTypeMock->expects($this->exactly(2))
             ->method('getValue')
-            ->will($this->returnValueMap(
-                [
-                    [90],
-                    [70]
-                ]
-            ));
+            ->will($this->returnValueMap($valueMap));
         $this->assertEquals($this->finalPrice->getMinProduct(), $this->productMock);
     }
 }
