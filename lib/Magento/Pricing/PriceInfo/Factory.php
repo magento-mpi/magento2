@@ -25,6 +25,7 @@ class Factory
 
     /**
      * List of Price Info classes by product types
+     *
      * @var array
      */
     protected $types = [];
@@ -51,19 +52,19 @@ class Factory
     /**
      * Create Price Info object for particular product
      *
-     * @param SaleableInterface $product
+     * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return \Magento\Pricing\PriceInfoInterface
      * @throws \InvalidArgumentException
      */
-    public function create(SaleableInterface $product, array $arguments = [])
+    public function create(SaleableInterface $saleableItem, array $arguments = [])
     {
-        $type = $product->getTypeId();
+        $type = $saleableItem->getTypeId();
         $className = isset($this->types[$type]) ? $this->types[$type] : self::DEFAULT_PRICE_INFO_CLASS;
 
-        $arguments['saleableItem'] = $product;
-        if ($product->getQty()) {
-            $arguments['quantity'] = $product->getQty();
+        $arguments['saleableItem'] = $saleableItem;
+        if ($saleableItem->getQty()) {
+            $arguments['quantity'] = $saleableItem->getQty();
         }
         $priceInfo = $this->objectManager->create($className, $arguments);
 
@@ -72,7 +73,6 @@ class Factory
                 $className . ' doesn\'t implement \Magento\Pricing\PriceInfoInterface'
             );
         }
-
         return $priceInfo;
     }
 }

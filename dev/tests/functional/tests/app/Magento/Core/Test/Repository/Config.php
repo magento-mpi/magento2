@@ -820,19 +820,19 @@ class Config extends AbstractRepository
                                                     'wpp_and_express_checkout' => array( //Payments Pro and Express Checkout
                                                         'fields' => array(
                                                             'business_account' => array( //Email Associated with PayPal
-                                                                'value' => 'mtf_bussiness_pro@example.com'
+                                                                'value' => 'mtf_bussiness_pro@example.net'
                                                             ),
                                                             'api_authentication' => array( //API Authentication Methods
                                                                 'value' => 0 //API Signature
                                                             ),
                                                             'api_username' => array( //API Username
-                                                                'value' => 'mtf_bussiness_pro_api1.example.com'
+                                                                'value' => 'mtf_bussiness_pro_api1.example.net'
                                                             ),
                                                             'api_password' => array( //API Password
-                                                                'value' => '1380260177'
+                                                                'value' => '1396336783'
                                                             ),
                                                             'api_signature' => array( //API Signature
-                                                                'value' => 'AEhCkH8sFI39Bz94iP79RT9Mt0MVAkCzF6NaWuXG2QtQFTkCUVG0z83m'
+                                                                'value' => 'Ai4aunchzf-e-FeWoRkUYBBHvZciAXN6kt7.wD1oGG-uZPAcDD1wcP4Y'
                                                             ),
                                                             'sandbox_flag' => array( //Sandbox Mode
                                                                 'value' => self::YES_VALUE

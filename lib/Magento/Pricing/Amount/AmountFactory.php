@@ -14,6 +14,11 @@ namespace Magento\Pricing\Amount;
 class AmountFactory
 {
     /**
+     * Default amount class
+     */
+    const DEFAULT_PRICE_AMOUNT_CLASS = 'Magento\Pricing\Amount\AmountInterface';
+
+    /**
      * @var \Magento\ObjectManager
      */
     protected $objectManager;
@@ -34,15 +39,24 @@ class AmountFactory
      * @param float $amount
      * @param array $adjustmentAmounts
      * @return \Magento\Pricing\Amount\AmountInterface
+     * @throws \InvalidArgumentException
      */
     public function create($amount, array $adjustmentAmounts = [])
     {
-        return $this->objectManager->create(
-            'Magento\Pricing\Amount\AmountInterface',
+        $amountModel = $this->objectManager->create(
+            self::DEFAULT_PRICE_AMOUNT_CLASS,
             [
                 'amount' => $amount,
                 'adjustmentAmounts' => $adjustmentAmounts
             ]
         );
+
+        if (!$amountModel instanceof \Magento\Pricing\Amount\AmountInterface) {
+            throw new \InvalidArgumentException(
+                get_class($amountModel) . ' doesn\'t implement \Magento\Pricing\Amount\AmountInterface'
+            );
+        }
+
+        return $amountModel;
     }
 }
