@@ -19,13 +19,11 @@
                 <title>No Payment Information Required</title>
                 <allowspecific>0</allowspecific>
                 <sort_order>1</sort_order>
-                <group>offline</group>
             </free>
             <substitution>
                 <active>0</active>
                 <model>Magento\Payment\Model\Method\Substitution</model>
                 <allowspecific>0</allowspecific>
-                <group>offline</group>
             </substitution>
         </payment>
     </default>
