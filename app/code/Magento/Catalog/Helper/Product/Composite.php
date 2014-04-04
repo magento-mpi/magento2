@@ -62,6 +62,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     protected $_converter;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param ProductFactory $productFactory
      * @param StoreManagerInterface $storeManager
      * @param Product $catalogProduct

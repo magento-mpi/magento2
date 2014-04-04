@@ -29,7 +29,6 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param string|null $scope
-     * @internal param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,

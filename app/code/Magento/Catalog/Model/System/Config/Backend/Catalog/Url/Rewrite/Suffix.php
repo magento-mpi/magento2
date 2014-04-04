@@ -25,7 +25,7 @@ class Suffix extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\UrlRewrite\Helper\UrlRewrite $coreUrlRewrite
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection

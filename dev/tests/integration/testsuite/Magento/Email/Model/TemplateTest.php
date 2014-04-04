@@ -99,7 +99,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGetProcessedTemplate()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
+            'Magento\App\AreaList'
         )->getArea(
             \Magento\Core\Model\App\Area::AREA_FRONTEND
         )->load();
@@ -147,7 +147,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGetProcessedTemplateDesignChange()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
+            'Magento\App\AreaList'
         )->getArea(
             \Magento\Core\Model\App\Area::AREA_FRONTEND
         )->load();
@@ -165,7 +165,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGetProcessedTemplateSubject()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
+            'Magento\App\AreaList'
         )->getArea(
             \Magento\Core\Model\App\Area::AREA_FRONTEND
         )->load();
@@ -192,7 +192,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultEmailLogo()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
+            'Magento\App\AreaList'
         )->getArea(
             \Magento\Core\Model\App\Area::AREA_FRONTEND
         )->load();

@@ -567,7 +567,9 @@ class Filter extends \Magento\Filter\Template
             )->loadByCode(
                 $params['code']
             );
-            $mode = $this->_plainTemplateMode ? \Magento\Core\Model\Variable::TYPE_TEXT : \Magento\Core\Model\Variable::TYPE_HTML;
+            $mode = $this->_plainTemplateMode
+                ? \Magento\Core\Model\Variable::TYPE_TEXT
+                : \Magento\Core\Model\Variable::TYPE_HTML;
             $value = $variable->getValue($mode);
             if ($value) {
                 $customVarValue = $value;

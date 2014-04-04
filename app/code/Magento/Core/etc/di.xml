@@ -174,17 +174,6 @@
             <argument name="converter" xsi:type="object">Magento\App\Config\Initial\Converter</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Config\Scope\ReaderPool">
-        <arguments>
-            <argument name="readers" xsi:type="array">
-                <item name="default" xsi:type="object">Magento\Store\Model\Config\Reader\DefaultReader</item>
-                <item name="website" xsi:type="object">Magento\Store\Model\Config\Reader\Website</item>
-                <item name="store" xsi:type="object">Magento\Store\Model\Config\Reader\Store</item>
-                <item name="websites" xsi:type="object">Magento\Store\Model\Config\Reader\Website</item>
-                <item name="stores" xsi:type="object">Magento\Store\Model\Config\Reader\Store</item>
-            </argument>
-        </arguments>
-    </type>
     <type name="Magento\Core\App\Router\Base">
         <arguments>
             <argument name="routerId" xsi:type="string">standard</argument>

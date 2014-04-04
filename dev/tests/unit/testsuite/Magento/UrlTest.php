@@ -10,6 +10,7 @@ namespace Magento;
 
 /**
  * Test class for Magento\Url
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class UrlTest extends \PHPUnit_Framework_TestCase
 {

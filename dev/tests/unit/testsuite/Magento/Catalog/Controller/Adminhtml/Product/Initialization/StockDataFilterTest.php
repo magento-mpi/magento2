@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization;
-
+use \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter;
 class StockDataFilterTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,7 +20,7 @@ class StockDataFilterTest extends \PHPUnit_Framework_TestCase
     protected $scopeConfigMock;
 
     /**
-     * @var \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter
+     * @var StockDataFilter
      */
     protected $stockDataFilter;
 
@@ -67,11 +67,10 @@ class StockDataFilterTest extends \PHPUnit_Framework_TestCase
             ),
             'case3' => array(
                 'inputStockData' => array(
-                    'qty' => \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE +
-                    1
+                    'qty' => StockDataFilter::MAX_QTY_VALUE + 1
                 ),
                 'outputStockData' => array(
-                    'qty' => \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE,
+                    'qty' => StockDataFilter::MAX_QTY_VALUE,
                     'is_decimal_divided' => 0,
                     'use_config_manage_stock' => 0
                 )

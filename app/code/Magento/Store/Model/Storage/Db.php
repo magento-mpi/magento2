@@ -10,6 +10,7 @@
 namespace Magento\Store\Model\Storage;
 
 use Magento\App\State;
+use Magento\Profiler;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\Group;
 use Magento\Store\Model\Group\Factory;

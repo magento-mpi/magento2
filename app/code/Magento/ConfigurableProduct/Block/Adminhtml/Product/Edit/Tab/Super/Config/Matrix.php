@@ -145,7 +145,8 @@ class Matrix extends \Magento\Backend\Block\Template
             $filledVariation = array();
             for ($attributeIndex = $attributesCount; $attributeIndex--;) {
                 $currentAttribute = $variationalAttributes[$attributeIndex];
-                $filledVariation[$currentAttribute['id']] = $currentAttribute['values'][$currentVariation[$attributeIndex]];
+                $currentVariationValue = $currentVariation[$attributeIndex];
+                $filledVariation[$currentAttribute['id']] = $currentAttribute['values'][$currentVariationValue];
             }
 
             $variations[] = $filledVariation;
