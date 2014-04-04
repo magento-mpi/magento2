@@ -96,6 +96,4 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(false, $block->isScopePrivate());
     }
-
-
 }
