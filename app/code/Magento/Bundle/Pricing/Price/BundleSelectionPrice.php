@@ -72,7 +72,7 @@ class BundleSelectionPrice extends RegularPrice implements BundleSelectionPriceI
                 ->getValue();
         } else {
             if ($this->salableItem->getSelectionPriceType()) {
-                // percent
+                // calculate price for selection type percent
                 // @todo get rid of final price data manipulation that should fire event to apply catalog rules
                 $product = clone $this->bundleProduct;
                 $price = $product->getPriceInfo()
@@ -84,16 +84,12 @@ class BundleSelectionPrice extends RegularPrice implements BundleSelectionPriceI
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
 
-                /** regular price replaced in order to support new price calculation logic */
-                $product->setData(
-                    'price',
-                    $product->getData('final_price') * ($this->salableItem->getSelectionPriceValue() / 100)
-                );
+                $price = $product->getData('final_price') * ($this->salableItem->getSelectionPriceValue() / 100);
                 $this->value = $product->getPriceInfo()
-                    ->getPrice(FinalPriceInterface::PRICE_TYPE_FINAL, $this->quantity)
-                    ->getValue();
+                    ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, $this->quantity)
+                    ->applyDiscount($price);
             } else {
-                // fixed
+                // calculate price for selection type fixed
                 $this->value = $this->salableItem->getSelectionPriceValue() * $this->quantity;
             }
         }
