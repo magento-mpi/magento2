@@ -1,3 +1,5 @@
+* Fixed bugs:
+  * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
 * Framework Improvements:
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
 * Modularity improvements:

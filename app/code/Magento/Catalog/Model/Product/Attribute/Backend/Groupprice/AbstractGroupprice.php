@@ -160,7 +160,7 @@ abstract class AbstractGroupprice extends Price
         // add global group prices for duplicates find
         if (!$attribute->isScopeGlobal() && $object->getStoreId()) {
             $origGroupPrices = $object->getOrigData($attribute->getName());
-            foreach ($origGroupPrices as $price) {
+            foreach ((array)$origGroupPrices as $price) {
                 if ($price['website_id'] == 0) {
                     $compare = join(
                         '-',
