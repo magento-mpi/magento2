@@ -14,7 +14,7 @@ use Magento\Pricing\Amount\AmountFactory;
 use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\PriceComposite;
 use Magento\Pricing\Price\PriceInterface;
-use Magento\Pricing\AdjustmentComposite;
+use Magento\Pricing\Adjustment\Collection;
 use Magento\Pricing\Adjustment\AdjustmentInterface;
 use Magento\Pricing\Object\SaleableInterface;
 
@@ -39,9 +39,9 @@ class Base implements PriceInfoInterface
     protected $priceInstances;
 
     /**
-     * @var AdjustmentComposite
+     * @var Collection
      */
-    protected $adjustments;
+    protected $adjustmentCollection;
 
     /**
      * @var float
@@ -56,20 +56,20 @@ class Base implements PriceInfoInterface
     /**
      * @param SaleableInterface $saleableItem
      * @param PriceComposite $prices
-     * @param AdjustmentComposite $adjustments
+     * @param Collection $adjustmentCollection
      * @param AmountFactory $amountFactory
      * @param float $quantity
      */
     public function __construct(
         SaleableInterface $saleableItem,
         PriceComposite $prices,
-        AdjustmentComposite $adjustments,
+        Collection $adjustmentCollection,
         AmountFactory $amountFactory,
         $quantity = self::PRODUCT_QUANTITY_DEFAULT
     ) {
         $this->saleableItem = $saleableItem;
         $this->prices = $prices;
-        $this->adjustments = $adjustments;
+        $this->adjustmentCollection = $adjustmentCollection;
         $this->amountFactory = $amountFactory;
         $this->quantity = $quantity;
     }
@@ -132,7 +132,7 @@ class Base implements PriceInfoInterface
      */
     public function getAdjustments()
     {
-        return $this->adjustments->getAdjustments();
+        return $this->adjustmentCollection->getItems();
     }
 
     /**
@@ -144,11 +144,7 @@ class Base implements PriceInfoInterface
      */
     public function getAdjustment($adjustmentCode)
     {
-        $adjustments = $this->adjustments->getAdjustments();
-        if (!isset($adjustments[$adjustmentCode])) {
-            throw new \InvalidArgumentException($adjustmentCode . ' is not registered adjustment');
-        }
-        return $adjustments[$adjustmentCode];
+        return $this->adjustmentCollection->getItemByCode($adjustmentCode);
     }
 
     /**

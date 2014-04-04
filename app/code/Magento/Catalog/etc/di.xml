@@ -349,4 +349,12 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Pricing\Adjustment\Collection">
+        <arguments>
+            <argument name="adjustments" xsi:type="array">
+                <item name="tax" xsi:type="const">Magento\Tax\Pricing\Adjustment::CODE</item>
+                <item name="weee" xsi:type="const">Magento\Weee\Pricing\Adjustment::CODE</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -42,6 +42,7 @@
     <virtualType name="Magento\Bundle\Pricing\PriceInfo" type="Magento\Pricing\PriceInfo\Base">
         <arguments>
             <argument name="prices" xsi:type="object">Magento\Bundle\Pricing\PriceComposite</argument>
+            <argument name="adjustmentCollection" xsi:type="object">Magento\Bundle\Pricing\Adjustment\Collection</argument>
         </arguments>
     </virtualType>
     <virtualType name="Magento\Bundle\Pricing\PriceComposite" type="Magento\Pricing\PriceComposite">
@@ -83,6 +84,14 @@
                     <item name="class" xsi:type="string">Magento\Bundle\Pricing\Price\BundleOptionPrice</item>
                     <item name="include_in_base_price" xsi:type="boolean">false</item>
                 </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Bundle\Pricing\Adjustment\Collection" type="Magento\Pricing\Adjustment\Collection">
+        <arguments>
+            <argument name="adjustments" xsi:type="array">
+                <item name="tax" xsi:type="const">Magento\Tax\Pricing\Adjustment::CODE</item>
+                <item name="weee" xsi:type="const">Magento\Weee\Pricing\Adjustment::CODE</item>
             </argument>
         </arguments>
     </virtualType>
