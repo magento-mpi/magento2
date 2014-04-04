@@ -10,9 +10,13 @@
   * Coupled Magento_Rating and Magento_Rating modules. Magento_Rating is removed (MAGETWO-23048)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
+* Customer Service usage:
+  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
 * Fixed bugs:
   * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
   * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
+  * Fixed an issue where admin could not unsubscribe customer from backend customer edit page (MAGETWO-22982)
+  * Fixed an issue where customers are always subscribed even if not selected during registration (MAGETWO-22966)
   * Fixed: Tax class id instead tax class name is displayed on "Customer Groups" grid (MAGETWO-21826)
   * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
   * Fixed: Impossible export several entyties (Credit Memos, Report Shopping Cart ...) for user with restricted permission (MAGETWO-19346)
