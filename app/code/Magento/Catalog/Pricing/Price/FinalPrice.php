@@ -44,6 +44,8 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     }
 
     /**
+     * Get Value
+     *
      * @return float|bool
      */
     public function getValue()
@@ -52,6 +54,8 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     }
 
     /**
+     * Get MaxValue
+     *
      * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getMaxValue()
@@ -60,6 +64,8 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     }
 
     /**
+     * Get Minimal Price
+     *
      * @return float
      */
     public function getMinimalPrice()
@@ -68,6 +74,8 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     }
 
     /**
+     * Get Maximal Price
+     *
      * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getMaximalPrice()

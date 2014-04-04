@@ -30,6 +30,8 @@ class OptionPrice extends RegularPrice implements OptionPriceInterface
     protected $priceOptions;
 
     /**
+     * Get Value
+     *
      * @return bool|float
      */
     public function getValue()
@@ -55,6 +57,8 @@ class OptionPrice extends RegularPrice implements OptionPriceInterface
     }
 
     /**
+     * Process Product Options
+     *
      * @param array $values
      * @return float
      */
@@ -77,6 +81,8 @@ class OptionPrice extends RegularPrice implements OptionPriceInterface
     }
 
     /**
+     * Get Product Options
+     *
      * @return array
      */
     public function getOptions()
