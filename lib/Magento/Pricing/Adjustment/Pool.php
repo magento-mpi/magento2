@@ -8,15 +8,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Pricing;
+namespace Magento\Pricing\Adjustment;
 
 use Magento\Pricing\Adjustment\Factory as AdjustmentFactory;
 use Magento\Pricing\Adjustment\AdjustmentInterface;
 
 /**
- * Adjustment composite model
+ * Global adjustment pool model
  */
-class AdjustmentComposite
+class Pool
 {
     /**
      * @var AdjustmentFactory
@@ -24,7 +24,7 @@ class AdjustmentComposite
     protected $adjustmentFactory;
 
     /**
-     * @var array
+     * @var array[]
      */
     protected $adjustments;
 
@@ -35,7 +35,7 @@ class AdjustmentComposite
 
     /**
      * @param AdjustmentFactory $adjustmentFactory
-     * @param array $adjustments
+     * @param array[] $adjustments
      */
     public function __construct(AdjustmentFactory $adjustmentFactory, $adjustments = [])
     {
@@ -44,31 +44,47 @@ class AdjustmentComposite
     }
 
     /**
-     * @return Adjustment\AdjustmentInterface[]
+     * @return AdjustmentInterface[]
      */
     public function getAdjustments()
     {
         if (!isset($this->adjustmentInstances)) {
-            $this->adjustmentInstances = $this->createAdjustments();
-            uasort($this->adjustmentInstances, [$this, 'sortAdjustments']);
+            $this->adjustmentInstances = $this->createAdjustments(array_keys($this->adjustments));
         }
         return $this->adjustmentInstances;
     }
 
     /**
+     * @param string $adjustmentCode
+     * @return AdjustmentInterface
+     * @throws \InvalidArgumentException
+     */
+    public function getAdjustmentByCode($adjustmentCode)
+    {
+        if (!isset($this->adjustmentInstances)) {
+            $this->adjustmentInstances = $this->createAdjustments(array_keys($this->adjustments));
+        }
+        if (!isset($this->adjustmentInstances[$adjustmentCode])) {
+            throw new \InvalidArgumentException(sprintf('Price adjustment "%s" is not registered', $adjustmentCode));
+        }
+        return $this->adjustmentInstances[$adjustmentCode];
+    }
+
+    /**
      * Instantiate adjustments
      *
-     * @return Adjustment\AdjustmentInterface[]
+     * @param string[] $adjustments
+     * @return AdjustmentInterface[]
      */
-    protected function createAdjustments()
+    protected function createAdjustments($adjustments)
     {
-        $adjustments = [];
-        foreach ($this->adjustments as $code => $adjustmentData) {
-            if (!isset($adjustments[$code])) {
-                $adjustments[$code] = $this->createAdjustment($code);
+        $instances = [];
+        foreach ($adjustments as $code) {
+            if (!isset($instances[$code])) {
+                $instances[$code] = $this->createAdjustment($code);
             }
         }
-        return $adjustments;
+        return $instances;
     }
 
     /**
@@ -86,20 +102,5 @@ class AdjustmentComposite
                 'sortOrder' => isset($adjustmentData['sortOrder']) ? (int) $adjustmentData['sortOrder'] : -1
             ]
         );
-    }
-
-    /**
-     * Sort adjustments
-     *
-     * @param AdjustmentInterface $firstAdjustment
-     * @param AdjustmentInterface $secondAdjustment
-     * @return int
-     */
-    protected function sortAdjustments(AdjustmentInterface $firstAdjustment, AdjustmentInterface $secondAdjustment)
-    {
-        if ($firstAdjustment->getSortOrder() < 0) {
-            return 1;
-        }
-        return $firstAdjustment->getSortOrder() < $secondAdjustment->getSortOrder() ? -1 : 1;
     }
 }

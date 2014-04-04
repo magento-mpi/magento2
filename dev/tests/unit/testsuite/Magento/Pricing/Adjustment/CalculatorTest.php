@@ -23,11 +23,6 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Pricing\AdjustmentComposite|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $adjustmentCompositeMock;
-
-    /**
      * @var \Magento\Pricing\Amount\AmountFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $amountFactoryMock;
@@ -37,10 +32,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $this->amountFactoryMock = $this->getMockBuilder('Magento\Pricing\Amount\AmountFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->adjustmentCompositeMock = $this->getMockBuilder('Magento\Pricing\AdjustmentComposite')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->model = new \Magento\Pricing\Adjustment\Calculator($this->amountFactoryMock, $this->adjustmentCompositeMock);
+        $this->model = new \Magento\Pricing\Adjustment\Calculator($this->amountFactoryMock);
     }
 
     /**
@@ -61,6 +53,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
         $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
+            ->setMethods(['getPriceInfo', '__wakeup'])
             ->getMock();
 
         $taxAdjustmentMock = $this->getMockBuilder('Magento\Tax\Pricing\Adjustment')
@@ -97,9 +90,17 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
         $adjustments = [$taxAdjustmentMock, $weeeAdjustmentMock];
 
-        $this->adjustmentCompositeMock->expects($this->once())
+        $priceInfoMock = $this->getMockBuilder('\Magento\Pricing\PriceInfoInterface')
+            ->disableOriginalConstructor()
+            //->setMethods(['getPriceInfo'])
+            ->getMock();
+        $priceInfoMock->expects($this->any())
             ->method('getAdjustments')
             ->will($this->returnValue($adjustments));
+
+        $productMock->expects($this->any())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($priceInfoMock));
 
         $amountBaseMock = $this->getMockBuilder('Magento\Pricing\Amount\Base')
             ->disableOriginalConstructor()

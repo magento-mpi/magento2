@@ -27,9 +27,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     protected $prices;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\AdjustmentComposite
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\Adjustment\Collection
      */
-    protected $adjustments;
+    protected $adjustmentCollection;
 
     /**
      * @var float
@@ -50,13 +50,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->saleableItem = $this->getMock('Magento\Pricing\Object\SaleableInterface', [], [], '', false);
         $this->prices = $this->getMock('Magento\Pricing\PriceComposite', [], [], '', false);
-        $this->adjustments = $this->getMock('Magento\Pricing\AdjustmentComposite', [], [], '', false);
+        $this->adjustmentCollection = $this->getMock('Magento\Pricing\Adjustment\Collection', [], [], '', false);
         $this->amountFactory = $this->getMock('Magento\Pricing\Amount\AmountFactory', [], [], '', false);
         $this->quantity = 3.;
         $this->model = new Base(
             $this->saleableItem,
             $this->prices,
-            $this->adjustments,
+            $this->adjustmentCollection,
             $this->amountFactory,
             $this->quantity
         );
@@ -131,21 +131,19 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdjustments()
     {
-        $this->adjustments->expects($this->once())->method('getAdjustments')->will($this->returnValue('result'));
+        $this->adjustmentCollection->expects($this->once())->method('getItems')->will($this->returnValue('result'));
         $this->assertEquals('result', $this->model->getAdjustments());
     }
 
     /**
      * @covers \Magento\Pricing\PriceInfo\Base::getAdjustment
-     * @expectedException \InvalidArgumentException
      */
     public function testGetAdjustment()
     {
-        $this->adjustments->expects($this->any())->method('getAdjustments')
-            ->will($this->returnValue(['test1' => 'adjustment']));
+        $this->adjustmentCollection->expects($this->any())->method('getItemByCode')
+            ->with('test1')
+            ->will($this->returnValue('adjustment'));
         $this->assertEquals('adjustment', $this->model->getAdjustment('test1'));
-
-        $this->model->getAdjustment('not_existed');
     }
 
     /**
