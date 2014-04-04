@@ -14,6 +14,15 @@
         <collection>Magento\CatalogRule\Model\Resource\Rule\Collection</collection>
         <identifier />
         <fields />
+            <id>
+                <product_selections>
+                    <attribute_code>product_selections</attribute_code>
+                    <backend_type>virtual</backend_type>
+                    <is_required>1</is_required>
+                    <group>bundle</group>
+                    <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple</fixture>
+                </product_selections>
+            </id>
         <data_set />
         <data_config />
     </catalogPriceRule>

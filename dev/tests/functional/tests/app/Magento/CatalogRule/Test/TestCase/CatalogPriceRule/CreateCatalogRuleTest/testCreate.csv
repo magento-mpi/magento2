@@ -1,0 +1,2 @@
+catalog_rule/name;catalog_rule/data/is_active;catalog_rule/data/website_ids;catalog_rule/data/customer_group_ids;catalog_rule/data/product_selections/preset;catalog_rule/data/preset/actions;catalog_rule/data/simple_action;catalog_rule/data/discount_amount;constraint
+"rule_name%isolation%";"1";"1";"0";catalogProductSimple::SimpleProduct_sku_5161696315;"-";"to_percent"; "90"; "assertCatalogRuleSaveMessage", "AssertCatalogRuleInGrid"

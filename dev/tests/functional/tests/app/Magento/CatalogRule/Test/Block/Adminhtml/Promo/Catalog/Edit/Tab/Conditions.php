@@ -34,6 +34,7 @@ class Conditions extends Tab
      *
      * @param array $fields
      * @param Element $element
+     * @return void
      */
     public function fillFormTab(array $fields, Element $element)
     {

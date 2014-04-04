@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <AssertCatalogRuleInGrid module="Magento_CatalogRule">
+        <severeness>high</severeness>
+        <require>
+            <catalogRuleInGrid class="Magento\CatalogRule\Test\Page\Product\CatalogRule" />
+            <catalogRule class="Magento\Catalog\Test\Fixture\CatalogRule" />
+        </require>
+    </AssertCatalogRuleInGrid>
+    <assertCatalogRuleSaveMessage module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <catalogRuleInGrid class="Magento\Catalog\Test\Page\CatalogRule" />
+        </require>
+    </assertCatalogRuleSaveMessage>
+    <assertProductVisibleInCategory module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <category class="Magento\Catalog\Test\Fixture\Category" />
+            <simple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+        </require>
+    </assertProductVisibleInCategory>
+    <assertProductSearchableBySku module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogSearchResult class="Magento\CatalogSearch\Test\Page\CatalogsearchResult" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <simple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+        </require>
+    </assertProductSearchableBySku>
+    <assertProductInCategory module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <category class="Magento\Catalog\Test\Fixture\Category" />
+        </require>
+    </assertProductInCategory>
+    <assertProductView module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+        </require>
+    </assertProductView>
+    <assertProductInCart module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
+        </require>
+    </assertProductInCart>
+</constraint>
