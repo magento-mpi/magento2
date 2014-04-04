@@ -91,6 +91,7 @@ class Converter
      * @param string $customerEmail
      * @param int $websiteId
      * @throws NoSuchEntityException If customer with the specified customer email not found.
+     * @throws \Magento\Model\Exception If website was not specified
      * @return Customer
      */
     public function getCustomerModelByEmail($customerEmail, $websiteId = null)
@@ -144,12 +145,12 @@ class Converter
      * Update customer model with the data from the data object
      *
      * @param Customer $customerModel
-     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
+     * @param CustomerDataObject $customerData
      * @return void
      */
     public function updateCustomerModel(
         \Magento\Customer\Model\Customer $customerModel,
-        \Magento\Customer\Service\V1\Data\Customer $customerData
+        CustomerDataObject $customerData
     ) {
         $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customerData);
         foreach ($attributes as $attributeCode => $attributeValue) {
@@ -181,7 +182,7 @@ class Converter
                 continue;
             }
             if ($attrCode == 'entity_id') {
-                $attributes[\Magento\Customer\Service\V1\Data\Customer::ID] = $value;
+                $attributes[CustomerDataObject::ID] = $value;
             } else {
                 $attributes[$attrCode] = $value;
             }

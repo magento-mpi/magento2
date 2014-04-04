@@ -424,15 +424,14 @@ class Account extends \Magento\App\Action\Action
             $addresses = is_null($address) ? array() : array($address);
             $password = $this->getRequest()->getParam('password');
             $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
-            $customerDetails = $this->_customerDetailsBuilder->setCustomer(
-                $customer
-            )->setAddresses(
-                $addresses
-            )->create();
-            $customer = $this->_customerAccountService->createAccount($customerDetails, $password, $redirectUrl);
+            $customerDetails = $this->_customerDetailsBuilder
+                ->setCustomer($customer)
+                ->setAddresses($addresses)
+                ->create();
+            $customer = $this->_customerAccountService->createAccount($customerDetails, $password, null, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
-                $this->_subscriberFactory->create()->updateSubscription($customer->getId(), true);
+                $this->_subscriberFactory->create()->subscribeCustomerById($customer->getId());
             }
 
             $this->_eventManager->dispatch(

@@ -158,10 +158,22 @@ return array(
     array('_sendUploadResponse', 'Magento\Newsletter\Controller\Adminhtml\Subscriber'),
     array('_setAttribteValue'),
     array('_sort', 'Magento\Backend\Model\Config\Structure\Converter'),
+    array('_submitRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote',
+        '\Magento\RecurringPayment\Model\Observer\CheckoutManagerObserver::submitRecurringPaymentProfiles'),
     array(
-        '_submitRecurringPaymentProfiles',
+        'submitOrder',
         'Magento\Sales\Model\Service\Quote',
-        '\Magento\RecurringPayment\Model\Observer\CheckoutManagerObserver::submitRecurringPaymentProfiles'
+        'Magento\Sales\Model\Service\Quote::submitOrderWithDataObject'
+    ),
+    array(
+        'submitAll',
+        'Magento\Sales\Model\Service\Quote',
+        'Magento\Sales\Model\Service\Quote::submitAllWithDataObject'
+    ),
+    array(
+        'exportCustomerAddress',
+        'Magento\Sales\Model\Quote\Address',
+        'Magento\Sales\Model\Quote\Address::exportCustomerAddressData'
     ),
     array('_toHtml', 'Magento\Backend\Block\Widget\Container'),
     array('_unhookQueries', 'Magento\Core\Model\Resource\Setup'),
@@ -654,6 +666,7 @@ return array(
     array('load', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('loadBaseContents', 'Magento\Email\Model\Template'),
     array('loadBase', 'Magento\Core\Model\Config'),
+    array('loadByCustomer', 'Magento\Newsletter\Model\Resource\Subscriber', 'loadByCustomerData'),
     array('loadDb', 'Magento\Core\Model\Config'),
     array('loadDiConfiguration', 'Magento\Core\Model\Config'),
     array('loadEventObservers', 'Magento\Core\Model\Config'),
