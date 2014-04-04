@@ -286,7 +286,7 @@ class CatalogProductBundle extends InjectableFixture
         'default_value' => '',
         'input' => 'price',
         'group' => 'product-details',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price'
+        'fixture' => 'Magento\Bundle\Test\Fixture\Bundle\Price'
     ];
 
     protected $price_type = [

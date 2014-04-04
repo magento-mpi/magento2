@@ -178,6 +178,9 @@ class Selections implements FixtureInterface
                                     ],
                                     'product_id' => [
                                         'value' => '%item1::getProductId%'
+                                    ],
+                                    'selection_price_value' => [
+                                        'value' => '5'
                                     ]
                                 ]
                             ],
@@ -191,6 +194,9 @@ class Selections implements FixtureInterface
                                     ],
                                     'product_id' => [
                                         'value' => '%item2::getProductId%'
+                                    ],
+                                    'selection_price_value' => [
+                                        'value' => '10'
                                     ]
                                 ]
                             ]

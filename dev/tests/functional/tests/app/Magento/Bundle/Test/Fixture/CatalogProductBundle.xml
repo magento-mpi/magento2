@@ -224,7 +224,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>price</input>
-            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</fixture>
+            <fixture>Magento\Bundle\Test\Fixture\Bundle\Price</fixture>
         </price>
         <price_type>
             <attribute_code>price_type</attribute_code>
