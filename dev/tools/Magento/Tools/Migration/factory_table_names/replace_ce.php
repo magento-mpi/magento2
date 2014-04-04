@@ -140,7 +140,7 @@ return array(
     'core/layout_link' => 'core_layout_link',
     'core/layout_update' => 'core_layout_update',
     'core/resource' => 'core_resource',
-    'core/session' => 'session',
+    'core/session' => 'core_session',
     'core/store' => 'store',
     'core/store_group' => 'store_group',
     'core/translate' => 'core_translate',

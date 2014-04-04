@@ -126,7 +126,7 @@ return array(
     'core_url_rewrite_tag' => 'Magento_Core',
     'core_variable' => 'Magento_Core',
     'core_variable_value' => 'Magento_Core',
-    'session' => 'Magento_Core',
+    'core_session' => 'Magento_Core',
     'store' => 'Magento_Store',
     'store_group' => 'Magento_Store',
     'store_website' => 'Magento_Store',
