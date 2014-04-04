@@ -62,7 +62,7 @@ class MigrationData
      */
     public function getWikiFindPattern()
     {
-        return $this->_patterns['xml'];
+        return $this->_patterns['wiki'];
     }
 
     /**
@@ -72,7 +72,7 @@ class MigrationData
      */
     public function getXmlFindPattern()
     {
-        return $this->_patterns['wiki'];
+        return $this->_patterns['xml'];
     }
 
     /**

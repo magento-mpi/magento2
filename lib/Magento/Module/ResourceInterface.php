@@ -11,9 +11,6 @@ namespace Magento\Module;
 /**
  * Resource Model Interface
  *
- * @category    Magento
- * @package     Magento_Module
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface ResourceInterface
 {

@@ -1578,4 +1578,6 @@ return array(
     ['_getStoreId', 'Magento\Translation\Model\Resource\String', 'getScope'],
     ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
     ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
+    ['setConfigData', 'Magento\Module\Setup'],
+    ['deleteConfigData', 'Magento\Module\Setup'],
 );
