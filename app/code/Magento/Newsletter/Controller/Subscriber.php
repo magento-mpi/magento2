@@ -189,8 +189,11 @@ class Subscriber extends \Magento\App\Action\Action
      */
     protected function validateGuestSubscription()
     {
-        if ($this->_objectManager->get('Magento\Core\Model\Store\Config')
-                ->getConfig(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1
+        if ($this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')
+                ->getValue(
+                    \Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ) != 1
             && !$this->_customerSession->isLoggedIn()
         ) {
             throw new \Magento\Model\Exception(

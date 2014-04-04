@@ -121,11 +121,11 @@ class Subscriber extends \Magento\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Newsletter\Helper\Data $newsletterData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -135,7 +135,7 @@ class Subscriber extends \Magento\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Newsletter\Helper\Data $newsletterData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
@@ -146,7 +146,7 @@ class Subscriber extends \Magento\Model\AbstractModel
         array $data = []
     ) {
         $this->_newsletterData = $newsletterData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_storeConfig = $scopeConfig;
         $this->_transportBuilder = $transportBuilder;
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
@@ -738,7 +738,10 @@ class Subscriber extends \Magento\Model\AbstractModel
         $this->inlineTranslation->suspend();
 
         $this->_transportBuilder->setTemplateIdentifier(
-            $this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE)
+            $this->_storeConfig->getValue(
+                self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
         )->setTemplateOptions(
             array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
@@ -747,7 +750,10 @@ class Subscriber extends \Magento\Model\AbstractModel
         )->setTemplateVars(
             array('subscriber' => $this)
         )->setFrom(
-            $this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY)
+            $this->_storeConfig->getValue(
+                self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
         )->addTo(
             $this->getEmail(),
             $this->getName()
