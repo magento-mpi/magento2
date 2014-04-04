@@ -1,22 +1,22 @@
 2.0.0.0-dev72
 =============
 * Framework Improvements:
-  * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
+  * Fixed performance degradation caused by DI argument processors
 * Modularity improvements:
-  * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
-  * Moved resource model to Magento_Install module(MAGETWO-21599)
-  * Eliminated Core\Helper\Js class (MAGETWO-21600)
-  * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
-  * Moved library related logic of Cache from Core module (MAGETWO-21598)
+  * Introduced the Magento_UrlRewrite module, and moved corresponding classes from Magento_Core to Magento_UrlRewrite
+  * Moved all Install logic to the Magento_Install module
+  * Eliminated the Core\Helper\Js class
+  * Moved the Email related logic from the Magento_Core module to the Magento_Email module
+  * Moved the Cache related logic from the Magento_Core module to library
 * Indexer improvements:
-  * Added execution time hints for console reindex (MAGETWO-22818)
+  * Added execution time hints for console reindex
 * Customer Service usage:
-  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
+  * Refactored the Magento_Newsletter module to use Customer service layer
 * Fixed bugs:
-  * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
-  * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
-  * Fixed an issue where admin could not unsubscribe customer from backend customer edit page (MAGETWO-22982)
-  * Fixed an issue where customers are always subscribed even if not selected during registration (MAGETWO-22966)
+  * Fixed an issue with resetting customer password from the frontend
+  * Fixed an issue where mistakenly the attribute of the Customer Address Edit form was cached
+  * Fixed an issue where admin could not unsubscribe customer on the customer edit page in the backend
+  * Fixed an issue where customers were always subscribed to the newsletter even if not selected during registration
 
 2.0.0.0-dev71
 =============
