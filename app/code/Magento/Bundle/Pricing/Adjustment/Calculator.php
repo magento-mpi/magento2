@@ -8,18 +8,20 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Pricing\Price;
+namespace Magento\Bundle\Pricing\Adjustment;
 
-use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Amount\AmountFactory;
 use Magento\Pricing\Adjustment\Calculator as CalculatorBase;
 use Magento\Bundle\Model\Product\Price;
+use Magento\Bundle\Pricing\Price\BundleOptionPriceInterface;
+use Magento\Bundle\Pricing\Price\BundleSelectionFactory;
+use Magento\Bundle\Pricing\Price\BundleOptionPrice;
 
 /**
  * Class Calculator
  */
-class Calculator implements CalculatorInterface
+class Calculator implements BundleCalculatorInterface
 {
     /**
      * @var CalculatorBase
@@ -52,30 +54,6 @@ class Calculator implements CalculatorInterface
     }
 
     /**
-     * @param $selection
-     * @param $saleableItem
-     * @return mixed
-     */
-    protected function getDynamicAmount($selection, $saleableItem)
-    {
-        return $this->selectionFactory
-            ->create($saleableItem, $selection, $selection->getSelectionQty())->getAmount();
-    }
-
-    /**
-     * @param $selection
-     * @param $saleableItem
-     * @return \Magento\Pricing\Amount\AmountInterface
-     */
-    protected function getFixedAmount($selection, $saleableItem)
-    {
-        $selectionPrice = $this->selectionFactory
-            ->create($saleableItem, $selection, $selection->getSelectionQty())
-            ->getValue();
-        return $this->calculator->getAmount($selectionPrice, $saleableItem);
-    }
-
-    /**
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
      * @return \Magento\Pricing\Amount\AmountInterface
@@ -83,6 +61,16 @@ class Calculator implements CalculatorInterface
     public function getAmount($amount, SaleableInterface $saleableItem)
     {
         return $this->getOptionsAmount($amount, $saleableItem);
+    }
+
+    /**
+     * @param $amount
+     * @param SaleableInterface $saleableItem
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    public function getMaxAmount($amount, SaleableInterface $saleableItem)
+    {
+        return $this->getOptionsAmount($amount, $saleableItem, false);
     }
 
     /**
@@ -99,6 +87,9 @@ class Calculator implements CalculatorInterface
 
         /* @var $option \Magento\Bundle\Model\Option */
         foreach ($this->getBundleOptionPrice($saleableItem)->getOptions() as $option) {
+            if (!$option->getSelections()) {
+                continue;
+            }
             $amountList = array_merge($amountList, $this->processOptions($option, $saleableItem, $searchMin));
         }
 
@@ -117,20 +108,20 @@ class Calculator implements CalculatorInterface
     }
 
     /**
-     * @param $amount
      * @param SaleableInterface $saleableItem
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return BundleOptionPrice
      */
-    public function getMaxAmount($amount, SaleableInterface $saleableItem)
+    protected function getBundleOptionPrice(SaleableInterface $saleableItem)
     {
-        return $this->getOptionsAmount($amount, $saleableItem, false);
+        return $saleableItem->getPriceInfo()->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION);
     }
 
+
     /**
-     * @param $option
-     * @param $saleableItem
+     * @param \Magento\Bundle\Model\Option $option
+     * @param SaleableInterface $saleableItem
      * @param bool $searchMin
-     * @return array
+     * @return \Magento\Pricing\Amount\AmountInterface[]
      */
     protected function processOptions($option, $saleableItem, $searchMin = true)
     {
@@ -158,25 +149,39 @@ class Calculator implements CalculatorInterface
     }
 
     /**
-     * @param $selection
-     * @param $saleableItem
+     * @param \Magento\Bundle\Model\Selection $selection
+     * @param SaleableInterface $saleableItem
      * @return \Magento\Pricing\Amount\AmountInterface
      */
     protected function getSelection($selection, $saleableItem)
     {
         if ($saleableItem->getPriceType() == Price::PRICE_TYPE_FIXED) {
-            return $this->getFixedAmount($selection, $saleableItem);
+            return $this->createFixedAmount($selection, $saleableItem);
         } else {
-            return $this->getDynamicAmount($selection, $saleableItem);
+            return $this->createDynamicAmount($selection, $saleableItem);
         }
     }
 
     /**
+     * @param \Magento\Bundle\Model\Selection $selection
      * @param SaleableInterface $saleableItem
-     * @return BundleOptionPrice
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
-    protected function getBundleOptionPrice(SaleableInterface $saleableItem)
+    protected function createDynamicAmount($selection, $saleableItem)
     {
-        return $saleableItem->getPriceInfo()->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION);
+        return $this->selectionFactory->create($saleableItem, $selection, $selection->getSelectionQty())->getAmount();
+    }
+
+    /**
+     * @param \Magento\Bundle\Model\Selection $selection
+     * @param SaleableInterface $saleableItem
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    protected function createFixedAmount($selection, $saleableItem)
+    {
+        $selectionPrice = $this->selectionFactory
+            ->create($saleableItem, $selection, $selection->getSelectionQty())
+            ->getValue();
+        return $this->calculator->getAmount($selectionPrice, $saleableItem);
     }
 }

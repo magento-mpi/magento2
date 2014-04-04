@@ -9,8 +9,6 @@ namespace Magento\Catalog\Block\Product;
 
 /**
  * Class for testing methods of AbstractProduct
- *
- * @package Magento\Catalog\Block\Product
  */
 class AbstractProductTest extends \PHPUnit_Framework_TestCase
 {

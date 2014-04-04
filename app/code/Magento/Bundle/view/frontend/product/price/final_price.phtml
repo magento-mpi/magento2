@@ -12,7 +12,7 @@
 <?php
 /** @var \Magento\Bundle\Pricing\Render\FinalPriceBox $this */
 $id = $this->getSaleableItem()->getId();
-/** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
+/** @var \Magento\Bundle\Pricing\Price\FinalPrice $finalPriceModel */
 $finalPriceModel = $this->getPriceType('final_price');
 ?>
 <?php
@@ -45,7 +45,7 @@ if (isset($_GET['showmeprice'])) {
             ]); ?>
         </p>
         <p class="price-to">
-            <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
+            <?php echo $this->renderAmount($finalPriceModel->getMaximalPrice(), [
                 'display_label'     => __('To:'),
                 'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'price-to-' . $id,
                 'include_container' => true

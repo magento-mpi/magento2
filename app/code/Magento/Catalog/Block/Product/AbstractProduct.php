@@ -20,6 +20,9 @@ namespace Magento\Catalog\Block\Product;
 
 use Magento\View\Element\BlockInterface;
 
+/**
+ * Class AbstractProduct
+ */
 abstract class AbstractProduct extends \Magento\View\Element\Template
 {
     /**
