@@ -20,7 +20,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->with($url)
             ->will($this->returnValue($encoded));
 
-        $store = $this->getMock('Magento\Core\Model\Store', array('getUrl','__wakeup'), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array('getUrl', '__wakeup'), array(), '', false);
         $store->expects($this->any())
             ->method('getUrl')
             ->with(
@@ -40,15 +40,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $urlBuilder = $this->getMock('Magento\UrlInterface\Proxy', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->any())
             ->method('getUrl')
-            ->with(
-                '*/*/*',
-                array(
-                    '_current' => true,
-                    '_use_rewrite' => true,
-                    '_scope_to_url' => true,
-                    '_scope' => $store
-                )
-            )
+            ->with('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
             ->will($this->returnValue($url));
 
         $context = $this->getMock('Magento\App\Helper\Context', array('getUrlBuilder'), array(), '', false);

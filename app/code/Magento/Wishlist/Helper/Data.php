@@ -387,15 +387,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected function _getCartUrlParameters($item)
     {
         $continueUrl = $this->_coreData->urlEncode(
-            $this->_getUrl(
-                '*/*/*',
-                array(
-                    '_current' => true,
-                    '_use_rewrite' => true,
-                    '_scope_to_url' => true,
-                    '_scope' => $this->_storeManager->getStore()
-                )
-            )
+            $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
         );
 
         return array(
