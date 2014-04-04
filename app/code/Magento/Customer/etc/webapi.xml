@@ -31,7 +31,7 @@
         <!-- TODO: createAccount, authenticate, validateResetPasswordLinkToken, initiatePasswordReset, resetPassword, resendConfirmation apis
                    can be accessed anonymously and need no resources to be assigned. Webapi framework doesn't support support that as yet.
                    Adding Magento_Customer::customer temporarily until handling anonymous users is finalized -->
-        <rest-route httpMethod="POST" method="createAccount" resources="Magento_Customer::customer"></rest-route>
+        <rest-route httpMethod="POST" method="createCustomer" resources="Magento_Customer::customer"></rest-route>
         <rest-route httpMethod="PUT" method="updateCustomer" resources="Magento_Customer::manage"></rest-route>
         <rest-route httpMethod="GET" method="getCustomerDetails" resources="Magento_Customer::customer">/:customerId</rest-route>
         <rest-route httpMethod="GET" method="getCustomer" resources="Magento_Customer::customer">/:customerId/customer</rest-route>

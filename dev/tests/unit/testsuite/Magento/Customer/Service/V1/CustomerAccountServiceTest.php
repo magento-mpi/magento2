@@ -1884,7 +1884,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockCustomer));
 
         $service = $this->_createService();
-        $service->createAccount($mockCustomerDetail, 'abc123');
+        $service->createCustomer($mockCustomerDetail, 'abc123');
         // If we get no mail exception, the test in considered a success
     }
 

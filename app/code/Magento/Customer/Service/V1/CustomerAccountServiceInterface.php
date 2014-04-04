@@ -57,7 +57,7 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccount(
+    public function createCustomer(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $password = null,
         $hash = null,
@@ -84,7 +84,7 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @return int customer ID
-     * @deprecated use createAccount or updateCustomer instead
+     * @deprecated use createCustomer or updateCustomer instead
      */
     public function saveCustomer(\Magento\Customer\Service\V1\Data\Customer $customer, $password = null, $hash = null);
 
