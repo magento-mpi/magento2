@@ -10,7 +10,7 @@
 namespace Magento\Bundle\Pricing\Render;
 
 use Magento\Catalog\Pricing\Render as CatalogRender;
-use Magento\Catalog\Pricing\Price;
+use Magento\Bundle\Pricing\Price;
 
 /**
  * Class for final_price rendering
@@ -24,8 +24,8 @@ class FinalPriceBox extends CatalogRender\FinalPriceBox
      */
     public function showRangePrice()
     {
-        /** @var \Magento\Bundle\Pricing\Price\BasePrice $basePrice */
-        $basePrice = $this->getPriceType(Price\BasePrice::PRICE_TYPE_BASE_PRICE);
-        return $basePrice->getValue() !== $basePrice->getMaxValue();
+        /** @var Price\BundleOptionPrice $optionPrice */
+        $optionPrice = $this->getPriceType(Price\BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION);
+        return $optionPrice->getValue() !== $optionPrice->getMaxValue();
     }
 }

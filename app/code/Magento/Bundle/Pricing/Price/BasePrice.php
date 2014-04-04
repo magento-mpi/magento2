@@ -67,6 +67,7 @@ class BasePrice extends CatalogPrice\BasePrice
             $this->value += $this->priceInfo
                 ->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION)
                 ->getMaxValue();
+            $this->value = $this->applyDiscount($this->value);
         }
         return $this->maxValue;
     }

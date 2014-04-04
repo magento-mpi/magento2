@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -59,6 +58,8 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @return bool|float
      */
     public function getValue()
@@ -89,6 +90,9 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
         return $this->priceOptions;
     }
 
+    /**
+     * Calculate all options
+     */
     protected function processOptions()
     {
         $this->salableItem->setQty($this->quantity);
@@ -137,11 +141,16 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
             }
         }
         $this->value = $minimalPrice;
-        $this->maximalPrice = $minimalPrice;
+        $this->maximalPrice = $maximalPrice;
     }
 
+    /**
+     * Getter for maximal price of options
+     *
+     * @return bool|float
+     */
     public function getMaxValue()
     {
-        $this->maximalPrice;
+        return $this->maximalPrice;
     }
 }
