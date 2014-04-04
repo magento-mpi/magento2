@@ -9,6 +9,7 @@
 * Fixed bugs:
   * Fixed an issue with active tab is changed to upper one after attribute set has been changed (MAGETWO-10611)
   * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
+  * Fixed an issue with tier price attribute save (MAGETWO-19371)
 
 2.0.0.0-dev71
 =============
