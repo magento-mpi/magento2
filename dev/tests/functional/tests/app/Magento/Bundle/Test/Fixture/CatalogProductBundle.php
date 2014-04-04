@@ -286,6 +286,7 @@ class CatalogProductBundle extends InjectableFixture
         'default_value' => '',
         'input' => 'price',
         'group' => 'product-details',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price'
     ];
 
     protected $price_type = [
@@ -494,6 +495,14 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'group' => 'bundle',
         'fixture' => 'Magento\Bundle\Test\Fixture\Bundle\Selections',
+    ];
+
+    protected $custom_options = [
+        'attribute_code' => 'custom_options',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'customer-options',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
     public function getCategoryIds()
@@ -775,4 +784,10 @@ class CatalogProductBundle extends InjectableFixture
     {
         return $this->getData('bundle_selections');
     }
+
+    public function getCustomOptions()
+    {
+        return $this->getData('custom_options');
+    }
+
 }

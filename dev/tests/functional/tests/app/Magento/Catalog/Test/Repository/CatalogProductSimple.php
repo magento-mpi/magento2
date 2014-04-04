@@ -24,7 +24,7 @@ class CatalogProductSimple extends AbstractRepository
             'name' => 'SimpleProduct 516169631',
             'type_id' => 'simple',
             'attribute_set_id' => '4',
-            'price' => 3,
+            'price' => ['value' => 3, 'preset' => '-'],
             'id' => '1',
             'mtf_dataset_name' => 'SimpleProduct_sku_516169631',
         ];
@@ -34,7 +34,7 @@ class CatalogProductSimple extends AbstractRepository
             'name' => 'SimpleProduct 1947585255',
             'type_id' => 'simple',
             'attribute_set_id' => '4',
-            'price' => 4,
+            'price' => ['value' => 4, 'preset' => '-'],
             'id' => '2',
             'mtf_dataset_name' => 'SimpleProduct_sku_1947585255',
         ];

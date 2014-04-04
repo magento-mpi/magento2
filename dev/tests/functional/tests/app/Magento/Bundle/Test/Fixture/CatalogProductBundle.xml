@@ -224,6 +224,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>price</input>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</fixture>
         </price>
         <price_type>
             <attribute_code>price_type</attribute_code>
@@ -404,6 +405,13 @@
             <group>bundle</group>
             <fixture>Magento\Bundle\Test\Fixture\Bundle\Selections</fixture>
         </bundle_selections>
+        <custom_options>
+            <attribute_code>custom_options</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>product_info_tabs_customer_options</group>
+            <is_required>0</is_required>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</fixture>
+        </custom_options>
     </fields>
     <data_set>
         <sku></sku>
