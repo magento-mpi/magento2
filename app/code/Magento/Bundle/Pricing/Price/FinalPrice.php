@@ -11,6 +11,7 @@
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Pricing\Object\SaleableInterface;
+use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
  * Final price model
@@ -18,19 +19,19 @@ use Magento\Pricing\Object\SaleableInterface;
 class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
 {
     /**
-     * @var Calculator
+     * @var BundleCalculatorInterface
      */
     protected $calculator;
 
     /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
-     * @param Calculator $calculator
+     * @param BundleCalculatorInterface $calculator
      */
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator
+        BundleCalculatorInterface $calculator
     ) {
         parent::__construct($salableItem, $quantity, $calculator);
     }

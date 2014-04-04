@@ -13,6 +13,7 @@ use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Catalog\Pricing\Price\FinalPriceInterface;
+use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
  * Class OptionPrice
@@ -39,14 +40,14 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
     /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
-     * @param Calculator $calculator
+     * @param BundleCalculatorInterface $calculator
      * @param \Magento\Catalog\Model\Product $bundleProduct
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator,
+        BundleCalculatorInterface $calculator,
         \Magento\Catalog\Model\Product $bundleProduct,
         \Magento\Event\ManagerInterface $eventManager
     ) {

@@ -9,6 +9,7 @@ namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Pricing\Object\SaleableInterface;
+use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
  * Bundle option price model
@@ -38,18 +39,18 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
     /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
-     * @param Calculator $calculator
+     * @param BundleCalculatorInterface $calculator
      * @param BundleSelectionFactory $bundleSelectionFactory
      */
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator,
+        BundleCalculatorInterface $calculator,
         BundleSelectionFactory $bundleSelectionFactory
     ) {
         $this->selectionFactory = $bundleSelectionFactory;
         parent::__construct($salableItem, $quantity, $calculator);
-        $this->processOptions();
+        $this->salableItem->setQty($this->quantity);
     }
 
     /**
@@ -57,6 +58,9 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
      */
     public function getValue()
     {
+        if (null === $this->value) {
+            $this->value = $this->calculateOptions();
+        }
         return $this->value;
     }
 
@@ -84,47 +88,66 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
     }
 
     /**
-     * Calculate all options
+     * @param \Magento\Bundle\Model\Selection $selection
+     * @return \Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface
      */
-    protected function processOptions()
+    protected function createSelection($selection)
     {
-        $this->salableItem->setQty($this->quantity);
-        $minimalPrice = $maximalPrice = false;
-        $this->amountData = [];
+        return $this->selectionFactory->create($this->salableItem, $selection, $selection->getSelectionQty());
+    }
+
+    /**
+     * @param bool $searchMin
+     * @return bool|float
+     */
+    protected function calculateOptions($searchMin = true)
+    {
+        $price = false;
+        $amountList = [];
         /* @var $option \Magento\Bundle\Model\Option */
         foreach ($this->getOptions() as $option) {
             if (!$option->getSelections()) {
                 continue;
             }
-            $selectionPrices = [];
-            foreach ($option->getSelections() as $selection) {
-                /* @var $selection \Magento\Bundle\Model\Selection */
-                if (!$selection->isSalable()) {
-                    /**
-                     * @todo CatalogInventory Show out of stock Products
-                     */
-                    continue;
-                }
-
-                $selectionPrice = $this->selectionFactory
-                    ->create($this->salableItem, $selection, $selection->getSelectionQty())
-                    ->getValue();
-                $selectionPrices[] = $selectionPrice;
-            }
-            if (count($selectionPrices)) {
-                if ($option->getRequired()) {
-                    $minimalPrice += min($selectionPrices);
-                }
-
-                if ($option->isMultiSelection()) {
-                    $maximalPrice += array_sum($selectionPrices);
-                } else {
-                    $maximalPrice += max($selectionPrices);
-                }
+            $amountList = array_merge($amountList, $this->processOptions($option, $searchMin));
+        }
+        if (!empty($amountList)) {
+            $price = 0.;
+            foreach ($amountList as $itemAmount) {
+                $price += $itemAmount->getValue();
             }
         }
-        $this->value = $minimalPrice;
-        $this->maximalPrice = $maximalPrice;
+        return $price;
+    }
+
+    /**
+     * @param \Magento\Bundle\Model\Option $option
+     * @param bool $searchMin
+     * @return \Magento\Pricing\Amount\AmountInterface[]
+     */
+    protected function processOptions($option, $searchMin = true)
+    {
+        $result = [];
+        foreach ($option->getSelections() as $selection) {
+            /* @var $selection \Magento\Bundle\Model\Selection */
+            if (!$selection->isSalable() || ($searchMin && !$option->getRequired())) {
+                // @todo CatalogInventory Show out of stock Products
+                continue;
+            }
+            $current = $this->createSelection($selection);
+            if (empty($result)) {
+                $result = [$current];
+                continue;
+            }
+            if ($searchMin && end($result)->getValue() > $current->getValue()) {
+                $result = [$current];
+            } elseif (!$searchMin && $option->isMultiSelection()) {
+                $result[] = $current;
+            } elseif (!$searchMin && !$option->isMultiSelection() && end($result)->getValue() < $current->getValue()) {
+                $result = [$current];
+            }
+        }
+        return $result;
     }
 
     /**
@@ -134,6 +157,9 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
      */
     public function getMaxValue()
     {
+        if (null === $this->maximalPrice) {
+            $this->maximalPrice = $this->calculateOptions(false);
+        }
         return $this->maximalPrice;
     }
 
