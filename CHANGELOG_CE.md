@@ -1,3 +1,5 @@
+2.0.0.0-dev72
+=============
 * Framework Improvements:
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
 * Modularity improvements:
