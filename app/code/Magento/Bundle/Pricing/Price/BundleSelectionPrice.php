@@ -9,9 +9,7 @@
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\RegularPrice;
-use Magento\Catalog\Pricing\Price\BasePrice;
-use Magento\Pricing\Adjustment\Calculator;
+use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Catalog\Pricing\Price\FinalPriceInterface;
@@ -19,7 +17,7 @@ use Magento\Catalog\Pricing\Price\FinalPriceInterface;
 /**
  * Class OptionPrice
  */
-class BundleSelectionPrice extends RegularPrice implements BundleSelectionPriceInterface
+class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSelectionPriceInterface
 {
     /**
      * @var string
@@ -77,7 +75,7 @@ class BundleSelectionPrice extends RegularPrice implements BundleSelectionPriceI
                 // @todo get rid of final price data manipulation that should fire event to apply catalog rules
                 $product = clone $this->bundleProduct;
                 $price = $product->getPriceInfo()
-                    ->getPrice(RegularPrice::PRICE_TYPE_PRICE_DEFAULT, $this->quantity)
+                    ->getPrice(CatalogPrice\RegularPrice::PRICE_TYPE_PRICE_DEFAULT, $this->quantity)
                     ->getValue();
                 $product->setFinalPrice($price);
                 $this->eventManager->dispatch(
@@ -87,7 +85,7 @@ class BundleSelectionPrice extends RegularPrice implements BundleSelectionPriceI
 
                 $price = $product->getData('final_price') * ($this->salableItem->getSelectionPriceValue() / 100);
                 $this->value = $product->getPriceInfo()
-                    ->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE, $this->quantity)
+                    ->getPrice(CatalogPrice\BasePrice::PRICE_TYPE_BASE_PRICE, $this->quantity)
                     ->applyDiscount($price);
             } else {
                 // calculate price for selection type fixed

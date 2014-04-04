@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\Calculator;
+use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 
@@ -32,13 +32,13 @@ class SpecialPrice extends RegularPrice implements SpecialPriceInterface
     /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
-     * @param Calculator $calculator
+     * @param CalculatorInterface $calculator
      * @param TimezoneInterface $localeDate
      */
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator,
+        CalculatorInterface $calculator,
         TimezoneInterface $localeDate
     ) {
         parent::__construct($salableItem, $quantity, $calculator);

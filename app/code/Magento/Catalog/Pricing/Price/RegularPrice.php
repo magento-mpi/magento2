@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\Calculator;
+use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\PriceInfoInterface;
@@ -62,12 +62,12 @@ class RegularPrice implements PriceInterface
     /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
-     * @param Calculator $calculator
+     * @param CalculatorInterface $calculator
      */
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
-        Calculator $calculator
+        CalculatorInterface $calculator
     ) {
         $this->salableItem = $salableItem;
         $this->quantity = $quantity;
