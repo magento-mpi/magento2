@@ -36,6 +36,8 @@ return array(
     'dev/tests/unit/testsuite/Magento/Test/Tools/View/Generator/_files/ThemeDeployment/run/source',
     'dev/tools/Magento/Tools/I18n/Zend',
     'dev/tools/PHP-Parser',
+    'dev/tools/performance_toolkit/README.txt',
+    'dev/tools/performance_toolkit/benchmark.jmx',
     'downloader/js/prototype.js',
     'lib/Apache',
     'lib/PEAR',

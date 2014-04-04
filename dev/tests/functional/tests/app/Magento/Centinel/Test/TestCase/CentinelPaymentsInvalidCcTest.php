@@ -36,6 +36,7 @@ class CentinelPaymentsInvalidCcTest extends AbstractCentinelPaymentsTest
         $fixture->persist();
 
         //Steps
+        $this->clearShoppingCart();
         $this->_addProducts($fixture);
         $this->_magentoCheckoutProcess($fixture);
         $this->_submitCc($fixture);
