@@ -2257,4 +2257,5 @@ return array(
     array('Magento\Core\Model\Session\Config', 'Magento\Session\Config'),
     array('Magento\Core\Model\Session\SidResolver', 'Magento\Session\SidResolver'),
     array('Magento\Core\Model\Session\Validator', 'Magento\Session\Validator'),
+    ['Magento\Core\Block\Formkey', 'Magento\View\Element\FormKey'],
 );
