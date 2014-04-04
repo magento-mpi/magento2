@@ -163,7 +163,6 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::applyAdjustment
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getTierPriceCount
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::filterTearPrices
-     * @covers \Magento\Catalog\Pricing\Price\TierPrice::processTierPriceItem
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getBasePrice
      * @dataProvider providerForGetterTierPriceList
      */

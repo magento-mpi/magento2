@@ -133,22 +133,13 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         if (null === $this->priceList) {
             $priceList = $this->getStoredTierPrices();
             $this->priceList = $this->filterTearPrices($priceList);
-            array_walk($this->priceList, [$this, 'processTierPriceItem']);
+            array_walk($this->priceList, function (&$priceData) {
+                /* convert string value to float */
+                $priceData['price_qty'] = $priceData['price_qty'] * 1;
+                $priceData['price'] = $this->applyAdjustment($priceData['price']);
+            });
         }
         return $this->priceList;
-    }
-
-    /**
-     * Callback function
-     *
-     * @param array $priceData
-     * @param mixed $index
-     */
-    public function processTierPriceItem(&$priceData, $index)
-    {
-        /* convert string value to float */
-        $priceData['price_qty'] = $priceData['price_qty'] * 1;
-        $priceData['price'] = $this->applyAdjustment($priceData['price']);
     }
 
     /**
