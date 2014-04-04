@@ -13,7 +13,7 @@
  * Test class for \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
  */
 namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
-
+use \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -45,11 +45,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      *
      * @codingStandardsIgnoreStart
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateRewardPointsForCustomer
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateCustomerBalanceForCustomer
+     * @covers Finance::_importData
+     * @covers Finance::_updateRewardPointsForCustomer
+     * @covers Finance::_updateCustomerBalanceForCustomer
      * @codingStandardsIgnoreEnd
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_getComment
+     * @covers Finance::_getComment
      */
     public function testImportData()
     {
@@ -99,8 +99,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $model->validateData();
         $model->importData();
 
-        $rewardPointsKey = \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
-        $customerBalanceKey = \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
+        $rewardPointsKey = Collection::COLUMN_REWARD_POINTS;
+        $customerBalanceKey = Collection::COLUMN_CUSTOMER_BALANCE;
 
         $customerCollection = $objectManager->create('Magento\Customer\Model\Resource\Customer\Collection');
         /** @var $customer \Magento\Customer\Model\Customer */
@@ -141,9 +141,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/ScheduledImportExport/_files/customers_for_finance_import_delete.php
      * @magentoAppArea adminhtml
      *
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteRewardPoints
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteCustomerBalance
+     * @covers Finance::_importData
+     * @covers Finance::_deleteRewardPoints
+     * @covers Finance::_deleteCustomerBalance
      */
     public function testImportDataDelete()
     {
@@ -216,8 +216,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     protected function _csvToArray($content)
     {
-        $emailKey = \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL;
-        $websiteKey = \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $emailKey = Finance::COLUMN_EMAIL;
+        $websiteKey = Finance::COLUMN_FINANCE_WEBSITE;
 
         $header = array();
         $data = array();

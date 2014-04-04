@@ -355,10 +355,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
-        if (!$referer && !$this->_storeConfig->isSetFlag(
-            self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) && !$this->_customerSession->getNoReferer()
+        if (!$referer
+            && !$this->_storeConfig->isSetFlag(
+                self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+            && !$this->_customerSession->getNoReferer()
         ) {
             $referer = $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
             $referer = $this->_coreData->urlEncode($referer);
@@ -475,8 +477,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isConfirmationRequired()
     {
         $customerId = $this->_customerSession->getCustomerId();
-        return \Magento\Customer\Service\V1\CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED ==
-            $this->_accountService->getConfirmationStatus(
+        return \Magento\Customer\Service\V1\CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED
+        == $this->_accountService->getConfirmationStatus(
             $customerId
         );
     }
@@ -678,22 +680,28 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $result = true;
         if (!is_string(
-            $countryCode
-        ) || !is_string(
-            $vatNumber
-        ) || !is_string(
-            $requesterCountryCode
-        ) || !is_string(
-            $requesterVatNumber
-        ) || empty($countryCode) || !$this->isCountryInEU(
-            $countryCode
-        ) ||
-            empty($vatNumber) ||
-            empty($requesterCountryCode) && !empty($requesterVatNumber) ||
-            !empty($requesterCountryCode) && empty($requesterVatNumber) ||
-            !empty($requesterCountryCode) && !$this->isCountryInEU(
-            $requesterCountryCode
-        )
+                $countryCode
+            )
+            || !is_string(
+                $vatNumber
+            )
+            || !is_string(
+                $requesterCountryCode
+            )
+            || !is_string(
+                $requesterVatNumber
+            )
+            || empty($countryCode)
+            || !$this->isCountryInEU(
+                $countryCode
+            )
+            || empty($vatNumber)
+            || empty($requesterCountryCode) && !empty($requesterVatNumber)
+            || !empty($requesterCountryCode) && empty($requesterVatNumber)
+            || !empty($requesterCountryCode)
+            && !$this->isCountryInEU(
+                $requesterCountryCode
+            )
         ) {
             $result = false;
         }
@@ -716,10 +724,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $isVatNumberValid = $vatValidationResult->getIsValid();
 
         if (is_string(
-            $customerCountryCode
-        ) && !empty($customerCountryCode) && $customerCountryCode === $this->getMerchantCountryCode(
-            $store
-        ) && $isVatNumberValid
+                $customerCountryCode
+            )
+            && !empty($customerCountryCode)
+            && $customerCountryCode === $this->getMerchantCountryCode(
+                $store
+            )
+            && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;
         } elseif ($isVatNumberValid) {

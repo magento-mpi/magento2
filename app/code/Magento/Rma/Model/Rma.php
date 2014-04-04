@@ -465,8 +465,8 @@ class Rma extends \Magento\Model\AbstractModel
     public function canClose()
     {
         $status = $this->getStatus();
-        if ($status === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED ||
-            $status === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
+        if ($status === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED
+            || $status === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
         ) {
             return false;
         }
@@ -772,11 +772,13 @@ class Rma extends \Magento\Model\AbstractModel
                     )
                 );
                 foreach ($qtyToStatus as $qtyKey => $qtyValue) {
-                    if ($item->getStatus() === $qtyValue['status'] && $item->getOrigData(
-                        'status'
-                    ) !== $qtyValue['status'] && !$item->getData(
-                        $qtyKey
-                    )
+                    if ($item->getStatus() === $qtyValue['status']
+                        && $item->getOrigData(
+                            'status'
+                        ) !== $qtyValue['status']
+                        && !$item->getData(
+                            $qtyKey
+                        )
                     ) {
                         $errors[] = __('%1 for item %2 cannot be empty.', $qtyValue['name'], $escapedProductName);
                         $errorKeys[$item->getId()] = $qtyKey;
@@ -872,8 +874,8 @@ class Rma extends \Magento\Model\AbstractModel
                         }
 
                         if (empty($item['reason_other'])) {
-                            $item['reason_other'] = $itemModel->getReasonOther() ===
-                                null ? '' : $itemModel->getReasonOther();
+                            $item['reason_other'] =
+                                $itemModel->getReasonOther() === null ? '' : $itemModel->getReasonOther();
                         }
 
                         if (empty($item['condition'])) {
@@ -896,10 +898,10 @@ class Rma extends \Magento\Model\AbstractModel
 
                 $itemModels[] = $itemModel;
 
-                if ($itemModel->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED &&
-                    $itemModel->getOrigData(
-                    'status'
-                ) !== $itemModel->getStatus()
+                if ($itemModel->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED
+                    && $itemModel->getOrigData(
+                        'status'
+                    ) !== $itemModel->getStatus()
                 ) {
                     $this->setIsSendAuthEmail(1);
                 }
@@ -1221,9 +1223,9 @@ class Rma extends \Magento\Model\AbstractModel
      */
     protected function _isRmaAvailableForPrintLabel()
     {
-        return $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED &&
-            $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED &&
-            $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING;
+        return $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED
+        && $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
+        && $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING;
     }
 
     /**
@@ -1250,9 +1252,11 @@ class Rma extends \Magento\Model\AbstractModel
             ) {
                 return false;
             }
-            if ($item->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED && is_numeric(
-                $item->getQtyAuthorized()
-            ) && $item->getQtyAuthorized() > 0
+            if ($item->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED
+                && is_numeric(
+                    $item->getQtyAuthorized()
+                )
+                && $item->getQtyAuthorized() > 0
             ) {
                 $return = true;
             }

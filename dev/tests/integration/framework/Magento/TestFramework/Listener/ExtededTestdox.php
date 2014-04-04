@@ -248,7 +248,6 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
     {
     }
 
-
     /**
      * Handler for 'start class' event.
      *
@@ -257,7 +256,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      */
     protected function startClass($name)
     {
-        $this->write($this->currentTestClassPrettified .  '  ');
+        $this->write($this->currentTestClassPrettified . '  ');
     }
 
     /**
@@ -279,9 +278,8 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
         foreach ($this->tests as $name => $data) {
             $check = ($data['failure'] == 0) ? ' [x] ' : ' [ ] ';
             $this->write(
-                 "\n" . $check . $name
-                    . (($data['failure'] + $data['success']) == 0 ? ' (skipped)' : '')
-                    . ($data['time'] > 1 ?  ' - ' . number_format($data['time'], 2) . "s" : '')
+                "\n" . $check . $name . (($data['failure'] + $data['success']) == 0 ? ' (skipped)' : '')
+                . ($data['time'] > 1 ? ' - ' . number_format($data['time'], 2) . "s" : '')
             );
         }
 

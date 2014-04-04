@@ -257,7 +257,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
-     * @param Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -828,9 +828,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $fieldAlias = 'max_' . $attributeCode;
         $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
             AND ' . $this->_getConditionSql(
-            $tableAlias . '.attribute_id',
-            $attribute->getId()
-        );
+                $tableAlias . '.attribute_id',
+                $attribute->getId()
+            );
 
         $select->join(
             array($tableAlias => $attribute->getBackend()->getTable()),
@@ -864,9 +864,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
 
         $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
             AND ' . $this->_getConditionSql(
-            $tableAlias . '.attribute_id',
-            $attribute->getId()
-        );
+                $tableAlias . '.attribute_id',
+                $attribute->getId()
+            );
 
         $select->reset(\Zend_Db_Select::GROUP);
         $select->join(
@@ -904,9 +904,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
 
         $select->reset(\Zend_Db_Select::GROUP);
         $condition = 'e.entity_id=' . $tableAlias . '.entity_id AND ' . $this->_getConditionSql(
-            $tableAlias . '.attribute_id',
-            $attribute->getId()
-        );
+                $tableAlias . '.attribute_id',
+                $attribute->getId()
+            );
 
         $select->join(
             array($tableAlias => $attribute->getBackend()->getTable()),
@@ -1624,29 +1624,19 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     protected function _prepareProductLimitationFilters()
     {
-        if (isset(
-            $this->_productLimitationFilters['visibility']
-        ) && !isset(
-            $this->_productLimitationFilters['store_id']
-        )
+        if (isset($this->_productLimitationFilters['visibility'])
+            && !isset($this->_productLimitationFilters['store_id'])
         ) {
             $this->_productLimitationFilters['store_id'] = $this->getStoreId();
         }
-        if (isset(
-            $this->_productLimitationFilters['category_id']
-        ) && !isset(
-            $this->_productLimitationFilters['store_id']
-        )
+        if (isset($this->_productLimitationFilters['category_id'])
+            && !isset($this->_productLimitationFilters['store_id'])
         ) {
             $this->_productLimitationFilters['store_id'] = $this->getStoreId();
         }
-        if (isset(
-            $this->_productLimitationFilters['store_id']
-        ) && isset(
-            $this->_productLimitationFilters['visibility']
-        ) && !isset(
-            $this->_productLimitationFilters['category_id']
-        )
+        if (isset($this->_productLimitationFilters['store_id'])
+            && isset($this->_productLimitationFilters['visibility'])
+            && !isset($this->_productLimitationFilters['category_id'])
         ) {
             $this->_productLimitationFilters['category_id'] = $this->_storeManager->getStore(
                 $this->_productLimitationFilters['store_id']
@@ -1676,13 +1666,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
                 'product_website.website_id IN(?)',
                 $filters['website_ids']
             );
-        } elseif (isset(
-            $filters['store_id']
-        ) && (!isset(
-            $filters['visibility']
-        ) && !isset(
-            $filters['category_id']
-        )) && !$this->isEnabledFlat()
+        } elseif (isset($filters['store_id'])
+            && (!isset($filters['visibility'])
+                && !isset($filters['category_id']))
+            && !$this->isEnabledFlat()
         ) {
             $joinWebsite = true;
             $websiteId = $this->_storeManager->getStore($filters['store_id'])->getWebsiteId();
@@ -1855,7 +1842,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         //Clean duplicated fields
         $this->_resourceHelper->prepareColumnsList($select);
 
-
         return $this;
     }
 
@@ -1994,7 +1980,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
                 $categoryIds[$info['product_id']] = array($info['category_id']);
             }
         }
-
 
         foreach ($this->getItems() as $item) {
             $productId = $item->getId();

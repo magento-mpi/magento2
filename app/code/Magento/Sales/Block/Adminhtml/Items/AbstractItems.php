@@ -96,7 +96,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     public function getItemRenderer($type)
     {
         /** @var $renderer \Magento\Sales\Block\Adminhtml\Items\AbstractItems */
-        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
+        $renderer = $this->getChildBlock($type) ? : $this->getChildBlock(self::DEFAULT_TYPE);
         if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
             throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
@@ -448,11 +448,13 @@ class AbstractItems extends \Magento\Backend\Block\Template
          * Disable editing of quantity of item if creating of shipment forced
          * and ship partially disabled for order
          */
-        if ($this->getOrder()->getForcedShipmentWithInvoice() && ($this->canShipPartially(
-            $this->getOrder()
-        ) || $this->canShipPartiallyItem(
-            $this->getOrder()
-        ))
+        if ($this->getOrder()->getForcedShipmentWithInvoice()
+            && ($this->canShipPartially(
+                    $this->getOrder()
+                )
+                || $this->canShipPartiallyItem(
+                    $this->getOrder()
+                ))
         ) {
             return false;
         }
@@ -513,7 +515,11 @@ class AbstractItems extends \Magento\Backend\Block\Template
      */
     public function canReturnToStock()
     {
-        if ($this->_storeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->_storeConfig->getValue(
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             return true;
         } else {
             return false;
@@ -529,8 +535,9 @@ class AbstractItems extends \Magento\Backend\Block\Template
     public function canReturnItemToStock($item = null)
     {
         $canReturnToStock = $this->_storeConfig->getValue(
-            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
-        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
                 $product = $this->_productFactory->create()->load($item->getOrderItem()->getProductId());
@@ -554,8 +561,9 @@ class AbstractItems extends \Magento\Backend\Block\Template
     public function canParentReturnToStock($item = null)
     {
         $canReturnToStock = $this->_storeConfig->getValue(
-            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
-        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (!is_null($item)) {
             if ($item->getCreditmemo()->getOrder()->hasCanReturnToStock()) {
                 $canReturnToStock = $item->getCreditmemo()->getOrder()->getCanReturnToStock();

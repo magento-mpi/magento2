@@ -209,12 +209,12 @@ class Links extends \Magento\Backend\Block\Template
      */
     public function getLinksTitle()
     {
-        return $this->getProduct()->getId() &&
-            $this->getProduct()->getTypeId() ==
-            'downloadable' ? $this->getProduct()->getLinksTitle() : $this->_storeConfig->getValue(
-            \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
+        return $this->getProduct()->getId()
+        && $this->getProduct()->getTypeId() == 'downloadable' ? $this->getProduct()->getLinksTitle() :
+            $this->_storeConfig->getValue(
+                \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
     }
 
     /**
@@ -281,11 +281,11 @@ class Links extends \Magento\Backend\Block\Template
 
                 if ($fileExist) {
                     $name = '<a href="' . $this->getUrl(
-                        'adminhtml/downloadable_product_edit/link',
-                        array('id' => $item->getId(), '_secure' => true)
-                    ) . '">' . $fileHelper->getFileFromPathFile(
-                        $linkFile
-                    ) . '</a>';
+                            'adminhtml/downloadable_product_edit/link',
+                            array('id' => $item->getId(), '_secure' => true)
+                        ) . '">' . $fileHelper->getFileFromPathFile(
+                            $linkFile
+                        ) . '</a>';
                     $tmpLinkItem['file_save'] = array(
                         array(
                             'file' => $linkFile,

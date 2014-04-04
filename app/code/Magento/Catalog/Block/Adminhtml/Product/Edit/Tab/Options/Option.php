@@ -259,14 +259,14 @@ class Option extends Widget
         $this->getChildBlock('text_option_type')->setCanReadPrice($canReadPrice)->setCanEditPrice($canEditPrice);
 
         $templates = $this->getChildHtml(
-            'text_option_type'
-        ) . "\n" . $this->getChildHtml(
-            'file_option_type'
-        ) . "\n" . $this->getChildHtml(
-            'select_option_type'
-        ) . "\n" . $this->getChildHtml(
-            'date_option_type'
-        );
+                'text_option_type'
+            ) . "\n" . $this->getChildHtml(
+                'file_option_type'
+            ) . "\n" . $this->getChildHtml(
+                'select_option_type'
+            ) . "\n" . $this->getChildHtml(
+                'date_option_type'
+            );
 
         return $templates;
     }
@@ -364,8 +364,8 @@ class Option extends Widget
                     $value['file_extension'] = $option->getFileExtension();
                     $value['image_size_x'] = $option->getImageSizeX();
                     $value['image_size_y'] = $option->getImageSizeY();
-                    if ($this->getProduct()->getStoreId() != '0' &&
-                        $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE
+                    if ($this->getProduct()->getStoreId() != '0'
+                        && $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE
                     ) {
                         $value['checkboxScopePrice'] = $this->getCheckboxScopeHtml(
                             $option->getOptionId(),
@@ -404,38 +404,14 @@ class Option extends Widget
             $selectNameHtml = '[values][' . $select_id . ']';
             $selectIdHtml = 'select_' . $select_id . '_';
         }
-        $useDefault = '<div class="field-service">' .
-            '<label for="' .
-            $this->getFieldId() .
-            '_' .
-            $id .
-            '_' .
-            $selectIdHtml .
-            $name .
-            '" class="use-default">' .
-            '<input value="1" type="checkbox" class="use-default-control"' .
-            'name="' .
-            $this->getFieldName() .
-            '[' .
-            $id .
-            ']' .
-            $selectNameHtml .
-            '[scope][' .
-            $name .
-            ']"' .
-            'id="' .
-            $this->getFieldId() .
-            '_' .
-            $id .
-            '_' .
-            $selectIdHtml .
-            $name .
-            '_use_default"' .
-            $checkedHtml .
-            ' /><span class="use-default-label">' .
-            __(
-            'Use Default'
-        ) . '</span></label></div>';
+        $useDefault =
+            '<div class="field-service">' . '<label for="' . $this->getFieldId() . '_' . $id . '_' . $selectIdHtml
+            . $name . '" class="use-default">' . '<input value="1" type="checkbox" class="use-default-control"'
+            . 'name="' . $this->getFieldName() . '[' . $id . ']' . $selectNameHtml . '[scope][' . $name . ']"' . 'id="'
+            . $this->getFieldId() . '_' . $id . '_' . $selectIdHtml . $name . '_use_default"' . $checkedHtml
+            . ' /><span class="use-default-label">' . __(
+                'Use Default'
+            ) . '</span></label></div>';
 
         return $useDefault;
     }

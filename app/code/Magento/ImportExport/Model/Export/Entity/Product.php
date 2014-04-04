@@ -373,9 +373,10 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $stmt = $this->_connection->query($select);
         while ($tierRow = $stmt->fetch()) {
             $rowTierPrices[$tierRow['entity_id']][] = array(
-                '_tier_price_customer_group' => $tierRow['all_groups'] ? self::VALUE_ALL : $tierRow['customer_group_id'],
-                '_tier_price_website' => 0 ==
-                $tierRow['website_id'] ? self::VALUE_ALL : $this->_websiteIdToCode[$tierRow['website_id']],
+                '_tier_price_customer_group' => $tierRow['all_groups'] ? self::VALUE_ALL :
+                    $tierRow['customer_group_id'],
+                '_tier_price_website' => 0 == $tierRow['website_id'] ? self::VALUE_ALL :
+                    $this->_websiteIdToCode[$tierRow['website_id']],
                 '_tier_price_qty' => $tierRow['qty'],
                 '_tier_price_price' => $tierRow['value']
             );
@@ -406,9 +407,10 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $statement = $this->_connection->query($select);
         while ($groupRow = $statement->fetch()) {
             $rowGroupPrices[$groupRow['entity_id']][] = array(
-                '_group_price_customer_group' => $groupRow['all_groups'] ? self::VALUE_ALL : $groupRow['customer_group_id'],
-                '_group_price_website' => 0 ==
-                $groupRow['website_id'] ? self::VALUE_ALL : $this->_websiteIdToCode[$groupRow['website_id']],
+                '_group_price_customer_group' => $groupRow['all_groups'] ? self::VALUE_ALL :
+                    $groupRow['customer_group_id'],
+                '_group_price_website' => 0 == $groupRow['website_id'] ? self::VALUE_ALL :
+                    $this->_websiteIdToCode[$groupRow['website_id']],
                 '_group_price_price' => $groupRow['value']
             );
         }
@@ -483,13 +485,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $stockItemRows = array();
         while ($stockItemRow = $stmt->fetch()) {
             $productId = $stockItemRow['product_id'];
-            unset(
-                $stockItemRow['item_id'],
-                $stockItemRow['product_id'],
-                $stockItemRow['low_stock_date'],
-                $stockItemRow['stock_id'],
-                $stockItemRow['stock_status_changed_auto']
-            );
+            unset($stockItemRow['item_id'], $stockItemRow['product_id'], $stockItemRow['low_stock_date'], $stockItemRow['stock_id'], $stockItemRow['stock_status_changed_auto']);
             $stockItemRows[$productId] = $stockItemRow;
         }
         return $stockItemRows;
@@ -678,10 +674,10 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             switch ($lastMemoryLimitLetter) {
                 case 'g':
                     $memoryLimit *= 1024;
-                    // fall-through intentional
+                // fall-through intentional
                 case 'm':
                     $memoryLimit *= 1024;
-                    // fall-through intentional
+                // fall-through intentional
                 case 'k':
                     $memoryLimit *= 1024;
                     break;
@@ -814,9 +810,9 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                             }
                         }
                         // do not save value same as default or not existent
-                        if ($storeId != $defaultStoreId && isset(
-                            $dataRows[$itemId][$defaultStoreId][$attrCode]
-                        ) && $dataRows[$itemId][$defaultStoreId][$attrCode] == $attrValue
+                        if ($storeId != $defaultStoreId
+                            && isset($dataRows[$itemId][$defaultStoreId][$attrCode])
+                            && $dataRows[$itemId][$defaultStoreId][$attrCode] == $attrValue
                         ) {
                             $attrValue = null;
                         }
@@ -883,16 +879,15 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                     $row = array();
                     $productId = $option['product_id'];
                     $optionId = $option['option_id'];
-                    $customOptions = isset(
-                        $customOptionsDataPre[$productId][$optionId]
-                    ) ? $customOptionsDataPre[$productId][$optionId] : array();
+                    $customOptions = isset($customOptionsDataPre[$productId][$optionId]) ?
+                        $customOptionsDataPre[$productId][$optionId] : array();
 
                     if ($defaultStoreId == $storeId) {
                         $row['_custom_option_type'] = $option['type'];
                         $row['_custom_option_title'] = $option['title'];
                         $row['_custom_option_is_required'] = $option['is_require'];
-                        $row['_custom_option_price'] = $option['price'] . ($option['price_type'] ==
-                            'percent' ? '%' : '');
+                        $row['_custom_option_price'] =
+                            $option['price'] . ($option['price_type'] == 'percent' ? '%' : '');
                         $row['_custom_option_sku'] = $option['sku'];
                         $row['_custom_option_max_characters'] = $option['max_characters'];
                         $row['_custom_option_sort_order'] = $option['sort_order'];

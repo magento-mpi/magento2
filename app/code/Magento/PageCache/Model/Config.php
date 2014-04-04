@@ -72,6 +72,7 @@ class Config
     /**
      * @param Filesystem $filesystem
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\App\Cache\StateInterface $cacheState
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,

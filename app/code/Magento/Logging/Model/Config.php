@@ -117,14 +117,12 @@ class Config
      */
     public function getActionLabel($action)
     {
-        if (isset(
-            $this->_xmlConfig['actions']
-        ) && array_key_exists(
-            $action,
-            $this->_xmlConfig['actions']
-        ) && isset(
-            $this->_xmlConfig['actions'][$action]['label']
-        )
+        if (isset($this->_xmlConfig['actions'])
+            && array_key_exists(
+                $action,
+                $this->_xmlConfig['actions']
+            )
+            && isset($this->_xmlConfig['actions'][$action]['label'])
         ) {
             return __($this->_xmlConfig['actions'][$action]['label']);
         }
@@ -170,7 +168,8 @@ class Config
     protected function _initSystemConfigValues()
     {
         $this->_systemConfigValues = $this->_scopeConfig->getValue(
-            'admin/magento_logging/actions', \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            'admin/magento_logging/actions',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if (null === $this->_systemConfigValues) {
             $this->_systemConfigValues = array();

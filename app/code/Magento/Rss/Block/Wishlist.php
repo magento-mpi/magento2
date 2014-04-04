@@ -130,7 +130,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 )
             );
 
-            /** @var $wishlistItem \Magento\Wishlist\Model\Item*/
+            /** @var $wishlistItem \Magento\Wishlist\Model\Item */
             foreach ($this->getWishlistItems() as $wishlistItem) {
                 /* @var $product \Magento\Catalog\Model\Product */
                 $product = $wishlistItem->getProduct();
@@ -149,19 +149,17 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 /** @var $outputHelper \Magento\Catalog\Helper\Output */
                 $outputHelper = $this->_outputHelper;
                 $description = '<table><tr><td><a href="' . $productUrl . '"><img src="' . $this->_imageHelper->init(
-                    $product,
-                    'thumbnail'
-                )->resize(
-                    75,
-                    75
-                ) .
-                    '" border="0" align="left" height="75" width="75"></a></td>' .
-                    '<td style="text-decoration:none;">' .
-                    $outputHelper->productAttribute(
-                    $product,
-                    $product->getShortDescription(),
-                    'short_description'
-                ) . '<p>';
+                        $product,
+                        'thumbnail'
+                    )->resize(
+                        75,
+                        75
+                    ) . '" border="0" align="left" height="75" width="75"></a></td>'
+                    . '<td style="text-decoration:none;">' . $outputHelper->productAttribute(
+                        $product,
+                        $product->getShortDescription(),
+                        'short_description'
+                    ) . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
                     $description .= $this->getPriceHtml($product, true);
@@ -170,12 +168,12 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 
                 if ($this->hasDescription($product)) {
                     $description .= '<p>' . __(
-                        'Comment:'
-                    ) . ' ' . $outputHelper->productAttribute(
-                        $product,
-                        $product->getDescription(),
-                        'description'
-                    ) . '<p>';
+                            'Comment:'
+                        ) . ' ' . $outputHelper->productAttribute(
+                            $product,
+                            $product->getDescription(),
+                            'description'
+                        ) . '<p>';
                 }
                 $description .= '</td></tr></table>';
                 $rssObj->_addEntry(

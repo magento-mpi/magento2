@@ -22,10 +22,8 @@ use Magento\Model\AbstractModel;
  * @method \Magento\Store\Model\Store setSortOrder(int $value)
  * @method \Magento\Store\Model\Store setIsActive(int $value)
  */
-class Store extends AbstractModel implements
-    \Magento\App\ScopeInterface,
-    \Magento\Url\ScopeInterface,
-    \Magento\Object\IdentityInterface
+class Store extends AbstractModel
+    implements \Magento\App\ScopeInterface, \Magento\Url\ScopeInterface, \Magento\Object\IdentityInterface
 {
     /**
      * Entity name
@@ -551,11 +549,11 @@ class Store extends AbstractModel implements
                     $url = $this->_getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(
-                            \Magento\UrlInterface::URL_TYPE_WEB,
-                            $secure
-                        ) . $this->filesystem->getUri(
-                            \Magento\App\Filesystem::PUB_LIB_DIR
-                        );
+                                \Magento\UrlInterface::URL_TYPE_WEB,
+                                $secure
+                            ) . $this->filesystem->getUri(
+                                \Magento\App\Filesystem::PUB_LIB_DIR
+                            );
                     }
                     break;
 
@@ -564,11 +562,11 @@ class Store extends AbstractModel implements
                     $url = $this->_getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(
-                            \Magento\UrlInterface::URL_TYPE_WEB,
-                            $secure
-                        ) . $this->filesystem->getUri(
-                            \Magento\App\Filesystem::STATIC_VIEW_DIR
-                        );
+                                \Magento\UrlInterface::URL_TYPE_WEB,
+                                $secure
+                            ) . $this->filesystem->getUri(
+                                \Magento\App\Filesystem::STATIC_VIEW_DIR
+                            );
                     }
                     break;
 
@@ -577,11 +575,11 @@ class Store extends AbstractModel implements
                     $url = $this->_getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(
-                            \Magento\UrlInterface::URL_TYPE_WEB,
-                            $secure
-                        ) . $this->filesystem->getUri(
-                            \Magento\App\Filesystem::PUB_VIEW_CACHE_DIR
-                        );
+                                \Magento\UrlInterface::URL_TYPE_WEB,
+                                $secure
+                            ) . $this->filesystem->getUri(
+                                \Magento\App\Filesystem::PUB_VIEW_CACHE_DIR
+                            );
                     }
                     break;
 
@@ -592,11 +590,11 @@ class Store extends AbstractModel implements
                         $url = $this->_getConfig($path);
                         if (!$url) {
                             $url = $this->getBaseUrl(
-                                \Magento\UrlInterface::URL_TYPE_WEB,
-                                $secure
-                            ) . $this->filesystem->getUri(
-                                \Magento\App\Filesystem::MEDIA_DIR
-                            );
+                                    \Magento\UrlInterface::URL_TYPE_WEB,
+                                    $secure
+                                ) . $this->filesystem->getUri(
+                                    \Magento\App\Filesystem::MEDIA_DIR
+                                );
                         }
                     }
                     break;
@@ -624,9 +622,11 @@ class Store extends AbstractModel implements
      */
     protected function _updatePathUseRewrites($url)
     {
-        if ($this->getForceDisableRewrites() || !$this->_getConfig(
-            self::XML_PATH_USE_REWRITES
-        ) || !$this->_appState->isInstalled()
+        if ($this->getForceDisableRewrites()
+            || !$this->_getConfig(
+                self::XML_PATH_USE_REWRITES
+            )
+            || !$this->_appState->isInstalled()
         ) {
             if ($this->_isCustomEntryPoint()) {
                 $indexFileName = 'index.php';
@@ -692,10 +692,10 @@ class Store extends AbstractModel implements
      */
     public function isUseStoreInUrl()
     {
-        return !($this->hasDisableStoreInUrl() &&
-            $this->getDisableStoreInUrl()) &&
-            $this->_appState->isInstalled() &&
-            $this->_getConfig(
+        return !($this->hasDisableStoreInUrl()
+            && $this->getDisableStoreInUrl())
+        && $this->_appState->isInstalled()
+        && $this->_getConfig(
             self::XML_PATH_STORE_IN_URL
         );
     }
@@ -766,9 +766,9 @@ class Store extends AbstractModel implements
 
             $uri = \Zend_Uri::factory($secureBaseUrl);
             $port = $uri->getPort();
-            $isSecure = $uri->getScheme() == 'https' && isset(
-                $_SERVER['SERVER_PORT']
-            ) && $port == $_SERVER['SERVER_PORT'];
+            $isSecure = $uri->getScheme() == 'https'
+                && isset($_SERVER['SERVER_PORT'])
+                && $port == $_SERVER['SERVER_PORT'];
             return $isSecure;
         } else {
             $isSecure = isset($_SERVER['SERVER_PORT']) && 443 == $_SERVER['SERVER_PORT'];
@@ -975,8 +975,8 @@ class Store extends AbstractModel implements
      * Convert price from default currency to current currency
      *
      * @param   float $price
-     * @param   bool $format             Format price to currency format
-     * @param   bool $includeContainer   Enclose into <span class="price"><span>
+     * @param   bool $format Format price to currency format
+     * @param   bool $includeContainer Enclose into <span class="price"><span>
      * @return  float
      */
     public function convertPrice($price, $format = false, $includeContainer = true)
@@ -1150,11 +1150,10 @@ class Store extends AbstractModel implements
         }
 
         $currQuery = $this->_request->getQuery();
-        if (isset(
-            $currQuery[$sidQueryParam]
-        ) && !empty($currQuery[$sidQueryParam]) && $this->_getSession()->getSessionIdForHost(
-            $storeUrl
-        ) != $currQuery[$sidQueryParam]
+        if (isset($currQuery[$sidQueryParam]) && !empty($currQuery[$sidQueryParam])
+            && $this->_getSession()->getSessionIdForHost(
+                $storeUrl
+            ) != $currQuery[$sidQueryParam]
         ) {
             unset($currQuery[$sidQueryParam]);
         }
@@ -1167,22 +1166,17 @@ class Store extends AbstractModel implements
             $storeParsedQuery['___store'] = $this->getCode();
         }
         if ($fromStore !== false) {
-            $storeParsedQuery['___from_store'] = $fromStore ===
-                true ? $this->_storeManager->getStore()->getCode() : $fromStore;
+            $storeParsedQuery['___from_store'] =
+                $fromStore === true ? $this->_storeManager->getStore()->getCode() : $fromStore;
         }
 
-        return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host'] . (isset(
-            $storeParsedUrl['port']
-        ) ? ':' .
-            $storeParsedUrl['port'] : '') .
-            $storeParsedUrl['path'] .
-            $requestString .
-            ($storeParsedQuery ? '?' .
-            http_build_query(
-            $storeParsedQuery,
-            '',
-            '&amp;'
-        ) : '');
+        return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host'] . (isset($storeParsedUrl['port']) ?
+            ':' . $storeParsedUrl['port'] : '') . $storeParsedUrl['path'] . $requestString . ($storeParsedQuery ?
+            '?' . http_build_query(
+                $storeParsedQuery,
+                '',
+                '&amp;'
+            ) : '');
     }
 
     /**

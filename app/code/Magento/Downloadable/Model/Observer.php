@@ -158,9 +158,9 @@ class Observer
                     ->getLinksTitle() : $this
                     ->_storeConfig
                     ->getValue(
-                    \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                );
+                        \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                    );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
@@ -215,11 +215,11 @@ class Observer
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
-                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
-                    $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
-                    $item->getProductOptionByCode(
-                    'is_downloadable'
-                )
+                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getProductOptionByCode(
+                        'is_downloadable'
+                    )
                 ) {
                     $this->_checkoutSession->setHasDownloadableProducts(true);
                     break;
@@ -263,17 +263,17 @@ class Observer
 
         if ($order->getState() == \Magento\Sales\Model\Order::STATE_HOLDED) {
             $status = $linkStatuses['pending'];
-        } elseif ($order->isCanceled() ||
-            $order->getState() == \Magento\Sales\Model\Order::STATE_CLOSED ||
-            $order->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE
+        } elseif ($order->isCanceled()
+            || $order->getState() == \Magento\Sales\Model\Order::STATE_CLOSED
+            || $order->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE
         ) {
             $expiredStatuses = array(
                 \Magento\Sales\Model\Order\Item::STATUS_CANCELED,
                 \Magento\Sales\Model\Order\Item::STATUS_REFUNDED
             );
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
-                    $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                 ) {
                     if (in_array($item->getStatusId(), $expiredStatuses)) {
                         $downloadableItemsStatuses[$item->getId()] = $linkStatuses['expired'];
@@ -289,16 +289,16 @@ class Observer
         } else {
             $availableStatuses = array($orderItemStatusToEnable, \Magento\Sales\Model\Order\Item::STATUS_INVOICED);
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
-                    $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                 ) {
-                    if ($item->getStatusId() == \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED &&
-                        $orderItemStatusToEnable == \Magento\Sales\Model\Order\Item::STATUS_PENDING &&
-                        !in_array(
-                        \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED,
-                        $availableStatuses,
-                        true
-                    )
+                    if ($item->getStatusId() == \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED
+                        && $orderItemStatusToEnable == \Magento\Sales\Model\Order\Item::STATUS_PENDING
+                        && !in_array(
+                            \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED,
+                            $availableStatuses,
+                            true
+                        )
                     ) {
                         $availableStatuses[] = \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED;
                     }
@@ -311,8 +311,8 @@ class Observer
         }
         if (!$downloadableItemsStatuses && $status) {
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
-                    $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                 ) {
                     $downloadableItemsStatuses[$item->getId()] = $status;
                 }
@@ -325,8 +325,8 @@ class Observer
                 array('in' => array_keys($downloadableItemsStatuses))
             );
             foreach ($linkPurchased as $link) {
-                if ($link->getStatus() != $linkStatuses['expired'] &&
-                    !empty($downloadableItemsStatuses[$link->getOrderItemId()])
+                if ($link->getStatus() != $linkStatuses['expired']
+                    && !empty($downloadableItemsStatuses[$link->getOrderItemId()])
                 ) {
                     $link->setStatus($downloadableItemsStatuses[$link->getOrderItemId()])->save();
                 }
@@ -351,18 +351,19 @@ class Observer
         $isContain = false;
 
         foreach ($quote->getAllItems() as $item) {
-            if (($product = $item->getProduct()) &&
-                $product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+            if (($product = $item->getProduct())
+                && $product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
             ) {
                 $isContain = true;
             }
         }
 
-        if ($isContain && $this->_storeConfig->isSetFlag(
-            self::XML_PATH_DISABLE_GUEST_CHECKOUT,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $store
-        )
+        if ($isContain
+            && $this->_storeConfig->isSetFlag(
+                self::XML_PATH_DISABLE_GUEST_CHECKOUT,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            )
         ) {
             $result->setIsAllowed(false);
         }
