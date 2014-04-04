@@ -64,25 +64,6 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
             $this->configMock,
             $this->quoteFactoryMock
         );
-        /** @var \Magento\SalesRule\Model\Validator|\PHPUnit_Framework_MockObject_MockObject $validator */
-        $validator = $this->getMockBuilder(
-//            'Magento\SalesRule\Model\Validator'
-        'Magento\Sales\Model\Quote'
-        )->setMethods(
-                array(
-                    'save',
-                    'getDiscountData',
-                    'setDiscountData',
-                    '_addDiscountDescription',
-                    '_maintainAddressCouponCode',
-                    '_getItemQty',
-                    '_canProcessRule',
-                    'setAppliedRuleIds',
-                    '_getRules',
-                    '__wakeup'
-                )
-            )->disableOriginalConstructor(
-            )->getMock();
     }
 
     public function testDispatchNoCustomerGroupChange()
@@ -210,33 +191,6 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
             [true, ['website1', 'website2'], null],
             [false, ['website1'], null],
             [false, ['website1', 'website2'], null],
-        ];
-    }
-
-    protected function getQuoteConstructorArgs()
-    {
-        return [
-            $this->getMock('Magento\Model\Context', array(), array(), '', false),
-            $this->getMock('Magento\Registry', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\Catalog\Helper\Product', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Store\ConfigInterface', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false),
-            $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Model\Quote\AddressFactory', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Model\Resource\Quote\Item\CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Model\Quote\ItemFactory', array(), array(), '', false),
-            $this->getMock('Magento\Message\Factory', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Model\Status\ListFactory', array(), array(), '', false),
-            $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Model\Quote\PaymentFactory', array(), array(), '', false),
-            $this->getMock('Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento\Object\Copy', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Model\Converter', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Model\Address\Converter', array(), array(), '', false)
         ];
     }
 }
