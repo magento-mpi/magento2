@@ -46,6 +46,16 @@ class Phrase
     }
 
     /**
+     * Get default Phrase rendered
+     *
+     * @return RendererInterface
+     */
+    public static function getRenderer()
+    {
+        return self::$_renderer;
+    }
+
+    /**
      * Phrase construct
      *
      * @param string $text
