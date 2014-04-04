@@ -63,7 +63,7 @@ class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      */
     public function canCreateWishlists(\Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists)
     {
-        $customerId = $this->currentCustomer->getCustomerId();
+        $customerId = $this->_wishlistHelper->getCustomer()->getCustomerId();
         return !$this->_wishlistHelper->isWishlistLimitReached($wishlists) && $customerId;
     }
 
