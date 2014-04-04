@@ -381,7 +381,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * @param @param string|\Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
+     * @param string|\Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      * @return array
      */
     protected function _getCartUrlParameters($item)
