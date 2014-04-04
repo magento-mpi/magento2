@@ -30,7 +30,13 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->productContextMock = $this->getMock('Magento\Catalog\Block\Product\Context', ['getLayout'], [], '', false);
+        $this->productContextMock = $this->getMock(
+            'Magento\Catalog\Block\Product\Context',
+            ['getLayout'],
+            [],
+            '',
+            false
+        );
         $arrayUtilsMock = $this->getMock('Magento\Stdlib\ArrayUtils', [], [], '', false);
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', ['getBlock'], [], '', false);
 
