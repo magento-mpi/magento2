@@ -8,6 +8,7 @@
   * Eliminated Core\Helper\Js class (MAGETWO-21600)
   * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
+  * Resolved issues with cases when order has been placed before module disabling (MAGETWO-18064)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
 * Customer Service usage:
@@ -26,6 +27,11 @@
 * Customer Service usage:
   * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
   * Refactor PayPal module to use Customer Service (MAGETWO-20477)
+  * Log, RSS, and Review module are fully refactored to use Customer Service Layer (MAGETWO-22788)
+  * Refactor Wishlist & WEEE module to use Customer Services (MAGETWO-20499)
+  * Refactor CatalogInventory to use Customer Service for customer services (MAGETWO-20464)
+  * Refactor CatalogRule Module to use Customer Service (MAGETWO-20471)
+  * Refactor SalesRule module to use customer services (MAGETWO-20496)
 
 2.0.0.0-dev71
 =============
