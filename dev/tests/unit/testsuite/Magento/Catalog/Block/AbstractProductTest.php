@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Block\Product;
 
+/**
+ * Class AbstractProductTest
+ */
 class AbstractProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
