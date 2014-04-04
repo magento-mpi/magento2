@@ -7,7 +7,10 @@
  */
 namespace Magento\Core\Model\Config\Scope;
 
-class ReaderPool implements \Magento\App\Config\Scope\ReaderPoolInterface
+use Magento\App\Config\Scope\ReaderInterface;
+use Magento\App\Config\Scope\ReaderPoolInterface;
+
+class ReaderPool implements ReaderPoolInterface
 {
     /**
      * List of readers
@@ -21,11 +24,8 @@ class ReaderPool implements \Magento\App\Config\Scope\ReaderPoolInterface
      * @param ReaderInterface $website
      * @param ReaderInterface $store
      */
-    public function __construct(
-        \Magento\App\Config\Scope\ReaderInterface $default,
-        \Magento\App\Config\Scope\ReaderInterface $website,
-        \Magento\App\Config\Scope\ReaderInterface $store
-    ) {
+    public function __construct(ReaderInterface $default, ReaderInterface $website, ReaderInterface $store)
+    {
         $this->_readers = array(
             'default' => $default,
             'website' => $website,

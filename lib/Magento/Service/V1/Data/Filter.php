@@ -5,10 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data;
+
+namespace Magento\Service\V1\Data;
 
 /**
- * Filter Service Data Object used in search requests
+ * Filter which can be used by any methods from service layer.
  */
 class Filter extends \Magento\Service\Data\AbstractObject
 {
@@ -25,7 +26,7 @@ class Filter extends \Magento\Service\Data\AbstractObject
     /**
      * Get value
      *
-     * @return string | string[]
+     * @return string
      */
     public function getValue()
     {
@@ -35,7 +36,7 @@ class Filter extends \Magento\Service\Data\AbstractObject
     /**
      * Get condition type
      *
-     * @return string
+     * @return string|null
      */
     public function getConditionType()
     {
