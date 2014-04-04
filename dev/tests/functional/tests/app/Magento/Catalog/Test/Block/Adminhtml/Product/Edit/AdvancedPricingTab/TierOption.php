@@ -18,7 +18,7 @@ use Mtf\Block\Block;
 /**
  * Select Type
  */
-class GroupOption extends Block
+class TierOption extends Block
 {
     /**
      * Fill
@@ -40,6 +40,9 @@ class GroupOption extends Block
         }
         if (isset($data['price'])) {
             $this->_rootElement->find('#' . $rowPrefix . '_price')->setValue($data['price']);
+        }
+        if (isset($data['quantity'])) {
+            $this->_rootElement->find('#' . $rowPrefix . '_qty')->setValue($data['quantity']);
         }
     }
 }

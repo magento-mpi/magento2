@@ -32,17 +32,20 @@ class AdvancedPricingTab extends Tab
      */
     public function fillFormTab(array $fields, Element $element)
     {
-        if (!isset($fields['group_price']) && !isset($fields['tier_price'])) {
-            return $this;
-        }
-
         $root = $element;
         $this->_rootElement->waitUntil(
             function () use ($root) {
                 return $root->find('#product_info_tabs_advanced-pricing_content')->isVisible();
             }
         );
-        if (isset($fields['group_price'])) {
+        if (isset($fields['special_price']['value'])) {
+            $container = $root->find('#attribute-special_price-container');
+            Factory::getBlockFactory()
+                ->getMagentoCatalogAdminhtmlProductEditAdvancedPricingTabSpecialOption($container)
+                ->fill($fields['special_price']);
+        }
+
+        if (isset($fields['group_price']['value'])) {
             $button = $root->find('[title="Add Group Price"]');
 
             $container = $root->find('#attribute-group_price-container');
@@ -54,7 +57,7 @@ class AdvancedPricingTab extends Tab
                     ->fill($rowPrefix, $data);
             }
         }
-        if (isset($fields['tier_price'])) {
+        if (isset($fields['tier_price']['value'])) {
             $button = $root->find('[title="Add Tier"]');
 
             $container = $root->find('#attribute-tier_price-container');

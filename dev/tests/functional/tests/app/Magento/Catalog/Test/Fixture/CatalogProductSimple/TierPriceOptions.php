@@ -12,7 +12,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class GroupPriceOptions
+ * Class TierPriceOptions
  *
  * Data keys:
  *  - preset (Price options preset name)
@@ -20,7 +20,7 @@ use Mtf\Fixture\FixtureInterface;
  *
  * @package Magento\Catalog\Test\Fixture
  */
-class GroupPriceOptions implements FixtureInterface
+class TierPriceOptions implements FixtureInterface
 {
     /**
      * @var \Mtf\Fixture\FixtureFactory
@@ -78,11 +78,12 @@ class GroupPriceOptions implements FixtureInterface
     protected function getPreset($name)
     {
         $presets = [
-            'MAGETWO-23055' => [
-                        'group_price_row_0' => [
+            'MAGETWO-23002' => [
+                        'tier_price_row_0' => [
                             'price' => 90,
                             'website' => 'All Websites [USD]',
-                            'customer_group' => 'NOT LOGGED IN'
+                            'quantity' => '1',
+                            'customer_group' => 'ALL GROUPS'
                         ]
             ]
         ];
