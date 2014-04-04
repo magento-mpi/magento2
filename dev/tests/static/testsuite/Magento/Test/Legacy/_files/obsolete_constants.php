@@ -315,7 +315,7 @@ return array(
     array('XML_PATH_FRONT_NAME', 'Magento\DesignEditor\Helper\Data'),
     array('XML_PATH_DISABLED_CACHE_TYPES', 'Magento\DesignEditor\Helper\Data'),
     array('XML_PATH_ENCRYPTION_MODEL', 'Magento\Core\Helper\Data'),
-    array('CONFIG_KEY_PATH_TO_MAP_FILE', 'Magento\Core\Model\Resource\Setup\Migration'),
+    array('CONFIG_KEY_PATH_TO_MAP_FILE', 'Magento\Module\Setup\Migration'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento\App\UpdaterInterface'),
     array('XML_PATH_IGNORE_DEV_MODE', 'Magento\Module\UpdaterInterface'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento\Module\UpdaterInterface'),

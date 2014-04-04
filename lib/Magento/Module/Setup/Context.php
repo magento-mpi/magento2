@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Setup;
+namespace Magento\Module\Setup;
 
 class Context implements \Magento\ObjectManager\ContextInterface
 {
@@ -40,19 +40,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_resourceResource;
 
     /**
-     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
+     * @var \Magento\Module\Setup\MigrationFactory
      */
     protected $_migrationFactory;
-
-    /**
-     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
-     */
-    protected $_themeResourceFactory;
-
-    /**
-     * @var \Magento\Core\Model\Theme\CollectionFactory
-     */
-    protected $_themeFactory;
 
     /**
      * @var \Magento\Encryption\EncryptorInterface
@@ -73,9 +63,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Module\ResourceInterface $resourceResource
-     * @param MigrationFactory $migrationFactory
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory
-     * @param \Magento\Core\Model\Theme\CollectionFactory $themeFactory
+     * @param \Magento\Module\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\App\Filesystem $filesystem
      */
@@ -86,9 +74,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Module\ResourceInterface $resourceResource,
-        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
-        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
-        \Magento\Core\Model\Theme\CollectionFactory $themeFactory,
+        \Magento\Module\Setup\MigrationFactory $migrationFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\App\Filesystem $filesystem
     ) {
@@ -99,8 +85,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_moduleList = $moduleList;
         $this->_resourceResource = $resourceResource;
         $this->_migrationFactory = $migrationFactory;
-        $this->_themeResourceFactory = $themeResourceFactory;
-        $this->_themeFactory = $themeFactory;
         $this->_encryptor = $encryptor;
         $this->filesystem = $filesystem;
     }
@@ -146,7 +130,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Setup\MigrationFactory
+     * @return \Magento\Module\Setup\MigrationFactory
      */
     public function getMigrationFactory()
     {
@@ -159,22 +143,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getResourceResource()
     {
         return $this->_resourceResource;
-    }
-
-    /**
-     * @return \Magento\Core\Model\Theme\CollectionFactory
-     */
-    public function getThemeFactory()
-    {
-        return $this->_themeFactory;
-    }
-
-    /**
-     * @return \Magento\Core\Model\Resource\Theme\CollectionFactory
-     */
-    public function getThemeResourceFactory()
-    {
-        return $this->_themeResourceFactory;
     }
 
     /**

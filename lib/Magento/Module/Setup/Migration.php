@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Module
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Setup;
+namespace Magento\Module\Setup;
 
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Migration extends \Magento\Core\Model\Resource\Setup
+class Migration extends \Magento\Module\Setup
 {
     /**#@+
      * Type of field content where class alias is used
@@ -41,16 +41,8 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     /**#@-*/
 
     /**#@+
-     *  Find/replace patterns
+     *  Replace pattern
      */
-    const PLAIN_FIND_PATTERN = '/^(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)::.*?$/sui';
-
-    const WIKI_FIND_PATTERN = '/{{(block|widget).*?(class|type)=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?}}/sui';
-
-    const XML_FIND_PATTERN = '/<block.*?class=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?>/sui';
-
-    const SERIALIZED_FIND_PATTERN = '#(?P<string>s:\d+:"(?P<alias>[a-z]+[_a-z\d]*?/[a-z]+[_a-z\d]*?)")#sui';
-
     const SERIALIZED_REPLACE_PATTERN = 's:%d:"%s"';
 
     /**#@-*/
@@ -107,15 +99,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      *
      * @var array
      */
-    protected $_replacePatterns = array(
-        self::FIELD_CONTENT_TYPE_WIKI => self::WIKI_FIND_PATTERN,
-        self::FIELD_CONTENT_TYPE_XML => self::XML_FIND_PATTERN
-    );
-
-    /**
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreHelper;
+    protected $_replacePatterns = array();
 
     /**
      * Path to map file from config
@@ -137,24 +121,36 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_directory;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param string $resourceName
-     * @param \Magento\Core\Helper\Data $helper
+     * @var \Magento\Module\Setup\MigrationData
+     */
+    protected $_migrationData;
+
+    /**
+     * @param \Magento\Module\Setup\Context $context
+     * @param \Magento\Module\Setup\MigrationData $migrationData
      * @param string $confPathToMapFile
+     * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
+     * @param array $compositeModules
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Module\Setup\Context $context,
         $resourceName,
-        \Magento\Core\Helper\Data $helper,
+        $moduleName,
+        \Magento\Module\Setup\MigrationData $migrationData,
         $confPathToMapFile,
-        $moduleName = 'Magento_Core',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION,
+        $compositeModules = array()
     ) {
         $this->_directory = $context->getFilesystem()->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->_coreHelper = $helper;
         $this->_pathToMapFile = $confPathToMapFile;
+        $this->_migrationData = $migrationData;
+        $this->_replacePatterns = array(
+            self::FIELD_CONTENT_TYPE_WIKI => $this->_migrationData->getWikiFindPattern(),
+            self::FIELD_CONTENT_TYPE_XML => $this->_migrationData->getXmlFindPattern()
+        );
+        $this->_compositeModules = $compositeModules;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
@@ -433,7 +429,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      */
     protected function _getModelReplacement($data, $entityType = '')
     {
-        if (preg_match(self::PLAIN_FIND_PATTERN, $data, $matches)) {
+        if (preg_match($this->_migrationData->getPlainFindPattern(), $data, $matches)) {
             $classAlias = $matches['alias'];
             $className = $this->_getCorrespondingClassName($classAlias, $entityType);
             if ($className) {
@@ -544,9 +540,6 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      */
     protected function _getCompositeModuleName($moduleAlias)
     {
-        if (null === $this->_compositeModules) {
-            $this->_compositeModules = static::getCompositeModules();
-        }
         if (array_key_exists($moduleAlias, $this->_compositeModules)) {
             return $this->_compositeModules[$moduleAlias];
         }
@@ -618,7 +611,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
             $map = $this->_loadMap($this->_pathToMapFile);
 
             if (!empty($map)) {
-                $this->_aliasesMap = $this->_coreHelper->jsonDecode($map);
+                $this->_aliasesMap = $this->_jsonDecode($map);
             }
         }
 
@@ -670,7 +663,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      */
     protected function _parseSerializedString($string)
     {
-        if ($string && preg_match_all(self::SERIALIZED_FIND_PATTERN, $string, $matches)) {
+        if ($string && preg_match_all($this->_migrationData->getSerializedFindPattern(), $string, $matches)) {
             unset($matches[0], $matches[1], $matches[2]);
             return $matches;
         } else {
@@ -681,24 +674,23 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     /**
      * List of correspondence between composite module aliases and module names
      *
-     * @static
      * @return array
      */
-    public static function getCompositeModules()
+    public function getCompositeModules()
     {
-        return array(
-            'adminnotification' => 'Magento_AdminNotification',
-            'catalogindex' => 'Magento_CatalogIndex',
-            'cataloginventory' => 'Magento_CatalogInventory',
-            'catalogrule' => 'Magento_CatalogRule',
-            'catalogsearch' => 'Magento_CatalogSearch',
-            'currencysymbol' => 'Magento_CurrencySymbol',
-            'giftmessage' => 'Magento_GiftMessage',
-            'googleanalytics' => 'Magento_GoogleAnalytics',
-            'googlebase' => 'Magento_GoogleBase',
-            'importexport' => 'Magento_ImportExport',
-            'productalert' => 'Magento_ProductAlert',
-            'salesrule' => 'Magento_SalesRule'
-        );
+        return $this->_compositeModules;
+    }
+
+    /**
+     * Decodes the given $encodedValue string which is
+     * encoded in the JSON format
+     *
+     * @param string $encodedValue
+     * @param int $objectDecodeType
+     * @return mixed
+     */
+    protected function _jsonDecode($encodedValue, $objectDecodeType = \Zend_Json::TYPE_ARRAY)
+    {
+        return \Zend_Json::decode($encodedValue, $objectDecodeType);
     }
 }

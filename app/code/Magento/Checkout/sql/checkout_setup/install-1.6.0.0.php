@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-$installer = $this;
 /* @var $installer \Magento\Checkout\Model\Resource\Setup */
+$installer = $this;
 
 $installer->startSetup();
 /**

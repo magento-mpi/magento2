@@ -40,8 +40,8 @@ try {
  */
 function updateFieldForTable($objectManager, $table, $col)
 {
-    /** @var $installer \Magento\Core\Model\Resource\Setup */
-    $installer = $objectManager->create('Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup'));
+    /** @var $installer \Magento\Module\Setup */
+    $installer = $objectManager->create('Magento\Module\Setup');
     $installer->startSetup();
 
     $table = $installer->getTable($table);

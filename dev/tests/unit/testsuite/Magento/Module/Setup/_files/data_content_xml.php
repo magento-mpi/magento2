@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Module
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'field',
-            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
-            \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_XML
+            \Magento\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
+            \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_XML
         )
     ),
     '$tableData' => array(
@@ -39,7 +39,7 @@ return array(
             )
         ),
         'aliases_map' => array(
-            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK => array(
+            \Magento\Module\Setup\Migration::ENTITY_TYPE_BLOCK => array(
                 'catalog/product_newProduct' => 'Magento\Catalog\Block\Product\NewProduct',
                 'catalogSearch/result' => 'Magento\CatalogSearch\Block\Result'
             )

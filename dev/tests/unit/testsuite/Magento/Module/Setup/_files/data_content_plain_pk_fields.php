@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Module
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'collection',
-            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_RESOURCE,
-            \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
+            \Magento\Module\Setup\Migration::ENTITY_TYPE_RESOURCE,
+            \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
             array('pk_field1', 'pk_field2')
         )
     ),
@@ -32,7 +32,7 @@ return array(
             )
         ),
         'aliases_map' => array(
-            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_RESOURCE => array(
+            \Magento\Module\Setup\Migration::ENTITY_TYPE_RESOURCE => array(
                 'customer/attribute_collection' => 'Magento\Customer\Model\Resource\Attribute\Collection'
             )
         )

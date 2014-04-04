@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Module
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'field',
-            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL,
-            \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED
+            \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL,
+            \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED
         )
     ),
     '$tableData' => array(
@@ -32,7 +32,7 @@ return array(
             )
         ),
         'aliases_map' => array(
-            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL => array(
+            \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL => array(
                 'catalogrule/rule_condition_combine' => 'Magento\CatalogRule\Model\Rule\Condition\Combine'
             )
         )

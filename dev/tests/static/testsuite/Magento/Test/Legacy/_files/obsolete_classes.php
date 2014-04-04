@@ -2238,5 +2238,10 @@ return array(
     ['Magento\BaseScopeInterface', 'Magento\App\ScopeInterface'],
     ['Magento\BaseScopeResolverInterface', 'Magento\App\ScopeResolverInterface'],
     ['Magento\Locale\ScopeConfigInterface'],
-
+    ['Magento\Core\Model\Module\Output\Config','Magento\Module\Output\Config'],
+    ['Magento\Core\Model\Resource\Setup\Context','Magento\Module\Setup\Context'],
+    ['Magento\Core\Model\Resource\Setup\Migration','Magento\Module\Setup\Migration'],
+    ['Magento\Core\Model\Resource\Setup\Generic'],
+    ['Magento\Newsletter\Model\Resource\Setup'],
+    ['Magento\SalesRule\Model\Resource\Setup'],
 );
