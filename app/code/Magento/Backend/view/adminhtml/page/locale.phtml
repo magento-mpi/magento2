@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="locale-switcher-field field">
+    <label class="label" for="locale-switcher"><span><?php echo __('Interface Locale'); ?></span></label>
+    <div class="control">
+        <?php echo $this->getLocaleSelect(); ?>
+    </div>
+    <script type="text/javascript">
+        function setInterfaceLanguage(event) {
+            var elem = Event.element(event);
+            if (elem) {
+                setLocation('<?php echo $this->getChangeLocaleUrl() ?>locale/'+elem.value+'/<?php echo $this->getUrlForReferer() ?>');
+            }
+        }
+        Event.observe('interface_locale', 'change', setInterfaceLanguage)
+    </script>
+</div>
