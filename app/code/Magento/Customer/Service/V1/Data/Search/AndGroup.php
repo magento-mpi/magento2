@@ -12,11 +12,4 @@ namespace Magento\Customer\Service\V1\Data\Search;
  */
 class AndGroup extends AbstractFilterGroup
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getGroupType()
-    {
-        return 'AND';
-    }
 }
