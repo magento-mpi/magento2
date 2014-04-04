@@ -14,6 +14,11 @@ namespace Magento\Bundle\Pricing\Price;
 class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice
 {
     /**
+     * @var bool
+     */
+    protected $filterByBasePrice = false;
+
+    /**
      * Returns true if first price is better
      *
      * Method filters tiers price values, higher discount value is better
@@ -25,16 +30,5 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice
     protected function isFirstPriceBetter($firstPrice, $secondPrice)
     {
         return $firstPrice > $secondPrice;
-    }
-
-    /**
-     * Bundle tier prices provide a percent discount and cannot be filtered by base price
-     *
-     * @param array $priceList
-     * @return array
-     */
-    protected function filterByBasePrice($priceList)
-    {
-        return $priceList;
     }
 }

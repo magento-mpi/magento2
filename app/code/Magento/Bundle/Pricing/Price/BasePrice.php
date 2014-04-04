@@ -29,18 +29,30 @@ class BasePrice extends CatalogPrice\BasePrice
             $this->value += $this->priceInfo
                 ->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION)
                 ->getValue();
-            $discount = [
-                0,
-                $this->priceInfo->getPrice(CatalogPrice\TierPriceInterface::PRICE_TYPE_TIER)->getValue(),
-                $this->priceInfo->getPrice(CatalogPrice\GroupPriceInterface::PRICE_TYPE_GROUP)->getValue(),
-                $this->priceInfo->getPrice(CatalogPrice\SpecialPriceInterface::PRICE_TYPE_SPECIAL)->getValue()
-            ];
-            $discount = max($discount);
-            if ($discount) {
-                $this->value = $this->value - $this->value * ($discount / 100);
-            }
+            $this->value = $this->applyDiscount($this->value);
         }
         return $this->value;
+    }
+
+    /**
+     * Apply discount type prices
+     *
+     * @param float $price
+     * @return float
+     */
+    public function applyDiscount($price)
+    {
+        $discount = [
+            0,
+            $this->priceInfo->getPrice(CatalogPrice\TierPriceInterface::PRICE_TYPE_TIER)->getValue(),
+            $this->priceInfo->getPrice(CatalogPrice\GroupPriceInterface::PRICE_TYPE_GROUP)->getValue(),
+            $this->priceInfo->getPrice(CatalogPrice\SpecialPriceInterface::PRICE_TYPE_SPECIAL)->getValue()
+        ];
+        $discount = max($discount);
+        if ($discount) {
+            $price = $price - $price * ($discount / 100);
+        }
+        return $price;
     }
 
     /**

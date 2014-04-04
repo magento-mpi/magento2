@@ -75,7 +75,7 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->helper = $this->getMock(
-            '\Magento\Catalog\Helper\Data',
+            'Magento\Catalog\Helper\Data',
             ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'isMsrpEnabled', 'canApplyMsrp'],
             [],
             '',

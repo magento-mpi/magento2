@@ -162,6 +162,9 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getStoredTierPrices
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::applyAdjustment
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getTierPriceCount
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::filterTearPrices
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::processTierPriceItem
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getBasePrice
      * @dataProvider providerForGetterTierPriceList
      */
     public function testGetterTierPriceList($tierPrices, $basePrice, $expectedResult)
@@ -234,18 +237,53 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                         'price'          => '15.1',
                         'website_price'  => '15.1',
                         'price_qty'      => '5.',
-                        'cust_group'     => Group::CUST_GROUP_ALL,
-                        'savePercent'    => 25.,
+                        'cust_group'     => Group::CUST_GROUP_ALL
                     ],
                     [
                         'price'         => '8.3',
                         'website_price' => '8.3',
                         'price_qty'     => '2.',
-                        'cust_group'    => Group::CUST_GROUP_ALL,
-                        'savePercent'    => 59.,
+                        'cust_group'    => Group::CUST_GROUP_ALL
                     ],
                 ]
             ]
         ];
+    }
+
+    /**
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::__construct
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getSavePercent
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getBasePrice
+     * @dataProvider dataProviderGetSavePercent
+     */
+    public function testGetSavePercent($basePrice, $tearPrice, $savedPercent)
+    {
+        $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
+        $price->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue($basePrice));
+
+        $this->priceInfo->expects($this->atLeastOnce())
+            ->method('getPrice')
+            ->will($this->returnValue($price));
+
+        $amount = $this->getMock('Magento\Pricing\Amount\AmountInterface');
+        $amount->expects($this->atLeastOnce())
+            ->method('getBaseAmount')
+            ->will($this->returnValue($tearPrice));
+
+        $this->assertEquals($savedPercent, $this->model->getSavePercent($amount));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderGetSavePercent()
+    {
+        return array(
+            ['basePrice' => '100', 'tearPrice' => '90', 'savedPercent' => '10'],
+            ['basePrice' => '70', 'tearPrice' => '35', 'savedPercent' => '50'],
+            ['basePrice' => '50', 'tearPrice' => '35', 'savedPercent' => '30']
+        );
     }
 }

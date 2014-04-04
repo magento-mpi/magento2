@@ -75,7 +75,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getMaxValue')
             ->will($this->returnValue($price));
         $result = $this->model->getMaxValue();
-        $this->assertEquals(10, $result);
+        $this->assertEquals($price, $result);
     }
 
     /**

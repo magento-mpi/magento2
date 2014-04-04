@@ -43,6 +43,7 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $qty = 1;
         $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
         $this->amountMock = $this->getMock('Magento\Pricing\Amount', [], [], '', false);
@@ -51,7 +52,7 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
         $this->salableItemMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
-        $this->regularPrice = new RegularPrice($this->salableItemMock, 1, $this->calculatorMock);
+        $this->regularPrice = new RegularPrice($this->salableItemMock, $qty, $this->calculatorMock);
     }
 
     /**
@@ -86,15 +87,17 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAmount()
     {
+        $priceValue = 77;
+        $amountValue = 88;
         $this->calculatorMock->expects($this->once())
             ->method('getAmount')
-            ->with($this->equalTo(77))
-            ->will($this->returnValue(77));
+            ->with($this->equalTo($priceValue))
+            ->will($this->returnValue($amountValue));
         $this->salableItemMock->expects($this->once())
             ->method('getPrice')
-            ->will($this->returnValue(77));
+            ->will($this->returnValue($priceValue));
 
-        $this->assertEquals(77, $this->regularPrice->getAmount());
+        $this->assertEquals($amountValue, $this->regularPrice->getAmount());
     }
 
     /**
