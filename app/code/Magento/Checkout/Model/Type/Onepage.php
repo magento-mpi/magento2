@@ -535,11 +535,6 @@ class Onepage
             // lines above
             if ($customerRequest->getParam('customer_password') != $customerRequest->getParam('confirm_password')) {
                 return array('error' => -1, 'message' => __('Password and password confirmation are not equal.'));
-            } else {
-                $password = $customerRequest->getParam('customer_password');
-                $this->_customerBuilder->populate($customer);
-                $this->_customerBuilder->setPasswordHash($this->_encryptor->getHash($password, true));
-                $customer = $this->_customerBuilder->create();
             }
         } else {
             // set NOT LOGGED IN group id explicitly,

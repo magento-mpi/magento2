@@ -47,8 +47,6 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
 
     const WEBSITE_ID = 'website_id';
 
-    const PASSWORD_HASH = 'password_hash';
-
     const DEFAULT_BILLING = 'default_billing';
 
     const DEFAULT_SHIPPING = 'default_shipping';
@@ -231,15 +229,5 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     public function getWebsiteId()
     {
         return (int)$this->_get(self::WEBSITE_ID);
-    }
-
-    /**
-     * Get password hash
-     *
-     * @return int
-     */
-    public function getPasswordHash()
-    {
-        return $this->_get(self::PASSWORD_HASH);
     }
 }

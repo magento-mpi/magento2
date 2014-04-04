@@ -533,8 +533,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         if ($password) {
             $customerModel->setPassword($password);
-        } elseif ($customer->getPasswordHash()) {
-            $customerModel->setPasswordHash($customer->getPasswordHash());
         } elseif (!$customerModel->getId()) {
             $customerModel->setPassword($customerModel->generatePassword());
         }
