@@ -44,7 +44,7 @@ class Source
     private $preprocessorFactory;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback
+     * @var \Magento\View\Design\FileResolution\Fallback\ViewFile
      */
     protected $viewFileResolution;
 
@@ -53,11 +53,18 @@ class Source
      */
     protected $themeProvider;
 
+    /**
+     * @param \Magento\View\Asset\File\Source\CacheFactory $cacheFactory
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory
+     * @param \Magento\View\Design\FileResolution\Fallback\ViewFile $viewFileResolution
+     * @param \Magento\View\Design\Theme\Provider $themeProvider
+     */
     public function __construct(
         \Magento\View\Asset\File\Source\CacheFactory $cacheFactory,
         \Magento\App\Filesystem $filesystem,
         \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory,
-        \Magento\View\Design\FileResolution\Fallback $viewFileResolution,
+        \Magento\View\Design\FileResolution\Fallback\ViewFile $viewFileResolution,
         \Magento\View\Design\Theme\Provider $themeProvider
     ) {
         $this->filesystem = $filesystem;

@@ -24,9 +24,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected $themeRepo;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback
+     * @var \Magento\View\Design\FileResolution\Fallback\ViewFile
      */
-    protected $fallback;
+    protected $viewFilesFallback;
 
     /**
      * @var \Magento\View\Asset\Repository
@@ -37,7 +37,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager();
         $this->themeRepo = $this->objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
-        $this->fallback = $this->objectManager->get('Magento\View\Design\FileResolution\Fallback');
+        $this->viewFilesFallback = $this->objectManager->get('Magento\View\Design\FileResolution\Fallback\ViewFile');
         $this->assetRepo = $this->objectManager->get('Magento\View\Asset\Repository');
         $this->objectManager->configure(array(
             'preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data')
@@ -98,7 +98,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         list($params['module'], $fileId) = \Magento\View\Asset\File::extractModule($fileId);
         $this->assetRepo->updateDesignParams($params);
         $themeModel = $this->themeRepo->create($themeId, $area);
-        return $this->fallback->getViewFile($area, $themeModel, $params['locale'], $fileId, $params['module']);
+        return $this->viewFilesFallback->getViewFile($area, $themeModel, $params['locale'], $fileId, $params['module']);
     }
 
     /**
@@ -117,7 +117,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 $params = array('area' => $area, 'themeId' => $themeId);
                 list($params['module'], $file) = \Magento\View\Asset\File::extractModule($file);
                 $this->assetRepo->updateDesignParams($params);
-                $originalViewFile = $this->fallback->getViewFile(
+                $originalViewFile = $this->viewFilesFallback->getViewFile(
                     $params['area'], $params['themeModel'], $params['locale'], $file, $params['module']
                 );
                 $this->assertNotEmpty($originalViewFile);
@@ -135,7 +135,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                         if (!empty($module)) {
                             $relatedParams['module'] = $module;
                         }
-                        $relatedViewFile = $this->fallback->getViewFile(
+                        $relatedViewFile = $this->viewFilesFallback->getViewFile(
                             $relatedParams['area'],
                             $relatedParams['themeModel'],
                             $relatedParams['locale'],

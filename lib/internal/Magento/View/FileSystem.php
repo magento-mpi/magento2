@@ -14,11 +14,14 @@ namespace Magento\View;
 class FileSystem
 {
     /**
-     * File paths resolver
-     *
-     * @var \Magento\View\Design\FileResolution\Fallback
+     * @var Design\FileResolution\Fallback\File
      */
-    protected $_viewFileResolution;
+    protected $_fileResolution;
+
+    /**
+     * @var Design\FileResolution\Fallback\LocaleFile
+     */
+    protected $_localeFileResolution;
 
     /**
      * View service
@@ -30,14 +33,17 @@ class FileSystem
     /**
      * Constructor
      *
-     * @param \Magento\View\Design\FileResolution\Fallback $fallback
+     * @param Design\FileResolution\Fallback\File $fallbackFile
+     * @param Design\FileResolution\Fallback\LocaleFile $fallbackLocaleFile
      * @param Asset\Repository $assetRepo
      */
     public function __construct(
-        Design\FileResolution\Fallback $fallback,
+        Design\FileResolution\Fallback\File $fallbackFile,
+        Design\FileResolution\Fallback\LocaleFile $fallbackLocaleFile,
         Asset\Repository $assetRepo
     ) {
-        $this->_viewFileResolution = $fallback;
+        $this->_fileResolution = $fallbackFile;
+        $this->_localeFileResolution = $fallbackLocaleFile;
         $this->_assetRepo = $assetRepo;
     }
 
@@ -52,8 +58,9 @@ class FileSystem
     {
         $filePath = $this->_assetRepo->extractScope($this->normalizePath($fileId), $params);
         $this->_assetRepo->updateDesignParams($params);
-        return $this->_viewFileResolution
+        $file = $this->_fileResolution
             ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
+        return $file;
     }
 
     /**
@@ -66,7 +73,7 @@ class FileSystem
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_assetRepo->updateDesignParams($params);
-        return $this->_viewFileResolution
+        return $this->_localeFileResolution
             ->getLocaleFile($params['area'], $params['themeModel'], $params['locale'], $file);
     }
 

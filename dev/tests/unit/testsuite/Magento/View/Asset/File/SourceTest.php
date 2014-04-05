@@ -51,7 +51,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     private $preprocessorFactory;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\FileResolution\Fallback\ViewFile|\PHPUnit_Framework_MockObject_MockObject
      */
     private $viewFileResolution;
 
@@ -74,7 +74,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Asset\PreProcessor\Factory', array(), array(), '', false
         );
         $this->viewFileResolution = $this->getMock(
-            'Magento\View\Design\FileResolution\Fallback', array(), array(), '', false
+            'Magento\View\Design\FileResolution\Fallback\ViewFile', array(), array(), '', false
         );
         $this->theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
 

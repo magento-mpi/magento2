@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Design\FileResolution\Strategy;
+namespace Magento\View\Design\FileResolution;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\View\Design\Fallback\Factory;
@@ -41,9 +41,10 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * Build a model to test
      *
-     * @return \Magento\View\Design\FileResolution\Fallback
+     * @param string $type
+     * @return \Magento\View\Design\FileResolution\Fallback\File
      */
-    protected function _buildModel()
+    protected function _buildModel($type)
     {
         // Prepare config with directories
         $filesystem = Bootstrap::getObjectManager()->create(
@@ -62,7 +63,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         );
 
         return Bootstrap::getObjectManager()->create(
-            'Magento\View\Design\FileResolution\Fallback',
+            $type,
             array('fallbackFactory' => new Factory($filesystem))
         );
     }
@@ -98,7 +99,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     public function testGetFile($file, $area, $themePath, $module, $expectedFilename)
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
-        $model = $this->_buildModel($area, $themePath, null);
+        $model = $this->_buildModel('Magento\View\Design\FileResolution\Fallback\File');
         $themeModel = $this->_getThemeModel($area, $themePath);
 
         $actualFilename = $model->getFile($area, $themeModel, $file, $module);
@@ -155,7 +156,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     public function testGetI18nCsvFile($area, $themePath, $locale, $expectedFilename)
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
-        $model = $this->_buildModel($area, $themePath, $locale);
+        $model = $this->_buildModel('Magento\View\Design\FileResolution\Fallback\File');
         $themeModel = $this->_getThemeModel($area, $themePath);
 
         $actualFilename = $model->getFile($area, $themeModel, 'i18n/' . $locale . '.csv');
@@ -201,7 +202,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     public function testGetViewFile($file, $area, $themePath, $locale, $module, $expectedFilename)
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
-        $model = $this->_buildModel();
+        $model = $this->_buildModel('Magento\View\Design\FileResolution\Fallback\ViewFile');
         $themeModel = $this->_getThemeModel($area, $themePath);
 
         $actualFilename = $model->getViewFile($area, $themeModel, $locale, $file, $module);

@@ -30,9 +30,14 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
     static protected $_fallbackRule;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback
+     * @var \Magento\View\Design\FileResolution\Fallback\ViewFile
      */
-    static protected $_fallback;
+    static protected $_viewFilesFallback;
+
+    /**
+     * @var \Magento\View\Design\FileResolution\Fallback\File
+     */
+    static protected $_filesFallback;
 
     /**
      * @var array
@@ -57,7 +62,8 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
         $fallbackFactory = $objectManager->get('Magento\View\Design\Fallback\Factory');
         self::$_fallbackRule = $fallbackFactory->createViewFileRule();
 
-        self::$_fallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback');
+        self::$_viewFilesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\ViewFile');
+        self::$_filesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\File');
 
         // Themes to be checked
         self::$_themeCollection = $objectManager->get('Magento\Core\Model\Theme\Collection');
@@ -162,13 +168,13 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
     protected function _getFileResolutions(\Magento\View\Design\ThemeInterface $theme, $file)
     {
         $found = array();
-        $fileResolved = self::$_fallback->getFile($theme->getArea(), $theme, $file);
+        $fileResolved = self::$_filesFallback->getFile($theme->getArea(), $theme, $file);
         if (file_exists($fileResolved)) {
             $found[$fileResolved] = $fileResolved;
         }
 
         foreach (self::$_checkThemeLocales[$theme->getFullPath()] as $locale) {
-            $fileResolved = self::$_fallback->getViewFile($theme->getArea(), $theme, $locale, $file);
+            $fileResolved = self::$_viewFilesFallback->getViewFile($theme->getArea(), $theme, $locale, $file);
             if (file_exists($fileResolved)) {
                 $found[$fileResolved] = $fileResolved;
             }

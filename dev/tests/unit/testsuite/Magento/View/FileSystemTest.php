@@ -20,9 +20,14 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\FileResolution\Fallback\File|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_viewFileResolution;
+    protected $_fileResolution;
+
+    /**
+     * @var \Magento\View\Design\FileResolution\Fallback\LocaleFile|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_localeFileResolution;
 
     /**
      * @var \Magento\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
@@ -32,14 +37,21 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_viewFileResolution = $this->getMock('Magento\View\Design\FileResolution\Fallback', array(),
+        $this->_fileResolution = $this->getMock('Magento\View\Design\FileResolution\Fallback\File', array(),
+            array(), '', false
+        );
+        $this->_localeFileResolution = $this->getMock('Magento\View\Design\FileResolution\Fallback\LocaleFile', array(),
             array(), '', false
         );
         $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository',
             array('extractScope', 'updateDesignParams', 'createAsset'), array(), '', false
         );
 
-        $this->_model = new \Magento\View\FileSystem($this->_viewFileResolution, $this->_assetRepo);
+        $this->_model = new \Magento\View\FileSystem(
+            $this->_fileResolution,
+            $this->_localeFileResolution,
+            $this->_assetRepo
+        );
     }
 
     public function testGetFilename()
@@ -53,7 +65,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $this->_viewFileResolution->expects($this->once())
+        $this->_fileResolution->expects($this->once())
             ->method('getFile')
             ->with($params['area'], $params['themeModel'], 'some_file.ext', 'Some_Module')
             ->will($this->returnValue($expected));
@@ -77,7 +89,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $file = 'some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $this->_viewFileResolution->expects($this->once())
+        $this->_localeFileResolution->expects($this->once())
             ->method('getLocaleFile')
             ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext')
             ->will($this->returnValue($expected));
