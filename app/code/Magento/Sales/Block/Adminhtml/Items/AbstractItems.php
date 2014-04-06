@@ -96,7 +96,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     public function getItemRenderer($type)
     {
         /** @var $renderer \Magento\Sales\Block\Adminhtml\Items\AbstractItems */
-        $renderer = $this->getChildBlock($type) ? : $this->getChildBlock(self::DEFAULT_TYPE);
+        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
         if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
             throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
@@ -448,13 +448,11 @@ class AbstractItems extends \Magento\Backend\Block\Template
          * Disable editing of quantity of item if creating of shipment forced
          * and ship partially disabled for order
          */
-        if ($this->getOrder()->getForcedShipmentWithInvoice()
-            && ($this->canShipPartially(
-                    $this->getOrder()
-                )
-                || $this->canShipPartiallyItem(
-                    $this->getOrder()
-                ))
+        if ($this->getOrder()->getForcedShipmentWithInvoice() && ($this->canShipPartially(
+            $this->getOrder()
+        ) || $this->canShipPartiallyItem(
+            $this->getOrder()
+        ))
         ) {
             return false;
         }

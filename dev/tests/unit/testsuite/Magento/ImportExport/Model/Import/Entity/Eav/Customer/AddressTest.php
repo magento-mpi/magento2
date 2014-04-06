@@ -20,7 +20,7 @@ use \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address;
 
 /**
  * Class AddressTest
- * SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  *
  */
 class AddressTest extends \PHPUnit_Framework_TestCase

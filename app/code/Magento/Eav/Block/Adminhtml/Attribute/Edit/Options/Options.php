@@ -70,9 +70,9 @@ class Options extends \Magento\Backend\Block\Template
     public function canManageOptionDefaultOnly()
     {
         $attribute = $this->getAttributeObject();
-        return !$attribute->getCanManageOptionLabels()
-        && !$attribute->getIsUserDefined()
-        && $attribute->getSourceModel();
+        return !$attribute->getCanManageOptionLabels() &&
+            !$attribute->getIsUserDefined() &&
+            $attribute->getSourceModel();
     }
 
     /**
@@ -207,10 +207,10 @@ class Options extends \Magento\Backend\Block\Template
 
         foreach ($this->getStores() as $store) {
             $storeId = $store->getId();
-            $value['store' . $storeId] =
-                $storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID ? $valuePrefix . $this->escapeHtml(
-                        $option['label']
-                    ) : '';
+            $value['store' . $storeId] = $storeId ==
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID ? $valuePrefix . $this->escapeHtml(
+                $option['label']
+            ) : '';
         }
 
         return array($value);
@@ -236,7 +236,9 @@ class Options extends \Magento\Backend\Block\Template
         foreach ($this->getStores() as $store) {
             $storeId = $store->getId();
             $storeValues = $this->getStoreOptionValues($storeId);
-            $value['store' . $storeId] = isset($storeValues[$optionId]) ? $this->escapeHtml(
+            $value['store' . $storeId] = isset(
+                $storeValues[$optionId]
+            ) ? $this->escapeHtml(
                 $storeValues[$optionId]
             ) : '';
         }

@@ -448,8 +448,8 @@
         <arguments>
             <argument name="protectedModels" xsi:type="array">
                 <item name="store" xsi:type="string">Magento\Store\Model\Store</item>
-                <item name="website" xsi:type="string">Magento\Core\Model\Website</item>
-                <item name="storeGroup" xsi:type="string">Magento\Core\Model\Store\Group</item>
+                <item name="website" xsi:type="string">Magento\Store\Model\Website</item>
+                <item name="storeGroup" xsi:type="string">Magento\Store\Model\Group</item>
             </argument>
         </arguments>
     </type>

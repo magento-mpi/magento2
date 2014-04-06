@@ -50,16 +50,16 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
         $allShow = $this->getColumn()->getStoreAll();
 
         $html = '<select name="' . $this->escapeHtml(
-                $this->_getHtmlName()
-            ) . '" ' . $this->getColumn()->getValidateClass() . $this->getUiId(
-                'filter',
-                $this->_getHtmlName()
-            ) . '>';
+            $this->_getHtmlName()
+        ) . '" ' . $this->getColumn()->getValidateClass() . $this->getUiId(
+            'filter',
+            $this->_getHtmlName()
+        ) . '>';
         $value = $this->getColumn()->getValue();
         if ($allShow) {
             $html .= '<option value="0"' . ($value == 0 ? ' selected="selected"' : '') . '>' . __(
-                    'All Store Views'
-                ) . '</option>';
+                'All Store Views'
+            ) . '</option>';
         } else {
             $html .= '<option value=""' . (!$value ? ' selected="selected"' : '') . '></option>';
         }
@@ -81,15 +81,19 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
                     if (!$groupShow) {
                         $groupShow = true;
                         $html .= '<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;' . $this->escapeHtml(
-                                $group->getName()
-                            ) . '">';
+                            $group->getName()
+                        ) . '">';
                     }
                     $value = $this->getValue();
                     $selected = $value == $store->getId() ? ' selected="selected"' : '';
-                    $html .= '<option value="' . $store->getId() . '"' . $selected . '>&nbsp;&nbsp;&nbsp;&nbsp;'
-                        . $this->escapeHtml(
-                            $store->getName()
-                        ) . '</option>';
+                    $html .= '<option value="' .
+                        $store->getId() .
+                        '"' .
+                        $selected .
+                        '>&nbsp;&nbsp;&nbsp;&nbsp;' .
+                        $this->escapeHtml(
+                        $store->getName()
+                    ) . '</option>';
                 }
                 if ($groupShow) {
                     $html .= '</optgroup>';

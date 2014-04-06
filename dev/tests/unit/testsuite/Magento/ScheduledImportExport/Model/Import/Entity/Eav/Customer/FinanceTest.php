@@ -110,6 +110,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Init entity adapter model
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function setUp()
     {
