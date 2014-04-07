@@ -277,5 +277,5 @@ interface CustomerAccountServiceInterface
      * @param int $storeId
      * @return bool
      */
-    public function isCustomerInStore($customerWebsiteId, $storeId);   
+    public function isCustomerInStore($customerWebsiteId, $storeId);
 }

@@ -635,7 +635,7 @@ PARAM_COMPLEX_TYPE;
         <xsd:element name="fieldName" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -643,7 +643,7 @@ PARAM_COMPLEX_TYPE;
         <xsd:element name="code" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -651,7 +651,7 @@ PARAM_COMPLEX_TYPE;
         <xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -692,13 +692,13 @@ PARAMETERS_COMPLEX_TYPE;
 <xsd:complexType name="ArrayOfWrappedError">
     <xsd:annotation>
         <xsd:documentation>An array of WrappedError items.</xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" type="tns:WrappedError">
             <xsd:annotation>
                 <xsd:documentation>An item of ArrayOfWrappedError.</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
             </xsd:annotation>
         </xsd:element>
     </xsd:sequence>

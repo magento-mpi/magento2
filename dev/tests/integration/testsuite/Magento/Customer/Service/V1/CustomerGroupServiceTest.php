@@ -197,7 +197,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Model\Store\Exception
+     * @expectedException \Magento\Exception\NoSuchEntityException
      */
     public function testGetDefaultGroupWithInvalidStoreId()
     {

@@ -246,6 +246,12 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     {
         if (is_null($storeId)) {
             $storeId = $this->_storeManager->getStore()->getId();
+        } else {
+            try {
+                $this->_storeManager->getStore($storeId);
+            } catch (\Exception $e) {
+                throw new NoSuchEntityException('storeId', $storeId);
+            }
         }
         $groupId = $this->_storeConfig->getConfig(CustomerGroupModel::XML_PATH_DEFAULT_ID, $storeId);
         try {
