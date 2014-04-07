@@ -1586,6 +1586,7 @@ return array(
     ['_getStoreId', 'Magento\Translation\Model\Resource\String', 'getScope'],
     ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
     ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
+    ['filterByCustomer', 'Magento\Wishlist\Model\Resource\Wishlist\Collection'],
     array('getReservedAttributes', 'Magento\Catalog\Model\Product'),
     array(
         'isReservedAttribute',
