@@ -255,7 +255,8 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
                 'title' => __('Forms to Use In'),
                 'values' => $this->_attributeHelper->getAttributeFormOptions(),
                 'value' => $attribute->getUsedInForms(),
-                'can_be_empty' => true
+                'can_be_empty' => true,
+                'required' => true,
             )
         )->setSize(
             5
@@ -308,8 +309,29 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
         }
 
         $this->getForm()->setDataObject($this->getAttributeObject());
+        $this->addFieldDependency('used_in_forms', 'is_visible', '1');
 
         return $this;
+    }
+
+    /**
+     * Add field dependency
+     *
+     * @param string $dependentField
+     * @param string $mainField
+     * @param string $condition
+     */
+    protected function addFieldDependency($dependentField, $mainField, $condition)
+    {
+        $form = $this->getForm();
+        $htmlIdPrefix = $form->getHtmlIdPrefix();
+        $this->setChild(
+            'form_after',
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Form\Element\Dependence')
+                ->addFieldMap("{$htmlIdPrefix}{$dependentField}", $dependentField)
+                ->addFieldMap("{$htmlIdPrefix}{$mainField}", $mainField)
+                ->addFieldDependence($dependentField, $mainField, $condition)
+        );
     }
 
     /**
