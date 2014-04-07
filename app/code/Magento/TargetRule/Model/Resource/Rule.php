@@ -10,7 +10,7 @@
 namespace Magento\TargetRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
-use Magento\Event\Manager as EventManager;
+use Magento\Event\ManagerInterface as EventManagerInterface;
 use Magento\Indexer\Model\CacheContext;
 use Magento\Module\Manager as ModuleManager;
 
@@ -47,7 +47,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $moduleManager;
 
     /**
-     * @var EventManager
+     * @var EventManagerInterface
      */
     protected $eventManager;
 
@@ -60,14 +60,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\App\Resource $resource
      * @param \Magento\Index\Model\Indexer $indexer
      * @param ModuleManager $moduleManager
-     * @param EventManager $eventManager
+     * @param EventManagerInterface $eventManager
      * @param CacheContext $context
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Index\Model\Indexer $indexer,
         ModuleManager $moduleManager,
-        EventManager $eventManager,
+        EventManagerInterface $eventManager,
         CacheContext $context
     ) {
         $this->_indexer = $indexer;
@@ -186,7 +186,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         );
 
         if ($this->isPageCacheEnabled()) {
-            $this->cleanProductPagesCache(\array_unique(\array_merge($productIdsBeforeUnbind, $matchedProductIds)));
+            $this->cleanProductPagesCache(array_unique(array_merge($productIdsBeforeUnbind, $matchedProductIds)));
         }
         return $this;
     }
@@ -204,13 +204,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Clean product full page cache
      *
-     * @param [] $productIds
+     * @param array $productIds
      */
     protected function cleanProductPagesCache($productIds)
     {
         $this->context->registerEntities(Product::CACHE_TAG, $productIds);
 
-        $this->eventManager->dispatch('clean_cache_by_tags', array('object' => $this->context));
+        $this->eventManager->dispatch('clean_cache_by_tags', ['object' => $this->context]);
     }
 
     /**
