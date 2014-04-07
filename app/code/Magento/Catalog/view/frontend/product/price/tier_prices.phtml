@@ -32,33 +32,31 @@ $product = $this->getSaleableItem();
                         'addToCartUrl' => $addToCartUrl,
                         'name' => $product->getName(),
                         'price' => $this->renderAmount(
-                                $price['price'],
-                                [
-                                    'price_id'          => $index,
-                                    'id_suffix'         => '-' . $index,
-                                    'include_container' => true
-                                ]
-                            ),
+                            $price['price'],
+                            [
+                                'price_id'          => $index,
+                                'id_suffix'         => '-' . $index,
+                                'include_container' => true
+                            ]
+                        ),
                         'msrp' => $this->renderAmount(
-                                $this->getPriceType('msrp_price')->getAmount(),
-                                [
-                                    'price_id'          => $index,
-                                    'id_suffix'         => '-' . $index,
-                                    'include_container' => true
-                                ]
-                            )
+                            $this->getPriceType('msrp_price')->getAmount(),
+                            [
+                                'price_id'          => $index,
+                                'id_suffix'         => '-' . $index,
+                                'include_container' => true
+                            ]
+                        )
                     ];
                     if ($this->getCanDisplayQty($product)) {
                         $tierPriceData['qty'] = $price['price_qty'];
                     }
                 ?>
                 <?php echo __('Buy %1 for: ', $price['price_qty']); ?>
-                <a href="#"
--                       id="<?php echo($popupId);?>"
-                   data-tier-price="<?php echo $this->escapeHtml($this->jsonEncode($tierPriceData)); ?>"
-                    ><?php echo __('Click for price'); ?></a>
-                <?php
-                else:
+                <a href="#" id="<?php echo($popupId);?>"
+                   data-tier-price="<?php echo $this->escapeHtml($this->jsonEncode($tierPriceData)); ?>">
+                    <?php echo __('Click for price'); ?></a>
+                <?php else:
                     echo __(
                         'Buy %1 for %2',
                         $price['price_qty'],

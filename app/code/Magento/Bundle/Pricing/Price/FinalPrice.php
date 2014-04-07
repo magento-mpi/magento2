@@ -55,11 +55,11 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
-     * @return float
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getMinimalPrice()
     {
-        return $this->calculator->getAmount(parent::getValue(), $this->salableItem);
+        return $this->getAmount();
     }
 
     /**
@@ -70,6 +70,9 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
         return $this->calculator->getMaxAmount(parent::getMaxValue(), $this->salableItem);
     }
 
+    /**
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
     public function getAmount()
     {
         return $this->calculator->getAmount(parent::getValue(), $this->salableItem);
