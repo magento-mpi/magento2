@@ -9,6 +9,7 @@
  */
 namespace Magento\Bundle\Pricing\Price;
 
+use Magento\Bundle\Pricing\Adjustment\Calculator;
 use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Model\Product\Price;
