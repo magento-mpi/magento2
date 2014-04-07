@@ -96,21 +96,6 @@
         <stringProp name="HTTPSampler.concurrentPool">4</stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-        <collectionProp name="CookieManager.cookies">
-          <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
-            <stringProp name="Cookie.value">30</stringProp>
-            <stringProp name="Cookie.domain">${host}</stringProp>
-            <stringProp name="Cookie.path">/</stringProp>
-            <boolProp name="Cookie.secure">false</boolProp>
-            <longProp name="Cookie.expires">0</longProp>
-            <boolProp name="Cookie.path_specified">true</boolProp>
-            <boolProp name="Cookie.domain_specified">true</boolProp>
-          </elementProp>
-        </collectionProp>
-        <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-      </CookieManager>
-      <hashTree/>
       <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
         <collectionProp name="HeaderManager.headers">
           <elementProp name="Accept-Language" elementType="Header">
@@ -147,6 +132,59 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </SetupThreadGroup>
       <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies">
+            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
+              <stringProp name="Cookie.value">30</stringProp>
+              <stringProp name="Cookie.domain">${host}</stringProp>
+              <stringProp name="Cookie.path">/</stringProp>
+              <boolProp name="Cookie.secure">false</boolProp>
+              <longProp name="Cookie.expires">0</longProp>
+              <boolProp name="Cookie.path_specified">true</boolProp>
+              <boolProp name="Cookie.domain_specified">true</boolProp>
+            </elementProp>
+          </collectionProp>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+        </CookieManager>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: Clear properties" enabled="true">
+          <stringProp name="BeanShellSampler.query">props.remove(&quot;category_url_key&quot;);
+props.remove(&quot;category_name&quot;);
+props.remove(&quot;simple_products_list&quot;);
+props.remove(&quot;configurable_products_list&quot;);
+props.remove(&quot;users&quot;);</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: validate user defined variables" enabled="true">
+          <stringProp name="BeanShellSampler.query">Boolean stopTestOnError (String error) {
+    log.error(error);
+    System.out.println(error);
+    SampleResult.setStopTest(true);
+    return false;
+}
+
+if (&quot;${host}&quot; == &quot;1&quot;) {
+    return stopTestOnError(&quot;\&quot;host\&quot; parameter is not defined. Please define host parameter as: \&quot;-Jhost=example.com\&quot;&quot;);
+}
+
+if (${users} &lt; 10) {
+    return stopTestOnError(&quot;\&quot;users\&quot; parameter is invalid. Its value must be 10 or greater&quot;);
+}
+
+String path = &quot;${base_path}&quot;;
+String slash = &quot;/&quot;;
+if (!slash.equals(path.substring(path.length() -1)) || !slash.equals(path.substring(0, 1))) {
+    return stopTestOnError(&quot;\&quot;base_path\&quot; parameter is invalid. It must start and end with \&quot;/\&quot;&quot;);
+}
+</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request: Open main page (for category extract)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
@@ -254,7 +292,7 @@ props.put(&quot;category_name&quot;, vars.get(&quot;category_name&quot;));</stri
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor: Extract product url keys" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">simple_products_url_keys</stringProp>
-            <stringProp name="RegexExtractor.regex">${base_path}(index.php/)?(simple.*)${url_suffix}&quot; title=&quot;Simple.*&quot;</stringProp>
+            <stringProp name="RegexExtractor.regex">${base_path}(index.php/)?(simple.*)${url_suffix}&quot; title=&quot;[Ss]imple.*&quot;</stringProp>
             <stringProp name="RegexExtractor.template">$2$</stringProp>
             <stringProp name="RegexExtractor.default"></stringProp>
             <stringProp name="RegexExtractor.match_number">-1</stringProp>
@@ -409,7 +447,7 @@ productList.add(productMap);                        </stringProp>
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor: Extract product url keys" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">configurable_products_url_keys</stringProp>
-            <stringProp name="RegexExtractor.regex">${base_path}(index.php/)?(configurable.*)${url_suffix}&quot; title=&quot;Configurable.*&quot;</stringProp>
+            <stringProp name="RegexExtractor.regex">${base_path}(index.php/)?(configurable.*)${url_suffix}&quot; title=&quot;[Cc]onfigurable.*&quot;</stringProp>
             <stringProp name="RegexExtractor.template">$2$</stringProp>
             <stringProp name="RegexExtractor.default"></stringProp>
             <stringProp name="RegexExtractor.match_number">-1</stringProp>
@@ -487,7 +525,7 @@ productList.add(productMap);                        </stringProp>
               <boolProp name="Assertion.assume_success">false</boolProp>
               <intProp name="Assertion.test_type">1</intProp>
               <stringProp name="Assertion.scope">variable</stringProp>
-              <stringProp name="Scope.variable">simple_product_id</stringProp>
+              <stringProp name="Scope.variable">configurable_product_id</stringProp>
             </ResponseAssertion>
             <hashTree/>
             <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Responce Assertion: Assert title" enabled="true">
@@ -498,7 +536,7 @@ productList.add(productMap);                        </stringProp>
               <boolProp name="Assertion.assume_success">false</boolProp>
               <intProp name="Assertion.test_type">1</intProp>
               <stringProp name="Assertion.scope">variable</stringProp>
-              <stringProp name="Scope.variable">simple_product_title</stringProp>
+              <stringProp name="Scope.variable">configurable_product_title</stringProp>
             </ResponseAssertion>
             <hashTree/>
             <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Responce Assertion: Assert url key" enabled="true">
@@ -509,7 +547,29 @@ productList.add(productMap);                        </stringProp>
               <boolProp name="Assertion.assume_success">false</boolProp>
               <intProp name="Assertion.test_type">1</intProp>
               <stringProp name="Assertion.scope">variable</stringProp>
-              <stringProp name="Scope.variable">simple_products_url_key</stringProp>
+              <stringProp name="Scope.variable">configurable_products_url_key</stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion: Assert attribute id" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="89649215">^\d+$</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">1</intProp>
+              <stringProp name="Assertion.scope">variable</stringProp>
+              <stringProp name="Scope.variable">configurable_product_attribute_id</stringProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion: Assert attribute option id" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="89649215">^\d+$</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">1</intProp>
+              <stringProp name="Assertion.scope">variable</stringProp>
+              <stringProp name="Scope.variable">configurable_product_attribute_option_id</stringProp>
             </ResponseAssertion>
             <hashTree/>
           </hashTree>
@@ -550,23 +610,38 @@ productList.add(productMap);                 </stringProp>
           </BeanShellSampler>
           <hashTree/>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: Count users" enabled="true">
-          <stringProp name="BeanShellSampler.query">int orders = Integer.parseInt(vars.get(&quot;orders&quot;));
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: Validate properties and count users" enabled="true">
+          <stringProp name="BeanShellSampler.query">Boolean stopTestOnError (String error) {
+    log.error(error);
+    System.out.println(error);
+    SampleResult.setStopTest(true);
+    return false;
+}
+
+if (props.get(&quot;simple_products_list&quot;) == null) {
+    return stopTestOnError(&quot;Cannot find simple products. Test stopped.&quot;);
+}
+if (props.get(&quot;configurable_products_list&quot;) == null) {
+    return stopTestOnError(&quot;Cannot find configurable products. Test stopped.&quot;);
+}
+
+int orders = Integer.parseInt(vars.get(&quot;orders&quot;));
 
 if (orders &gt; 0) {
-	int checkout_sum = Integer.parseInt(vars.get(&quot;guest_checkout_percent&quot;)) + Integer.parseInt(vars.get(&quot;customer_checkout_percent&quot;));
-	checkout_sum = checkout_sum &gt; 0 ? checkout_sum : 1;
-	int users = orders * (100 / checkout_sum);
-	props.put(&quot;users&quot;, users);
+    int checkout_sum = Integer.parseInt(vars.get(&quot;guest_checkout_percent&quot;)) + Integer.parseInt(vars.get(&quot;customer_checkout_percent&quot;));
+    checkout_sum = checkout_sum &gt; 0 ? checkout_sum : 1;
+    int users = orders * (100 / checkout_sum);
+    props.put(&quot;users&quot;, users);
 } else {
-	props.put(&quot;users&quot;, Integer.parseInt(vars.get(&quot;users&quot;)));
-}</stringProp>
+    props.put(&quot;users&quot;, Integer.parseInt(vars.get(&quot;users&quot;)));
+}
+</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
         <hashTree/>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -614,6 +689,21 @@ if (orders &gt; 0) {
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies">
+            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
+              <stringProp name="Cookie.value">30</stringProp>
+              <stringProp name="Cookie.domain">${host}</stringProp>
+              <stringProp name="Cookie.path">/</stringProp>
+              <boolProp name="Cookie.secure">false</boolProp>
+              <longProp name="Cookie.expires">0</longProp>
+              <boolProp name="Cookie.path_specified">true</boolProp>
+              <boolProp name="Cookie.domain_specified">true</boolProp>
+            </elementProp>
+          </collectionProp>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+        </CookieManager>
+        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get arguments(CatProdBrows)" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
@@ -793,7 +883,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -841,6 +931,21 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies">
+            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
+              <stringProp name="Cookie.value">30</stringProp>
+              <stringProp name="Cookie.domain">${host}</stringProp>
+              <stringProp name="Cookie.path">/</stringProp>
+              <boolProp name="Cookie.secure">false</boolProp>
+              <longProp name="Cookie.expires">0</longProp>
+              <boolProp name="Cookie.path_specified">true</boolProp>
+              <boolProp name="Cookie.domain_specified">true</boolProp>
+            </elementProp>
+          </collectionProp>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+        </CookieManager>
+        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get arguments(BrowsAddToCart)" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
@@ -1147,7 +1252,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -1195,6 +1300,21 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies">
+            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
+              <stringProp name="Cookie.value">30</stringProp>
+              <stringProp name="Cookie.domain">${host}</stringProp>
+              <stringProp name="Cookie.path">/</stringProp>
+              <boolProp name="Cookie.secure">false</boolProp>
+              <longProp name="Cookie.expires">0</longProp>
+              <boolProp name="Cookie.path_specified">true</boolProp>
+              <boolProp name="Cookie.domain_specified">true</boolProp>
+            </elementProp>
+          </collectionProp>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+        </CookieManager>
+        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get arguments(GuestChkt)" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
@@ -2073,7 +2193,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -2121,6 +2241,21 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies">
+            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
+              <stringProp name="Cookie.value">30</stringProp>
+              <stringProp name="Cookie.domain">${host}</stringProp>
+              <stringProp name="Cookie.path">/</stringProp>
+              <boolProp name="Cookie.secure">false</boolProp>
+              <longProp name="Cookie.expires">0</longProp>
+              <boolProp name="Cookie.path_specified">true</boolProp>
+              <boolProp name="Cookie.domain_specified">true</boolProp>
+            </elementProp>
+          </collectionProp>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+        </CookieManager>
+        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get arguments(CustomerChkt)" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
@@ -2972,7 +3107,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
