@@ -5,16 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Data\AbstractObjectBuilder;
+namespace Magento\Service\V1\Data;
 
 /**
  * Builder for Filter Service Data Object.
  *
  * @method Filter create()
  */
-class FilterBuilder extends AbstractObjectBuilder
+class FilterBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set field
@@ -31,7 +30,7 @@ class FilterBuilder extends AbstractObjectBuilder
     /**
      * Set value
      *
-     * @param string|string[] $value
+     * @param string $value
      * @return $this
      */
     public function setValue($value)
