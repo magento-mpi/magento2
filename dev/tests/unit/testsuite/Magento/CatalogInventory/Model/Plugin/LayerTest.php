@@ -17,7 +17,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /**
      * @var \Magento\CatalogInventory\Model\Stock\Status|\PHPUnit_Framework_MockObject_MockObject
@@ -26,7 +26,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->_stockStatusMock = $this->getMock(
             '\Magento\CatalogInventory\Model\Stock\Status',
             array(),
@@ -37,7 +37,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\CatalogInventory\Model\Plugin\Layer(
             $this->_stockStatusMock,
-            $this->_storeConfigMock
+            $this->_scopeConfigMock
         );
     }
 
@@ -46,7 +46,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddStockStatusDisabledShow()
     {
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'isSetFlag'
@@ -72,7 +72,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddStockStatusEnabledShow()
     {
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'isSetFlag'

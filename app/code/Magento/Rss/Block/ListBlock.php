@@ -163,7 +163,7 @@ class ListBlock extends \Magento\View\Element\Template
     public function newProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/new';
-        if ((bool)$this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ((bool)$this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->addRssFeed($path, __('New Products'));
         }
     }
@@ -176,7 +176,7 @@ class ListBlock extends \Magento\View\Element\Template
     public function specialProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/special';
-        if ((bool)$this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ((bool)$this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->addRssFeed($path, __('Special Products'), array(), true);
         }
     }
@@ -189,7 +189,7 @@ class ListBlock extends \Magento\View\Element\Template
     public function salesRuleProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/salesrule';
-        if ((bool)$this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ((bool)$this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->addRssFeed($path, __('Coupons/Discounts'), array(), true);
         }
     }
@@ -202,7 +202,7 @@ class ListBlock extends \Magento\View\Element\Template
     public function categoriesRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/category';
-        if ((bool)$this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ((bool)$this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             /** @var $category \Magento\Catalog\Model\Category */
             $category = $this->_categoryFactory->create();
             $treeModel = $category->getTreeModel()->loadNode($this->_storeManager->getStore()->getRootCategoryId());

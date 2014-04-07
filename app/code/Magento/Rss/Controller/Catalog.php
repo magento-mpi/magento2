@@ -17,17 +17,17 @@ class Catalog extends \Magento\App\Action\Action
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -86,7 +86,7 @@ class Catalog extends \Magento\App\Action\Action
      */
     protected function _isEnabled($code)
     {
-        return $this->_storeConfig->isSetFlag("rss/catalog/{$code}", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag("rss/catalog/{$code}", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

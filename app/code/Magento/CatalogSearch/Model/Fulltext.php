@@ -56,13 +56,13 @@ class Fulltext extends AbstractModel
      *
      * @var ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param Context $context
      * @param Registry $registry
      * @param Data $catalogSearchData
-     * @param ScopeConfigInterface $coreStoreConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param AbstractResource $resource
      * @param Db $resourceCollection
      * @param array $data
@@ -71,13 +71,13 @@ class Fulltext extends AbstractModel
         Context $context,
         Registry $registry,
         Data $catalogSearchData,
-        ScopeConfigInterface $coreStoreConfig,
+        ScopeConfigInterface $scopeConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogSearchData = $catalogSearchData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -166,7 +166,7 @@ class Fulltext extends AbstractModel
      */
     public function getSearchType($storeId = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_CATALOG_SEARCH_TYPE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId

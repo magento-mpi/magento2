@@ -98,7 +98,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\App\Filesystem
@@ -116,7 +116,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
@@ -124,13 +124,13 @@ class Download extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Helper\Data $coreData,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreData = $coreData;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_filesystem = $filesystem;
 
         parent::__construct($context);
@@ -278,6 +278,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
      */
     public function getContentDisposition($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_CONTENT_DISPOSITION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_scopeConfig->getValue(self::XML_PATH_CONTENT_DISPOSITION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

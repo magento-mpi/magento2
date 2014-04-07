@@ -16,7 +16,7 @@ class Allmethods implements \Magento\Option\ArrayInterface
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Shipping\Model\Config
@@ -24,14 +24,14 @@ class Allmethods implements \Magento\Option\ArrayInterface
     protected $_shippingConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Shipping\Model\Config $shippingConfig
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_shippingConfig = $shippingConfig;
     }
 
@@ -54,7 +54,7 @@ class Allmethods implements \Magento\Option\ArrayInterface
             if (!$carrierMethods) {
                 continue;
             }
-            $carrierTitle = $this->_storeConfig->getValue(
+            $carrierTitle = $this->_scopeConfig->getValue(
                 'carriers/' . $carrierCode . '/title',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );

@@ -24,10 +24,10 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_model = $this->_objectHelper->getObject(
             'Magento\Catalog\Model\Category\Attribute\Backend\Sortby',
-            array('coreStoreConfig' => $coreStoreConfig)
+            array('scopeConfig' => $scopeConfig)
         );
         $attribute = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',

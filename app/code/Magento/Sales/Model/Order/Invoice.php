@@ -213,7 +213,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Sales\Model\Order\Invoice\Config
@@ -262,7 +262,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param Invoice\Config $invoiceConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory
@@ -282,7 +282,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory,
@@ -297,7 +297,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     ) {
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_invoiceConfig = $invoiceConfig;
         $this->_orderFactory = $orderFactory;
         $this->_orderResourceFactory = $orderResourceFactory;
@@ -877,7 +877,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = $this->_storeConfig->getValue(
+        $copyMethod = $this->_scopeConfig->getValue(
             self::XML_PATH_EMAIL_COPY_METHOD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
@@ -891,14 +891,14 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
-            $templateId = $this->_storeConfig->getValue(
+            $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_GUEST_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $templateId = $this->_storeConfig->getValue(
+            $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -921,7 +921,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
                     'store' => $this->getStore()
                 )
             )->setFrom(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_EMAIL_IDENTITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $storeId
@@ -958,7 +958,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
                         'store' => $this->getStore()
                     )
                 )->setFrom(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         self::XML_PATH_EMAIL_IDENTITY,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $storeId
@@ -992,7 +992,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = $this->_storeConfig->getValue(
+        $copyMethod = $this->_scopeConfig->getValue(
             self::XML_PATH_UPDATE_EMAIL_COPY_METHOD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
@@ -1004,14 +1004,14 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
-            $templateId = $this->_storeConfig->getValue(
+            $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $templateId = $this->_storeConfig->getValue(
+            $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_UPDATE_EMAIL_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -1033,7 +1033,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
                     'store' => $this->getStore()
                 )
             )->setFrom(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_UPDATE_EMAIL_IDENTITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $storeId
@@ -1069,7 +1069,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
                         'store' => $this->getStore()
                     )
                 )->setFrom(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         self::XML_PATH_UPDATE_EMAIL_IDENTITY,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $storeId
@@ -1089,7 +1089,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     protected function _getEmails($configPath)
     {
-        $data = $this->_storeConfig->getValue(
+        $data = $this->_scopeConfig->getValue(
             $configPath,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStoreId()

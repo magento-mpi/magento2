@@ -28,17 +28,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -53,19 +53,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $number = $this->_storeConfig->getValue(
+                $number = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'related_position_limit',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
                 break;
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $number = $this->_storeConfig->getValue(
+                $number = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_limit',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $number = $this->_storeConfig->getValue(
+                $number = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
@@ -88,19 +88,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $show = $this->_storeConfig->getValue(
+                $show = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'related_position_behavior',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
                 break;
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $show = $this->_storeConfig->getValue(
+                $show = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_behavior',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $show = $this->_storeConfig->getValue(
+                $show = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
@@ -140,19 +140,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $mode = $this->_storeConfig->getValue(
+                $mode = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'related_rotation_mode',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
                 break;
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $mode = $this->_storeConfig->getValue(
+                $mode = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'upsell_rotation_mode',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $mode = $this->_storeConfig->getValue(
+                $mode = $this->_scopeConfig->getValue(
                     self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );

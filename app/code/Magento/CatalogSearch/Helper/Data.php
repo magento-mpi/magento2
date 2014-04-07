@@ -83,7 +83,7 @@ class Data extends AbstractHelper
      *
      * @var ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Query factory
@@ -107,7 +107,7 @@ class Data extends AbstractHelper
      *
      * @param Context $context
      * @param String $string
-     * @param ScopeConfigInterface $coreStoreConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param QueryFactory $queryFactory
      * @param Escaper $escaper
      * @param FilterManager $filter
@@ -115,13 +115,13 @@ class Data extends AbstractHelper
     public function __construct(
         Context $context,
         String $string,
-        ScopeConfigInterface $coreStoreConfig,
+        ScopeConfigInterface $scopeConfig,
         QueryFactory $queryFactory,
         Escaper $escaper,
         FilterManager $filter
     ) {
         $this->string = $string;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_queryFactory = $queryFactory;
         $this->_escaper = $escaper;
         $this->filter = $filter;
@@ -267,7 +267,7 @@ class Data extends AbstractHelper
      */
     public function getMinQueryLength($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             Query::XML_PATH_MIN_QUERY_LENGTH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -282,7 +282,7 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryLength($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             Query::XML_PATH_MAX_QUERY_LENGTH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -297,7 +297,7 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryWords($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             Query::XML_PATH_MAX_QUERY_WORDS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -355,7 +355,7 @@ class Data extends AbstractHelper
             );
         }
 
-        $searchType = $this->_storeConfig->getValue(
+        $searchType = $this->_scopeConfig->getValue(
             Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

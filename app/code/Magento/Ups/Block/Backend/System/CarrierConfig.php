@@ -75,6 +75,6 @@ class CarrierConfig extends Template
      */
     public function getConfig($path, $store = null)
     {
-        return $this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

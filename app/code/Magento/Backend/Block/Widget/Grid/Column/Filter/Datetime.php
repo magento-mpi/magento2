@@ -45,7 +45,7 @@ class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
 
             //calculate end date considering timezone specification
             $datetimeTo->setTimezone(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     $this->_localeDate->getDefaultTimezonePath(),
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
@@ -71,7 +71,7 @@ class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
 
                 //set default timezone for store (admin)
                 $dateObj->setTimezone(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         $this->_localeDate->getDefaultTimezonePath(),
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )

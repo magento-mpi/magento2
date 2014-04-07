@@ -31,7 +31,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     protected $_attribute;
 
     /** @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /** @var \Magento\Mail\Template\TransportBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $_transportBuilderMock;
@@ -49,7 +49,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_attribute = $this->getMock('Magento\Eav\Model\Attribute', array(), array(), '', false);
         $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_storetMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->_transportBuilderMock = $this->getMock(
             '\Magento\Mail\Template\TransportBuilder',
             array(),
@@ -66,7 +66,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->_storeManager,
                 'config' => $this->_config,
                 'transportBuilder' => $this->_transportBuilderMock,
-                'coreStoreConfig' => $this->_storeConfigMock,
+                'scopeConfig' => $this->_scopeConfigMock,
                 'encryptor' => $this->_encryptor
             )
         );
@@ -130,7 +130,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $this->_website->expects($this->once())->method('getStoreIds')->will($this->returnValue($storeIds));
 
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->at(0)
         )->method(
             'getValue'
@@ -141,7 +141,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('templateId')
         );
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->at(1)
         )->method(
             'getValue'

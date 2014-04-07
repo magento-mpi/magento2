@@ -36,7 +36,7 @@ class Emulation extends \Magento\Object
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Locale\ResolverInterface
@@ -63,7 +63,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Design $design
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param ConfigInterface $inlineConfig
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Locale\ResolverInterface $localeResolver
@@ -74,7 +74,7 @@ class Emulation extends \Magento\Object
         \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Design $design,
         \Magento\TranslateInterface $translate,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         ConfigInterface $inlineConfig,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Locale\ResolverInterface $localeResolver,
@@ -86,7 +86,7 @@ class Emulation extends \Magento\Object
         $this->_viewDesign = $viewDesign;
         $this->_design = $design;
         $this->_translate = $translate;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->inlineConfig = $inlineConfig;
         $this->inlineTranslation = $inlineTranslation;
     }
@@ -208,7 +208,7 @@ class Emulation extends \Magento\Object
     protected function _emulateLocale($storeId, $area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
         $initialLocaleCode = $this->_localeResolver->getLocaleCode();
-        $newLocaleCode = $this->_storeConfig->getValue(
+        $newLocaleCode = $this->_scopeConfig->getValue(
             $this->_localeResolver->getDefaultLocalePath(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId

@@ -31,7 +31,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Config
@@ -62,7 +62,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -77,7 +77,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -85,7 +85,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_taxData = $taxData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->catalogPrice = $catalogPrice;
         parent::__construct(
             $context,
@@ -111,7 +111,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     {
         $product->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId());
         $product->setCustomerGroupId(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 \Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $product->getStoreId()

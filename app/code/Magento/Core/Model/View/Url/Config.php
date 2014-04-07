@@ -14,16 +14,16 @@ class Config implements \Magento\View\Url\ConfigInterface
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * View url config model
      *
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $storeConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -34,6 +34,6 @@ class Config implements \Magento\View\Url\ConfigInterface
      */
     public function getValue($path)
     {
-        return $this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

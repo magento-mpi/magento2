@@ -149,7 +149,7 @@ class Image extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Catalog product media config
@@ -175,7 +175,7 @@ class Image extends \Magento\Model\AbstractModel
      * @param \Magento\Image\Factory $imageFactory
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -190,7 +190,7 @@ class Image extends \Magento\Model\AbstractModel
         \Magento\Image\Factory $imageFactory,
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -204,7 +204,7 @@ class Image extends \Magento\Model\AbstractModel
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -460,7 +460,7 @@ class Image extends \Magento\Model\AbstractModel
         if (!$file) {
             $this->_isBaseFilePlaceholder = true;
             // check if placeholder defined in config
-            $isConfigPlaceholder = $this->_storeConfig->getValue(
+            $isConfigPlaceholder = $this->_scopeConfig->getValue(
                 "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );

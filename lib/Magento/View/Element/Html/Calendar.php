@@ -95,7 +95,7 @@ class Calendar extends \Magento\View\Element\Template
         // get first day of week and weekend days
         $this->assign(
             'firstDay',
-            (int)$this->_storeConfig->getValue(
+            (int)$this->_scopeConfig->getValue(
                 'general/locale/firstday',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
@@ -103,7 +103,7 @@ class Calendar extends \Magento\View\Element\Template
         $this->assign(
             'weekendDays',
             $this->encoder->encode(
-                (string)$this->_storeConfig->getValue(
+                (string)$this->_scopeConfig->getValue(
                     'general/locale/weekend',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )

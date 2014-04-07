@@ -25,7 +25,7 @@ class Allow extends AbstractCurrency
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -35,14 +35,14 @@ class Allow extends AbstractCurrency
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_localeCurrency = $localeCurrency;
-        parent::__construct($context, $registry, $config, $coreStoreConfig, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $scopeConfig, $resource, $resourceCollection, $data);
     }
 
     /**

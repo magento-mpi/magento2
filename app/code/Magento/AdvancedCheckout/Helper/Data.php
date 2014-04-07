@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\AdvancedCheckout\Model\Cart
@@ -208,7 +208,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -227,7 +227,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Checkout\Helper\Cart $checkoutCart,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -244,7 +244,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
         $this->_importFactory = $importFactory;
         $this->_stockItemFactory = $stockItemFactory;
@@ -338,7 +338,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isSkuEnabled()
     {
-        $storeData = $this->_storeConfig->getValue(
+        $storeData = $this->_scopeConfig->getValue(
             self::XML_PATH_SKU_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -353,7 +353,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isSkuApplied()
     {
         $result = false;
-        $data = $this->_storeConfig->getValue(
+        $data = $this->_scopeConfig->getValue(
             self::XML_PATH_SKU_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -386,7 +386,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $this->_allowedGroups = explode(
                 ',',
                 trim(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         self::XML_PATH_SKU_ALLOWED_GROUPS,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )

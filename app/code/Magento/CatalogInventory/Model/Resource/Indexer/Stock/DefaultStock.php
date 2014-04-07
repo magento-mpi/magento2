@@ -39,21 +39,21 @@ class DefaultStock extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Class constructor
      *
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($resource, $eavConfig);
     }
 
@@ -154,7 +154,7 @@ class DefaultStock extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
      */
     protected function _isManageStock()
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

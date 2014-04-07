@@ -23,7 +23,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
@@ -32,7 +32,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
@@ -42,10 +42,10 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Escaper $escaper,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct(
             $filterItemFactory,
             $storeManager,
@@ -102,7 +102,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         $category = $this->getCategory();
         $childrenCategories = $category->getChildrenCategories();
 
-        $useFlat = (bool)$this->_storeConfig->getValue(
+        $useFlat = (bool)$this->_scopeConfig->getValue(
             'catalog/frontend/flat_catalog_category',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

@@ -46,6 +46,6 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
      */
     public function getTtlValue()
     {
-        return $this->_storeConfig->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
+        return $this->_scopeConfig->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
     }
 }

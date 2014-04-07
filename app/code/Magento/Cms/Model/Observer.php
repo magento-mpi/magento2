@@ -26,18 +26,18 @@ class Observer
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Cms\Helper\Page $cmsPage
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Cms\Helper\Page $cmsPage,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_cmsPage = $cmsPage;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -70,7 +70,7 @@ class Observer
     {
         $redirect = $observer->getEvent()->getRedirect();
 
-        $pageId = $this->_storeConfig->getValue(
+        $pageId = $this->_scopeConfig->getValue(
             \Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

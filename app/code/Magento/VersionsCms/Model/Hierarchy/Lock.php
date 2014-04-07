@@ -32,7 +32,7 @@ class Lock extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Session model instance
@@ -56,7 +56,7 @@ class Lock extends \Magento\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -65,13 +65,13 @@ class Lock extends \Magento\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_backendAuthSession = $backendAuthSession;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -247,7 +247,7 @@ class Lock extends \Magento\Model\AbstractModel
      */
     public function getLockLifeTime()
     {
-        $timeout = (int)$this->_storeConfig->getValue(
+        $timeout = (int)$this->_scopeConfig->getValue(
             'cms/hierarchy/lock_timeout',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

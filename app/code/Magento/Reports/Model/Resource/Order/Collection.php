@@ -37,7 +37,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -65,7 +65,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\DB\Helper $coreResourceHelper
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Sales\Model\Order\Config $orderConfig
@@ -81,7 +81,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\DB\Helper $coreResourceHelper,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\Order\Config $orderConfig,
@@ -98,7 +98,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
             $connection,
             $resource
         );
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_localeDate = $localeDate;
         $this->_orderConfig = $orderConfig;
@@ -113,7 +113,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      */
     public function checkIsLive($range)
     {
-        $this->_isLive = (bool)(!$this->_storeConfig->getValue(
+        $this->_isLive = (bool)(!$this->_scopeConfig->getValue(
             'sales/dashboard/use_aggregated_data',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ));
@@ -419,7 +419,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 
             case '1m':
                 $dateStart->setDay(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         'reports/dashboard/mtd_start',
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )
@@ -435,7 +435,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
             case '2y':
                 $startMonthDay = explode(
                     ',',
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         'reports/dashboard/ytd_start',
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )
@@ -585,7 +585,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         }
         $adapter = $this->getConnection();
 
-        if ($this->_storeConfig->getValue(
+        if ($this->_scopeConfig->getValue(
             'sales/dashboard/use_aggregated_data',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )

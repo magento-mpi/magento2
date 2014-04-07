@@ -53,7 +53,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -69,7 +69,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\FormatInterface $localeFormat
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -88,10 +88,10 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\FormatInterface $localeFormat,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_store = $storeManager->getStore();
         $this->_localeFormat = $localeFormat;
         parent::__construct(
@@ -216,7 +216,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         $messageAllowed = false;
         if ($product->getUseConfigAllowMessage()) {
-            $messageAllowed = $this->_storeConfig->isSetFlag(
+            $messageAllowed = $this->_scopeConfig->isSetFlag(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );

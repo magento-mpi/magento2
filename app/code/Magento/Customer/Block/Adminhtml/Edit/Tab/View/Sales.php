@@ -98,7 +98,7 @@ class Sales extends \Magento\Backend\Block\Template
     public function _beforeToHtml()
     {
         $this->_currency = $this->_currencyFactory->create()->load(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 Currency::XML_PATH_CURRENCY_BASE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )

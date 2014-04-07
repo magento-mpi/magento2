@@ -24,7 +24,7 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -36,7 +36,7 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -50,7 +50,7 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
             $context,
             $coreData,
             $coreRegistry,
-            $coreStoreConfig,
+            $scopeConfig,
             $customerSession,
             $wishlistFactory,
             $storeManager,

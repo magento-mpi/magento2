@@ -86,7 +86,7 @@ class Context
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $storeConfig;
+    protected $scopeConfig;
 
     /**
      * Front controller
@@ -147,7 +147,7 @@ class Context
      * @param Cache $cache
      * @param DesignInterface $design
      * @param SessionManager $session
-     * @param ScopeConfigInterface $storeConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param FrontControllerInterface $frontController
      * @param ViewUrl $viewUrl
      * @param ViewConfig $viewConfig
@@ -168,7 +168,7 @@ class Context
         Cache $cache,
         DesignInterface $design,
         SessionManager $session,
-        ScopeConfigInterface $storeConfig,
+        ScopeConfigInterface $scopeConfig,
         FrontControllerInterface $frontController,
         ViewUrl $viewUrl,
         ViewConfig $viewConfig,
@@ -184,7 +184,7 @@ class Context
         $this->cache = $cache;
         $this->design = $design;
         $this->session = $session;
-        $this->storeConfig = $storeConfig;
+        $this->scopeConfig = $scopeConfig;
         $this->frontController = $frontController;
         $this->viewUrl         = $viewUrl;
         $this->viewConfig      = $viewConfig;
@@ -271,7 +271,7 @@ class Context
      */
     public function getScopeConfig()
     {
-        return $this->storeConfig;
+        return $this->scopeConfig;
     }
 
     /**

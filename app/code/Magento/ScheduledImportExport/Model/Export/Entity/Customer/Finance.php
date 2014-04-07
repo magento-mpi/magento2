@@ -98,7 +98,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
     protected $_eavCustomerFactory;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
@@ -108,7 +108,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
@@ -117,7 +117,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
+        parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
         $this->_customerCollectionFactory = $customerCollectionFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;

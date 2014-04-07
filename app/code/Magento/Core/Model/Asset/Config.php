@@ -37,14 +37,14 @@ class Config implements \Magento\View\Asset\ConfigInterface
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $storeConfig;
+    protected $scopeConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $storeConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->storeConfig = $storeConfig;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -54,7 +54,7 @@ class Config implements \Magento\View\Asset\ConfigInterface
      */
     public function isMergeCssFiles()
     {
-        return (bool)$this->storeConfig->isSetFlag(self::XML_PATH_MERGE_CSS_FILES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool)$this->scopeConfig->isSetFlag(self::XML_PATH_MERGE_CSS_FILES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -64,7 +64,7 @@ class Config implements \Magento\View\Asset\ConfigInterface
      */
     public function isMergeJsFiles()
     {
-        return (bool)$this->storeConfig->isSetFlag(self::XML_PATH_MERGE_JS_FILES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool)$this->scopeConfig->isSetFlag(self::XML_PATH_MERGE_JS_FILES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -75,7 +75,7 @@ class Config implements \Magento\View\Asset\ConfigInterface
      */
     public function isAssetMinification($contentType)
     {
-        return (bool)$this->storeConfig->isSetFlag(
+        return (bool)$this->scopeConfig->isSetFlag(
             sprintf(self::XML_PATH_MINIFICATION_ENABLED, $contentType),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -89,7 +89,7 @@ class Config implements \Magento\View\Asset\ConfigInterface
      */
     public function getAssetMinificationAdapter($contentType)
     {
-        return (string)$this->storeConfig->getValue(
+        return (string)$this->scopeConfig->getValue(
             sprintf(self::XML_PATH_MINIFICATION_ADAPTER, $contentType),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

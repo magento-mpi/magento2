@@ -163,7 +163,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
                 'header' => __('Price'),
                 'type' => 'currency',
                 'width' => '1',
-                'currency_code' => (string)$this->_storeConfig->getValue(
+                'currency_code' => (string)$this->_scopeConfig->getValue(
                     \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 ),

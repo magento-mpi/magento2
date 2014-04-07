@@ -41,12 +41,12 @@ class Online extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -54,12 +54,12 @@ class Online extends \Magento\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -126,7 +126,7 @@ class Online extends \Magento\Model\AbstractModel
      */
     public function getUpdateFrequency()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_UPDATE_FREQUENCY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -140,7 +140,7 @@ class Online extends \Magento\Model\AbstractModel
     public function getOnlineInterval()
     {
         $value = intval(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 self::XML_PATH_ONLINE_INTERVAL,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )

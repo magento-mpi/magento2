@@ -80,7 +80,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
             array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8')
         );
 
-        $globalNotifyStockQty = (double)$this->_storeConfig->getValue(
+        $globalNotifyStockQty = (double)$this->_scopeConfig->getValue(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

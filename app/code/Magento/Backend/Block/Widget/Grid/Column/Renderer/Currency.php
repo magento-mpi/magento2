@@ -72,7 +72,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
         $this->_storeManager = $storeManager;
         $this->_currencyLocator = $currencyLocator;
         $this->_localeCurrency = $localeCurrency;
-        $baseCurrencyCode = $this->_storeConfig->getValue(
+        $baseCurrencyCode = $this->_scopeConfig->getValue(
             \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
             'default'
         );

@@ -19,11 +19,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
         $mediaDirectory = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
-        $storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $urlBuilder = $this->getMock('Magento\UrlInterface');
 
-        $storeConfig->expects($this->once())->method('getValue')->will($this->returnValue('default/image.gif'));
+        $scopeConfig->expects($this->once())->method('getValue')->will($this->returnValue('default/image.gif'));
         $urlBuilder->expects(
             $this->once()
         )->method(
@@ -47,7 +47,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $arguments = array(
-            'scopeConfig' => $storeConfig,
+            'scopeConfig' => $scopeConfig,
             'urlBuilder' => $urlBuilder,
             'fileStorageHelper' => $helper,
             'filesystem' => $filesystem

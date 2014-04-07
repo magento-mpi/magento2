@@ -59,7 +59,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -87,7 +87,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -113,7 +113,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             $storeManager,
             $catalogData,
             $catalogProductFlatState,
-            $coreStoreConfig,
+            $scopeConfig,
             $productOptionFactory,
             $catalogUrl,
             $localeDate,
@@ -268,7 +268,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem();
         $manageStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_manage_stock') . ' = 1',
-            (int)$this->_storeConfig->getValue(
+            (int)$this->_scopeConfig->getValue(
                 \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -290,7 +290,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem(array('qty'));
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
-            (int)$this->_storeConfig->getValue(
+            (int)$this->_scopeConfig->getValue(
                 \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId

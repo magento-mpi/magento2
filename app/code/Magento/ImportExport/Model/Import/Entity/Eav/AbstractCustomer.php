@@ -67,7 +67,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
@@ -80,7 +80,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,
@@ -94,7 +94,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         parent::__construct(
             $coreData,
             $string,
-            $coreStoreConfig,
+            $scopeConfig,
             $importFactory,
             $resourceHelper,
             $resource,

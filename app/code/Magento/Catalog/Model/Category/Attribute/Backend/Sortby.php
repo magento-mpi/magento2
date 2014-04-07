@@ -23,17 +23,17 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Construct
      *
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\Logger $logger, \Magento\App\Config\ScopeConfigInterface $coreStoreConfig)
+    public function __construct(\Magento\Logger $logger, \Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($logger);
     }
 
@@ -84,7 +84,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                     $postDataConfig
                 ) ? $object->getData(
                     $attributeCode
-                ) : $this->_storeConfig->getValue(
+                ) : $this->_scopeConfig->getValue(
                     "catalog/frontend/default_sort_by",
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );

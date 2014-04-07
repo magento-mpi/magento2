@@ -313,7 +313,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         $carrierCode = $this->getShipment()->getCarrierCode();
         $carrier = $this->_rmaData->getCarrier($carrierCode, $storeId);
 
-        $countryShipper = $this->_storeConfig->getValue(
+        $countryShipper = $this->_scopeConfig->getValue(
             \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId

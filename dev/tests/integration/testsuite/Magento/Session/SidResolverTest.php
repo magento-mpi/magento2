@@ -28,7 +28,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Config\ScopeConfigInterface
      */
-    protected $coreStoreConfig;
+    protected $scopeConfig;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlInterface
@@ -52,7 +52,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Session\Generic _model */
         $this->session = $objectManager->get('Magento\Session\Generic');
 
-        $this->coreStoreConfig = $this->getMockBuilder(
+        $this->scopeConfig = $this->getMockBuilder(
             'Magento\App\Config\ScopeConfigInterface'
         )->setMethods(
             array('getValue')
@@ -67,7 +67,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManager->create(
             'Magento\Session\SidResolver',
             array(
-                'coreStoreConfig' => $this->coreStoreConfig,
+                'scopeConfig' => $this->scopeConfig,
                 'urlBuilder' => $this->urlBuilder,
                 'sidNameMap' => array($this->customSessionName => $this->customSessionQueryParam)
             )
@@ -90,7 +90,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSid($sid, $useFrontedSid, $isOwnOriginUrl, $testSid)
     {
-        $this->coreStoreConfig->expects(
+        $this->scopeConfig->expects(
             $this->any()
         )->method(
             'getValue'

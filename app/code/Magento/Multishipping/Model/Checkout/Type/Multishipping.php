@@ -33,7 +33,7 @@ class Multishipping extends \Magento\Object
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Session\Generic
@@ -93,7 +93,7 @@ class Multishipping extends \Magento\Object
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Session\Generic $session
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
@@ -108,7 +108,7 @@ class Multishipping extends \Magento\Object
         \Magento\Sales\Model\OrderFactory $orderFactory,
         CustomerAddressServiceInterface $customerAddressService,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Session\Generic $session,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
@@ -118,7 +118,7 @@ class Multishipping extends \Magento\Object
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_session = $session;
         $this->_addressFactory = $addressFactory;
         $this->_quote = $quote;
@@ -674,10 +674,10 @@ class Multishipping extends \Magento\Object
      */
     public function validateMinimumAmount()
     {
-        return !($this->_storeConfig->isSetFlag(
+        return !($this->_scopeConfig->isSetFlag(
             'sales/minimum_order/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) && $this->_storeConfig->isSetFlag(
+        ) && $this->_scopeConfig->isSetFlag(
             'sales/minimum_order/multi_address',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && !$this->getQuote()->validateMinimumAmount());
@@ -690,12 +690,12 @@ class Multishipping extends \Magento\Object
      */
     public function getMinimumAmountDescription()
     {
-        $descr = $this->_storeConfig->getValue(
+        $descr = $this->_scopeConfig->getValue(
             'sales/minimum_order/multi_address_description',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if (empty($descr)) {
-            $descr = $this->_storeConfig->getValue(
+            $descr = $this->_scopeConfig->getValue(
                 'sales/minimum_order/description',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -708,12 +708,12 @@ class Multishipping extends \Magento\Object
      */
     public function getMinimumAmountError()
     {
-        $error = $this->_storeConfig->getValue(
+        $error = $this->_scopeConfig->getValue(
             'sales/minimum_order/multi_address_error_message',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if (empty($error)) {
-            $error = $this->_storeConfig->getValue(
+            $error = $this->_scopeConfig->getValue(
                 'sales/minimum_order/error_message',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );

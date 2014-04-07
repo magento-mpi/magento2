@@ -25,7 +25,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Payment\Model\Config
@@ -62,7 +62,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Construct
      *
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\App\Config\ScopeConfigInterface $config
@@ -72,7 +72,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\View\LayoutInterface $layout,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\Core\Model\App\Emulation $appEmulation,
@@ -80,7 +80,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Config\Initial $initialConfig
     ) {
         parent::__construct($context);
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_layout = $layout;
         $this->_methodFactory = $paymentMethodFactory;
         $this->_appEmulation = $appEmulation;
@@ -97,7 +97,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getMethodInstance($code)
     {
         $key = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/model';
-        $class = $this->_storeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $class = $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         return $class ? $this->_methodFactory->create($class) : false;
     }
 
@@ -118,7 +118,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         uasort($methods, array($this, '_sortMethods'));
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
-            if (!($model = $this->_storeConfig->getValue(
+            if (!($model = $this->_scopeConfig->getValue(
                 $prefix . 'model',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
@@ -323,7 +323,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isZeroSubTotal($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -338,7 +338,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getZeroSubTotalOrderStatus($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -353,7 +353,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store

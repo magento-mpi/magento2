@@ -22,18 +22,18 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $storeConfig;
+    protected $scopeConfig;
 
     public function setUp()
     {
-        $this->storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->helper = $objectManagerHelper->getObject(
             'Magento\Shipping\Helper\Carrier',
             array(
                 'context' => $this->getMock('Magento\App\Helper\Context', array(), array(), '', false),
                 'locale' => $this->getMock('Magento\LocaleInterface'),
-                'storeConfig' => $this->storeConfig
+                'scopeConfig' => $this->scopeConfig
             )
         );
     }
@@ -45,7 +45,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOnlineCarrierCodes($result, $carriers)
     {
-        $this->storeConfig->expects(
+        $this->scopeConfig->expects(
             $this->once()
         )->method(
             'getValue'
@@ -80,7 +80,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $carrierCode = 'carrier1';
         $configPath = 'title';
         $configValue = 'some title';
-        $this->storeConfig->expects(
+        $this->scopeConfig->expects(
             $this->once()
         )->method(
             'getValue'

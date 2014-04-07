@@ -15,14 +15,14 @@ class Shipping
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $storeConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -33,7 +33,7 @@ class Shipping
      */
     public function afterGetStateActive(\Magento\Checkout\Block\Cart\Shipping $subject, $result)
     {
-        return (bool)$result || (bool)$this->_storeConfig->getValue('carriers/dhl/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool)$result || (bool)$this->_scopeConfig->getValue('carriers/dhl/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -44,6 +44,6 @@ class Shipping
      */
     public function afterGetCityActive(\Magento\Checkout\Block\Cart\Shipping $subject, $result)
     {
-        return (bool)$result || (bool)$this->_storeConfig->getValue('carriers/dhl/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool)$result || (bool)$this->_scopeConfig->getValue('carriers/dhl/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

@@ -32,7 +32,7 @@ class Translate extends \Magento\App\Config\Value
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Constructor
@@ -40,7 +40,7 @@ class Translate extends \Magento\App\Config\Value
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -50,13 +50,13 @@ class Translate extends \Magento\App\Config\Value
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_cacheTypeList = $cacheTypeList;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
@@ -69,7 +69,7 @@ class Translate extends \Magento\App\Config\Value
     protected function _afterSave()
     {
         $types = array_keys(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 self::XML_PATH_INVALID_CACHES,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )

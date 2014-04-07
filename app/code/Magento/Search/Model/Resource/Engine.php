@@ -88,7 +88,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Store manager
@@ -103,7 +103,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Search\Model\Resource\Advanced $searchResource
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      */
@@ -113,7 +113,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Search\Model\Resource\Advanced $searchResource,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
@@ -123,7 +123,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_adapter = $searchFactory->getFactory()->createAdapter();
         $this->_searchResource = $searchResource;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_initAdapter();
     }
@@ -135,7 +135,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected function _canHoldCommit()
     {
-        $commitMode = $this->_storeConfig->getValue(
+        $commitMode = $this->_scopeConfig->getValue(
             \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -151,7 +151,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected function _canAllowCommit()
     {
-        $commitMode = $this->_storeConfig->getValue(
+        $commitMode = $this->_scopeConfig->getValue(
             \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

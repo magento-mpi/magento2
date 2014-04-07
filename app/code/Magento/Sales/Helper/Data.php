@@ -49,7 +49,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendNewOrderConfirmationEmail($store = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\Sales\Model\Order::XML_PATH_EMAIL_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -75,7 +75,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendOrderCommentEmail($store = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\Sales\Model\Order::XML_PATH_UPDATE_EMAIL_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -90,7 +90,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendNewShipmentEmail($store = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\Sales\Model\Order\Shipment::XML_PATH_EMAIL_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -105,7 +105,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendShipmentCommentEmail($store = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\Sales\Model\Order\Shipment::XML_PATH_UPDATE_EMAIL_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -120,7 +120,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendNewInvoiceEmail($store = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\Sales\Model\Order\Invoice::XML_PATH_EMAIL_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -135,7 +135,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendInvoiceCommentEmail($store = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\Sales\Model\Order\Invoice::XML_PATH_UPDATE_EMAIL_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -150,7 +150,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendNewCreditmemoEmail($store = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\Sales\Model\Order\Creditmemo::XML_PATH_EMAIL_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -165,7 +165,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendCreditmemoCommentEmail($store = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             \Magento\Sales\Model\Order\Creditmemo::XML_PATH_UPDATE_EMAIL_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store

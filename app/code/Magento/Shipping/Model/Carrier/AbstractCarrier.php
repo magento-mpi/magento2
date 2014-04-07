@@ -81,7 +81,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory
@@ -94,19 +94,19 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     protected $_logAdapterFactory;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         parent::__construct($data);
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_rateErrorFactory = $rateErrorFactory;
         $this->_logAdapterFactory = $logAdapterFactory;
     }
@@ -123,7 +123,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             return false;
         }
         $path = 'carriers/' . $this->_code . '/' . $field;
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             $path,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStore()
@@ -142,7 +142,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             return false;
         }
         $path = 'carriers/' . $this->_code . '/' . $field;
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             $path,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStore()

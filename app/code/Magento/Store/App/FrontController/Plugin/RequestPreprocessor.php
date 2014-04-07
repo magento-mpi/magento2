@@ -12,7 +12,7 @@ class RequestPreprocessor
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\App\ResponseFactory
@@ -38,20 +38,20 @@ class RequestPreprocessor
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\UrlInterface $url
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\ResponseFactory $responseFactory
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\ResponseFactory $responseFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->_appState = $appState;
         $this->_url = $url;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_responseFactory = $responseFactory;
     }
 
@@ -82,7 +82,7 @@ class RequestPreprocessor
                     $redirectUrl = $this->_url->getRedirectUrl(
                         $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
                     );
-                    $redirectCode = (int)$this->_storeConfig->getValue(
+                    $redirectCode = (int)$this->_scopeConfig->getValue(
                         'web/url/redirect_to_base',
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     ) !== 301 ? 302 : 301;
@@ -105,7 +105,7 @@ class RequestPreprocessor
      */
     protected function _isBaseUrlCheckEnabled()
     {
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             'web/url/redirect_to_base',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

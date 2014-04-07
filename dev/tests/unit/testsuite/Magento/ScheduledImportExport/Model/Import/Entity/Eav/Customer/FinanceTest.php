@@ -184,7 +184,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue($this->getModelInstance('Magento\Reward\Model\Reward'))
             );
 
-        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $adminUser = $this->getMock('stdClass', array('getUsername'));
         $adminUser->expects($this->any())
@@ -209,7 +209,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
             $coreData,
             new \Magento\Stdlib\String(),
-            $coreStoreConfig,
+            $scopeConfig,
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
             $this->getMock('Magento\App\Resource', array(), array(), '', false),

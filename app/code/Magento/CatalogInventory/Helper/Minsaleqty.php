@@ -23,7 +23,7 @@ class Minsaleqty
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Math\Random
@@ -31,14 +31,14 @@ class Minsaleqty
     protected $mathRandom;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Math\Random $mathRandom
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->mathRandom = $mathRandom;
     }
 
@@ -181,7 +181,7 @@ class Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = $this->_storeConfig->getValue(
+        $value = $this->_scopeConfig->getValue(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store

@@ -60,7 +60,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface
@@ -73,7 +73,7 @@ class Index extends \Magento\App\Action\Action
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Store\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
@@ -82,14 +82,14 @@ class Index extends \Magento\App\Action\Action
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Store\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configCacheType = $configCacheType;
         $this->_website = $website;
         $this->_pageFactory = $pageFactory;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_localeDate = $localeDate;
         parent::__construct($context);
         $this->_cacheKey = $this->_cacheKeyPrefix . $this->_website->getId();
@@ -111,7 +111,7 @@ class Index extends \Magento\App\Action\Action
              */
             /** @var \Magento\Cms\Model\Page $page */
             $page = $this->_pageFactory->create()->load(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     $this->_stubPageIdentifier,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 ),

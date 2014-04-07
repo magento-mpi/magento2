@@ -31,12 +31,12 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
      *
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Config\ScopeConfigInterface
      */
-    protected $storeConfigMock;
+    protected $scopeConfigMock;
 
     public function setUp()
     {
         $this->paymentConfigMock = $this->getMock('\Magento\Payment\Model\Config', array(), array(), '', false);
-        $this->storeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
+        $this->scopeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
@@ -60,7 +60,7 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($methodsInfo)
         );
-        $this->storeConfigMock->expects(
+        $this->scopeConfigMock->expects(
             $this->any()
         )->method(
             'isSetFlag'
@@ -70,7 +70,7 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
 
         $configSpecification = $this->objectManager->getObject(
             'Magento\Multishipping\Model\Payment\Method\Specification\Is3DSecure',
-            array('paymentConfig' => $this->paymentConfigMock, 'storeConfig' => $this->storeConfigMock)
+            array('paymentConfig' => $this->paymentConfigMock, 'scopeConfig' => $this->scopeConfigMock)
         );
 
         $this->assertEquals(

@@ -77,7 +77,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -108,7 +108,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -119,7 +119,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -128,7 +128,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_customerSession = $customerSession;
         $this->_wishlistFactory = $wishlistFactory;
         $this->_storeManager = $storeManager;
@@ -212,13 +212,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getItemCount()
     {
         $storedDisplayType = $this->_customerSession->getWishlistDisplayType();
-        $currentDisplayType = $this->_storeConfig->getValue(
+        $currentDisplayType = $this->_scopeConfig->getValue(
             self::XML_PATH_WISHLIST_LINK_USE_QTY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         $storedDisplayOutOfStockProducts = $this->_customerSession->getDisplayOutOfStockProducts();
-        $currentDisplayOutOfStockProducts = $this->_storeConfig->getValue(
+        $currentDisplayOutOfStockProducts = $this->_scopeConfig->getValue(
             self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -436,7 +436,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAllow()
     {
-        if ($this->isModuleOutputEnabled() && $this->_storeConfig->getValue(
+        if ($this->isModuleOutputEnabled() && $this->_scopeConfig->getValue(
             'wishlist/general/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )
@@ -494,7 +494,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isRssAllow()
     {
-        return $this->_storeConfig->isSetFlag('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -529,7 +529,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $count = 0;
         if ($this->getCustomer()) {
             $collection = $this->getWishlistItemCollection()->setInStockFilter(true);
-            if ($this->_storeConfig->getValue(
+            if ($this->_scopeConfig->getValue(
                 self::XML_PATH_WISHLIST_LINK_USE_QTY,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
@@ -539,13 +539,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $count = $collection->getSize();
             }
             $this->_customerSession->setWishlistDisplayType(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_WISHLIST_LINK_USE_QTY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             );
             $this->_customerSession->setDisplayOutOfStockProducts(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
@@ -563,7 +563,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isDisplayQty()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_WISHLIST_LINK_USE_QTY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

@@ -78,7 +78,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -124,7 +124,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getValue(
+        if ($name = $this->_scopeConfig->getValue(
             'carriers/' . $carrierCode . '/title',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )

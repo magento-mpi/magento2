@@ -19,7 +19,7 @@ class Config implements \Magento\Module\Output\ConfigInterface
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var string
@@ -27,14 +27,14 @@ class Config implements \Magento\Module\Output\ConfigInterface
     protected $_storeType;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $scopeType
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         $scopeType
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeType = $scopeType;
     }
 
@@ -51,6 +51,6 @@ class Config implements \Magento\Module\Output\ConfigInterface
      */
     public function isSetFlag($path)
     {
-        return $this->_storeConfig->isSetFlag($path, $this->_storeType);
+        return $this->_scopeConfig->isSetFlag($path, $this->_storeType);
     }
 }

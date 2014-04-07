@@ -44,7 +44,7 @@ class AbstractApi extends \Magento\Object
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Logger model
@@ -66,7 +66,7 @@ class AbstractApi extends \Magento\Object
      * @param Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
@@ -74,14 +74,14 @@ class AbstractApi extends \Magento\Object
         Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
         $this->_logger = $logger;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_logAdapterFactory = $logAdapterFactory;
         parent::__construct($data);
     }
@@ -199,7 +199,7 @@ class AbstractApi extends \Magento\Object
      */
     protected function _debug($debugData)
     {
-        $this->_debugFlag = (bool)$this->_storeConfig->isSetFlag('payment/pbridge/debug', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $this->_debugFlag = (bool)$this->_scopeConfig->isSetFlag('payment/pbridge/debug', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($this->_debugFlag) {
             $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))->log($debugData);
         }

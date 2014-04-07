@@ -92,7 +92,7 @@ class Filter extends \Magento\Filter\Template
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Layout directive params
@@ -113,7 +113,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
@@ -128,7 +128,7 @@ class Filter extends \Magento\Filter\Template
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\View\Url $viewUrl,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
@@ -139,7 +139,7 @@ class Filter extends \Magento\Filter\Template
         $this->_escaper = $escaper;
         $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
         $this->_variableFactory = $coreVariableFactory;
         $this->_storeManager = $storeManager;
@@ -542,7 +542,7 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = $this->_storeConfig->getValue(
+            $configValue = $this->_scopeConfig->getValue(
                 $params['path'],
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId

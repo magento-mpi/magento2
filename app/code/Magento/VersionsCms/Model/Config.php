@@ -45,7 +45,7 @@ class Config
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -54,15 +54,15 @@ class Config
 
     /**
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
         \Magento\AuthorizationInterface $authorization,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_authorization = $authorization;
         $this->_backendAuthSession = $backendAuthSession;
     }
@@ -197,6 +197,6 @@ class Config
      */
     public function getDefaultVersioningStatus()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_CONTENT_VERSIONING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_CONTENT_VERSIONING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

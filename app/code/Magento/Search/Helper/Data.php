@@ -75,7 +75,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface
@@ -112,7 +112,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -123,7 +123,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         \Magento\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
@@ -132,7 +132,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
         $this->dateTime = $dateTime;
@@ -228,7 +228,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function getSearchConfigData($field, $storeId = null)
     {
         $path = 'catalog/search/' . $field;
-        return $this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -315,7 +315,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
             return false;
         }
 
-        $locale = $this->_storeConfig->getValue(
+        $locale = $this->_scopeConfig->getValue(
             $this->_localeResolver->getDefaultLocalePath(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

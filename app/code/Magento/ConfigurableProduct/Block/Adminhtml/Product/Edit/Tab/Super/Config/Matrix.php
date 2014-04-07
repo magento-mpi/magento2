@@ -79,7 +79,7 @@ class Matrix extends \Magento\Backend\Block\Template
     public function renderPrice($price)
     {
         return $this->_localeCurrency->getCurrency(
-            $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
+            $this->_scopeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
         )->toCurrency(
             sprintf('%f', $price)
         );

@@ -17,7 +17,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_storeConfig;
+    private $_scopeConfig;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -32,7 +32,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
-        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_segmentCollection = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Segment\Collection',
             array('toOptionArray'),
@@ -43,7 +43,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $helperContext = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
         $this->_helper = new \Magento\CustomerSegment\Helper\Data(
             $helperContext,
-            $this->_storeConfig,
+            $this->_scopeConfig,
             $this->_segmentCollection
         );
     }
@@ -51,7 +51,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_helper = null;
-        $this->_storeConfig = null;
+        $this->_scopeConfig = null;
         $this->_segmentCollection = null;
     }
 
@@ -64,7 +64,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddSegmentFieldsToForm(array $fixtureFormData)
     {
-        $this->_storeConfig->expects(
+        $this->_scopeConfig->expects(
             $this->once()
         )->method(
             'getValue'
@@ -164,7 +164,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testAddSegmentFieldsToFormDisabled()
     {
-        $this->_storeConfig->expects(
+        $this->_scopeConfig->expects(
             $this->once()
         )->method(
             'getValue'

@@ -74,7 +74,7 @@ class Account extends \Magento\App\Action\Action
     protected $_storeManager;
 
     /** @var \Magento\App\Config\ScopeConfigInterface */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /** @var \Magento\Core\Helper\Data */
     protected $coreHelperData;
@@ -114,7 +114,7 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\State $appState
@@ -138,7 +138,7 @@ class Account extends \Magento\App\Action\Action
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,
@@ -158,7 +158,7 @@ class Account extends \Magento\App\Action\Action
         $this->_formKeyValidator = $formKeyValidator;
         $this->_subscriberFactory = $subscriberFactory;
         $this->_storeManager = $storeManager;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->coreHelperData = $coreHelperData;
         $this->escaper = $escaper;
         $this->appState = $appState;
@@ -324,7 +324,7 @@ class Account extends \Magento\App\Action\Action
             $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($this->_getSession()->isLoggedIn()) {
-                if (!$this->_storeConfig->isSetFlag(
+                if (!$this->_scopeConfig->isSetFlag(
                     \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
@@ -571,7 +571,7 @@ class Account extends \Magento\App\Action\Action
         $this->_addWelcomeMessage();
 
         $successUrl = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
-        if (!$this->_storeConfig->isSetFlag(
+        if (!$this->_scopeConfig->isSetFlag(
             \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && $this->_getSession()->getBeforeAuthUrl()

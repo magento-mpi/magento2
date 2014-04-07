@@ -67,7 +67,7 @@ class Quote extends \Magento\Session\SessionManager
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Request\Http $request
@@ -80,7 +80,7 @@ class Quote extends \Magento\Session\SessionManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Request\Http $request,
@@ -93,13 +93,13 @@ class Quote extends \Magento\Session\SessionManager
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_quoteFactory = $quoteFactory;
         $this->_customerFactory = $customerFactory;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start();
         if ($this->_storeManager->hasSingleStore()) {
@@ -122,7 +122,7 @@ class Quote extends \Magento\Session\SessionManager
                 $this->_quote->setStoreId(
                     $this->getStoreId()
                 )->setCustomerGroupId(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )

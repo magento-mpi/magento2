@@ -122,7 +122,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
             return $this->_coreRegistry->registry('product')->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -161,7 +161,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
      */
     public function getConfigValue($field)
     {
-        return $this->_storeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

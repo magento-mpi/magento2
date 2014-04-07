@@ -59,7 +59,7 @@ class History extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -77,7 +77,7 @@ class History extends \Magento\Model\AbstractModel
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -88,14 +88,14 @@ class History extends \Magento\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_transportBuilder = $transportBuilder;
         $this->_design = $design;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -202,7 +202,7 @@ class History extends \Magento\Model\AbstractModel
             $customer = $this->getBalanceModel()->getCustomer();
 
             $transport = $this->_transportBuilder->setTemplateIdentifier(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     'customer/magento_customerbalance/email_template',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $storeId
@@ -222,7 +222,7 @@ class History extends \Magento\Model\AbstractModel
                     'store' => $this->_storeManager->getStore($storeId)
                 )
             )->setFrom(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     'customer/magento_customerbalance/email_identity',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $storeId

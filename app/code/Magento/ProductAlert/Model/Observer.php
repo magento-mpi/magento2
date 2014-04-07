@@ -71,7 +71,7 @@ class Observer
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -120,7 +120,7 @@ class Observer
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -133,7 +133,7 @@ class Observer
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -145,7 +145,7 @@ class Observer
         \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_taxData = $taxData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_priceColFactory = $priceColFactory;
         $this->_customerFactory = $customerFactory;
@@ -189,7 +189,7 @@ class Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!$this->_storeConfig->getValue(
+            if (!$this->_scopeConfig->getValue(
                 self::XML_PATH_PRICE_ALLOW,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
@@ -277,7 +277,7 @@ class Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!$this->_storeConfig->getValue(
+            if (!$this->_scopeConfig->getValue(
                 self::XML_PATH_STOCK_ALLOW,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
@@ -360,7 +360,7 @@ class Observer
     protected function _sendErrorEmail()
     {
         if (count($this->_errors)) {
-            if (!$this->_storeConfig->getValue(
+            if (!$this->_scopeConfig->getValue(
                 self::XML_PATH_ERROR_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
@@ -371,7 +371,7 @@ class Observer
             $this->inlineTranslation->suspend();
 
             $transport = $this->_transportBuilder->setTemplateIdentifier(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_TEMPLATE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
@@ -383,12 +383,12 @@ class Observer
             )->setTemplateVars(
                 array('warnings' => join("\n", $this->_errors))
             )->setFrom(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_IDENTITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )->addTo(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_RECIPIENT,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )

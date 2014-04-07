@@ -123,7 +123,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_httpClientFactory;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
@@ -144,7 +144,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
@@ -166,7 +166,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_httpClientFactory = $httpClientFactory;
         parent::__construct(
-            $coreStoreConfig,
+            $scopeConfig,
             $rateErrorFactory,
             $logAdapterFactory,
             $xmlElFactory,
@@ -282,7 +282,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
             $r->setOrigPostal(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $request->getStoreId()
@@ -294,7 +294,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
             $r->setOrigCountryId(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $request->getStoreId()

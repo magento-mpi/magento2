@@ -52,7 +52,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -78,7 +78,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -105,7 +105,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
             $storeManager,
             $catalogData,
             $catalogProductFlatState,
-            $coreStoreConfig,
+            $scopeConfig,
             $productOptionFactory,
             $catalogUrl,
             $localeDate,

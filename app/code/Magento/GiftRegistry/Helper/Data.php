@@ -62,7 +62,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface
@@ -81,7 +81,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -92,7 +92,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -102,7 +102,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->productFactory = $productFactory;
@@ -119,7 +119,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool)$this->_scopeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -129,7 +129,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRecipientsLimit()
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -150,7 +150,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaxRegistrant($store = null)
     {
-        return (int)$this->_storeConfig->getValue(self::XML_PATH_MAX_REGISTRANT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_MAX_REGISTRANT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**

@@ -59,7 +59,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -78,20 +78,20 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         $dbCompatibleMode = true
     ) {
         parent::__construct($context);
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_appState = $appState;
         $this->_dbCompatibleMode = $dbCompatibleMode;
@@ -166,7 +166,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $allow = true;
 
-        $allowedIps = $this->_storeConfig->getValue(
+        $allowedIps = $this->_scopeConfig->getValue(
             self::XML_PATH_DEV_ALLOW_IPS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
@@ -239,7 +239,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultCountry($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_DEFAULT_COUNTRY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -266,7 +266,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isSingleStoreModeEnabled()
     {
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             self::XML_PATH_SINGLE_STORE_MODE_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

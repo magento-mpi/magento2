@@ -118,7 +118,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
@@ -136,7 +136,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,
@@ -157,7 +157,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
         parent::__construct(
             $coreData,
             $string,
-            $coreStoreConfig,
+            $scopeConfig,
             $importFactory,
             $resourceHelper,
             $resource,

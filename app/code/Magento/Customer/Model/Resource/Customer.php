@@ -22,7 +22,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Stdlib\DateTime
@@ -36,7 +36,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
@@ -48,7 +48,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
         \Magento\Stdlib\DateTime $dateTime,
         $data = array()
@@ -62,7 +62,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
             $universalFactory,
             $data
         );
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_validatorFactory = $validatorFactory;
         $this->dateTime = $dateTime;
         $this->setType('customer');
@@ -376,7 +376,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function setNewIncrementId(\Magento\Object $object)
     {
-        if ($this->_storeConfig->getValue(
+        if ($this->_scopeConfig->getValue(
             \Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )

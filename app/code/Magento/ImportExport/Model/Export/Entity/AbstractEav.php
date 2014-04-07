@@ -59,7 +59,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
     protected $_localeDate;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
@@ -68,7 +68,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
@@ -77,7 +77,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
         array $data = array()
     ) {
         $this->_localeDate = $localeDate;
-        parent::__construct($coreStoreConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
+        parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];

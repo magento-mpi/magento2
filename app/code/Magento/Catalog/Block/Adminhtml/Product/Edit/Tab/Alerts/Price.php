@@ -103,7 +103,7 @@ class Price extends Extended
                 'header' => __('Price'),
                 'index' => 'price',
                 'type' => 'currency',
-                'currency_code' => $this->_storeConfig->getValue(
+                'currency_code' => $this->_scopeConfig->getValue(
                     \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )

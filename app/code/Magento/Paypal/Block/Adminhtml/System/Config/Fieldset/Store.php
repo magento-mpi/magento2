@@ -65,7 +65,7 @@ class Store extends \Magento\Backend\Block\Template implements \Magento\Data\For
         $website = $this->getRequest()->getParam('website');
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {
-            $isEnabled = (int)$this->_storeConfig->getValue($methodPath, 'website', $website);
+            $isEnabled = (int)$this->_scopeConfig->getValue($methodPath, 'website', $website);
             if ($isEnabled === 0) {
                 $disabledMethods[$methodId] = $isEnabled;
             }

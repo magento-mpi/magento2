@@ -70,7 +70,7 @@ class Config extends \Magento\Eav\Model\Config
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Eav config
@@ -121,7 +121,7 @@ class Config extends \Magento\Eav\Model\Config
      * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory
@@ -136,7 +136,7 @@ class Config extends \Magento\Eav\Model\Config
         \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory,
@@ -144,7 +144,7 @@ class Config extends \Magento\Eav\Model\Config
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_configFactory = $configFactory;
         $this->_productTypeFactory = $productTypeFactory;
         $this->_groupCollectionFactory = $groupCollectionFactory;
@@ -476,6 +476,6 @@ class Config extends \Magento\Eav\Model\Config
      */
     public function getProductListDefaultSortBy($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_LIST_DEFAULT_SORT_BY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_scopeConfig->getValue(self::XML_PATH_LIST_DEFAULT_SORT_BY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

@@ -29,20 +29,20 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $storeConfig;
+    protected $scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->localeResolver = $localeResolver;
-        $this->storeConfig = $storeConfig;
+        $this->scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -55,7 +55,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     public function getOnlineCarrierCodes($store = null)
     {
         $carriersCodes = array();
-        foreach ($this->storeConfig->getValue(
+        foreach ($this->scopeConfig->getValue(
             self::XML_PATH_CARRIERS_ROOT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -77,7 +77,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
      */
     public function getCarrierConfigValue($carrierCode, $configPath, $store = null)
     {
-        return $this->storeConfig->getValue(
+        return $this->scopeConfig->getValue(
             sprintf('%s/%s/%s', self::XML_PATH_CARRIERS_ROOT, $carrierCode, $configPath),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store

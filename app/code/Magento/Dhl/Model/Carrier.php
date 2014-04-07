@@ -190,7 +190,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected $_httpClientFactory;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
@@ -215,7 +215,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
@@ -249,7 +249,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         $this->_dateTime = $dateTime;
         $this->_httpClientFactory = $httpClientFactory;
         parent::__construct(
-            $coreStoreConfig,
+            $scopeConfig,
             $rateErrorFactory,
             $logAdapterFactory,
             $xmlElFactory,
@@ -279,7 +279,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected function _getDefaultValue($origValue, $pathToValue)
     {
         if (!$origValue) {
-            $origValue = $this->_storeConfig->getValue(
+            $origValue = $this->_scopeConfig->getValue(
                 $pathToValue,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $this->getStore()
@@ -435,7 +435,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         )->setOrigPersonName(
             $request->getOrigPersonName()
         )->setOrigEmail(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 'trans_email/ident_general/email',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $requestObject->getStoreId()
@@ -454,7 +454,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
             $request->getDestCompanyName()
         );
 
-        $originStreet2 = $this->_storeConfig->getValue(
+        $originStreet2 = $this->_scopeConfig->getValue(
             Shipment::XML_PATH_STORE_ADDRESS2,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $requestObject->getStoreId()
@@ -1289,7 +1289,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         }
 
         $countryParams = $this->getCountryParams(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 Shipment::XML_PATH_STORE_COUNTRY_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $request->getStoreId()
@@ -1415,7 +1415,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         $rawRequest = $this->_request;
 
         $originRegion = $this->getCountryParams(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 Shipment::XML_PATH_STORE_COUNTRY_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $this->getStore()

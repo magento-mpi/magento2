@@ -21,7 +21,7 @@ class SidResolver implements SidResolverInterface
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $coreStoreConfig;
+    protected $scopeConfig;
 
     /**
      * @var \Magento\UrlInterface
@@ -59,20 +59,20 @@ class SidResolver implements SidResolverInterface
     protected $_scopeType;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\App\RequestInterface $request
      * @param string $scopeType
      * @param array $sidNameMap
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\UrlInterface $urlBuilder,
         \Magento\App\RequestInterface $request,
         $scopeType,
         array $sidNameMap = array()
     ) {
-        $this->coreStoreConfig = $coreStoreConfig;
+        $this->scopeConfig = $scopeConfig;
         $this->urlBuilder = $urlBuilder;
         $this->request = $request;
         $this->sidNameMap = $sidNameMap;
@@ -86,7 +86,7 @@ class SidResolver implements SidResolverInterface
     public function getSid(SessionManagerInterface $session)
     {
         $sidKey = null;
-        $useSidOnFrontend = $this->coreStoreConfig->getValue(
+        $useSidOnFrontend = $this->scopeConfig->getValue(
             self::XML_PATH_USE_FRONTEND_SID,
             $this->_scopeType
         );

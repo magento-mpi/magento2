@@ -63,7 +63,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     protected $_cacheMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\StoreManager */
     protected $_storeManagerMock;
@@ -90,7 +90,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_loggerMock          = $this->_makeMock('Magento\Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento\App\Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento\App\CacheInterface');
-        $this->_storeConfigMock     = $this->_makeMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfigMock     = $this->_makeMock('Magento\App\Config\ScopeConfigInterface');
         $this->_storeManagerMock    = $this->_makeMock('Magento\Store\Model\StoreManager');
         $viewUrlMock                = $this->_makeMock('Magento\View\Url');
         $viewConfigMock             = $this->_makeMock('Magento\View\ConfigInterface');
@@ -125,7 +125,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $this->_designMock,
             $this->_sessionMock,
             $this->_sidResolver,
-            $this->_storeConfigMock,
+            $this->_scopeConfigMock,
             $this->_controllerMock,
             $viewUrlMock,
             $viewConfigMock,

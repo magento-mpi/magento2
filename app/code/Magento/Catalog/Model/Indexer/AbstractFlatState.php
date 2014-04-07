@@ -22,7 +22,7 @@ abstract class AbstractFlatState
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $storeConfig;
+    protected $scopeConfig;
 
     /**
      * @var bool
@@ -35,16 +35,16 @@ abstract class AbstractFlatState
     protected $flatIndexer;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param bool $isAvailable
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         $isAvailable = false
     ) {
-        $this->storeConfig = $storeConfig;
+        $this->scopeConfig = $scopeConfig;
         $this->flatIndexer = $flatIndexer;
         $this->isAvailable = $isAvailable;
     }
@@ -56,7 +56,7 @@ abstract class AbstractFlatState
      */
     public function isFlatEnabled()
     {
-        return $this->storeConfig->isSetFlag(static::INDEXER_ENABLED_XML_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(static::INDEXER_ENABLED_XML_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

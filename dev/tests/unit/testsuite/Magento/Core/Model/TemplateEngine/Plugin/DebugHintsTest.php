@@ -22,7 +22,7 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -37,10 +37,10 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->subjectMock = $this->getMock('Magento\View\TemplateEngineFactory', array(), array(), '', false);
-        $this->_model = new DebugHints($this->_objectManager, $this->_storeConfig, $this->_coreData);
+        $this->_model = new DebugHints($this->_objectManager, $this->_scopeConfig, $this->_coreData);
     }
 
     /**
@@ -102,7 +102,7 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setupConfigFixture($showTemplateHints, $showBlockHints)
     {
-        $this->_storeConfig->expects(
+        $this->_scopeConfig->expects(
             $this->atLeastOnce()
         )->method(
             'getValue'

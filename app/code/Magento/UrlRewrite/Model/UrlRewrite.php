@@ -48,7 +48,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Stdlib\Cookie
@@ -68,7 +68,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
@@ -79,7 +79,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
@@ -87,7 +87,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_cookie = $cookie;
         $this->_storeManager = $storeManager;
@@ -323,7 +323,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if ($this->_storeConfig->getValue(
+            if ($this->_scopeConfig->getValue(
                 'web/url/use_store',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             ) && ($storeCode = $this->_storeManager->getStore()->getCode())
@@ -334,7 +334,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
-        if ($this->_storeConfig->getValue(
+        if ($this->_scopeConfig->getValue(
             'web/url/use_store',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && ($storeCode = $this->_storeManager->getStore()->getCode())

@@ -210,7 +210,7 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $timezoneLocal = $this->_storeConfig->getValue(
+        $timezoneLocal = $this->_scopeConfig->getValue(
             $this->_localeDate->getDefaultTimezonePath(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

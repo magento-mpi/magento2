@@ -31,15 +31,15 @@ class Data extends AbstractHelper
      *
      * @var ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param Context $context
-     * @param ScopeConfigInterface $coreStoreConfig
+     * @param ScopeConfigInterface $scopeConfig
      */
-    public function __construct(Context $context, ScopeConfigInterface $coreStoreConfig)
+    public function __construct(Context $context, ScopeConfigInterface $scopeConfig)
     {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -65,7 +65,7 @@ class Data extends AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             self::XML_PATH_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

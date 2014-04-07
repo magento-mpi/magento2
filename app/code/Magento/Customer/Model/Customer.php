@@ -142,7 +142,7 @@ class Customer extends \Magento\Model\AbstractModel
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var Share
@@ -200,7 +200,7 @@ class Customer extends \Magento\Model\AbstractModel
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param Resource\Customer $resource
      * @param Config\Share $configShare
      * @param AddressFactory $addressFactory
@@ -221,7 +221,7 @@ class Customer extends \Magento\Model\AbstractModel
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Resource\Customer $resource,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Customer\Model\AddressFactory $addressFactory,
@@ -237,7 +237,7 @@ class Customer extends \Magento\Model\AbstractModel
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_configShare = $configShare;
@@ -741,7 +741,7 @@ class Customer extends \Magento\Model\AbstractModel
         }
         $storeId = $this->getStoreId() ? $this->getStoreId() : null;
 
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             self::XML_PATH_IS_CONFIRM,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
@@ -788,13 +788,13 @@ class Customer extends \Magento\Model\AbstractModel
     {
         /** @var \Magento\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_storeConfig->getValue($template, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
+            $this->_scopeConfig->getValue($template, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
         )->setTemplateOptions(
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
             $templateParams
         )->setFrom(
-            $this->_storeConfig->getValue($sender, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
+            $this->_scopeConfig->getValue($sender, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
         )->addTo(
             $this->getEmail(),
             $this->getName()
@@ -840,7 +840,7 @@ class Customer extends \Magento\Model\AbstractModel
 
         /** @var \Magento\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 self::XML_PATH_RESET_PASSWORD_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -850,7 +850,7 @@ class Customer extends \Magento\Model\AbstractModel
         )->setTemplateVars(
             array('customer' => $this, 'store' => $this->getStore())
         )->setFrom(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 self::XML_PATH_FORGOT_EMAIL_IDENTITY,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId

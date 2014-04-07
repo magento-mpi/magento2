@@ -27,7 +27,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /**
      * @var \Magento\WebsiteRestriction\Model\Config
@@ -45,14 +45,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
-        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $cacheId = null;
 
         $this->_model = new \Magento\WebsiteRestriction\Model\Config(
             $this->_readerMock,
             $this->_configScopeMock,
             $this->_cacheMock,
-            $this->_storeConfigMock,
+            $this->_scopeConfigMock,
             $cacheId
         );
     }
@@ -96,7 +96,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testIsRestrictionEnabled()
     {
         $store = null;
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'
@@ -113,7 +113,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMode()
     {
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'
@@ -128,7 +128,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHTTPStatusCode()
     {
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'
@@ -142,7 +142,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHTTPRedirectCode()
     {
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'
@@ -157,7 +157,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLandingPageCode()
     {
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
             'getValue'

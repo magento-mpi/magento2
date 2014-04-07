@@ -594,7 +594,7 @@ class Config
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -613,7 +613,7 @@ class Config
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Source\CctypeFactory $cctypeFactory
      * @param \Magento\Paypal\Model\CertFactory $certFactory
@@ -621,13 +621,13 @@ class Config
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Source\CctypeFactory $cctypeFactory,
         \Magento\Paypal\Model\CertFactory $certFactory,
         $params = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_coreData = $coreData;
         $this->_storeManager = $storeManager;
         $this->_cctypeFactory = $cctypeFactory;
@@ -690,7 +690,7 @@ class Config
     {
         return $this->isMethodSupportedForCountry(
             $method
-        ) && $this->_storeConfig->isSetFlag(
+        ) && $this->_scopeConfig->isSetFlag(
             "payment/{$method}/active",
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->_storeId
@@ -780,7 +780,7 @@ class Config
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
         if ($path !== null) {
-            $value = $this->_storeConfig->getValue(
+            $value = $this->_scopeConfig->getValue(
                 $path,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $this->_storeId
@@ -840,7 +840,7 @@ class Config
      */
     public function getMerchantCountry()
     {
-        $countryCode = $this->_storeConfig->getValue(
+        $countryCode = $this->_scopeConfig->getValue(
             $this->_mapGeneralFieldset(
                 'merchant_country',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -1204,7 +1204,7 @@ class Config
      */
     public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
     {
-        $configType = $this->_storeConfig->getValue(
+        $configType = $this->_scopeConfig->getValue(
             $this->_mapGenericStyleFieldset('logo'),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->_storeId

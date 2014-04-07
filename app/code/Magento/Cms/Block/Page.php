@@ -94,15 +94,15 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
         $page = $this->getPage();
 
         // show breadcrumbs
-        if ($this->_storeConfig->getValue(
+        if ($this->_scopeConfig->getValue(
             'web/default/show_cms_breadcrumbs',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && ($breadcrumbs = $this->getLayout()->getBlock(
             'breadcrumbs'
-        )) && $page->getIdentifier() !== $this->_storeConfig->getValue(
+        )) && $page->getIdentifier() !== $this->_scopeConfig->getValue(
             'web/default/cms_home_page',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) && $page->getIdentifier() !== $this->_storeConfig->getValue(
+        ) && $page->getIdentifier() !== $this->_scopeConfig->getValue(
             'web/default/cms_no_route',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )

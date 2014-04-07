@@ -93,7 +93,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
     {
         $count = $this->getData('item_count');
         if (is_null($count)) {
-            $count = $this->_storeConfig->getValue(
+            $count = $this->_scopeConfig->getValue(
                 self::XML_PATH_CHECKOUT_SIDEBAR_COUNT,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -270,7 +270,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
      */
     public function getIsNeedToDisplaySideBar()
     {
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             'checkout/sidebar/display',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

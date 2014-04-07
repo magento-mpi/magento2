@@ -17,16 +17,16 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $storeConfigMock;
+    protected $scopeConfigMock;
 
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->alerts = $helper->getObject(
             'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts',
-            array('scopeConfig' => $this->storeConfigMock)
+            array('scopeConfig' => $this->scopeConfigMock)
         );
     }
 
@@ -53,7 +53,7 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
                 $stockAllow
             )
         );
-        $this->storeConfigMock->expects($this->any())->method('getValue')->will($this->returnValueMap($valueMap));
+        $this->scopeConfigMock->expects($this->any())->method('getValue')->will($this->returnValueMap($valueMap));
         $this->assertEquals($canShowTab, $this->alerts->canShowTab());
     }
 

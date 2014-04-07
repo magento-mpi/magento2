@@ -28,7 +28,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Tax\Model\Calculation
@@ -37,16 +37,16 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Tax\Model\Calculation $calculation
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Tax\Model\Calculation $calculation
     ) {
         $this->_taxData = $taxData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_calculation = $calculation;
         $this->setCode('tax');
     }
@@ -166,7 +166,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             }
         }
 
-        $shippingTaxClass = $this->_storeConfig->getValue(
+        $shippingTaxClass = $this->_scopeConfig->getValue(
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store

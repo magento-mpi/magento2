@@ -124,7 +124,7 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
      */
     protected function _isProfileEnable()
     {
-        return $this->_storeConfig->isSetFlag('payment/pbridge/profilestatus', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_getCurrentStore());
+        return $this->_scopeConfig->isSetFlag('payment/pbridge/profilestatus', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_getCurrentStore());
     }
 
     /**

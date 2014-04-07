@@ -74,7 +74,7 @@ class Calculation extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -119,7 +119,7 @@ class Calculation extends \Magento\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -136,7 +136,7 @@ class Calculation extends \Magento\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\Session $customerSession,
@@ -150,7 +150,7 @@ class Calculation extends \Magento\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_groupFactory = $groupFactory;
         $this->_customerSession = $customerSession;
@@ -408,19 +408,19 @@ class Calculation extends \Magento\Model\AbstractModel
     {
         $request = new \Magento\Object();
         $request->setCountryId(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
             )
         )->setRegionId(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
             )
         )->setPostcode(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
@@ -460,7 +460,7 @@ class Calculation extends \Magento\Model\AbstractModel
         }
         $address = new \Magento\Object();
         $customerData = $this->getCustomerData();
-        $basedOn = $this->_storeConfig->getValue(
+        $basedOn = $this->_scopeConfig->getValue(
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -512,19 +512,19 @@ class Calculation extends \Magento\Model\AbstractModel
                 break;
             case 'default':
                 $address->setCountryId(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $store
                     )
                 )->setRegionId(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $store
                     )
                 )->setPostcode(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $store

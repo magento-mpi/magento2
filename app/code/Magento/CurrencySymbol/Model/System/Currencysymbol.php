@@ -111,10 +111,10 @@ class Currencysymbol
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\Config\ReinitableConfigInterface $coreConfig
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
@@ -124,7 +124,7 @@ class Currencysymbol
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\Config\ReinitableConfigInterface $coreConfig,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
@@ -140,7 +140,7 @@ class Currencysymbol
         $this->_locale = $localeResolver->getLocale();
         $this->_systemStore = $systemStore;
         $this->_eventManager = $eventManager;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -186,7 +186,7 @@ class Currencysymbol
 
         $allowedCurrencies = explode(
             self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 self::XML_PATH_ALLOWED_CURRENCIES,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 null
@@ -213,7 +213,7 @@ class Currencysymbol
                             explode(self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR, $websiteSymbols)
                         );
                     }
-                    $storeSymbols = $this->_storeConfig->getValue(
+                    $storeSymbols = $this->_scopeConfig->getValue(
                         self::XML_PATH_ALLOWED_CURRENCIES,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $store
@@ -344,7 +344,7 @@ class Currencysymbol
     protected function _unserializeStoreConfig($configPath, $storeId = null)
     {
         $result = array();
-        $configData = (string)$this->_storeConfig->getValue(
+        $configData = (string)$this->_scopeConfig->getValue(
             $configPath,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId

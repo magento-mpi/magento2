@@ -168,7 +168,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -179,7 +179,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -187,7 +187,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
         $this->_proTypeFactory = $proTypeFactory;
         $this->_storeManager = $storeManager;
         $this->_urlBuilder = $urlBuilder;
@@ -226,10 +226,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function canUseCheckout()
     {
-        if ($this->_storeConfig->isSetFlag(
+        if ($this->_scopeConfig->isSetFlag(
             'payment/hosted_pro/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) && !$this->_storeConfig->isSetFlag(
+        ) && !$this->_scopeConfig->isSetFlag(
             'payment/hosted_pro/display_ec',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )

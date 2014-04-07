@@ -125,7 +125,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $configHelper;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
@@ -146,7 +146,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
@@ -168,7 +168,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         $this->_localeFormat = $localeFormat;
         $this->configHelper = $configHelper;
         parent::__construct(
-            $coreStoreConfig,
+            $scopeConfig,
             $rateErrorFactory,
             $logAdapterFactory,
             $xmlElFactory,
@@ -249,7 +249,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = $this->_storeConfig->getValue(
+            $origCountry = $this->_scopeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $request->getStoreId()
@@ -261,7 +261,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
         } else {
-            $origRegionCode = $this->_storeConfig->getValue(
+            $origRegionCode = $this->_scopeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $request->getStoreId()
@@ -276,7 +276,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
             $rowRequest->setOrigPostal(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $request->getStoreId()
@@ -288,7 +288,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
             $rowRequest->setOrigCity(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $request->getStoreId()

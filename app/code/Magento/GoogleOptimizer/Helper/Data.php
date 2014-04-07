@@ -24,7 +24,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\GoogleAnalytics\Helper\Data
@@ -33,15 +33,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GoogleAnalytics\Helper\Data $analyticsHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GoogleAnalytics\Helper\Data $analyticsHelper
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_analyticsHelper = $analyticsHelper;
         parent::__construct($context);
     }
@@ -54,7 +54,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isGoogleExperimentEnabled($store = null)
     {
-        return (bool)$this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return (bool)$this->_scopeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**

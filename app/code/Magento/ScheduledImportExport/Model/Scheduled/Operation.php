@@ -77,7 +77,7 @@ class Operation extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\App\Config\ValueFactory
@@ -125,7 +125,7 @@ class Operation extends \Magento\Model\AbstractModel
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
      * @param \Magento\App\Config\ValueFactory $configValueFactory
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -141,14 +141,14 @@ class Operation extends \Magento\Model\AbstractModel
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
         \Magento\App\Config\ValueFactory $configValueFactory,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_dateModel = $dateModel;
         $this->_configValueFactory = $configValueFactory;
         $this->_operationFactory = $operationFactory;
@@ -184,12 +184,12 @@ class Operation extends \Magento\Model\AbstractModel
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        $receiverEmail = $this->_storeConfig->getValue(
+        $receiverEmail = $this->_scopeConfig->getValue(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
-        $receiverName = $this->_storeConfig->getValue(
+        $receiverName = $this->_scopeConfig->getValue(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId

@@ -24,11 +24,11 @@ class Config implements ConfigInterface
     protected $coreConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $coreStoreConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->coreConfig = $coreStoreConfig;
+        $this->coreConfig = $scopeConfig;
     }
 
     /**

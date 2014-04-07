@@ -236,7 +236,7 @@ class Head extends \Magento\View\Element\Template
     public function getMediaType()
     {
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = $this->_storeConfig->getValue(
+            $this->_data['media_type'] = $this->_scopeConfig->getValue(
                 'design/head/default_media_type',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -252,7 +252,7 @@ class Head extends \Magento\View\Element\Template
     public function getCharset()
     {
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = $this->_storeConfig->getValue(
+            $this->_data['charset'] = $this->_scopeConfig->getValue(
                 'design/head/default_charset',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -275,10 +275,10 @@ class Head extends \Magento\View\Element\Template
             $this->_pureTitle = $title;
         }
 
-        $this->_data['title'] = $this->_storeConfig->getValue(
+        $this->_data['title'] = $this->_scopeConfig->getValue(
             'design/head/title_prefix',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) . ' ' . $title . ' ' . $this->_storeConfig->getValue(
+        ) . ' ' . $title . ' ' . $this->_scopeConfig->getValue(
             'design/head/title_suffix',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -320,7 +320,7 @@ class Head extends \Magento\View\Element\Template
      */
     public function getDefaultTitle()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             'design/head/default_title',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -334,7 +334,7 @@ class Head extends \Magento\View\Element\Template
     public function getDescription()
     {
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = $this->_storeConfig->getValue(
+            $this->_data['description'] = $this->_scopeConfig->getValue(
                 'design/head/default_description',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -350,7 +350,7 @@ class Head extends \Magento\View\Element\Template
     public function getKeywords()
     {
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = $this->_storeConfig->getValue(
+            $this->_data['keywords'] = $this->_scopeConfig->getValue(
                 'design/head/default_keywords',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -366,7 +366,7 @@ class Head extends \Magento\View\Element\Template
     public function getRobots()
     {
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = $this->_storeConfig->getValue(
+            $this->_data['robots'] = $this->_scopeConfig->getValue(
                 'design/search_engine_robots/default_robots',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -382,7 +382,7 @@ class Head extends \Magento\View\Element\Template
     public function getIncludes()
     {
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = $this->_storeConfig->getValue(
+            $this->_data['includes'] = $this->_scopeConfig->getValue(
                 'design/head/includes',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -411,14 +411,14 @@ class Head extends \Magento\View\Element\Template
     protected function _getFaviconFile()
     {
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
-        $storeConfig = $this->_storeConfig->getValue(
+        $scopeConfig = $this->_scopeConfig->getValue(
             'design/head/shortcut_icon',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        $path = $folderName . '/' . $storeConfig;
+        $path = $folderName . '/' . $scopeConfig;
         $faviconFile = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $path;
 
-        if (!is_null($storeConfig) && $this->_isFile($path)) {
+        if (!is_null($scopeConfig) && $this->_isFile($path)) {
             $url = $faviconFile;
         } else {
             $url = $this->getViewFileUrl('Magento_Theme::favicon.ico');

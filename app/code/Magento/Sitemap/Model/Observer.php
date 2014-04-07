@@ -46,7 +46,7 @@ class Observer
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory
@@ -69,20 +69,20 @@ class Observer
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param Resource\Sitemap\CollectionFactory $collectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_collectionFactory = $collectionFactory;
         $this->_storeManager = $storeManager;
         $this->_transportBuilder = $transportBuilder;
@@ -100,7 +100,7 @@ class Observer
         $errors = array();
 
         // check if scheduled generation enabled
-        if (!$this->_storeConfig->isSetFlag(
+        if (!$this->_scopeConfig->isSetFlag(
             self::XML_PATH_GENERATION_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )
@@ -120,7 +120,7 @@ class Observer
             }
         }
 
-        if ($errors && $this->_storeConfig->getValue(
+        if ($errors && $this->_scopeConfig->getValue(
             self::XML_PATH_ERROR_RECIPIENT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )
@@ -129,7 +129,7 @@ class Observer
             $this->_translateModel->setTranslateInline(false);
 
             $this->_transportBuilder->setTemplateIdentifier(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_TEMPLATE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
@@ -141,12 +141,12 @@ class Observer
             )->setTemplateVars(
                 array('warnings' => join("\n", $errors))
             )->setFrom(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_IDENTITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )->addTo(
-                $this->_storeConfig->getValue(
+                $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_RECIPIENT,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )

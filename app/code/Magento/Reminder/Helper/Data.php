@@ -27,17 +27,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -48,7 +48,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool)$this->_scopeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -58,7 +58,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getOneRunLimit()
     {
-        return (int)$this->_storeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -68,7 +68,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getEmailIdentity()
     {
-        return (string)$this->_storeConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (string)$this->_scopeConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -78,6 +78,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getSendFailureThreshold()
     {
-        return (int)$this->_storeConfig->getValue(self::XML_PATH_EMAIL_THRESHOLD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_EMAIL_THRESHOLD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

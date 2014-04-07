@@ -51,7 +51,7 @@ class Observer
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Reward history collection
@@ -89,7 +89,7 @@ class Observer
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory
      * @param \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory
@@ -103,7 +103,7 @@ class Observer
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Logger $logger,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,
@@ -116,7 +116,7 @@ class Observer
         $this->_rewardFactory = $rewardFactory;
         $this->_logger = $logger;
         $this->_invitationFactory = $invitationFactory;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_historyCollectionFactory = $historyCollectionFactory;
         $this->_historyItemFactory = $historyItemFactory;
         $this->_rewardResourceFactory = $rewardResourceFactory;
@@ -577,7 +577,7 @@ class Observer
             )->setWebsiteId(
                 $quote->getStore()->getWebsiteId()
             )->loadByCustomer();
-            $minPointsBalance = (int)$this->_storeConfig->getValue(
+            $minPointsBalance = (int)$this->_scopeConfig->getValue(
                 \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $quote->getStoreId()

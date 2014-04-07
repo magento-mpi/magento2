@@ -19,7 +19,7 @@ class Order extends \Magento\App\Helper\AbstractHelper
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -28,15 +28,15 @@ class Order extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_orderFactory = $orderFactory;
         parent::__construct($context);
     }
@@ -48,7 +48,7 @@ class Order extends \Magento\App\Helper\AbstractHelper
      */
     public function isStatusNotificationAllow()
     {
-        if ($this->_storeConfig->getValue('rss/order/status_notified', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->_scopeConfig->getValue('rss/order/status_notified', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return true;
         }
         return false;

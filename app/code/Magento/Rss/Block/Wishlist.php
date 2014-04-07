@@ -116,7 +116,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 array('code' => $this->_getWishlist()->getSharingCode())
             );
             $title = $this->_getTitle();
-            $lang = $this->_storeConfig->getValue(
+            $lang = $this->_scopeConfig->getValue(
                 'general/locale/code',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );

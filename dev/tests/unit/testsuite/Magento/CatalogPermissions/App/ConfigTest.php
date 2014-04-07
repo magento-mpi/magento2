@@ -19,8 +19,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testMethods($method, $configMethod, $path, $value, $configValue)
     {
-        $storeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
-        $storeConfigMock->expects(
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfigMock->expects(
             $this->once()
         )->method(
             $configMethod
@@ -31,7 +31,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($configValue)
         );
-        $model = new Config($storeConfigMock);
+        $model = new Config($scopeConfigMock);
         $this->assertEquals($value, $model->{$method}());
     }
 

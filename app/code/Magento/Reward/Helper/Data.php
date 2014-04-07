@@ -99,7 +99,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
@@ -119,7 +119,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
@@ -127,13 +127,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_config = $config;
         $this->_localeCurrency = $localeCurrency;
         $this->_ratesFactory = $ratesFactory;
@@ -169,7 +169,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -299,7 +299,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = $this->_storeConfig->getValue(self::XML_PATH_LANDING_PAGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $pageIdentifier = $this->_scopeConfig->getValue(self::XML_PATH_LANDING_PAGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         return $this->_urlBuilder->getUrl('', array('_direct' => $pageIdentifier));
     }
 
@@ -452,6 +452,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAutoRefundEnabled()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_AUTO_REFUND, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_AUTO_REFUND, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

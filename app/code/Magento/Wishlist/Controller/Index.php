@@ -760,11 +760,11 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $sharingCode = $wishlist->getSharingCode();
 
             try {
-                $storeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
+                $scopeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 foreach ($emails as $email) {
                     $transport = $this->_transportBuilder->setTemplateIdentifier(
-                        $storeConfig->getValue(
+                        $scopeConfig->getValue(
                             'wishlist/email/email_template',
                             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                         )
@@ -785,7 +785,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                             'store' => $storeManager->getStore()
                         )
                     )->setFrom(
-                        $storeConfig->getValue(
+                        $scopeConfig->getValue(
                             'wishlist/email/email_identity',
                             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                         )

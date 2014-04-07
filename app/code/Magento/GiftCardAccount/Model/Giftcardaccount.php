@@ -88,7 +88,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Core date
@@ -151,7 +151,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
@@ -169,7 +169,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
@@ -185,7 +185,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_giftCardAccountData = $giftCardAccountData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_transportBuilder = $transportBuilder;
         $this->_customerBalance = $customerBalance;
         $this->_coreDate = $coreDate;
@@ -632,7 +632,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
         $balance = $this->_localeCurrency->getCurrency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 'giftcard/giftcardaccount_email/template',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -648,7 +648,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
                 'store_name' => $recipientStore->getName()
             )
         )->setFrom(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 'giftcard/giftcardaccount_email/identity',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId

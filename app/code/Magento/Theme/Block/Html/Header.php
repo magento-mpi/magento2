@@ -90,7 +90,7 @@ class Header extends \Magento\View\Element\Template
     public function getLogoAlt()
     {
         if (empty($this->_data['logo_alt'])) {
-            $this->_data['logo_alt'] = $this->_storeConfig->getValue(
+            $this->_data['logo_alt'] = $this->_scopeConfig->getValue(
                 'design/header/logo_alt',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -112,7 +112,7 @@ class Header extends \Magento\View\Element\Template
                     $this->escapeHtml($this->_customerSession->getCustomer()->getName())
                 );
             } else {
-                $this->_data['welcome'] = $this->_storeConfig->getValue(
+                $this->_data['welcome'] = $this->_scopeConfig->getValue(
                     'design/header/welcome',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
@@ -129,7 +129,7 @@ class Header extends \Magento\View\Element\Template
     protected function _getLogoUrl()
     {
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Logo::UPLOAD_DIR;
-        $storeLogoPath = $this->_storeConfig->getValue(
+        $storeLogoPath = $this->_scopeConfig->getValue(
             'design/header/logo_src',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

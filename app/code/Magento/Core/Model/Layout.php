@@ -167,7 +167,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Logger $logger
@@ -211,7 +211,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\View\Layout\Argument\Parser $argumentParser
      * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
      * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param string $area
@@ -228,14 +228,14 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\View\Layout\Argument\Parser $argumentParser,
         \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_appState = $appState;
@@ -821,7 +821,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
 
         $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath) && !$this->_storeConfig->isSetFlag($configPath, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if (!empty($configPath) && !$this->_scopeConfig->isSetFlag($configPath, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
         }
@@ -921,7 +921,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !$this->_storeConfig->isSetFlag($configPath, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($configPath && !$this->_scopeConfig->isSetFlag($configPath, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return;
         }
 

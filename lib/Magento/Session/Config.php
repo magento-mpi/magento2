@@ -68,7 +68,7 @@ class Config implements ConfigInterface
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Stdlib\String
@@ -108,7 +108,7 @@ class Config implements ConfigInterface
     protected $_scopeType;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
@@ -119,7 +119,7 @@ class Config implements ConfigInterface
      * @param null|string $cacheLimiter
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
@@ -129,7 +129,7 @@ class Config implements ConfigInterface
         $savePath = null,
         $cacheLimiter = null
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_stringHelper = $stringHelper;
         $this->_httpRequest = $request;
         $this->_appState = $appState;
@@ -147,22 +147,22 @@ class Config implements ConfigInterface
             $this->setOption('session.cache_limiter', $cacheLimiter);
         }
 
-        $lifetime = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_LIFETIME, $this->_scopeType);
+        $lifetime = $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_LIFETIME, $this->_scopeType);
         $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
         $this->setCookieLifetime($lifetime);
 
-        $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, $this->_scopeType);
+        $path = $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_PATH, $this->_scopeType);
         if (empty($path)) {
             $path = $this->_httpRequest->getBasePath();
         }
         $this->setCookiePath($path);
 
-        $domain = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_DOMAIN, $this->_scopeType);
+        $domain = $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_DOMAIN, $this->_scopeType);
         $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
         $this->setCookieDomain((string)$domain);
 
         $this->setCookieHttpOnly(
-            $this->_storeConfig->getValue(self::XML_PATH_COOKIE_HTTPONLY, $this->_scopeType)
+            $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_HTTPONLY, $this->_scopeType)
         );
     }
 
@@ -373,7 +373,7 @@ class Config implements ConfigInterface
     public function getCookiePath()
     {
         if (!$this->hasOption('session.cookie_path')) {
-            $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, $this->_scopeType);
+            $path = $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_PATH, $this->_scopeType);
             if (empty($path)) {
                 $path = $this->_httpRequest->getBasePath();
             }

@@ -35,7 +35,7 @@ class Observer
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Store manager
@@ -49,18 +49,18 @@ class Observer
      *
      * @param \Magento\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Config\Storage\WriterInterface $configWriter,
         \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_configWriter = $configWriter;
         $this->_configCacheType = $configCacheType;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
     }
 
@@ -138,7 +138,7 @@ class Observer
         if (!$method->getCode()) {
             return null;
         }
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             "payment/{$method->getCode()}/{$key}",
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId

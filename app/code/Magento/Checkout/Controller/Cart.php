@@ -19,7 +19,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Checkout\Model\Session
@@ -43,7 +43,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
@@ -51,14 +51,14 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         CustomerCart $cart
     ) {
         $this->_formKeyValidator = $formKeyValidator;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
         $this->cart = $cart;
@@ -76,7 +76,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
         if ($returnUrl && $this->_isInternalUrl($returnUrl)) {
             $this->messageManager->getMessages()->clear();
             $this->getResponse()->setRedirect($returnUrl);
-        } elseif (!$this->_storeConfig->getValue(
+        } elseif (!$this->_scopeConfig->getValue(
             'checkout/cart/redirect_to_cart',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && !$this->getRequest()->getParam(
@@ -137,16 +137,16 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
                 )->getCurrency(
                     $currencyCode
                 )->toCurrency(
-                    $this->_storeConfig->getValue(
+                    $this->_scopeConfig->getValue(
                         'sales/minimum_order/amount',
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )
                 );
 
-                $warning = $this->_storeConfig->getValue(
+                $warning = $this->_scopeConfig->getValue(
                     'sales/minimum_order/description',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                ) ? $this->_storeConfig->getValue(
+                ) ? $this->_scopeConfig->getValue(
                     'sales/minimum_order/description',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 ) : __(

@@ -93,7 +93,7 @@ class Popup extends \Magento\View\Element\Template
      */
     public function getContactUsEnabled()
     {
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             'contacts/contacts/enabled',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -104,7 +104,7 @@ class Popup extends \Magento\View\Element\Template
      */
     public function getStoreSupportEmail()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             'trans_email/ident_support/email',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

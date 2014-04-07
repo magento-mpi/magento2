@@ -214,7 +214,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getStoreCreateDateTimezone()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             $this->_localeDate->getDefaultTimezonePath(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getCustomer()->getStoreId()
@@ -253,7 +253,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getStoreLastLoginDateTimezone()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             $this->_localeDate->getDefaultTimezonePath(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getCustomer()->getStoreId()

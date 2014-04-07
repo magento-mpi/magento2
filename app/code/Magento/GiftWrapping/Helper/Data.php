@@ -58,7 +58,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -72,17 +72,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\Calculation $taxCalculation
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_taxCalculation = $taxCalculation;
         parent::__construct($context);
@@ -112,7 +112,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isGiftWrappingAvailableForItems($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_ALLOWED_FOR_ITEMS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isGiftWrappingAvailableForOrder($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_ALLOWED_FOR_ORDER,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -142,7 +142,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getWrappingTaxClass($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_TAX_CLASS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -157,7 +157,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function allowPrintedCard($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_ALLOW_PRINTED_CARD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -172,7 +172,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function allowGiftReceipt($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_ALLOW_GIFT_RECEIPT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -187,7 +187,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPrintedCardPrice($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_PRINTED_CARD_PRICE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -202,7 +202,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartWrappingIncludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -219,7 +219,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartWrappingExcludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -235,7 +235,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartWrappingBothPrices($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -251,7 +251,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartCardIncludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -268,7 +268,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displayCartCardBothPrices($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -284,7 +284,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesWrappingIncludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -301,7 +301,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesWrappingExcludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -317,7 +317,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesWrappingBothPrices($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -333,7 +333,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesCardIncludeTaxPrice($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -350,7 +350,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function displaySalesCardBothPrices($store = null)
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store

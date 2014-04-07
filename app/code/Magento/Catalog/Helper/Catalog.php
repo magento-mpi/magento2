@@ -47,19 +47,19 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -115,8 +115,8 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
     public function getSitemapValidPaths()
     {
         return array_merge(
-            $this->_storeConfig->getValue(self::XML_PATH_SITEMAP_VALID_PATHS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-            $this->_storeConfig->getValue(self::XML_PATH_PUBLIC_FILES_VALID_PATHS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            $this->_scopeConfig->getValue(self::XML_PATH_SITEMAP_VALID_PATHS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
+            $this->_scopeConfig->getValue(self::XML_PATH_PUBLIC_FILES_VALID_PATHS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
         );
     }
 }

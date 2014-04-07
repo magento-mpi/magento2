@@ -451,7 +451,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getConfigValue($path)
     {
-        return $this->_storeConfig->getValue($path, $this->getScope(), $this->getScopeCode());
+        return $this->_scopeConfig->getValue($path, $this->getScope(), $this->getScopeCode());
     }
 
     /**

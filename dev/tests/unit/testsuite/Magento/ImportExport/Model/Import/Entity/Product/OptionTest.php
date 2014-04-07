@@ -224,7 +224,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
         $catalogDataMock = $this->getMock('Magento\Catalog\Helper\Data', array('__construct'), array(), '', false);
 
-        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\Product\Option(
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
@@ -247,7 +247,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
                 false
             ),
             $catalogDataMock,
-            $coreStoreConfig,
+            $scopeConfig,
             new \Magento\Stdlib\DateTime(),
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );

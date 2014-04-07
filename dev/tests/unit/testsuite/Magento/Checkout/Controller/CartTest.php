@@ -92,7 +92,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             'response' => $responseMock,
             'request' => $requestMock,
             'checkoutSession' => $checkoutSessionMock,
-            'storeConfig' => $configMock,
+            'scopeConfig' => $configMock,
             'redirect' => $redirect,
             'storeManager' => $storeManagerMock
         );

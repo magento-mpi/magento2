@@ -32,12 +32,12 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $string = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false);
         $config = $this->getMock('Magento\Ogone\Model\Config', array(), array(), '', false);
         $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $loggerFactory = $this->getMock('\Magento\Logger\AdapterFactory', array(), array(), '', false);
         $object = new \Magento\Ogone\Model\Api(
             $eventManager,
             $paymentDataMock,
-            $coreStoreConfig,
+            $scopeConfig,
             $loggerFactory,
             $storeManager,
             $localeResolver,

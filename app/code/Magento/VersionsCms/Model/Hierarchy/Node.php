@@ -108,7 +108,7 @@ class Node extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Cms hierarchy
@@ -137,7 +137,7 @@ class Node extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Store\Model\System\Store $systemStore
@@ -150,7 +150,7 @@ class Node extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Store\Model\System\Store $systemStore,
@@ -160,7 +160,7 @@ class Node extends \Magento\Model\AbstractModel
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
         $this->_hierarchyConfig = $hierarchyConfig;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         $this->_nodeFactory = $nodeFactory;
@@ -780,7 +780,7 @@ class Node extends \Magento\Model\AbstractModel
         }
         $layoutName = $rootParams['menu_layout'];
         if (!$layoutName) {
-            $layoutName = $this->_storeConfig->getValue('cms/hierarchy/menu_layout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $layoutName = $this->_scopeConfig->getValue('cms/hierarchy/menu_layout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         if (!$layoutName) {
             return null;

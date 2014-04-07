@@ -112,7 +112,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getValue(
+        if ($name = $this->_scopeConfig->getValue(
             'carriers/' . $carrierCode . '/title',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )

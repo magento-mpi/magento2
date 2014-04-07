@@ -67,7 +67,7 @@ class Config extends \Magento\Object
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var array
@@ -87,7 +87,7 @@ class Config extends \Magento\Object
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $windowSize
      * @param array $data
      */
@@ -99,14 +99,14 @@ class Config extends \Magento\Object
         \Magento\View\Url $viewUrl,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $windowSize = array(),
         array $data = array()
     ) {
         $this->_backendUrl = $backendUrl;
         $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
@@ -204,7 +204,7 @@ class Config extends \Magento\Object
      */
     public function isEnabled()
     {
-        $wysiwygState = $this->_storeConfig->getValue('cms/wysiwyg/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStoreId());
+        $wysiwygState = $this->_scopeConfig->getValue('cms/wysiwyg/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStoreId());
         return in_array($wysiwygState, array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
     }
 
@@ -215,6 +215,6 @@ class Config extends \Magento\Object
      */
     public function isHidden()
     {
-        return $this->_storeConfig->getValue('cms/wysiwyg/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == self::WYSIWYG_HIDDEN;
+        return $this->_scopeConfig->getValue('cms/wysiwyg/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == self::WYSIWYG_HIDDEN;
     }
 }

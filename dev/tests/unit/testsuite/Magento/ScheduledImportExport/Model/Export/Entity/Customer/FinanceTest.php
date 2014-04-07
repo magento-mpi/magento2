@@ -55,7 +55,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $customerCollectionFactory = $this->getMock(
             'Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory',
             array(),
@@ -84,7 +84,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance(
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false, false),
             $this->getMock(

@@ -196,7 +196,7 @@ class Quote extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -288,7 +288,7 @@ class Quote extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
@@ -314,7 +314,7 @@ class Quote extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
@@ -337,7 +337,7 @@ class Quote extends \Magento\Model\AbstractModel
     ) {
         $this->_salesData = $salesData;
         $this->_catalogProduct = $catalogProduct;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_quoteAddressFactory = $quoteAddressFactory;
@@ -1998,17 +1998,17 @@ class Quote extends \Magento\Model\AbstractModel
     public function validateMinimumAmount($multishipping = false)
     {
         $storeId = $this->getStoreId();
-        $minOrderActive = $this->_storeConfig->isSetFlag(
+        $minOrderActive = $this->_scopeConfig->isSetFlag(
             'sales/minimum_order/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
-        $minOrderMulti = $this->_storeConfig->isSetFlag(
+        $minOrderMulti = $this->_scopeConfig->isSetFlag(
             'sales/minimum_order/multi_address',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
-        $minAmount = $this->_storeConfig->getValue(
+        $minAmount = $this->_scopeConfig->getValue(
             'sales/minimum_order/amount',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId

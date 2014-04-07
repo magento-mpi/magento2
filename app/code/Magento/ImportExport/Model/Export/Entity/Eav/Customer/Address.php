@@ -113,7 +113,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
     protected $_customers = array();
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
@@ -125,7 +125,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
@@ -137,7 +137,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
         array $data = array()
     ) {
         parent::__construct(
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
             $collectionFactory,
             $resourceColFactory,

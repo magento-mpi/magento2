@@ -55,7 +55,7 @@ class Observer
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Mail\Template\TransportBuilder
@@ -80,20 +80,20 @@ class Observer
     /**
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Filesystem $filesystem
     ) {
         $this->_operationFactory = $operationFactory;
         $this->_transportBuilder = $transportBuilder;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
     }
@@ -108,10 +108,10 @@ class Observer
     public function scheduledLogClean($schedule, $forceRun = false)
     {
         $result = false;
-        if (!$this->_storeConfig->getValue(
+        if (!$this->_scopeConfig->getValue(
             self::CRON_STRING_PATH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) && (!$forceRun || !$this->_storeConfig->getValue(
+        ) && (!$forceRun || !$this->_scopeConfig->getValue(
             self::LOG_CLEANING_ENABLE_PATH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ))
@@ -131,7 +131,7 @@ class Observer
             if (!$this->_logDirectory->isWritable($logPath)) {
                 throw new \Magento\Model\Exception(__('The directory "%1" is not writable.', $logPath));
             }
-            $saveTime = (int)$this->_storeConfig->getValue(
+            $saveTime = (int)$this->_scopeConfig->getValue(
                 self::SAVE_LOG_TIME_PATH,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             ) + 1;
@@ -214,7 +214,7 @@ class Observer
     protected function _sendEmailNotification($vars)
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $receiverEmail = $this->_storeConfig->getValue(
+        $receiverEmail = $this->_scopeConfig->getValue(
             self::XML_RECEIVER_EMAIL_PATH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
@@ -226,7 +226,7 @@ class Observer
         // Set all required params and send emails
         /** @var \Magento\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 self::XML_TEMPLATE_EMAIL_PATH,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -236,7 +236,7 @@ class Observer
         )->setTemplateVars(
             $vars
         )->setFrom(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 self::XML_SENDER_EMAIL_PATH,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId

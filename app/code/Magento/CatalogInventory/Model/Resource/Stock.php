@@ -75,7 +75,7 @@ class Stock extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Stock model factory
@@ -94,20 +94,20 @@ class Stock extends \Magento\Model\Resource\Db\AbstractDb
      * 
      * @param \Magento\App\Resource $resource
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\CatalogInventory\Model\StockFactory $stockFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CatalogInventory\Model\StockFactory $stockFactory,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_catalogInventoryData = $catalogInventoryData;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_stockFactory = $stockFactory;
         $this->dateTime = $dateTime;
     }
@@ -224,7 +224,7 @@ class Stock extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function setInStockFilterToCollection($collection)
     {
-        $manageStock = $this->_storeConfig->getValue(
+        $manageStock = $this->_scopeConfig->getValue(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -265,7 +265,7 @@ class Stock extends \Magento\Model\Resource\Db\AbstractDb
             );
 
             foreach ($configMap as $field => $const) {
-                $this->{$field} = (int)$this->_storeConfig->getValue(
+                $this->{$field} = (int)$this->_scopeConfig->getValue(
                     $const,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );

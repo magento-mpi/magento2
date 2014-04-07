@@ -72,7 +72,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /** @var \Magento\App\Config\ScopeConfigInterface */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
     protected $_customerMetadataService;
@@ -84,7 +84,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      */
@@ -92,13 +92,13 @@ class Address extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
         \Magento\Customer\Model\Address\Config $addressConfig
     ) {
         $this->_blockFactory = $blockFactory;
         $this->_storeManager = $storeManager;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context);
@@ -159,7 +159,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
         $store = $this->_storeManager->getStore($store);
         $websiteId = $store->getWebsiteId();
         if (!isset($this->_config[$websiteId])) {
-            $this->_config[$websiteId] = $this->_storeConfig->getValue(
+            $this->_config[$websiteId] = $this->_scopeConfig->getValue(
                 'customer/address',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
@@ -308,7 +308,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isVatValidationEnabled($store = null)
     {
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             self::XML_PATH_VAT_VALIDATION_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -322,7 +322,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isDisableAutoGroupAssignDefaultValue()
     {
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -336,7 +336,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function hasValidateOnEachTransaction($store = null)
     {
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             self::XML_PATH_VIV_ON_EACH_TRANSACTION,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -351,7 +351,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function getTaxCalculationAddressType($store = null)
     {
-        return (string)$this->_storeConfig->getValue(
+        return (string)$this->_scopeConfig->getValue(
             self::XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -365,7 +365,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isVatAttributeVisible()
     {
-        return (bool)$this->_storeConfig->getValue(
+        return (bool)$this->_scopeConfig->getValue(
             self::XML_PATH_VAT_FRONTEND_VISIBILITY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

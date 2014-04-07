@@ -27,7 +27,7 @@ class Shipment extends AbstractPdf
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\Filesystem $filesystem
      * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
@@ -43,7 +43,7 @@ class Shipment extends AbstractPdf
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\Filesystem $filesystem,
         Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
@@ -59,7 +59,7 @@ class Shipment extends AbstractPdf
         parent::__construct(
             $paymentData,
             $string,
-            $coreStoreConfig,
+            $scopeConfig,
             $filesystem,
             $pdfConfig,
             $pdfTotalFactory,
@@ -131,7 +131,7 @@ class Shipment extends AbstractPdf
             $this->insertOrder(
                 $page,
                 $shipment,
-                $this->_storeConfig->isSetFlag(
+                $this->_scopeConfig->isSetFlag(
                     self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $order->getStoreId()

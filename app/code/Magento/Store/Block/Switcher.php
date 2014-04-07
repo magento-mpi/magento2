@@ -95,7 +95,7 @@ class Switcher extends \Magento\View\Element\Template
                 if (!$store->getIsActive()) {
                     continue;
                 }
-                $localeCode = $this->_storeConfig->getValue(
+                $localeCode = $this->_scopeConfig->getValue(
                     'general/locale/code',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
@@ -127,7 +127,7 @@ class Switcher extends \Magento\View\Element\Template
             $rawStores = $this->getRawStores();
 
             $groups = array();
-            $localeCode = $this->_storeConfig->getValue(
+            $localeCode = $this->_scopeConfig->getValue(
                 'general/locale/code',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );

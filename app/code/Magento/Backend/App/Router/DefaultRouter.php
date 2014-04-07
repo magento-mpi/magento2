@@ -43,7 +43,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      * @param \Magento\App\State $appState
      * @param \Magento\UrlInterface $url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
@@ -60,7 +60,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
         \Magento\Code\NameBuilder $nameBuilder,
@@ -75,7 +75,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
             $appState,
             $url,
             $storeManager,
-            $storeConfig,
+            $scopeConfig,
             $urlSecurityInfo,
             $routerId,
             $nameBuilder

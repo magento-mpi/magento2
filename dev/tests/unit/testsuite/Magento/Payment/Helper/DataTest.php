@@ -14,7 +14,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**  @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**  @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_methodFactory;
@@ -22,7 +22,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $context                = $this->getMock('Magento\App\Helper\Context', [], [], '', false);
-        $this->_coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface', [], [], '', false);
+        $this->_scopeConfig     = $this->getMock('Magento\App\Config\ScopeConfigInterface', [], [], '', false);
         $layout                 = $this->getMock('Magento\View\LayoutInterface', [], [], '', false);
         $this->_methodFactory   = $this->getMock('Magento\Payment\Model\Method\Factory', [], [], '', false);
         $appEmulation           = $this->getMock('Magento\Core\Model\App\Emulation', [], [], '', false);
@@ -31,7 +31,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_helper = new \Magento\Payment\Helper\Data(
             $context,
-            $this->_coreStoreConfig,
+            $this->_scopeConfig,
             $layout,
             $this->_methodFactory,
             $appEmulation,
@@ -48,7 +48,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodInstance($code, $class, $methodInstance)
     {
-        $this->_coreStoreConfig->expects(
+        $this->_scopeConfig->expects(
             $this->once()
         )->method(
             'getValue'

@@ -55,7 +55,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('processed text')
         );
 
-        $storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $templateFactory = $this->getMock('Magento\Newsletter\Model\TemplateFactory');
         $data = array('template_text' => 'template text');
 
@@ -73,7 +73,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $storeManager,
                 $request,
                 $filter,
-                $storeConfig,
+                $scopeConfig,
                 $templateFactory,
                 $filterManager,
                 $data

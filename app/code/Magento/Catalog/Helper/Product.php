@@ -76,7 +76,7 @@ class Product extends \Magento\Core\Helper\Url
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
@@ -125,7 +125,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
      * @param \Magento\Catalog\Model\CategoryFactory $reindexPriceIndexerData
@@ -139,7 +139,7 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\View\Url $viewUrl,
         \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         $typeSwitcherLabel,
         $reindexPriceIndexerData
@@ -150,7 +150,7 @@ class Product extends \Magento\Core\Helper\Url
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
         $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
         $this->_logger = $context->getLogger();
@@ -333,7 +333,7 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = $this->_storeConfig->getValue(
+            $this->_productUrlSuffix[$storeId] = $this->_scopeConfig->getValue(
                 self::XML_PATH_PRODUCT_URL_SUFFIX,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -350,7 +350,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::XML_PATH_USE_PRODUCT_CANONICAL_TAG,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store

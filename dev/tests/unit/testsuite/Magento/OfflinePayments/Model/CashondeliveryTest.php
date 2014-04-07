@@ -25,13 +25,13 @@ class CashondeliveryTest extends \PHPUnit_Framework_TestCase
         $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
         $adapterFactoryMock = $this->getMock('Magento\Logger\AdapterFactory', array('create'), array(), '', false);
 
-        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_object = $helper->getObject(
             'Magento\OfflinePayments\Model\Cashondelivery',
             array(
                 'eventManager' => $eventManager,
                 'paymentData' => $paymentDataMock,
-                'coreStoreConfig' => $coreStoreConfig,
+                'scopeConfig' => $scopeConfig,
                 'logAdapterFactory' => $adapterFactoryMock
             )
         );

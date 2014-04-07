@@ -14,14 +14,14 @@ class QuoteItem
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $coreStoreConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -63,7 +63,7 @@ class QuoteItem
         $product = $quoteItem->getProduct();
         // set lifetime
         if ($product->getUseConfigLifetime()) {
-            $lifetime = $this->_storeConfig->getValue(
+            $lifetime = $this->_scopeConfig->getValue(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()
@@ -75,7 +75,7 @@ class QuoteItem
 
         // set is_redeemable
         if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = $this->_storeConfig->isSetFlag(
+            $isRedeemable = $this->_scopeConfig->isSetFlag(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()
@@ -87,7 +87,7 @@ class QuoteItem
 
         // set email_template
         if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = $this->_storeConfig->getValue(
+            $emailTemplate = $this->_scopeConfig->getValue(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()

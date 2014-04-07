@@ -699,7 +699,7 @@ class Pager extends \Magento\View\Element\Template
      */
     public function getAnchorTextForPrevious()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             'design/pagination/anchor_text_for_previous',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -712,7 +712,7 @@ class Pager extends \Magento\View\Element\Template
      */
     public function getAnchorTextForNext()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             'design/pagination/anchor_text_for_next',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

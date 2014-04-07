@@ -31,18 +31,18 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $coreStoreConfig = $this->getMockBuilder(
+        $scopeConfig = $this->getMockBuilder(
             '\Magento\App\Config\ScopeConfigInterface'
         )->setMethods(
             array('isSetFlag', 'getValue')
         )->disableOriginalConstructor()->getMock();
-        $coreStoreConfig->expects($this->any())->method('isSetFlag')->will($this->returnValue(true));
-        $coreStoreConfig->expects(
+        $scopeConfig->expects($this->any())->method('isSetFlag')->will($this->returnValue(true));
+        $scopeConfig->expects(
             $this->any()
         )->method(
             'getValue'
         )->will(
-            $this->returnCallback(array($this, 'coreStoreConfiggetValue'))
+            $this->returnCallback(array($this, 'scopeConfiggetValue'))
         );
 
         // xml element factory
@@ -115,7 +115,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $data = array('id' => 'usps', 'store' => '1');
 
         $arguments = array(
-            'coreStoreConfig' => $coreStoreConfig,
+            'scopeConfig' => $scopeConfig,
             'xmlElFactory' => $xmlElFactory,
             'rateFactory' => $rateFactory,
             'rateMethodFactory' => $rateMethodFactory,
@@ -174,7 +174,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      * @param $path
      * @return null|string
      */
-    public function coreStoreConfiggetValue($path)
+    public function scopeConfiggetValue($path)
     {
         switch ($path) {
             case 'carriers/usps/allowed_methods':

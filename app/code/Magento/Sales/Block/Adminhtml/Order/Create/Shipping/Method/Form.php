@@ -92,7 +92,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getValue(
+        if ($name = $this->_scopeConfig->getValue(
             'carriers/' . $carrierCode . '/title',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStore()->getId()

@@ -36,7 +36,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
@@ -54,7 +54,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\Filesystem $filesystem,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
@@ -75,7 +75,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         parent::__construct(
             $paymentData,
             $string,
-            $coreStoreConfig,
+            $scopeConfig,
             $filesystem,
             $pdfConfig,
             $pdfTotalFactory,

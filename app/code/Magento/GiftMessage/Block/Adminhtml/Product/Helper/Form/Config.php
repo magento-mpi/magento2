@@ -23,23 +23,23 @@ class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
     }
 
@@ -50,7 +50,7 @@ class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
      */
     protected function _getValueFromConfig()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             \Magento\GiftMessage\Helper\Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

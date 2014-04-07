@@ -16,7 +16,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Rss\Helper\WishlistRss
@@ -30,17 +30,17 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Rss\Helper\WishlistRss $wishlistHelper
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Rss\Helper\WishlistRss $wishlistHelper,
         \Magento\Customer\Model\Session $customerSession
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_wishlistHelper = $wishlistHelper;
         $this->_customerSession = $customerSession;
         parent::__construct($context);
@@ -54,7 +54,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        if ($this->_storeConfig->getValue('rss/config/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->_scopeConfig->getValue('rss/config/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->_view->loadLayout();
             $this->_view->renderLayout();
         } else {
@@ -91,7 +91,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function wishlistAction()
     {
-        if ($this->_storeConfig->getValue('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->_scopeConfig->getValue('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $wishlist = $this->_wishlistHelper->getWishlist();
             if ($wishlist && ($wishlist->getVisibility()
                 || $this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)

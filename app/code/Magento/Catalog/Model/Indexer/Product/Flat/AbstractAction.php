@@ -57,7 +57,7 @@ abstract class AbstractAction
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Suffix for drop table (uses on flat table rename)
@@ -121,7 +121,7 @@ abstract class AbstractAction
      * @param \Magento\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param Processor $flatProductProcessor
@@ -132,7 +132,7 @@ abstract class AbstractAction
         \Magento\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $flatProductProcessor,
@@ -142,7 +142,7 @@ abstract class AbstractAction
         $this->_resource = $resource;
         $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_productIndexerHelper = $productHelper;
         $this->_productType = $productType;
         $this->_connection = $resource->getConnection('default');

@@ -44,7 +44,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\App\Config\Storage\WriterInterface
      */
-    protected $_storeConfigWriter;
+    protected $_scopeConfigWriter;
 
     /**
      * @var \Magento\Theme\Model\Config
@@ -74,14 +74,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_configCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
-        $this->_storeConfigWriter = $this->getMock(
+        $this->_scopeConfigWriter = $this->getMock(
             'Magento\App\Config\Storage\WriterInterface',
             array('save', 'delete')
         );
 
         $this->_model = new \Magento\Theme\Model\Config(
             $this->_configData,
-            $this->_storeConfigWriter,
+            $this->_scopeConfigWriter,
             $this->_storeManagerMock,
             $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->_configCacheMock,
@@ -143,9 +143,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_themeMock->expects($this->any())->method('getId')->will($this->returnValue(6));
         $this->_themeMock->expects($this->any())->method('getThemePath')->will($this->returnValue($themePath));
 
-        $this->_storeConfigWriter->expects($this->once())->method('delete');
+        $this->_scopeConfigWriter->expects($this->once())->method('delete');
 
-        $this->_storeConfigWriter->expects($this->once())->method('save');
+        $this->_scopeConfigWriter->expects($this->once())->method('save');
 
         $this->_model->assignToStore($this->_themeMock, array(2, 3, 5));
     }
@@ -194,9 +194,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_themeMock->expects($this->any())->method('getId')->will($this->returnValue(6));
         $this->_themeMock->expects($this->any())->method('getThemePath')->will($this->returnValue($themePath));
 
-        $this->_storeConfigWriter->expects($this->once())->method('delete');
+        $this->_scopeConfigWriter->expects($this->once())->method('delete');
 
-        $this->_storeConfigWriter->expects($this->exactly(3))->method('save');
+        $this->_scopeConfigWriter->expects($this->exactly(3))->method('save');
 
         $this->_model->assignToStore($this->_themeMock, array(2, 3, 5));
     }

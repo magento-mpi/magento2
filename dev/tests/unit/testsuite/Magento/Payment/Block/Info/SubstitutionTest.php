@@ -41,12 +41,12 @@ class SubstitutionTest extends \PHPUnit_Framework_TestCase
             []
         )->getMock();
 
-        $storeConfig = $this->getMockBuilder(
+        $scopeConfig = $this->getMockBuilder(
             'Magento\App\Config\ScopeConfigInterface'
         )->disableOriginalConstructor()->setMethods(
             []
         )->getMock();
-        $storeConfig->expects(
+        $scopeConfig->expects(
             $this->any()
         )->method(
             'getValue'
@@ -90,7 +90,7 @@ class SubstitutionTest extends \PHPUnit_Framework_TestCase
             'getScopeConfig'
         )->will(
             $this->returnValue(
-                $storeConfig
+                $scopeConfig
             )
         );
 

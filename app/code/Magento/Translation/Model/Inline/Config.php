@@ -17,7 +17,7 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Core\Helper\Data
@@ -25,14 +25,14 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
     protected $_helper;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $helper
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $helper
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_helper = $helper;
     }
 
@@ -41,7 +41,7 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
      */
     public function isActive($scope = null)
     {
-        return $this->_storeConfig->isSetFlag(
+        return $this->_scopeConfig->isSetFlag(
             'dev/translate_inline/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $scope

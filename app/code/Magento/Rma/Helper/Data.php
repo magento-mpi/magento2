@@ -44,7 +44,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Country factory
@@ -143,7 +143,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -161,7 +161,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -177,7 +177,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Shipping\Helper\Carrier $carrierHelper
     ) {
         $this->_coreData = $coreData;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
         $this->_storeManager = $storeManager;
@@ -201,7 +201,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->isSetFlag(Rma::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(Rma::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -290,7 +290,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         if (!$format) {
             $path = sprintf('%s%s', \Magento\Customer\Model\Address\Config::XML_PATH_ADDRESS_TEMPLATE, $formatCode);
-            $format = $this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+            $format = $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         }
 
         return $this->_filterManager->template($format, array('variables' => $data));
@@ -305,7 +305,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getReturnContactName($storeId = null)
     {
         $contactName = new \Magento\Object();
-        if ($this->_storeConfig->isSetFlag(
+        if ($this->_scopeConfig->isSetFlag(
             Rma::XML_PATH_USE_STORE_ADDRESS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
@@ -316,7 +316,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());
         } else {
-            $name = $this->_storeConfig->getValue(
+            $name = $this->_scopeConfig->getValue(
                 Shipping::XML_PATH_CONTACT_NAME,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -356,39 +356,39 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $store = $this->_storeManager->getStore();
         }
 
-        if ($this->_storeConfig->isSetFlag(
+        if ($this->_scopeConfig->isSetFlag(
             Rma::XML_PATH_USE_STORE_ADDRESS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         )
         ) {
             $data = array(
-                'city' => $this->_storeConfig->getValue(
+                'city' => $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'countryId' => $this->_storeConfig->getValue(
+                'countryId' => $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'postcode' => $this->_storeConfig->getValue(
+                'postcode' => $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'region_id' => $this->_storeConfig->getValue(
+                'region_id' => $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'street2' => $this->_storeConfig->getValue(
+                'street2' => $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'street1' => $this->_storeConfig->getValue(
+                'street1' => $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
@@ -396,32 +396,32 @@ class Data extends \Magento\App\Helper\AbstractHelper
             );
         } else {
             $data = array(
-                'city' => $this->_storeConfig->getValue(
+                'city' => $this->_scopeConfig->getValue(
                     Shipping::XML_PATH_CITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'countryId' => $this->_storeConfig->getValue(
+                'countryId' => $this->_scopeConfig->getValue(
                     Shipping::XML_PATH_COUNTRY_ID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'postcode' => $this->_storeConfig->getValue(
+                'postcode' => $this->_scopeConfig->getValue(
                     Shipping::XML_PATH_ZIP,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'region_id' => $this->_storeConfig->getValue(
+                'region_id' => $this->_scopeConfig->getValue(
                     Shipping::XML_PATH_REGION_ID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'street2' => $this->_storeConfig->getValue(
+                'street2' => $this->_scopeConfig->getValue(
                     Shipping::XML_PATH_ADDRESS2,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 ),
-                'street1' => $this->_storeConfig->getValue(
+                'street1' => $this->_scopeConfig->getValue(
                     Shipping::XML_PATH_ADDRESS1,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
@@ -435,12 +435,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $region = $this->_regionFactory->create()->load($data['region_id']);
         $data['region_id'] = $region->getCode();
         $data['region'] = $region->getName();
-        $data['company'] = $this->_storeConfig->getValue(
+        $data['company'] = $this->_scopeConfig->getValue(
             \Magento\Store\Model\Store::XML_PATH_STORE_STORE_NAME,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        $data['telephone'] = $this->_storeConfig->getValue(
+        $data['telephone'] = $this->_scopeConfig->getValue(
             \Magento\Store\Model\Store::XML_PATH_STORE_STORE_PHONE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -613,7 +613,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 return false;
             default:
                 //Use config and NULL
-                return $this->_storeConfig->getValue(
+                return $this->_scopeConfig->getValue(
                     \Magento\Rma\Model\Product\Source::XML_PATH_PRODUCTS_ALLOWED,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $storeId

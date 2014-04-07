@@ -128,10 +128,10 @@ class Index extends \Magento\App\Action\Action
                     throw new \Exception();
                 }
 
-                $storeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
+                $scopeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 $transport = $this->_transportBuilder->setTemplateIdentifier(
-                    $storeConfig->getValue(
+                    $scopeConfig->getValue(
                         self::XML_PATH_EMAIL_TEMPLATE,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )
@@ -143,12 +143,12 @@ class Index extends \Magento\App\Action\Action
                 )->setTemplateVars(
                     array('data' => $postObject)
                 )->setFrom(
-                    $storeConfig->getValue(
+                    $scopeConfig->getValue(
                         self::XML_PATH_EMAIL_SENDER,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )
                 )->addTo(
-                    $storeConfig->getValue(
+                    $scopeConfig->getValue(
                         self::XML_PATH_EMAIL_RECIPIENT,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )

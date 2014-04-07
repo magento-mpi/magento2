@@ -19,14 +19,14 @@ class Config implements ConfigInterface
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $coreStoreConfig;
+    protected $scopeConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $coreStoreConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->coreStoreConfig = $coreStoreConfig;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -37,7 +37,7 @@ class Config implements ConfigInterface
      */
     public function isEnabled($store = null)
     {
-        return $this->coreStoreConfig->isSetFlag(
+        return $this->scopeConfig->isSetFlag(
             ConfigInterface::XML_PATH_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -52,7 +52,7 @@ class Config implements ConfigInterface
      */
     public function getCatalogCategoryViewMode($store = null)
     {
-        return $this->coreStoreConfig->getValue(
+        return $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -67,7 +67,7 @@ class Config implements ConfigInterface
      */
     public function getCatalogCategoryViewGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getValue(
+        $groups = $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -83,7 +83,7 @@ class Config implements ConfigInterface
      */
     public function getCatalogProductPriceMode($store = null)
     {
-        return $this->coreStoreConfig->getValue(
+        return $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -98,7 +98,7 @@ class Config implements ConfigInterface
      */
     public function getCatalogProductPriceGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getValue(
+        $groups = $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -114,7 +114,7 @@ class Config implements ConfigInterface
      */
     public function getCheckoutItemsMode($store = null)
     {
-        return $this->coreStoreConfig->getValue(
+        return $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -129,7 +129,7 @@ class Config implements ConfigInterface
      */
     public function getCheckoutItemsGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getValue(
+        $groups = $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -145,7 +145,7 @@ class Config implements ConfigInterface
      */
     public function getCatalogSearchDenyGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getValue(
+        $groups = $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -161,7 +161,7 @@ class Config implements ConfigInterface
      */
     public function getRestrictedLandingPage($store = null)
     {
-        return $this->coreStoreConfig->getValue(
+        return $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_LANDING_PAGE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store

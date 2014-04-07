@@ -78,7 +78,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
@@ -90,7 +90,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,
@@ -99,7 +99,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data);
+        parent::__construct($coreData, $string, $scopeConfig, $importFactory, $resourceHelper, $resource, $data);
 
         $this->_storeManager = $storeManager;
         $this->_attributeCollection = isset(

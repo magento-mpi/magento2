@@ -313,7 +313,7 @@ class Template extends AbstractBlock
     protected function isAllowSymlinks()
     {
         if (null === $this->_allowSymlinks) {
-            $this->_allowSymlinks = $this->_storeConfig->isSetFlag(
+            $this->_allowSymlinks = $this->_scopeConfig->isSetFlag(
                 self::XML_PATH_TEMPLATE_ALLOW_SYMLINK,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );

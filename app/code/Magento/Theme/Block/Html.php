@@ -104,7 +104,7 @@ class Html extends \Magento\View\Element\Template
     public function getPrintLogoUrl()
     {
         // load html logo
-        $logo = $this->_storeConfig->getValue(
+        $logo = $this->_scopeConfig->getValue(
             'sales/identity/logo_html',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -114,7 +114,7 @@ class Html extends \Magento\View\Element\Template
 
         // load default logo
         if (empty($logo)) {
-            $logo = $this->_storeConfig->getValue(
+            $logo = $this->_scopeConfig->getValue(
                 'sales/identity/logo',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
@@ -145,7 +145,7 @@ class Html extends \Magento\View\Element\Template
      */
     public function getPrintLogoText()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             'sales/identity/address',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -216,7 +216,7 @@ class Html extends \Magento\View\Element\Template
      */
     public function getAbsoluteFooter()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             'design/footer/absolute_footer',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

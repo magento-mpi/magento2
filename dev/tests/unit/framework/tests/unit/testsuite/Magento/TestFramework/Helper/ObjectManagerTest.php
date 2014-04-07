@@ -25,7 +25,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         'cache' => 'Magento\App\CacheInterface',
         'design' => 'Magento\View\DesignInterface',
         'session' => 'Magento\Session\SessionManagerInterface',
-        'storeConfig' => 'Magento\App\Config\ScopeConfigInterface'
+        'scopeConfig' => 'Magento\App\Config\ScopeConfigInterface'
     );
 
     /**

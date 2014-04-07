@@ -19,7 +19,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     protected $_imageHelper;
 
     /** @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $productConfigMock;
@@ -39,7 +39,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->productConfigMock = $this->getMock(
             'Magento\Catalog\Helper\Product\Configuration',
             array(),
@@ -52,7 +52,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             array(
                 'viewConfig' => $this->_configManager,
                 'imageHelper' => $this->_imageHelper,
-                'scopeConfig' => $this->_storeConfig,
+                'scopeConfig' => $this->_scopeConfig,
                 'productConfig' => $this->productConfigMock
             )
         );
@@ -185,7 +185,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $thumbnailToBeUsed = $useParentThumbnail
             ? ThumbnailSource::OPTION_USE_PARENT_IMAGE
             : ThumbnailSource::OPTION_USE_OWN_IMAGE;
-        $this->_storeConfig->expects(
+        $this->_scopeConfig->expects(
             $this->any()
         )->method(
             'getValue'

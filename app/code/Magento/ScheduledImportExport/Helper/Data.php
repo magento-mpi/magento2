@@ -30,7 +30,7 @@ class Data extends \Magento\ImportExport\Helper\Data
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\File\Size $fileSize
@@ -40,7 +40,7 @@ class Data extends \Magento\ImportExport\Helper\Data
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\File\Size $fileSize,
@@ -50,7 +50,7 @@ class Data extends \Magento\ImportExport\Helper\Data
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $fileSize, $dbCompatibleMode);
+        parent::__construct($context, $scopeConfig, $storeManager, $appState, $fileSize, $dbCompatibleMode);
     }
 
     /**

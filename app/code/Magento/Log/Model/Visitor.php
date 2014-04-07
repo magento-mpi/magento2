@@ -44,7 +44,7 @@ class Visitor extends \Magento\Model\AbstractModel
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
@@ -96,7 +96,7 @@ class Visitor extends \Magento\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -115,7 +115,7 @@ class Visitor extends \Magento\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -131,7 +131,7 @@ class Visitor extends \Magento\Model\AbstractModel
         array $ignores = array(),
         array $data = array()
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;
         $this->_storeManager = $storeManager;
@@ -216,7 +216,7 @@ class Visitor extends \Magento\Model\AbstractModel
      */
     public function getOnlineMinutesInterval()
     {
-        $configValue = $this->_storeConfig->getValue(
+        $configValue = $this->_scopeConfig->getValue(
             'customer/online_customers/online_minutes_interval',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

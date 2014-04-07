@@ -13,14 +13,14 @@ namespace Magento\Integration\Helper\Oauth;
 class Data
 {
     /** @var \Magento\App\Config\ScopeConfigInterface */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $storeConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**#@+
@@ -65,7 +65,7 @@ class Data
     public function isCleanupProbability()
     {
         // Safe get cleanup probability value from system configuration
-        $configValue = (int)$this->_storeConfig->getValue(
+        $configValue = (int)$this->_scopeConfig->getValue(
             self::XML_PATH_CLEANUP_PROBABILITY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -79,7 +79,7 @@ class Data
      */
     public function getCleanupExpirationPeriod()
     {
-        $minutes = (int)$this->_storeConfig->getValue(
+        $minutes = (int)$this->_scopeConfig->getValue(
             self::XML_PATH_CLEANUP_EXPIRATION_PERIOD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -93,7 +93,7 @@ class Data
      */
     public function getConsumerExpirationPeriod()
     {
-        $seconds = (int)$this->_storeConfig->getValue(
+        $seconds = (int)$this->_scopeConfig->getValue(
             self::XML_PATH_CONSUMER_EXPIRATION_PERIOD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -107,7 +107,7 @@ class Data
      */
     public function getConsumerPostMaxRedirects()
     {
-        $redirects = (int)$this->_storeConfig->getValue(
+        $redirects = (int)$this->_scopeConfig->getValue(
             self::XML_PATH_CONSUMER_POST_MAXREDIRECTS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -121,7 +121,7 @@ class Data
      */
     public function getConsumerPostTimeout()
     {
-        $seconds = (int)$this->_storeConfig->getValue(
+        $seconds = (int)$this->_scopeConfig->getValue(
             self::XML_PATH_CONSUMER_POST_TIMEOUT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

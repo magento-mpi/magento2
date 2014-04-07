@@ -89,7 +89,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getValue'
         )->will(
-            $this->returnValue('storeConfig')
+            $this->returnValue('scopeConfig')
         );
 
         $mediaDirMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
@@ -98,7 +98,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
         )->method(
             'isFile'
         )->with(
-            'favicon/storeConfig'
+            'favicon/scopeConfig'
         )->will(
             $this->returnValue(true)
         );
@@ -110,6 +110,6 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($mediaDirMock)
         );
 
-        $this->assertEquals('baseUrl/favicon/storeConfig', $this->_block->getFaviconFile());
+        $this->assertEquals('baseUrl/favicon/scopeConfig', $this->_block->getFaviconFile());
     }
 }

@@ -37,7 +37,7 @@ class Observer
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Core event manager proxy
@@ -62,7 +62,7 @@ class Observer
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Session\Generic $session
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\App\ActionFlag $actionFlag
      */
@@ -72,7 +72,7 @@ class Observer
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Session\Generic $session,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\UrlFactory $urlFactory,
         \Magento\App\ActionFlag $actionFlag
     ) {
@@ -81,7 +81,7 @@ class Observer
         $this->_eventManager = $eventManager;
         $this->_customerHelper = $customerHelper;
         $this->_session = $session;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_urlFactory = $urlFactory;
         $this->_actionFlag = $actionFlag;
     }
@@ -171,7 +171,7 @@ class Observer
                         $response->setRedirect($redirectUrl);
                         $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
-                    if ($this->_storeConfig->isSetFlag(
+                    if ($this->_scopeConfig->isSetFlag(
                         \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )

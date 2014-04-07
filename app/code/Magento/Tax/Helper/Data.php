@@ -98,7 +98,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -129,7 +129,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -142,7 +142,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Model\Calculation $calculation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -152,7 +152,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
@@ -855,7 +855,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getTaxBasedOn($store = null)
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -870,7 +870,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function applyTaxOnCustomPrice($store = null)
     {
-        return (int)$this->_storeConfig->getValue(
+        return (int)$this->_scopeConfig->getValue(
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_APPLY_ON,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -885,7 +885,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function applyTaxOnOriginalPrice($store = null)
     {
-        return (int)$this->_storeConfig->getValue(
+        return (int)$this->_scopeConfig->getValue(
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_APPLY_ON,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -1037,7 +1037,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultCustomerTaxClass()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::CONFIG_DEFAULT_CUSTOMER_TAX_CLASS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -1050,7 +1050,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultProductTaxClass()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             self::CONFIG_DEFAULT_PRODUCT_TAX_CLASS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

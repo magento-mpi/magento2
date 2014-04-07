@@ -119,7 +119,7 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      */
     protected function _getVariation()
     {
-        return $this->_storeConfig->getValue(
+        return $this->_scopeConfig->getValue(
             'payment/pbridge/merchantcode',
             'default'
         ) . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();

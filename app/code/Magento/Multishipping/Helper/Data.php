@@ -26,7 +26,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $coreStoreConfig;
+    protected $scopeConfig;
 
     /**
      * Checkout session
@@ -39,15 +39,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Construct
      *
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {
-        $this->coreStoreConfig = $coreStoreConfig;
+        $this->scopeConfig = $scopeConfig;
         $this->checkoutSession = $checkoutSession;
         parent::__construct($context);
     }
@@ -69,7 +69,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaximumQty()
     {
-        return (int)$this->coreStoreConfig->getValue(self::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (int)$this->scopeConfig->getValue(self::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -81,7 +81,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isMultishippingCheckoutAvailable()
     {
         $quote = $this->getQuote();
-        $isMultiShipping = $this->coreStoreConfig->isSetFlag(self::XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $isMultiShipping = $this->scopeConfig->isSetFlag(self::XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if (!$quote || !$quote->hasItems()) {
             return $isMultiShipping;
         }

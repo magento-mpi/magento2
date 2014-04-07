@@ -17,7 +17,7 @@ class RouteParamsResolver extends \Magento\Object implements \Magento\Url\RouteP
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -31,21 +31,21 @@ class RouteParamsResolver extends \Magento\Object implements \Magento\Url\RouteP
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_request = $request;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_queryParamsResolver = $queryParamsResolver;
     }
@@ -109,7 +109,7 @@ class RouteParamsResolver extends \Magento\Object implements \Magento\Url\RouteP
         }
 
         if (isset($data['_scope_to_url']) && (bool)$data['_scope_to_url'] === true) {
-            if (!$this->_storeConfig->getValue(
+            if (!$this->_scopeConfig->getValue(
                 \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $this->getScope()

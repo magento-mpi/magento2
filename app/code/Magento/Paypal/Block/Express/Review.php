@@ -128,7 +128,7 @@ class Review extends \Magento\View\Element\Template
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getValue("carriers/{$carrierCode}/title", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($name = $this->_scopeConfig->getValue("carriers/{$carrierCode}/title", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return $name;
         }
         return $carrierCode;

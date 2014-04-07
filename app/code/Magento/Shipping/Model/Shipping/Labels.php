@@ -27,7 +27,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
     protected $_request;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
@@ -39,7 +39,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * @param \Magento\Shipping\Model\Shipment\Request $request
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
@@ -53,7 +53,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         $this->_authSession = $authSession;
         $this->_request = $request;
         parent::__construct(
-            $coreStoreConfig,
+            $scopeConfig,
             $shippingConfig,
             $storeManager,
             $carrierFactory,
@@ -83,7 +83,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         if (!$shipmentCarrier) {
             throw new \Magento\Model\Exception('Invalid carrier: ' . $shippingMethod->getCarrierCode());
         }
-        $shipperRegionCode = $this->_storeConfig->getValue(
+        $shipperRegionCode = $this->_scopeConfig->getValue(
             Shipment::XML_PATH_STORE_REGION_ID,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $shipmentStoreId
@@ -94,18 +94,18 @@ class Labels extends \Magento\Shipping\Model\Shipping
 
         $recipientRegionCode = $this->_regionFactory->create()->load($address->getRegionId())->getCode();
 
-        $originStreet1 = $this->_storeConfig->getValue(
+        $originStreet1 = $this->_scopeConfig->getValue(
             Shipment::XML_PATH_STORE_ADDRESS1,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $shipmentStoreId
         );
-        $originStreet2 = $this->_storeConfig->getValue(
+        $originStreet2 = $this->_scopeConfig->getValue(
             Shipment::XML_PATH_STORE_ADDRESS2,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $shipmentStoreId
         );
         $storeInfo = new \Magento\Object(
-            (array)$this->_storeConfig->getValue(
+            (array)$this->_scopeConfig->getValue(
                 'general/store_information',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $shipmentStoreId
@@ -118,17 +118,17 @@ class Labels extends \Magento\Shipping\Model\Shipping
             || !$storeInfo->getPhone()
             || !$originStreet1
             || !$shipperRegionCode
-            || !$this->_storeConfig->getValue(
+            || !$this->_scopeConfig->getValue(
                 Shipment::XML_PATH_STORE_CITY,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $shipmentStoreId
             )
-            || !$this->_storeConfig->getValue(
+            || !$this->_scopeConfig->getValue(
                 Shipment::XML_PATH_STORE_ZIP,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $shipmentStoreId
             )
-            || !$this->_storeConfig->getValue(
+            || !$this->_scopeConfig->getValue(
                 Shipment::XML_PATH_STORE_COUNTRY_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $shipmentStoreId
@@ -154,7 +154,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         $request->setShipperAddressStreet1($originStreet1);
         $request->setShipperAddressStreet2($originStreet2);
         $request->setShipperAddressCity(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 Shipment::XML_PATH_STORE_CITY,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $shipmentStoreId
@@ -162,14 +162,14 @@ class Labels extends \Magento\Shipping\Model\Shipping
         );
         $request->setShipperAddressStateOrProvinceCode($shipperRegionCode);
         $request->setShipperAddressPostalCode(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 Shipment::XML_PATH_STORE_ZIP,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $shipmentStoreId
             )
         );
         $request->setShipperAddressCountryCode(
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 Shipment::XML_PATH_STORE_COUNTRY_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $shipmentStoreId

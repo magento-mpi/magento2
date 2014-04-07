@@ -32,7 +32,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     protected function assertPreConditions()
     {
@@ -40,7 +40,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $this->_methodInstance = $this->getMock('Magento\Payment\Model\Method\Cc', array(), array(), '', false);
         $this->_paymentData = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
         $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false);
-        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', array('create'), array(), '', false);
         $paymentFactory->expects(
             $this->once()
@@ -58,7 +58,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
                 'paypalClassName' => 'paypal class name',
                 'paymentData' => $this->_paymentData,
                 'pbridgeData' => $this->_pbridgeData,
-                'coreStoreConfig' => $this->_storeConfig
+                'scopeConfig' => $this->_scopeConfig
             )
         );
     }
@@ -223,7 +223,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         }
         $this->_methodInstance->expects($this->once())->method('getCode')->will($this->returnValue('some_code'));
         $path = 'payment/some_code/some_field';
-        $this->_storeConfig->expects(
+        $this->_scopeConfig->expects(
             $this->once()
         )->method(
             'getValue'

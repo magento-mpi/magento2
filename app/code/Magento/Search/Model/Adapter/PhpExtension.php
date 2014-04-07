@@ -41,7 +41,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -60,7 +60,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -84,7 +84,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
             $searchFactory,
             $clientHelper,
             $registry,
-            $coreStoreConfig,
+            $scopeConfig,
             $dateTime,
             $localeResolver,
             $localeDate,

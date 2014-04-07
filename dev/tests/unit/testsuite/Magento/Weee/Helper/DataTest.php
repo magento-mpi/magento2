@@ -22,12 +22,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface', [], [], '', false);
-        $coreStoreConfig->expects($this->any())->method('getValue')->will($this->returnValue(true));
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface', [], [], '', false);
+        $scopeConfig->expects($this->any())->method('getValue')->will($this->returnValue(true));
         $weeeTax = $this->getMock('Magento\Weee\Model\Tax', [], [], '', false);
         $weeeTax->expects($this->any())->method('getWeeeAmount')->will($this->returnValue('11.26'));
         $arguments = array(
-            'coreStoreConfig' => $coreStoreConfig,
+            'scopeConfig' => $scopeConfig,
             'weeeTax' => $weeeTax
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

@@ -25,17 +25,17 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($resource);
     }
 
@@ -100,7 +100,7 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
     {
         if ($columns === null) {
             $adapter = $this->_getReadAdapter();
-            $isManageStock = (int)$this->_storeConfig->getValue(
+            $isManageStock = (int)$this->_scopeConfig->getValue(
                 \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );

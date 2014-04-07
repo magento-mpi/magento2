@@ -37,20 +37,20 @@ class Config
     private $_sharingEmailLimit;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig
     ) {
-        $emailLimitInConfig = (int)$storeConfig->getValue(
+        $emailLimitInConfig = (int)$scopeConfig->getValue(
             self::XML_PATH_SHARING_EMAIL_LIMIT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        $textLimitInConfig = (int)$storeConfig->getValue(
+        $textLimitInConfig = (int)$scopeConfig->getValue(
             self::XML_PATH_SHARING_TEXT_LIMIT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );

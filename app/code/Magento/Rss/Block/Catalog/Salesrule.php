@@ -70,7 +70,7 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
         $url = $this->_urlBuilder->getUrl('');
         $newUrl = $this->_urlBuilder->getUrl('rss/catalog/salesrule');
         $title = __('%1 - Discounts and Coupons', $storeModel->getName());
-        $lang = $this->_storeConfig->getValue(
+        $lang = $this->_scopeConfig->getValue(
             'general/locale/code',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeModel

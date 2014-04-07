@@ -403,7 +403,7 @@ class Config extends Widget implements TabInterface
     public function getBaseCurrency()
     {
         return $this->_localeCurrency->getCurrency(
-            $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
+            $this->_scopeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
         );
     }
 }

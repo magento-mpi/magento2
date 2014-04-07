@@ -16,7 +16,7 @@ use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
 class GroupedTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /** @var Renderer */
     protected $_renderer;
@@ -25,10 +25,10 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped',
-            array('scopeConfig' => $this->_storeConfig)
+            array('scopeConfig' => $this->_scopeConfig)
         );
     }
 
@@ -97,7 +97,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $thumbnailToBeUsed = $useParentThumbnail
             ? ThumbnailSource::OPTION_USE_PARENT_IMAGE
             : ThumbnailSource::OPTION_USE_OWN_IMAGE;
-        $this->_storeConfig->expects(
+        $this->_scopeConfig->expects(
             $this->any()
         )->method(
             'getValue'

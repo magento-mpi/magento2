@@ -15,10 +15,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getReturnAddressDataProvider
      */
-    public function testGetReturnAddressData($useStoreAddress, $storeConfigData, $mockConfig, $expectedResult)
+    public function testGetReturnAddressData($useStoreAddress, $scopeConfigData, $mockConfig, $expectedResult)
     {
-        $storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $storeConfigMock->expects(
+        $scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfigMock->expects(
             $this->atLeastOnce()
         )->method(
             'isSetFlag'
@@ -30,12 +30,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($useStoreAddress)
         );
 
-        $storeConfigMock->expects(
+        $scopeConfigMock->expects(
             $this->atLeastOnce()
         )->method(
             'getValue'
         )->will(
-            $this->returnValueMap($storeConfigData)
+            $this->returnValueMap($scopeConfigData)
         );
 
         $context = $this->getMock('Magento\App\Helper\Context', array('getApp'), array(), '', false, false);
@@ -46,7 +46,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'Magento\Rma\Helper\Data',
             array(
                 'context' => $context,
-                'storeConfig' => $storeConfigMock,
+                'scopeConfig' => $scopeConfigMock,
                 'countryFactory' => $this->_getCountryFactoryMock($mockConfig),
                 'regionFactory' => $this->_getRegionFactoryMock($mockConfig),
                 'itemFactory' => $this->getMock('Magento\Rma\Model\Resource\ItemFactory', array(), array(), '', false),
