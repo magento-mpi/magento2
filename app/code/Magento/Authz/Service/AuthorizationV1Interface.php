@@ -8,7 +8,7 @@
 namespace Magento\Authz\Service;
 
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Service\Exception as ServiceException;
+use Magento\Webapi\ServiceException as ServiceException;
 
 /**
  * Authorization service interface.
