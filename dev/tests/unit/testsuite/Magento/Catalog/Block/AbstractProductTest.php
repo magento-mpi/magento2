@@ -76,4 +76,28 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedPriceHtml, $this->block->getProductPrice($product));
 
     }
+
+    /**
+     * Test testGetProductPriceHtml
+     */
+    public function testGetProductPriceHtml()
+    {
+        $expectedPriceHtml = '<html>Expected Price html with price $30</html>';
+        $priceRenderBlock = $this->getMock('Magento\Pricing\Render', ['render'], [], '', false);
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+
+        $this->layoutMock->expects($this->once())
+            ->method('getBlock')
+            ->with('product.price.render.default')
+            ->will($this->returnValue($priceRenderBlock));
+
+        $priceRenderBlock->expects($this->once())
+            ->method('render')
+            ->will($this->returnValue($expectedPriceHtml));
+
+        $this->assertEquals($expectedPriceHtml, $this->block->getProductPriceHtml(
+            $product, 'price_code', 'zone_code'
+        ));
+
+    }
 }
