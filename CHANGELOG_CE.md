@@ -27,7 +27,6 @@
   * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
   * Fixed an issue where admin could not unsubscribe customer from backend customer edit page (MAGETWO-22982)
   * Fixed an issue where customers are always subscribed even if not selected during registration (MAGETWO-22966)
-  * Fixed: Tax class id instead tax class name is displayed on "Customer Groups" grid (MAGETWO-21826)
   * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
   * Fixed: Impossible export several entyties (Credit Memos, Report Shopping Cart ...) for user with restricted permission (MAGETWO-19346)
   * Fixed: Checkout is blocked by "Please enter the State/Province pop-up" pop-up for customer that have saved address (MAGETWO-22006)
