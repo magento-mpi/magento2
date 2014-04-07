@@ -238,7 +238,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function getDefaultGroup($storeId)
     {
-        $groupId = $this->_storeConfig->getValue(
+        $groupId = $this->_scopeConfig->getValue(
             CustomerGroupModel::XML_PATH_DEFAULT_ID,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
