@@ -63,7 +63,7 @@
     <preference for="Magento\Stdlib\DateTime\TimezoneInterface" type="Magento\Stdlib\DateTime\Timezone" />
     <preference for="Magento\Stdlib\DateTime\DateInterface" type="Magento\Stdlib\DateTime\Date" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
-    <preference for="Magento\Module\ResourceInterface" type="Magento\Core\Model\Resource\Resource" />
+    <preference for="Magento\Module\ResourceInterface" type="Magento\Install\Model\Resource\Resource" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">
