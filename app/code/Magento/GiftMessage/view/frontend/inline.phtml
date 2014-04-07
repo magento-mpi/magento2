@@ -263,11 +263,6 @@
 <?php endswitch ?>
 <?php if ($_giftMessage): ?>
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-            jQuery("#shipping_method_form").validation();
-        });
+    jQuery('#shipping_method_form').mage('validation');
 </script>
 <?php endif; ?>
