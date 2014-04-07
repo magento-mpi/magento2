@@ -84,6 +84,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $this->_storeManager = $storeManager;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
+        $this->_storeManager = $storeManager;
         $this->_taxClassModelFactory = $taxClassModelFactory;
     }
 
@@ -241,14 +242,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getDefaultGroup($storeId)
+    public function getDefaultGroup($storeId = null)
     {
-        try {
-            $this->_storeManager->getStore($storeId);
-        } catch (\Exception $e) {
-            throw new NoSuchEntityException('storeId', $storeId);
+        if (is_null($storeId)) {
+            $storeId = $this->_storeManager->getStore()->getId();
         }
-
         $groupId = $this->_storeConfig->getConfig(CustomerGroupModel::XML_PATH_DEFAULT_ID, $storeId);
         try {
             return $this->getGroup($groupId);

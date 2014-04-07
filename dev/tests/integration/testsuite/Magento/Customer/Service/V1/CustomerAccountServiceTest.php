@@ -336,7 +336,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $email = 'customer@example.com';
 
-        $this->_customerAccountService->initiatePasswordReset($email, 1, CustomerAccountServiceInterface::EMAIL_RESET);
+        $this->_customerAccountService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, 1);
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testSendPasswordResetLinkDefaultWebsite()
+    {
+        $email = 'customer@example.com';
+
+        $this->_customerAccountService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET);
     }
 
     /**
@@ -348,14 +359,37 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $email = 'foo@example.com';
 
         try {
-            $this->_customerAccountService->initiatePasswordReset($email, 0,
-                CustomerAccountServiceInterface::EMAIL_RESET);
+            $this->_customerAccountService->initiatePasswordReset(
+                $email,
+                CustomerAccountServiceInterface::EMAIL_RESET,
+                0
+            );
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'email' => $email,
                 'websiteId' => 0,
             ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     */
+    public function testSendPasswordResetLinkBadEmailDefaultWebsite()
+    {
+        $email = 'foo@example.com';
+
+        try {
+            $this->_customerAccountService->initiatePasswordReset(
+                $email,
+                CustomerAccountServiceInterface::EMAIL_RESET
+            );
+            $this->fail('Expected exception not thrown.');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = array('email' => $email, 'websiteId' => 1);
             $this->assertEquals($expectedParams, $nsee->getParams());
         }
     }
@@ -1115,8 +1149,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Service\V1\Data\Filter[] $filters
-     * @param \Magento\Service\V1\Data\Filter[] $orGroup
+     * @param Data\Filter[] $filters
+     * @param Datao\Filter[] $orGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider
@@ -1315,12 +1349,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Model\Exception
-     * @expectedExceptionMessage Customer website ID must be specified when using the website scope
      */
     public function testIsEmailAvailableNoWebsiteSpecified()
     {
-        $this->_customerAccountService->isEmailAvailable('customer@example.com', null);
+        $this->assertFalse($this->_customerAccountService->isEmailAvailable('customer@example.com'));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testIsEmailAvailableNoWebsiteSpecifiedNonExistent()
+    {
+        $this->assertTrue($this->_customerAccountService->isEmailAvailable('nonexistent@example.com'));
     }
 
     public function testIsEmailAvailableNonExistentEmail()

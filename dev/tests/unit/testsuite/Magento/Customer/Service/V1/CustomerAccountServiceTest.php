@@ -656,8 +656,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService->initiatePasswordReset(
             $email,
-            self::WEBSITE_ID,
-            CustomerAccountServiceInterface::EMAIL_RESET
+            CustomerAccountServiceInterface::EMAIL_RESET,
+            self::WEBSITE_ID
         );
     }
 
@@ -685,7 +685,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->initiatePasswordReset($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
+            $customerService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, 0);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (\Magento\Exception\NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -728,8 +728,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService->initiatePasswordReset(
             $email,
-            self::WEBSITE_ID,
-            CustomerAccountServiceInterface::EMAIL_RESET
+            CustomerAccountServiceInterface::EMAIL_RESET,
+            self::WEBSITE_ID
         );
     }
 
@@ -760,7 +760,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->initiatePasswordReset($email, self::WEBSITE_ID, CustomerAccountServiceInterface::EMAIL_RESET);
+        $customerService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, self::WEBSITE_ID);
     }
 
     public function testResetPassword()
@@ -1816,6 +1816,24 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($customerMock)
         );
         $this->assertFalse($service->isEmailAvailable('email', 1));
+    }
+
+    public function testIsEmailAvailableDefaultWebsite()
+    {
+        $customerMock = $this->getMockBuilder(
+            '\Magento\Customer\Service\V1\Data\Customer'
+        )->disableOriginalConstructor()->getMock();
+        $this->_converter = $this->getMockBuilder(
+            '\Magento\Customer\Model\Converter'
+        )->disableOriginalConstructor()->getMock();
+        $service = $this->_createService();
+
+        $defaultWebsiteId = 7;
+        $this->_storeMock->expects($this->once())->method('getWebSiteId')->will($this->returnValue($defaultWebsiteId));
+        $this->_converter->expects(
+            $this->once()
+        )->method('getCustomerModelByEmail')->with('email', $defaultWebsiteId)->will($this->returnValue($customerMock));
+        $this->assertFalse($service->isEmailAvailable('email'));
     }
 
     public function testCreateAccountMailException()

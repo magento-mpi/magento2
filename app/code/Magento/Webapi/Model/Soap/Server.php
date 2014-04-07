@@ -142,9 +142,9 @@ class Server
      */
     public function getEndpointUri()
     {
-        return $this->_storeManager->getStore()->getBaseUrl() . $this->_areaList->getFrontName(
-            $this->_configScope->getCurrentScope()
-        );
+        return $this->_storeManager->getStore()->getBaseUrl()
+            . $this->_areaList->getFrontName($this->_configScope->getCurrentScope())
+            . '/' . $this->_storeManager->getStore()->getCode();
     }
 
     /**
