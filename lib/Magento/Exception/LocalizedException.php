@@ -36,7 +36,7 @@ class LocalizedException extends \Exception
         $this->rawMessage = $message;
         $this->renderer = new Placeholder();
 
-        parent::__construct(__($message), 0, $cause);
+        parent::__construct(__($message, $params), 0, $cause);
     }
 
     /**
