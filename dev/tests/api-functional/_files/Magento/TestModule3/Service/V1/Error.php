@@ -9,6 +9,7 @@
  */
 namespace Magento\TestModule3\Service\V1;
 
+use Magento\Exception\InputException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
 
@@ -27,7 +28,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function resourceNotFoundException()
     {
-        throw new \Magento\Service\ResourceNotFoundException('', 2345, null, array(), 'resourceNotFound', 'resourceY');
+        throw new \Magento\Webapi\ServiceResourceNotFoundException('', 2345, null, array(), 'resourceNotFound', 'resourceY');
     }
 
     /**
@@ -35,7 +36,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function serviceException()
     {
-        throw new \Magento\Service\Exception('Generic service exception', 3456);
+        throw new \Magento\Webapi\ServiceException('Generic service exception', 3456);
     }
 
     /**
@@ -47,7 +48,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
         foreach ($parameters as $parameter) {
             $details[$parameter->getName()] = $parameter->getValue();
         }
-        throw new \Magento\Service\Exception('Parameterized service exception', 1234, null, $details);
+        throw new \Magento\Webapi\ServiceException('Parameterized service exception', 1234, null, $details);
     }
 
     /**
@@ -55,7 +56,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function authorizationException()
     {
-        throw new \Magento\Service\AuthorizationException('', 4567, null, array(), 'authorization', 30, 'resourceN');
+        throw new \Magento\Webapi\ServiceAuthorizationException('', 4567, null, array(), 'authorization', 30, 'resourceN');
     }
 
     /**
@@ -80,5 +81,19 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
     public function returnIncompatibleDataType()
     {
         return "incompatibleDataType";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function inputException($wrappedErrorParameters)
+    {
+        $exception = new InputException();
+        if ($wrappedErrorParameters) {
+            foreach ($wrappedErrorParameters as $error) {
+                $exception->addError($error->getCode(), $error->getFieldName(), $error->getValue());
+            }
+        }
+        throw $exception;
     }
 }
