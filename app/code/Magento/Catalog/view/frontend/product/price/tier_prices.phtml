@@ -8,7 +8,7 @@
 ?>
 
 <?php
-/** @var \Magento\Pricing\Render\PriceBox $this */
+/** @var \Magento\Catalog\Pricing\Render\PriceBox $this */
 
 /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
 $tierPriceModel = $this->getPrice();
@@ -21,7 +21,7 @@ $product = $this->getSaleableItem();
     <?php foreach ($tierPrices as $index => $price) : ?>
         <li class="item">
             <?php
-                $popupId = 'msrp-popup-' . $product->getId() . $this->getRandomString();
+                $popupId = 'msrp-popup-' . $product->getId() . $this->getRandomString(20);
                 if ($msrpShowOnGesture):
                     $addToCartUrl = '';
                     if ($product->isSaleable()) {

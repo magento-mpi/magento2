@@ -47,28 +47,19 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     /**
      * @return \Magento\Pricing\Amount\AmountInterface
      */
-    public function getMaxValue()
+    public function getMaximalPrice()
     {
-        return $this->basePrice->getMaxValue() + $this->basePrice->applyDiscount(
-            $this->getBundleOptionPrice()->getMaxValue()
-        );
+        return $this->calculator->getMaxAmount($this->basePrice->getValue(), $this->salableItem);
     }
 
     /**
-     * @return float
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getMinimalPrice()
     {
         return $this->calculator->getAmount(parent::getValue(), $this->salableItem);
     }
 
-    /**
-     * @return \Magento\Pricing\Amount\AmountInterface
-     */
-    public function getMaximalPrice()
-    {
-        return $this->calculator->getMaxAmount(parent::getMaxValue(), $this->salableItem);
-    }
 
     public function getAmount()
     {

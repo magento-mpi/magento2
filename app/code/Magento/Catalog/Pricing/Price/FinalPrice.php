@@ -54,32 +54,26 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     }
 
     /**
-     * Get MaxValue
+     * Get Minimal Price Amount
      *
      * @return \Magento\Pricing\Amount\AmountInterface
      */
-    public function getMaxValue()
-    {
-        return $this->basePrice->getMaxValue();
-    }
-
-    /**
-     * Get Minimal Price
-     *
-     * @return float
-     */
     public function getMinimalPrice()
     {
-        return $this->calculator->getAmount($this->getValue(), $this->salableItem);
+        $minimalPrice = $this->salableItem->getMinimalPrice();
+        if ($minimalPrice === null) {
+            $minimalPrice = $this->getValue();
+        }
+        return $this->calculator->getAmount($minimalPrice, $this->salableItem);
     }
 
     /**
-     * Get Maximal Price
+     * Get Maximal Price Amount
      *
      * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getAmount($this->getMaxValue(), $this->salableItem);
+        return $this->calculator->getAmount($this->getValue(), $this->salableItem);
     }
 }

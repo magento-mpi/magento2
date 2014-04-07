@@ -54,17 +54,4 @@ class BasePrice extends CatalogPrice\BasePrice
         }
         return $price;
     }
-
-    /**
-     * Get Max Value
-     *
-     * @return bool|float
-     */
-    public function getMaxValue()
-    {
-        if ($this->maxValue === null) {
-            $this->value = $this->applyDiscount(parent::getMaxValue());
-        }
-        return $this->maxValue;
-    }
 }

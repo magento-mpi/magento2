@@ -53,12 +53,6 @@ class BasePrice extends RegularPrice
      */
     public function getMaxValue()
     {
-        if ($this->maxValue === null) {
-            $this->value = false;
-            foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
-                $this->maxValue = max($price->getValue(), $this->maxValue ?: $price->getValue());
-            }
-        }
-        return $this->maxValue;
+        return $this->getValue();
     }
 }

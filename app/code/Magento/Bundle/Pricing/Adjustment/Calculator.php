@@ -60,7 +60,7 @@ class Calculator implements BundleCalculatorInterface
      */
     public function getAmount($amount, SaleableInterface $saleableItem)
     {
-        return $this->getOptionsAmount($amount, $saleableItem);
+        return $this->getOptionsAmount($amount, $saleableItem, true);
     }
 
     /**
@@ -85,12 +85,26 @@ class Calculator implements BundleCalculatorInterface
         $adjustments = [];
         $amountList[] = $this->calculator->getAmount($amount, $saleableItem);
 
+        $minOptionAmount = null;
         /* @var $option \Magento\Bundle\Model\Option */
         foreach ($this->getBundleOptionPrice($saleableItem)->getOptions() as $option) {
             if (!$option->getSelections()) {
                 continue;
             }
-            $amountList = array_merge($amountList, $this->processOptions($option, $saleableItem, $searchMin));
+            $optionsAmounts = $this->processOptions($option, $saleableItem, $searchMin);
+            if ($searchMin) {
+                if ($minOptionAmount === null) {
+                    $minOptionAmount = end($optionsAmounts);
+                } else if (end($optionsAmounts)->getValue() < $minOptionAmount->getValue()) {
+                    $minOptionAmount = end($optionsAmounts);
+                }
+            } else {
+                $amountList = array_merge($amountList, $optionsAmounts);
+            }
+        }
+
+        if ($searchMin) {
+            $amountList[] = $minOptionAmount;
         }
 
         /** @var \Magento\Pricing\Amount\AmountInterface $itemAmount */
@@ -128,7 +142,7 @@ class Calculator implements BundleCalculatorInterface
         $result = [];
         foreach ($option->getSelections() as $selection) {
             /* @var $selection \Magento\Bundle\Model\Selection */
-            if (!$selection->isSalable() || ($searchMin && !$option->getRequired())) {
+            if (!$selection->isSalable()/* || ($searchMin && !$option->getRequired())*/) {
                 // @todo CatalogInventory Show out of stock Products
                 continue;
             }

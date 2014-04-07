@@ -19,7 +19,7 @@ use Magento\Catalog\Pricing\Price;
  * Class for final_price rendering
  *
  * @method bool getUseLinkForAsLowAs()
- * @method float getDisplayMinimalPrice()
+ * @method bool getDisplayMinimalPrice()
  */
 class FinalPriceBox extends BasePriceBox
 {
@@ -78,7 +78,8 @@ class FinalPriceBox extends BasePriceBox
             [
                 'display_label'     => __('As low as:'),
                 'price_id'          => $id,
-                'include_container' => false
+                'include_container' => false,
+                'skip_adjustments' => true
             ]
         );
     }
@@ -104,9 +105,10 @@ class FinalPriceBox extends BasePriceBox
     {
         /** @var Price\FinalPrice $finalPrice */
         $finalPrice = $this->getPriceType(Price\FinalPriceInterface::PRICE_TYPE_FINAL);
-        $displayFinalPrice = $finalPrice->getAmount();
-        $minimalPrice = $finalPrice->getMinimalPrice();
-
-        return $this->getDisplayMinimalPrice() && $minimalPrice && $minimalPrice < $displayFinalPrice;
+        $finalPriceAmount = $finalPrice->getAmount()->getValue();
+        $minimalPriceAmount = $finalPrice->getMinimalPrice()->getValue();
+        return $this->getDisplayMinimalPrice()
+        && $minimalPriceAmount
+        && $minimalPriceAmount < $finalPriceAmount;
     }
 }

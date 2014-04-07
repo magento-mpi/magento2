@@ -84,6 +84,7 @@ class Collection
         foreach ($adjustments as $code) {
             $instances[$code] = $this->adjustmentPool->getAdjustmentByCode($code);
         }
+
         uasort($instances, [$this, 'sortAdjustments']);
 
         return $instances;
@@ -99,8 +100,8 @@ class Collection
     protected function sortAdjustments(AdjustmentInterface $firstAdjustment, AdjustmentInterface $secondAdjustment)
     {
         if ($firstAdjustment->getSortOrder() < 0) {
-            return -1;
+            return 1;
         }
-        return $firstAdjustment->getSortOrder() < $secondAdjustment->getSortOrder() ? 1 : -1;
+        return $firstAdjustment->getSortOrder() > $secondAdjustment->getSortOrder() ? 1 : -1;
     }
 }

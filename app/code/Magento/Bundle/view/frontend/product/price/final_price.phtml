@@ -38,7 +38,7 @@ if (isset($_GET['showmeprice'])) {
 <?php else: ?>
     <?php if ($this->showRangePrice()): ?>
         <p class="price-from">
-            <?php echo $this->renderAmount($finalPriceModel->getMinimalPrice(), [
+            <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
                 'display_label'     => __('From:'),
                 'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('from-' . $id),
                 'include_container' => true
