@@ -137,7 +137,6 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($origCustomerDataObjectMock));
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote $quoteMock */
         $quoteMock = $this->getMockBuilder(
-//            'Magento\SalesRule\Model\Validator'
             'Magento\Sales\Model\Quote'
         )->setMethods(
                 array(
