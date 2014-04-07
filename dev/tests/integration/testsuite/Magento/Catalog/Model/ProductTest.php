@@ -310,27 +310,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool $isUserDefined
-     * @param string $code
-     * @param bool $expectedResult
-     * @dataProvider isReservedAttributeDataProvider
-     */
-    public function testIsReservedAttribute($isUserDefined, $code, $expectedResult)
-    {
-        $attribute = new \Magento\Object(array('is_user_defined' => $isUserDefined, 'attribute_code' => $code));
-        $this->assertEquals($expectedResult, $this->_model->isReservedAttribute($attribute));
-    }
-
-    public function isReservedAttributeDataProvider()
-    {
-        return array(
-            array(true, 'position', true),
-            array(true, 'type_id', false),
-            array(false, 'no_difference', false)
-        );
-    }
-
-    /**
      * @magentoAppArea adminhtml
      */
     public function testSetOrigDataBackend()
