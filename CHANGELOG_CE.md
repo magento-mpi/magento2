@@ -1,3 +1,5 @@
+* Fixed bugs:
+  * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
 * Framework Improvements:
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
