@@ -13,6 +13,8 @@
  * Test class for \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
  */
 namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
+use \Magento\ImportExport\Model\Import\AbstractEntity;
+use \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
 
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,14 +61,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     protected $_attributes = array(
         array(
             'id' => 1,
-            'attribute_code' => \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE,
+            'attribute_code' => Collection::COLUMN_CUSTOMER_BALANCE,
             'frontend_label' => 'Store Credit',
             'backend_type' => 'decimal',
             'is_required' => true
         ),
         array(
             'id' => 2,
-            'attribute_code' => \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS,
+            'attribute_code' => Collection::COLUMN_REWARD_POINTS,
             'frontend_label' => 'Reward Points',
             'backend_type' => 'int',
             'is_required' => false
@@ -80,34 +82,35 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     protected $_inputData = array(
         array(
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL => 'test1@email.com',
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website1',
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE => 'website1',
-            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => null,
+            Finance::COLUMN_EMAIL => 'test1@email.com',
+            Finance::COLUMN_WEBSITE => 'website1',
+            Finance::COLUMN_FINANCE_WEBSITE => 'website1',
+            AbstractEntity::COLUMN_ACTION => null,
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1,
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE => 100,
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS => 200
+            Collection::COLUMN_CUSTOMER_BALANCE => 100,
+            Collection::COLUMN_REWARD_POINTS => 200
         ),
         array(
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL => 'test2@email.com',
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website2',
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE => 'website1',
-            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
+            Finance::COLUMN_EMAIL => 'test2@email.com',
+            Finance::COLUMN_WEBSITE => 'website2',
+            Finance::COLUMN_FINANCE_WEBSITE => 'website1',
+            AbstractEntity::COLUMN_ACTION => AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2
         ),
         array(
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL => 'test2@email.com',
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE => 'website2',
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE => 'website1',
-            \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => 'update',
+            Finance::COLUMN_EMAIL => 'test2@email.com',
+            Finance::COLUMN_WEBSITE => 'website2',
+            Finance::COLUMN_FINANCE_WEBSITE => 'website1',
+            AbstractEntity::COLUMN_ACTION => 'update',
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2,
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE => 100,
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS => 200
+            Collection::COLUMN_CUSTOMER_BALANCE => 100,
+            Collection::COLUMN_REWARD_POINTS => 200
         )
     );
 
     /**
      * Init entity adapter model
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function setUp()
     {
@@ -125,9 +128,15 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $moduleHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
-        $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
+        $moduleHelper->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+        $moduleHelper->expects($this->any())
+            ->method('isRewardPointsEnabled')
+            ->will($this->returnValue(true));
+        $moduleHelper->expects($this->any())
+            ->method('isCustomerBalanceEnabled')
+            ->will($this->returnValue(true));
 
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
@@ -149,41 +158,53 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $customerFactory->expects(
             $this->any()
-        )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->getModelInstance('Magento\Customer\Model\Customer'))
-        );
+        )
+            ->method(
+                'create'
+            )
+            ->will(
+                $this->returnValue($this->getModelInstance('Magento\Customer\Model\Customer'))
+            );
         $balanceFactory->expects(
             $this->any()
-        )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->getModelInstance('Magento\CustomerBalance\Model\Balance'))
-        );
+        )
+            ->method(
+                'create'
+            )
+            ->will(
+                $this->returnValue($this->getModelInstance('Magento\CustomerBalance\Model\Balance'))
+            );
         $rewardFactory->expects(
             $this->any()
-        )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->getModelInstance('Magento\Reward\Model\Reward'))
-        );
+        )
+            ->method(
+                'create'
+            )
+            ->will(
+                $this->returnValue($this->getModelInstance('Magento\Reward\Model\Reward'))
+            );
 
         $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $adminUser = $this->getMock('stdClass', array('getUsername'));
-        $adminUser->expects($this->any())->method('getUsername')->will($this->returnValue('admin'));
+        $adminUser->expects($this->any())
+            ->method('getUsername')
+            ->will($this->returnValue('admin'));
         $authSession = $this->getMock('Magento\Backend\Model\Auth\Session', array('getUser'), array(), '', false);
-        $authSession->expects($this->once())->method('getUser')->will($this->returnValue($adminUser));
+        $authSession->expects($this->once())
+            ->method('getUser')
+            ->will($this->returnValue($adminUser));
 
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', array('getWebsites'), array(), '', false);
         $storeManager->expects(
             $this->once()
-        )->method(
-            'getWebsites'
-        )->will(
-            $this->returnCallback(array($this, 'getWebsites'))
-        );
+        )
+            ->method(
+                'getWebsites'
+            )
+            ->will(
+                $this->returnCallback(array($this, 'getWebsites'))
+            );
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
             $coreData,
@@ -228,11 +249,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         if ($addData) {
             $dataSourceModel->expects(
                 $this->exactly(2)
-            )->method(
-                'getNextBunch'
-            )->will(
-                $this->returnCallback(array($this, 'getNextBunch'))
-            );
+            )
+                ->method(
+                    'getNextBunch'
+                )
+                ->will(
+                    $this->returnCallback(array($this, 'getNextBunch'))
+                );
         }
 
         $connection = $this->getMock('stdClass');
@@ -252,7 +275,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $customerResource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('entity_id'));
+        $customerResource->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('entity_id'));
         foreach ($this->_customers as $customerData) {
             /** @var $customer \Magento\Customer\Model\Customer */
             $arguments = $objectManagerHelper->getConstructArguments('Magento\Customer\Model\Customer');
@@ -265,11 +290,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $objectFactory = $this->getMock('stdClass', array('getModelInstance'));
         $objectFactory->expects(
             $this->any()
-        )->method(
-            'getModelInstance'
-        )->will(
-            $this->returnCallback(array($this, 'getModelInstance'))
-        );
+        )
+            ->method(
+                'getModelInstance'
+            )
+            ->will(
+                $this->returnCallback(array($this, 'getModelInstance'))
+            );
 
         /** @var $attributeCollection \Magento\Data\Collection */
         $attributeCollection = $this->getMock(
@@ -398,13 +425,27 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     '',
                     false
                 );
-                $instance->expects($this->any())->method('setCustomer')->will($this->returnSelf());
-                $instance->expects($this->any())->method('setWebsiteId')->will($this->returnSelf());
-                $instance->expects($this->any())->method('loadByCustomer')->will($this->returnSelf());
-                $instance->expects($this->any())->method('getAmount')->will($this->returnValue(0));
-                $instance->expects($this->any())->method('setAmountDelta')->will($this->returnSelf());
-                $instance->expects($this->any())->method('setComment')->will($this->returnSelf());
-                $instance->expects($this->any())->method('save')->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setCustomer')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setWebsiteId')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('loadByCustomer')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('getAmount')
+                    ->will($this->returnValue(0));
+                $instance->expects($this->any())
+                    ->method('setAmountDelta')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setComment')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('save')
+                    ->will($this->returnSelf());
                 break;
             case 'Magento\Reward\Model\Reward':
                 $instance = $this->getMock(
@@ -424,14 +465,30 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     '',
                     false
                 );
-                $instance->expects($this->any())->method('setCustomer')->will($this->returnSelf());
-                $instance->expects($this->any())->method('setWebsiteId')->will($this->returnSelf());
-                $instance->expects($this->any())->method('loadByCustomer')->will($this->returnSelf());
-                $instance->expects($this->any())->method('getPointsBalance')->will($this->returnValue(0));
-                $instance->expects($this->any())->method('setPointsDelta')->will($this->returnSelf());
-                $instance->expects($this->any())->method('setAction')->will($this->returnSelf());
-                $instance->expects($this->any())->method('setComment')->will($this->returnSelf());
-                $instance->expects($this->any())->method('updateRewardPoints')->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setCustomer')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setWebsiteId')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('loadByCustomer')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('getPointsBalance')
+                    ->will($this->returnValue(0));
+                $instance->expects($this->any())
+                    ->method('setPointsDelta')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setAction')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setComment')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('updateRewardPoints')
+                    ->will($this->returnSelf());
                 break;
             default:
                 $instance = $this->getMock($modelClass, array(), $constructArguments, '', false);
@@ -461,20 +518,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_WEBSITE_IS_EMPTY => array(
+                            Finance::ERROR_WEBSITE_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE
+                                    Finance::COLUMN_WEBSITE
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_WEBSITE_IS_EMPTY => array(
+                            Finance::ERROR_WEBSITE_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE
+                                    Finance::COLUMN_WEBSITE
                                 )
                             )
                         )
@@ -486,20 +543,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_WEBSITE_IS_EMPTY => array(
+                            Finance::ERROR_WEBSITE_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE
+                                    Finance::COLUMN_WEBSITE
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_WEBSITE_IS_EMPTY => array(
+                            Finance::ERROR_WEBSITE_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE
+                                    Finance::COLUMN_WEBSITE
                                 )
                             )
                         )
@@ -511,20 +568,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_EMAIL_IS_EMPTY => array(
+                            Finance::ERROR_EMAIL_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    Finance::COLUMN_EMAIL
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_EMAIL_IS_EMPTY => array(
+                            Finance::ERROR_EMAIL_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    Finance::COLUMN_EMAIL
                                 )
                             )
                         )
@@ -536,20 +593,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_EMAIL_IS_EMPTY => array(
+                            Finance::ERROR_EMAIL_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    Finance::COLUMN_EMAIL
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_EMAIL_IS_EMPTY => array(
+                            Finance::ERROR_EMAIL_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    Finance::COLUMN_EMAIL
                                 )
                             )
                         )
@@ -561,20 +618,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY => array(
+                            Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
+                                    Finance::COLUMN_FINANCE_WEBSITE
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY => array(
+                            Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
+                                    Finance::COLUMN_FINANCE_WEBSITE
                                 )
                             )
                         )
@@ -586,20 +643,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_INVALID_EMAIL => array(
+                            Finance::ERROR_INVALID_EMAIL => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    Finance::COLUMN_EMAIL
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_INVALID_EMAIL => array(
+                            Finance::ERROR_INVALID_EMAIL => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    Finance::COLUMN_EMAIL
                                 )
                             )
                         )
@@ -611,20 +668,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_INVALID_WEBSITE => array(
+                            Finance::ERROR_INVALID_WEBSITE => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE
+                                    Finance::COLUMN_WEBSITE
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_INVALID_WEBSITE => array(
+                            Finance::ERROR_INVALID_WEBSITE => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_WEBSITE
+                                    Finance::COLUMN_WEBSITE
                                 )
                             )
                         )
@@ -636,20 +693,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
+                            Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
+                                    Finance::COLUMN_FINANCE_WEBSITE
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
+                            Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
+                                    Finance::COLUMN_FINANCE_WEBSITE
                                 )
                             )
                         )
@@ -661,20 +718,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
+                            Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
+                                    Finance::COLUMN_FINANCE_WEBSITE
                                 )
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
+                            Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE
+                                    Finance::COLUMN_FINANCE_WEBSITE
                                 )
                             )
                         )
@@ -686,14 +743,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_CUSTOMER_NOT_FOUND => array(
+                            Finance::ERROR_CUSTOMER_NOT_FOUND => array(
                                 array(1, null)
                             )
                         )
                     ),
                     \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_CUSTOMER_NOT_FOUND => array(
+                            Finance::ERROR_CUSTOMER_NOT_FOUND => array(
                                 array(1, null)
                             )
                         )
@@ -726,7 +783,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 '$behaviors' => array(
                     \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_VALUE_IS_REQUIRED => array(
+                            Finance::ERROR_VALUE_IS_REQUIRED => array(
                                 array(1, 'store_credit')
                             )
                         )
@@ -738,10 +795,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow()
+     * Test Finance::validateRow()
      * with different values in case when add/update behavior is performed
      *
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForUpdate
+     * @covers       Finance::_validateRowForUpdate
      * @dataProvider validateRowDataProvider
      *
      * @param array $rowData
@@ -763,10 +820,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow()
+     * Test Finance::validateRow()
      * with 2 rows with identical PKs in case when add/update behavior is performed
      *
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForUpdate
+     * @covers Finance::_validateRowForUpdate
      */
     public function testValidateRowForUpdateDuplicateRows()
     {
@@ -785,7 +842,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $secondRow['reward_points'] = 30;
 
         $errors = array(
-            \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::ERROR_DUPLICATE_PK => array(
+            Finance::ERROR_DUPLICATE_PK => array(
                 array(2, null)
             )
         );
@@ -797,10 +854,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::validateRow()
+     * Test Finance::validateRow()
      * with different values in case when delete behavior is performed
      *
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForDelete
+     * @covers       Finance::_validateRowForDelete
      * @dataProvider validateRowDataProvider
      *
      * @param array $rowData
@@ -824,7 +881,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test entity type code getter
      *
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::getEntityTypeCode
+     * @covers Finance::getEntityTypeCode
      */
     public function testGetEntityTypeCode()
     {
@@ -834,7 +891,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test data import
      *
-     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::importData
+     * @covers Finance::importData
      */
     public function testImportDataCustomBehavior()
     {

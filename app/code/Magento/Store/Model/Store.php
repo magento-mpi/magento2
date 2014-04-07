@@ -422,7 +422,8 @@ class Store extends AbstractModel implements
         $storeCodeRule = new \Zend_Validate_Regex('/^[a-z]+[a-z0-9_]*$/');
         $storeCodeRule->setMessage(
             __(
-                'The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'
+              'The store code may contain only letters (a-z), numbers (0-9) or underscore(_),'
+                . ' the first character must be a letter'
             ),
             \Zend_Validate_Regex::NOT_MATCH
         );
@@ -975,8 +976,8 @@ class Store extends AbstractModel implements
      * Convert price from default currency to current currency
      *
      * @param   float $price
-     * @param   bool $format             Format price to currency format
-     * @param   bool $includeContainer   Enclose into <span class="price"><span>
+     * @param   bool $format Format price to currency format
+     * @param   bool $includeContainer Enclose into <span class="price"><span>
      * @return  float
      */
     public function convertPrice($price, $format = false, $includeContainer = true)

@@ -316,7 +316,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             if (!$model instanceof \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType) {
                 throw new \Magento\Model\Exception(
                     __(
-                        'Entity type model must be an instance of \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType'
+                        'Entity type model must be an instance of'
+                            . ' \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType'
                     )
                 );
             }
@@ -373,7 +374,9 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $stmt = $this->_connection->query($select);
         while ($tierRow = $stmt->fetch()) {
             $rowTierPrices[$tierRow['entity_id']][] = array(
-                '_tier_price_customer_group' => $tierRow['all_groups'] ? self::VALUE_ALL : $tierRow['customer_group_id'],
+                '_tier_price_customer_group' => $tierRow['all_groups']
+                    ? self::VALUE_ALL
+                    : $tierRow['customer_group_id'],
                 '_tier_price_website' => 0 ==
                 $tierRow['website_id'] ? self::VALUE_ALL : $this->_websiteIdToCode[$tierRow['website_id']],
                 '_tier_price_qty' => $tierRow['qty'],
@@ -406,7 +409,9 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $statement = $this->_connection->query($select);
         while ($groupRow = $statement->fetch()) {
             $rowGroupPrices[$groupRow['entity_id']][] = array(
-                '_group_price_customer_group' => $groupRow['all_groups'] ? self::VALUE_ALL : $groupRow['customer_group_id'],
+                '_group_price_customer_group' => $groupRow['all_groups']
+                    ? self::VALUE_ALL
+                    : $groupRow['customer_group_id'],
                 '_group_price_website' => 0 ==
                 $groupRow['website_id'] ? self::VALUE_ALL : $this->_websiteIdToCode[$groupRow['website_id']],
                 '_group_price_price' => $groupRow['value']

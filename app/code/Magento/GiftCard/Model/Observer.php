@@ -84,17 +84,17 @@ class Observer extends \Magento\Model\AbstractModel
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder ,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      *
-     * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\Model\Context $context,

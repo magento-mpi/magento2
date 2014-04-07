@@ -130,7 +130,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 )
             );
 
-            /** @var $wishlistItem \Magento\Wishlist\Model\Item*/
+            /** @var $wishlistItem \Magento\Wishlist\Model\Item */
             foreach ($this->getWishlistItems() as $wishlistItem) {
                 /* @var $product \Magento\Catalog\Model\Product */
                 $product = $wishlistItem->getProduct();

@@ -293,15 +293,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $items = '';
         foreach ($checkout->getAllVisibleItems() as $_item) {
             /* @var $_item \Magento\Sales\Model\Quote\Item */
-            $items .= $_item->getProduct()->getName() .
-                '  x ' .
-                $_item->getQty() .
-                '  ' .
-                $checkout->getStoreCurrencyCode() .
-                ' ' .
-                $_item->getProduct()->getFinalPrice(
-                $_item->getQty()
-            ) . "\n";
+            $items .=
+                $_item->getProduct()->getName() . '  x ' . $_item->getQty() . '  ' . $checkout->getStoreCurrencyCode()
+                . ' ' . $_item->getProduct()->getFinalPrice(
+                    $_item->getQty()
+                ) . "\n";
         }
         $total = $checkout->getStoreCurrencyCode() . ' ' . $checkout->getGrandTotal();
 

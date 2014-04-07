@@ -17,6 +17,8 @@
  */
 namespace Magento\Core\Model\App;
 
+use Magento\Translate\Inline\ConfigInterface;
+
 class Emulation extends \Magento\Object
 {
     /**
@@ -47,7 +49,7 @@ class Emulation extends \Magento\Object
     protected $_design;
 
     /**
-     * @var \Magento\Translate\Inline\ConfigInterface
+     * @var ConfigInterface
      */
     protected $inlineConfig;
 
@@ -62,6 +64,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\Core\Model\Design $design
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param ConfigInterface $inlineConfig
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
@@ -72,7 +75,7 @@ class Emulation extends \Magento\Object
         \Magento\Core\Model\Design $design,
         \Magento\TranslateInterface $translate,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\Translate\Inline\ConfigInterface $inlineConfig,
+        ConfigInterface $inlineConfig,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()

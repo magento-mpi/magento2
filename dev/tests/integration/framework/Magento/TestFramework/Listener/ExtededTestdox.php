@@ -73,7 +73,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
     {
         parent::__construct($out);
 
-        $this->prettifier = new \PHPUnit_Util_TestDox_NamePrettifier;
+        $this->prettifier = new \PHPUnit_Util_TestDox_NamePrettifier();
         $this->startRun();
     }
 
@@ -214,7 +214,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
     {
         if ($test instanceof $this->testTypeOfInterest) {
             if (!isset($this->tests[$this->currentTestMethodPrettified])) {
-                $this->tests[$this->currentTestMethodPrettified] = ['success' => 0, 'failure' => 0, 'time' => 0];
+                $this->tests[$this->currentTestMethodPrettified] = array('success' => 0, 'failure' => 0, 'time' => 0);
             }
 
             if ($this->testStatus == \PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
@@ -248,7 +248,6 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
     {
     }
 
-
     /**
      * Handler for 'start class' event.
      *
@@ -257,7 +256,7 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
      */
     protected function startClass($name)
     {
-        $this->write($this->currentTestClassPrettified .  '  ');
+        $this->write($this->currentTestClassPrettified . '  ');
     }
 
     /**
@@ -277,11 +276,13 @@ class ExtededTestdox extends \PHPUnit_Util_Printer implements \PHPUnit_Framework
     protected function doEndClass()
     {
         foreach ($this->tests as $name => $data) {
-            $check = ($data['failure'] == 0) ? ' [x] ' : ' [ ] ';
+            $check = $data['failure'] == 0 ? ' [x] ' : ' [ ] ';
             $this->write(
-                 "\n" . $check . $name
-                    . (($data['failure'] + $data['success']) == 0 ? ' (skipped)' : '')
-                    . ($data['time'] > 1 ?  ' - ' . number_format($data['time'], 2) . "s" : '')
+                "\n" . $check . $name . ($data['failure'] + $data['success'] ==
+                0 ? ' (skipped)' : '') . ($data['time'] > 1 ? ' - ' . number_format(
+                    $data['time'],
+                    2
+                ) . "s" : '')
             );
         }
 

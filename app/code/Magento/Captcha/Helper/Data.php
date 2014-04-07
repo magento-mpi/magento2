@@ -117,7 +117,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getConfig($key, $store = null)
     {
         return $this->_config->getValue(
-            'customer/captcha/' . $key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
+            'customer/captcha/' . $key,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
         );
     }
 

@@ -167,7 +167,8 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         }
 
         $shippingTaxClass = $this->_storeConfig->getValue(
-            \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
 
@@ -251,7 +252,6 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                     $baseAppliedAmount += $rate['base_amount'];
                 }
             }
-
 
             if ($appliedAmount || $previouslyAppliedTaxes[$row['id']]['amount']) {
                 $previouslyAppliedTaxes[$row['id']]['amount'] += $appliedAmount;

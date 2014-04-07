@@ -320,11 +320,11 @@ class Queue extends \Magento\Backend\App\Action
                 $this->getRequest()->getParam('styles')
             );
 
-            if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_PAUSE &&
-                $this->getRequest()->getParam(
-                '_resume',
-                false
-            )
+            if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_PAUSE
+                && $this->getRequest()->getParam(
+                    '_resume',
+                    false
+                )
             ) {
                 $queue->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_SENDING);
             }

@@ -105,14 +105,11 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
 
         /** @var $ruleModel \Magento\SalesRule\Model\Rule */
         foreach ($collection as $ruleModel) {
-            $description = '<table><tr>' .
-                '<td style="text-decoration:none;">' .
-                $ruleModel->getDescription() .
-                '<br/>Discount Start Date: ' .
-                $this->formatDate(
-                $ruleModel->getFromDate(),
-                'medium'
-            );
+            $description = '<table><tr>' . '<td style="text-decoration:none;">' . $ruleModel->getDescription()
+                . '<br/>Discount Start Date: ' . $this->formatDate(
+                    $ruleModel->getFromDate(),
+                    'medium'
+                );
             if ($ruleModel->getToDate()) {
                 $description .= '<br/>Discount End Date: ' . $this->formatDate($ruleModel->getToDate(), 'medium');
             }

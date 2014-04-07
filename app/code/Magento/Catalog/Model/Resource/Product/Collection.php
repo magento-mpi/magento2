@@ -257,7 +257,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
-     * @param Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -1855,7 +1855,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         //Clean duplicated fields
         $this->_resourceHelper->prepareColumnsList($select);
 
-
         return $this;
     }
 
@@ -1994,7 +1993,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
                 $categoryIds[$info['product_id']] = array($info['category_id']);
             }
         }
-
 
         foreach ($this->getItems() as $item) {
             $productId = $item->getId();

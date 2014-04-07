@@ -404,15 +404,15 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         /**
          * Add availability support urls without scope code
          */
-        if ($this->_getType() == \Magento\UrlInterface::URL_TYPE_LINK &&
-            $this->_getRequest()->isDirectAccessFrontendName(
-            $this->_getRouteFrontName()
-        )
+        if ($this->_getType() == \Magento\UrlInterface::URL_TYPE_LINK
+            && $this->_getRequest()->isDirectAccessFrontendName(
+                $this->_getRouteFrontName()
+            )
         ) {
             $this->_routeParamsResolver->setType(\Magento\UrlInterface::URL_TYPE_DIRECT_LINK);
         }
 
-        $result =  $this->_getScope()->getBaseUrl($this->_getType(), $this->_isSecure());
+        $result = $this->_getScope()->getBaseUrl($this->_getType(), $this->_isSecure());
         $this->_routeParamsResolver->setType(self::DEFAULT_URL_TYPE);
         return $result;
     }
@@ -934,10 +934,8 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             // @codingStandardsIgnoreEnd
             function ($match) {
                 if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
-                    return $match[1]
-                        . $this->_sidResolver->getSessionIdQueryParam($this->_session)
-                        . '=' . $this->_session->getSessionId()
-                        . (isset($match[3]) ? $match[3] : '');
+                    return $match[1] . $this->_sidResolver->getSessionIdQueryParam($this->_session) . '='
+                    . $this->_session->getSessionId() . (isset($match[3]) ? $match[3] : '');
                 } else {
                     if ($match[1] == '?') {
                         return isset($match[3]) ? '?' : '';

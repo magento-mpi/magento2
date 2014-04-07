@@ -234,7 +234,7 @@ abstract class AbstractModel extends \Magento\Object
             throw new \Magento\Model\Exception(__('Resource is not set.'));
         }
 
-        return $this->_resource ?: \Magento\App\ObjectManager::getInstance()->get($this->_resourceName);
+        return $this->_resource ? : \Magento\App\ObjectManager::getInstance()->get($this->_resourceName);
     }
 
     /**
@@ -262,8 +262,8 @@ abstract class AbstractModel extends \Magento\Object
         return $this->_resourceCollection ? clone $this
             ->_resourceCollection : \Magento\App\ObjectManager::getInstance()
             ->create(
-            $this->_collectionName
-        );
+                $this->_collectionName
+            );
     }
 
     /**
@@ -302,7 +302,7 @@ abstract class AbstractModel extends \Magento\Object
     protected function _getEventData()
     {
         return array(
-            'data_object'       => $this,
+            'data_object' => $this,
             $this->_eventObject => $this,
         );
     }

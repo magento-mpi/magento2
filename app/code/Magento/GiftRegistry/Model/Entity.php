@@ -214,6 +214,7 @@ class Entity extends \Magento\Model\AbstractModel
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
      * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection

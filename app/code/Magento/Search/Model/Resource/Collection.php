@@ -155,7 +155,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param mixed $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -253,7 +253,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Return suggestions search result data
      *
-     *  @return array
+     * @return array
      */
     public function getSuggestionsData()
     {
@@ -512,10 +512,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $params['limit'] = 1;
 
             $helper = $this->_searchData;
-            $searchSuggestionsEnabled = $this->_searchQueryParams != $this->_generalDefaultQuery &&
-                $helper->getSolrConfigData(
-                'server_suggestion_enabled'
-            );
+            $searchSuggestionsEnabled = $this->_searchQueryParams != $this->_generalDefaultQuery
+                && $helper->getSolrConfigData(
+                    'server_suggestion_enabled'
+                );
             if ($searchSuggestionsEnabled) {
                 $params['solr_params']['spellcheck'] = 'true';
                 $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');

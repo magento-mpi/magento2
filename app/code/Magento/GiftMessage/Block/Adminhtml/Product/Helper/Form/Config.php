@@ -51,7 +51,8 @@ class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
     protected function _getValueFromConfig()
     {
         return $this->_storeConfig->getValue(
-            \Magento\GiftMessage\Helper\Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS
-        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            \Magento\GiftMessage\Helper\Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

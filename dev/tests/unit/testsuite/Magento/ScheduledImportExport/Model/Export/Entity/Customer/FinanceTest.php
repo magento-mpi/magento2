@@ -179,7 +179,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method exportItem()
      *
-     * @covers \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::exportItem
+     * @covers Finance::exportItem
      */
     public function testExportItem()
     {
@@ -225,13 +225,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function validateWriteRow(array $row)
     {
-        $emailColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_EMAIL;
+        $emailColumn = Finance::COLUMN_EMAIL;
         $this->assertEquals($this->_customerData['email'], $row[$emailColumn]);
 
-        $websiteColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE;
+        $websiteColumn = Finance::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
-        $financeWebsiteCol = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteCol = Finance::COLUMN_FINANCE_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$financeWebsiteCol]);
 
         $this->assertEquals($this->_customerData[self::WEBSITE_ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

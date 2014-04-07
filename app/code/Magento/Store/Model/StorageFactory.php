@@ -120,17 +120,16 @@ class StorageFactory
      */
     public function get(array $arguments = array())
     {
-        $className = $this->_appState->isInstalled() ?
-            $this->_installedStoreClassName :
-            $this->_defaultStorageClassName;
+        $className =
+            $this->_appState->isInstalled() ? $this->_installedStoreClassName : $this->_defaultStorageClassName;
 
         if (false == isset($this->_cache[$className])) {
             /** @var $storage \Magento\Store\Model\StoreManagerInterface */
             $storage = $this->_objectManager->create($className, $arguments);
 
             if (false === ($storage instanceof \Magento\Store\Model\StoreManagerInterface)) {
-                throw new \InvalidArgumentException($className
-                    . ' doesn\'t implement \Magento\Store\Model\StoreManagerInterface'
+                throw new \InvalidArgumentException(
+                    $className . ' doesn\'t implement \Magento\Store\Model\StoreManagerInterface'
                 );
             }
             $this->_cache[$className] = $storage;
@@ -164,7 +163,10 @@ class StorageFactory
                     );
                     $this->_log->unsetLoggers();
                     $this->_log->addStreamLog(
-                        \Magento\Logger::LOGGER_SYSTEM, $logFile, $this->_writerModel);
+                        \Magento\Logger::LOGGER_SYSTEM,
+                        $logFile,
+                        $this->_writerModel
+                    );
                     $this->_log->addStreamLog(
                         \Magento\Logger::LOGGER_EXCEPTION,
                         $logExceptionFile,
@@ -190,7 +192,7 @@ class StorageFactory
         Profiler::stop('init_stores');
 
         $scopeCode = $arguments['scopeCode'];
-        $scopeType = $arguments['scopeType']  ?: ScopeInterface::SCOPE_STORE;
+        $scopeType = $arguments['scopeType'] ? : ScopeInterface::SCOPE_STORE;
         if (empty($scopeCode) && false == is_null($storage->getWebsite(true))) {
             $scopeCode = $storage->getWebsite(true)->getCode();
             $scopeType = ScopeInterface::SCOPE_WEBSITE;
@@ -316,10 +318,12 @@ class StorageFactory
          */
         $curStoreObj = $stores[$storage->getCurrentStore()];
         if ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
-            && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
+            && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()
+        ) {
             $storage->setCurrentStore($store);
         } elseif ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_GROUP
-            && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
+            && $storeObj->getGroupId() == $curStoreObj->getGroupId()
+        ) {
             $storage->setCurrentStore($store);
         } elseif ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_STORE) {
             $storage->setCurrentStore($store);

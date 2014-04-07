@@ -112,25 +112,27 @@ class Labels extends \Magento\Shipping\Model\Shipping
             )
         );
 
-        if (!$admin->getFirstname() ||
-            !$admin->getLastname() ||
-            !$storeInfo->getName() ||
-            !$storeInfo->getPhone() ||
-            !$originStreet1 ||
-            !$shipperRegionCode ||
-            !$this->_storeConfig->getValue(
-            Shipment::XML_PATH_STORE_CITY,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $shipmentStoreId
-        ) || !$this->_storeConfig->getValue(
-            Shipment::XML_PATH_STORE_ZIP,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $shipmentStoreId
-        ) || !$this->_storeConfig->getValue(
-            Shipment::XML_PATH_STORE_COUNTRY_ID,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $shipmentStoreId
-        )
+        if (!$admin->getFirstname()
+            || !$admin->getLastname()
+            || !$storeInfo->getName()
+            || !$storeInfo->getPhone()
+            || !$originStreet1
+            || !$shipperRegionCode
+            || !$this->_storeConfig->getValue(
+                Shipment::XML_PATH_STORE_CITY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $shipmentStoreId
+            )
+            || !$this->_storeConfig->getValue(
+                Shipment::XML_PATH_STORE_ZIP,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $shipmentStoreId
+            )
+            || !$this->_storeConfig->getValue(
+                Shipment::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $shipmentStoreId
+            )
         ) {
             throw new \Magento\Model\Exception(
                 __(

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 namespace Magento\ScheduledImportExport\Model\Resource\Customer;
-
+use \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
 /**
  * Test collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
  *
@@ -52,7 +52,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         foreach ($websites as $website) {
             $key = $website->getCode() .
                 '_' .
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
+                Collection::COLUMN_REWARD_POINTS;
             $rewardPoints = $customer->getData($key);
             $this->assertNotEmpty($rewardPoints);
             $this->assertEquals(
@@ -86,7 +86,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         foreach ($websites as $website) {
             $key = $website->getCode() .
                 '_' .
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
+                Collection::COLUMN_CUSTOMER_BALANCE;
             $customerBalance = $customer->getData($key);
             $this->assertNotEmpty($customerBalance);
             $this->assertEquals(
