@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service;
+namespace Magento\Webapi;
 
-class Exception extends \Magento\Model\Exception
+class ServiceException extends \Magento\Model\Exception
 {
     /** @var array */
     protected $_parameters;

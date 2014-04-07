@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 /**
  * Multishipping checkout model
  */
-class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
+class Multishipping extends \Magento\Object
 {
     /**
      * Quote shipping addresses items cache
@@ -68,6 +68,26 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     protected $helper;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var CustomerAddressServiceInterface
+     */
+    protected $_customerAddressService;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -105,7 +125,11 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         $this->_storeManager = $storeManager;
         $this->paymentSpecification = $paymentSpecification;
         $this->helper = $helper;
-        parent::__construct($checkoutSession, $customerSession, $orderFactory, $customerAddressService, $data);
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_orderFactory = $orderFactory;
+        $this->_customerAddressService = $customerAddressService;
+        parent::__construct($data);
         $this->_init();
     }
 
@@ -696,5 +720,102 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     {
         $idsAssoc = $this->_session->getOrderIds();
         return $asAssoc ? $idsAssoc : array_keys($idsAssoc);
+    }
+
+    /**
+     * Retrieve customer default billing address
+     *
+     * @return \Magento\Customer\Service\V1\Data\Address|null
+     */
+    public function getCustomerDefaultBillingAddress()
+    {
+        $address = $this->getData('customer_default_billing_address');
+        if (is_null($address)) {
+            $customerId = $this->getCustomer()->getId();
+            $address = $this->_customerAddressService->getDefaultBillingAddress($customerId);
+            if (!$address) {
+                /** Default billing address is not available, try to find any customer address */
+                $allAddresses = $this->_customerAddressService->getAddresses($customerId);
+                $address = count($allAddresses) ? reset($allAddresses) : null;
+            }
+            $this->setData('customer_default_billing_address', $address);
+        }
+        return $address;
+    }
+
+    /**
+     * Retrieve customer default shipping address
+     *
+     * @return \Magento\Customer\Service\V1\Data\Address|null
+     */
+    public function getCustomerDefaultShippingAddress()
+    {
+        $address = $this->getData('customer_default_shipping_address');
+        if (is_null($address)) {
+            $customerId = $this->getCustomer()->getId();
+            $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
+            if (!$address) {
+                /** Default shipping address is not available, try to find any customer address */
+                $allAddresses = $this->_customerAddressService->getAddresses($customerId);
+                $address = count($allAddresses) ? reset($allAddresses) : null;
+            }
+            $this->setData('customer_default_shipping_address', $address);
+        }
+        return $address;
+    }
+
+    /**
+     * Retrieve checkout session model
+     *
+     * @return \Magento\Checkout\Model\Session
+     */
+    public function getCheckoutSession()
+    {
+        $checkout = $this->getData('checkout_session');
+        if (is_null($checkout)) {
+            $checkout = $this->_checkoutSession;
+            $this->setData('checkout_session', $checkout);
+        }
+        return $checkout;
+    }
+
+    /**
+     * Retrieve quote model
+     *
+     * @return \Magento\Sales\Model\Quote
+     */
+    public function getQuote()
+    {
+        return $this->getCheckoutSession()->getQuote();
+    }
+
+    /**
+     * Retrieve quote items
+     *
+     * @return \Magento\Sales\Model\Quote\Item[]
+     */
+    public function getQuoteItems()
+    {
+        return $this->getQuote()->getAllItems();
+    }
+
+    /**
+     * Retrieve customer session model
+     *
+     * @return \Magento\Customer\Model\Session
+     */
+    public function getCustomerSession()
+    {
+        return $this->_customerSession;
+    }
+
+    /**
+     * Retrieve customer object
+     *
+     * @return \Magento\Customer\Service\V1\Data\Customer
+     */
+    public function getCustomer()
+    {
+        return $this->_customerSession->getCustomerDataObject();
     }
 }
