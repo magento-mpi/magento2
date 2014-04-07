@@ -88,7 +88,7 @@ class Price implements FixtureInterface
                 'price_from' => '$145.00',
                 'price_to' => '$150.00',
                 'configured_price' => '$10.00',
-                'cart_price' => '$150.00'
+                'cart_price' => '$145.00'
             ]
         ];
         if (!isset($presets[$this->currentPreset])) {

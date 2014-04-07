@@ -8,7 +8,11 @@
 
 namespace Magento\Bundle\Test\Fixture;
 
+use Mtf\System\Config;
+use Mtf\Handler\HandlerFactory;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogProductBundle
@@ -26,6 +30,35 @@ class CatalogProductBundle extends InjectableFixture
      * @var string
      */
     protected $handlerInterface = 'Magento\Bundle\Test\Handler\CatalogProductBundle\CatalogProductBundleInterface';
+
+    /**
+     * Constructor
+     *
+     * @constructor
+     * @param Config $configuration
+     * @param RepositoryFactory $repositoryFactory
+     * @param FixtureFactory $fixtureFactory
+     * @param HandlerFactory $handlerFactory
+     * @param array $data
+     * @param string $dataSet
+     * @param bool $persist
+     */
+    public function __construct(
+        Config $configuration,
+        RepositoryFactory $repositoryFactory,
+        FixtureFactory $fixtureFactory,
+        HandlerFactory $handlerFactory,
+        array $data = [],
+        $dataSet = '',
+        $persist = false
+    ) {
+        if (!isset($data['url_key']) && isset($data['name'])) {
+            $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
+        }
+        parent::__construct(
+            $configuration, $repositoryFactory, $fixtureFactory, $handlerFactory, $data, $dataSet, $persist
+        );
+    }
 
     protected $dataConfig = [
         'create_url_params' => [

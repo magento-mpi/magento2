@@ -41,12 +41,20 @@ class AssertBundleInCart extends AbstractConstraint
         $catalogProductView->init($bundle);
         $catalogProductView->open();
 
+        $catalogProductView->getViewBlock()->clickCustomize();
+
+        $optionsBlock = $catalogProductView->getOptionsBlock();
+        /** @var \Magento\Bundle\Test\Fixture\Bundle\Selections $selectionsFixture */
+        $selectionsFixture = $bundle->getDataFieldConfig('bundle_selections')['fixture'];
+        $bundleOptions = $selectionsFixture->getSelectionForCheckout();
+        if ($bundleOptions) {
+            $catalogProductView->getViewBlock()->getBundleBlock()->fillBundleOptions($bundleOptions);
+        }
         $productOptions = $bundle->getCustomOptions();
         if ($productOptions) {
-            $customOption = $catalogProductView->getOptionsBlock();
-            $options = $customOption->getProductCustomOptions();
+            $options = $optionsBlock->getBundleCustomOptions();
             $key = $productOptions[0]['title'];
-            $customOption->selectProductCustomOption($options[$key][1]);
+            $optionsBlock->selectProductCustomOption($options[$key][1]);
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 
@@ -80,6 +88,6 @@ class AssertBundleInCart extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product price in shopping cart is not correct.';
+        return 'Bundle price in shopping cart is not correct.';
     }
 }

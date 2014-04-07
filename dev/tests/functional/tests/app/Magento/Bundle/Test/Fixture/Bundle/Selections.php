@@ -28,6 +28,11 @@ class Selections implements FixtureInterface
     protected $fixtureFactory;
 
     /**
+     * @var string
+     */
+    protected $currentPreset;
+
+    /**
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param $data
@@ -53,7 +58,7 @@ class Selections implements FixtureInterface
                     ->createByCode($fixture, ['dataSet' => $dataSet]);
             }
         }
-
+        $this->currentPreset = $this->data['preset'];
         $this->data['preset'] = $this->getPreset($this->data['preset']);
 
         $this->params = $params;
@@ -96,6 +101,37 @@ class Selections implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
+    }
+
+    /**
+     * Get selection for performing checkout
+     *
+     * @return array|null
+     */
+    public function getSelectionForCheckout()
+    {
+        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple $product */
+        $product = $this->data['products'][0];
+        $selectionsForCheckout = [
+            'default' => [
+                0 => [
+                    'value' => $product->getName(),
+                    'type' => 'select',
+                    'qty' => 1
+                ]
+            ],
+            'second' => [
+                0 => [
+                    'value' => $product->getName(),
+                    'type' => 'select',
+                    'qty' => 1
+                ]
+            ],
+        ];
+        if (!isset($selectionsForCheckout[$this->currentPreset])) {
+            return null;
+        }
+        return $selectionsForCheckout[$this->currentPreset];
     }
 
     /**
