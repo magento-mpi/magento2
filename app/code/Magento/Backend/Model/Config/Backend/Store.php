@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
-class Store extends \Magento\Core\Model\Config\Value
+class Store extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\App\Config\MutableScopeConfigInterface

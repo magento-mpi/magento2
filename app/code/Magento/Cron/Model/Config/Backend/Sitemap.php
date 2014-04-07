@@ -17,7 +17,7 @@
  */
 namespace Magento\Cron\Model\Config\Backend;
 
-class Sitemap extends \Magento\Core\Model\Config\Value
+class Sitemap extends \Magento\App\Config\Value
 {
     /**
      * Cron string path
@@ -30,7 +30,7 @@ class Sitemap extends \Magento\Core\Model\Config\Value
     const CRON_MODEL_PATH = 'crontab/default/jobs/sitemap_generate/run/model';
 
     /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -43,7 +43,7 @@ class Sitemap extends \Magento\Core\Model\Config\Value
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\App\Config\ValueFactory $configValueFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param string $runModelPath
@@ -53,7 +53,7 @@ class Sitemap extends \Magento\Core\Model\Config\Value
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\App\Config\ValueFactory $configValueFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',

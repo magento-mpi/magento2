@@ -14,7 +14,7 @@ use Magento\Model\AbstractModel;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tablerate extends \Magento\Core\Model\Config\Value
+class Tablerate extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory

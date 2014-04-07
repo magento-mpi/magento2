@@ -33,7 +33,7 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_initialConfigMock = $this->getMock('Magento\App\Config\Initial', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
-            'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
+            'Magento\Store\Model\Resource\Config\Collection\ScopedFactory',
             array('create'),
             array(),
             '',

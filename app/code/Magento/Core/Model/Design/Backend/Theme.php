@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Design\Backend;
 
-class Theme extends \Magento\Core\Model\Config\Value
+class Theme extends \Magento\App\Config\Value
 {
     /**
      * Design package instance

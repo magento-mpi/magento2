@@ -12,7 +12,7 @@ namespace Magento\Paypal\Model\System\Config\Backend;
 /**
  * Backend model for merchant country. Default country used instead of empty value.
  */
-class MerchantCountry extends \Magento\Core\Model\Config\Value
+class MerchantCountry extends \Magento\App\Config\Value
 {
     /**
      * Core data

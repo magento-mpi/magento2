@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
-class Translate extends \Magento\Core\Model\Config\Value
+class Translate extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\App\Cache\TypeListInterface

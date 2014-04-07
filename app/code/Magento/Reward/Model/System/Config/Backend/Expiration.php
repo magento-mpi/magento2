@@ -12,7 +12,7 @@ namespace Magento\Reward\Model\System\Config\Backend;
 /**
  * Backend model for "Reward Points Lifetime"
  */
-class Expiration extends \Magento\Core\Model\Config\Value
+class Expiration extends \Magento\App\Config\Value
 {
     const XML_PATH_EXPIRATION_DAYS = 'magento_reward/general/expiration_days';
 

@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
-class Locale extends \Magento\Core\Model\Config\Value
+class Locale extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Core\Model\Resource\Config\Data\CollectionFactory

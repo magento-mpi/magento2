@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Admin;
 
-class Usesecretkey extends \Magento\Core\Model\Config\Value
+class Usesecretkey extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Backend\Model\UrlInterface

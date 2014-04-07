@@ -12,7 +12,7 @@ namespace Magento\Paypal\Model\System\Config\Backend;
 /**
  * Backend model for saving certificate file in case of using certificate based authentication
  */
-class Cert extends \Magento\Core\Model\Config\Value
+class Cert extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Paypal\Model\CertFactory

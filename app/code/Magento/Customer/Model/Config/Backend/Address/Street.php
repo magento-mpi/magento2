@@ -14,7 +14,7 @@ namespace Magento\Customer\Model\Config\Backend\Address;
  *
  * @method string getWebsiteCode
  */
-class Street extends \Magento\Core\Model\Config\Value
+class Street extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Eav\Model\Config

@@ -5,12 +5,10 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class Base extends \Magento\Simplexml\Config
 {
@@ -26,7 +24,7 @@ class Base extends \Magento\Simplexml\Config
      */
     public function __construct($sourceData = null)
     {
-        $this->_elementClass = 'Magento\Core\Model\Config\Element';
+        $this->_elementClass = 'Magento\App\Config\Element';
         parent::__construct($sourceData);
         self::$instances[] = $this;
     }

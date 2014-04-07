@@ -80,7 +80,7 @@ class Operation extends \Magento\Model\AbstractModel
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -123,7 +123,7 @@ class Operation extends \Magento\Model\AbstractModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
-     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\App\Config\ValueFactory $configValueFactory
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
@@ -139,7 +139,7 @@ class Operation extends \Magento\Model\AbstractModel
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
-        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\App\Config\ValueFactory $configValueFactory,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,

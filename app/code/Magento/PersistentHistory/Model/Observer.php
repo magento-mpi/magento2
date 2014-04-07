@@ -91,7 +91,7 @@ class Observer
     protected $_urlFactory;
 
     /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_valueFactory;
 
@@ -123,7 +123,7 @@ class Observer
      * @param \Magento\Catalog\Model\Product\Compare\Item $compareItem
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $configFactory
      * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\Core\Model\Config\ValueFactory $valueFactory
+     * @param \Magento\App\Config\ValueFactory $valueFactory
      * @param \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory
      * @param \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishListFactory
@@ -141,7 +141,7 @@ class Observer
         \Magento\Catalog\Model\Product\Compare\Item $compareItem,
         \Magento\Persistent\Model\Persistent\ConfigFactory $configFactory,
         \Magento\UrlFactory $urlFactory,
-        \Magento\Core\Model\Config\ValueFactory $valueFactory,
+        \Magento\App\Config\ValueFactory $valueFactory,
         \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory,
         \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishListFactory

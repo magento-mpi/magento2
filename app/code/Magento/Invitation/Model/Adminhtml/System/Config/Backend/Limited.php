@@ -13,7 +13,7 @@ namespace Magento\Invitation\Model\Adminhtml\System\Config\Backend;
  * Backend model for max_invitation_amount_per_send to set it's pervious value
  * in case admin user will enter invalid data (for example zero) bc this value can't be unlimited.
  */
-class Limited extends \Magento\Core\Model\Config\Value
+class Limited extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Message\ManagerInterface

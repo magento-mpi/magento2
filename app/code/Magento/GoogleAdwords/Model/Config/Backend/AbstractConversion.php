@@ -12,7 +12,7 @@ namespace Magento\GoogleAdwords\Model\Config\Backend;
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-abstract class AbstractConversion extends \Magento\Core\Model\Config\Value
+abstract class AbstractConversion extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Validator\Object

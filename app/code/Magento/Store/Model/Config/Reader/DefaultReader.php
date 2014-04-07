@@ -22,7 +22,7 @@ class DefaultReader implements \Magento\App\Config\Scope\ReaderInterface
     protected $_converter;
 
     /**
-     * @var \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory
+     * @var \Magento\Store\Model\Resource\Config\Collection\ScopedFactory
      */
     protected $_collectionFactory;
 
@@ -34,13 +34,13 @@ class DefaultReader implements \Magento\App\Config\Scope\ReaderInterface
     /**
      * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\App\Config\Scope\Converter $converter
-     * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
+     * @param \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory
      * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\App\Config\Initial $initialConfig,
         \Magento\App\Config\Scope\Converter $converter,
-        \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
+        \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory,
         \Magento\App\State $appState
     ) {
         $this->_initialConfig = $initialConfig;

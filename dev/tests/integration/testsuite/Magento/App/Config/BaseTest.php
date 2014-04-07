@@ -2,13 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,10 +17,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 <root><key>value</key></root>
 XML;
         $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Config\Base',
+            'Magento\App\Config\Base',
             array('sourceData' => $xml)
         );
 
-        $this->assertInstanceOf('Magento\Core\Model\Config\Element', $config->getNode('key'));
+        $this->assertInstanceOf('Magento\App\Config\Element', $config->getNode('key'));
     }
 }

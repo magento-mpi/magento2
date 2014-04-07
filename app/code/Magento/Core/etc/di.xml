@@ -20,7 +20,7 @@
     <preference for="Magento\App\Config\ScopeConfigInterface" type="Magento\App\Config" />
     <preference for="Magento\App\Config\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
     <preference for="Magento\App\Config\MutableScopeConfigInterface" type="Magento\App\MutableScopeConfig" />
-    <preference for="Magento\App\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Db" />
+    <preference for="Magento\App\Config\Storage\WriterInterface" type="Magento\App\Config\Storage\Writer" />
     <preference for="Magento\View\Design\Theme\FileInterface" type="Magento\Core\Model\Theme\File" />
     <preference for="Magento\Config\ConverterInterface" type="Magento\Config\Converter\Dom"/>
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
@@ -64,6 +64,7 @@
     <preference for="Magento\Stdlib\DateTime\DateInterface" type="Magento\Stdlib\DateTime\Date" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
     <preference for="Magento\Module\ResourceInterface" type="Magento\Install\Model\Resource\Resource" />
+    <preference for="Magento\App\Config\Resource\ConfigInterface" type="Magento\Core\Model\Resource\Config" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">
@@ -485,6 +486,12 @@
         <arguments>
             <argument name="resourceName" xsi:type="string">core_setup</argument>
             <argument name="connectionName" xsi:type="string">Magento\Module\Updater::DEFAULT_SETUP_CONNECTION</argument>
+        </arguments>
+    </type>
+    <type name="Magento\App\Config\Value">
+        <arguments>
+            <argument name="resource" xsi:type="object">Magento\Core\Model\Resource\Config\Data</argument>
+            <argument name="resourceCollection" xsi:type="object">Magento\Core\Model\Resource\Config\Data\Collection</argument>
         </arguments>
     </type>
 </config>

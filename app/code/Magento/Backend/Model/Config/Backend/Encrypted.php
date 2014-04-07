@@ -11,7 +11,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
-class Encrypted extends \Magento\Core\Model\Config\Value implements \Magento\App\Config\Data\ProcessorInterface
+class Encrypted extends \Magento\App\Config\Value implements \Magento\App\Config\Data\ProcessorInterface
 {
     /**
      * @var \Magento\Encryption\EncryptorInterface

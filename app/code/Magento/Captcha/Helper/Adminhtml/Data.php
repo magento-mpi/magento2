@@ -49,7 +49,7 @@ class Data extends \Magento\Captcha\Helper\Data
      *
      * @param string $key The last part of XML_PATH_$area_CAPTCHA_ constant (case insensitive)
      * @param \Magento\Store\Model\Store $store
-     * @return \Magento\Core\Model\Config\Element
+     * @return \Magento\App\Config\Element
      */
     public function getConfig($key, $store = null)
     {

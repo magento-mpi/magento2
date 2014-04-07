@@ -2,20 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Config element model
- *
- * @category   Magento
- * @package    Magento_Core
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class Element extends \Magento\Simplexml\Element
 {

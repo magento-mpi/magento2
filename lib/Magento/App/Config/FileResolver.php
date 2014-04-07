@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class FileResolver implements \Magento\Config\FileResolverInterface
 {

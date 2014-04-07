@@ -104,7 +104,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_dataFactoryMock = $this->getMock(
-            'Magento\Core\Model\Config\ValueFactory',
+            'Magento\App\Config\ValueFactory',
             array(),
             array(),
             '',
@@ -232,7 +232,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_model->setGroups(array('1' => array('fields' => array('key' => array('data')))));
 
         $backendModel = $this->getMock(
-            'Magento\Core\Model\Config\Value',
+            'Magento\App\Config\Value',
             array('setPath', 'addData', '__sleep', '__wakeup'),
             array(),
             '',

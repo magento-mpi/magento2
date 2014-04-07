@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Element
+     * @var \Magento\App\Config\Element
      */
     protected $_model;
 
@@ -46,7 +44,7 @@ XML;
          * @TODO: Need to use ObjectManager instead 'new'.
          * On this moment we have next bug MAGETWO-4274 which blocker for this key.
          */
-        $this->_model = new \Magento\Core\Model\Config\Element($xml);
+        $this->_model = new \Magento\App\Config\Element($xml);
     }
 
     public function testIs()

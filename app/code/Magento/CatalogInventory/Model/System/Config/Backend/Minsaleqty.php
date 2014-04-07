@@ -14,7 +14,7 @@
  */
 namespace Magento\CatalogInventory\Model\System\Config\Backend;
 
-class Minsaleqty extends \Magento\Core\Model\Config\Value
+class Minsaleqty extends \Magento\App\Config\Value
 {
     /**
      * Catalog inventory minsaleqty

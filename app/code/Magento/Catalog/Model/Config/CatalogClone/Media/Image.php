@@ -14,7 +14,7 @@ namespace Magento\Catalog\Model\Config\CatalogClone\Media;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Image extends \Magento\Core\Model\Config\Value
+class Image extends \Magento\App\Config\Value
 {
     /**
      * Eav config

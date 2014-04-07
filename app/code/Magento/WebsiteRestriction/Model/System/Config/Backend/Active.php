@@ -17,7 +17,7 @@
  */
 namespace Magento\WebsiteRestriction\Model\System\Config\Backend;
 
-class Active extends \Magento\Core\Model\Config\Value
+class Active extends \Magento\App\Config\Value
 {
     /**
      * Prefix of model events names

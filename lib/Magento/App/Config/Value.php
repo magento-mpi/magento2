@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 /**
  * Config data model
  *
- * @method \Magento\Core\Model\Resource\Config\Data getResource()
+ * @method \Magento\Model\Resource\Db\AbstractDb getResource()
  * @method string getScope()
  * @method \Magento\App\Config\ValueInterface setScope(string $value)
  * @method int getScopeId()
@@ -30,7 +28,7 @@ class Value extends \Magento\Model\AbstractModel implements \Magento\App\Config\
      *
      * @var string
      */
-    protected $_eventPrefix = 'core_config_data';
+    protected $_eventPrefix = 'config_data';
 
     /**
      * Parameter name in event
@@ -64,16 +62,6 @@ class Value extends \Magento\Model\AbstractModel implements \Magento\App\Config\
     ) {
         $this->_config = $config;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-    }
-
-    /**
-     * Magento model constructor
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->_init('Magento\Core\Model\Resource\Config\Data');
     }
 
     /**

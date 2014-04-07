@@ -188,7 +188,7 @@ return array(
     array('_coreDir', 'Magento\ScheduledImportExport\Model\Scheduled\Operation'),
     array('_dir', 'Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler'),
     array('_dirs', 'Magento\Core\Block\Template'),
-    array('_applicationDirs', 'Magento\Core\Model\Config\FileResolver'),
+    array('_applicationDirs', 'Magento\App\Config\FileResolver'),
     array('_dir', 'Magento\Core\Model\File\Storage'),
     array('_dir', 'Magento\Locale\Hierarchy\Config\FileResolver'),
     array('_dirs', 'Magento\Core\Block\Template\Context'),

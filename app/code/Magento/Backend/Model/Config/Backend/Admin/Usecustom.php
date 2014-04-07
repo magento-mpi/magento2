@@ -14,7 +14,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Admin;
 
-class Usecustom extends \Magento\Core\Model\Config\Value
+class Usecustom extends \Magento\App\Config\Value
 {
     /**
      * Writer of configuration storage

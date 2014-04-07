@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Config\Backend;
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Category extends \Magento\Core\Model\Config\Value
+class Category extends \Magento\App\Config\Value
 {
     /**
      * Catalog category

@@ -14,7 +14,7 @@ namespace Magento\Backend\Model\Config\Backend;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class File extends \Magento\Core\Model\Config\Value
+class File extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface

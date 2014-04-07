@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Resource\Config\Value\Collection;
+namespace Magento\Store\Model\Resource\Config\Collection;
 
 class Scoped extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {

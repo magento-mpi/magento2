@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class BaseFactory
 {
@@ -28,10 +28,10 @@ class BaseFactory
      * Create config model
      *
      * @param string|\Magento\Simplexml\Element $sourceData
-     * @return \Magento\Core\Model\Config\Base
+     * @return \Magento\App\Config\Base
      */
     public function create($sourceData = null)
     {
-        return $this->_objectManager->create('Magento\Core\Model\Config\Base', array('sourceData' => $sourceData));
+        return $this->_objectManager->create('Magento\App\Config\Base', array('sourceData' => $sourceData));
     }
 }

@@ -14,7 +14,7 @@ namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\P
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class DefaultPrice extends \Magento\Core\Model\Config\Value
+class DefaultPrice extends \Magento\App\Config\Value
 {
     /**
      * Price permissions data

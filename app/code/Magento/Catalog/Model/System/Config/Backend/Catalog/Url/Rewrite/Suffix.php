@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Model\System\Config\Backend\Catalog\Url\Rewrite;
 
-class Suffix extends \Magento\Core\Model\Config\Value
+class Suffix extends \Magento\App\Config\Value
 {
     /**
      * Core url rewrite

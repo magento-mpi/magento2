@@ -18,7 +18,7 @@ use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Customer extends \Magento\Core\Model\Config\Value
+class Customer extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Eav\Model\Config

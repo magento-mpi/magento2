@@ -10,7 +10,7 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat\System\Config;
 /**
  * Flat product on/off backend
  */
-class Mode extends \Magento\Core\Model\Config\Value
+class Mode extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor

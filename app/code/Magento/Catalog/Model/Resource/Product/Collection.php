@@ -566,7 +566,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Add attribute to entities in collection
      * If $attribute=='*' select all attributes
      *
-     * @param array|string|integer|\Magento\Core\Model\Config\Element $attribute
+     * @param array|string|integer|\Magento\App\Config\Element $attribute
      * @param bool|string $joinType
      * @return $this
      */

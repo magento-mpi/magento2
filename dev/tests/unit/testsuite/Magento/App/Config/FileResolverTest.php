@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Files resolver
      *
-     * @var \Magento\Core\Model\Config\FileResolver
+     * @var \Magento\App\Config\FileResolver
      */
     protected $model;
 
@@ -52,7 +52,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->model = new \Magento\Core\Model\Config\FileResolver(
+        $this->model = new \Magento\App\Config\FileResolver(
             $this->moduleReader,
             $this->filesystem,
             $this->iteratorFactory

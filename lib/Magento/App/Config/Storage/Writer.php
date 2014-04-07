@@ -1,27 +1,27 @@
 <?php
 /**
- * Application config db storage writer
+ * Application config storage writer
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Storage;
+namespace Magento\App\Config\Storage;
 
-class Db implements \Magento\App\Config\Storage\WriterInterface
+class Writer implements \Magento\App\Config\Storage\WriterInterface
 {
     /**
      * Resource model of config data
      *
-     * @var \Magento\Core\Model\Resource\Config
+     * @var \Magento\App\Config\Resource\ConfigInterface
      */
     protected $_resource;
 
     /**
-     * @param \Magento\Core\Model\Resource\Config $resource
+     * @param \Magento\App\Config\Resource\ConfigInterface $resource
      */
-    public function __construct(\Magento\Core\Model\Resource\Config $resource)
+    public function __construct(\Magento\App\Config\Resource\ConfigInterface $resource)
     {
         $this->_resource = $resource;
     }

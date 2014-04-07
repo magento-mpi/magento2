@@ -25,7 +25,7 @@ class Baseurl implements \Magento\AdminNotification\Model\System\MessageInterfac
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -33,13 +33,13 @@ class Baseurl implements \Magento\AdminNotification\Model\System\MessageInterfac
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\App\Config\ValueFactory $configValueFactory
      */
     public function __construct(
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\Core\Model\Config\ValueFactory $configValueFactory
+        \Magento\App\Config\ValueFactory $configValueFactory
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->_config = $config;

@@ -10,7 +10,7 @@ namespace Magento\Catalog\Model\Indexer\Product\Price\System\Config;
 /**
  * Price scope backend model
  */
-class PriceScope extends \Magento\Core\Model\Config\Value
+class PriceScope extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Indexer\Model\IndexerInterface

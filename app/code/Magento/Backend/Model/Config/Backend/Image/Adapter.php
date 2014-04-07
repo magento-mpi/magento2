@@ -18,7 +18,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Image;
 
-class Adapter extends \Magento\Core\Model\Config\Value
+class Adapter extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Image\AdapterFactory

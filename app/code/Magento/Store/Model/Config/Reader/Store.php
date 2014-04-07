@@ -25,7 +25,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     protected $_converter;
 
     /**
-     * @var \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory
+     * @var \Magento\Store\Model\Resource\Config\Collection\ScopedFactory
      */
     protected $_collectionFactory;
 
@@ -48,7 +48,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
      * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\App\Config\ScopePool $scopePool
      * @param \Magento\Store\Model\Config\Converter $converter
-     * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
+     * @param \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -57,7 +57,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
         \Magento\App\Config\Initial $initialConfig,
         \Magento\App\Config\ScopePool $scopePool,
         \Magento\Store\Model\Config\Converter $converter,
-        \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
+        \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager

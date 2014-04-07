@@ -52,14 +52,14 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
 
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $configFactoryMock = $this->getMock(
-            'Magento\Core\Model\Config\ValueFactory',
+            'Magento\App\Config\ValueFactory',
             array('create'),
             array(),
             '',
             false
         );
         $this->_configDataMock = $this->getMock(
-            'Magento\Core\Model\Config\Value',
+            'Magento\App\Config\Value',
             array('getScope', 'getScopeId', 'getCollection', '__sleep', '__wakeup'),
             array(),
             '',

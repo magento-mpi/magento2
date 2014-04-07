@@ -7,7 +7,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
-class Baseurl extends \Magento\Core\Model\Config\Value
+class Baseurl extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\View\Asset\MergeService

@@ -65,7 +65,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('getStores', 'isSingleStoreMode')
         );
         $this->_configData = $this->getMock(
-            'Magento\Core\Model\Config\Value',
+            'Magento\App\Config\Value',
             array('getCollection', 'addFieldToFilter', '__wakeup'),
             array(),
             '',

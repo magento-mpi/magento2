@@ -13,7 +13,7 @@ namespace Magento\Rss\Model\System\Config\Backend;
  * Cache cleaner backend model
  *
  */
-class Links extends \Magento\Core\Model\Config\Value
+class Links extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\App\Cache\TypeListInterface

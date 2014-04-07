@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Storage\Media;
 
-class Database extends \Magento\Core\Model\Config\Value
+class Database extends \Magento\App\Config\Value
 {
     /**
      * Core file storage

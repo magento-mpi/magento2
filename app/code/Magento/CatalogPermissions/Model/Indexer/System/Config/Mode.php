@@ -10,7 +10,7 @@ namespace Magento\CatalogPermissions\Model\Indexer\System\Config;
 /**
  * Catalog Permissions on/off backend
  */
-class Mode extends \Magento\Core\Model\Config\Value
+class Mode extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Indexer\Model\IndexerInterface

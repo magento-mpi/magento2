@@ -16,7 +16,7 @@ namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Engine extends \Magento\Core\Model\Config\Value
+class Engine extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Index\Model\Indexer
