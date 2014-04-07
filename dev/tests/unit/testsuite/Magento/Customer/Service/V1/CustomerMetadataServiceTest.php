@@ -181,8 +181,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $service->getAttributeMetadata('entityCode', 'attributeId');
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+        } catch (NoSuchEntityException $e) {
             $this->assertEquals(
                 array('entityType' => 'entityCode', 'attributeCode' => 'attributeId'),
                 $e->getParams()
@@ -316,7 +315,6 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $service->getCustomerAttributeMetadata('attributeId');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
             $this->assertEquals(array('entityType' => 'customer', 'attributeCode' => 'attributeId'), $e->getParams());
         }
     }
@@ -353,7 +351,6 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $service->getAddressAttributeMetadata('attributeId');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
             $this->assertEquals(
                 array('entityType' => 'customer_address', 'attributeCode' => 'attributeId'),
                 $e->getParams()

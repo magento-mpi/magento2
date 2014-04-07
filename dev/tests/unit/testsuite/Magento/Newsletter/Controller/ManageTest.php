@@ -136,7 +136,8 @@ class ManageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $this->customerAccountServiceMock->expects($this->any())
             ->method('getCustomer')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('customerId', 'value')));
+            ->will($this->throwException((new \Magento\Exception\NoSuchEntityException())
+                        ->addField('customerId', 'value')));
         $this->redirectMock->expects($this->once())
             ->method('redirect')
             ->with($this->responseMock, 'customer/account/', []);

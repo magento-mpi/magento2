@@ -333,8 +333,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getParams(), array('customerId' => self::ID));
         }
     }
@@ -577,8 +576,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->validateResetPasswordLinkToken(1, $resetToken);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getParams(), array('customerId' => self::ID));
         }
     }
@@ -677,8 +675,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->initiatePasswordReset($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getParams(), array('email' => $email, 'websiteId' => 0));
         }
     }
@@ -949,8 +946,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->resetPassword(4200, $resetToken, $password);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getParams(), array('customerId' => 4200));
         }
     }
@@ -1758,7 +1754,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomerModel'
         )->will(
-            $this->throwException(new \Magento\Exception\NoSuchEntityException('testField', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('testField', 'value'))
         );
         $this->_converter->expects(
             $this->any()
@@ -1788,7 +1784,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomerModelByEmail'
         )->will(
-            $this->throwException(new \Magento\Exception\NoSuchEntityException('testField', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('testField', 'value'))
         );
         $this->assertTrue($service->isEmailAvailable('email', 1));
     }

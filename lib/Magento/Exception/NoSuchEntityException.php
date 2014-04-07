@@ -9,30 +9,29 @@
  */
 namespace Magento\Exception;
 
-class NoSuchEntityException extends \Magento\Exception\Exception
+class NoSuchEntityException extends \Magento\Exception\LocalizedException
 {
-    const NO_SUCH_ENTITY = 0;
-
     /**
-     * @param string $fieldName name of the field searched upon
-     * @param mixed  $value     the value of the field
+     * @param string $message
+     * @param array $params
+     * @param \Exception $cause
      */
-    public function __construct($fieldName, $value)
+    public function __construct(
+        $message = 'No such entity with $fieldName = $value',
+        array $params = [],
+        \Exception $cause = null)
     {
-        $message = "No such entity with {$fieldName} = {$value}";
-        $this->_params[$fieldName] = $value;
-        parent::__construct($message, self::NO_SUCH_ENTITY);
+        parent::__construct($message, $params, $cause);
     }
 
     /**
      * @param string $fieldName name of the field searched upon
-     * @param mixed  $value     the value of the field
+     * @param string $value     the value of the field
      * @return $this
      */
     public function addField($fieldName, $value)
     {
-        $this->message .= "\n {$fieldName} = {$value}";
-        $this->_params[$fieldName] = $value;
+        $this->params[$fieldName] = $value;
         return $this;
     }
 }

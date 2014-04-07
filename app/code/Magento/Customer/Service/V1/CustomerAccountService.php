@@ -148,7 +148,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customer = $this->_customerFactory->create();
         $customer->setWebsiteId($websiteId)->loadByEmail($email);
         if (!$customer->getId()) {
-            throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
+            throw (new NoSuchEntityException())->addField('email', $email)->addField('websiteId', $websiteId);
         }
         if ($customer->getConfirmation()) {
             try {
@@ -234,7 +234,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customer = $this->_customerFactory->create()->setWebsiteId($websiteId)->loadByEmail($email);
 
         if (!$customer->getId()) {
-            throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
+            throw (new NoSuchEntityException())->addField('email', $email)->addField('websiteId', $websiteId);
         }
         $newPasswordToken = $this->_mathRandom->getUniqueHash();
         $customer->changeResetPasswordLinkToken($newPasswordToken);

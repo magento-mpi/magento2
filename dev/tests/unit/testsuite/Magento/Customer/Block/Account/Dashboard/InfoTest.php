@@ -139,7 +139,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomer'
         )->will(
-            $this->throwException(new NoSuchEntityException('customerId', 1))
+            $this->throwException((new NoSuchEntityException())->addField('customerId', 1))
         );
         $this->assertNull($this->_block->getCustomer());
     }

@@ -130,7 +130,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertSame(false, $this->_block->isEnabled());
     }
@@ -154,7 +154,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertSame(false, $this->_block->isRequired());
     }
@@ -310,7 +310,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertNull($this->_block->getMinDateRange());
     }
@@ -354,7 +354,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertNull($this->_block->getMaxDateRange());
     }

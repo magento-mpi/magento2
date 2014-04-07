@@ -102,7 +102,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertSame(false, $this->_block->isEnabled());
     }
@@ -138,7 +138,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertSame(false, $this->_block->isRequired());
     }

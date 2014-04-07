@@ -649,8 +649,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveAddresses(4200, array($this->_addressBuilder->create()));
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getParams(), array('customerId' => 4200));
         } catch (\Exception $unexpected) {
             $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
@@ -686,7 +685,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->deleteAddress(2);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame($exception->getParams(), array('addressId' => 2));
         }
     }

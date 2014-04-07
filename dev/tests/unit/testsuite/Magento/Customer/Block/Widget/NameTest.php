@@ -127,7 +127,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertFalse($this->_block->showPrefix());
     }
@@ -143,7 +143,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertFalse($this->_block->{$method}());
     }
@@ -391,7 +391,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
         );
         $this->assertSame('', $this->_block->getStoreLabel('attributeCode'));
     }

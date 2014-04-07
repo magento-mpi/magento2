@@ -215,7 +215,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup->load($groupId);
         // Throw exception if a customer group does not exist
         if (is_null($customerGroup->getId())) {
-            throw new NoSuchEntityException('groupId', $groupId);
+            throw (new NoSuchEntityException())->addField('groupId', $groupId);
         }
         $this->_customerGroupBuilder->setId(
             $customerGroup->getId()
