@@ -92,7 +92,8 @@ class PriceBox extends PriceBoxRender
      */
     public function getCanDisplayQty(SaleableInterface $product)
     {
-        if ($product->getTypeId() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
+        //TODO Refactor - change to const similar to Model\Product\Type\Grouped::TYPE_CODE
+        if ($product->getTypeId() == 'grouped') {
             return false;
         }
         return true;
