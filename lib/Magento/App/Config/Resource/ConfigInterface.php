@@ -10,7 +10,7 @@ namespace Magento\App\Config\Resource;
 /**
  * Resource Config Interface
  */
-class ConfigInterface
+interface ConfigInterface
 {
     /**
      * Save config value
