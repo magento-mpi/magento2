@@ -202,7 +202,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * @var bool
      */
-    protected $cacheable;
+    protected $cacheable = true;
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
@@ -238,7 +238,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA,
-        $cacheable = null
+        $cacheable
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
@@ -1401,7 +1401,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             try {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             } catch (\ReflectionException $e) {
-                //throw new \Exception($e->getMessage());
                 // incorrect class name
             }
         }
@@ -1665,7 +1664,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     public function isCacheable()
     {
         $cacheableXml = !(bool)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
-        return null === $this->cacheable ? $cacheableXml : $this->cacheable && $cacheableXml;
+        return $this->cacheable && $cacheableXml;
     }
 
     /**
