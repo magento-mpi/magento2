@@ -17,6 +17,8 @@
   * Fixed an issue where mistakenly the attribute of the Customer Address Edit form was cached
   * Fixed an issue where admin could not unsubscribe customer on the customer edit page in the backend
   * Fixed an issue where customers were always subscribed to the newsletter even if not selected during registration
+* GitHub requests:
+  * [#325] (https://github.com/magento/magento2/pull/325) -- ImportExport: Fix notice if _attribute_set column is missing
 
 2.0.0.0-dev71
 =============
