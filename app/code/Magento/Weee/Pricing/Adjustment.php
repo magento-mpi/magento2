@@ -126,7 +126,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function isExcludedWith($adjustmentCode)
     {
-        return $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODE;
+        return ($adjustmentCode === self::CODE) || $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODE;
     }
 
     /**

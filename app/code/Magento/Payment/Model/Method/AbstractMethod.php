@@ -230,7 +230,7 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     }
 
     /**
-     * Check authorise availability
+     * Check authorize availability
      *
      * @return bool
      */
@@ -429,7 +429,7 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     }
 
     /**
-     * Retrieve payment iformation model object
+     * Retrieve payment information model object
      *
      * @return \Magento\Payment\Model\Info
      * @throws \Magento\Model\Exception

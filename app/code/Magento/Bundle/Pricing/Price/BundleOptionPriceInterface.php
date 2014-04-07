@@ -23,4 +23,10 @@ interface BundleOptionPriceInterface
      * @return array
      */
     public function getOptions();
+
+    /**
+     * @param \Magento\Bundle\Model\Selection $selection
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    public function getOptionSelectionAmount($selection);
 }

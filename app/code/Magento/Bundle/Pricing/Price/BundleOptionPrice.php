@@ -89,6 +89,15 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
 
     /**
      * @param \Magento\Bundle\Model\Selection $selection
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    public function getOptionSelectionAmount($selection)
+    {
+        return $this->createSelection($selection)->getAmount();
+    }
+
+    /**
+     * @param \Magento\Bundle\Model\Selection $selection
      * @return \Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface
      */
     protected function createSelection($selection)

@@ -5,14 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi;
+namespace Magento\Customer\Service\V1;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
 class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     const SOAP_SERVICE_NAME = 'customerCustomerAddressServiceV1';
-
     const SOAP_SERVICE_VERSION = 'V1';
 
     /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
@@ -28,8 +27,6 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $this->customerAddressService = $objectManager->get(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
         );
-        //Temporarily adding it here to avoid making changes to tear down
-        $this->_markTestAsRestOnly();
         parent::setUp();
     }
 
@@ -74,20 +71,24 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     public function testGetAddress()
     {
         $fixtureAddressId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => "/V1/customer/address/{$fixtureAddressId}",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
                 'operation' => self::SOAP_SERVICE_NAME . 'GetAddress'
-            )
-        );
-        $requestData = array('addressId' => $fixtureAddressId);
+            ]
+        ];
+        $requestData = ['addressId' => $fixtureAddressId];
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($this->getFirstFixtureAddressData(), $addressData, "Address data is invalid.");
+        $this->assertEquals(
+            $this->getFirstFixtureAddressData(),
+            $addressData,
+            "Address data is invalid."
+        );
     }
 
     /**
@@ -97,21 +98,21 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     public function testGetAddresses()
     {
         $fixtureCustomerId = 1;
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => "/V1/customer/{$fixtureCustomerId}/address",
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customer/$fixtureCustomerId/address",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
                 'operation' => self::SOAP_SERVICE_NAME . 'GetAddresses'
-            )
-        );
-        $requestData = array('customerId' => $fixtureCustomerId);
+            ]
+        ];
+        $requestData = ['customerId' => $fixtureCustomerId];
         $addressesData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
-            array($this->getFirstFixtureAddressData(), $this->getSecondFixtureAddressData()),
+            [$this->getFirstFixtureAddressData(), $this->getSecondFixtureAddressData()],
             $addressesData,
             "Addresses list is invalid."
         );
@@ -124,18 +125,18 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     public function testGetDefaultBillingAddress()
     {
         $fixtureCustomerId = 1;
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => "/V1/customer/{$fixtureCustomerId}/address/DefaultBilling",
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customer/$fixtureCustomerId/address/DefaultBilling",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
                 'operation' => self::SOAP_SERVICE_NAME . 'GetDefaultBillingAddress'
-            )
-        );
-        $requestData = array('customerId' => $fixtureCustomerId);
+            ]
+        ];
+        $requestData = ['customerId' => $fixtureCustomerId];
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             $this->getFirstFixtureAddressData(),
@@ -151,18 +152,18 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     public function testGetDefaultShippingAddress()
     {
         $fixtureCustomerId = 1;
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => "/V1/customer/{$fixtureCustomerId}/address/DefaultBilling",
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customer/$fixtureCustomerId/address/DefaultBilling",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
                 'operation' => self::SOAP_SERVICE_NAME . 'GetDefaultShippingAddress'
-            )
-        );
-        $requestData = array('customerId' => $fixtureCustomerId);
+            ]
+        ];
+        $requestData = ['customerId' => $fixtureCustomerId];
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             $this->getFirstFixtureAddressData(),
@@ -178,19 +179,20 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     public function testDeleteAddress()
     {
         $fixtureAddressId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => "/V1/customer/address/{$fixtureAddressId}",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
-                'operation' => self::SOAP_SERVICE_NAME . 'GetDefaultShippingAddress'
-            )
-        );
-        $requestData = array('addressId' => $fixtureAddressId);
-        $this->_webApiCall($serviceInfo, $requestData);
+                'operation' => self::SOAP_SERVICE_NAME . 'DeleteAddress'
+            ]
+        ];
+        $requestData = ['addressId' => $fixtureAddressId];
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($response, 'Expected response should be true.');
 
         $this->setExpectedException('Magento\Exception\NoSuchEntityException', 'No such entity with addressId = 1');
         $this->customerAddressService->getAddress($fixtureAddressId);
@@ -202,17 +204,17 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
     public function testCreateAddress()
     {
         $customerFixtureId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => "/V1/customer/{$customerFixtureId}/address",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
                 'operation' => self::SOAP_SERVICE_NAME . 'SaveAddresses'
-            )
-        );
+            ]
+        ];
         $firstAddressData = $this->getFirstFixtureAddressData();
         unset($firstAddressData['id']);
         $secondAddressData = $this->getFirstFixtureAddressData();
@@ -221,21 +223,26 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $firstAddressData['default_billing'] = false;
         $firstAddressData['default_shipping'] = false;
 
-        $requestData = array(
-            'customerId' => $customerFixtureId,
-            'addresses' => array($firstAddressData, $secondAddressData)
-        );
+        $requestData = ['customerId' => $customerFixtureId,'addresses' => [$firstAddressData, $secondAddressData]];
         $createdAddressesIds = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertCount(2, $createdAddressesIds, "IDs for some of created addresses are missing.");
 
         $firstAddressStoredData = $this->customerAddressService->getAddress($createdAddressesIds[0])->__toArray();
         unset($firstAddressStoredData['id']);
-        $this->assertEquals($firstAddressData, $firstAddressStoredData, "First address was stored incorrectly.");
+        $this->assertEquals(
+            $firstAddressData,
+            $firstAddressStoredData,
+            "First address was stored incorrectly."
+        );
 
         $secondAddressStoredData = $this->customerAddressService->getAddress($createdAddressesIds[1])->__toArray();
         unset($secondAddressStoredData['id']);
-        $this->assertEquals($secondAddressData, $secondAddressStoredData, "Second address was stored incorrectly.");
+        $this->assertEquals(
+            $secondAddressData,
+            $secondAddressStoredData,
+            "Second address was stored incorrectly."
+        );
     }
 
     /**
@@ -245,20 +252,20 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
      */
     protected function getFirstFixtureAddressData()
     {
-        return array(
+        return [
             'firstname' => 'John',
             'lastname' => 'Smith',
             'city' => 'CityM',
             'country_id' => 'US',
             'postcode' => '75477',
             'telephone' => '3468676',
-            'street' => array('Green str, 67'),
-            'id' => '1',
+            'street' => ['Green str, 67'],
+            'id' => 1,
             'default_billing' => true,
             'default_shipping' => true,
             'customer_id' => '1',
-            'region' => array('region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL')
-        );
+            'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
+        ];
     }
 
     /**
@@ -268,19 +275,19 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
      */
     protected function getSecondFixtureAddressData()
     {
-        return array(
+        return [
             'firstname' => 'John',
             'lastname' => 'Smith',
             'city' => 'CityX',
             'country_id' => 'US',
             'postcode' => '47676',
             'telephone' => '3234676',
-            'street' => array('Black str, 48'),
-            'id' => '2',
+            'street' => ['Black str, 48',],
+            'id' => 2,
             'default_billing' => false,
             'default_shipping' => false,
             'customer_id' => '1',
-            'region' => array('region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL')
-        );
+            'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
+        ];
     }
 }

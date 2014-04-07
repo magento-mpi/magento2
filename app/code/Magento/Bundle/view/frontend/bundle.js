@@ -165,13 +165,13 @@
         reloadPrice: function() {
             if (this.options.bundleConfig) {
                 var optionPrice = {
-                    excludeTax: 0,
-                    includeTax: 0,
+                    priceExclTax: 0,
+                    priceInclTax: 0,
                     price: 0,
                     update: function(price, excludeTax, includeTax) {
                         this.price += price;
-                        this.excludeTax += excludeTax;
-                        this.includeTax += includeTax;
+                        this.priceExclTax += excludeTax;
+                        this.priceInclTax += includeTax;
                     }
                 };
                 $.each(this.options.bundleConfig.selected, $.proxy(function(index, value) {
@@ -256,6 +256,7 @@
                 }
             }
 
+            // todo what is desposition used for?
             var disposition = configOption.selections[selectionId].plusDisposition +
                 configOption.selections[selectionId].minusDisposition;
             if (config.specialPrice) {
@@ -270,7 +271,15 @@
                 priceInclTax = price;
             }
 
-            return [price * qty, disposition * qty, priceInclTax * qty];
+            var priceExclTax;
+            if (selection.priceExclTax !== undefined) {
+                priceExclTax = selection.priceExclTax;
+                price = selection.priceExclTax !== undefined ? selection.priceExclTax : selection.price;
+            } else {
+                priceExclTax = price;
+            }
+
+            return [price * qty, priceExclTax * qty, priceInclTax * qty];
         },
 
         populateQty: function(optionId, selectionId) {
