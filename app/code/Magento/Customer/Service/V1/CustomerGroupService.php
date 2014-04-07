@@ -120,7 +120,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         $groups = array();
         /** @var Collection $collection */
-        $collection = $this->_groupFactory->create()->getCollection()->addTaxClass();
+        $collection = $this->_groupFactory->create()->getCollection();
         $this->addFiltersFromRootToCollection($searchCriteria->getAndGroup(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
@@ -135,10 +135,13 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
-            $this->_customerGroupBuilder->setId($group->getId())
-                ->setCode($group->getCode())
-                ->setTaxClassId($group->getTaxClassId())
-                ->setClassName($group->getClassName());
+            $this->_customerGroupBuilder->setId(
+                $group->getId()
+            )->setCode(
+                $group->getCode()
+            )->setTaxClassId(
+                $group->getTaxClassId()
+            );
             $groups[] = $this->_customerGroupBuilder->create();
         }
         $this->_searchResultsBuilder->setItems($groups);
