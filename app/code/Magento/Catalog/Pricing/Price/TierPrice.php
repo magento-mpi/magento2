@@ -50,6 +50,8 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     protected $priceList;
 
     /**
+     * Should filter by base price or not
+     *
      * @var bool
      */
     protected $filterByBasePrice = true;
