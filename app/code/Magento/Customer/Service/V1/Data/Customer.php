@@ -54,7 +54,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**#@-*/
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDefaultBilling()
     {
@@ -64,7 +64,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get default shipping address id
      *
-     * @return string
+     * @return string|null
      */
     public function getDefaultShipping()
     {
@@ -74,7 +74,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get confirmation
      *
-     * @return string
+     * @return string|null
      */
     public function getConfirmation()
     {
@@ -84,7 +84,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get created at time
      *
-     * @return string
+     * @return string|null
      */
     public function getCreatedAt()
     {
@@ -94,7 +94,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get created in area
      *
-     * @return string
+     * @return string|null
      */
     public function getCreatedIn()
     {
@@ -104,7 +104,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get date of birth
      *
-     * @return string
+     * @return string|null
      */
     public function getDob()
     {
@@ -134,7 +134,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get gender
      *
-     * @return string
+     * @return string|null
      */
     public function getGender()
     {
@@ -144,7 +144,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get group id
      *
-     * @return string
+     * @return string|null
      */
     public function getGroupId()
     {
@@ -154,7 +154,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get customer id
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -174,7 +174,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get middle name
      *
-     * @return string
+     * @return string|null
      */
     public function getMiddlename()
     {
@@ -184,7 +184,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get prefix
      *
-     * @return string
+     * @return string|null
      */
     public function getPrefix()
     {
@@ -194,7 +194,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get store id
      *
-     * @return int
+     * @return int|null
      */
     public function getStoreId()
     {
@@ -204,7 +204,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get suffix
      *
-     * @return string
+     * @return string|null
      */
     public function getSuffix()
     {
@@ -214,7 +214,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get tax Vat.
      *
-     * @return string
+     * @return string|null
      */
     public function getTaxvat()
     {
@@ -224,7 +224,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get website id
      *
-     * @return int
+     * @return int|null
      */
     public function getWebsiteId()
     {

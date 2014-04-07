@@ -30,7 +30,6 @@ return array(
                                 <m:value>value2</m:value>
                             </m:GenericFaultParameter>
                         </m:Parameters>
-                        <m:Code>333</m:Code>
                         <m:Trace>Trace</m:Trace>
                     </m:GenericFault>
                 </env:Detail>
