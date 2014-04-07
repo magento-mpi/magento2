@@ -9,10 +9,10 @@ namespace Magento\Tax\Model;
 
 use Magento\Core\Model\Store;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -60,7 +60,7 @@ class Calculation extends \Magento\Model\AbstractModel
     protected $_rateCalculationProcess = array();
 
     /**
-     * @var \Magento\Customer\Model\Customer|bool
+     * @var CustomerDataObject|bool
      */
     protected $_customer;
 
@@ -107,14 +107,9 @@ class Calculation extends \Magento\Model\AbstractModel
     protected $_groupService;
 
     /**
-     * @var \Magento\Customer\Model\Converter
+     * @var CustomerAccountServiceInterface
      */
-    protected $_converter;
-
-    /**
-     * @var CustomerBuilder
-     */
-    protected $_customerBuilder;
+    protected $customerAccountService;
 
     /**
      * @param \Magento\Model\Context $context
@@ -128,10 +123,10 @@ class Calculation extends \Magento\Model\AbstractModel
      * @param \Magento\Tax\Model\Resource\Calculation $resource
      * @param AddressServiceInterface $addressService
      * @param GroupServiceInterface $groupService
-     * @param \Magento\Customer\Model\Converter $converter
-     * @param CustomerBuilder $customerBuilder
+     * @param CustomerAccountServiceInterface $customerAccount
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     * @internal param \Magento\Customer\Model\Converter $converter
      */
     public function __construct(
         \Magento\Model\Context $context,
@@ -145,8 +140,7 @@ class Calculation extends \Magento\Model\AbstractModel
         \Magento\Tax\Model\Resource\Calculation $resource,
         AddressServiceInterface $addressService,
         GroupServiceInterface $groupService,
-        \Magento\Customer\Model\Converter $converter,
-        CustomerBuilder $customerBuilder,
+        CustomerAccountServiceInterface $customerAccount,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -158,9 +152,7 @@ class Calculation extends \Magento\Model\AbstractModel
         $this->_classesFactory = $classesFactory;
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;
-        $this->_converter = $converter;
-        $this->_customerBuilder = $customerBuilder;
-
+        $this->customerAccountService = $customerAccount;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -175,28 +167,12 @@ class Calculation extends \Magento\Model\AbstractModel
     /**
      * Specify customer object which can be used for rate calculation
      *
-     * @deprecated in favor of \Magento\Tax\Model\Calculation::setCustomerData
-     *
-     * @param   \Magento\Customer\Model\Customer $customer
-     * @return  $this
-     */
-    public function setCustomer(\Magento\Customer\Model\Customer $customer)
-    {
-        $this->_customer = $customer;
-        return $this;
-    }
-
-    /**
-     * Specify customer object which can be used for rate calculation
-     *
      * @param CustomerDataObject $customerData
      * @return $this
      */
     public function setCustomerData(CustomerDataObject $customerData)
     {
-        /* @TODO: remove model usage in favor of Data Object */
-        $customer = $this->_converter->createCustomerModel($customerData);
-        $this->setCustomer($customer);
+        $this->_customer = $customerData;
         return $this;
     }
 
@@ -217,43 +193,23 @@ class Calculation extends \Magento\Model\AbstractModel
     }
 
     /**
-     * Get customer object
-     *
-     * @deprecated in favor of \Magento\Tax\Model\Calculation::getCustomerData
-     *
-     * @return  \Magento\Customer\Model\Customer|bool
-     */
-    public function getCustomer()
-    {
-        if ($this->_customer === null) {
-            if ($this->_customerSession->isLoggedIn()) {
-                $this->_customer = $this->_customerSession->getCustomer();
-            } elseif ($this->_customerSession->getCustomerId()) {
-                /** @var $customer \Magento\Customer\Model\Customer */
-                $customer = $this->_customerFactory->create();
-                $this->_customer = $customer->load($this->_customerSession->getCustomerId());
-            } else {
-                $this->_customer = false;
-            }
-        }
-        return $this->_customer;
-    }
-
-    /**
      * Retrieve customer data object
      *
      * @return CustomerDataObject
      */
     public function getCustomerData()
     {
-        /* @TODO: remove this code in favor of setCustomerData*/
-        $customerModel = $this->getCustomer();
-        //getCustomer can return false. Returning empty data object as a workaround. This  behavior needs to be fixed
-        // for now till the time \Magento\Tax\Model\Calculation::getCustomer is removed.
-        if (!$customerModel) {
-            return $this->_customerBuilder->create();
+        if ($this->_customer === null) {
+            if ($this->_customerSession->isLoggedIn()) {
+                $this->_customer = $this->_customerSession->getCustomerDataObject();
+            } elseif ($this->_customerSession->getCustomerId()) {
+                $this->_customer = $this->customerAccountService->getCustomer($this->_customerSession->getCustomerId());
+            } else {
+                $this->_customer = false;
+            }
         }
-        return $this->_converter->createCustomerFromModel($customerModel);
+
+        return $this->_customer;
     }
 
     /**

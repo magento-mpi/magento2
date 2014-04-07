@@ -34,7 +34,7 @@
         <rest-route httpMethod="POST" method="createAccount" resources="Magento_Customer::customer"></rest-route>
         <rest-route httpMethod="PUT" method="updateCustomer" resources="Magento_Customer::manage"></rest-route>
         <rest-route httpMethod="GET" method="getCustomerDetails" resources="Magento_Customer::customer">/:customerId</rest-route>
-        <rest-route httpMethod="GET" method="getCustomer" resources="Magento_Customer::customer">/:customerId/customer</rest-route>
+        <rest-route httpMethod="GET" method="getCustomerData" resources="Magento_Customer::customer">/:customerId/customer</rest-route>
         <rest-route httpMethod="PUT" method="activateCustomer" resources="Magento_Customer::manage">/:customerId/activateCustomer</rest-route>
         <rest-route httpMethod="PUT" method="searchCustomers" resources="Magento_Customer::customer">/search</rest-route>
         <rest-route httpMethod="PUT" method="authenticate" resources="Magento_Customer::customer">/authenticate</rest-route>

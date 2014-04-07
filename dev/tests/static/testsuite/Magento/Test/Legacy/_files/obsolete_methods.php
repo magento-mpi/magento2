@@ -1576,4 +1576,7 @@ return array(
     ['_getStoreId', 'Magento\Translation\Model\Resource\String', 'getScope'],
     ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
     ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
+    ['getCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::getCustomerData'],
+    ['setCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::setCustomerData'],
+    ['setCustomer', 'Magento\Checkout\Model\Session', 'Magento\Checkout\Model\Session::setCustomerData'],
 );
