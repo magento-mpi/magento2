@@ -86,6 +86,20 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionConstructor()
+    {
+        new \Magento\App\Resource\Config(
+            $this->_readerMock,
+            $this->_scopeMock,
+            $this->_cacheMock,
+            'cacheId',
+            ['validResource' => ['somekey' => 'validConnectionName']]
+        );
+    }
+
+    /**
      * @return array
      */
     public function getConnectionNameDataProvider()
