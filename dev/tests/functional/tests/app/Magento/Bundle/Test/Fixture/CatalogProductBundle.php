@@ -173,6 +173,8 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'advanced-pricing',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
     ];
 
     protected $has_options = [
@@ -419,6 +421,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
+        'group' => 'advanced-pricing'
     ];
 
     protected $special_to_date = [

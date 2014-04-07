@@ -79,11 +79,18 @@ class GroupPriceOptions implements FixtureInterface
     {
         $presets = [
             'MAGETWO-23055' => [
-                        'group_price_row_0' => [
-                            'price' => 90,
-                            'website' => 'All Websites [USD]',
-                            'customer_group' => 'NOT LOGGED IN'
-                        ]
+                'group_price_row_0' => [
+                    'price' => 90,
+                    'website' => 'All Websites [USD]',
+                    'customer_group' => 'NOT LOGGED IN'
+                ]
+            ],
+            'MAGETWO-23061' => [
+                'group_price_row_0' => [
+                    'price' => 20,
+                    'website' => 'All Websites [USD]',
+                    'customer_group' => 'NOT LOGGED IN'
+                ]
             ]
         ];
         if (!isset($presets[$name])) {

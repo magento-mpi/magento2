@@ -26,7 +26,7 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => '4',
             'price' => ['value' => 3, 'preset' => '-'],
             'id' => '1',
-            'mtf_dataset_name' => 'SimpleProduct_sku_516169631',
+            'mtf_dataset_name' => 'SimpleProduct_sku_516169631'
         ];
 
         $this->_data['SimpleProduct_sku_1947585255'] = [
@@ -36,7 +36,27 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => '4',
             'price' => ['value' => 4, 'preset' => '-'],
             'id' => '2',
-            'mtf_dataset_name' => 'SimpleProduct_sku_1947585255',
+            'mtf_dataset_name' => 'SimpleProduct_sku_1947585255'
+        ];
+
+        $this->_data['100_dollar_product'] = [
+            'sku' => '100_dollar_product',
+            'name' => '100_dollar_product',
+            'type_id' => 'simple',
+            'attribute_set_id' => '4',
+            'price' => ['value' => 100, 'preset' => '-'],
+            'id' => '2',
+            'mtf_dataset_name' => '100_dollar_product'
+        ];
+
+        $this->_data['40_dollar_product'] = [
+            'sku' => '40_dollar_product',
+            'name' => '40_dollar_product',
+            'type_id' => 'simple',
+            'attribute_set_id' => '4',
+            'price' => ['value' => 40, 'preset' => '-'],
+            'id' => '2',
+            'mtf_dataset_name' => '40_dollar_product'
         ];
     }
 }
