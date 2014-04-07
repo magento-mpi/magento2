@@ -491,7 +491,7 @@
     <type name="Magento\App\Config\Value">
         <arguments>
             <argument name="resource" xsi:type="object">Magento\Core\Model\Resource\Config\Data</argument>
-            <argument name="resourceCollection" xsi:type="object">Magento\Core\Model\Resource\Config\Data\Collection</argument>
+            <argument name="resourceCollection" xsi:type="object">Magento\Core\Model\Resource\Config\Data\Collection\Proxy</argument>
         </arguments>
     </type>
 </config>
