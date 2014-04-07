@@ -87,8 +87,12 @@ class Price implements FixtureInterface
             'MAGETWO-23066' => [
                 'price_from' => '$145.00',
                 'price_to' => '$150.00',
-                'configured_price' => '$10.00',
                 'cart_price' => '$145.00'
+            ],
+            'MAGETWO-23069' => [
+                'price_from' => '$126.00',
+                'price_to' => '$131.00',
+                'cart_price' => '$126.00'
             ]
         ];
         if (!isset($presets[$this->currentPreset])) {
