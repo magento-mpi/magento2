@@ -1914,7 +1914,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createService()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $customerService = new CustomerAccountService(
             $this->_customerFactoryMock,
             $this->_eventManagerMock,
