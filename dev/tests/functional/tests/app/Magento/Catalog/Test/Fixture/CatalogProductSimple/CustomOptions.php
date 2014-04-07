@@ -106,6 +106,36 @@ class CustomOptions implements FixtureInterface
                         ]
                     ]
                 ]
+            ],
+            'MAGETWO-23066' => [
+                [
+                    'title' => 'custom option drop down',
+                    'is_require' => true,
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => '30 bucks',
+                            'price' => 30,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_drop_down_row_1'
+                        ]
+                    ]
+                ]
+            ],
+            'MAGETWO-23069' => [
+                [
+                    'title' => 'custom option drop down',
+                    'is_require' => true,
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => '10 percent',
+                            'price' => 10,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku_drop_down_row_1'
+                        ]
+                    ]
+                ]
             ]
         ];
         if (!isset($presets[$name])) {
