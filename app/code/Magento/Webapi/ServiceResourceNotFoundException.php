@@ -1,25 +1,24 @@
 <?php
 /**
- * Services must throw this exception when encountering an unauthorized operation
+ * Services must throw this exception when not able to locate a resource including lookup failure
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service;
+namespace Magento\Webapi;
 
-class AuthorizationException extends \Magento\Service\Exception
+class ServiceResourceNotFoundException extends \Magento\Webapi\ServiceException
 {
     /**
-     * Create custom message for authorization exception.
+     * Create custom message for resource not found exception.
      *
      * @param string $message
      * @param int $code
      * @param \Exception $previous
      * @param array $parameters
      * @param string $name
-     * @param string|int|null $userId
      * @param string|int|null $resourceId
      */
     public function __construct(
@@ -28,14 +27,13 @@ class AuthorizationException extends \Magento\Service\Exception
         $code = 0,
         \Exception $previous = null,
         array $parameters = array(),
-        $name = 'authorization',
-        $userId = null,
+        $name = 'resourceNotFound',
         $resourceId = null
     ) {
-        if ($userId && $resourceId) {
-            $parameters = array_merge($parameters, array('user_id' => $userId, 'resource_id' => $resourceId));
+        if ($resourceId) {
+            $parameters = array_merge($parameters, array('resource_id' => $resourceId));
             if (!$message) {
-                $message = "User with ID '{$userId}' is not authorized to access resource with ID '{$resourceId}'.";
+                $message = "Resource with ID '{$resourceId}' not found.";
             }
         }
         parent::__construct($message, $code, $previous, $parameters, $name);
