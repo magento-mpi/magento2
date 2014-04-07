@@ -201,10 +201,14 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param string $type
+     * @param string $renderZone
      * @return string
      */
-    public function getProductPriceHtml(\Magento\Catalog\Model\Product $product, $type = null)
-    {
+    public function getProductPriceHtml(
+        \Magento\Catalog\Model\Product $product,
+        $type = null,
+        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST
+    ) {
         /** @var \Magento\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
 
@@ -217,7 +221,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
                     'price_id'              => 'old-price-' . $product->getId() . '-' . $type,
                     'display_minimal_price' => true,
                     'include_container'     => true,
-                    'zone'                  => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                    'zone'                  => $renderZone
                 ]
             );
         }
