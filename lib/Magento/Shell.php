@@ -9,6 +9,8 @@
  */
 namespace Magento;
 
+use Magento\Shell\CommandRendererInterface;
+
 /**
  * Shell command line wrapper encapsulates command execution and arguments escaping
  */
@@ -19,37 +21,36 @@ class Shell
      *
      * @var \Zend_Log
      */
-    protected $_logger;
+    protected $logger;
 
     /**
-     * Operation system info
-     *
-     * @var OsInfo
+     * @var CommandRendererInterface
      */
-    protected $_osInfo;
+    private $commandRenderer;
 
     /**
+     * @param CommandRendererInterface $commandRenderer
      * @param \Zend_Log $logger Logger instance to be used to log commands and their output
      */
-    public function __construct(\Zend_Log $logger = null)
-    {
-        $this->_logger = $logger;
+    public function __construct(
+        CommandRendererInterface $commandRenderer,
+        \Zend_Log $logger = null
+    ) {
+        $this->logger = $logger;
+        $this->commandRenderer = $commandRenderer;
     }
 
     /**
      * Execute a command through the command line, passing properly escaped arguments, and return its output
      *
      * @param string $command Command with optional argument markers '%s'
-     * @param [] $arguments Argument values to substitute markers with
+     * @param string[] $arguments Argument values to substitute markers with
      * @return string Output of an executed command
      * @throws \Magento\Exception If a command returns non-zero exit code
      */
     public function execute($command, array $arguments = array())
     {
-        $arguments = array_map('escapeshellarg', $arguments);
-        $command = preg_replace('/\s?\||$/', ' 2>&1$0', $command);
-        // Output errors to STDOUT instead of STDERR
-        $command = vsprintf($command, $arguments);
+        $command = $this->commandRenderer->render($command, $arguments);
         $this->log($command);
         exec($command, $output, $exitCode);
         $output = implode(PHP_EOL, $output);
@@ -69,8 +70,8 @@ class Shell
      */
     protected function log($message)
     {
-        if ($this->_logger) {
-            $this->_logger->log($message, \Zend_Log::INFO);
+        if ($this->logger) {
+            $this->logger->log($message, \Zend_Log::INFO);
         }
     }
 }

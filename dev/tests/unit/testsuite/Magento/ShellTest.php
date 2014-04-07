@@ -13,13 +13,22 @@ namespace Magento;
 class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\Shell\CommandRendererInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $commandRenderer;
+
+    /**
      * @var \Zend_Log|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $logger;
 
     public function setUp()
     {
-        $this->logger = $this->getMock('Zend_Log', array('log'));
+        $this->logger = $this->getMockBuilder('Zend_Log')
+            ->setMethods(array('log'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->commandRenderer = new \Magento\Shell\CommandRenderer();
     }
 
     /**
@@ -46,7 +55,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute($command, $commandArgs, $expectedResult)
     {
-        $this->_testExecuteCommand(new \Magento\Shell($this->logger), $command, $commandArgs, $expectedResult);
+        $this->_testExecuteCommand(new \Magento\Shell($this->commandRenderer, $this->logger), $command, $commandArgs, $expectedResult);
     }
 
     /**
@@ -67,7 +76,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
                 ->with($expectedLogMessage, \Zend_Log::INFO);
         }
         $this->_testExecuteCommand(
-            new \Magento\Shell($this->logger),
+            new \Magento\Shell($this->commandRenderer, $this->logger),
             $command,
             $commandArgs,
             $expectedResult
@@ -108,7 +117,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteFailure()
     {
-        $shell = new \Magento\Shell($this->logger);
+        $shell = new \Magento\Shell($this->commandRenderer, $this->logger);
         $shell->execute('non_existing_command');
     }
 

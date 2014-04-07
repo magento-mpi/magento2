@@ -18,8 +18,9 @@ interface ShellInterface
      * Execute a command through the command line, passing properly escaped arguments
      *
      * @param string $command Command with optional argument markers '%s'
-     * @param [] $arguments Argument values to substitute markers with
-     * @return void
+     * @param string[] $arguments Argument values to substitute markers with
+     * @throws \Magento\Exception If a command returns non-zero exit code
+     * @return void|string
      */
     public function execute($command, array $arguments = array());
 }
