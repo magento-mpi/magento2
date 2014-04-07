@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -47,9 +44,9 @@ class AdvancedPricingTab extends Tab
 
         if (isset($fields['group_price']['value'])) {
             $button = $root->find('[title="Add Group Price"]');
-
             $container = $root->find('#attribute-group_price-container');
-            foreach ($fields['group_price']['value'] as $rowPrefix => $data) {
+            foreach ($fields['group_price']['value'] as $rowId => $data) {
+                $rowPrefix = 'group_price_row_' . $rowId;
                 $button->click();
                 $row = $container->find('//tr[td[select[@id="' . $rowPrefix . '_website"]]]', Locator::SELECTOR_XPATH);
                 Factory::getBlockFactory()
@@ -61,7 +58,8 @@ class AdvancedPricingTab extends Tab
             $button = $root->find('[title="Add Tier"]');
 
             $container = $root->find('#attribute-tier_price-container');
-            foreach ($fields['tier_price']['value'] as $rowPrefix => $data) {
+            foreach ($fields['tier_price']['value'] as $rowId => $data) {
+                $rowPrefix = 'tier_price_row_' . $rowId;
                 $button->click();
                 $row = $container->find('//tr[td[select[@id="' . $rowPrefix . '_website"]]]', Locator::SELECTOR_XPATH);
                 Factory::getBlockFactory()

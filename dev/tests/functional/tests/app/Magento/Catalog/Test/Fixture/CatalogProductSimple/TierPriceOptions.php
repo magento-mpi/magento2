@@ -79,7 +79,7 @@ class TierPriceOptions implements FixtureInterface
     {
         $presets = [
             'MAGETWO-23002' => [
-                'tier_price_row_0' => [
+                '0' => [
                     'price' => 90,
                     'website' => 'All Websites [USD]',
                     'quantity' => '1',
