@@ -11,17 +11,23 @@ namespace Magento\Exception;
 
 class NoSuchEntityException extends \Magento\Exception\LocalizedException
 {
+    /** @var int */
+    protected $fieldCtr = 0;
+
     /**
      * @param string $message
      * @param array $params
      * @param \Exception $cause
      */
     public function __construct(
-        $message = 'No such entity with $fieldName = $value',
+        $message = 'No such entity',
         array $params = [],
-        \Exception $cause = null)
-    {
+        \Exception $cause = null
+    ) {
         parent::__construct($message, $params, $cause);
+        if (!empty($params)) {
+            $this->fieldCtr++;
+        }
     }
 
     /**
@@ -31,7 +37,24 @@ class NoSuchEntityException extends \Magento\Exception\LocalizedException
      */
     public function addField($fieldName, $value)
     {
-        $this->params[$fieldName] = $value;
+        $fieldKey = 'fieldName' . $this->fieldCtr;
+        $valueKey = 'value' . $this->fieldCtr;
+        if ($this->fieldCtr == 0) {
+            $newRawMessage = ' with %' . $fieldKey . ' = %' . $valueKey;
+            $this->message .= $newRawMessage;
+            $this->rawMessage .= $newRawMessage;
+        } else {
+            $newRawMessage = "\n %" . $fieldKey . ' = %' . $valueKey;
+            $this->message .= $newRawMessage;
+            $this->rawMessage .= $newRawMessage;
+        }
+        $arguments = [
+            $fieldKey => $fieldName,
+            $valueKey => $value
+        ];
+        $this->params = array_merge($this->params, $arguments);
+        $this->message = __($this->message, $arguments);
+        $this->fieldCtr++;
         return $this;
     }
 }

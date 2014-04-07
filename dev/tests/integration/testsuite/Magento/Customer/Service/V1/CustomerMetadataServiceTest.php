@@ -34,7 +34,15 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->getAttributeMetadata('customer_address', '1');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(array('entityType' => 'customer_address', 'attributeCode' => '1'), $e->getParams());
+            $this->assertEquals(
+                [
+                    'fieldName0' => 'entityType',
+                    'value0' => 'customer_address',
+                    'fieldName1' => 'attributeCode',
+                    'value1' => '1'
+                ],
+                $e->getParams()
+            );
         }
     }
 
@@ -94,7 +102,15 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->getCustomerAttributeMetadata('20');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(array('entityType' => 'customer', 'attributeCode' => '20'), $e->getParams());
+            $this->assertEquals(
+                [
+                    'fieldName0' => 'entityType',
+                    'value0' => 'customer',
+                    'fieldName1' => 'attributeCode',
+                    'value1' => '20'
+                ],
+                $e->getParams()
+            );
         }
     }
 
@@ -114,7 +130,15 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->getAddressAttributeMetadata('1');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(array('entityType' => 'customer_address', 'attributeCode' => '1'), $e->getParams());
+            $this->assertEquals(
+                [
+                    'fieldName0' => 'entityType',
+                    'value0' => 'customer_address',
+                    'fieldName1' => 'attributeCode',
+                    'value1' => '1'
+                ],
+                $e->getParams()
+            );
         }
     }
 }
