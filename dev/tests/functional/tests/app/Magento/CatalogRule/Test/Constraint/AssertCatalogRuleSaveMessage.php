@@ -28,7 +28,7 @@ class AssertCatalogRuleSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after pcatalog Rule save
+     * Assert that success message is displayed after Catalog Rule save
      *
      * @param Page\CatalogRule $catalogRule
      * @return void

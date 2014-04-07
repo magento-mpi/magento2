@@ -8,22 +8,22 @@
  */
 -->
 <fixture>
-    <catalogPriceRule module="Magento_CatalogRule">
+    <catalogRule module="Magento_CatalogRule">
         <type>flat</type>
         <entity_type>catalogrule</entity_type>
-        <collection>Magento\CatalogRule\Model\Resource\Rule\Collection</collection>
+        <collection>Magento\CatalogRule\Model\Resource\Rule\Product\Price\Collection</collection>
         <identifier />
         <fields />
             <id>
-                <product_selections>
-                    <attribute_code>product_selections</attribute_code>
+                <category>
+                    <attribute_code>category</attribute_code>
                     <backend_type>virtual</backend_type>
-                    <is_required>1</is_required>
-                    <group>bundle</group>
-                    <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple</fixture>
-                </product_selections>
+                    <is_required>0</is_required>
+                    <group>conditions</group>
+                    <fixture>Magento\CatalogRule\Test\Fixture\Product\Category</fixture>
+                </category>
             </id>
         <data_set />
         <data_config />
-    </catalogPriceRule>
+    </catalogRule>
 </fixture>

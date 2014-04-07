@@ -8,5 +8,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
-    <preference for="Magento\CatalogRule\Test\Handler\CatalogPRule\CatalogRuleInterface" type="\Magento\Catalog\Test\Handler\CatalogRule\Ui" />
+    <preference for="Magento\CatalogRule\Test\Handler\CatalogRule\CatalogRuleInterface" type="\Magento\CatalogRule\Test\Handler\CatalogRule\Ui" />
 </config>

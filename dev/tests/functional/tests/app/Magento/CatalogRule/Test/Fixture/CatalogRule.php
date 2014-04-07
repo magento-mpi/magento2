@@ -24,7 +24,7 @@ class CatalogRule extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\CatalogRule\Test\Repository\CatalogRule';
+    protected $repositoryClass = 'Magento\CatalogRule\Test\Repository\CatalogPriceRule';
 
     /**
      * @var string
@@ -110,13 +110,12 @@ class CatalogRule extends InjectableFixture
         'group'=> 'promo_catalog_edit_tabs_conditions_section'
     ];
 
-    protected $actions = [
-        'attribute_code' => 'actions',
+    protected $conditions = [
+        'attribute_code' => 'conditions',
         'backend_type' => 'virtual',
         'is_required' => '0',
-        'default_value' => '',
-        'group'=> 'promo_catalog_edit_tabs_actions_section',
-        'fixture' => 'Magento\CatalogRule\Test\Fixture\CatalogRule\CatalogRuleActions'
+        'group' => 'conditions ',
+        'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions',
     ];
 
     public function getName()
@@ -149,9 +148,9 @@ class CatalogRule extends InjectableFixture
         return $this->getData('discount_amount');
     }
 
-    public function getActions()
+    public function getConditions()
     {
-        return $this->getData('actions');
+        return $this->getData('conditions');
     }
  }
 

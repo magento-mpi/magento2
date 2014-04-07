@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Test\Handler\CatalogRule;
+namespace Magento\CatalogRule\Test\Handler\CatalogRule;
 
 use Mtf\Handler\HandlerInterface;
 
