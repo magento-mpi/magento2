@@ -24,7 +24,7 @@ use Magento\Pricing\Price\PriceInterface;
  */
 class Render extends AbstractBlock
 {
-    /**
+    /**@#+
      * Zones where prices displaying can be configured
      */
     const ZONE_ITEM_VIEW = 'item_view';
@@ -32,6 +32,7 @@ class Render extends AbstractBlock
     const ZONE_SALES     = 'sales';
     const ZONE_EMAIL     = 'email';
     const ZONE_DEFAULT   = null;
+    /**@#-*/
 
     /**
      * Default type renderer
