@@ -103,25 +103,17 @@ class Agreement extends \Magento\App\Action\Action
         $paymentCode = $this->getRequest()->getParam('payment_method');
         if ($paymentCode) {
             try {
-                $agreement->setStoreId(
-                    $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId()
-                )->setMethodCode(
-                    $paymentCode
-                )->setReturnUrl(
-                    $this->_objectManager->create(
-                        'Magento\UrlInterface'
-                    )->getUrl(
-                        '*/*/returnWizard',
-                        array('payment_method' => $paymentCode)
+                $agreement
+                    ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
+                    ->setMethodCode($paymentCode)
+                    ->setReturnUrl(
+                        $this->_objectManager->create('Magento\UrlInterface')
+                            ->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode))
                     )
-                )->setCancelUrl(
-                    $this->_objectManager->create(
-                        'Magento\UrlInterface'
-                    )->getUrl(
-                        '*/*/cancelWizard',
-                        array('payment_method' => $paymentCode)
-                    )
-                );
+                    ->setCancelUrl(
+                        $this->_objectManager->create('Magento\UrlInterface')
+                            ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode))
+                    );
 
                 return $this->getResponse()->setRedirect($agreement->initToken());
             } catch (\Magento\Model\Exception $e) {
@@ -141,20 +133,18 @@ class Agreement extends \Magento\App\Action\Action
      */
     public function returnWizardAction()
     {
+        /** @var \Magento\Paypal\Model\Billing\Agreement $agreement */
         $agreement = $this->_objectManager->create('Magento\Paypal\Model\Billing\Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         $token = $this->getRequest()->getParam('token');
         if ($token && $paymentCode) {
             try {
-                $agreement->setStoreId(
-                    $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId()
-                )->setToken(
-                    $token
-                )->setMethodCode(
-                    $paymentCode
-                )->setCustomer(
-                    $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomer()
-                )->place();
+                $agreement
+                    ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
+                    ->setToken($token)
+                    ->setMethodCode($paymentCode)
+                    ->setCustomerId($this->_getSession()->getCustomerId())
+                    ->place();
                 $this->messageManager->addSuccess(
                     __('The billing agreement "%1" has been created.', $agreement->getReferenceId())
                 );
@@ -218,11 +208,8 @@ class Agreement extends \Magento\App\Action\Action
         $agreementId = $this->getRequest()->getParam('agreement');
         if ($agreementId) {
             /** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
-            $billingAgreement = $this->_objectManager->create(
-                'Magento\Paypal\Model\Billing\Agreement'
-            )->load(
-                $agreementId
-            );
+            $billingAgreement = $this->_objectManager->create('Magento\Paypal\Model\Billing\Agreement')
+                ->load($agreementId);
             $currentCustomerId = $this->_getSession()->getCustomerId();
             $agreementCustomerId = $billingAgreement->getCustomerId();
             if ($billingAgreement->getId() && $agreementCustomerId == $currentCustomerId) {
