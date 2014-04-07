@@ -2114,8 +2114,11 @@ return array(
         'Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype',
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ),
-    ['Magento\PubSub'], // unused library code which was removed
-    ['Magento\Outbound'], // unused library code which was removed
+    array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
+    array('Magento\Catalog\Model\Product\Indexer\Price'),
+    array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    ['Magento\PubSub'],
+    ['Magento\Outbound'],
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
@@ -2249,4 +2252,32 @@ return array(
     array('Magento\Core\Model\Session\SidResolver', 'Magento\Session\SidResolver'),
     array('Magento\Core\Model\Session\Validator', 'Magento\Session\Validator'),
     ['Magento\Core\Block\Formkey', 'Magento\View\Element\FormKey'],
+    ['Magento\Rating\Helper\Data', 'Magento\Review\Helper\Data'],
+    ['Magento\Rating\Controller\Adminhtml\Index', 'Magento\Review\Controller\Adminhtml\Rating'],
+    ['Magento\Rating\Block\Entity\Detailed', 'Magento\Review\Block\Rating\Entity\Detailed'],
+    ['Magento\Rating\Block\Adminhtml\Rating', 'Magento\Review\Block\Adminhtml\Rating'],
+    ['Magento\Rating\Block\Adminhtml\Edit', 'Magento\Review\Block\Adminhtml\Rating\Edit'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tabs', 'Magento\Review\Block\Adminhtml\Rating\Edit\Tabs'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Form', 'Magento\Review\Block\Adminhtml\Rating\Edit\Form'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tab\Form', 'Magento\Review\Block\Adminhtml\Rating\Edit\Tab\Form'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tab\Options'],
+    ['Magento\Rating\Model\Rating', 'Magento\Review\Model\Rating'],
+    [
+        'Magento\Rating\Model\Resource\Rating\Option\Vote\Collection',
+        'Magento\Review\Model\Resource\Rating\Option\Vote\Collection'
+    ],
+    [
+        'Magento\Rating\Model\Resource\Rating\Option\Collection',
+        'Magento\Review\Model\Resource\Rating\Option\Collection'
+    ],
+    ['Magento\Rating\Model\Resource\Rating\Grid\Collection', 'Magento\Review\Model\Resource\Rating\Grid\Collection'],
+    ['Magento\Rating\Model\Resource\Rating\Collection', 'Magento\Review\Model\Resource\Rating\Collection'],
+    ['Magento\Rating\Model\Resource\Rating\Option\Vote', 'Magento\Review\Model\Resource\Rating\Option\Vote'],
+    ['Magento\Rating\Model\Rating\Option\Vote', 'Magento\Review\Model\Rating\Option\Vote'],
+    ['Magento\Rating\Model\Resource\Rating\Option', 'Magento\Review\Model\Resource\Rating\Option'],
+    ['Magento\Rating\Model\Resource\Rating\Entity', 'Magento\Review\Model\Resource\Rating\Entity'],
+    ['Magento\Rating\Model\Rating\Entity', 'Magento\Review\Model\Rating\Entity'],
+    ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
+    ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
+    ['Magento\Rating\Model\Observer'],
 );

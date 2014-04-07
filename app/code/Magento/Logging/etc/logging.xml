@@ -165,7 +165,7 @@
         <group name="rating">
             <label translate="true">Catalog Ratings</label>
             <expected_models>
-                <expected_model class="Magento\Rating\Model\Rating" />
+                <expected_model class="Magento\Review\Model\Rating" />
             </expected_models>
             <events>
                 <event controller_action="rating_edit" action_alias="view" />

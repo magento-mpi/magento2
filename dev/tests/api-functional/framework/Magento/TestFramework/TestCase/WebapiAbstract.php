@@ -16,20 +16,15 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * Auto tear down options in setFixture
      */
     const AUTO_TEAR_DOWN_DISABLED = 0;
-
     const AUTO_TEAR_DOWN_AFTER_METHOD = 1;
-
     const AUTO_TEAR_DOWN_AFTER_CLASS = 2;
-
     /**#@-*/
 
     /**#@+
      * Web API adapters that are used to perform actual calls.
      */
     const ADAPTER_SOAP = 'soap';
-
     const ADAPTER_REST = 'rest';
-
     /**#@-*/
 
     /**
@@ -120,11 +115,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         }
 
         $fixtureNamespace = self::_getFixtureNamespace();
-        if (isset(
-            self::$_classLevelFixtures[$fixtureNamespace]
-        ) && count(
-            self::$_classLevelFixtures[$fixtureNamespace]
-        )
+        if (isset(self::$_classLevelFixtures[$fixtureNamespace])
+            && count(self::$_classLevelFixtures[$fixtureNamespace])
         ) {
             self::_deleteFixtures(self::$_classLevelFixtures[$fixtureNamespace]);
         }
@@ -144,11 +136,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $fixtureNamespace = self::_getFixtureNamespace();
-        if (isset(
-            self::$_methodLevelFixtures[$fixtureNamespace]
-        ) && count(
-            self::$_methodLevelFixtures[$fixtureNamespace]
-        )
+        if (isset(self::$_methodLevelFixtures[$fixtureNamespace])
+            && count(self::$_methodLevelFixtures[$fixtureNamespace])
         ) {
             self::_deleteFixtures(self::$_methodLevelFixtures[$fixtureNamespace]);
         }
@@ -514,20 +503,5 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         foreach ($this->_origConfigValues as $configPath => $origValue) {
             $this->_updateAppConfig($configPath, $origValue, true, true);
         }
-    }
-
-    /**
-     * Transform an array. Convert all camelCase keys to snake_case.
-     *
-     * @param array $objectData An array of data.
-     * @return array The array with all camelCase keys converted to snake_case.
-     */
-    protected function decamelize($objectData)
-    {
-        $data = array();
-        foreach ($objectData as $key => $value) {
-            $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
-        }
-        return $data;
     }
 }

@@ -258,8 +258,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
                     } else {
                         $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
                     }
-
-                    $addressId = $address->getId();
+                    if ($address) {
+                        $addressId = $address->getId();
+                    }
                 } catch (NoSuchEntityException $e) {
                     // Do nothing
                 }

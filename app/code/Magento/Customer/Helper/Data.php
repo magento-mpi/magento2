@@ -115,44 +115,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerAddress = null;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @var \Magento\Customer\Model\Config\Share
-     */
-    protected $_configShare;
-
-    /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
-
-    /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_coreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
-     */
-    protected $_accountService;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
-     */
-    protected $_addressService;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
-     */
-    protected $_metadataService;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
@@ -174,21 +144,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected $mathRandom;
 
-    /** @var \Magento\Customer\Service\V1\Data\Customer */
-    protected $customerData;
-
     /**
      * @param \Magento\App\Helper\Context $context
      * @param Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Model\Config\Share $configShare
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Escaper $escaper
@@ -200,14 +161,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\Config\Share $configShare,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Escaper $escaper,
@@ -215,14 +170,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
-        $this->_storeManager = $storeManager;
-        $this->_configShare = $configShare;
-        $this->_storeConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_customerSession = $customerSession;
-        $this->_accountService = $accountService;
-        $this->_metadataService = $metadataService;
-        $this->_addressService = $addressService;
         $this->_groupService = $groupService;
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
@@ -288,46 +237,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isLoggedIn()
     {
         return $this->_customerSession->isLoggedIn();
-    }
-
-    /**
-     * Retrieve logged in customer
-     *
-     * @return \Magento\Customer\Model\Customer
-     * @deprecated use getCustomerData() instead
-     */
-    public function getCustomer()
-    {
-        if (empty($this->_customer)) {
-            $this->_customer = $this->_customerSession->getCustomer();
-        }
-        return $this->_customer;
-    }
-
-    /**
-     * @return \Magento\Customer\Service\V1\Data\Customer|null
-     * @throws  \Magento\Exception\NoSuchEntityException
-     */
-    public function getCustomerData()
-    {
-        if (empty($this->customerData)) {
-            $customerId = $this->_customerSession->getCustomerId();
-            $this->customerData = $this->_accountService->getCustomer($customerId);
-        }
-        return $this->customerData;
-    }
-
-    /**
-     * Check customer has address
-     *
-     * @return bool
-     *
-     * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
-     */
-    public function customerHasAddresses()
-    {
-        $customerId = $this->_customerSession->getCustomerId();
-        return count($this->_addressService->getAddresses($customerId)) > 0;
     }
 
     /**************************************************************************
@@ -465,20 +374,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getForgotPasswordUrl()
     {
         return $this->_getUrl('customer/account/forgotpassword');
-    }
-
-    /**
-     * Check is confirmation required
-     *
-     * @return bool
-     */
-    public function isConfirmationRequired()
-    {
-        $customerId = $this->_customerSession->getCustomerId();
-        return \Magento\Customer\Service\V1\CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED ==
-            $this->_accountService->getConfirmationStatus(
-            $customerId
-        );
     }
 
     /**
@@ -791,37 +686,5 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
 
         return $filteredData;
-    }
-
-    /**
-     * Check store availability for customer given the customerId
-     *
-     * @param int $customerWebsiteId
-     * @param int $storeId
-     * @return bool
-     */
-    public function isCustomerInStore($customerWebsiteId, $storeId)
-    {
-        $ids = $this->getSharedStoreIds($customerWebsiteId);
-        return in_array($storeId, $ids);
-    }
-
-    /**
-     * Retrieve shared store ids
-     *
-     * @param int $customerWebsiteId
-     * @return array
-     */
-    public function getSharedStoreIds($customerWebsiteId)
-    {
-        $ids = array();
-        if ((bool)$this->_configShare->isWebsiteScope()) {
-            $ids = $this->_storeManager->getWebsite($customerWebsiteId)->getStoreIds();
-        } else {
-            foreach ($this->_storeManager->getStores() as $store) {
-                $ids[] = $store->getId();
-            }
-        }
-        return $ids;
     }
 }

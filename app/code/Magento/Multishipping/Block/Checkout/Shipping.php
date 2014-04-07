@@ -9,7 +9,7 @@
  */
 namespace Magento\Multishipping\Block\Checkout;
 
-use Magento\Customer\Model\Address;
+use Magento\Sales\Model\Quote\Address;
 
 /**
  * Mustishipping checkout shipping

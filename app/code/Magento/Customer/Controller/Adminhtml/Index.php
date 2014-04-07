@@ -845,8 +845,8 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        if ($errors !== true && !empty($errors)) {
-            foreach ($errors as $error) {
+        if (!$errors->isValid()) {
+            foreach ($errors->getMessages() as $error) {
                 $this->messageManager->addError($error);
             }
             $response->setError(1);
