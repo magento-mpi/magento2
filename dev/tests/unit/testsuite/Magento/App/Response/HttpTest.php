@@ -63,6 +63,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_model->sendVary();
     }
 
+    public function testSendVaryEmptyData()
+    {
+        $this->_model->sendVary();
+    }
+
     /**
      * Test setting public cache headers
      */
