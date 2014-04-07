@@ -1539,10 +1539,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $customerId = (int)$this->getSession()->getCustomerId();
         $customerData = $this->_customerAccountService->getCustomer($customerId);
-        return $customerData->getWebsiteId() == $store->getWebsiteId() || $this->_customerHelper->isCustomerInStore(
-            $customerData->getWebsiteId(),
-            $store->getId()
-        );
+        return $customerData->getWebsiteId() == $store->getWebsiteId() ||
+            $this->_customerAccountService->isCustomerInStore($customerData->getWebsiteId(), $store->getId());
     }
 
     /**

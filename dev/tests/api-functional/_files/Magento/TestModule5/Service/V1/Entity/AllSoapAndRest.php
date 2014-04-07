@@ -18,12 +18,9 @@ use Magento\Service\Data\AbstractObject;
 class AllSoapAndRest extends AbstractObject
 {
     const ID = 'id';
-
     const NAME = 'name';
-
-    const IS_ENABLED = 'isEnabled';
-
-    const HAS_NAME = 'hasName';
+    const ENABLED = 'enabled';
+    const HAS_ORDERS = 'orders';
 
     /**
      * Retrieve item ID.
@@ -52,16 +49,27 @@ class AllSoapAndRest extends AbstractObject
      */
     public function isEnabled()
     {
-        return $this->_get(self::IS_ENABLED);
+        return $this->_get(self::ENABLED);
     }
 
     /**
-     * Check if current entity has name defined
+     * Check if current entity has a property defined
      *
      * @return bool
      */
-    public function hasName()
+    public function hasOrders()
     {
-        return $this->_get(self::HAS_NAME);
+        return $this->_get(self::HAS_ORDERS);
+    }
+
+    /**
+     * Method which will not be used when adding complex type field to WSDL.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getFieldExcludedFromWsdl($value)
+    {
+        return $value;
     }
 }
