@@ -35,11 +35,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_assetsMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_configMock;
-
-    /**
      * @var \Magento\Core\Model\Observer
      */
     protected $_model;
@@ -91,14 +86,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->_configMock = $this->getMock(
-            '\Magento\App\ReinitableConfigInterface',
-            array(),
-            array(),
-            '',
-            false,
-            false
-        );
 
         $this->_assetFactory = $this->getMock(
             'Magento\View\Asset\PublicFileFactory',
@@ -115,7 +102,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'cacheFrontendPool' => $this->_frontendPoolMock,
                 'design' => $designMock,
                 'assets' => $this->_assetsMock,
-                'config' => $this->_configMock,
                 'assetFileFactory' => $this->_assetFactory
             )
         );
@@ -127,7 +113,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_frontendPoolMock = null;
         $this->_themeCustomization = null;
         $this->_assetsMock = null;
-        $this->_configMock = null;
         $this->_model = null;
     }
 
@@ -173,12 +158,5 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $observer = new \Magento\Event\Observer();
         $this->_model->applyThemeCustomization($observer);
-    }
-
-    public function testProcessReinitConfig()
-    {
-        $observer = new \Magento\Event\Observer();
-        $this->_configMock->expects($this->once())->method('reinit');
-        $this->_model->processReinitConfig($observer);
     }
 }
