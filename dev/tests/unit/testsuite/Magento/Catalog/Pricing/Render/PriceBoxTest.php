@@ -74,4 +74,38 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedTestValue, $result);
     }
+
+    /**
+     * test for method getCanDisplayQty
+     *
+     * @param string $typeCode
+     * @param bool $expected
+     * @dataProvider getCanDisplayQtyDataProvider
+     */
+    public function testGetCanDisplayQty($typeCode, $expected)
+    {
+        $product = $this->getMockForAbstractClass(
+            'Magento\Pricing\Object\SaleableInterface',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['getTypeId']
+        );
+
+        $product->expects($this->once())
+            ->method('getTypeId')
+            ->will($this->returnValue($typeCode));
+
+        $this->assertEquals($expected, $this->object->getCanDisplayQty($product));
+    }
+
+    public function getCanDisplayQtyDataProvider()
+    {
+        return [
+            'product is not of type grouped' => ['configurable', true],
+            'product is of type grouped' => ['grouped', false]
+        ];
+    }
 }
