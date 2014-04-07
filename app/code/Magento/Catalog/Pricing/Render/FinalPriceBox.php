@@ -29,7 +29,7 @@ class FinalPriceBox extends BasePriceBox
 
         try {
             /** @var MsrpPrice $msrpPriceType */
-            $msrpPriceType = $this->getSaleableItem()->getPriceInfo()->getPrice('msrp');
+            $msrpPriceType = $this->getSaleableItem()->getPriceInfo()->getPrice('msrp_price');
         } catch (\InvalidArgumentException $e) {
             $this->_logger->logException($e);
             return $this->wrapResult($result);
@@ -39,7 +39,7 @@ class FinalPriceBox extends BasePriceBox
         if ($msrpPriceType->canApplyMsrp($this->getSaleableItem())) {
             /** @var BasePriceBox $msrpBlock */
             $msrpBlock = $this->rendererPool->createPriceRender(
-                'msrp',
+                'msrp_price',
                 $this->getSaleableItem(),
                 [
                     'real_price_html' => $result

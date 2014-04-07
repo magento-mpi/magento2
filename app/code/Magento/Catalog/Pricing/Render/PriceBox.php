@@ -83,4 +83,18 @@ class PriceBox extends PriceBoxRender
     {
         return $this->mathRandom->getRandomString($length, $chars);
     }
+
+    /**
+     * Check if quantity can be displayed for tier price with msrp
+     *
+     * @param SaleableInterface $product
+     * @return bool
+     */
+    public function getCanDisplayQty(SaleableInterface $product)
+    {
+        if ($product->getTypeId() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
+            return false;
+        }
+        return true;
+    }
 }
