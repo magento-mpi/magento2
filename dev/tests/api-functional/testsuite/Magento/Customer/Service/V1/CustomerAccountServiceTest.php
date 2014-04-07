@@ -822,7 +822,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateAccount'
+                'operation' => self::SERVICE_NAME . 'CreateCustomer'
             ]
         ];
         $customerDetailsAsArray = $this->_createSampleCustomerDetailsData()->__toArray();

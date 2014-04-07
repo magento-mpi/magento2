@@ -403,7 +403,7 @@ class Index extends \Magento\Backend\App\Action
                 if ($isExistingCustomer) {
                     $this->_customerAccountService->updateCustomer($customerDetails);
                 } else {
-                    $customer = $this->_customerAccountService->createAccount($customerDetails);
+                    $customer = $this->_customerAccountService->createCustomer($customerDetails);
                     $customerId = $customer->getId();
                 }
 

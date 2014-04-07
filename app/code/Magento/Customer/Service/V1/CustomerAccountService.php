@@ -323,7 +323,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createAccount(
+    public function createCustomer(
         Data\CustomerDetails $customerDetails,
         $password = null,
         $hash = null,

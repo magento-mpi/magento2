@@ -49,7 +49,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
         $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
         $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $createdCustomer = $this->accountService->createAccount($customerDetailsBuilder->create());
+        $createdCustomer = $this->accountService->createCustomer($customerDetailsBuilder->create());
 
         $subscriber->loadByEmail('customer_two@example.com');
         $this->assertTrue($subscriber->isSubscribed());
@@ -74,7 +74,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
         $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
         $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $this->accountService->createAccount($customerDetailsBuilder->create());
+        $this->accountService->createCustomer($customerDetailsBuilder->create());
 
         $this->verifySubscriptionNotExist('customer@example.com');
     }
