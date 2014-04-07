@@ -320,6 +320,7 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
      * @param string $dependentField
      * @param string $mainField
      * @param string $condition
+     * @return void
      */
     protected function addFieldDependency($dependentField, $mainField, $condition)
     {
