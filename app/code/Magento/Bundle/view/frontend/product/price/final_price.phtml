@@ -13,7 +13,7 @@
 /** @var \Magento\Bundle\Pricing\Render\FinalPriceBox $this */
 $id = $this->getSaleableItem()->getId();
 /** @var \Magento\Bundle\Pricing\Price\FinalPrice $finalPriceModel */
-$finalPriceModel = $this->getPriceType('final_price');
+$finalPriceModel = $this->getPrice();
 ?>
 <?php
 if (isset($_GET['showmeprice'])) {
@@ -23,7 +23,7 @@ if (isset($_GET['showmeprice'])) {
     echo 'Catalog Rule Price :' . $this->getPriceType('catalog_rule_price')->getValue(). "<br />";
     echo 'Tier Price :' . $this->getPriceType('tier_price')->getValue(). "<br />";
     echo 'Base Price :' . $this->getPriceType('base_price')->getValue(). "<br />";
-    echo 'Final Price :' . $this->getPriceType('final_price')->getValue(). "<br />";
+    echo 'Final Price :' . $finalPriceModel->getValue(). "<br />";
     echo  "<br />";
 }
 ?>
@@ -53,7 +53,7 @@ if (isset($_GET['showmeprice'])) {
         </p>
     <?php else: ?>
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
-            'price_id'          => $this->getPriceId() ? $this->getPriceId() : $id,
+            'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'regular-' . $id,
             'include_container' => true
         ]); ?>
     <?php endif ?>

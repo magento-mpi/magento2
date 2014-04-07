@@ -67,7 +67,7 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
         }
 
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
-            $this->value = $this->salableItem
+            $value = $this->salableItem
                 ->getPriceInfo()
                 ->getPrice(FinalPriceInterface::PRICE_TYPE_FINAL, $this->quantity)
                 ->getValue();
@@ -84,16 +84,15 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
-
-                $price = $product->getData('final_price') * ($this->salableItem->getSelectionPriceValue() / 100);
-                $this->value = $product->getPriceInfo()
-                    ->getPrice(CatalogPrice\BasePrice::PRICE_TYPE_BASE_PRICE, $this->quantity)
-                    ->applyDiscount($price);
+                $value = $product->getData('final_price') * ($this->salableItem->getSelectionPriceValue() / 100);
             } else {
                 // calculate price for selection type fixed
-                $this->value = $this->salableItem->getSelectionPriceValue() * $this->quantity;
+                $value = $this->salableItem->getSelectionPriceValue() * $this->quantity;
             }
         }
+        $this->value = $this->bundleProduct->getPriceInfo()
+            ->getPrice(CatalogPrice\BasePrice::PRICE_TYPE_BASE_PRICE, $this->quantity)
+            ->applyDiscount($value);
         return $this->value;
     }
 }
