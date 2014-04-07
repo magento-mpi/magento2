@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
   * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
 * Framework Improvements:
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
