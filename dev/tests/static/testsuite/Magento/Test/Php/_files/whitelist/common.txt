@@ -41,7 +41,6 @@ app/code/Magento/Core/Model/Design.php
 app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Resource/Theme
 app/code/Magento/Core/Model/Resource/Theme.php
-app/code/Magento/Core/Model/Session/Validator.php
 app/code/Magento/Core/Model/Theme
 app/code/Magento/Core/Model/Theme.php
 app/code/Magento/Core/Model/Url/SecurityInfo.php

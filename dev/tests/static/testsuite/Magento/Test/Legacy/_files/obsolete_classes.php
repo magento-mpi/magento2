@@ -2114,7 +2114,6 @@ return array(
         'Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype',
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ),
-    array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
     ['Magento\PubSub'], // unused library code which was removed
     ['Magento\Outbound'], // unused library code which was removed
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
@@ -2245,14 +2244,6 @@ return array(
     ['Magento\Newsletter\Model\Resource\Setup'],
     ['Magento\SalesRule\Model\Resource\Setup'],
     ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
-    array('Magento\Catalog\Model\Product\Indexer\Price'),
-    array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
-    array('Magento\App\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
-    array('Magento\Core\Model\Store\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
-    array('Magento\Core\Model\Store\Config', 'Magento\App\Config\ScopeConfigInterface'),
-    array('Magento\App\Locale\ScopeConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
-    array('Magento\BaseScopeInterface', 'Magento\App\Config\ScopeInterface'),
-    array('Magento\BaseScopeResolverInterface', 'Magento\App\ScopeResolverInterface'),
     array('Magento\Core\Model\Session', 'Magento\Session\Generic'),
     array('Magento\Core\Model\Session\Config', 'Magento\Session\Config'),
     array('Magento\Core\Model\Session\SidResolver', 'Magento\Session\SidResolver'),
