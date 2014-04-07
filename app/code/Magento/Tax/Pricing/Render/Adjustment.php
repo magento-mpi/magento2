@@ -69,7 +69,8 @@ class Adjustment extends AbstractAdjustment
      */
     public function getDisplayAmountExclTax()
     {
-        return $this->convertAndFormatCurrency($this->amountRender->getAmount()->getValue('tax'), false);
+        // todo use 'excludeWith' method instead hard-coded list here
+        return $this->convertAndFormatCurrency($this->amountRender->getAmount()->getValue(['tax', 'weee']), false);
     }
 
     /**
@@ -91,8 +92,11 @@ class Adjustment extends AbstractAdjustment
      */
     public function buildIdWithPrefix($prefix)
     {
-        $productId = $this->getSaleableItem()->getId();
-        return $prefix . $productId . $this->getIdSuffix();
+        $priceId = $this->getPriceId();
+        if (!$priceId) {
+            $priceId = $this->getSaleableItem()->getId();
+        }
+        return $prefix . $priceId . $this->getIdSuffix();
     }
 
     /**
