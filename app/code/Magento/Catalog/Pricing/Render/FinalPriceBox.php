@@ -14,6 +14,7 @@ use Magento\Pricing\Render\PriceBox as BasePriceBox;
 use Magento\Catalog\Pricing\Price\MsrpPrice;
 use Magento\Pricing\Render;
 use Magento\Catalog\Pricing\Price;
+use Magento\Catalog\Pricing\Price\MsrpPriceInterface;
 
 /**
  * Class for final_price rendering
@@ -39,7 +40,7 @@ class FinalPriceBox extends BasePriceBox
         if ($msrpPriceType->canApplyMsrp($this->getSaleableItem())) {
             /** @var BasePriceBox $msrpBlock */
             $msrpBlock = $this->rendererPool->createPriceRender(
-                'msrp_price',
+                MsrpPriceInterface::PRICE_TYPE_MSRP,
                 $this->getSaleableItem(),
                 [
                     'real_price_html' => $result
