@@ -3,24 +3,22 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Contacts
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
     <system>
-        <section id="contacts" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="contact" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Contacts</label>
             <tab>general</tab>
-            <resource>Magento_Contacts::contacts</resource>
-            <group id="contacts" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <resource>Magento_Contact::contact</resource>
+            <group id="contact" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Contact Us</label>
                 <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Contact Us</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                    <backend_model>Magento\Contacts\Model\System\Config\Backend\Links</backend_model>
+                    <backend_model>Magento\Contact\Model\System\Config\Backend\Links</backend_model>
                 </field>
             </group>
             <group id="email" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
