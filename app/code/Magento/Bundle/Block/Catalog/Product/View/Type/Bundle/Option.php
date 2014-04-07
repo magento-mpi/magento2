@@ -330,7 +330,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     /**
      * Format price string
      *
-     * @param $selection
+     * @param \Magento\Bundle\Model\Selection $selection
      * @param bool $includeContainer
      * @return string
      */
