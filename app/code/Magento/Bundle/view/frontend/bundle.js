@@ -165,8 +165,8 @@
         reloadPrice: function() {
             if (this.options.bundleConfig) {
                 var optionPrice = {
-                    priceExclTax: 0,
-                    priceInclTax: 0,
+                    priceExclTax: this.options.bundleConfig.finalBasePriceExclTax,
+                    priceInclTax: this.options.bundleConfig.finalBasePriceInclTax,
                     price: 0,
                     update: function(price, excludeTax, includeTax) {
                         this.price += price;
