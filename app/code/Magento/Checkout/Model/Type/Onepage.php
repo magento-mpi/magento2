@@ -28,10 +28,8 @@ class Onepage
     /**
      * Checkout types: Checkout as Guest, Register, Logged In Customer
      */
-    const METHOD_GUEST = 'guest';
-
+    const METHOD_GUEST    = 'guest';
     const METHOD_REGISTER = 'register';
-
     const METHOD_CUSTOMER = 'customer';
 
     /**
@@ -351,7 +349,7 @@ class Onepage
         if (!empty($customerAddressId)) {
             try {
                 $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 /** Address does not exist */
             }
             if (isset($customerAddress)) {
@@ -533,9 +531,14 @@ class Onepage
         if ($quote->getCheckoutMethod() == self::METHOD_REGISTER) {
             // We always have $customerRequest here, otherwise we would have been kicked off the function several
             // lines above
-            if ($customerRequest->getParam('customer_password') != $customerRequest->getParam('confirm_password')) {
-                return array('error' => -1, 'message' => __('Password and password confirmation are not equal.'));
+            $password = $customerRequest->getParam('customer_password');
+            if ($password != $customerRequest->getParam('confirm_password')) {
+                return [
+                    'error'   => -1,
+                    'message' => __('Password and password confirmation are not equal.')
+                ];
             }
+            $quote->setPasswordHash($this->_customerAccountService->getPasswordHash($password));
         } else {
             // set NOT LOGGED IN group id explicitly,
             // otherwise copyFieldsetToTarget('customer_account', 'to_quote') will fill it with default group id value
@@ -547,8 +550,11 @@ class Onepage
         //validate customer
         $attributes = $customerForm->getAllowedAttributes();
         $result = $this->_customerAccountService->validateCustomerData($customer, $attributes);
-        if (true !== $result && is_array($result)) {
-            return $result;
+        if (!$result->isValid()) {
+            return [
+                'error' => -1,
+                'message' => implode(', ', $result->getMessages())
+            ];
         }
 
         // copy customer/guest email to address
