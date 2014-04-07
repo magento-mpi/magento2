@@ -38,8 +38,8 @@
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Store\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
     <preference for="Magento\Translate\InlineInterface" type="Magento\Translate\Inline" />
-    <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Core\Model\Translate\Inline\Config" />
-    <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Core\Model\Translate\Inline\Parser" />
+    <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Translation\Model\Inline\Config" />
+    <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Translation\Model\Inline\Parser" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Session\Validator" />
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
     <preference for="Magento\Url\RouteParamsResolverInterface" type="Magento\Core\Model\Url\RouteParamsResolver" />
