@@ -42,11 +42,6 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     protected $storeMock;
 
-    /**
-     * @var \Magento\GiftCard\Pricing\Render\FinalPriceBox
-     */
-    protected $finalPriceBox;
-
     public function setUp()
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -168,7 +163,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     protected function getFinalPriceBox()
     {
-        return $this->finalPriceBox = $this->objectManager->getObject(
+        return $this->objectManager->getObject(
             'Magento\GiftCard\Pricing\Render\FinalPriceBox',
             [
                 'saleableItem' => $this->salableItemMock,
@@ -178,9 +173,6 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     *
-     */
     /**
      * @param bool $isOpenAmount
      * @param bool $expected

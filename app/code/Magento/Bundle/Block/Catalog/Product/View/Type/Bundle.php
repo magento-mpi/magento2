@@ -227,7 +227,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 $option['selections'][$selectionId] = $selection;
 
                 if (($_selection->getIsDefault() ||
-                    $selectionCount == 1 && $_option->getRequired()) && $_selection->isSalable()
+                        $selectionCount == 1 && $_option->getRequired()) && $_selection->isSalable()
                 ) {
                     $selected[$optionId][] = $selectionId;
                 }
@@ -252,7 +252,9 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'basePrice' => $this->coreData->currency($currentProduct->getPrice(), false, false),
             'finalBasePriceInclTax' => $this->coreData->currency(
                     $this->_taxData->getPrice($currentProduct, $currentProduct->getFinalPrice(), true),
-                    false, false),
+                    false,
+                    false
+                ),
             'finalBasePriceExclTax' => $this->coreData->currency($currentProduct->getFinalPrice(), false, false),
             'priceType' => $currentProduct->getPriceType(),
             'specialPrice' => $currentProduct->getSpecialPrice(),
