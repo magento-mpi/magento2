@@ -23,9 +23,4 @@ class NoSuchEntityException extends \Magento\Exception\LocalizedException
     ) {
         parent::__construct($message, $params, $cause);
     }
-
-    public function addField($fieldName, $value)
-    {
-
-    }
 }
