@@ -44,14 +44,14 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     public function testItem()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Item')
-        );
-        $requestData = array('id' => $itemId);
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Item']
+        ];
+        $requestData = ['id' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
     }
@@ -61,11 +61,11 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
      */
     public function testItems()
     {
-        $itemArr = array(array('id' => 1, 'name' => 'testProduct1'), array('id' => 2, 'name' => 'testProduct2'));
-        $serviceInfo = array(
-            'rest' => array('resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_GET),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Items')
-        );
+        $itemArr = [['id' => 1, 'name' => 'testProduct1'], ['id' => 2, 'name' => 'testProduct2']];
+        $serviceInfo = [
+            'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_GET],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Items']
+        ];
         $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
     }
@@ -76,11 +76,11 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     public function testCreate()
     {
         $createdItemName = 'createdItemName';
-        $serviceInfo = array(
-            'rest' => array('resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_POST),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Create')
-        );
-        $requestData = array('name' => $createdItemName);
+        $serviceInfo = [
+            'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Create']
+        ];
+        $requestData = ['name' => $createdItemName];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($createdItemName, $item['name'], 'Item creation failed');
     }
@@ -91,15 +91,15 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     public function testCreateWithoutResources()
     {
         $createdItemName = 'createdItemName';
-        $serviceInfo = array(
-            'rest' => array('resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_POST),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Create')
-        );
-        $requestData = array('name' => $createdItemName);
+        $serviceInfo = [
+            'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Create']
+        ];
+        $requestData = ['name' => $createdItemName];
 
         // getting new credentials that do not match the api resources
         OauthHelper::clearApiAccessCredentials();
-        OauthHelper::getApiAccessCredentials(array());
+        OauthHelper::getApiAccessCredentials([]);
         try {
             $this->assertUnauthorizedException($serviceInfo, $requestData);
         } catch (\Exception $e) {
@@ -116,14 +116,14 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     public function testUpdate()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Update')
-        );
-        $requestData = array('item' => array('id' => $itemId, 'name' => 'testName'));
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Update']
+        ];
+        $requestData = ['item' => ['id' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
     }
@@ -134,26 +134,26 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     public function testDelete()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ),
-            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Delete')
-        );
-        $requestData = array('id' => $itemId, 'name' => 'testName');
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Delete']
+        ];
+        $requestData = ['id' => $itemId, 'name' => 'testName'];
         $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
 
     public function testOverwritten()
     {
         $this->_markTestAsRestOnly();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'overwritten',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
-            )
-        );
+            ]
+        ];
         $item = $this->_webApiCall($serviceInfo, []);
         $this->assertEquals(['id' => -55, 'name' => 'testProduct1'], $item);
     }
@@ -161,12 +161,12 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     public function testDefaulted()
     {
         $this->_markTestAsRestOnly();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'testOptionalParam',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
-            )
-        );
+            ]
+        ];
         $item = $this->_webApiCall($serviceInfo, []);
         $this->assertEquals(['id' => 3, 'name' => 'Default Name'], $item);
     }
@@ -174,14 +174,13 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     public function testDefaultedWithValue()
     {
         $this->_markTestAsRestOnly();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'testOptionalParam',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
-            )
-        );
+            ]
+        ];
         $item = $this->_webApiCall($serviceInfo, ['name' => 'Ms. LaGrange']);
         $this->assertEquals(['id' => 3, 'name' => 'Ms. LaGrange'], $item);
     }
-
 }
