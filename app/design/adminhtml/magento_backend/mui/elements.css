@@ -8,9 +8,9 @@
 /*
     Close btn
 -------------------------------------- */
-.close:before {
+/*.close:before {
     content: '\00D7\00A0';
-}
+}*/
 
 /*
     Tooltips
