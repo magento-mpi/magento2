@@ -135,7 +135,7 @@ p.required {
 
 /********************** Messages  */
 .messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
-.messages .message { padding:10px 17px; background-position:35px 100%; background-repeat:no-repeat; position:relative; }
+.messages .message { padding:10px 17px; position:relative; }
 .messages .message a { text-decoration:underline; }
 .messages .message a:hover { text-decoration:none; }
 

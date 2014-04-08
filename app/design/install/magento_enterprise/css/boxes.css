@@ -137,26 +137,26 @@ p.required {
 
 
 /********************** Messages  */
-    .messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
-    .messages .message { padding:10px 17px; background-position:35px 100%; background-repeat:no-repeat; position:relative; }
-    .messages .message a { text-decoration:underline; }
-    .messages .message a:hover { text-decoration:none; }
+.messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
+.messages .message { padding:10px 17px; position:relative; }
+.messages .message a { text-decoration:underline; }
+.messages .message a:hover { text-decoration:none; }
 
-    .messages .message.error,
-    .messages .message.success,
-    .messages .message.note,
-    .messages .message.notice { border-style:solid !important; border-width:1px !important; font-size:12px !important; }
+.messages .message.error,
+.messages .message.success,
+.messages .message.note,
+.messages .message.notice { border-style:solid !important; border-width:1px !important; font-size:12px !important; }
 
-    .messages .message.error { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
-    .messages .message.error a { color:#d91a00; }
+.messages .message.error { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
+.messages .message.error a { color:#d91a00; }
 
-    .messages .message.success { border-color:#446423; background-color:#eff5ea; color:#3d6611; }
-    .messages .message.success a { color:#3d6611; }
+.messages .message.success { border-color:#446423; background-color:#eff5ea; color:#3d6611; }
+.messages .message.success a { color:#3d6611; }
 
-    .messages .message.note,
-    .messages .message.notice { border-color:#fcd344; background-color:#fafaec; color:#3d6611; }
-    .messages .message.note a,
-    .messages .message.notice a { color:#3d6611; }
+.messages .message.note,
+.messages .message.notice { border-color:#fcd344; background-color:#fafaec; color:#3d6611; }
+.messages .message.note a,
+.messages .message.notice a { color:#3d6611; }
 
 
 
