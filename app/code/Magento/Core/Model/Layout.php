@@ -1401,7 +1401,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             try {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             } catch (\ReflectionException $e) {
-                // incorrect class name
+                $this->_logger->log($e->getMessage());
             }
         }
         if (!$block instanceof \Magento\View\Element\AbstractBlock) {
