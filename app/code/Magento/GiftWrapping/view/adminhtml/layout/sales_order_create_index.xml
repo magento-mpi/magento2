@@ -11,7 +11,7 @@
     <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Totals" name="giftwrapping_total_renderer" template="order/create/totals.phtml"/>
     <referenceBlock name="gift_options">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info" name="wrapping_order_create_info" template="order/create/info.phtml">
-            <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info\Content" name="wrapping.order.create.info.content" template="order/create/info/content.phtml"/>
+            <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info\Content" name="wrapping.order.create.info.content" template="order/create/info/wrapping.phtml"/>
         </block>
     </referenceBlock>
     <referenceBlock name="popup_window">

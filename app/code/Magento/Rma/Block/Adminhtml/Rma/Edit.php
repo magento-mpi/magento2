@@ -82,6 +82,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 'close',
                 array(
                     'label' => __('Close'),
+                    'class' => 'close',
                     'onclick' => 'confirmSetLocation(\'' . __(
                         'Are you sure you want to close this returns request?'
                     ) . '\', \'' . $this->getCloseUrl() . '\')'
@@ -96,7 +97,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             'print',
             array(
                 'label' => __('Print'),
-                'class' => 'save',
+                'class' => 'print',
                 'onclick' => 'setLocation(\'' . $this->getPrintUrl() . '\')'
             ),
             101

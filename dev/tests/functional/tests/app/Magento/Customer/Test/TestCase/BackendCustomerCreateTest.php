@@ -42,9 +42,9 @@ class BackendCustomerCreateTest extends Functional
         $customerCreatePage = Factory::getPageFactory()->getCustomerNew();
         //Steps
         $customerPage->open();
-        $customerPage->getGridBlock()->addNewCustomer();
+        $customerPage->getActionsBlock()->addNew();
         $customerCreatePage->getNewCustomerForm()->fill($customerFixture);
-        $customerCreatePage->getNewCustomerForm()->clickSaveAndContinue();
+        $customerCreatePage->getPageActionsBlock()->saveAndContinue();
         $customerCreatePage->getMessageBlock()->assertSuccessMessage($customerFixture);
         //Verifying
         $customerPage->open();
