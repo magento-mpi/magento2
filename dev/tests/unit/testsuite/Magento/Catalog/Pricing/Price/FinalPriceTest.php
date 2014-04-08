@@ -90,7 +90,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($basePrice));
         $this->calculatorMock->expects($this->once())
             ->method('getAmount')
-            ->with($this->equalTo($basePrice), $this->equalTo($this->saleableMock))
+            ->with($this->equalTo($basePrice))
             ->will($this->returnValue($minimalPrice));
         $this->saleableMock->expects($this->once())
             ->method('getMinimalPrice')
@@ -107,11 +107,11 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
         $basePrice = 10;
         $minimalPrice = 5;
         $this->basePriceMock->expects($this->once())
-            ->method('getMaxValue')
+            ->method('getValue')
             ->will($this->returnValue($basePrice));
         $this->calculatorMock->expects($this->once())
             ->method('getAmount')
-            ->with($this->equalTo($basePrice), $this->equalTo($this->saleableMock))
+            ->with($this->equalTo($basePrice))
             ->will($this->returnValue($minimalPrice));
         $result = $this->model->getMaximalPrice();
         $this->assertEquals($minimalPrice, $result);
