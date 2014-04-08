@@ -101,7 +101,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->response = $this->getMock('Magento\App\ResponseInterface');
 
         $this->categoryHelper = $this->getMock('Magento\Catalog\Helper\Category', [], [], '', false);
-        $this->objectManager = $this->getMock('Magento\ObjectManager');
+        $this->objectManager = $this->getMock('Magento\ObjectManager', [], [], '', false);
         $this->eventManager = $this->getMock('Magento\Event\ManagerInterface');
 
         $this->update = $this->getMock('Magento\View\Layout\ProcessorInterface');
@@ -141,27 +141,27 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $categoryId = 123;
         $pageLayout = 'page_layout';
 
-        $this->objectManager->expects($this->at(0))->method('get')->with('Magento\Catalog\Helper\Category')
-            ->will($this->returnValue($this->categoryHelper));
-        $this->objectManager->expects($this->at(1))->method('get')->with('Magento\Theme\Helper\Layout')
-            ->will($this->returnValue($this->layoutHelper));
+        $this->objectManager->expects($this->any())->method('get')->will($this->returnValueMap([
+            ['Magento\Catalog\Helper\Category', $this->categoryHelper],
+            ['Magento\Theme\Helper\Layout', $this->layoutHelper],
+        ]));
 
-        $this->request->expects($this->at(0))->method('getParam')->with(Action::PARAM_NAME_URL_ENCODED)
-            ->will($this->returnValue(null));
-        $this->request->expects($this->at(1))->method('getParam')->with('id', false)
-            ->will($this->returnValue($categoryId));
+        $this->request->expects($this->any())->method('getParam')->will($this->returnValueMap([
+            [Action::PARAM_NAME_URL_ENCODED],
+            ['id', false, $categoryId],
+        ]));
 
         $this->categoryFactory->expects($this->any())->method('create')->will($this->returnValue($this->category));
         $this->category->expects($this->any())->method('setStoreId')->will($this->returnSelf());
         $this->category->expects($this->any())->method('load')->with($categoryId)->will($this->returnSelf());
 
-        $this->categoryHelper->expects($this->once())->method('canShow')->with($this->category)
+        $this->categoryHelper->expects($this->any())->method('canShow')->with($this->category)
             ->will($this->returnValue(true));
 
         $settings = $this->getMock('Magento\Object', ['getPageLayout'], [], '', false);
         $settings->expects($this->atLeastOnce())->method('getPageLayout')->will($this->returnValue($pageLayout));
 
-        $this->catalogDesign->expects($this->once())->method('getDesignSettings')->with($this->category)
+        $this->catalogDesign->expects($this->any())->method('getDesignSettings')->with($this->category)
             ->will($this->returnValue($settings));
 
         $this->layoutHelper->expects($this->once())->method('applyHandle')->with($pageLayout);
