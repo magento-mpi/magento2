@@ -1,0 +1,26 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/* magento_backend */
+
+//.magento-reset();   // Reset default styles with magento_reset
+
+// Import theme vars overrides and mixins
+@import "source/lib/lib.less"; // Import all lib files
+@import "../less/styles/vars.less";
+@import "source/theme.less"; // import theme styles
+
+@baseDir: "../"; //default
+
+@import "source/navigation.less"; // import theme navigation
+@import "source/dashboard.less"; // import theme navigation
+
+// Magento Import instructions
+//@magento_import "source/module.less"; // import theme styles
+
+@import (reference) "source/abstract.less"; // import theme styles

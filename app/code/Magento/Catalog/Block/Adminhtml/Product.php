@@ -62,8 +62,8 @@ class Product extends \Magento\Backend\Block\Widget\Container
         $addButtonProps = array(
             'id' => 'add_new_product',
             'label' => __('Add Product'),
-            'class' => 'btn-add',
-            'button_class' => 'btn-round',
+            'class' => 'add',
+            'button_class' => '',
             'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
             'options' => $this->_getAddProductButtonOptions()
         );

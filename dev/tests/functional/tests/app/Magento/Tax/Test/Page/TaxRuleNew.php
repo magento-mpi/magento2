@@ -15,6 +15,7 @@ namespace Magento\Tax\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\FormPageActions;
 
 /**
  * Class TaxRuleNew
@@ -42,6 +43,13 @@ class TaxRuleNew extends Page
      * @var string
      */
     protected $messagesBlock = '#messages .messages';
+
+    /**
+     * Form page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * Custom constructor
@@ -72,6 +80,18 @@ class TaxRuleNew extends Page
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get Form page actions block
+     *
+     * @return FormPageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendFormPageActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }

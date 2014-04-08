@@ -41,10 +41,11 @@ class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
         $container = $this->getParentBlock();
         if ($container instanceof \Magento\Backend\Block\Template && $container->getCustomerId()) {
             $url = $this->_urlBuilder->getUrl('checkout/index', array('customer' => $container->getCustomerId()));
-            $container->addButton(
+
+            $this->getToolbar()->addChild(
                 'manage_quote',
-                array('label' => __('Manage Shopping Cart'), 'onclick' => "setLocation('" . $url . "')"),
-                0
+                'Magento\Backend\Block\Widget\Button',
+                array('label' => __('Manage Shopping Cart'), 'onclick' => "setLocation('" . $url . "')")
             );
         }
         return $this;
