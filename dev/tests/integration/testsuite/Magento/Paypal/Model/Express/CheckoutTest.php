@@ -110,8 +110,8 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $quote->setCustomerLastname('Lastname');
         $quote->setCustomerIsGuest(false);
 
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('\Magento\Core\Model\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         $storeManager->getStore()->setConfig(Customer::XML_PATH_IS_CONFIRM, true);
 
         $checkout = $this->_getCheckout($quote);

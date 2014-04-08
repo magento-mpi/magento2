@@ -293,15 +293,11 @@ class StorageFactory
      */
     protected function _checkGetStore(\Magento\Store\Model\StoreManagerInterface $storage, $scopeType)
     {
-        if (empty($_GET)) {
+        if (empty($_POST['___store']) && empty($_GET['___store'])) {
             return;
         }
+        $store = empty($_POST['___store']) ? $_GET['___store'] : $_POST['___store'];
 
-        if (!isset($_GET['___store'])) {
-            return;
-        }
-
-        $store = $_GET['___store'];
         $stores = $storage->getStores(true, true);
         if (!isset($stores[$store])) {
             return;

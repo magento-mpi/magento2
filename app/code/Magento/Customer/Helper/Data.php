@@ -187,7 +187,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMerchantCountryCode($store = null)
     {
-        return (string)$this->_storeConfig->getValue(
+        return (string)$this->_scopeConfig->getValue(
             self::XML_PATH_MERCHANT_COUNTRY_CODE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -202,7 +202,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMerchantVatNumber($store = null)
     {
-        return (string)$this->_storeConfig->getValue(
+        return (string)$this->_scopeConfig->getValue(
             self::XML_PATH_MERCHANT_VAT_NUMBER,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
@@ -220,7 +220,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $euCountries = explode(
             ',',
-            $this->_storeConfig->getValue(
+            $this->_scopeConfig->getValue(
                 self::XML_PATH_EU_COUNTRIES_LIST,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -264,7 +264,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
-        if (!$referer && !$this->_storeConfig->isSetFlag(
+        if (!$referer && !$this->_scopeConfig->isSetFlag(
             self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && !$this->_customerSession->getNoReferer()
@@ -496,7 +496,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         );
 
         if (isset($vatClassToGroupXmlPathMap[$vatClass])) {
-            $groupId = (int)$this->_storeConfig->getValue(
+            $groupId = (int)$this->_scopeConfig->getValue(
                 $vatClassToGroupXmlPathMap[$vatClass],
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store

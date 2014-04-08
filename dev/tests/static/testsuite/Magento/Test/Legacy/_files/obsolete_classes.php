@@ -2114,9 +2114,6 @@ return array(
         'Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype',
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ),
-    array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
-    array('Magento\Catalog\Model\Product\Indexer\Price'),
-    array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
     ['Magento\PubSub'],
     ['Magento\Outbound'],
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),

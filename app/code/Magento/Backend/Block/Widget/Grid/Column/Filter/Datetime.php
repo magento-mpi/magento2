@@ -114,77 +114,45 @@ class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
             );
         }
 
-        $html = '<div class="range" id="' .
-            $htmlId .
-            '_range"><div class="range-line date">' .
-            '<input type="text" name="' .
-            $this->_getHtmlName() .
-            '[from]" id="' .
-            $htmlId .
-            '_from"' .
-            ' value="' .
-            $this->getEscapedValue(
-            'from'
-        ) . '" class="input-text no-changes" placeholder="' . __(
-            'From'
-        ) . '" ' . $this->getUiId(
-            'filter',
-            $this->_getHtmlName(),
-            'from'
-        ) . '/>' . '</div>';
-        $html .= '<div class="range-line date">' .
-            '<input type="text" name="' .
-            $this->_getHtmlName() .
-            '[to]" id="' .
-            $htmlId .
-            '_to"' .
-            ' value="' .
-            $this->getEscapedValue(
-            'to'
-        ) . '" class="input-text no-changes" placeholder="' . __(
-            'To'
-        ) . '" ' . $this->getUiId(
-            'filter',
-            $this->_getHtmlName(),
-            'to'
-        ) . '/>' . '</div></div>';
-        $html .= '<input type="hidden" name="' .
-            $this->_getHtmlName() .
-            '[locale]"' .
-            ' value="' .
-            $this->_localeResolver->getLocaleCode() .
-            '"/>';
+        $html =
+            '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">' . '<input type="text" name="'
+            . $this->_getHtmlName() . '[from]" id="' . $htmlId . '_from"' . ' value="' . $this->getEscapedValue('from')
+            . '" class="input-text no-changes" placeholder="' . __(
+                'From'
+            ) . '" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'from'
+            ) . '/>' . '</div>';
+        $html .= '<div class="range-line date">' . '<input type="text" name="' . $this->_getHtmlName() . '[to]" id="'
+            . $htmlId . '_to"' . ' value="' . $this->getEscapedValue(
+                'to'
+            ) . '" class="input-text no-changes" placeholder="' . __(
+                'To'
+            ) . '" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'to'
+            ) . '/>' . '</div></div>';
+        $html .= '<input type="hidden" name="' . $this->_getHtmlName() . '[locale]"' . ' value="'
+            . $this->_localeResolver->getLocaleCode() . '"/>';
         $html .= '<script type="text/javascript">
             (function( $ ) {
-                    $("#' .
-            $htmlId .
-            '_range").dateRange({
-                        dateFormat: "' .
-            $format .
-            '",
-                        timeFormat: "' .
-            $timeFormat .
-            '",
-                        showsTime: ' .
-            ($this->getColumn()->getFilterTime() ? 'true' : 'false') .
-            ',
-                        buttonImage: "' .
-            $this->getViewFileUrl(
-            'images/grid-cal.gif'
-        ) . '",
+                    $("#' . $htmlId . '_range").dateRange({
+                        dateFormat: "' . $format . '",
+                        timeFormat: "' . $timeFormat . '",
+                        showsTime: ' . ($this->getColumn()->getFilterTime() ? 'true' : 'false') . ',
+                        buttonImage: "' . $this->getViewFileUrl(
+                'images/grid-cal.gif'
+            ) . '",
                             buttonText: "' . $this->escapeHtml(
-            __('Date selector')
-        ) .
-            '",
+                __('Date selector')
+            ) . '",
                         from: {
-                            id: "' .
-            $htmlId .
-            '_from"
+                            id: "' . $htmlId . '_from"
                         },
                         to: {
-                            id: "' .
-            $htmlId .
-            '_to"
+                            id: "' . $htmlId . '_to"
                         }
                     })
             })(jQuery)
