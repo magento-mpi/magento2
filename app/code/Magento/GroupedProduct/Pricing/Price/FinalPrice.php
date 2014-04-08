@@ -120,4 +120,17 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
         }
         return $this->minProduct;
     }
+
+    /**
+     * @param $amount
+     * @param null $exclude
+     * @return AmountInterface
+     */
+    public function getCustomAmount($amount = null, $exclude = null)
+    {
+        if ($amount === null) {
+            $amount = $this->getValue();
+        }
+        return $this->calculator->getAmount($amount, $this->salableItem, $exclude);
+    }
 }
