@@ -11,13 +11,12 @@
 namespace Magento\Catalog\Block\Product;
 
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
+use Magento\View\Block\IdentityInterface;
 
 /**
  * Product list
  */
-class ListProduct
-    extends \Magento\Catalog\Block\Product\AbstractProduct
-    implements \Magento\View\Block\IdentityInterface
+class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct implements IdentityInterface
 {
     /**
      * Default toolbar block name
