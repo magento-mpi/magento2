@@ -63,6 +63,7 @@ class Calculator implements CalculatorInterface
                 $fullAmount = $newAmount;
             }
         }
+
         return $this->amountFactory->create($fullAmount, $adjustments);
     }
 }

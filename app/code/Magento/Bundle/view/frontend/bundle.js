@@ -73,7 +73,7 @@
                                         _this.options.bundleConfig.options[parts[2]].selections[value] &&
                                         _this.options.optionConfig.options[parts[2]].selections[_elem.val()] &&
                                         _this.options.optionConfig.options[parts[2]]
-                                    ) {
+                                        ) {
                                         _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(quantity, 10);
                                         _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(quantity, 10);
                                     }
@@ -240,12 +240,18 @@
 
             var price, tierPrice,
                 selection = configOption.selections[selectionId];
+
+            var inclTaxPrice;
+            var exclTaxPrice;
+
             if (config.priceType === '0') {
                 price = configOption.selections[selectionId].price;
                 tierPrice = configOption.selections[selectionId].tierPrice;
                 $.each(tierPrice, function(k, e) {
                     if (e.price_qty <= qty && e.price <= price) {
                         price = e.price;
+                        inclTaxPrice = e.inclTaxPrice;
+                        exclTaxPrice = e.exclTaxPrice;
                     }
                 });
             } else {
@@ -263,23 +269,25 @@
                 price = Math.min((Math.round(price * config.specialPrice) / 100), price);
             }
 
-            var priceInclTax;
-            if (selection.priceInclTax !== undefined) {
-                priceInclTax = selection.priceInclTax;
-                price = selection.priceExclTax !== undefined ? selection.priceExclTax : selection.price;
-            } else {
-                priceInclTax = price;
+            if (!inclTaxPrice) {
+                if (selection.inclTaxPrice !== undefined) {
+                    inclTaxPrice = selection.inclTaxPrice;
+                    price = selection.exclTaxPrice !== undefined ? selection.exclTaxPrice : selection.price;
+                } else {
+                    inclTaxPrice = price;
+                }
             }
 
-            var priceExclTax;
-            if (selection.priceExclTax !== undefined) {
-                priceExclTax = selection.priceExclTax;
-                price = selection.priceExclTax !== undefined ? selection.priceExclTax : selection.price;
-            } else {
-                priceExclTax = price;
+            if (!exclTaxPrice) {
+                if (selection.exclTaxPrice !== undefined) {
+                    exclTaxPrice = selection.exclTaxPrice;
+                    price = selection.exclTaxPrice !== undefined ? selection.exclTaxPrice : selection.price;
+                } else {
+                    exclTaxPrice = price;
+                }
             }
 
-            return [price * qty, priceExclTax * qty, priceInclTax * qty];
+            return [price * qty, exclTaxPrice * qty, inclTaxPrice * qty];
         },
 
         populateQty: function(optionId, selectionId) {
