@@ -77,6 +77,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return bool
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isOpenAmountAvailable
      */
     public function isOpenAmountAvailable($product)
     {
@@ -89,6 +91,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return bool
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isAmountAvailable
      */
     public function isAmountAvailable($product)
     {
@@ -101,6 +105,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return array
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getAmounts
      */
     public function getAmounts($product)
     {
@@ -114,6 +120,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * @return string
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getCurrentCurrency
      */
     public function getCurrentCurrency()
     {
