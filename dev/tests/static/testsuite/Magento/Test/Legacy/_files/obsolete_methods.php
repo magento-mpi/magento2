@@ -256,7 +256,6 @@ return array(
     array('bundlesAction', 'Magento\Catalog\Controller\Adminhtml\Product'),
     array('calcTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
     array('callbackQueryHook', 'Magento\Core\Model\Resource\Setup'),
-    array('calculateSpecialPrice', 'Magento\Bundle\Model\Product\Price'),
     array('canCreateUser', 'Magento\User\Model\Resource\User'),
     array('canPrint', 'Magento\Checkout\Block\Onepage\Success'),
     array(
@@ -1228,7 +1227,7 @@ return array(
     array('helper', 'Magento\View\Element\AbstractBlock'),
     array('getDataHelperName', 'Magento\Backend\Block\Dashboard\AbstractDashboard'),
     array('setDataHelperName', 'Magento\Backend\Block\Dashboard\AbstractDashboard'),
-    array('addStoresToCollection', '\Magento\Rating\Model\Resource\Rating\Collection'),
+    array('addStoresToCollection', '\Magento\Review\Model\Resource\Rating\Collection'),
     array('getLocalPackagesPath', 'Magento\Connect\Helper\Data'),
     array('getLocalPackagesPathV1x', 'Magento\Connect\Helper\Data'),
     array('getSessionSaveMethod', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
@@ -1587,4 +1586,15 @@ return array(
     ['_getStoreId', 'Magento\Translation\Model\Resource\String', 'getScope'],
     ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
     ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
+    ['filterByCustomer', 'Magento\Wishlist\Model\Resource\Wishlist\Collection'],
+    array('getReservedAttributes', 'Magento\Catalog\Model\Product'),
+    array(
+        'isReservedAttribute',
+        'Magento\Catalog\Model\Product',
+        'Magento\Catalog\Model\Product\ReservedAttributeList::isReservedAttribute'
+    ),
+    array(
+        'getRatingSummary',
+        'Magento\Catalog\Model\Product'
+    ),
 );

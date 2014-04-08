@@ -33,7 +33,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Currently logged in customer
      *
-     * @var \Magento\Customer\Model\Customer
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_currentCustomer;
 
@@ -100,6 +100,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_postDataHelper;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Registry $coreRegistry
@@ -108,6 +113,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\PostData $postDataHelper
+     * @param \Magento\Customer\Helper\View $customerViewHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -117,7 +123,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\PostData $postDataHelper
+        \Magento\Core\Helper\PostData $postDataHelper,
+        \Magento\Customer\Helper\View $customerViewHelper
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
@@ -126,6 +133,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_wishlistFactory = $wishlistFactory;
         $this->_storeManager = $storeManager;
         $this->_postDataHelper = $postDataHelper;
+        $this->_customerViewHelper = $customerViewHelper;
         parent::__construct($context);
     }
 
@@ -142,7 +150,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve logged in customer
      *
-     * @return \Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     protected function _getCurrentCustomer()
     {
@@ -152,10 +160,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Set current customer
      *
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @return void
      */
-    public function setCustomer(\Magento\Customer\Model\Customer $customer)
+    public function setCustomer(\Magento\Customer\Service\V1\Data\Customer $customer)
     {
         $this->_currentCustomer = $customer;
     }
@@ -163,12 +171,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve current customer
      *
-     * @return \Magento\Customer\Model\Customer|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {
         if (!$this->_currentCustomer && $this->_customerSession->isLoggedIn()) {
-            $this->_currentCustomer = $this->_customerSession->getCustomer();
+            $this->_currentCustomer = $this->_customerSession->getCustomerDataObject();
         }
         return $this->_currentCustomer;
     }
@@ -445,10 +453,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCustomerName()
     {
-        $customer = $this->_getCurrentCustomer();
-        if ($customer) {
-            return $customer->getName();
-        }
+        return $this->getCustomer()
+            ? $this->_customerViewHelper->getCustomerName($this->getCustomer())
+            : null;
     }
 
     /**
