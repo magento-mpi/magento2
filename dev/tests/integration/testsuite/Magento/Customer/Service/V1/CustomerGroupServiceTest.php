@@ -9,6 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Service\V1\Data\FilterBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Service\V1\Data\Filter;
@@ -104,10 +105,10 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetGroup($testGroup)
     {
-        $group = $this->_groupService->getGroup($testGroup['id']);
-        $this->assertEquals($testGroup['id'], $group->getId());
-        $this->assertEquals($testGroup['code'], $group->getCode());
-        $this->assertEquals($testGroup['tax_class_id'], $group->getTaxClassId());
+        $group = $this->_groupService->getGroup($testGroup[CustomerGroup::ID]);
+        $this->assertEquals($testGroup[CustomerGroup::ID], $group->getId());
+        $this->assertEquals($testGroup[CustomerGroup::CODE], $group->getCode());
+        $this->assertEquals($testGroup[CustomerGroup::TAX_CLASS_ID], $group->getTaxClassId());
     }
 
     /**
@@ -115,10 +116,10 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function getGroupsDataProvider()
     {
-        return [ [['id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3]],
-            [['id' => 1, 'code' => 'General', 'tax_class_id' => 3]],
-            [['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3]],
-            [['id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3]],
+        return [ [[CustomerGroup::ID => 0, CustomerGroup::CODE => 'NOT LOGGED IN', CustomerGroup::TAX_CLASS_ID => 3]],
+            [[CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]],
+            [[CustomerGroup::ID => 2, CustomerGroup::CODE => 'Wholesale', CustomerGroup::TAX_CLASS_ID => 3]],
+            [[CustomerGroup::ID => 3, CustomerGroup::CODE => 'Retailer', CustomerGroup::TAX_CLASS_ID => 3]],
         ];
     }
 
@@ -177,8 +178,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
         /** @var $item Data\CustomerGroup */
         foreach ($searchResults->getItems() as $item) {
-            $this->assertEquals($expectedResult[$item->getId()]['code'], $item->getCode());
-            $this->assertEquals($expectedResult[$item->getId()]['tax_class_id'], $item->getTaxClassId());
+            $this->assertEquals($expectedResult[$item->getId()][CustomerGroup::CODE], $item->getCode());
+            $this->assertEquals($expectedResult[$item->getId()][CustomerGroup::TAX_CLASS_ID], $item->getTaxClassId());
             unset($expectedResult[$item->getId()]);
         }
     }
@@ -187,36 +188,39 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'eq' => [
-                [(new FilterBuilder())->setField('code')->setValue('General')->create()],
+                [(new FilterBuilder())->setField(CustomerGroup::CODE)->setValue('General')->create()],
                 null,
-                [1 => ['code' => 'General', 'tax_class_id' => 3]]
+                [1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]]
             ],
             'and' => [
                 [
-                    (new FilterBuilder())->setField('code')->setValue('General')->create(),
-                    (new FilterBuilder())->setField('tax_class_id')->setValue('3')->create(),
-                    (new FilterBuilder())->setField('id')->setValue('1')->create(),
+                    (new FilterBuilder())->setField(CustomerGroup::CODE)->setValue('General')->create(),
+                    (new FilterBuilder())->setField(CustomerGroup::TAX_CLASS_ID)->setValue('3')->create(),
+                    (new FilterBuilder())->setField(CustomerGroup::ID)->setValue('1')->create(),
                 ],
                 [],
-                [1 => ['code' => 'General', 'tax_class_id' => 3]]
+                [1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]]
             ],
             'or' => [
                 [],
                 [
-                    (new FilterBuilder())->setField('code')->setValue('General')->create(),
-                    (new FilterBuilder())->setField('code')->setValue('Wholesale')->create(),
+                    (new FilterBuilder())->setField(CustomerGroup::CODE)->setValue('General')->create(),
+                    (new FilterBuilder())->setField(CustomerGroup::CODE)->setValue('Wholesale')->create(),
                 ],
                 [
-                    1 => ['code' => 'General', 'tax_class_id' => 3],
-                    2 => ['code' => 'Wholesale', 'tax_class_id' => 3]
+                    1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3],
+                    2 => [CustomerGroup::CODE => 'Wholesale', CustomerGroup::TAX_CLASS_ID => 3]
                 ]
             ],
             'like' => [
-                [(new FilterBuilder())->setField('code')->setValue('er')->setConditionType('like')->create()],
+                [
+                    (new FilterBuilder())->setField(CustomerGroup::CODE)->setValue('er')->setConditionType('like')
+                        ->create()
+                ],
                 [],
                 [
-                    1 => ['code' => 'General', 'tax_class_id' => 3],
-                    3 => ['code' => 'Retailer', 'tax_class_id' => 3]
+                    1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3],
+                    3 => [CustomerGroup::CODE => 'Retailer', CustomerGroup::TAX_CLASS_ID => 3]
                 ]
             ],
         ];

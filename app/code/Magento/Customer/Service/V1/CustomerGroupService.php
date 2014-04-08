@@ -14,6 +14,7 @@ use Magento\Core\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Service\V1\Data\Search\FilterGroup;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
@@ -71,7 +72,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      * @param StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
-     * @param TaxClassModelFactory $taxClassModel
+     * @param TaxClassModelFactory $taxClassModelFactory
      */
     public function __construct(
         GroupFactory $groupFactory,
@@ -101,7 +102,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $collection->setRealGroupsFilter();
         }
         if (!is_null($taxClassId)) {
-            $collection->addFieldToFilter('tax_class_id', $taxClassId);
+            $collection->addFieldToFilter(CustomerGroup::TAX_CLASS_ID, $taxClassId);
         }
         /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
@@ -206,9 +207,9 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     protected function translateField($field)
     {
         switch ($field) {
-            case 'code':
+            case CustomerGroup::CODE:
                 return 'customer_group_code';
-            case 'id':
+            case CustomerGroup::ID:
                 return 'customer_group_id';
             default:
                 return $field;
