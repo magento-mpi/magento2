@@ -55,7 +55,9 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute($command, $commandArgs, $expectedResult)
     {
-        $this->_testExecuteCommand(new \Magento\Shell($this->commandRenderer, $this->logger), $command, $commandArgs, $expectedResult);
+        $this->_testExecuteCommand(
+            new \Magento\Shell($this->commandRenderer, $this->logger), $command, $commandArgs, $expectedResult
+        );
     }
 
     /**
