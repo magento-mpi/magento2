@@ -44,7 +44,14 @@
                 '<?php echo $this->getViewFileUrl('Magento_Checkout::js/discount-codes.js')?>'
             ],
             gallery: [
-                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/gallery.js');?>'
+                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/gallery.js')?>'
+            ],
+            wishlist: [
+                '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>',
+                '<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>',
+                '<?php echo $this->getViewFileUrl('mage/validation.js')?>',
+                '<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>',
+                '<?php echo $this->getViewFileUrl('Magento_Wishlist::wishlist.js')?>'
             ]
         });
     })(jQuery);
