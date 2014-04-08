@@ -20,13 +20,6 @@ use Magento\App\RequestInterface;
 class Index extends \Magento\Wishlist\Controller\Index
 {
     /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * Wishlist session
      *
      * @var \Magento\Wishlist\Model\Session
@@ -64,44 +57,47 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Customer\Helper\View $customerHelperView
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Session\Generic $wishlistSession
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Customer\Helper\View $customerHelperView,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Session\Generic $wishlistSession,
-        \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_wishlistFactory = $wishlistFactory;
         $this->_wishlistSession = $wishlistSession;
-        $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
         parent::__construct(
             $context,
             $formKeyValidator,
+            $customerSession,
             $coreRegistry,
             $wishlistConfig,
             $fileResponseFactory,
             $transportBuilder,
-            $inlineTranslation
+            $inlineTranslation,
+            $customerHelperView
         );
     }
 
@@ -127,16 +123,6 @@ class Index extends \Magento\Wishlist\Controller\Index
     }
 
     /**
-     * Retrieve customer session
-     *
-     * @return \Magento\Customer\Model\Session
-     */
-    protected function _getSession()
-    {
-        return $this->_customerSession;
-    }
-
-    /**
      * Add item to wishlist
      * Create new wishlist if wishlist params (name, visibility) are provided
      *
@@ -144,7 +130,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      */
     public function addAction()
     {
-        $customerId = $this->_getSession()->getCustomerId();
+        $customerId = $this->_customerSession->getCustomerId();
         $name = $this->getRequest()->getParam('name');
         $visibility = $this->getRequest()->getParam('visibility', 0) === 'on' ? 1 : 0;
         if ($name !== null) {
@@ -217,7 +203,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         }
         if ($wishlistId) {
             $wishlist->load($wishlistId);
-            if ($wishlist->getCustomerId() !== $this->_getSession()->getCustomerId()) {
+            if ($wishlist->getCustomerId() !== $this->_customerSession->getCustomerId()) {
                 throw new \Magento\Model\Exception(
                     __('The wish list is not assigned to your account and cannot be edited.')
                 );
@@ -248,7 +234,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      */
     public function editwishlistAction()
     {
-        $customerId = $this->_getSession()->getCustomerId();
+        $customerId = $this->_customerSession->getCustomerId();
         $wishlistName = $this->getRequest()->getParam('name');
         $visibility = $this->getRequest()->getParam('visibility', 0) === 'on' ? 1 : 0;
         $wishlistId = $this->getRequest()->getParam('wishlist_id');
@@ -380,9 +366,9 @@ class Index extends \Magento\Wishlist\Controller\Index
     public function copyitemAction()
     {
         $requestParams = $this->getRequest()->getParams();
-        if ($this->_getSession()->getBeforeWishlistRequest()) {
-            $requestParams = $this->_getSession()->getBeforeWishlistRequest();
-            $this->_getSession()->unsBeforeWishlistRequest();
+        if ($this->_customerSession->getBeforeWishlistRequest()) {
+            $requestParams = $this->_customerSession->getBeforeWishlistRequest();
+            $this->_customerSession->unsBeforeWishlistRequest();
         }
 
         $wishlist = $this->_getWishlist(isset($requestParams['wishlist_id']) ? $requestParams['wishlist_id'] : null);
@@ -425,9 +411,9 @@ class Index extends \Magento\Wishlist\Controller\Index
             }
         }
         $wishlist->save();
-        if ($this->_getSession()->hasBeforeWishlistUrl()) {
-            $this->getResponse()->setRedirect($this->_getSession()->getBeforeWishlistUrl());
-            $this->_getSession()->unsBeforeWishlistUrl();
+        if ($this->_customerSession->hasBeforeWishlistUrl()) {
+            $this->getResponse()->setRedirect($this->_customerSession->getBeforeWishlistUrl());
+            $this->_customerSession->unsBeforeWishlistUrl();
         } else {
             $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
         }
@@ -562,7 +548,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             try {
                 /** @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists */
                 $wishlists = $this->_wishlistCollectionFactory->create();
-                $wishlists->filterByCustomerId($this->_getSession()->getCustomerId());
+                $wishlists->filterByCustomerId($this->_customerSession->getCustomerId());
 
                 /* @var \Magento\Wishlist\Model\Item $item */
                 $item = $this->_itemFactory->create();
@@ -617,7 +603,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         if (count($itemIds)) {
             /** @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists */
             $wishlists = $this->_wishlistCollectionFactory->create();
-            $wishlists->filterByCustomerId($this->_getSession()->getCustomerId());
+            $wishlists->filterByCustomerId($this->_customerSession->getCustomerId());
             $qtys = $this->getRequest()->getParam('qty', array());
 
             foreach ($itemIds as $id => $value) {
