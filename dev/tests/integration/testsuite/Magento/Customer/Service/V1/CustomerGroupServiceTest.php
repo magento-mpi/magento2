@@ -156,25 +156,26 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param Filter[] $filters
-     * @param Filter[] $orGroup
+     * @param Filter[] $filterGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchGroupsDataProvider
      */
-    public function testSearchGroups($filters, $orGroup, $expectedResult)
+    public function testSearchGroups($filters, $filterGroup, $expectedResult)
     {
+        /** @var \Magento\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Service\V1\Data\SearchCriteriaBuilder');
         foreach ($filters as $filter) {
-            $searchBuilder->addFilter($filter);
+            $searchBuilder->addFilterGroup([$filter]);
         }
-        if (!is_null($orGroup)) {
-            $searchBuilder->addOrGroup($orGroup);
+        if (!is_null($filterGroup)) {
+            $searchBuilder->addFilterGroup($filterGroup);
         }
 
         $searchResults = $this->_groupService->searchGroups($searchBuilder->create());
 
-        /** @var $item Data\CustomerGroup*/
+        /** @var $item Data\CustomerGroup */
         foreach ($searchResults->getItems() as $item) {
             $this->assertEquals($expectedResult[$item->getId()]['code'], $item->getCode());
             $this->assertEquals($expectedResult[$item->getId()]['tax_class_id'], $item->getTaxClassId());

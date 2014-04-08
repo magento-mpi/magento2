@@ -6,6 +6,7 @@ use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Service\V1\Data\SearchCriteria;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -1116,7 +1117,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param \Magento\Service\V1\Data\Filter[] $filters
-     * @param \Magento\Service\V1\Data\Filter[] $orGroup
+     * @param \Magento\Service\V1\Data\Filter[] $filterGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider
@@ -1124,16 +1125,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/three_customers.php
      * @magentoDbIsolation enabled
      */
-    public function testSearchCustomers($filters, $orGroup, $expectedResult)
+    public function testSearchCustomers($filters, $filterGroup, $expectedResult)
     {
+        /** @var \Magento\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Service\V1\Data\SearchCriteriaBuilder'
         );
         foreach ($filters as $filter) {
-            $searchBuilder->addFilter($filter);
+            $searchBuilder->addFilterGroup([$filter]);
         }
-        if (!is_null($orGroup)) {
-            $searchBuilder->addOrGroup($orGroup);
+        if (!is_null($filterGroup)) {
+            $searchBuilder->addFilterGroup($filterGroup);
         }
 
         $searchResults = $this->_customerAccountService->searchCustomers($searchBuilder->create());
@@ -1198,17 +1200,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomersOrder()
     {
+        /** @var \Magento\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Service\V1\Data\SearchCriteriaBuilder');
 
         // Filter for 'firstname' like 'First'
         $filterBuilder = new FilterBuilder();
         $firstnameFilter = $filterBuilder->
             setField('firstname')->setConditionType('like')->setValue('First%')->create();
-        $searchBuilder->addFilter($firstnameFilter);
+        $searchBuilder->addFilterGroup([$firstnameFilter]);
 
         // Search ascending order
-        $searchBuilder->addSortOrder('lastname', Data\SearchCriteria::SORT_ASC);
+        $searchBuilder->addSortOrder('lastname', SearchCriteria::SORT_ASC);
         $searchResults = $this->_customerAccountService->searchCustomers($searchBuilder->create());
         $this->assertEquals(3, $searchResults->getTotalCount());
         $this->assertEquals('Lastname', $searchResults->getItems()[0]->getCustomer()->getLastname());
@@ -1216,7 +1219,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lastname3', $searchResults->getItems()[2]->getCustomer()->getLastname());
 
         // Search descending order
-        $searchBuilder->addSortOrder('lastname', Data\SearchCriteria::SORT_DESC);
+        $searchBuilder->addSortOrder('lastname', SearchCriteria::SORT_DESC);
         $searchResults = $this->_customerAccountService->searchCustomers($searchBuilder->create());
         $this->assertEquals('Lastname3', $searchResults->getItems()[0]->getCustomer()->getLastname());
         $this->assertEquals('Lastname2', $searchResults->getItems()[1]->getCustomer()->getLastname());

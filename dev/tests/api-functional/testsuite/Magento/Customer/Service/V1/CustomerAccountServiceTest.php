@@ -7,17 +7,18 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Service\V1\Data\FilterBuilder;
-use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Service\V1\Data\Search\FilterGroupBuilder;
+use Magento\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
@@ -66,6 +67,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
 
+    /** @var FilterGroupBuilder */
+    private $filterGroupBuilder;
+
     /** @var \Magento\Webapi\Helper\Data */
     private $helper;
 
@@ -87,7 +91,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
         );
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Service\V1\Data\SearchCriteriaBuilder'
+        );
+        $this->filterGroupBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Service\V1\Data\Search\FilterGroupBuilder'
         );
         $this->helper = Bootstrap::getObjectManager()->create('Magento\Webapi\Helper\Data');
     }
@@ -664,14 +671,14 @@ class CustomerAccountServiceTest extends WebapiAbstract
         }
     }
 
-
+    /**
+     * Test with a single filter
+     */
     public function testSearchCustomers()
     {
-        $this->markTestSkipped("The test should be enabled after fixing MAGETWO-22613.");
         $customerData = $this->_createSampleCustomer();
-        $this->searchCriteriaBuilder->addFilter(
-            (new FilterBuilder())->setField('email')->setValue($customerData[Customer::EMAIL])->create()
-        );
+        $filter = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData[Customer::EMAIL])->create();
+        $this->searchCriteriaBuilder->addFilterGroup([$filter]);
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
@@ -690,17 +697,21 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
     }
 
+    /**
+     * Test using multiple filters
+     */
     public function testSearchCustomersMultipleFilters()
     {
-        $this->markTestSkipped("The test should be enabled after fixing MAGETWO-22613.");
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
-        $filter1 = (new FilterBuilder())->setField('email')->setValue($customerData1[Customer::EMAIL])->create();
-        $filter2 = (new FilterBuilder())->setField('email')->setValue($customerData2[Customer::EMAIL])->create();
-        $filter3 = (new FilterBuilder())->setField('lastname')
+        $filter1 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData2[Customer::EMAIL])
+            ->create();
+        $filter3 = (new FilterBuilder())->setField(Customer::LASTNAME)
             ->setValue($customerData1[Customer::LASTNAME])->create();
-        $this->searchCriteriaBuilder->addOrGroup([$filter1, $filter2]);
-        $this->searchCriteriaBuilder->addFilter($filter3);
+        $this->searchCriteriaBuilder->addFilterGroup([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilterGroup([$filter3]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
@@ -719,25 +730,89 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals(2, $searchResults['total_count']);
         $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
         $this->assertEquals($customerData2[Customer::ID], $searchResults['items'][1]['customer'][Customer::ID]);
+    }
 
-        //Verify negative test case using And-ed non-existent lastname
-        $filter1 = (new FilterBuilder())->setField('email')->setValue($customerData1[Customer::EMAIL])->create();
-        $filter2 = (new FilterBuilder())->setField('email')->setValue($customerData2[Customer::EMAIL])->create();
-        $filter3 = (new FilterBuilder())->setField('lastname')
+    /**
+     * Test and verify multiple filters using And-ed non-existent filter value
+     */
+    public function testSearchCustomersNonExistentMultipleFilters()
+    {
+        $customerData1 = $this->_createSampleCustomer();
+        $customerData2 = $this->_createSampleCustomer();
+        $filter1 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData2[Customer::EMAIL])
+            ->create();
+        $filter3 = (new FilterBuilder())->setField(Customer::LASTNAME)
             ->setValue('INVALID')->create();
-        $this->searchCriteriaBuilder->addOrGroup([$filter1, $filter2]);
-        $this->searchCriteriaBuilder->addFilter($filter3);
+        $this->searchCriteriaBuilder->addFilterGroup([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilterGroup([$filter3]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchCustomers'
             ]
         ];
         $searchData = $searchCriteria->__toArray();
         $requestData = ['searchCriteria' => $searchData];
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
+    }
+
+    /**
+     * Test using multiple filters
+     */
+    public function testSearchCustomersMultipleFilterGroups()
+    {
+        $customerData1 = $this->_createSampleCustomer();
+
+        $filter1 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = (new FilterBuilder())->setField(Customer::MIDDLENAME)->setValue($customerData1[Customer::MIDDLENAME])
+            ->create();
+        $filter3 = (new FilterBuilder())->setField(Customer::MIDDLENAME)->setValue('invalid')->create();
+        $filter4 = (new FilterBuilder())->setField(Customer::LASTNAME)->setValue($customerData1[Customer::LASTNAME])
+            ->create();
+
+        $this->searchCriteriaBuilder->addFilterGroup([$filter1]);
+        $this->searchCriteriaBuilder->addFilterGroup([$filter2, $filter3]);
+        $this->searchCriteriaBuilder->addFilterGroup([$filter4]);
+        $searchCriteria = $this->searchCriteriaBuilder->setCurrentPage(1)->setPageSize(10)->create();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchCustomers'
+            ]
+        ];
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(1, $searchResults['total_count']);
+        $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
+
+        // Add an invalid And-ed data with multiple groups to yield no result
+        $filter4 = (new FilterBuilder())->setField(Customer::LASTNAME)->setValue('invalid')
+            ->create();
+
+        $this->searchCriteriaBuilder->addFilterGroup([$filter1]);
+        $this->searchCriteriaBuilder->addFilterGroup([$filter2, $filter3]);
+        $this->searchCriteriaBuilder->addFilterGroup([$filter4]);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(0, $searchResults['total_count']);
     }
 
     /**
@@ -846,16 +921,5 @@ class CustomerAccountServiceTest extends WebapiAbstract
         //Remove line breaks and replace with space
         $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
         return $error;
-    }
-
-    /**
-     * Generate a random string
-     *
-     * @return string
-     */
-    private function getRandomString()
-    {
-        return substr("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", mt_rand(0, 50), 1) .
-        substr(md5(time()), 1);
     }
 }

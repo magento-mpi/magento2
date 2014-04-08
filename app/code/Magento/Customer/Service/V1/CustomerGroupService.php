@@ -14,10 +14,12 @@ use Magento\Core\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
+use Magento\Service\V1\Data\Search\FilterGroup;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Service\V1\Data\Filter;
+use Magento\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 
@@ -114,20 +116,20 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function searchGroups(Data\SearchCriteria $searchCriteria)
+    public function searchGroups(SearchCriteria $searchCriteria)
     {
         $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
         $groups = array();
         /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection();
-        $this->addFiltersFromRootToCollection($searchCriteria->getAndGroup(), $collection);
+        $this->addFiltersFromRootToCollection($searchCriteria->getFilterGroups(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $field => $direction) {
                 $field = $this->translateField($field);
-                $collection->addOrder($field, $direction == Data\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -147,23 +149,15 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * Adds some filters from a root filter group to a collection.
      *
-     * @param Data\Search\AndGroup $rootAndGroup
+     * @param FilterGroup[] $filterGroups
      * @param Collection $collection
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFiltersFromRootToCollection(Data\Search\AndGroup $rootAndGroup, Collection $collection)
+    protected function addFiltersFromRootToCollection(array $filterGroups, Collection $collection)
     {
-        if (count($rootAndGroup->getAndGroups())) {
-            throw new InputException('Only OR groups are supported as nested groups.');
-        }
-
-        foreach ($rootAndGroup->getFilters() as $filter) {
-            $this->addFilterToCollection($collection, $filter);
-        }
-
-        foreach ($rootAndGroup->getOrGroups() as $group) {
-            $this->addOrFilterGroupToCollection($collection, $group);
+        foreach ($filterGroups as $group) {
+            $this->addFilterGroupToCollection($collection, $group);
         }
     }
 
@@ -182,18 +176,18 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * Helper function that adds a OrGroup to the collection.
+     * Helper function that adds a FilterGroup to the collection.
      *
      * @param Collection $collection
-     * @param Data\Search\OrGroup $orGroup
+     * @param FilterGroup $filterGroup
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addOrFilterGroupToCollection(Collection $collection, Data\Search\OrGroup $orGroup)
+    protected function addFilterGroupToCollection(Collection $collection, FilterGroup $filterGroup)
     {
         $fields = [];
         $conditions = [];
-        foreach ($orGroup->getFilters() as $filter) {
+        foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $fields[] = $this->translateField($filter->getField());
             $conditions[] = [$condition => $filter->getValue()];

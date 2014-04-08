@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Customer\Service\V1\Data\Search\OrGroupBuilder;
+namespace Magento\Service\V1\Data;
+
 use Magento\Service\Data\AbstractObjectBuilder;
-use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Service\V1\Data\Search\FilterGroupBuilder;
 
 /**
  * Builder for SearchCriteria Service Data Object
@@ -17,19 +17,19 @@ use Magento\Service\V1\Data\FilterBuilder;
 class SearchCriteriaBuilder extends AbstractObjectBuilder
 {
     /**
-     * @var Search\AndGroupBuilder
+     * @var FilterGroupBuilder
      */
-    protected $_andGroupBuilder;
+    protected $_filterGroupBuilder;
 
     /**
      * Constructor
      *
-     * @param Search\AndGroupBuilder $andGroupBuilder
+     * @param FilterGroupBuilder $filterGroupBuilder
      */
-    public function __construct(Search\AndGroupBuilder $andGroupBuilder)
+    public function __construct(FilterGroupBuilder $filterGroupBuilder)
     {
         parent::__construct();
-        $this->_andGroupBuilder = $andGroupBuilder;
+        $this->_filterGroupBuilder = $filterGroupBuilder;
     }
 
     /**
@@ -39,48 +39,34 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
      */
     public function create()
     {
-        $this->_set(SearchCriteria::ROOT_GROUP_TYPE, $this->_andGroupBuilder->create());
+        //Initialize with empty array if not set
+        if (empty($this->_data[SearchCriteria::FILTER_GROUPS])) {
+            $this->_set(SearchCriteria::FILTER_GROUPS, []);
+        }
         return parent::create();
     }
 
     /**
-     * Add filter
+     * Create a filter group based on the filter array provided and add to the filter groups
      *
-     * @param \Magento\Service\V1\Data\Filter $filter
+     * @param \Magento\Service\V1\Data\Filter[] $group
      * @return $this
      */
-    public function addFilter(\Magento\Service\V1\Data\Filter $filter)
+    public function addFilterGroup(array $group)
     {
-        $this->_andGroupBuilder->addFilter($filter);
+        $this->_data[SearchCriteria::FILTER_GROUPS][] = $this->_filterGroupBuilder->setFilters($group)->create();
         return $this;
     }
 
     /**
-     * Set filters
+     * Set filter groups
      *
-     * @param \Magento\Customer\Service\V1\Data\Search\AndGroup $filterGroup
+     * @param \Magento\Service\V1\Data\Search\FilterGroup[] $groups
      * @return $this
      */
-    public function setAndGroup($filterGroup)
+    public function setFilterGroups(array $groups)
     {
-        $this->_andGroupBuilder->populate($filterGroup);
-        return $this;
-    }
-
-    /**
-     * Add an OR grouping of filters to this SearchCriteria.
-     *
-     * @param \Magento\Service\V1\Data\Filter[] $filters
-     * @return $this
-     */
-    public function addOrGroup($filters)
-    {
-        $orGroup = new OrGroupBuilder(new FilterBuilder());
-        foreach ($filters as $filter) {
-            $orGroup->addFilter($filter);
-        }
-        $this->_andGroupBuilder->addOrGroup($orGroup->create());
-        return $this;
+        return $this->_set(SearchCriteria::FILTER_GROUPS, $groups);
     }
 
     /**
