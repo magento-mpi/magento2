@@ -24,6 +24,14 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     protected $_blockFactoryMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $loggerMock;
+
+    /**
+     * Set up mocks for all tests
+     */
     protected function setUp()
     {
         $this->_structureMock = $this->getMockBuilder('Magento\Data\Structure')
@@ -34,11 +42,18 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['createBlock'])
             ->disableOriginalConstructor()
             ->getMock();
-
+        $this->loggerMock = $this->getMockBuilder('Magento\Logger')
+            ->setMethods(['log'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
             'Magento\Core\Model\Layout',
-            array('structure' => $this->_structureMock, 'blockFactory' => $this->_blockFactoryMock)
+            array(
+                'structure' => $this->_structureMock,
+                'blockFactory' => $this->_blockFactoryMock,
+                'logger' => $this->loggerMock
+            )
         );
     }
 
@@ -61,14 +76,17 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $type = 'test.block';
         $name = 'test-block';
         $attributes = [];
-
+        $exceptionText = 'Exception during block creating';
         $this->_structureMock->expects($this->once())
             ->method('createElement')
             ->with($this->equalTo($name), $this->equalTo(['type' => 'block']));
         $this->_blockFactoryMock->expects($this->once())
             ->method('createBlock')
             ->with($this->equalTo($type), $this->equalTo($attributes))
-            ->will($this->throwException(new \ReflectionException('Exception during block creating')));
+            ->will($this->throwException(new \ReflectionException($exceptionText)));
+        $this->loggerMock->expects($this->once())
+            ->method('log')
+            ->with($exceptionText);
         $result = $this->_model->createBlock($type, $name, $attributes);
         $this->assertNull($result);
     }
