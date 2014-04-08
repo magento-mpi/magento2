@@ -71,9 +71,9 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         parent::__construct($salableItem, $quantity, $calculator);
         $this->customerSession = $customerSession;
         if ($salableItem->hasCustomerGroupId()) {
-            $this->customerGroup = (int) $salableItem->getCustomerGroupId();
+            $this->customerGroup = (int)$salableItem->getCustomerGroupId();
         } else {
-            $this->customerGroup = (int) $this->customerSession->getCustomerGroupId();
+            $this->customerGroup = (int)$this->customerSession->getCustomerGroupId();
         }
     }
 
@@ -98,7 +98,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                     $tierPrice = $prevPrice = $price['website_price'];
                     $prevQty = $price['price_qty'];
                     $priceGroup = $price['cust_group'];
-                    $this->value = (float) $tierPrice;
+                    $this->value = (float)$tierPrice;
                 }
             }
         }
@@ -135,11 +135,14 @@ class TierPrice extends RegularPrice implements TierPriceInterface
         if (null === $this->priceList) {
             $priceList = $this->getStoredTierPrices();
             $this->priceList = $this->filterTearPrices($priceList);
-            array_walk($this->priceList, function (&$priceData) {
-                /* convert string value to float */
-                $priceData['price_qty'] = $priceData['price_qty'] * 1;
-                $priceData['price'] = $this->applyAdjustment($priceData['price']);
-            });
+            array_walk(
+                $this->priceList,
+                function (&$priceData) {
+                    /* convert string value to float */
+                    $priceData['price_qty'] = $priceData['price_qty'] * 1;
+                    $priceData['price'] = $this->applyAdjustment($priceData['price']);
+                }
+            );
         }
         return $this->priceList;
     }
