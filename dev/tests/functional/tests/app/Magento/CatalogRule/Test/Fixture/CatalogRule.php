@@ -63,7 +63,7 @@ class CatalogRule extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'promo_catalog_edit_tabs_main_section',
+        'group' => 'rule_information',
     ];
 
     protected $is_active = [
@@ -72,7 +72,7 @@ class CatalogRule extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'group' => 'promo_catalog_edit_tabs_main_section',
+        'group' => 'rule_information',
     ];
 
     protected $website_ids = [
@@ -81,7 +81,7 @@ class CatalogRule extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'multiselect',
-        'group'=> 'promo_catalog_edit_tabs_main_section'
+        'group'=> 'rule_information'
     ];
 
     protected $customer_group_ids = [
@@ -89,7 +89,7 @@ class CatalogRule extends InjectableFixture
         'backend_type' => 'int',
         'is_required' => '1',
         'default_value' => '',
-        'group'=> 'promo_catalog_edit_tabs_main_section'
+        'group'=> 'rule_information'
     ];
 
     protected $simple_action = [
@@ -98,7 +98,7 @@ class CatalogRule extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'select',
-        'group'=> 'promo_catalog_edit_tabs_conditions_section'
+        'group'=> 'actions'
     ];
 
     protected $discount_amount = [
@@ -107,16 +107,33 @@ class CatalogRule extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group'=> 'promo_catalog_edit_tabs_conditions_section'
+        'group'=> 'actions'
     ];
 
     protected $conditions = [
         'attribute_code' => 'conditions',
         'backend_type' => 'virtual',
         'is_required' => '0',
-        'group' => 'conditions ',
-        'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions',
+        'group' => 'conditions',
+        'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions'
     ];
+
+    protected $condition_type = [
+        'attribute_code' => 'conditions__1__new_child',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'conditions',
+        'input' => 'select'
+    ];
+
+    protected $condition_value = [
+        'attribute_code' => 'conditions__1--1__value',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'conditions',
+        'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions'
+    ];
+
 
     public function getName()
     {

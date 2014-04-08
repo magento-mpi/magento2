@@ -19,7 +19,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>text</input>
-            <group>promo_catalog_edit_tabs_main_section</group>
+            <group>rule_information</group>
         </name>
         <is_active>
             <attribute_code>is_active</attribute_code>
@@ -27,7 +27,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>select</input>
-            <group>promo_catalog_edit_tabs_main_section</group>
+            <group>rule_information</group>
         </is_active>
         <website_ids>
             <attribute_code>website_ids</attribute_code>
@@ -35,7 +35,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>multiselect</input>
-            <group>promo_catalog_edit_tabs_main_section</group>
+            <group>rule_information</group>
         </website_ids>
         <customer_group_ids>
             <attribute_code>customer_group_ids</attribute_code>
@@ -43,7 +43,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>multiselect</input>
-            <group>promo_catalog_edit_tabs_main_section</group>
+            <group>rule_information</group>
         </customer_group_ids>
         <website_ids>
             <attribute_code>website_ids</attribute_code>
@@ -51,7 +51,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>multiselect</input>
-            <group>promo_catalog_edit_tabs_main_section</group>
+            <group>rule_information</group>
         </website_ids>
         <simple_action>
             <attribute_code>simple_action</attribute_code>
@@ -59,7 +59,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>select</input>
-            <group>promo_catalog_edit_tabs_conditions_section</group>
+            <group>actions</group>
         </simple_action>
         <discount_amount>
             <attribute_code>discount_amount</attribute_code>
@@ -67,7 +67,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>text</input>
-            <group>promo_catalog_edit_tabs_conditions_section</group>
+            <group>actions</group>
         </discount_amount>
         <conditions>
             <attribute_code>conditions</attribute_code>

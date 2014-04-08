@@ -8,6 +8,7 @@
 
 namespace Magento\CatalogRule\Test\Fixture;
 
+use Magento\CatalogRule\Test\Repository\CatalogPriceRule;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
@@ -21,20 +22,22 @@ use Mtf\Fixture\FixtureInterface;
  */
 class Conditions implements FixtureInterface
 {
-    /**
-     * @var \Mtf\Fixture\FixtureFactory
-     */
-    protected $fixtureFactory;
+
+    protected $categoryId;
 
     /**
+     * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
      */
-    public function __construct(array $params, array $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if (isset($data['preset'])) {
-            $this->data = $this->getPreset($data['preset']);
+        if (isset($data['product'])) {
+            list($fixture, $dataSet) = explode('::', $data['product']);
+            $this->data['product'] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            $this->persist();
+            $this->data = $this->data['product']->getCategoryIds()[0];
         }
     }
 
@@ -45,7 +48,9 @@ class Conditions implements FixtureInterface
      */
     public function persist()
     {
-        //
+        if (isset($this->data['product'])) {
+            $this->data['product']->persist();
+        }
     }
 
     /**
@@ -67,25 +72,5 @@ class Conditions implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
-    }
-
-    /**
-     * @param string $name
-     * @return mixed
-     * @throws \Exception
-     */
-    protected function getPreset($name)
-    {
-        $presets = [
-            'MAGETWO-23036' => [
-                        'conditions__1' => [
-                            'conditions' => 'Category'
-                        ]
-            ]
-        ];
-        if (!isset($presets[$name])) {
-            return null;
-        }
-        return $presets[$name];
     }
 }

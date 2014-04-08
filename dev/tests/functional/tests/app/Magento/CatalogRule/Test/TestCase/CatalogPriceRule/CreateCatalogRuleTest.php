@@ -40,6 +40,11 @@ class CreateCatalogRuleTest extends Injectable
      * @var Fixture\CatalogRule
      */
     protected $catalogRule;
+
+    /**
+     * @var \Magento\Backend\Test\Page\AdminCache
+     */
+    protected $adminCache;
     /**
      * @param Category $category
      * @return array
@@ -57,56 +62,49 @@ class CreateCatalogRuleTest extends Injectable
      * @param Category $category
      * @param Page\CatalogRule $catalogRuleInGrid
      * @param Page\CatalogRuleNew $catalogRuleNew
-     * @param Fixture\CatalogRule $catalogRule
+     * @param \Magento\Backend\Test\Page\AdminCache $adminCache
      */
     public function __inject(
         Category $category,
         Page\CatalogRule $catalogRuleInGrid,
         Page\CatalogRuleNew $catalogRuleNew,
-        Fixture\CatalogRule $catalogRule
+        \Magento\Backend\Test\Page\AdminCache $adminCache
     ) {
         $this->category = $category;
-        $this->catalogRuleinGrid = $catalogRuleInGrid;
+        $this->catalogRuleInGrid = $catalogRuleInGrid;
         $this->catalogRuleNew = $catalogRuleNew;
-        $this->catalogRule = $catalogRule;
+        $this->adminCache = $adminCache;
     }
 
     /**
-     * @param Category $category
-     * @param Page\CatalogRule $catalogRuleInGrid
-     * @param Page\CatalogRuleNew $catalogRuleNew
-     * @param $catalogRule
+     * @param Fixture\CatalogRule $catalogRule
      */
     public function testCreate(
-        Category $category,
-        Page\CatalogRule $catalogRuleInGrid,
-        Page\CatalogRuleNew  $catalogRuleNew,
         Fixture\CatalogRule $catalogRule
     ) {
         // Open Catalog Price Rule page
-        $catalogRuleInGrid->open();
+        $this->catalogRuleInGrid->open();
 
         // Add new Catalog Price Rule
-        $catalogRuleGrid = $catalogRuleInGrid->getCatalogPriceRuleGridBlock();
+        $catalogRuleGrid =  $this->catalogRuleInGrid->getCatalogPriceRuleGridBlock();
         $catalogRuleGrid->addNewCatalogRule();
 
         // Fill and Save the Form
-        $newCatalogRuleForm = $catalogRuleNew->getCatalogPriceRuleForm();
+        $newCatalogRuleForm = $this->catalogRuleNew->getCatalogPriceRuleForm();
 //        $categoryId = $category->getCategoryId();
 //        $catalogRule = $categoryId;
         $newCatalogRuleForm->fill($catalogRule);
         $newCatalogRuleForm->save();
 
-        $gridBlock = $catalogRuleInGrid->getCatalogPriceRuleGridBlock();
+        $gridBlock = $this->catalogRuleInGrid->getCatalogPriceRuleGridBlock();
 
         // Apply Catalog Price Rule
         $gridBlock->applyRules();
 
         //Flush cache
-        $cachePage = Factory::getPageFactory()->getAdminCache();
-        $cachePage->open();
-        $cachePage->getActionsBlock()->flushMagentoCache();
-        $cachePage->getMessagesBlock()->assertSuccessMessage();
+        $this->adminCache->open();
+        $this->adminCache->getActionsBlock()->flushMagentoCache();
+        $this->adminCache->getMessagesBlock()->assertSuccessMessage();
 
     }
 }

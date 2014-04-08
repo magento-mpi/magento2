@@ -1,2 +1,2 @@
-catalogRule/data/name; catalogRule/data/is_active; catalogRule/data/website_ids; catalogRule/data/customer_group_ids; catalogRule/data/category/preset; catalogRule/data/conditions/preset; catalogRule/data/simple_action; catalogRule/data/discount_amount; constraint
-"rule_name%isolation%";"1";"1";"0";catalogProductSimple::simple_category;"MAGETWO-23036";"to_percent"; "90"; "assertCatalogRuleSaveMessage, assertCatalogRuleInGrid"
+"catalogRule/data/name"; "catalogRule/data/is_active"; "catalogRule/data/website_ids"; "catalogRule/data/customer_group_ids"; "catalogRule/data/condition_type"; "catalogRule/data/conditions/product"; "catalogRule/data/conditions/preset"; "catalogRule/data/simple_action"; "catalogRule/data/discount_amount"; "constraint"
+"rule_name%isolation%";"Active";"Main Website";"NOT LOGGED IN";Category;catalogProductSimple::simple_category;"MAGETWO-23036";"to_percent"; "90";"assertCatalogRuleSaveMessage, assertCatalogRuleInGrid"
