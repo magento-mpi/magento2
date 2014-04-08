@@ -201,6 +201,8 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertSame($expectedResult, $this->bundleSelectionPrice->getValue());
+        // test value caching
+        $this->assertSame($expectedResult, $this->bundleSelectionPrice->getValue());
     }
 
     /**
