@@ -62,6 +62,7 @@ class Adjustment implements AdjustmentInterface
 
     /**
      * Define if adjustment is included in base price
+     * (FPT is excluded from base price)
      *
      * @return bool
      */
@@ -88,7 +89,7 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
-     * Extract adjustment
+     * Extract adjustment amount from the given amount value
      *
      * @param float $amount
      * @param SaleableInterface $saleableItem
@@ -100,7 +101,7 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
-     * Apply adjustment
+     * Apply adjustment amount and return result value
      *
      * @param float $amount
      * @param SaleableInterface $saleableItem
@@ -109,6 +110,17 @@ class Adjustment implements AdjustmentInterface
     public function applyAdjustment($amount, SaleableInterface $saleableItem)
     {
         return $amount + $this->getAmount($saleableItem);
+    }
+
+    /**
+     * Check if adjustment should be excluded from calculations along with the given adjustment
+     *
+     * @param string $adjustmentCode
+     * @return bool
+     */
+    public function isExcludedWith($adjustmentCode)
+    {
+        return ($adjustmentCode === self::CODE) || $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODE;
     }
 
     /**
@@ -123,15 +135,7 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function isExcludedWith($adjustmentCode)
-    {
-        return ($adjustmentCode === self::CODE) || $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODE;
-    }
-
-    /**
-     * Get sort order position
+     * Return sort order position
      *
      * @return int
      */

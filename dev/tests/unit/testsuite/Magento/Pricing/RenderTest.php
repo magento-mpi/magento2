@@ -115,7 +115,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $arguments = ['param' => 1];
         $result = 'simple.final';
 
-        $pricingRender = $this->getMock('Magento\Pricing\Render', [],[], '', false, true, true, false);
+        $pricingRender = $this->getMock('Magento\Pricing\Render', [], [], '', false, true, true, false);
         $this->renderPool->expects($this->once())
             ->method('createPriceRender')
             ->will($this->returnValue($pricingRender));
@@ -134,7 +134,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $priceType = 'special';
         $arguments = ['param' => 15];
         $result = 'default.special';
-        $pricingRender = $this->getMock('Magento\Pricing\Render', [],[], '', false, true, true, false);
+        $pricingRender = $this->getMock('Magento\Pricing\Render', [], [], '', false, true, true, false);
         $this->renderPool->expects($this->once())
             ->method('createPriceRender')
             ->will($this->returnValue($pricingRender));
@@ -155,7 +155,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $arguments = ['param' => 15];
         $result = 'default.default';
 
-        $pricingRender = $this->getMock('Magento\Pricing\Render', [],[], '', false, true, true, false);
+        $pricingRender = $this->getMock('Magento\Pricing\Render', [], [], '', false, true, true, false);
         $this->renderPool->expects($this->once())
             ->method('createPriceRender')
             ->will($this->returnValue($pricingRender));
@@ -175,7 +175,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $arguments = ['param' => 15];
         $expectedResult = 'default.default';
 
-        $pricingRender = $this->getMock('Magento\Pricing\Render\Amount', [],[], '', false, true, true, false);
+        $pricingRender = $this->getMock('Magento\Pricing\Render\Amount', [], [], '', false, true, true, false);
         $this->renderPool->expects($this->once())
             ->method('createAmountRender')
             ->with(

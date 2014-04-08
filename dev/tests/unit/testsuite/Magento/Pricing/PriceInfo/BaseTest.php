@@ -88,7 +88,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         list($priceCode, $quantity) = array_values(reset($entryParams));
         $this->prices->expects($this->exactly($createCount))->method('createPriceObject')
-            ->with($this->saleableItem, $priceCode, $quantity ?: $this->quantity)-> will($this->returnValue('basePrice'));
+            ->with($this->saleableItem, $priceCode, $quantity ? : $this->quantity)->will(
+                $this->returnValue('basePrice')
+            );
 
         foreach ($entryParams as $params) {
             list($priceCode, $quantity) = array_values($params);

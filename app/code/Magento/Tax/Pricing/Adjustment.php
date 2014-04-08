@@ -45,6 +45,8 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
+     * Get adjustment code
+     *
      * @return string
      */
     public function getAdjustmentCode()
@@ -53,6 +55,8 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
+     * Define if adjustment is included in base price
+     *
      * @return bool
      */
     public function isIncludedInBasePrice()
@@ -61,7 +65,9 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Define if adjustment is included in display price
+     *
+     * @return bool
      */
     public function isIncludedInDisplayPrice()
     {
@@ -69,7 +75,11 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Extract adjustment amount from the given amount value
+     *
+     * @param float $amount
+     * @param SaleableInterface $saleableItem
+     * @return float
      */
     public function extractAdjustment($amount, SaleableInterface $saleableItem)
     {
@@ -83,7 +93,11 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Apply adjustment amount and return result value
+     *
+     * @param float $amount
+     * @param SaleableInterface $saleableItem
+     * @return float
      */
     public function applyAdjustment($amount, SaleableInterface $saleableItem)
     {
@@ -93,7 +107,10 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Check if adjustment should be excluded from calculations along with the given adjustment
+     *
+     * @param string $adjustmentCode
+     * @return bool
      */
     public function isExcludedWith($adjustmentCode)
     {
@@ -101,7 +118,7 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
-     * Get sort order position
+     * Return sort order position
      *
      * @return int
      */

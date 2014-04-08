@@ -51,7 +51,7 @@ class ListProduct
      * @var \Magento\Core\Helper\PostData
      */
     protected $_postDataHelper;
-    
+
     /**
      * @param Context $context
      * @param \Magento\Core\Helper\PostData $postDataHelper
@@ -347,14 +347,14 @@ class ListProduct
                 \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
                 $product,
                 [
-                   'include_container'     => true,
-                   'display_minimal_price' => true,
-                   'zone'                  => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                    'include_container' => true,
+                    'display_minimal_price' => true,
+                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }
 
-        return  $price;
+        return $price;
     }
 
     /**
