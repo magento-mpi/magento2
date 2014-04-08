@@ -75,7 +75,7 @@ class Converter implements \Magento\Config\ConverterInterface
                 $value = $parameter->nodeValue;
                 $data[$name] = [
                     self::KEY_FORCE => $force,
-                    self::KEY_VALUE => $value,
+                    self::KEY_VALUE => ($value === 'null') ? null : $value,
                 ];
             }
 

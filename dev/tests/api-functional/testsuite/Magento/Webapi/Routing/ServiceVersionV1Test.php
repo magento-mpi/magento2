@@ -144,4 +144,44 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $requestData = array('id' => $itemId, 'name' => 'testName');
         $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
+
+    public function testOverwritten()
+    {
+        $this->_markTestAsRestOnly();
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . 'overwritten',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            )
+        );
+        $item = $this->_webApiCall($serviceInfo, []);
+        $this->assertEquals(['id' => -55, 'name' => 'testProduct1'], $item);
+    }
+
+    public function testDefaulted()
+    {
+        $this->_markTestAsRestOnly();
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . 'testOptionalParam',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            )
+        );
+        $item = $this->_webApiCall($serviceInfo, []);
+        $this->assertEquals(['id' => 3, 'name' => 'Default Name'], $item);
+    }
+
+    public function testDefaultedWithValue()
+    {
+        $this->_markTestAsRestOnly();
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . 'testOptionalParam',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            )
+        );
+        $item = $this->_webApiCall($serviceInfo, ['name' => 'Ms. LaGrange']);
+        $this->assertEquals(['id' => 3, 'name' => 'Ms. LaGrange'], $item);
+    }
+
 }

@@ -33,4 +33,10 @@ interface AllSoapAndRestInterface
      * @return \Magento\TestModule1\Service\V1\Entity\Item[]
      */
     public function items();
+
+    /**
+     * @param string $name
+     * @return \Magento\TestModule1\Service\V1\Entity\Item
+     */
+    public function testOptionalParam($name = null);
 }

@@ -152,6 +152,7 @@ class Rest implements \Magento\App\FrontControllerInterface
             $inputData = $this->_request->getRequestData();
             $serviceMethodName = $route->getServiceMethod();
             $serviceClassName = $route->getServiceClass();
+            $inputData = $this->_overrideParams($route->getParameters(), $inputData);
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
             /** @var \Magento\Service\Data\AbstractObject $outputData */
@@ -188,7 +189,7 @@ class Rest implements \Magento\App\FrontControllerInterface
                     $result[] = $datum;
                 }
             }
-        } else if (is_object($data)) {
+        } elseif (is_object($data)) {
             $result = $this->_convertDataObjectToArray($data);
         } elseif (is_null($data)) {
             $result = array();
@@ -212,5 +213,18 @@ class Rest implements \Magento\App\FrontControllerInterface
             throw new \InvalidArgumentException("All objects returned by service must implement __toArray().");
         }
         return $dataObject->__toArray();
+    }
+
+    /**
+     * Override parameter values based on webapi.xml
+     */
+    protected function _overrideParams(array $parameters, array $inputData)
+    {
+        foreach ($parameters as $name => $paramData) {
+            if ( $paramData['force'] || !isset($inputData[$name])) {
+                $inputData[$name] = $paramData['value'];
+            }
+        }
+        return $inputData;
     }
 }

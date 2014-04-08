@@ -42,6 +42,8 @@ class Config
 
     const KEY_ACL_RESOURCES = 'resources';
 
+    const KEY_PARAMETERS = 'parameters';
+
     /*#@-*/
 
     /** @var ModelConfig */
@@ -88,6 +90,8 @@ class Config
             $routeData[self::KEY_IS_SECURE]
         )->setAclResources(
             $routeData[self::KEY_ACL_RESOURCES]
+        )->setParameters(
+            $routeData[self::KEY_PARAMETERS]
         );
         return $route;
     }
@@ -152,6 +156,7 @@ class Config
                             self::KEY_METHOD => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_METHOD],
                             self::KEY_IS_SECURE => $methodInfo[Converter::KEY_SECURE],
                             self::KEY_ACL_RESOURCES => $aclResources,
+                            self::KEY_PARAMETERS => $methodInfo[Converter::KEY_DATA_PARAMETERS],
                         ]
                     );
                 }

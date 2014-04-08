@@ -50,7 +50,7 @@ return [
                 'parameters' => [
                     'id' => [
                         'force' => true,
-                        'value' => 'null',
+                        'value' => null,
                     ],
                 ],
             ],
@@ -66,7 +66,7 @@ return [
                 'parameters' => [
                     'id' => [
                         'force' => false,
-                        'value' => 'null',
+                        'value' => null,
                     ],
                 ],
             ]
