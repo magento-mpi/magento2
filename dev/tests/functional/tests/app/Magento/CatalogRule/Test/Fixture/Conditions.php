@@ -8,7 +8,6 @@
 
 namespace Magento\CatalogRule\Test\Fixture;
 
-use Magento\CatalogRule\Test\Repository\CatalogPriceRule;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
@@ -22,9 +21,6 @@ use Mtf\Fixture\FixtureInterface;
  */
 class Conditions implements FixtureInterface
 {
-
-    protected $categoryId;
-
     /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
@@ -35,9 +31,10 @@ class Conditions implements FixtureInterface
         $this->params = $params;
         if (isset($data['product'])) {
             list($fixture, $dataSet) = explode('::', $data['product']);
-            $this->data['product'] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-            $this->persist();
-            $this->data = $this->data['product']->getCategoryIds()[0];
+            /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple $product */
+            $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            $product->persist();
+            $this->data = $product->getCategoryIds()[0];
         }
     }
 
@@ -48,9 +45,7 @@ class Conditions implements FixtureInterface
      */
     public function persist()
     {
-        if (isset($this->data['product'])) {
-            $this->data['product']->persist();
-        }
+
     }
 
     /**

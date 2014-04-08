@@ -30,12 +30,13 @@ class AssertCatalogRuleSaveMessage extends AbstractConstraint
     /**
      * Assert that success message is displayed after Catalog Rule save
      *
-     * @param Page\CatalogRule $catalogRule
+     * @param Page\CatalogRule $catalogRuleInGrid
      * @return void
      */
-    public function processAssert(Page\CatalogRule $catalogRule)
+    public function processAssert(Page\CatalogRule $catalogRuleInGrid)
     {
-        $actualMessage = $catalogRule->getMessagesBlock()->getSuccessMessages();
+        $catalogRuleInGrid->open();
+        $actualMessage = $catalogRuleInGrid->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

@@ -22,11 +22,6 @@ use Magento\CatalogRule\Test\Fixture;
 class CreateCatalogRuleTest extends Injectable
 {
     /**
-     * @var Category
-     */
-    protected $category;
-
-    /**
      * @var Page\CatalogRuleNew
      */
     protected $catalogRuleNew;
@@ -45,32 +40,17 @@ class CreateCatalogRuleTest extends Injectable
      * @var \Magento\Backend\Test\Page\AdminCache
      */
     protected $adminCache;
-    /**
-     * @param Category $category
-     * @return array
-     */
-    public function __prepare(Category $category)
-    {
-        $category->persist();
-
-        return [
-            'category' => $category
-        ];
-    }
 
     /**
-     * @param Category $category
      * @param Page\CatalogRule $catalogRuleInGrid
      * @param Page\CatalogRuleNew $catalogRuleNew
      * @param \Magento\Backend\Test\Page\AdminCache $adminCache
      */
     public function __inject(
-        Category $category,
         Page\CatalogRule $catalogRuleInGrid,
         Page\CatalogRuleNew $catalogRuleNew,
         \Magento\Backend\Test\Page\AdminCache $adminCache
     ) {
-        $this->category = $category;
         $this->catalogRuleInGrid = $catalogRuleInGrid;
         $this->catalogRuleNew = $catalogRuleNew;
         $this->adminCache = $adminCache;
@@ -91,8 +71,6 @@ class CreateCatalogRuleTest extends Injectable
 
         // Fill and Save the Form
         $newCatalogRuleForm = $this->catalogRuleNew->getCatalogPriceRuleForm();
-//        $categoryId = $category->getCategoryId();
-//        $catalogRule = $categoryId;
         $newCatalogRuleForm->fill($catalogRule);
         $newCatalogRuleForm->save();
 

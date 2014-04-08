@@ -110,16 +110,8 @@ class CatalogRule extends InjectableFixture
         'group'=> 'actions'
     ];
 
-    protected $conditions = [
-        'attribute_code' => 'conditions',
-        'backend_type' => 'virtual',
-        'is_required' => '0',
-        'group' => 'conditions',
-        'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions'
-    ];
-
     protected $condition_type = [
-        'attribute_code' => 'conditions__1__new_child',
+        'attribute_code' => 'condition_type',
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'conditions',
@@ -127,7 +119,7 @@ class CatalogRule extends InjectableFixture
     ];
 
     protected $condition_value = [
-        'attribute_code' => 'conditions__1--1__value',
+        'attribute_code' => 'condition_value',
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'conditions',

@@ -64,8 +64,9 @@ class CatalogProductSimple extends AbstractRepository
             'name' => 'simple_with_category',
             'type_id' => 'simple',
             'attribute_set_id' => '4',
-            'price' => 100,
+            'price' => ['value' => 100, 'preset' => '-'],
             'id' => '3',
+            'category_ids' => ['presets' => 'default'],
             'mtf_dataset_name' => 'simple_with_category',
         ];
     }
