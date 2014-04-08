@@ -20,13 +20,13 @@ class Resolver
     /**
      * Get path of file after using fallback rules
      *
-     * @param \Magento\Filesystem\Directory\Read $directory
+     * @param Read $directory
      * @param RuleInterface $fallbackRule
      * @param string $file
      * @param array $params
      * @return string|bool
      */
-    public function resolveFile(Read $directory, RuleInterface $fallbackRule, $file, $params = array())
+    public function resolveFile(Read $directory, RuleInterface $fallbackRule, $file, array $params = array())
     {
         foreach ($fallbackRule->getPatternDirs($params) as $dir) {
             $path = "{$dir}/{$file}";

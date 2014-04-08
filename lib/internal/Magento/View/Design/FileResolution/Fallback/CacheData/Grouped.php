@@ -100,8 +100,7 @@ class Grouped implements Fallback\CacheDataInterface
             $type,
             !empty($params['area']) ? $params['area'] : '',
             !empty($params['theme']) ? $params['theme']->getThemePath() : '',
-            !empty($params['locale']) ? $params['locale'] : '',
-            !empty($params['namespace']) ? $params['namespace'] : ''
+            !empty($params['locale']) ? $params['locale'] : ''
         );
     }
 
@@ -130,7 +129,7 @@ class Grouped implements Fallback\CacheDataInterface
         if ($this->isUpdated) {
             foreach ($this->cacheSections as $cacheId => $section) {
                 $value = json_encode($section);
-                return $this->cache->save($value, $cacheId);
+                $this->cache->save($value, $cacheId);
             }
         }
     }
