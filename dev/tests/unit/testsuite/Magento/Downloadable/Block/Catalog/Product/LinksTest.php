@@ -76,7 +76,6 @@ class LinksTest extends \PHPUnit_Framework_TestCase
     public function testGetLinkPrice()
     {
         $priceCode = 'link_price';
-        $amount = 200;
         $arguments = [];
         $expectedHtml = 'some html';
         $this->salableItemMock->expects($this->any())

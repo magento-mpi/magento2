@@ -63,7 +63,7 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
     /**
      * Return minimal product price
      *
-     * @return bool
+     * @return float
      */
     public function getValue()
     {

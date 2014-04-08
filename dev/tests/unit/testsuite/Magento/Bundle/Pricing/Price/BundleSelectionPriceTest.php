@@ -11,6 +11,13 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Catalog\Pricing\Price as CatalogPrice;
 
+/**
+ * Class BundleSelectionPriceTest
+ *
+ * @package Magento\Bundle\Pricing\Price
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Bundle\Pricing\Price\BundleSelectionPrice */
