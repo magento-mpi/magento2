@@ -129,7 +129,8 @@ class Account extends GenericMetadata
             )->setDisableAutoGroupChangeAttribute(
                 $customerForm->getAttribute(self::DISABLE_ATTRIBUTE_NAME)
             )->setDisableAutoGroupChangeAttributeValue(
-                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)
+                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME) ?
+                    $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)->getValue() : null
             )
         );
 

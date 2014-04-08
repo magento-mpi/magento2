@@ -8,6 +8,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\CustomerMetadataService;
+use Magento\Service\Data\Eav\AttributeValueBuilder;
 
 class AddressConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -91,6 +92,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
 
         $addressData = $this->_sampleAddressDataObject();
         $addressData = (new AddressBuilder(
+            new AttributeValueBuilder(),
             new RegionBuilder(),
             $this->_customerMetadataService
         ))->mergeDataObjectWithArray(
@@ -109,6 +111,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
     {
         $regionData = (new RegionBuilder())->setRegion('Texas')->setRegionId(1)->setRegionCode('TX');
         $addressData = (new AddressBuilder(
+            new AttributeValueBuilder(),
             $regionData,
             $this->_customerMetadataService
         ))->setId(

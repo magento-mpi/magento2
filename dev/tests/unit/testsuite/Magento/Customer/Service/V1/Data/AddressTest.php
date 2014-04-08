@@ -10,6 +10,7 @@ namespace Magento\Customer\Service\V1\Data;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Service\Data\Eav\AttributeValueBuilder;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
@@ -98,7 +99,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_addressBuilder = new AddressBuilder($regionBuilder, $this->_customerMetadataService);
+        $this->_addressBuilder =
+            new AddressBuilder(new AttributeValueBuilder(), $regionBuilder, $this->_customerMetadataService);
     }
 
     public function testMinimalAddress()
@@ -250,13 +252,18 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'warehouse_alternate',
             '90051'
         )->create();
-        $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip'));
-        $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate'));
+        $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip')->getValue());
+        $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
 
         $attributes = array(
             Address::CUSTOM_ATTRIBUTES_KEY => array('warehouse_zip' => '78777', 'warehouse_alternate' => '90051')
         );
-        $this->assertEquals($attributes[Customer::CUSTOM_ATTRIBUTES_KEY], $address->getCustomAttributes());
+        foreach ($address->getCustomAttributes() as $customAttribute) {
+            $this->assertEquals(
+                $attributes[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()],
+                $customAttribute->getValue()
+            );
+        }
         $this->assertEquals($attributes, $address->__toArray());
     }
 
@@ -276,9 +283,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_addressBuilder->populateWithArray(array());
         $address = $this->_addressBuilder->setCustomAttributes($addressData)->create();
 
-        $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip'));
-        $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate'));
-        $this->assertEquals($expectedData[Address::CUSTOM_ATTRIBUTES_KEY], $address->getCustomAttributes());
+        $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip')->getValue());
+        $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
+        foreach ($address->getCustomAttributes() as $customAttribute) {
+            $this->assertEquals(
+                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()],
+                $customAttribute->getValue()
+            );
+        }
         $this->assertEquals($expectedData, $address->__toArray());
     }
 }

@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data\Eav;
+namespace Magento\Service\Data\Eav;
 
 /**
  * Class Attribute
  */
-class Attribute extends \Magento\Service\Data\AbstractObject
+class AttributeValue extends \Magento\Service\Data\AbstractObject
 {
     /**
      * Constants used as keys into $_data

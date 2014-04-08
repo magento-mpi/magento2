@@ -12,6 +12,7 @@ namespace Magento\Customer\Model;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Service\Data\Eav\AttributeValueBuilder;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -109,7 +110,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
         $customerModelMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
 
-        $customerBuilder = new CustomerBuilder($this->_metadataService);
+        $customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService);
         $customerFactory = $this->getMockBuilder(
             'Magento\Customer\Model\CustomerFactory'
         )->disableOriginalConstructor()->getMock();
@@ -117,7 +118,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $converter = new Converter($customerBuilder, $customerFactory);
         $customerDataObject = $converter->createCustomerFromModel($customerModelMock);
 
-        $customerBuilder = new CustomerBuilder($this->_metadataService);
+        $customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService);
         $customerData = array(
             'firstname' => 'Tess',
             'email' => 'ttester@example.com',

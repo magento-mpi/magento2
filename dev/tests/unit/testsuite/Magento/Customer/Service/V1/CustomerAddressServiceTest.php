@@ -11,6 +11,7 @@ use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Service\Data\Eav\AttributeValueBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAddressService
@@ -232,7 +233,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             array('regionBuilder' => $regionBuilder, 'metadataService' => $metadataService)
         );
 
-        $customerBuilder = new CustomerBuilder($metadataService);
+        $customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $metadataService);
 
         $this->_customerConverter = new \Magento\Customer\Model\Converter(
             $customerBuilder,

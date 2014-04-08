@@ -12,6 +12,7 @@ use Magento\Customer\Service\V1\Data\Search\AndGroupBuilder;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Service\Data\Eav\AttributeValueBuilder;
 use Magento\Service\V1\Data\FilterBuilder;
 use Magento\Mail\Exception as MailException;
 
@@ -207,12 +208,14 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array())
         );
 
-        $this->_customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
+        $this->_customerBuilder = new Data\CustomerBuilder(new AttributeValueBuilder(),
+            $this->_customerMetadataService);
 
-        $customerBuilder = new CustomerBuilder($this->_customerMetadataService);
+        $customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $this->_customerMetadataService);
         $this->_customerDetailsBuilder = new Data\CustomerDetailsBuilder(
             $this->_customerBuilder,
-            new Data\AddressBuilder(new Data\RegionBuilder(), $this->_customerMetadataService)
+            new Data\AddressBuilder(new AttributeValueBuilder(), new Data\RegionBuilder(),
+                $this->_customerMetadataService)
         );
 
         $this->_converter = new Converter($customerBuilder, $this->_customerFactoryMock);

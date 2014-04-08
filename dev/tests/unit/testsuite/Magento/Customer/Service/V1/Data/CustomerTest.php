@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
+use Magento\Service\Data\Eav\AttributeValueBuilder;
+
 /**
  * Customer
  *
@@ -73,11 +75,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomCustomerAttributeMetadata'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([
+                new \Magento\Object(['attribute_code' => 'zip']),
+                new \Magento\Object(['attribute_code' => 'locale'])
+            ])
         );
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
-            array('metadataService' => $customerMetadataService)
+            array('valueBuilder' => new AttributeValueBuilder(), 'metadataService' => $customerMetadataService)
         );
     }
 
@@ -132,16 +137,26 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetCustomAttributes()
+    public function testInvalidCustomAttributes()
     {
         $customAttributes = array('custom_attribute1' => 'value1', 'custom_attribute2' => 'value2');
         $customerData = array('attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes);
         $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
         $this->assertEquals(
-            $customAttributes,
+            [],
             $customerDataObject->getCustomAttributes(),
-            'Invalid custom attributes.'
+            'Unexpected custom attributes.'
         );
+    }
+
+    public function testGetCustomAttributes()
+    {
+        $customAttributes = array('zip' => 'value1', 'locale' => 'value2');
+        $customerData = array('attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes);
+        $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
+        foreach ($customerDataObject->getCustomAttributes() as $attributeValue) {
+            $this->assertEquals($customAttributes[$attributeValue->getAttributeCode()], $attributeValue->getValue());
+        }
     }
 
     public function testPopulateFromPrototypeVsArray()

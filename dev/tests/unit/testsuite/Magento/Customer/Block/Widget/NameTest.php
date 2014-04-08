@@ -12,6 +12,7 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Service\Data\Eav\AttributeValueBuilder;
 
 /**
  * Test class for \Magento\Customer\Block\Widget\Name.
@@ -171,7 +172,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowMiddlename()
     {
-        $this->_setUpShowAttribute(array(Customer::MIDDLENAME, self::MIDDLENAME));
+        $this->_setUpShowAttribute(array(Customer::MIDDLENAME => self::MIDDLENAME));
         $this->assertTrue($this->_block->showMiddlename());
     }
 
@@ -199,7 +200,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added some padding so that the trim() call on Customer::getPrefix() will remove it. Also added
          * special characters so that the escapeHtml() method returns a htmlspecialchars translated value.
          */
-        $customer = (new CustomerBuilder($this->_metadataService))->setPrefix('  <' . self::PREFIX . '>  ')->create();
+        $customer = (new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService))
+            ->setPrefix('  <' . self::PREFIX . '>  ')->create();
 
         $this->_block->setObject($customer);
 
@@ -223,7 +225,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPrefixOptionsEmpty()
     {
-        $customer = (new CustomerBuilder($this->_metadataService))->setPrefix(self::PREFIX)->create();
+        $customer = (new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService))->setPrefix(self::PREFIX)->create();
         $this->_block->setObject($customer);
 
         $this->_customerHelper->expects(
@@ -243,7 +245,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added padding and special characters to show that trim() works on Customer::getSuffix() and that
          * a properly htmlspecialchars translated value is returned.
          */
-        $customer = (new CustomerBuilder($this->_metadataService))->setSuffix('  <' . self::SUFFIX . '>  ')->create();
+        $customer = (new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService))
+            ->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
         $suffixOptions = array('Sr' => 'Sr');
@@ -266,7 +269,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSuffixOptionsEmpty()
     {
-        $customer = (new CustomerBuilder($this->_metadataService))->setSuffix('  <' . self::SUFFIX . '>  ')->create();
+        $customer = (new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService))
+            ->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
         $this->_customerHelper->expects(
@@ -403,7 +407,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     private function _setUpShowAttribute(array $data)
     {
-        $customer = (new CustomerBuilder($this->_metadataService))->populateWithArray($data)->create();
+        $customer = (new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService))
+            ->populateWithArray($data)->create();
 
         /**
          * These settings cause the first code path in Name::_getAttribute() to be executed, which
