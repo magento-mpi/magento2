@@ -1,0 +1,261 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Bundle
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Bundle\Pricing\Adjustment;
+
+use Magento\Bundle\Pricing\Price;
+use Magento\Bundle\Model\Product\Price as ProductPrice;
+
+/**
+ * Test for \Magento\Bundle\Pricing\Adjustment\Calculator
+ */
+class CalculatorTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $saleableItem;
+
+    /**
+     * @var \Magento\Pricing\Price\PriceInterface[]|\PHPUnit_Framework_MockObject_MockObject[]
+     */
+    protected $priceMocks = [];
+
+    /**
+     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $baseCalculator;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $amountFactory;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $selectionFactory;
+
+    /**
+     * @var Calculator
+     */
+    protected $model;
+
+    protected function setUp()
+    {
+        $this->saleableItem = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface', [], [], '', true);
+        $priceInfo->expects($this->any())->method('getPrice')->will($this->returnCallback(function ($type) {
+            if (!isset($this->priceMocks[$type])) {
+                throw new \PHPUnit_Framework_ExpectationFailedException('Unexpected type of price model');
+            }
+            return $this->priceMocks[$type];
+        }));
+        $this->saleableItem->expects($this->any())->method('getPriceInfo')->will($this->returnValue($priceInfo));
+
+
+        $this->baseCalculator = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
+        $this->amountFactory = $this->getMock('Magento\Pricing\Amount\AmountFactory', [], [], '', false);
+        $this->selectionFactory = $this->getMockBuilder('Magento\Bundle\Pricing\Price\BundleSelectionFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->model = new Calculator($this->baseCalculator, $this->amountFactory, $this->selectionFactory);
+    }
+
+    protected function tearDown()
+    {
+        $this->priceMocks = [];
+    }
+
+    /**
+     * @covers \Magento\Bundle\Pricing\Adjustment\Calculator::__construct
+     * @covers \Magento\Bundle\Pricing\Adjustment\Calculator::getAmount
+     * @covers \Magento\Bundle\Pricing\Adjustment\Calculator::getOptionsAmount
+     * @covers \Magento\Bundle\Pricing\Adjustment\Calculator::getBundleOptionPrice
+     * @dataProvider dataProviderForGetterMinimalAmount
+     */
+    public function testGetterMinimalAmount($amountForBundle, $optionList, $expectedResult)
+    {
+        $this->baseCalculator->expects($this->atLeastOnce())->method('getAmount')
+            ->will($this->returnValue($this->createAmountMock($amountForBundle)));
+
+        $options = [];
+        foreach ($optionList as $optionData) {
+            $options[] = $this->createOptionMock($optionData);
+        }
+        $price = $this->getMock('Magento\Bundle\Pricing\Price\BundleOptionPrice', [], [], '', false);
+        $price->expects($this->atLeastOnce())->method('getOptions')->will($this->returnValue($options));
+        $this->priceMocks[Price\BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION] = $price;
+
+        // Price type of saleable items
+        $this->saleableItem->expects($this->any())->method('getPriceType')->will($this->returnValue(
+            ProductPrice::PRICE_TYPE_FIXED
+        ));
+
+        $factoryCallback = $this->returnCallback(function () {
+            list(, $selectionMock) = func_get_args();
+            $bundlePrice = $this->getMockBuilder('\Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface')
+                ->setMethods(['getAmount'])
+                ->getMock();
+            $bundlePrice->expects($this->any())->method('getAmount')
+                ->will($this->returnValue($selectionMock->getAmountMock()));
+            return $bundlePrice;
+        });
+        $this->selectionFactory->expects($this->any())->method('create')->will($factoryCallback);
+        $this->amountFactory->expects($this->atLeastOnce())->method('create')
+            ->with($expectedResult['fullAmount'], $expectedResult['adjustments']);
+        $this->model->getAmount(50., $this->saleableItem);
+    }
+
+    /**
+     * Create amount mock
+     *
+     * @param array $amountData
+     * @return \Magento\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createAmountMock($amountData)
+    {
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\Amount\Base $amount */
+        $amount = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
+        $amount->expects($this->any())->method('getAdjustmentAmounts')
+            ->will($this->returnValue($amountData['adjustmentsAmounts']));
+        $amount->expects($this->any())->method('getValue')->will($this->returnValue($amountData['amount']));
+        return $amount;
+    }
+
+    /**
+     * Create option mock
+     *
+     * @param array $optionData
+     * @return \Magento\Bundle\Model\Option|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createOptionMock($optionData)
+    {
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Bundle\Model\Option $option */
+        $option = $this->getMock('Magento\Bundle\Model\Option', ['isMultiSelection', '__wakeup'], [], '', false);
+        $option->expects($this->any())->method('isMultiSelection')
+            ->will($this->returnValue($optionData['isMultiSelection']));
+        $selections = [];
+        foreach ($optionData['selections'] as $selectionData) {
+            $selections[] = $this->createSelectionMock($selectionData);
+        }
+        $option->setData($optionData['data']);
+        $option->setData('selections', $selections);
+        return $option;
+    }
+
+    /**
+     * Create selection product mock
+     *
+     * @param array $selectionData
+     * @return \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createSelectionMock($selectionData)
+    {
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product $selection */
+        $selection = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['isSalable', '__wakeup', 'getAmountMock'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        // All items are saleable
+        $selection->expects($this->any())->method('isSalable')->will($this->returnValue(true));
+        $selection->setData($selectionData['data']);
+        // Virtual method to bind a creation of amount mock through factory
+        $amountMock = $this->createAmountMock($selectionData['amount']);
+        $selection->expects($this->any())->method('getAmountMock')->will($this->returnValue($amountMock));
+        return $selection;
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForGetterMinimalAmount()
+    {
+        return [
+            // first case
+            'first case' => [
+                'amountForBundle' => [
+                    'adjustmentsAmounts' => ['tax' => 102],
+                    'amount' => 782
+                ],
+                'optionList' => [
+                    // first option with single choice of product
+                    [
+                        'isMultiSelection' => false,
+                        'data' => [
+                            'title'         => 'test option 1',
+                            'default_title' => 'test option 1',
+                            'type'          => 'select',
+                            'option_id'     => '1',
+                            'position'      => '0',
+                            'required'      => '1',
+                        ],
+                        'selections' => [
+                            'first product selection'  => [
+                                'data'   => ['price' => 50.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 8, 'weee' => 10],
+                                    'amount' => 8
+                                ]
+                            ],
+                            'second product selection' => [
+                                'data'   => ['price' => 80.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 18],
+                                    'amount' => 8
+                                ]
+                            ]
+                        ]
+                    ],
+                    // second option with multiselection
+                    [
+                        'isMultiSelection' => true,
+                        'data' => [
+                            'title'         => 'test option 2',
+                            'default_title' => 'test option 2',
+                            'type'          => 'select',
+                            'option_id'     => '2',
+                            'position'      => '1',
+                            'required'      => '1',
+                        ],
+                        'selections' => [
+                            'first product selection'  => [
+                                'data'   => ['price' => 20.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 8],
+                                    'amount' => 8
+                                ]
+                            ],
+                            'second product selection' => [
+                                'data'   => ['price' => 50.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 18],
+                                    'amount' => 8
+                                ]
+                            ],
+                            'third product selection' => [
+                                'data'   => ['price' => 110.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 28],
+                                    'amount' => 8
+                                ]
+                            ],
+                        ]
+                    ]
+                ],
+                'expectedResult' => [
+                    'fullAmount' => 790.,
+                    'adjustments' => ['tax' => 110, 'weee' => 10]
+                ]
+            ],
+        ];
+    }
+}
