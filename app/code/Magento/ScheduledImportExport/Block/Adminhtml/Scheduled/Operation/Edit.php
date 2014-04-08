@@ -110,6 +110,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             ) . '\', \'' . $this->getDeleteUrl() . '\')'
         );
 
+        parent::_prepareLayout();
         return $this;
     }
 

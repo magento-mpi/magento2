@@ -61,8 +61,9 @@ class Edit extends \Magento\Backend\Block\Template
                 $page = $this->_coreRegistry->registry('cms_page');
                 if ($page) {
                     if ($page->getId()) {
-                        $editBlock->addButton(
+                        $this->getToolbar()->addChild(
                             'preview',
+                            'Magento\Backend\Block\Widget\Button',
                             array(
                                 'label' => __('Preview'),
                                 'class' => 'preview',
@@ -108,6 +109,6 @@ class Edit extends \Magento\Backend\Block\Template
                 }
             }
         }
-        return $this;
+        return parent::_prepareLayout();
     }
 }

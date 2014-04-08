@@ -2,6 +2,8 @@
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
   * API Service Exception Handling (MAGETWO-14490)
+* Themes update:
+  * Admin theme look&feel updated
 * Modularity improvements:
   * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
   * Moved resource model to Magento_Install module(MAGETWO-21599)

@@ -5,71 +5,33 @@
  * @license    {license_link}
  */
 
-;
-(function($, document) {
+;(function($, document) {
     'use strict';
 
     $.widget('mage.globalSearch', {
         options: {
-            header: '.header',
-            headerActiveClass: 'active',
-            form: '#form-search',
-            input: 'input',
-            inputDefaultWidth: 50,
-            inputOpenedWidth: 350,
-            submitButton: 'button[type="submit"]',
-            timeoutId: null,
-            actionSpeed: 500
+            field: '.search-global-field',
+            fieldActiveClass: 'active',
+            input: '#search-global'
         },
 
         _create: function() {
-            this.header = $(this.options.header);
-            this.form = $(this.options.form);
-            this.input = $(this.options.input, this.form);
-            this.submitButton = $(this.options.submitButton, this.form);
-
+            this.field = $(this.options.field);
+            this.input = $(this.options.input);
             this._events();
         },
 
         _events: function() {
             var self = this;
-
-            this.form
-                .on('submit.submitGlobalSearchRequest', function() {
-                    if (!self.input.val()) {
-                        self.header.addClass(self.options.headerActiveClass);
-                        self.input
-                            .animate({
-                                width: self.options.inputOpenedWidth
-                            }, self.options.actionSpeed)
-                            .focus();
-                    } else {
-                        this.submit();
-                    }
-
-                    return false;
-                });
-
             this.input
                 .on('blur.resetGlobalSearchForm', function() {
                     if (!self.input.val()) {
-                        self.timeoutId && clearTimeout(self.timeoutId);
-                        self.timeoutId = setTimeout(function() {
-                            self.input
-                                .animate({
-                                    width: self.options.inputDefaultWidth
-                                }, 200, function() {
-                                    var callbackTimeout = setTimeout(function() {
-                                        self.header.removeClass(self.options.headerActiveClass);
-                                    }, self.options.actionSpeed);
-                                });
-                        }, self.options.actionSpeed);
+                        self.field.removeClass(self.options.fieldActiveClass)
                     }
                 });
-
-            this.submitButton
-                .on('click.activateGlobalSearch', function() {
-                    self.timeoutId && clearTimeout(self.timeoutId);
+            this.input
+                .on('focus.activateGlobalSearchForm', function() {
+                        self.field.addClass(self.options.fieldActiveClass)
                 });
         }
     });
@@ -376,7 +338,7 @@
     };
 
     $(document).ready(function() {
-        $('.header-panel .search').globalSearch();
+        $('.search-global.miniform').globalSearch();
         $('.navigation').globalNavigation({
             categoriesConfig: {
                 '[data-ui-id="menu-mage-adminhtml-system"]': {

@@ -78,7 +78,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                 'onclick' => 'setLocation(\'\')',
                 'class' => 'back',
                 'id' => 'back_button',
-                'region' => 'header',
+                'region' => 'toolbar',
                 'sort_order' => 10
             )
         );
