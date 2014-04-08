@@ -8,12 +8,20 @@
   * Eliminated Core\Helper\Js class (MAGETWO-21600)
   * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
   * Moved library related logic of Cache from Core module (MAGETWO-21598)
+  * Resolved issues with cases when order has been placed before module disabling (MAGETWO-18064)
   * Eliminated dependency of Magento_Catalog on Magento_Rating Module (MAGETWO-21481)
   * Coupled Magento_Rating and Magento_Rating modules. Magento_Rating is removed (MAGETWO-23048)
 * Indexer improvements:
   * Added execution time hints for console reindex (MAGETWO-22818)
 * Customer Service usage:
   * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
+  * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
+  * Refactor PayPal module to use Customer Service (MAGETWO-20477)
+  * Log, RSS, and Review module are fully refactored to use Customer Service Layer (MAGETWO-22788)
+  * Refactor Wishlist & WEEE module to use Customer Services (MAGETWO-20499)
+  * Refactor CatalogInventory to use Customer Service for customer services (MAGETWO-20464)
+  * Refactor CatalogRule Module to use Customer Service (MAGETWO-20471)
+  * Refactor SalesRule module to use customer services (MAGETWO-20496)
 * GitHub requests:
   * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
   * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
@@ -25,7 +33,6 @@
   * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
   * Fixed an issue where admin could not unsubscribe customer from backend customer edit page (MAGETWO-22982)
   * Fixed an issue where customers are always subscribed even if not selected during registration (MAGETWO-22966)
-  * Fixed: Tax class id instead tax class name is displayed on "Customer Groups" grid (MAGETWO-21826)
   * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
   * Fixed: Impossible export several entyties (Credit Memos, Report Shopping Cart ...) for user with restricted permission (MAGETWO-19346)
   * Fixed: Checkout is blocked by "Please enter the State/Province pop-up" pop-up for customer that have saved address (MAGETWO-22006)

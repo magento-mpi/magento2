@@ -24,9 +24,14 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     protected $_systemStore;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_customerGroup;
+    protected $_customerGroupService;
+
+    /**
+     * @var \Magento\Convert\Object
+     */
+    protected $_objectConverter;
 
     /**
      * @var \Magento\SalesRule\Model\RuleFactory
@@ -38,7 +43,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\SalesRule\Model\RuleFactory $salesRule
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Convert\Object $objectConverter
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
@@ -47,12 +53,14 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\SalesRule\Model\RuleFactory $salesRule,
-        \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Convert\Object $objectConverter,
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
-        $this->_customerGroup = $customerGroup;
+        $this->_customerGroupService = $customerGroupService;
+        $this->_objectConverter = $objectConverter;
         $this->_salesRule = $salesRule;
         parent::__construct($context, $registry, $formFactory, $data);
     }
@@ -165,18 +173,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             $field->setRenderer($renderer);
         }
 
-        $customerGroups = $this->_customerGroup->create()->load()->toOptionArray();
-        $found = false;
-
-        foreach ($customerGroups as $group) {
-            if ($group['value'] == 0) {
-                $found = true;
-            }
-        }
-        if (!$found) {
-            array_unshift($customerGroups, array('value' => 0, 'label' => __('NOT LOGGED IN')));
-        }
-
+        $groups = $this->_customerGroupService->getGroups();
         $fieldset->addField(
             'customer_group_ids',
             'multiselect',
@@ -185,7 +182,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 'label' => __('Customer Groups'),
                 'title' => __('Customer Groups'),
                 'required' => true,
-                'values' => $this->_customerGroup->create()->toOptionArray()
+                'values' =>  $this->_objectConverter->toOptionArray($groups, 'id', 'code')
             )
         );
 
