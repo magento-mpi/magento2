@@ -40,7 +40,10 @@ lib/Magento/Data/Form/FormKey.php
 lib/Magento/Exception/AuthenticationException.php
 lib/Magento/Exception/AuthorizationException.php
 lib/Magento/Exception/Exception.php
+lib/Magento/ExpiredException.php
 lib/Magento/Exception/InputException.php
+lib/Magento/InputMismatchException.php
+lib/Magento/InvalidStateException.php
 lib/Magento/Exception/NoSuchEntityException.php
 lib/Magento/Exception/StateException.php
 

@@ -1,6 +1,7 @@
 <?php
 /**
- * State Exception
+ * Input mismatch exception
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,7 +9,7 @@
  */
 namespace Magento\Exception;
 
-class StateException extends \Magento\Exception\LocalizedException
+class InputMismatchException extends \Magento\Exception\LocalizedException
 {
 
 }

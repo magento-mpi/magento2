@@ -10,7 +10,6 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Model\Converter;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\StateException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
@@ -281,8 +280,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException  \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     * @expectedException  \Magento\Exception\InvalidStateException
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -339,8 +337,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Exception\InputMismatchException
      */
     public function testActivateAccountBadKey()
     {
@@ -490,8 +487,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     * @expectedException \Magento\Exception\ExpiredException
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -520,8 +516,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Exception\InputMismatchException
      */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
@@ -845,8 +840,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     * @expectedException \Magento\Exception\ExpiredException
      */
     public function testResetPasswordTokenExpired()
     {
@@ -880,8 +874,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Exception\InputMismatchException
      */
     public function testResetPasswordTokenInvalid()
     {
@@ -1042,8 +1035,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     * @expectedException \Magento\Exception\InvalidStateException
      */
     public function testResendConfirmationNotNeeded()
     {

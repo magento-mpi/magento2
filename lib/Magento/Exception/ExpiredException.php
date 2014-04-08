@@ -1,6 +1,7 @@
 <?php
 /**
- * State Exception
+ * Expired exception
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,7 +9,7 @@
  */
 namespace Magento\Exception;
 
-class StateException extends \Magento\Exception\LocalizedException
+class ExpiredException extends \Magento\Exception\LocalizedException
 {
 
 }

@@ -11,10 +11,12 @@ use Magento\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Exception\AuthenticationException;
+use Magento\Exception\ExpiredException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Exception\InputMismatchException;
+use Magento\Exception\InvalidStateException;
 use Magento\Exception\StateException;
 
 /**
@@ -661,18 +663,14 @@ class Account extends \Magento\App\Action\Action
             $successUrl = $this->_welcomeCustomer();
             $this->getResponse()->setRedirect($this->_redirect->success($backUrl ? $backUrl : $successUrl));
             return;
+        } catch (InvalidStateException $e) {
+            return;
+        } catch (InputMismatchException $e) {
+            return;
+        } catch (ExpiredException $e) {
+            $this->messageManager->addException($e, __('This confirmation key is invalid or has expired.'));
         } catch (StateException $e) {
-            switch ($e->getCode()) {
-                case StateException::INVALID_STATE:
-                    return;
-                case StateException::INPUT_MISMATCH:
-                case StateException::EXPIRED:
-                    $this->messageManager->addException($e, __('This confirmation key is invalid or has expired.'));
-                    break;
-                default:
-                    $this->messageManager->addException($e, __('There was an error confirming the account.'));
-                    break;
-            }
+            $this->messageManager->addException($e, __('There was an error confirming the account.'));
         } catch (NoSuchEntityException $e) {
             $this->messageManager->addException($e, __('There was an error confirming the account.'));
         } catch (\Exception $e) {
