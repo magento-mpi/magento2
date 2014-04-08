@@ -69,13 +69,20 @@
             <input>text</input>
             <group>actions</group>
         </discount_amount>
-        <conditions>
+        <condition_type>
+            <attribute_code>conditions</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required>0</is_required>
+            <group>conditions</group>
+            <input>select</input>
+        </condition_type>
+        <condition_value>
             <attribute_code>conditions</attribute_code>
             <backend_type>virtual</backend_type>
             <is_required>0</is_required>
             <group>conditions</group>
             <fixture>Magento\CatalogRule\Test\Fixture\Conditions</fixture>
-        </conditions>
+        </condition_value>
         <id>
             <attribute_code>id</attribute_code>
             <backend_type>virtual</backend_type>

@@ -8,6 +8,29 @@
  */
 -->
 <constraint>
+    <assertCatalogRuleProductInCategory module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogRule class="Magento\CatalogRule\Test\Fixture\CatalogRule" />
+        </require>
+    </assertCatalogRuleProductInCategory>
+    <assertCatalogRuleProductView module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogRule class="Magento\CatalogRule\Test\Fixture\CatalogRule" />
+        </require>
+    </assertCatalogRuleProductView>
+    <assertCatalogRuleProductInCart module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogRule class="Magento\CatalogRule\Test\Fixture\CatalogRule" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
+        </require>
+    </assertCatalogRuleProductInCart>
     <assertCatalogRuleInGrid module="Magento_CatalogRule">
         <severeness>high</severeness>
         <require>

@@ -126,7 +126,6 @@ class CatalogRule extends InjectableFixture
         'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions'
     ];
 
-
     public function getName()
     {
         return $this->getData('name');
@@ -157,9 +156,14 @@ class CatalogRule extends InjectableFixture
         return $this->getData('discount_amount');
     }
 
-    public function getConditions()
+    public function getConditionType()
     {
-        return $this->getData('conditions');
+        return $this->getData('condition_type');
+    }
+
+    public function getConditionValue()
+    {
+        return $this->getData('condition_value');
     }
  }
 

@@ -83,6 +83,5 @@ class CreateCatalogRuleTest extends Injectable
         $this->adminCache->open();
         $this->adminCache->getActionsBlock()->flushMagentoCache();
         $this->adminCache->getMessagesBlock()->assertSuccessMessage();
-
     }
 }

@@ -33,9 +33,9 @@ class CategoryIds implements FixtureInterface
     protected $fixtureFactory;
 
     /**
-     * @var string
+     * @var Category
      */
-    protected $currentPreset;
+    protected $category;
 
     /**
      * @param Category $category
@@ -50,6 +50,7 @@ class CategoryIds implements FixtureInterface
             foreach ($presets as $preset) {
                 $category->switchData($preset);
                 $category->persist();
+                $this->category = $category;
                 $this->data[] = $category->getCategoryId();
             }
         }
@@ -85,4 +86,15 @@ class CategoryIds implements FixtureInterface
     {
         return $this->params;
     }
+
+    /**
+     * Retrieve source category fixture
+     *
+     * @return Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
 }

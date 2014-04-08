@@ -1,2 +1,2 @@
 "catalogRule/data/name"; "catalogRule/data/is_active"; "catalogRule/data/website_ids"; "catalogRule/data/customer_group_ids"; "catalogRule/data/condition_type"; "catalogRule/data/condition_value/product"; "catalogRule/data/simple_action"; "catalogRule/data/discount_amount"; "constraint"
-"rule_name%isolation%";"Active";"Main Website";"NOT LOGGED IN";"Category";"catalogProductSimple::simple_with_category";"To Percentage of the Original Price"; "90";"assertCatalogRuleInGrid"
+"rule_name%isolation%";"Active";"Main Website";"NOT LOGGED IN";"Category";"catalogProductSimple::MAGETWO-23036";"To Percentage of the Original Price"; "90";"assertCatalogRuleInGrid, assertCatalogRuleProductInCategory, assertCatalogRuleProductView, assertCatalogRuleProductInCart"

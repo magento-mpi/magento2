@@ -59,12 +59,12 @@ class CatalogProductSimple extends AbstractRepository
             'mtf_dataset_name' => '40_dollar_product'
         ];
 
-        $this->_data['simple_with_category'] = [
-            'sku' => 'simple_with_category',
+        $this->_data['MAGETWO-23036'] = [
+            'sku' => 'MAGETWO-23036',
             'name' => 'simple_with_category',
             'type_id' => 'simple',
             'attribute_set_id' => '4',
-            'price' => ['value' => 100, 'preset' => '-'],
+            'price' => ['value' => 100, 'preset' => 'MAGETWO-23036'],
             'id' => '3',
             'category_ids' => ['presets' => 'default'],
             'mtf_dataset_name' => 'simple_with_category',

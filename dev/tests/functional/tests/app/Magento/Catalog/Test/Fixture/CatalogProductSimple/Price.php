@@ -107,6 +107,13 @@ class Price implements FixtureInterface
                 'product_price' => '$100.00',
                 'product_special_price' => '$90.00',
                 'cart_price' => '$126.00'
+            ],
+            'MAGETWO-23036' => [
+                'category_price' => '$100.00',
+                'category_special_price' => '$90.00',
+                'product_price' => '$100.00',
+                'product_special_price' => '$90.00',
+                'cart_price' => '$90.00'
             ]
         ];
         if (!isset($presets[$this->currentPreset])) {

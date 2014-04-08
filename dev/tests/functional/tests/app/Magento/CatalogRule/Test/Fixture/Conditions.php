@@ -22,6 +22,11 @@ use Mtf\Fixture\FixtureInterface;
 class Conditions implements FixtureInterface
 {
     /**
+     * @var \Magento\Catalog\Test\Fixture\CatalogProductSimple
+     */
+    protected $product;
+
+    /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
@@ -31,10 +36,9 @@ class Conditions implements FixtureInterface
         $this->params = $params;
         if (isset($data['product'])) {
             list($fixture, $dataSet) = explode('::', $data['product']);
-            /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple $product */
-            $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-            $product->persist();
-            $this->data = $product->getCategoryIds()[0];
+            $this->product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            $this->product->persist();
+            $this->data = $this->product->getCategoryIds()[0];
         }
     }
 
@@ -67,5 +71,15 @@ class Conditions implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
+    }
+
+    /**
+     * Get product for verification
+     *
+     * @return \Magento\Catalog\Test\Fixture\CatalogProductSimple
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }
