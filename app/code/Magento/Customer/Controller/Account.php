@@ -461,7 +461,7 @@ class Account extends \Magento\App\Action\Action
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             }
             return;
-        } catch (StateException $e) {
+        } catch (InputMismatchException $e) {
             $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
             // @codingStandardsIgnoreStart
             $message = __(
@@ -703,7 +703,7 @@ class Account extends \Magento\App\Action\Action
                     $this->_storeManager->getStore()->getWebsiteId()
                 );
                 $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
-            } catch (StateException $e) {
+            } catch (InvalidStateException $e) {
                 $this->messageManager->addSuccess(__('This email does not require confirmation.'));
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Wrong email.'));

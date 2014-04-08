@@ -15,6 +15,7 @@ use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Exception\InputMismatchException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Message\Error;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
@@ -431,7 +432,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
-            } catch (\Magento\Model\Exception $exception) {
+            } catch (\Magento\Exception\Exception $exception) {
                 $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
                 if (!count($messages)) {
                     $messages = $exception->getMessage();
@@ -439,7 +440,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_addSessionErrorMessages($messages);
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
-            } catch (\Magento\Exception\Exception $exception) {
+            } catch (InputMismatchException $exception) {
                 $this->_addSessionErrorMessages($exception->getMessage());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
