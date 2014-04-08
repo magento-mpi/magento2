@@ -269,7 +269,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Retrieve collection instance
      *
-     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getCollection()
     {

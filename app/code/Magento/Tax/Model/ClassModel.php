@@ -91,7 +91,7 @@ class ClassModel extends \Magento\Model\AbstractModel
             );
         }
 
-        $objectCount = $typeModel->getAssignedToObjects()->getSize();
+        $objectCount = $typeModel->getAssignedToObjectsSize();
         if ($objectCount > 0) {
             throw new \Magento\Model\Exception(
                 __(

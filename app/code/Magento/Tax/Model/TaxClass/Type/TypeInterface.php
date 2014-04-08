@@ -18,9 +18,9 @@ interface TypeInterface
     /**
      * Get Collection of Objects that are assigned to this tax class
      *
-     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @return int
      */
-    public function getAssignedToObjects();
+    public function getAssignedToObjectsSize();
 
     /**
      * Get Collection of Tax Rules that are assigned to this tax class
