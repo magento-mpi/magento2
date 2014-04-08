@@ -20,7 +20,7 @@ interface ShellInterface
      * @param string $command Command with optional argument markers '%s'
      * @param string[] $arguments Argument values to substitute markers with
      * @throws \Magento\Exception If a command returns non-zero exit code
-     * @return void|string
+     * @return string
      */
     public function execute($command, array $arguments = array());
 }

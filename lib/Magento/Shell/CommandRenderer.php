@@ -9,7 +9,6 @@
  */
 namespace Magento\Shell;
 
-
 class CommandRenderer implements CommandRendererInterface
 {
     /**
