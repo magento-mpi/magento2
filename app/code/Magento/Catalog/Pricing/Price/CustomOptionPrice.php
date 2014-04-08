@@ -17,7 +17,7 @@ use Magento\Catalog\Model\Product\Option\Value;
  *
  * @package Magento\Catalog\Pricing\Price
  */
-class OptionPrice extends RegularPrice implements OptionPriceInterface
+class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterface
 {
     /**
      * @var string
