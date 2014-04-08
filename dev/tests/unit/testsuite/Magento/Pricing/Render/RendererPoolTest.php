@@ -126,7 +126,8 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
      * Test createPriceRender() if not found price model
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Block "Magento\View\Element\Template\Context" must implement \Magento\Pricing\Render\PriceBoxRenderInterface
+     * @expectedExceptionMessage Block "Magento\View\Element\Template\Context" must implement
+     * \Magento\Pricing\Render\PriceBoxRenderInterface
      */
     public function testCreatePriceRenderBlockNotPriceBox()
     {
@@ -271,7 +272,8 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
      * Test createAmountRender() if amount render block not implement Amount interface
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Block "Magento\View\Element\Template\Context" must implement \Magento\Pricing\Render\AmountRenderInterface
+     * @expectedExceptionMessage Block "Magento\View\Element\Template\Context"
+     * must implement \Magento\Pricing\Render\AmountRenderInterface
      */
     public function testCreateAmountRenderNotAmountInterface()
     {
