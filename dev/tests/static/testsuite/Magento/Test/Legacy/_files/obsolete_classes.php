@@ -1264,7 +1264,7 @@ return array(
     array('Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy'),
     array(
         'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
-        'Magento\View\Design\FileResolution\Strategy\Fallback'
+        'Magento\View\Design\FileResolution\Fallback\{File,ViewFile,LocaleFile}'
     ),
     array('Magento\Core\Model\Design\FileResolution\StrategyPool'),
     array('Magento\View\Design\FileResolution\StrategyPool'),

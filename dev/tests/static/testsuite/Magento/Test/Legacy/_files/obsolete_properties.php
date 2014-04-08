@@ -273,4 +273,5 @@ return array(
     array('_allowDuplication', 'Magento\View\Publisher'),
     array('_modulesReader', 'Magento\View\Publisher'),
     ['_mimeTypes', 'Magento\File\Transfer\Adapter\Http', '\Magento\File\Mime::$mimeTypes'],
+    ['_viewFileResolution', 'Magento\View\FileSystem', '_fileResolution, _localeFileResolution'],
 );
