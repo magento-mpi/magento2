@@ -202,7 +202,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * @var bool
      */
-    protected $cacheable = true;
+    protected $cacheable;
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
@@ -238,7 +238,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA,
-        $cacheable
+        $cacheable = true
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
