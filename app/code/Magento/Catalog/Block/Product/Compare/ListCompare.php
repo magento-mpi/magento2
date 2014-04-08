@@ -256,10 +256,11 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     /**
      * Render price block
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
+     * @param string|null $priceId
      * @return string
      */
-    public function getProductPrice(\Magento\Catalog\Model\Product $product)
+    public function getProductPrice(\Magento\Catalog\Model\Product $product, $idSuffix = '')
     {
         /** @var \Magento\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
@@ -270,13 +271,12 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
                 \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
                 $product,
                 [
-                    'price_id'              => 'product-price-' . $product->getId() . '-compare-list-top',
+                    'price_id' => 'product-price-' . $product->getId() . $idSuffix,
                     'display_minimal_price' => true,
-                    'zone'                  => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }
-
         return $price;
     }
 }

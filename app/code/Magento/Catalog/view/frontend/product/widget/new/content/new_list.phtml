@@ -54,10 +54,7 @@ if ($exist = ($this->getProductCollection() && $this->getProductCollection()->ge
                                         <?php echo $this->escapeHtml($_item->getName()) ?>
                                     </a>
                                 </strong>
-                                <?php
-                                echo $this->getProductPriceHtml($_item, $type);
-                                echo $this->getPriceHtml($_item, true, '-' . $type) ?>
-
+                                <?php echo $this->getProductPriceHtml($_item, $type); ?>
                                 <?php if ($_item->getRatingSummary() && $rating): ?>
                                     <?php echo $this->getReviewsSummaryHtml($_item,$rating) ?>
                                 <?php endif; ?>

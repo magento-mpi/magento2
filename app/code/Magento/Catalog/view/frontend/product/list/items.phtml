@@ -192,7 +192,6 @@ switch($type = $this->getType()) {
                         <strong class="product name"><a title="<?php echo $this->escapeHtml($_item->getName()) ?>" href="<?php echo $this->getProductUrl($_item) ?>">
                             <?php echo $this->escapeHtml($_item->getName()) ?></a>
                         </strong>
-                        <?php echo $this->getPriceHtml($_item, true, '-' . $type) ?>
                         <?php echo $this->getProductPrice($_item); ?>
                             <?php if ($_item->getRatingSummary() && $rating): ?>
                                 <?php echo $this->getReviewsSummaryHtml($_item,$rating) ?>
