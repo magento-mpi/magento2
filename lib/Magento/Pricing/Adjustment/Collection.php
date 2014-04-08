@@ -99,7 +99,7 @@ class Collection
      */
     protected function sortAdjustments(AdjustmentInterface $firstAdjustment, AdjustmentInterface $secondAdjustment)
     {
-        if ($firstAdjustment->getSortOrder() < 0) {
+        if ($firstAdjustment->getSortOrder() === \Magento\Pricing\Adjustment\Pool::DEFAULT_SORT_ORDER) {
             return 1;
         }
         return $firstAdjustment->getSortOrder() > $secondAdjustment->getSortOrder() ? 1 : -1;

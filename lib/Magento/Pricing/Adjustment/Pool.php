@@ -19,6 +19,11 @@ use Magento\Pricing\Adjustment\AdjustmentInterface;
 class Pool
 {
     /**
+     * Default adjustment sort order
+     */
+    const DEFAULT_SORT_ORDER = -1;
+
+    /**
      * @var AdjustmentFactory
      */
     protected $adjustmentFactory;
@@ -96,10 +101,11 @@ class Pool
     protected function createAdjustment($adjustmentCode)
     {
         $adjustmentData = $this->adjustments[$adjustmentCode];
+        $sortOrder = isset($adjustmentData['sortOrder']) ? (int)$adjustmentData['sortOrder'] : self::DEFAULT_SORT_ORDER;
         return $this->adjustmentFactory->create(
             $adjustmentData['className'],
             [
-                'sortOrder' => isset($adjustmentData['sortOrder']) ? (int) $adjustmentData['sortOrder'] : -1
+                'sortOrder' => $sortOrder
             ]
         );
     }
