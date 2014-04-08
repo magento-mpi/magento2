@@ -165,13 +165,13 @@
         reloadPrice: function() {
             if (this.options.bundleConfig) {
                 var optionPrice = {
-                    priceExclTax: this.options.bundleConfig.finalBasePriceExclTax,
-                    priceInclTax: this.options.bundleConfig.finalBasePriceInclTax,
-                    price: 0,
-                    update: function(price, excludeTax, includeTax) {
+                    exclTaxPrice: this.options.bundleConfig.finalBasePriceExclTax,
+                    inclTaxPrice: this.options.bundleConfig.finalBasePriceInclTax,
+                    price: this.options.bundleConfig.finalPrice,
+                    update: function(price, exclTaxPrice, inclTaxPrice) {
                         this.price += price;
-                        this.priceExclTax += excludeTax;
-                        this.priceInclTax += includeTax;
+                        this.exclTaxPrice += exclTaxPrice;
+                        this.inclTaxPrice += inclTaxPrice;
                     }
                 };
                 $.each(this.options.bundleConfig.selected, $.proxy(function(index, value) {
@@ -181,11 +181,17 @@
                                 if ($.isArray(element)) {
                                     $.each(element, $.proxy(function(k, e) {
                                         var prices = this.selectionPrice(index, e);
-                                        optionPrice.update(prices[0], prices[1], prices[2]);
+                                        optionPrice.update(
+                                            prices[0],
+                                            prices[1],
+                                            prices[2]);
                                     }, this));
                                 } else {
                                     var prices = this.selectionPrice(index, element);
-                                    optionPrice.update(prices[0], prices[1], prices[2]);
+                                    optionPrice.update(
+                                        prices[0],
+                                        prices[1],
+                                        prices[2]);
                                 }
                             }
                         }, this));
@@ -203,9 +209,9 @@
                     if (priceElement.length === 1) {
                         var price = 0;
                         if (value.indexOf('price-including-tax-') >= 0) {
-                            price = optionPrice.priceInclTax;
+                            price = optionPrice.inclTaxPrice;
                         } else if (value.indexOf('price-excluding-tax-') >= 0) {
-                            price = optionPrice.priceExclTax;
+                            price = optionPrice.exclTaxPrice;
                         } else if (value.indexOf('product-price-') >= 0) {
                             price = optionPrice.price;
                         }
@@ -238,15 +244,14 @@
                 qty = configOption.selections[selectionId].qty;
             }
 
-            var price, tierPrice,
-                selection = configOption.selections[selectionId];
+            var selection = configOption.selections[selectionId];
 
-            var inclTaxPrice;
-            var exclTaxPrice;
+            var price = selection.price;
+            var inclTaxPrice = selection.inclTaxPrice;
+            var exclTaxPrice = selection.exclTaxPrice;
+            var tierPrice = selection.tierPrice;
 
             if (config.priceType === '0') {
-                price = configOption.selections[selectionId].price;
-                tierPrice = configOption.selections[selectionId].tierPrice;
                 $.each(tierPrice, function(k, e) {
                     if (e.price_qty <= qty && e.price <= price) {
                         price = e.price;
@@ -254,37 +259,6 @@
                         exclTaxPrice = e.exclTaxPrice;
                     }
                 });
-            } else {
-                if (selection.priceType === '0') {
-                    price = selection.priceValue;
-                } else {
-                    price = (config.basePrice * selection.priceValue) / 100;
-                }
-            }
-
-            // todo what is desposition used for?
-            var disposition = configOption.selections[selectionId].plusDisposition +
-                configOption.selections[selectionId].minusDisposition;
-            if (config.specialPrice) {
-                price = Math.min((Math.round(price * config.specialPrice) / 100), price);
-            }
-
-            if (!inclTaxPrice) {
-                if (selection.inclTaxPrice !== undefined) {
-                    inclTaxPrice = selection.inclTaxPrice;
-                    price = selection.exclTaxPrice !== undefined ? selection.exclTaxPrice : selection.price;
-                } else {
-                    inclTaxPrice = price;
-                }
-            }
-
-            if (!exclTaxPrice) {
-                if (selection.exclTaxPrice !== undefined) {
-                    exclTaxPrice = selection.exclTaxPrice;
-                    price = selection.exclTaxPrice !== undefined ? selection.exclTaxPrice : selection.price;
-                } else {
-                    exclTaxPrice = price;
-                }
             }
 
             return [price * qty, exclTaxPrice * qty, inclTaxPrice * qty];

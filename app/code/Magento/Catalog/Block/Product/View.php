@@ -260,12 +260,12 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
                 $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getBaseAmount(),
                 false,
                 false),
-            'priceInclTax' => $this->_coreData->currency(
+            'inclTaxPrice' => $this->_coreData->currency(
                 $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
                 false,
                 false
             ),
-            'priceExclTax' => $this->_coreData->currency(
+            'exclTaxPrice' => $this->_coreData->currency(
                 $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
                 false,
                 false

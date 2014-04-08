@@ -216,7 +216,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 $selection = array(
                     'qty' => $_qty,
                     'customQty' => $_selection->getSelectionCanChangeQty(),
-                    'price' => $this->coreData->currency($_selection->getFinalPrice(), false, false),
                     'inclTaxPrice' => $this->coreData->currency(
                             $_priceInclTax,
                             false, false),
@@ -231,6 +230,10 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     'minusDisposition' => 0,
                     'canApplyMAP' => $canApplyMAP
                 );
+
+                $selection['price'] = $this->_taxData->displayPriceIncludingTax()
+                    ? $selection['inclTaxPrice']
+                    : $selection['exclTaxPrice'];
 
                 $responseObject = new \Magento\Object();
                 $args = array('response_object' => $responseObject, 'selection' => $_selection);
@@ -266,6 +269,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'bundleId' => $currentProduct->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'basePrice' => $this->coreData->currency($currentProduct->getPrice(), false, false),
+            'showIncludeTax' => $this->_taxData->displayPriceIncludingTax(),
             'finalBasePriceInclTax' => $this->coreData->currency(
                     $this->_taxData->getPrice($currentProduct, $currentProduct->getFinalPrice(), true),
                     false,
@@ -278,6 +282,10 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'isFixedPrice' => $isFixedPrice,
             'isMAPAppliedDirectly' => $this->_catalogData->canApplyMsrp($this->getProduct(), null, false)
         );
+
+        $config['finalPrice'] = $this->_taxData->displayPriceIncludingTax()
+            ? $config['finalBasePriceInclTax']
+            : $config['finalBasePriceExclTax'];
 
         if ($preConfiguredFlag && !empty($defaultValues)) {
             $config['defaultValues'] = $defaultValues;

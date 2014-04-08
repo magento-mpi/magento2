@@ -273,6 +273,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                     $optionPrices[] = $configurablePrice;
                 }
             }
+
             /**
              * Prepare formatted values for options choose
              */

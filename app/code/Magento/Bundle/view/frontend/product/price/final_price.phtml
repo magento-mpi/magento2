@@ -31,7 +31,7 @@ if (isset($_GET['showmeprice'])) {
     <p class="minimal-price">
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('As low as'),
-            'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('from-' . $productId),
+            'price_id'          => $this->getPriceId('from-'),
             'include_container' => true
         ]); ?>
     </p>
@@ -40,20 +40,20 @@ if (isset($_GET['showmeprice'])) {
         <p class="price-from">
             <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
                 'display_label'     => __('From:'),
-                'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('from-' . $productId),
+                'price_id'          => $this->getPriceId('from-'),
                 'include_container' => true
             ]); ?>
         </p>
         <p class="price-to">
             <?php echo $this->renderAmount($finalPriceModel->getMaximalPrice(), [
                 'display_label'     => __('To:'),
-                'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('to-' . $productId),
+                'price_id'          => $this->getPriceId('to-'),
                 'include_container' => true
             ]); ?>
         </p>
     <?php else: ?>
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
-            'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'regular-' . $productId,
+            'price_id'          => $this->getPriceId('product-price-'),
             'include_container' => true
         ]); ?>
     <?php endif ?>
