@@ -9,11 +9,11 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="footer_links">
-        <block class="Magento\View\Element\Html\Link\Current" ifconfig="contacts/contacts/enabled"
+        <block class="Magento\View\Element\Html\Link\Current" ifconfig="contact/contact/enabled"
                name="contact-us-link">
             <arguments>
                 <argument name="label" xsi:type="string">Contact Us</argument>
-                <argument name="path" xsi:type="string">contacts</argument>
+                <argument name="path" xsi:type="string">contact</argument>
             </arguments>
         </block>
     </referenceBlock>
