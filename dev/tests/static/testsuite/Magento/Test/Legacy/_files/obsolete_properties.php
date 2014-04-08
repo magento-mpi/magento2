@@ -68,7 +68,7 @@ return array(
     array('_persistentCustomerGroupId'),
     array('_queriesHooked', 'Magento\Core\Model\Resource\Setup'),
     array('_quoteImporter', 'Magento\Paypal\Model\Express\Checkout'),
-    array('_ratingOptionTable', 'Magento\Rating\Model\Resource\Rating\Option\Collection'),
+    array('_ratingOptionTable', 'Magento\Review\Model\Resource\Rating\Option\Collection'),
     array('_readerFactory', 'Magento\App\ObjectManager\ConfigLoader'),
     array('_recurringPaymentProfiles', '\Magento\Paypal\Model\Api\AbstractApi'),
     array('_resourceConfig', 'Magento\Core\Model\Resource\Setup'),

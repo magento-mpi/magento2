@@ -13,6 +13,8 @@
  */
 namespace Magento\Wishlist\Model\Resource\Item\Collection;
 
+use Magento\Customer\Controller\RegistryConstants as RegistryConstants;
+
 class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
@@ -96,7 +98,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     {
         parent::_initSelect();
         $this->addCustomerIdFilter(
-            $this->_registryManager->registry('current_customer')->getId()
+            $this->_registryManager->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
         )->resetSortOrder()->addDaysInWishlist()->addStoreData();
         return $this;
     }
