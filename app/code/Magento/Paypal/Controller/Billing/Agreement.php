@@ -146,7 +146,7 @@ class Agreement extends \Magento\App\Action\Action
                     $token
                 )->setMethodCode(
                     $paymentCode
-                )->setCustomer(
+                )->setCustomerId(
                     $this->_getSession()->getCustomerId()
                 )->place();
 
