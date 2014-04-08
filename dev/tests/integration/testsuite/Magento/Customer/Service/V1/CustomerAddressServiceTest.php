@@ -298,7 +298,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 One or more input exceptions have occurred.
 {
 	code: REQUIRED_FIELD
-	firstname:
+	firstname: 
 	params: Array
 (
     [index] => 0
@@ -307,7 +307,7 @@ One or more input exceptions have occurred.
 
 {
 	code: REQUIRED_FIELD
-	lastname:
+	lastname: 
 	params: Array
 (
     [index] => 1

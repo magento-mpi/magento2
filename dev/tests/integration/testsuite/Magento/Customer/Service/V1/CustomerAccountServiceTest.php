@@ -59,58 +59,36 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
         );
 
-        $this->_addressBuilder->setId(
-            1
-        )->setCountryId(
-                'US'
-            )->setCustomerId(
-                1
-            )->setDefaultBilling(
-                true
-            )->setDefaultShipping(
-                true
-            )->setPostcode(
-                '75477'
-            )->setRegion(
+        $this->_addressBuilder->setId(1)
+            ->setCountryId('US')
+            ->setCustomerId(1)
+            ->setDefaultBilling(true)
+            ->setDefaultShipping(true)
+            ->setPostcode('75477')
+            ->setRegion(
                 (new V1\Data\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
-            )->setStreet(
-                array('Green str, 67')
-            )->setTelephone(
-                '3468676'
-            )->setCity(
-                'CityM'
-            )->setFirstname(
-                'John'
-            )->setLastname(
-                'Smith'
-            );
+            )
+            ->setStreet(array('Green str, 67'))
+            ->setTelephone('3468676')
+            ->setCity('CityM')
+            ->setFirstname('John')
+            ->setLastname('Smith');
         $address = $this->_addressBuilder->create();
 
-        $this->_addressBuilder->setId(
-            2
-        )->setCountryId(
-                'US'
-            )->setCustomerId(
-                1
-            )->setDefaultBilling(
-                false
-            )->setDefaultShipping(
-                false
-            )->setPostcode(
-                '47676'
-            )->setRegion(
+        $this->_addressBuilder->setId(2)
+            ->setCountryId('US')
+            ->setCustomerId(1)
+            ->setDefaultBilling(false)
+            ->setDefaultShipping(false)
+            ->setPostcode('47676')
+            ->setRegion(
                 (new V1\Data\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
-            )->setStreet(
-                array('Black str, 48')
-            )->setCity(
-                'CityX'
-            )->setTelephone(
-                '3234676'
-            )->setFirstname(
-                'John'
-            )->setLastname(
-                'Smith'
-            );
+            )
+            ->setStreet(array('Black str, 48'))
+            ->setCity('CityX')
+            ->setTelephone('3234676')
+            ->setFirstname('John')
+            ->setLastname('Smith');
         $address2 = $this->_addressBuilder->create();
 
         $this->_expectedAddresses = array($address, $address2);
@@ -216,10 +194,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->activateCustomer($customerModel->getId(), $key . $key);
             $this->fail('Expected exception was not thrown');
         } catch (InputException $ie) {
-            $expectedParams = array(
-                array('code' => StateException::INPUT_MISMATCH, 'fieldName' => 'confirmation', 'value' => $key . $key)
-            );
-            $this->assertEquals($expectedParams, $ie->getParams());
+            $this->assertEquals('', $ie->getMessage());
         }
     }
 
@@ -292,14 +267,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->validateResetPasswordLinkToken(1, $invalidToken);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $expectedParams = array(
-                array(
-                    'value' => $invalidToken,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'code' => InputException::INVALID_FIELD_VALUE
-                )
-            );
-            $this->assertEquals($expectedParams, $ie->getParams());
+            $message = $ie->getMessage();
+            $this->assertContains('One or more input exceptions have occurred.', $message);
+            $this->assertContains('code: INVALID_FIELD_VALUE', $message);
+            $this->assertContains('resetPasswordLinkToken: 0', $message);
         }
     }
 
@@ -329,14 +300,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->validateResetPasswordLinkToken(1, null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $expectedParams = array(
-                array(
-                    'value' => null,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'code' => InputException::INVALID_FIELD_VALUE
-                )
-            );
-            $this->assertEquals($expectedParams, $ie->getParams());
+            $message = $ie->getMessage();
+            $this->assertContains('One or more input exceptions have occurred.', $message);
+            $this->assertContains('code: INVALID_FIELD_VALUE', $message);
+            $this->assertContains('resetPasswordLinkToken: ', $message);
         }
     }
 
@@ -367,10 +334,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             );
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
-            $this->assertEquals(
-                'No such entity with email = foo@example.com, websiteId = 0',
-                $nsee->getMessage()
-            );
+            $this->assertEquals('No such entity with email = foo@example.com, websiteId = 0', $nsee->getMessage());
         }
     }
 
@@ -417,14 +381,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->resetPassword(1, $invalidToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $expectedParams = array(
-                array(
-                    'value' => $invalidToken,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'code' => InputException::INVALID_FIELD_VALUE
-                )
-            );
-            $this->assertEquals($expectedParams, $ie->getParams());
+            $message = $ie->getMessage();
+            $this->assertContains('One or more input exceptions have occurred.', $message);
+            $this->assertContains('code: INVALID_FIELD_VALUE', $message);
+            $this->assertContains('resetPasswordLinkToken: 0', $message);
         }
     }
 
@@ -458,10 +418,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->resetPassword(0, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $expectedParams = array(
-                array('value' => 0, 'fieldName' => 'customerId', 'code' => InputException::INVALID_FIELD_VALUE)
-            );
-            $this->assertEquals($expectedParams, $ie->getParams());
+            $message = $ie->getMessage();
+            $this->assertContains('One or more input exceptions have occurred.', $message);
+            $this->assertContains('code: INVALID_FIELD_VALUE', $message);
+            $this->assertContains('customerId: 0', $message);
         }
     }
 
@@ -562,11 +522,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $newAddress = array_merge($addresses[0]->__toArray(), array('city' => $city));
 
         $this->_addressBuilder->populateWithArray($newAddress);
-        $this->_customerDetailsBuilder->setCustomer(
-            $customerDetails->getCustomer()
-        )->setAddresses(
-                array($this->_addressBuilder->create(), $addresses[1])
-            );
+        $this->_customerDetailsBuilder
+            ->setCustomer($customerDetails->getCustomer())
+            ->setAddresses(array($this->_addressBuilder->create(), $addresses[1]));
         $this->_customerAccountService->updateCustomer($this->_customerDetailsBuilder->create());
 
         $newCustomerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
@@ -591,11 +549,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $addresses = $customerDetails->getAddresses();
         $addressIdToRetain = $addresses[1]->getId();
 
-        $this->_customerDetailsBuilder->setCustomer(
-            $customerDetails->getCustomer()
-        )->setAddresses(
-                array($addresses[1])
-            );
+        $this->_customerDetailsBuilder
+            ->setCustomer($customerDetails->getCustomer())->setAddresses(array($addresses[1]));
 
         $this->_customerAccountService->updateCustomer($this->_customerDetailsBuilder->create());
 
@@ -794,12 +749,30 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->saveCustomer($customerEntity);
             $this->fail('Expected exception not thrown');
         } catch (InputException $ie) {
-            $expectedParams = array(
-                array('fieldName' => 'firstname', 'value' => '', 'code' => InputException::REQUIRED_FIELD),
-                array('fieldName' => 'lastname', 'value' => '', 'code' => InputException::REQUIRED_FIELD),
-                array('fieldName' => 'email', 'value' => '', 'code' => InputException::INVALID_FIELD_VALUE)
-            );
-            $this->assertEquals($expectedParams, $ie->getParams());
+            // @todo: clean this up
+            $expectedMessage
+                = <<<'NOWDOC'
+One or more input exceptions have occurred.
+{
+	code: REQUIRED_FIELD
+	firstname: 
+	params: []
+ }
+
+{
+	code: REQUIRED_FIELD
+	lastname: 
+	params: []
+ }
+
+{
+	code: INVALID_FIELD_VALUE
+	email: 
+	params: []
+ }
+
+NOWDOC;
+            $this->assertEquals($expectedMessage, $ie->getMessage());
         }
     }
 
@@ -870,35 +843,24 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\CustomerFactory')->create();
-        $customerModel->setEmail(
-            $email
-        )->setFirstname(
-                $firstname
-            )->setLastname(
-                $lastname
-            )->setGroupId(
-                $groupId
-            )->setPassword(
-                $password
-            );
+        $customerModel->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId)
+            ->setPassword($password);
         $customerModel->save();
         /** @var \Magento\Customer\Model\Customer $customerModel */
-        $savedModel = $this->_objectManager->create(
-            'Magento\Customer\Model\CustomerFactory'
-        )->create()->load(
-                $customerModel->getId()
-            );
+        $savedModel = $this->_objectManager
+            ->create('Magento\Customer\Model\CustomerFactory')
+            ->create()
+            ->load($customerModel->getId());
         $dataInModel = $savedModel->getData();
 
-        $this->_customerBuilder->setEmail(
-            $email2
-        )->setFirstname(
-                $firstname
-            )->setLastname(
-                $lastname
-            )->setGroupId(
-                $groupId
-            );
+        $this->_customerBuilder
+            ->setEmail($email2)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerId = $this->_customerAccountService->saveCustomer($newCustomerEntity, $password);
         $this->assertNotNull($customerId);
@@ -944,17 +906,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $lastname = 'McTest';
         $groupId = 1;
 
-        $this->_customerBuilder->setStoreId(
-            $storeId
-        )->setEmail(
-                $email
-            )->setFirstname(
-                $firstname
-            )->setLastname(
-                $lastname
-            )->setGroupId(
-                $groupId
-            );
+        $this->_customerBuilder
+            ->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerId = $this->_customerAccountService->saveCustomer($newCustomerEntity, 'aPassword');
         $this->assertNotNull($customerId);
@@ -1007,17 +964,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $lastname = 'McTest';
         $groupId = 1;
 
-        $this->_customerBuilder->setStoreId(
-            $storeId
-        )->setEmail(
-                $email
-            )->setFirstname(
-                $firstname
-            )->setLastname(
-                $lastname
-            )->setGroupId(
-                $groupId
-            );
+        $this->_customerBuilder
+            ->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerId = $this->_customerAccountService->saveCustomer($newCustomerEntity, 'aPassword');
 
@@ -1076,7 +1028,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param Data\Filter[] $filters
-     * @param Datao\Filter[] $orGroup
+     * @param Data\Filter[] $orGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider
@@ -1140,13 +1092,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ),
             'Customers created since' => array(
                 array(
-                    (new Data\FilterBuilder())->setField(
-                        'created_at'
-                    )->setValue(
-                            '2011-02-28 15:52:26'
-                        )->setConditionType(
-                            'gt'
-                        )->create()
+                    (new Data\FilterBuilder())->setField('created_at')->setValue('2011-02-28 15:52:26')
+                        ->setConditionType('gt')->create()
                 ),
                 array(),
                 array(
@@ -1169,13 +1116,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         // Filter for 'firstname' like 'First'
         $filterBuilder = new Data\FilterBuilder();
-        $firstnameFilter = $filterBuilder->setField(
-            'firstname'
-        )->setConditionType(
-                'like'
-            )->setValue(
-                'First%'
-            )->create();
+        $firstnameFilter = $filterBuilder->setField('firstname')
+            ->setConditionType('like')
+            ->setValue('First%')
+            ->create();
         $searchBuilder->addFilter($firstnameFilter);
 
         // Search ascending order
