@@ -677,7 +677,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testSearchCustomers()
     {
         $customerData = $this->_createSampleCustomer();
-        $filter = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData[Customer::EMAIL])->create();
+        $filter = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData[Customer::EMAIL])
+            ->create();
         $this->searchCriteriaBuilder->addFilterGroup([$filter]);
         $serviceInfo = [
             'rest' => [
@@ -704,12 +707,18 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
-        $filter1 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData1[Customer::EMAIL])
+        $filter1 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
             ->create();
-        $filter2 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData2[Customer::EMAIL])
+        $filter2 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData2[Customer::EMAIL])
             ->create();
-        $filter3 = (new FilterBuilder())->setField(Customer::LASTNAME)
-            ->setValue($customerData1[Customer::LASTNAME])->create();
+        $filter3 = (new FilterBuilder())
+            ->setField(Customer::LASTNAME)
+            ->setValue($customerData1[Customer::LASTNAME])
+            ->create();
         $this->searchCriteriaBuilder->addFilterGroup([$filter1, $filter2]);
         $this->searchCriteriaBuilder->addFilterGroup([$filter3]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
@@ -739,12 +748,18 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
-        $filter1 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData1[Customer::EMAIL])
+        $filter1 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
             ->create();
-        $filter2 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData2[Customer::EMAIL])
+        $filter2 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData2[Customer::EMAIL])
             ->create();
-        $filter3 = (new FilterBuilder())->setField(Customer::LASTNAME)
-            ->setValue('INVALID')->create();
+        $filter3 = (new FilterBuilder())
+            ->setField(Customer::LASTNAME)
+            ->setValue('INVALID')
+            ->create();
         $this->searchCriteriaBuilder->addFilterGroup([$filter1, $filter2]);
         $this->searchCriteriaBuilder->addFilterGroup([$filter3]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
@@ -772,12 +787,21 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $customerData1 = $this->_createSampleCustomer();
 
-        $filter1 = (new FilterBuilder())->setField(Customer::EMAIL)->setValue($customerData1[Customer::EMAIL])
+        $filter1 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
             ->create();
-        $filter2 = (new FilterBuilder())->setField(Customer::MIDDLENAME)->setValue($customerData1[Customer::MIDDLENAME])
+        $filter2 = (new FilterBuilder())
+            ->setField(Customer::MIDDLENAME)
+            ->setValue($customerData1[Customer::MIDDLENAME])
             ->create();
-        $filter3 = (new FilterBuilder())->setField(Customer::MIDDLENAME)->setValue('invalid')->create();
-        $filter4 = (new FilterBuilder())->setField(Customer::LASTNAME)->setValue($customerData1[Customer::LASTNAME])
+        $filter3 = (new FilterBuilder())
+            ->setField(Customer::MIDDLENAME)
+            ->setValue('invalid')
+            ->create();
+        $filter4 = (new FilterBuilder())
+            ->setField(Customer::LASTNAME)
+            ->setValue($customerData1[Customer::LASTNAME])
             ->create();
 
         $this->searchCriteriaBuilder->addFilterGroup([$filter1]);
@@ -802,7 +826,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
 
         // Add an invalid And-ed data with multiple groups to yield no result
-        $filter4 = (new FilterBuilder())->setField(Customer::LASTNAME)->setValue('invalid')
+        $filter4 = (new FilterBuilder())
+            ->setField(Customer::LASTNAME)
+            ->setValue('invalid')
             ->create();
 
         $this->searchCriteriaBuilder->addFilterGroup([$filter1]);
