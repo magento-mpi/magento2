@@ -4,6 +4,8 @@
   * API Service Exception Handling (MAGETWO-14490)
   * Extracted vendor name from app/design/*/magento_<theme> into app/design/*/Magento/<theme> (MAGETWO-20865)
   * Renamed 3DSecure library into CardinalCommerce and removed flex library as unused (MAGETWO-23143)
+* Themes update:
+  * Admin theme look&feel updated
 * Modularity improvements:
   * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
   * Moved resource model to Magento_Install module(MAGETWO-21599)

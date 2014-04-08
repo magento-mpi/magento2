@@ -83,50 +83,50 @@
 }
 
 // Primary Add Button
-.PrimaryAddButton {
-    &:extend(.PrimaryButton all);
-    width: 36px;
-    height: 31px;
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-    padding: 0;
-    &:focus {
-        outline: none;
-    }
-    > span {
-        text-indent: -999em;
-        display: block;
-        width: 34px;
-        height: 29px;
-        &:before {
-            text-indent: 0;
-            font-family: 'MUI-Icons';
-            font-weight: normal;
-            font-size: 22px;
-            content: '\e02d';
-            color: #fff;
-            position: absolute;
-            width: 34px;
-            height: 29px;
-            line-height: 29px;
-            text-align: center;
-            vertical-align: middle;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            .eq-ie9 & {
-                line-height: 31px;
-            }
-        }
-    }
-}
+// .PrimaryAddButton {
+//     &:extend(.PrimaryButton all);
+//     width: 36px;
+//     height: 31px;
+//     overflow: hidden;
+//     position: relative;
+//     z-index: 1;
+//     padding: 0;
+//     &:focus {
+//         outline: none;
+//     }
+//     > span {
+//         text-indent: -999em;
+//         display: block;
+//         width: 34px;
+//         height: 29px;
+//         &:before {
+//             text-indent: 0;
+//             font-family: 'MUI-Icons';
+//             font-weight: normal;
+//             font-size: 22px;
+//             content: '\e02d';
+//             color: #fff;
+//             position: absolute;
+//             width: 34px;
+//             height: 29px;
+//             line-height: 29px;
+//             text-align: center;
+//             vertical-align: middle;
+//             top: 0;
+//             left: 0;
+//             overflow: hidden;
+//             .eq-ie9 & {
+//                 line-height: 31px;
+//             }
+//         }
+//     }
+// }
 
 // Primary Split and Primary Add Split Button
 .PrimarySplitButton {
     &.btn-round {
         .action-default.primary {
-            &:extend(.PrimaryAddButton all);
+            //&:extend(.PrimaryAddButton all);
             border-radius: 2px 0 0 2px;
             &:focus {
                 outline: none;
