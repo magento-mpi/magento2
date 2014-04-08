@@ -42,7 +42,7 @@ $logWriter = new \Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new \Zend_Log($logWriter);
 
-$shell = new \Magento\Shell(new \Magento\Shell\CommandRenderer(), new \Magento\OSInfo(), $logger);
+$shell = new \Magento\Shell(new \Magento\Shell\CommandRenderer(), $logger);
 
 $application = new \Magento\ToolkitFramework\Application($applicationBaseDir, $shell);
 $application->bootstrap();

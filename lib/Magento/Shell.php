@@ -14,7 +14,7 @@ use Magento\Shell\CommandRendererInterface;
 /**
  * Shell command line wrapper encapsulates command execution and arguments escaping
  */
-class Shell
+class Shell implements ShellInterface
 {
     /**
      * Logger instance
