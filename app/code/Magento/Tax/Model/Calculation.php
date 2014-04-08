@@ -195,7 +195,7 @@ class Calculation extends \Magento\Model\AbstractModel
     /**
      * Retrieve customer data object
      *
-     * @return CustomerDataObject
+     * @return CustomerDataObject|false
      */
     public function getCustomerData()
     {
@@ -416,7 +416,7 @@ class Calculation extends \Magento\Model\AbstractModel
                 $shippingAddress
             ) || !$shippingAddress->getCountryId()) && $basedOn == 'shipping'
             ) {
-                if ($customerData->getId()) {
+                if ($customerData && $customerData->getId()) {
                     try {
                         $defaultBilling = $this->_addressService->getDefaultBillingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
@@ -429,9 +429,9 @@ class Calculation extends \Magento\Model\AbstractModel
                         /** Address does not exist */
                     }
 
-                    if ($basedOn == 'billing' && $defaultBilling && $defaultBilling->getCountryId()) {
+                    if ($basedOn == 'billing' && isset($defaultBilling) && $defaultBilling->getCountryId()) {
                         $billingAddress = $defaultBilling;
-                    } elseif ($basedOn == 'shipping' && $defaultShipping && $defaultShipping->getCountryId()) {
+                    } elseif ($basedOn == 'shipping' && isset($defaultShipping) && $defaultShipping->getCountryId()) {
                         $shippingAddress = $defaultShipping;
                     } else {
                         $basedOn = 'default';
@@ -454,29 +454,20 @@ class Calculation extends \Magento\Model\AbstractModel
                 break;
             case 'default':
                 $address->setCountryId(
-                    $this->_coreStoreConfig->getConfig(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
-                        $store
-                    )
+                    $this->_coreStoreConfig->getConfig(Config::CONFIG_XML_PATH_DEFAULT_COUNTRY, $store)
                 )->setRegionId(
-                    $this->_coreStoreConfig->getConfig(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
-                        $store
-                    )
+                    $this->_coreStoreConfig->getConfig(Config::CONFIG_XML_PATH_DEFAULT_REGION, $store)
                 )->setPostcode(
-                    $this->_coreStoreConfig->getConfig(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
-                        $store
-                    )
+                    $this->_coreStoreConfig->getConfig(Config::CONFIG_XML_PATH_DEFAULT_POSTCODE, $store)
                 );
                 break;
             default:
                 break;
         }
 
-        if (is_null($customerTaxClass) && $customerData->getId()) {
+        if (is_null($customerTaxClass) && $customerData && $customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
-        } elseif ($customerTaxClass === false || !$customerData->getId()) {
+        } elseif ($customerTaxClass === false || (!$customerData || !$customerData->getId())) {
             $customerTaxClass = $this->getDefaultCustomerTaxClass($store);
         }
 

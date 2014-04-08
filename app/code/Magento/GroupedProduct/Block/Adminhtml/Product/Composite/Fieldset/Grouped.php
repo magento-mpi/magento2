@@ -83,7 +83,7 @@ class Grouped extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
         $this->_block = 'Magento\Catalog\Block\Adminhtml\Product\Price';
         $this->_useLinkForAsLowAs = false;
 
-        if (is_null($this->priceHelper->getCustomer()->getId())
+        if ($this->priceHelper->getCustomer() && is_null($this->priceHelper->getCustomer()->getId())
             && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
         ) {
             $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
