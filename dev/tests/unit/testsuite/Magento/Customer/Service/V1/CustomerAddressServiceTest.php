@@ -650,7 +650,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->saveAddresses(4200, array($this->_addressBuilder->create()));
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getParams(), array('customerId' => 4200));
+            $this->assertSame(
+                ['fieldName0' => 'customerId', 'value0' => 4200],
+                $nsee->getParams()
+            );
         } catch (\Exception $unexpected) {
             $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
         }
@@ -685,7 +688,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->deleteAddress(2);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame($exception->getParams(), array('addressId' => 2));
+            $this->assertSame(
+                ['fieldName0' => 'addressId', 'value0' => 2],
+                $exception->getParams()
+            );
         }
     }
 

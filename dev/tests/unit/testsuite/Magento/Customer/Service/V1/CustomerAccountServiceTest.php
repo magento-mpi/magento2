@@ -334,7 +334,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getParams(), array('customerId' => self::ID));
+            $this->assertSame(
+                ['fieldName0' => 'customerId', 'value0' => self::ID],
+                $nsee->getParams()
+            );
         }
     }
 
@@ -577,7 +580,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->validateResetPasswordLinkToken(1, $resetToken);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getParams(), array('customerId' => self::ID));
+            $this->assertSame(
+                ['fieldName0' => 'customerId', 'value0' => self::ID],
+                $nsee->getParams()
+            );
         }
     }
 
@@ -676,7 +682,15 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->initiatePasswordReset($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getParams(), array('email' => $email, 'websiteId' => 0));
+            $this->assertSame(
+                [
+                    'fieldName0' => 'email',
+                    'value0' => $email,
+                    'fieldName1' => 'websiteId',
+                    'value1' => 0
+                ],
+                $nsee->getParams()
+            );
         }
     }
 
@@ -947,7 +961,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->resetPassword(4200, $resetToken, $password);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getParams(), array('customerId' => 4200));
+            $this->assertSame(
+                ['fieldName0' => 'customerId', 'value0' => 4200],
+                $nsee->getParams()
+            );
         }
     }
 
@@ -1037,7 +1054,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->resendConfirmation('email@no.customer', 1);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
-            $expectedParams = array('email' => 'email@no.customer', 'websiteId' => 1);
+            $expectedParams = [
+                'fieldName0' => 'email',
+                'value0' => 'email@no.customer',
+                'fieldName1' => 'websiteId',
+                'value1' => 1
+            ];
             $this->assertEquals($expectedParams, $nsee->getParams());
         }
     }

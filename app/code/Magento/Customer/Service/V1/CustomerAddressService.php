@@ -129,7 +129,10 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $address = $this->_addressFactory->create();
         $address->load($addressId);
         if (!$address->getId()) {
-            throw (new NoSuchEntityException())->addField('addressId', $addressId);
+            throw new NoSuchEntityException(
+                'No such entity with %fieldName = %value',
+                ['fieldName' => 'addressId', 'value' => $addressId]
+            );
         }
 
         $customer = $this->_converter->getCustomerModel($address->getCustomerId());
@@ -150,7 +153,10 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $address->load($addressId);
 
         if (!$address->getId()) {
-            throw (new NoSuchEntityException())->addField('addressId', $addressId);
+            throw new NoSuchEntityException(
+                'No such entity with %fieldName = %value',
+                ['fieldName' => 'addressId', 'value' => $addressId]
+            );
         }
 
         $address->delete();

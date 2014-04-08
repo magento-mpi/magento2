@@ -183,7 +183,12 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals(
-                array('entityType' => 'entityCode', 'attributeCode' => 'attributeId'),
+                [
+                    'fieldName0' => 'entityType',
+                    'value0' => 'entityCode',
+                    'fieldName1' => 'attributeCode',
+                    'value1' => 'attributeId',
+                ],
                 $e->getParams()
             );
         }

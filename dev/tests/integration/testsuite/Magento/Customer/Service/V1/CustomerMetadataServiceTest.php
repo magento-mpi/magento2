@@ -35,13 +35,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals(
-                [
-                    'fieldName0' => 'entityType',
-                    'value0' => 'customer_address',
-                    'fieldName1' => 'attributeCode',
-                    'value1' => '1'
-                ],
-                $e->getParams()
+                'No such entity with entityType = customer_address, attributeCode = 1',
+                $e->getMessage()
             );
         }
     }
@@ -103,14 +98,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals(
-                [
-                    'fieldName0' => 'entityType',
-                    'value0' => 'customer',
-                    'fieldName1' => 'attributeCode',
-                    'value1' => '20'
-                ],
-                $e->getParams()
-            );
+                'No such entity with entityType = customer, attributeCode = 20',
+                $e->getMessage());
         }
     }
 
@@ -131,13 +120,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals(
-                [
-                    'fieldName0' => 'entityType',
-                    'value0' => 'customer_address',
-                    'fieldName1' => 'attributeCode',
-                    'value1' => '1'
-                ],
-                $e->getParams()
+                'No such entity with entityType = customer_address, attributeCode = 1',
+                $e->getMessage()
             );
         }
     }

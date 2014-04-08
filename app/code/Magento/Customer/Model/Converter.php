@@ -68,7 +68,13 @@ class Converter
 
         if (!$customer->getId()) {
             // customer does not exist
-            throw (new NoSuchEntityException())->addField('customerId', $customerId);
+            throw new NoSuchEntityException(
+                'No such entity with %fieldName = %value',
+                [
+                    'fieldName' => 'customerId',
+                    'value' => $customerId
+                ]
+            );
         } else {
             return $customer;
         }
@@ -101,7 +107,10 @@ class Converter
         }
         $customer->loadByEmail($customerEmail);
         if (!$customer->getId()) {
-            throw (new NoSuchEntityException())->addField('email', $customerEmail);
+            throw new NoSuchEntityException(
+                'No such entity with %fieldName = %value',
+                ['fieldName' => 'email', 'value' => $customerEmail]
+            );
         } else {
             return $customer;
         }

@@ -73,12 +73,12 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $layout->expects(
             $this->any()
         )->method(
-            'getBlockSingleton'
-        )->with(
-            'Magento\Customer\Block\Form\Register'
-        )->will(
-            $this->returnValue($this->_formRegister)
-        );
+                'getBlockSingleton'
+            )->with(
+                'Magento\Customer\Block\Form\Register'
+            )->will(
+                $this->returnValue($this->_formRegister)
+            );
 
         $this->_context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
         $this->_context->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
@@ -104,10 +104,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_subscriberFactory->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_subscriber)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_subscriber)
+            );
 
         $this->_block = new Info(
             $this->_context,
@@ -123,10 +123,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->customerCurrentService->expects(
             $this->once()
         )->method(
-            'getCustomer'
-        )->will(
-            $this->returnValue($this->_customer)
-        );
+                'getCustomer'
+            )->will(
+                $this->returnValue($this->_customer)
+            );
 
         $customer = $this->_block->getCustomer();
         $this->assertEquals($customer, $this->_customer);
@@ -137,10 +137,14 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->customerCurrentService->expects(
             $this->once()
         )->method(
-            'getCustomer'
-        )->will(
-            $this->throwException((new NoSuchEntityException())->addField('customerId', 1))
-        );
+                'getCustomer'
+            )->will($this->throwException(new NoSuchEntityException(
+                        'No such entity with %fieldName = %value',
+                        ['fieldName' => 'customerId', 'value' => 1]
+                    )
+                )
+            );
+
         $this->assertNull($this->_block->getCustomer());
     }
 
@@ -151,10 +155,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->customerCurrentService->expects(
             $this->once()
         )->method(
-            'getCustomer'
-        )->will(
-            $this->returnValue($this->_customer)
-        );
+                'getCustomer'
+            )->will(
+                $this->returnValue($this->_customer)
+            );
 
         /**
          * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)
@@ -205,10 +209,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->_formRegister->expects(
             $this->once()
         )->method(
-            'isNewsletterEnabled'
-        )->will(
-            $this->returnValue($isNewsletterEnabled)
-        );
+                'isNewsletterEnabled'
+            )->will(
+                $this->returnValue($isNewsletterEnabled)
+            );
         $this->assertEquals($expectedValue, $this->_block->isNewsletterEnabled());
     }
 
