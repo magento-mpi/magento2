@@ -178,7 +178,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
                     false,
                     false),
                 'exclTaxPrice' => $this->coreData->currency(
-                    $amount->getValue(),
+                    $amount->getBaseAmount(),
                     false,
                     false)
             ];
