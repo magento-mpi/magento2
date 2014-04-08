@@ -9,7 +9,6 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\App\Config\ScopeConfigInterface as ScopeConfig;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
@@ -59,14 +58,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
     /**
      * @param GroupFactory $groupFactory
-     * @param ScopeConfig $scopeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      * @param TaxClassModelFactory $taxClassModel
      */
     public function __construct(
         GroupFactory $groupFactory,
-        ScopeConfig $scopeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
         TaxClassModelFactory $taxClassModelFactory
@@ -238,11 +237,15 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function getDefaultGroup($storeId)
     {
-        $groupId = $this->_scopeConfig->getValue(
-            CustomerGroupModel::XML_PATH_DEFAULT_ID,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
+        try {
+            $groupId = $this->_scopeConfig->getValue(
+                CustomerGroupModel::XML_PATH_DEFAULT_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
+        } catch (\Magento\Model\Exception $e) {
+            throw new NoSuchEntityException('storeId', $storeId);
+        }
         try {
             return $this->getGroup($groupId);
         } catch (NoSuchEntityException $e) {

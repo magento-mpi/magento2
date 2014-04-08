@@ -428,9 +428,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         if ($storeId instanceof Store) {
             return $storeId;
         }
-        if (!isset($storeId)) {
-            $this->throwStoreException();
-        }
 
         if (empty($this->_stores[$storeId])) {
             $store = $this->_storeFactory->create();
