@@ -55,7 +55,10 @@ class Base implements AmountInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Return full amount value
+     *
+     * @param null|string|array $exclude
+     * @return float
      */
     public function getValue($exclude = null)
     {
@@ -76,7 +79,9 @@ class Base implements AmountInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Return full amount value in string format
+     *
+     * @return string
      */
     public function __toString()
     {
@@ -84,7 +89,9 @@ class Base implements AmountInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Return base amount part value
+     *
+     * @return float|null
      */
     public function getBaseAmount()
     {
@@ -95,7 +102,10 @@ class Base implements AmountInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Return adjustment amount part value by adjustment code
+     *
+     * @param string $adjustmentCode
+     * @return bool|float
      */
     public function getAdjustmentAmount($adjustmentCode)
     {
@@ -105,7 +115,9 @@ class Base implements AmountInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Return sum amount of all applied adjustments
+     *
+     * @return float|null
      */
     public function getTotalAdjustmentAmount()
     {
@@ -116,7 +128,9 @@ class Base implements AmountInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Return all applied adjustments as array
+     *
+     * @return float[]
      */
     public function getAdjustmentAmounts()
     {
@@ -124,7 +138,10 @@ class Base implements AmountInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Check if adjustment is contained in amount object
+     *
+     * @param string $adjustmentCode
+     * @return bool
      */
     public function hasAdjustment($adjustmentCode)
     {
