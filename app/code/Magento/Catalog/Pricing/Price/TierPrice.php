@@ -58,7 +58,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
-     * @param $quantity
+     * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param Session $customerSession
      */

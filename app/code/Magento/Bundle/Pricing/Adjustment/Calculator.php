@@ -69,7 +69,7 @@ class Calculator implements BundleCalculatorInterface
     /**
      * Get amount for current product which is included price of existing options with maximal price
      *
-     * @param $amount
+     * @param float $amount
      * @param SaleableInterface $saleableItem
      * @param null $exclude
      * @return \Magento\Pricing\Amount\AmountInterface

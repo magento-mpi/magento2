@@ -823,7 +823,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      * Return HTML block with tier price
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param $priceType
+     * @param string $priceType
      * @param string $renderZone
      * @return string
      */

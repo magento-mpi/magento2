@@ -735,7 +735,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Set quantity for product
      *
-     * @param $qty
+     * @param float $qty
      * @return $this
      */
     public function setQty($qty)
