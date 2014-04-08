@@ -56,7 +56,7 @@ class CreateTest extends Functional
         $customerSegmentForm->addNewSegment();
         // fill General Properties
         $newCustomerSegmentForm->fill($customerSegmentFixture);
-        $newCustomerSegmentForm->clickSaveAndContinueEdit();
+        $customerSegmentCreatePage->getActions()->saveAndContinue();
         $messagesBlock->assertSuccessMessage();
         // open conditions tab
         $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('conditions');

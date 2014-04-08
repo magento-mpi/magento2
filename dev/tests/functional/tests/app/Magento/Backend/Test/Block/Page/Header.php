@@ -26,7 +26,7 @@ class Header extends Block
      *
      * @var string
      */
-    protected $adminAccountLink = '.account-avatar';
+    protected $adminAccountLink = '.admin-user-account';
 
     /**
      * Selector for Log Out Link
@@ -43,6 +43,7 @@ class Header extends Block
         if ($this->isLoggedIn()) {
             $this->_rootElement->find($this->adminAccountLink)->click();
             $this->_rootElement->find($this->signOutLink)->click();
+            $this->waitForElementNotVisible($this->signOutLink);
         }
     }
 

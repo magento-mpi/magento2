@@ -23,7 +23,7 @@ use Magento\CatalogRule\Model\Rule\Product\Price;
 use Magento\Registry;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Stdlib\DateTime\TimezoneInterface;
-use Magento\Customer\Model\Group;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface as Group;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Event\Observer as EventObserver;
 use Magento\Message\ManagerInterface;
