@@ -10,7 +10,6 @@
 (function($) {
     $('#product_info_tabs_product-details_content').on('stockbeforedisable', function(e) {
         if ($('[data-panel=product-variations]').is('.opened')) {
-            e.stopImmediatePropagation();
             return false;
         }
     });
