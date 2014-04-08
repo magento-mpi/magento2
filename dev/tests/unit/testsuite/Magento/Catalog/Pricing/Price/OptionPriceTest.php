@@ -162,7 +162,6 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
         $id = 1;
         $expected = [$id => [$price => ['base_amount' => $price, 'adjustment' => $displayValue]]];
 
-
         $this->amount->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue(120));
@@ -171,9 +170,6 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getAmount')
             ->will($this->returnValue($this->amount));
 
-        $amountMock = $this->getMockBuilder('Magento\Pricing\Amount')
-            ->disableOriginalConstructor()
-            ->getMock();
         $optionValueMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Option\Value')
             ->disableOriginalConstructor()
             ->setMethods(['getPriceType', 'getPrice', 'getId', '__wakeup'])

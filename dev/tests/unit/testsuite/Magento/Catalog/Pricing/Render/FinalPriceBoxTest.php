@@ -60,7 +60,15 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->product = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface', [], '', true, true, true, ['getPriceInfo', '__wakeup']);
+        $this->product = $this->getMockForAbstractClass(
+            'Magento\Pricing\Object\SaleableInterface',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['getPriceInfo', '__wakeup']
+        );
 
         $this->priceType = $this->getMockBuilder('Magento\Catalog\Pricing\Price\MsrpPrice')
             ->disableOriginalConstructor()
@@ -112,12 +120,15 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->object = $objectManager->getObject('Magento\Catalog\Pricing\Render\FinalPriceBox', array(
-            'context' => $context,
-            'saleableItem' => $this->product,
-            'rendererPool' => $this->rendererPool,
-            'price' => $this->price
-        ));
+        $this->object = $objectManager->getObject(
+            'Magento\Catalog\Pricing\Render\FinalPriceBox',
+            array(
+                'context' => $context,
+                'saleableItem' => $this->product,
+                'rendererPool' => $this->rendererPool,
+                'price' => $this->price
+            )
+        );
     }
 
     public function testRenderMsrpDisabled()
