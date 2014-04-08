@@ -650,7 +650,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->saveAddresses(4200, array($this->_addressBuilder->create()));
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
-            $this->assertSame($nsee->getParams(), array('customerId' => 4200));
+            $this->assertSame('No such entity with customerId = 4200', $nsee->getMessage());
         } catch (\Exception $unexpected) {
             $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
         }
@@ -685,7 +685,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->deleteAddress(2);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame($exception->getParams(), array('addressId' => 2));
+            $this->assertSame('No such entity with addressId = 2', $exception->getMessage());
         }
     }
 
@@ -730,17 +730,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail("Expected InputException not caught");
         } catch (InputException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
-            $this->assertSame(
-                $exception->getParams(),
-                array(
-                    array(
-                        'index' => 0,
-                        'fieldName' => 'firstname',
-                        'code' => \Magento\Exception\InputException::REQUIRED_FIELD,
-                        'value' => null
-                    )
-                )
-            );
+            $message = $exception->getMessage();
+            $this->assertContains('One or more input exceptions have occurred.', $message);
+            $this->assertContains('code: REQUIRED_FIELD', $message);
+            $this->assertContains('firstname:', $message);
         }
     }
 

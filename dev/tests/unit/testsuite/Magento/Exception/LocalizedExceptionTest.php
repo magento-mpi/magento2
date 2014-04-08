@@ -47,10 +47,6 @@ class LocalizedExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->renderedMessage, $localizeException->getMessage());
         $this->assertEquals($message, $localizeException->getRawMessage());
         $this->assertEquals($expectedLogMessage, $localizeException->getLogMessage());
-        $this->assertEquals(
-            $params,
-            $localizeException->getParams()
-        );
         $this->assertSame($cause, $localizeException->getPrevious());
     }
 

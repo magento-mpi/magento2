@@ -182,9 +182,9 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $service->getAttributeMetadata('entityCode', 'attributeId');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(
-                array('entityType' => 'entityCode', 'attributeCode' => 'attributeId'),
-                $e->getParams()
+            $this->assertSame(
+                "No such entity with entityType = entityCode\n attributeCode = attributeId",
+                $e->getMessage()
             );
         }
     }
@@ -315,7 +315,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $service->getCustomerAttributeMetadata('attributeId');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(array('entityType' => 'customer', 'attributeCode' => 'attributeId'), $e->getParams());
+            $this->assertSame(
+                "No such entity with entityType = customer\n attributeCode = attributeId",
+                $e->getMessage()
+            );
         }
     }
 
@@ -351,9 +354,9 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $service->getAddressAttributeMetadata('attributeId');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(
-                array('entityType' => 'customer_address', 'attributeCode' => 'attributeId'),
-                $e->getParams()
+            $this->assertSame(
+                "No such entity with entityType = customer_address\n attributeCode = attributeId",
+                $e->getMessage()
             );
         }
     }
