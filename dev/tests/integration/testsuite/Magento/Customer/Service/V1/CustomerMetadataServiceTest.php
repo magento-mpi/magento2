@@ -97,9 +97,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->getCustomerAttributeMetadata('20');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
-            $this->assertEquals(
-                'No such entity with entityType = customer, attributeCode = 20',
-                $e->getMessage());
+            $this->assertEquals('No such entity with entityType = customer, attributeCode = 20', $e->getMessage());
         }
     }
 

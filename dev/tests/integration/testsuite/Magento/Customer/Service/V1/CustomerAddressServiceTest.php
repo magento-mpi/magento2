@@ -205,7 +205,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->getAddress(12345);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame('No such entity with addressId = 12345', $exception->getMessage());
+            $this->assertEquals('No such entity with addressId = 12345', $exception->getMessage());
         }
     }
 
@@ -294,13 +294,28 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (InputException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
-            $this->assertSame(
-                $exception->getParams(),
-                array(
-                    array('index' => 0, 'fieldName' => 'firstname', 'code' => 'REQUIRED_FIELD', 'value' => null),
-                    array('index' => 1, 'fieldName' => 'lastname', 'code' => 'REQUIRED_FIELD', 'value' => null)
-                )
-            );
+            $expectedMessage = <<<'NOWDOC'
+One or more input exceptions have occurred.
+{
+	code: REQUIRED_FIELD
+	firstname:
+	params: Array
+(
+    [index] => 0
+)
+ }
+
+{
+	code: REQUIRED_FIELD
+	lastname:
+	params: Array
+(
+    [index] => 1
+)
+ }
+
+NOWDOC;
+            $this->assertEquals($expectedMessage, $exception->getMessage());
         }
     }
 
@@ -476,7 +491,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->saveAddresses('this_is_not_a_valid_id', array($proposedAddress));
             $this->fail('Expected exception not thrown');
         } catch (NoSuchEntityException $nsee) {
-            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $nsee->getMessage());
+             $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $nsee->getMessage());
         }
     }
 
@@ -499,7 +514,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $addressDataObject = $this->_service->getAddress($addressId);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame('No such entity with addressId = 1', $exception->getMessage());
+            $this->assertEquals('No such entity with addressId = 1', $exception->getMessage());
         }
     }
 
@@ -513,7 +528,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->deleteAddress(12345);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame('No such entity with addressId = 12345', $exception->getMessage());
+            $this->assertEquals('No such entity with addressId = 12345', $exception->getMessage());
         }
     }
 
