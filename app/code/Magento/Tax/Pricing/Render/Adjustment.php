@@ -42,7 +42,7 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
-     * return null
+     * @return null
      */
     protected function apply()
     {

@@ -32,10 +32,13 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        $adjustmentFactory->expects($this->any())->method('create')->will($this->returnCallback(
-            function ($className, $data) {
-            return $className . '|' . $data['sortOrder'];
-        }));
+        $adjustmentFactory->expects($this->any())->method('create')->will(
+            $this->returnCallback(
+                function ($className, $data) {
+                    return $className . '|' . $data['sortOrder'];
+                }
+            )
+        );
 
         $this->model = new Pool($adjustmentFactory, $adjustmentsData);
     }

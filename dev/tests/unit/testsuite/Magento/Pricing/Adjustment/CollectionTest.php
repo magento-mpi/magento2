@@ -53,15 +53,16 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getAdjustmentByCode'])
             ->getMock();
-        $adjustmentPool->expects($this->any())->method('getAdjustmentByCode')->will($this->returnCallback(
-            function ($code) use ($adjustmentsData)
-            {
-                if (!isset($adjustmentsData[$code])) {
-                    $this->fail(sprintf('Adjustment "%s" not found', $code));
+        $adjustmentPool->expects($this->any())->method('getAdjustmentByCode')->will(
+            $this->returnCallback(
+                function ($code) use ($adjustmentsData) {
+                    if (!isset($adjustmentsData[$code])) {
+                        $this->fail(sprintf('Adjustment "%s" not found', $code));
+                    }
+                    return $adjustmentsData[$code];
                 }
-                return $adjustmentsData[$code];
-            }
-        ));
+            )
+        );
 
         $this->adjustmentPool = $adjustmentPool;
         $this->adjustmentsData = $adjustmentsData;
