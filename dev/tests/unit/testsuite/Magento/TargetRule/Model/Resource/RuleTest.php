@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Model\Resource\Rule;
+namespace Magento\TargetRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
 use Magento\TestFramework\Helper\ObjectManager;
