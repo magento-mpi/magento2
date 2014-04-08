@@ -29,6 +29,11 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     protected $priceMocks = [];
 
     /**
+     * @var float
+     */
+    protected $baseAmount = 50.;
+
+    /**
      * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $baseCalculator;
@@ -67,6 +72,17 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $factoryCallback = $this->returnCallback(function () {
+            list(, $selectionMock) = func_get_args();
+            $bundlePrice = $this->getMockBuilder('\Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface')
+                ->setMethods(['getAmount'])
+                ->getMock();
+            $bundlePrice->expects($this->any())->method('getAmount')
+                ->will($this->returnValue($selectionMock->getAmountMock()));
+            return $bundlePrice;
+        });
+        $this->selectionFactory->expects($this->any())->method('create')->will($factoryCallback);
+
         $this->model = new Calculator($this->baseCalculator, $this->amountFactory, $this->selectionFactory);
     }
 
@@ -76,15 +92,12 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Bundle\Pricing\Adjustment\Calculator::__construct
-     * @covers \Magento\Bundle\Pricing\Adjustment\Calculator::getAmount
-     * @covers \Magento\Bundle\Pricing\Adjustment\Calculator::getOptionsAmount
-     * @covers \Magento\Bundle\Pricing\Adjustment\Calculator::getBundleOptionPrice
-     * @dataProvider dataProviderForGetterMinimalAmount
+     * @dataProvider dataProviderForGetterAmount
      */
-    public function testGetterMinimalAmount($amountForBundle, $optionList, $expectedResult)
+    public function testGetterAmount($amountForBundle, $optionList, $expectedResult)
     {
         $this->baseCalculator->expects($this->atLeastOnce())->method('getAmount')
+            ->with($this->baseAmount, $this->saleableItem)
             ->will($this->returnValue($this->createAmountMock($amountForBundle)));
 
         $options = [];
@@ -100,19 +113,13 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             ProductPrice::PRICE_TYPE_FIXED
         ));
 
-        $factoryCallback = $this->returnCallback(function () {
-            list(, $selectionMock) = func_get_args();
-            $bundlePrice = $this->getMockBuilder('\Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface')
-                ->setMethods(['getAmount'])
-                ->getMock();
-            $bundlePrice->expects($this->any())->method('getAmount')
-                ->will($this->returnValue($selectionMock->getAmountMock()));
-            return $bundlePrice;
-        });
-        $this->selectionFactory->expects($this->any())->method('create')->will($factoryCallback);
         $this->amountFactory->expects($this->atLeastOnce())->method('create')
             ->with($expectedResult['fullAmount'], $expectedResult['adjustments']);
-        $this->model->getAmount(50., $this->saleableItem);
+        if ($expectedResult['isMinAmount']) {
+            $this->model->getAmount($this->baseAmount, $this->saleableItem);
+        } else {
+            $this->model->getMaxAmount($this->baseAmount, $this->saleableItem);
+        }
     }
 
     /**
@@ -177,11 +184,61 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function dataProviderForGetterMinimalAmount()
+    public function dataProviderForGetterAmount()
     {
         return [
-            // first case
-            'first case' => [
+            // first case with minimal amount
+            'case with getting minimal amount' => [
+                'amountForBundle' => [
+                    'adjustmentsAmounts' => ['tax' => 102],
+                    'amount' => 782
+                ],
+                'optionList' => [
+                    // first option with single choice of product
+                    [
+                        'isMultiSelection' => false,
+                        'data' => [
+                            'title'         => 'test option 1',
+                            'default_title' => 'test option 1',
+                            'type'          => 'select',
+                            'option_id'     => '1',
+                            'position'      => '0',
+                            'required'      => '1',
+                        ],
+                        'selections' => [
+                            'first product selection'  => [
+                                'data'   => ['price' => 70.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 8, 'weee' => 10],
+                                    'amount' => 18
+                                ]
+                            ],
+                            'second product selection' => [
+                                'data'   => ['price' => 80.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 18],
+                                    'amount' => 28
+                                ]
+                            ],
+                            'third product selection with the lowest price'  => [
+                                'data'   => ['price' => 50.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 8, 'weee' => 10],
+                                    'amount' => 8
+                                ]
+                            ]
+                        ]
+                    ],
+                ],
+                'expectedResult' => [
+                    'isMinAmount' => true,
+                    'fullAmount'  => 790.,
+                    'adjustments' => ['tax' => 110, 'weee' => 10]
+                ]
+            ],
+
+            // second case with maximum amount
+            'case with getting maximum amount' => [
                 'amountForBundle' => [
                     'adjustmentsAmounts' => ['tax' => 102],
                     'amount' => 782
@@ -235,27 +292,56 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                                 ]
                             ],
                             'second product selection' => [
-                                'data'   => ['price' => 50.],
-                                'amount' => [
-                                    'adjustmentsAmounts' => ['tax' => 18],
-                                    'amount' => 8
-                                ]
-                            ],
-                            'third product selection' => [
                                 'data'   => ['price' => 110.],
                                 'amount' => [
                                     'adjustmentsAmounts' => ['tax' => 28],
-                                    'amount' => 8
+                                    'amount' => 28
+                                ]
+                            ],
+                            'third product selection' => [
+                                'data'   => ['price' => 50.],
+                                'amount' => [
+                                    'adjustmentsAmounts' => ['tax' => 18],
+                                    'amount' => 18
                                 ]
                             ],
                         ]
                     ]
                 ],
                 'expectedResult' => [
-                    'fullAmount' => 790.,
-                    'adjustments' => ['tax' => 110, 'weee' => 10]
+                    'isMinAmount' => false,
+                    'fullAmount'  => 844.,
+                    'adjustments' => ['tax' => 164, 'weee' => 10]
                 ]
             ],
+
+            // third case without saleable items
+            'case without saleable items' => [
+                'amountForBundle' => [
+                    'adjustmentsAmounts' => ['tax' => 102],
+                    'amount' => 782
+                ],
+                'optionList' => [
+                    // first option with single choice of product
+                    [
+                        'isMultiSelection' => false,
+                        'data' => [
+                            'title'         => 'test option 1',
+                            'default_title' => 'test option 1',
+                            'type'          => 'select',
+                            'option_id'     => '1',
+                            'position'      => '0',
+                            'required'      => '1',
+                        ],
+                        'selections' => []
+                    ],
+                ],
+                'expectedResult' => [
+                    'isMinAmount' => true,
+                    'fullAmount'  => 782.,
+                    'adjustments' => ['tax' => 102]
+                ]
+            ]
         ];
     }
 }

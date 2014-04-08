@@ -110,11 +110,9 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
                 $price = $product->getPriceInfo()
                     ->getPrice(FinalPriceInterface::PRICE_TYPE_FINAL)
                     ->getValue();
-                if ($price !== false) {
-                    if ($price <= (is_null($minPrice) ? $price : $minPrice)) {
-                        $this->minProduct = $product;
-                        $minPrice = $price;
-                    }
+                if (($price !== false) && ($price <= (is_null($minPrice) ? $price : $minPrice))) {
+                    $this->minProduct = $product;
+                    $minPrice = $price;
                 }
             }
         }

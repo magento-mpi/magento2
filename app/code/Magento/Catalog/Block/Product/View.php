@@ -235,10 +235,7 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
         $_request->setProductClassId($product->getTaxClassId());
         $currentTax = $this->_taxCalculation->getRate($_request);
 
-        $_regularPrice = $product->getPrice();
         $_finalPrice = $product->getFinalPrice();
-        $_priceInclTax = $this->_taxData->getPrice($product, $_finalPrice, true);
-        $_priceExclTax = $this->_taxData->getPrice($product, $_finalPrice);
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {
@@ -255,8 +252,14 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
             'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'showIncludeTax' => $this->_taxData->displayPriceIncludingTax(),
             'showBothPrices' => $this->_taxData->displayBothPrices(),
-            'productPrice' => $this->_coreData->currency($_finalPrice, false, false),
-            'productOldPrice' => $this->_coreData->currency($_regularPrice, false, false),
+            'productPrice' => $this->_coreData->currency(
+                    $product->getPriceInfo()->getPrice('final_price')->getValue(),
+                    false,
+                    false),
+            'productOldPrice' => $this->_coreData->currency(
+                $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getBaseAmount(),
+                false,
+                false),
             'priceInclTax' => $this->_coreData->currency(
                 $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
                 false,

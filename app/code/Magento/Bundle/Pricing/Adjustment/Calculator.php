@@ -103,18 +103,16 @@ class Calculator implements BundleCalculatorInterface
             }
             // Add amounts for custom options
             $optionsAmounts = $this->processOptions($option, $saleableItem, $searchMin);
-            if ($searchMin) {
-                if ($minOptionAmount === null) {
-                    $minOptionAmount = end($optionsAmounts);
-                } elseif (end($optionsAmounts)->getValue() < $minOptionAmount->getValue()) {
-                    $minOptionAmount = end($optionsAmounts);
-                }
-            } else {
+            if ($searchMin
+                && ($minOptionAmount === null || end($optionsAmounts)->getValue() < $minOptionAmount->getValue())
+            ) {
+                $minOptionAmount = end($optionsAmounts);
+            } elseif (!$searchMin) {
                 $amountList = array_merge($amountList, $optionsAmounts);
             }
         }
 
-        if ($searchMin) {
+        if ($searchMin && $minOptionAmount) {
             $amountList[] = $minOptionAmount;
         }
 
