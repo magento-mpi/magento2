@@ -19,7 +19,7 @@ use Magento\Bundle\Pricing\Price\BundleSelectionFactory;
 use Magento\Bundle\Pricing\Price\BundleOptionPrice;
 
 /**
- * Class Calculator
+ * Bundle price calculator
  */
 class Calculator implements BundleCalculatorInterface
 {
@@ -54,10 +54,12 @@ class Calculator implements BundleCalculatorInterface
     }
 
     /**
+     * Get amount for current product which is included price of existing options with minimal price
+     *
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
-     * @param null $exclude
-     * @return \Magento\Pricing\Amount\AmountInterface|mixed
+     * @param null|string $exclude
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null)
     {
@@ -65,7 +67,9 @@ class Calculator implements BundleCalculatorInterface
     }
 
     /**
-     * @param float|string $amount
+     * Get amount for current product which is included price of existing options with maximal price
+     *
+     * @param $amount
      * @param SaleableInterface $saleableItem
      * @param null $exclude
      * @return \Magento\Pricing\Amount\AmountInterface
@@ -76,9 +80,11 @@ class Calculator implements BundleCalculatorInterface
     }
 
     /**
-     * @param float|string $amount
+     * Base calculation of amount for saleable item
+     *
+     * @param float $amount
      * @param SaleableInterface $saleableItem
-     * @param null $exclude
+     * @param null|string $exclude
      * @param bool $searchMin
      * @return \Magento\Pricing\Amount\AmountInterface
      */
@@ -86,6 +92,7 @@ class Calculator implements BundleCalculatorInterface
     {
         $fullAmount = 0.;
         $adjustments = [];
+        // Get amount for bundle product
         $amountList[] = $this->calculator->getAmount($amount, $saleableItem);
 
         $minOptionAmount = null;
@@ -94,11 +101,12 @@ class Calculator implements BundleCalculatorInterface
             if (!$option->getSelections()) {
                 continue;
             }
+            // Add amounts for custom options
             $optionsAmounts = $this->processOptions($option, $saleableItem, $searchMin);
             if ($searchMin) {
                 if ($minOptionAmount === null) {
                     $minOptionAmount = end($optionsAmounts);
-                } else if (end($optionsAmounts)->getValue() < $minOptionAmount->getValue()) {
+                } elseif (end($optionsAmounts)->getValue() < $minOptionAmount->getValue()) {
                     $minOptionAmount = end($optionsAmounts);
                 }
             } else {
@@ -114,15 +122,8 @@ class Calculator implements BundleCalculatorInterface
         foreach ($amountList as $itemAmount) {
             $fullAmount += $itemAmount->getValue();
             foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
-                if ($exclude !== null) {
-                    if ($exclude === $code) {
-                        continue;
-                    }
-                }
-                if (isset($adjustments[$code])) {
-                    $adjustments[$code] += $adjustment;
-                } else {
-                    $adjustments[$code] = $adjustment;
+                if ($exclude === null || $exclude !== $code) {
+                    $adjustments[$code] = isset($adjustments[$code]) ? $adjustments[$code] + $adjustment : $adjustment;
                 }
             }
         }
@@ -138,7 +139,6 @@ class Calculator implements BundleCalculatorInterface
         return $saleableItem->getPriceInfo()->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION);
     }
 
-
     /**
      * @param \Magento\Bundle\Model\Option $option
      * @param SaleableInterface $saleableItem
@@ -149,7 +149,7 @@ class Calculator implements BundleCalculatorInterface
     {
         $result = [];
         foreach ($option->getSelections() as $selection) {
-            /* @var $selection \Magento\Bundle\Model\Selection */
+            /* @var $selection \Magento\Bundle\Model\Selection|\Magento\Catalog\Model\Product */
             if (!$selection->isSalable()/* || ($searchMin && !$option->getRequired())*/) {
                 // @todo CatalogInventory Show out of stock Products
                 continue;
@@ -191,7 +191,9 @@ class Calculator implements BundleCalculatorInterface
      */
     protected function createDynamicAmount($selection, $saleableItem)
     {
-        return $this->selectionFactory->create($saleableItem, $selection, $selection->getSelectionQty())->getAmount();
+        /** @var \Magento\Bundle\Pricing\Price\BundleSelectionPrice $price */
+        $price = $this->selectionFactory->create($saleableItem, $selection, $selection->getSelectionQty());
+        return $price->getAmount();
     }
 
     /**

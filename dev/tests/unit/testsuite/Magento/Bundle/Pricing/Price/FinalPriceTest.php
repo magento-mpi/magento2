@@ -27,9 +27,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /** @var float*/
     protected $baseAmount;
 
-    /** @var float*/
-    protected $maxValue;
-
     /** @var \Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $bundleCalculatorMock;
 
@@ -42,19 +39,13 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /** @var BundleOptionPrice|\PHPUnit_Framework_MockObject_MockObject */
     protected $bundleOptionMock;
 
+    /**
+     * @return void
+     */
     protected function prepareMock()
     {
         $this->saleableInterfaceMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
         $this->bundleCalculatorMock = $this->getMock('Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface');
-        $this->bundleOptionMock = $this->getMock('Magento\Bundle\Pricing\Price\BundleOptionPrice', [], [], '', false);
-        $this->basePriceMock = $this->getMock('Magento\Bundle\Pricing\Price\BasePrice', [], [], '', false);
-        $this->basePriceMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue($this->baseAmount));
-
-        $this->basePriceMock->expects($this->any())
-            ->method('getMaxValue')
-            ->will($this->returnValue($this->maxValue));
 
         $this->priceInfoMock = $this->getMock('\Magento\Pricing\PriceInfoInterface');
         $this->priceInfoMock->expects($this->atLeastOnce())
@@ -77,15 +68,26 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $priceType
+     * @param string $priceType
      * @return BasePrice|BundleOptionPrice|\PHPUnit_Framework_MockObject_MockObject
      */
     public function getPriceCallback($priceType)
     {
         switch ($priceType) {
             case \Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE:
+                $this->basePriceMock = $this->getMock('Magento\Bundle\Pricing\Price\BasePrice', [], [], '', false);
+                $this->basePriceMock->expects($this->any())
+                    ->method('getValue')
+                    ->will($this->returnValue($this->baseAmount));
                 return $this->basePriceMock;
             case BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION:
+                $this->bundleOptionMock = $this->getMock(
+                    'Magento\Bundle\Pricing\Price\BundleOptionPrice',
+                    [],
+                    [],
+                    '',
+                    false
+                );
                 return $this->bundleOptionMock;
             default:
                 break;
@@ -99,7 +101,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     public function testGetValue($baseAmount, $discountValue, $result)
     {
         $this->baseAmount = $baseAmount;
-        $optionsValue = 2.0;
+        $optionsValue = rand(1, 10);
         $this->prepareMock();
         $this->bundleOptionMock->expects($this->once())
             ->method('getValue')
@@ -127,15 +129,15 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getValueDataProvider
      */
-    public function testGetMaximalPrice($maxValue)
+    public function testGetMaximalPrice($baseAmount)
     {
-        $result = 12;
-        $this->maxValue = $maxValue;
+        $result = rand(1, 10);
+        $this->baseAmount = $baseAmount;
         $this->prepareMock();
 
         $this->bundleCalculatorMock->expects($this->once())
             ->method('getMaxAmount')
-            ->with($this->equalTo($this->maxValue), $this->equalTo($this->saleableInterfaceMock))
+            ->with($this->equalTo($this->baseAmount), $this->equalTo($this->saleableInterfaceMock))
             ->will($this->returnValue($result));
         $this->assertSame($result, $this->finalPrice->getMaximalPrice());
     }
@@ -145,7 +147,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMinimalPrice($baseAmount)
     {
-        $result = 12;
+        $result = rand(1, 10);
         $this->baseAmount = $baseAmount;
         $this->prepareMock();
 

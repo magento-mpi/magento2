@@ -104,7 +104,7 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
         if (null === $this->minProduct) {
             $products = $this->salableItem->getTypeInstance()->getAssociatedProducts($this->salableItem);
             $minPrice = null;
-            foreach($products as $item) {
+            foreach ($products as $item) {
                 $product = clone $item;
                 $product->setQty(\Magento\Pricing\PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT);
                 $price = $product->getPriceInfo()
@@ -119,5 +119,18 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
             }
         }
         return $this->minProduct;
+    }
+
+    /**
+     * @param float $amount
+     * @param null|string $exclude
+     * @return AmountInterface
+     */
+    public function getCustomAmount($amount = null, $exclude = null)
+    {
+        if ($amount === null) {
+            $amount = $this->getValue();
+        }
+        return $this->calculator->getAmount($amount, $this->salableItem, $exclude);
     }
 }

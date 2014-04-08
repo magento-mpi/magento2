@@ -45,14 +45,4 @@ class BasePrice extends RegularPrice
         }
         return $this->value;
     }
-
-    /**
-     * Get Max Value
-     *
-     * @return bool|float
-     */
-    public function getMaxValue()
-    {
-        return $this->getValue();
-    }
 }

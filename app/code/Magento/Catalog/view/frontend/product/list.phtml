@@ -64,7 +64,6 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                         <?php if ($_product->getRatingSummary()): ?>
                             <?php echo $this->getReviewsSummaryHtml($_product,$rating) ?>
                         <?php endif; ?>
-                        <?php echo $this->getPriceHtml($_product, true) ?>
                         <?php echo $this->getProductPrice($_product) ?>
                         <div class="product actions"<?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
                             <div class="primary"<?php echo strpos($pos, $viewMode . '-primary') ? $position: ''; ?>>

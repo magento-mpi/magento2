@@ -97,7 +97,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $includeContainer = false;
         $priceHtml = 'price-html';
 
-        $selection = $this->getMockBuilder('Magento\Bundle\Model\Selection')
+        $selection = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->getMock();
         $bundlePrice = $this->getMockBuilder('Magento\Bundle\Pricing\Price\BundleOptionPrice')
@@ -133,7 +133,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
         $priceRenderBlock->expects($this->atLeastOnce())
             ->method('renderAmount')
-            ->with($amount, $bundlePrice, $this->product, ['include_container' => $includeContainer])
+            ->with($amount, $bundlePrice, $selection, ['include_container' => $includeContainer])
             ->will($this->returnValue($priceHtml));
 
         $this->assertEquals($priceHtml, $this->block->renderPriceString($selection, $includeContainer));

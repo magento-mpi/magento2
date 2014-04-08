@@ -17,6 +17,9 @@ use Magento\View\Element\Template;
 use Magento\Pricing\PriceCurrencyInterface;
 use Magento\Pricing\Render\PriceBox;
 
+/**
+ * Gift card final price box
+ */
 class FinalPriceBox extends PriceBox
 {
     /**
@@ -91,7 +94,6 @@ class FinalPriceBox extends PriceBox
      */
     public function getAmounts()
     {
-
         if (!empty($this->amountsCache)) {
             return $this->amountsCache;
         }

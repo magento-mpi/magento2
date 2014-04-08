@@ -24,6 +24,9 @@ use Magento\Catalog\Pricing\Price\MsrpPriceInterface;
  */
 class FinalPriceBox extends BasePriceBox
 {
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $result = parent::_toHtml();
