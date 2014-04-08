@@ -16,5 +16,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface CatalogRuleInterface extends HandlerInterface
 {
-    //
+
 }
