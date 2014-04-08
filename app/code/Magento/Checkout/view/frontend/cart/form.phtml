@@ -61,13 +61,9 @@
     <?php echo $this->getChildHtml('shopping.cart.table.after'); ?>
     <script type="text/javascript">
         (function($) {
-            head.js(
-                "<?php echo $this->getViewFileUrl('mage/sticky.js') ?>",
-                function() {
-                    $('.cart.summary').sticky({
-                        container: '.cart.container'
-                });
-                });
+            $('.cart.summary').mage('sticky', {
+                container: '.cart.container'
+            });
         })(jQuery)
     </script>
 </div>

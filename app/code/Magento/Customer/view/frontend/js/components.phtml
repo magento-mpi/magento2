@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+    <script type="text/javascript">
+        (function($) {
+            "use strict";
+            /**
+             * Declaration of resources needed for defined components
+             */
+            $.mage.component({
+                validation: [
+                    '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>',
+                    '<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>',
+                    '<?php echo $this->getViewFileUrl('mage/validation.js')?>',
+                    '<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>'
+                ],
+                regionUpdater: [
+                    '<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>'
+                ]
+            });
+        })(jQuery);
+    </script>
+<?php echo $this->getChildHtml() ?>
