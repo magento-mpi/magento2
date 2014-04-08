@@ -96,25 +96,4 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($specialPriceValue));
         $this->assertSame($specialPriceValue, $this->basePrice->getValue());
     }
-
-    /**
-     * test method getMaxValue
-     */
-    public function testGetMaxValue()
-    {
-        $regularPriceValue = 100;
-        $this->priceInfoMock->expects($this->once())
-            ->method('getPricesIncludedInBase')
-            ->will($this->returnValue($this->prices));
-        $this->regularPriceMock->expects($this->exactly(2))
-            ->method('getValue')
-            ->will($this->returnValue($regularPriceValue));
-        $this->groupPriceMock->expects($this->once())
-            ->method('getValue')
-            ->will($this->returnValue(99));
-        $this->specialPriceMock->expects($this->once())
-            ->method('getValue')
-            ->will($this->returnValue(77));
-        $this->assertSame($regularPriceValue, $this->basePrice->getMaxValue());
-    }
 }
