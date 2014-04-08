@@ -75,7 +75,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->model = new \Magento\Tax\Pricing\Render\Adjustment(
             $this->contextMock,
             $this->priceCurrencyMock,
-            $this->taxHelperMock);
+            $this->taxHelperMock
+        );
     }
 
     /**
@@ -103,7 +104,6 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDisplayAmountExclTax()
     {
-        $html = '<p>some_html</p>';
         $expectedPriceValue = 1.23;
         $expectedPrice = '$4.56';
 
@@ -119,18 +119,19 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getValue'])
             ->getMock();
 
+        $baseAmount->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue($expectedPriceValue));
+
         $amountRender->expects($this->any())
             ->method('getAmount')
             ->will($this->returnValue($baseAmount));
-        $baseAmount->expects($this->any())
-            ->method('getValue')
-            ->with('tax')
-            ->will($this->returnValue($expectedPriceValue));
+
         $this->priceCurrencyMock->expects($this->any())
             ->method('convertAndFormat')
             ->will($this->returnValue($expectedPrice));
 
-        $this->model->render($html, $amountRender);
+        $this->model->render($amountRender);
         $result = $this->model->getDisplayAmountExclTax();
 
         $this->assertEquals($expectedPrice, $result);
@@ -144,7 +145,6 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDisplayAmount($includeContainer)
     {
-        $html = '<p>some_html</p>';
         $expectedPriceValue = 1.23;
         $expectedPrice = '$4.56';
 
@@ -159,19 +159,20 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getValue'])
             ->getMock();
 
-        $amountRender->expects($this->any())
-            ->method('getAmount')
-            ->will($this->returnValue($baseAmount));
         $baseAmount->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue($expectedPriceValue));
+
+        $amountRender->expects($this->any())
+            ->method('getAmount')
+            ->will($this->returnValue($baseAmount));
 
         $this->priceCurrencyMock->expects($this->any())
             ->method('convertAndFormat')
             ->with($this->anything(), $this->equalTo($includeContainer))
             ->will($this->returnValue($expectedPrice));
 
-        $this->model->render($html, $amountRender);
+        $this->model->render($amountRender);
         $result = $this->model->getDisplayAmount($includeContainer);
 
         $this->assertEquals($expectedPrice, $result);
@@ -198,8 +199,6 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildIdWithPrefix($prefix, $saleableId, $suffix, $expectedResult)
     {
-        $html = '<p>some_html</p>';
-
         /** @var \Magento\Pricing\Render\Amount $amountRender */
         $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
             ->disableOriginalConstructor()
@@ -220,7 +219,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($saleableId));
 
         $this->model->setIdSuffix($suffix);
-        $this->model->render($html, $amountRender);
+        $this->model->render($amountRender);
         $result = $this->model->buildIdWithPrefix($prefix);
 
         $this->assertEquals($expectedResult, $result);

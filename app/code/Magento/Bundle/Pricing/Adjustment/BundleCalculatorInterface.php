@@ -21,8 +21,8 @@ interface BundleCalculatorInterface extends CalculatorInterface
     /**
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
-     * @param null $exclude
-     * @return mixed
+     * @param null|bool $exclude
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getMaxAmount($amount, SaleableInterface $saleableItem, $exclude = null);
 }
