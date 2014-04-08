@@ -15,6 +15,7 @@ namespace Magento\Sales\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\GridPageActions;
 
 /**
  * Class SalesOrderCreateIndex
@@ -49,6 +50,13 @@ class SalesOrderCreateIndex extends Page
      * @var string
      */
     protected $createBlock = '[id="page:main-container"]';
+
+    /**
+     * Form page action block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * Custom constructor
@@ -91,6 +99,16 @@ class SalesOrderCreateIndex extends Page
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreate(
             $this->_browser->find($this->createBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * @return GridPageActions
+     */
+    public function getActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendGridPageActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }
