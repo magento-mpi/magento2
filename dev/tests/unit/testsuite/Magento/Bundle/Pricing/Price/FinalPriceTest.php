@@ -127,25 +127,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getValueDataProvider
      */
-    public function testGetMaxValue($maxValue, $discountValue, $result)
-    {
-        $this->maxValue = $maxValue;
-        $optionsValue = 2.0;
-        $this->prepareMock();
-        $this->bundleOptionMock->expects($this->once())
-            ->method('getMaxValue')
-            ->will($this->returnValue($optionsValue));
-
-        $this->basePriceMock->expects($this->once())->method('applyDiscount')
-            ->with($this->equalTo($optionsValue))
-            ->will($this->returnValue($discountValue));
-
-        $this->assertSame($result, $this->finalPrice->getMaxValue());
-    }
-
-    /**
-     * @dataProvider getValueDataProvider
-     */
     public function testGetMaximalPrice($maxValue)
     {
         $result = 12;
