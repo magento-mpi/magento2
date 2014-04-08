@@ -8,5 +8,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Email/etc/email_templates.xsd">
-    <template id="contacts_email_email_template" label="Contact Form" file="submitted_form.html" type="text" module="Magento_Contacts"/>
+    <template id="contact_email_email_template" label="Contact Form" file="submitted_form.html" type="text" module="Magento_Contact"/>
 </config>

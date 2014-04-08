@@ -9,8 +9,8 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/App/etc/routes.xsd">
     <router id="standard">
-        <route id="contacts" frontName="contacts">
-            <module name="Magento_Contacts" />
+        <route id="contact" frontName="contact">
+            <module name="Magento_Contact" />
         </route>
     </router>
 </config>

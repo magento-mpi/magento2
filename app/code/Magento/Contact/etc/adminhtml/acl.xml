@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Contacts
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_Contacts::contacts" title="Contacts Section" />
+                            <resource id="Magento_Contact::contact" title="Contacts Section" />
                         </resource>
                     </resource>
                 </resource>
