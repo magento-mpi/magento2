@@ -309,30 +309,18 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
         }
 
         $this->getForm()->setDataObject($this->getAttributeObject());
-        $this->addFieldDependency('used_in_forms', 'is_visible', '1');
 
-        return $this;
-    }
-
-    /**
-     * Add field dependency
-     *
-     * @param string $dependentField
-     * @param string $mainField
-     * @param string $condition
-     * @return void
-     */
-    protected function addFieldDependency($dependentField, $mainField, $condition)
-    {
-        $form = $this->getForm();
         $htmlIdPrefix = $form->getHtmlIdPrefix();
+        /** @var \Magento\Backend\Block\Widget\Form\Element\Dependence $dependenceBlock */
+        $dependenceBlock = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Form\Element\Dependence');
         $this->setChild(
             'form_after',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Form\Element\Dependence')
-                ->addFieldMap("{$htmlIdPrefix}{$dependentField}", $dependentField)
-                ->addFieldMap("{$htmlIdPrefix}{$mainField}", $mainField)
-                ->addFieldDependence($dependentField, $mainField, $condition)
+            $dependenceBlock->addFieldMap($htmlIdPrefix . 'used_in_forms', 'used_in_forms')
+                ->addFieldMap($htmlIdPrefix . 'is_visible', 'is_visible')
+                ->addFieldDependence('used_in_forms', 'is_visible', '1')
         );
+
+        return $this;
     }
 
     /**
