@@ -37,4 +37,14 @@ interface PriceInterface
      * @return AmountInterface
      */
     public function getAmount();
+
+    /**
+     * Get Custom Amount object
+     * (specify adjustment code to exclude)
+     *
+     * @param $amount
+     * @param null $exclude
+     * @return AmountInterface
+     */
+    public function getCustomAmount($amount = null, $exclude = null);
 }

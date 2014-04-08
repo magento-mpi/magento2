@@ -81,6 +81,7 @@ class Adjustment implements AdjustmentInterface
             [
                 \Magento\Weee\Model\Tax::DISPLAY_INCL,
                 \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
+                \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL,
                 4
             ]
         );

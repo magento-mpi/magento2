@@ -20,7 +20,20 @@ use Magento\Pricing\Object\SaleableInterface;
 interface AmountRenderInterface
 {
     /**
-     * Retrieve amount html for given price, item and arguments
+     * Enforce custom display price value
+     *
+     * @param float $value
+     * @return void
+     */
+    public function setDisplayValue($value);
+
+    /**
+     * @return float
+     */
+    public function getDisplayValue();
+
+    /**
+     * Retrieve amount object
      *
      * @return AmountInterface
      */
@@ -35,4 +48,16 @@ interface AmountRenderInterface
      * @return PriceInterface
      */
     public function getPrice();
+
+    /**
+     * @param string $code
+     * @param string $html
+     * @return void
+     */
+    public function addAdjustmentHtml($code, $html);
+
+    /**
+     * @return string
+     */
+    public function getAdjustmentsHtml();
 }

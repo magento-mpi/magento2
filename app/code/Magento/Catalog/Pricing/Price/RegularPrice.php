@@ -103,6 +103,19 @@ class RegularPrice implements PriceInterface
     }
 
     /**
+     * @param $amount
+     * @param null $exclude
+     * @return AmountInterface
+     */
+    public function getCustomAmount($amount = null, $exclude = null)
+    {
+        if ($amount === null) {
+            $amount = $this->getValue();
+        }
+        return $this->calculator->getAmount($amount, $this->salableItem, $exclude);
+    }
+
+    /**
      * Get price type code
      *
      * @return string

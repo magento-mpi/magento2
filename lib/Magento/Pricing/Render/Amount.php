@@ -58,6 +58,16 @@ class Amount extends Template implements AmountRenderInterface
     protected $amount;
 
     /**
+     * @var null
+     */
+    protected $displayValue;
+
+    /**
+     * @var string[]
+     */
+    protected $adjustmentsHtml = [];
+
+    /**
      * @param Template\Context $context
      * @param AmountInterface $amount
      * @param PriceCurrencyInterface $priceCurrency
@@ -84,11 +94,24 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
+     * @param float $value
+     * @return void
+     */
+    public function setDisplayValue($value)
+    {
+        $this->displayValue = $value;
+    }
+
+    /**
      * @return float
      */
     public function getDisplayValue()
     {
-        return $this->getAmount()->getValue();
+        if ($this->displayValue !== null) {
+            return $this->displayValue;
+        } else {
+            return $this->getAmount()->getValue();
+        }
     }
 
     /**
@@ -116,18 +139,42 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
+     * @param $code
+     * @param $html
+     * @return void
+     */
+    public function addAdjustmentHtml($code, $html)
+    {
+        $this->adjustmentsHtml[$code] = $html;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAdjustmentsHtml()
+    {
+        return (bool) count($this->adjustmentsHtml);
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdjustmentsHtml()
+    {
+        return implode('', $this->adjustmentsHtml);
+    }
+
+    /**
      * @return string
      */
     protected function _toHtml()
     {
-        $html = parent::_toHtml();
-
-        // render Price Adjustment Renders if available
+        // apply Price Adjustment Renders if available
         $adjustmentRenders = $this->getApplicableAdjustmentRenders();
         if ($adjustmentRenders) {
-            $html = $this->applyAdjustments($html, $adjustmentRenders);
+            $this->applyAdjustments($adjustmentRenders);
         }
-
+        $html = parent::_toHtml();
         return $html;
     }
 
@@ -154,18 +201,16 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
-     * @param string $html
      * @param AdjustmentRenderInterface[] $adjustmentRenders
-     * @return string
+     * @return void
      */
-    protected function applyAdjustments($html, $adjustmentRenders)
+    protected function applyAdjustments($adjustmentRenders)
     {
         $this->setAdjustmentCssClasses($adjustmentRenders);
         $data = $this->getData();
         foreach ($adjustmentRenders as $adjustmentRender) {
-            $html = $adjustmentRender->render($html, $this, $data);
+            $adjustmentRender->render($this, $data);
         }
-        return $html;
     }
 
     /**

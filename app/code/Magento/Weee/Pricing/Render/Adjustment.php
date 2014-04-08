@@ -25,6 +25,11 @@ class Adjustment extends AbstractAdjustment
     protected $weeeHelper;
 
     /**
+     * @var float
+     */
+    protected $finalAmount;
+
+    /**
      * Constructor
      *
      * @param Template\Context $context
@@ -42,6 +47,24 @@ class Adjustment extends AbstractAdjustment
         parent::__construct($context, $priceCurrency, $data);
     }
 
+    protected function apply()
+    {
+        if ($this->typeOfDisplay([
+                Tax::DISPLAY_EXCL,
+                Tax::DISPLAY_EXCL_DESCR_INCL
+            ])) {
+            $this->finalAmount = $this->amountRender->getDisplayValue();
+            $this->amountRender->setDisplayValue(
+                $this->amountRender->getDisplayValue() -
+                $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
+            );
+        }
+        $html = $this->toHtml();
+        if (trim($html)) {
+            $this->amountRender->addAdjustmentHtml($this->getAdjustmentCode(), $html);
+        }
+    }
+
     /**
      * Obtain adjustment code
      *
@@ -51,6 +74,11 @@ class Adjustment extends AbstractAdjustment
     {
         //@TODO We can build two model using DI, not code. What about passing it in constructor?
         return \Magento\Weee\Pricing\Adjustment::CODE;
+    }
+
+    public function getFinalAmount()
+    {
+        return $this->finalAmount;
     }
 
     /**

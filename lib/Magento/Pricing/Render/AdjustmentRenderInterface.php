@@ -19,12 +19,11 @@ use Magento\Pricing\Object\SaleableInterface;
 interface AdjustmentRenderInterface
 {
     /**
-     * @param string $html
      * @param AmountRenderInterface $amountRender
      * @param array $arguments
      * @return string
      */
-    public function render($html, AmountRenderInterface $amountRender, array $arguments = []);
+    public function render(AmountRenderInterface $amountRender, array $arguments = []);
 
     /**
      * @return string
@@ -32,16 +31,16 @@ interface AdjustmentRenderInterface
     public function getAdjustmentCode();
 
     /**
-     * (to use in templates only)
-     *
-     * @return string
-     */
-    public function getOriginalPriceHtml();
-
-    /**
      * @return array
      */
     public function getData();
+
+    /**
+     * (to use in templates only)
+     *
+     * @return AmountRenderInterface
+     */
+    public function getAmountRender();
 
     /**
      * (to use in templates only)

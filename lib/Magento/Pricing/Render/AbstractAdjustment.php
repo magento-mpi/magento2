@@ -33,11 +33,6 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     protected $amountRender;
 
     /**
-     * @var Template
-     */
-    protected $originalHtmlOutput;
-
-    /**
      * @param Template\Context $context
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
@@ -52,27 +47,29 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     }
 
     /**
-     * @param string $html html given to process by renderer
      * @param AmountRenderInterface $amountRender
      * @param array $arguments
-     * @return string
+     * @return void
      */
-    public function render($html, AmountRenderInterface $amountRender, array $arguments = [])
+    public function render(AmountRenderInterface $amountRender, array $arguments = [])
     {
-        $this->originalHtmlOutput = $html;
         $this->amountRender = $amountRender;
-
-        //@todo probably use block vars instead
 
         $origArguments = $this->getData();
         $this->setData(array_replace($origArguments, $arguments));
 
-        $html = $this->toHtml();
+        $this->apply();
 
         // restore original block arguments
         $this->setData($origArguments);
+    }
 
-        return $html;
+    /**
+     * @return AmountRenderInterface
+     */
+    public function getAmountRender()
+    {
+        return $this->amountRender;
     }
 
     /**
@@ -101,16 +98,6 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     }
 
     /**
-     * (to use in templates only)
-     *
-     * @return string
-     */
-    public function getOriginalPriceHtml()
-    {
-        return $this->originalHtmlOutput;
-    }
-
-    /**
      * Convert and format price value
      *
      * @param float $amount
@@ -133,4 +120,9 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     {
         return $this->getSaleableItem()->getPriceInfo()->getAdjustment($this->getAdjustmentCode());
     }
+
+    /**
+     * @return void
+     */
+    abstract protected function apply();
 }

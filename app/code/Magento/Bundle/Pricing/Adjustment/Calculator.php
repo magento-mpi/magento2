@@ -56,30 +56,33 @@ class Calculator implements BundleCalculatorInterface
     /**
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @param null $exclude
+     * @return \Magento\Pricing\Amount\AmountInterface|mixed
      */
-    public function getAmount($amount, SaleableInterface $saleableItem)
+    public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null)
     {
-        return $this->getOptionsAmount($amount, $saleableItem, true);
+        return $this->getOptionsAmount($amount, $saleableItem, $exclude, true);
     }
 
     /**
-     * @param $amount
+     * @param float|string $amount
      * @param SaleableInterface $saleableItem
+     * @param null $exclude
      * @return \Magento\Pricing\Amount\AmountInterface
      */
-    public function getMaxAmount($amount, SaleableInterface $saleableItem)
+    public function getMaxAmount($amount, SaleableInterface $saleableItem, $exclude = null)
     {
-        return $this->getOptionsAmount($amount, $saleableItem, false);
+        return $this->getOptionsAmount($amount, $saleableItem, $exclude, false);
     }
 
     /**
-     * @param float $amount
+     * @param float|string $amount
      * @param SaleableInterface $saleableItem
+     * @param null $exclude
      * @param bool $searchMin
      * @return \Magento\Pricing\Amount\AmountInterface
      */
-    protected function getOptionsAmount($amount, SaleableInterface $saleableItem, $searchMin = true)
+    protected function getOptionsAmount($amount, SaleableInterface $saleableItem, $exclude = null, $searchMin = true)
     {
         $fullAmount = 0.;
         $adjustments = [];
@@ -111,6 +114,11 @@ class Calculator implements BundleCalculatorInterface
         foreach ($amountList as $itemAmount) {
             $fullAmount += $itemAmount->getValue();
             foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
+                if ($exclude !== null) {
+                    if ($exclude === $code) {
+                        continue;
+                    }
+                }
                 if (isset($adjustments[$code])) {
                     $adjustments[$code] += $adjustment;
                 } else {

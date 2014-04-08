@@ -11,24 +11,11 @@
 
 <?php /** @var \Magento\Tax\Pricing\Render\Adjustment $this */ ?>
 
-<?php if ($this->getDisplayLabel()): ?>
-    <span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
-<?php endif; ?>
 <?php if ($this->displayBothPrices()): ?>
-    <span class="price-excluding-tax">
-        <span class="label"><?php echo __('Excl. Tax:') ?></span>
-        <span class="price" id="<?php echo $this->buildIdWithPrefix('price-excluding-tax-') ?>">
-            <?php echo $this->getDisplayAmountExclTax() ?>
-        </span>
-    </span>
     <span class="price-including-tax">
         <span class="label"><?php echo __('Incl. Tax:') ?></span>
         <span class="price" id="<?php echo $this->buildIdWithPrefix('price-including-tax-') ?>">
             <?php echo $this->getDisplayAmount(false) ?>
         </span>
-    </span>
-<?php else: ?>
-    <span class="regular-price" id="<?php echo $this->buildIdWithPrefix('product-price-') ?>">
-        <?php echo $this->getDisplayAmount() ?>
     </span>
 <?php endif; ?>

@@ -36,7 +36,7 @@ if (isset($_GET['showmeprice'])) {
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel->getAmount(), [
             'display_label'     => __('Regular Price:'),
-            'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
+            'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('old-price-' . $id),
             'include_container' => true,
             'skip_adjustments'  => true
         ]); ?>
@@ -44,13 +44,13 @@ if (isset($_GET['showmeprice'])) {
     <p class="special-price">
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('Special Price:'),
-            'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
+            'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('old-price-' . $id),
             'include_container' => false
         ]); ?>
     </p>
 <?php else: ?>
     <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
-        'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'regular-price-' . $id,
+        'price_id'          => $this->getPriceId() ? $this->getPriceId() : ($id),
         'include_container' => true
     ]); ?>
 <?php endif; ?>

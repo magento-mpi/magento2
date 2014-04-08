@@ -41,6 +41,31 @@ class Adjustment extends AbstractAdjustment
         parent::__construct($context, $priceCurrency, $data);
     }
 
+    protected function apply()
+    {
+        $html = $this->toHtml();
+        if ($this->displayBothPrices()) {
+            if ($this->getZone() !== \Magento\Pricing\Render::ZONE_ITEM_OPTION) {
+                $this->amountRender->setPriceDisplayLabel(__('Excl. Tax:'));
+            }
+            $this->amountRender->setPriceId(
+                $this->buildIdWithPrefix('price-excluding-tax-')
+            );
+            $this->amountRender->setDisplayValue(
+                $this->amountRender->getDisplayValue() -
+                $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
+            );
+        } else if ($this->displayPriceExcludingTax()) {
+            $this->amountRender->setDisplayValue(
+                $this->amountRender->getDisplayValue() -
+                $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
+            );
+        }
+        if (trim($html)) {
+            $this->amountRender->addAdjustmentHtml($this->getAdjustmentCode(), $html);
+        }
+    }
+
     /**
      * Obtain code of adjustment type
      *

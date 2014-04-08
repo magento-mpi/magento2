@@ -72,12 +72,16 @@
         },
         _getOptionPrices: function() {
             var price = 0,
-                oldPrice = 0;
+                oldPrice = 0,
+                    inclTaxPrice = 0,
+                        exclTaxPrice = 0;
             $.each(this.options.prices, function(key, pair) {
                 price += parseFloat(pair.price);
                 oldPrice += parseFloat(pair.oldPrice);
+                inclTaxPrice += parseFloat(pair.inclTaxPrice);
+                exclTaxPrice += parseFloat(pair.exclTaxPrice);
             });
-            var result = [price, oldPrice];
+            var result = [price, oldPrice, inclTaxPrice, exclTaxPrice];
             return result;
         },
         reloadPrice: function() {
@@ -180,16 +184,19 @@
                         var price = 0;
                         if (value.indexOf('price-including-tax-') >= 0) {
                             price = updatedPrice.priceInclTax;
+                            price = price + getOptionPrices[2];
                         } else if (value.indexOf('price-excluding-tax-') >= 0) {
                             price = updatedPrice.priceExclTax;
+                            price = price + getOptionPrices[3];
                         } else if (value.indexOf('old-price-') >= 0) {
                             price = updatedPrice.productOldPrice;
+                            price = price + getOptionPrices[1];
                         } else {
                             price = this.options.priceConfig.showIncludeTax ?
                                 updatedPrice.priceInclTax : updatedPrice.priceExclTax;
                         }
 
-                        price = price + getOptionPrices[0];
+
                         var priceHtml = $.tmpl(this.options.priceTemplate, {'formattedPrice': this._formatCurrency(price, this.options.priceConfig.priceFormat)});
                         priceElement.html(priceHtml[0].outerHTML);
                         // If clone exists, update clone price as well

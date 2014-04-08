@@ -190,8 +190,10 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
                 $canApplyMAP = false;
 
-                $_priceInclTax = $this->_taxData->getPrice($_selection, $itemPrice, true);
-                $_priceExclTax = $this->_taxData->getPrice($_selection, $itemPrice);
+                $_priceInclTax = $currentProduct->getPriceInfo()->getPrice('bundle_option')
+                    ->getOptionSelectionAmount($_selection)->getValue();
+                $_priceExclTax = $currentProduct->getPriceInfo()->getPrice('bundle_option')
+                    ->getOptionSelectionAmount($_selection)->getBaseAmount();
 
                 if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
                     $_priceInclTax = $this->_taxData->getPrice($currentProduct, $itemPrice, true);

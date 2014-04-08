@@ -210,7 +210,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     }
 
     /**
-     * @param mixed $_selection
+     * @param \Magento\Catalog\Model\Product $_selection
      * @param bool $includeContainer
      * @return string
      */
@@ -330,7 +330,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     /**
      * Format price string
      *
-     * @param \Magento\Bundle\Model\Selection $selection
+     * @param \Magento\Catalog\Model\Product $selection
      * @param bool $includeContainer
      * @return string
      */
@@ -343,7 +343,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         $priceHtml = $this->getLayout()->getBlock('product.price.render.default')->renderAmount(
             $amount,
             $price,
-            $this->getProduct(),
+            $selection,
             [
                 'include_container' => $includeContainer
             ]
