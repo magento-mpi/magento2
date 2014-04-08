@@ -10,7 +10,6 @@
 namespace Magento\Store\Model\Storage;
 
 use Magento\App\State;
-use Magento\Profiler;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\Group;
 use Magento\Store\Model\Group\Factory;
@@ -173,42 +172,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
             );
         }
         return $this->_store;
-    }
-
-    /**
-     * Initialize currently ran store
-     *
-     * @return void
-     * @throws StoreException
-     */
-    public function initCurrentStore()
-    {
-        Profiler::start('init_stores');
-        $this->_initStores();
-        Profiler::stop('init_stores');
-
-        if (empty($this->_scopeCode) && false == is_null($this->_website)) {
-            $this->_scopeCode = $this->_website->getCode();
-            $this->_scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE;
-        }
-        switch ($this->_scopeType) {
-            case \Magento\Store\Model\ScopeInterface::SCOPE_STORE:
-                $this->_currentStore = $this->_scopeCode;
-                break;
-            case \Magento\Store\Model\ScopeInterface::SCOPE_GROUP:
-                $this->_currentStore = $this->_getStoreByGroup($this->_scopeCode);
-                break;
-            case \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE:
-                $this->_currentStore = $this->_getStoreByWebsite($this->_scopeCode);
-                break;
-            default:
-                $this->throwStoreException();
-        }
-
-        if (!empty($this->_currentStore)) {
-            $this->_checkCookieStore($this->_scopeType);
-            $this->_checkGetStore($this->_scopeType);
-        }
     }
 
     /**

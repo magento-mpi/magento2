@@ -651,7 +651,7 @@ return array(
     array('init', 'Magento\Webapi\Controller\Front'),
     array('initCache'),
     array('initControllerRouters', 'Magento\Cms\Controller\Router'),
-    array('initCurrentStore', 'Magento\Core\Model\Store\Storage\Db',
+    array('initCurrentStore', 'Magento\Store\Model\Storage\Db',
         'Magento\Store\Model\StorageFactory::_reinitStores'),
     array('initLabels', 'Magento\Catalog\Model\Resource\Eav\Attribute'),
     array('initLayoutMessages', 'Magento\App\Action\Action'),
