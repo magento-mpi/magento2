@@ -9,7 +9,6 @@
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Bundle\Pricing\Adjustment\Calculator;
 use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Model\Product\Price;
@@ -17,7 +16,7 @@ use Magento\Catalog\Pricing\Price\FinalPriceInterface;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 
 /**
- * Class OptionPrice
+ * Bundle option price
  */
 class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSelectionPriceInterface
 {
@@ -67,8 +66,7 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
         }
 
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
-            $value = $this->salableItem
-                ->getPriceInfo()
+            $value = $this->priceInfo
                 ->getPrice(FinalPriceInterface::PRICE_TYPE_FINAL, $this->quantity)
                 ->getValue();
         } else {

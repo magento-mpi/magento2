@@ -46,11 +46,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     {
         $this->saleableInterfaceMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
         $this->bundleCalculatorMock = $this->getMock('Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface');
-        $this->bundleOptionMock = $this->getMock('Magento\Bundle\Pricing\Price\BundleOptionPrice', [], [], '', false);
-        $this->basePriceMock = $this->getMock('Magento\Bundle\Pricing\Price\BasePrice', [], [], '', false);
-        $this->basePriceMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue($this->baseAmount));
 
         $this->priceInfoMock = $this->getMock('\Magento\Pricing\PriceInfoInterface');
         $this->priceInfoMock->expects($this->atLeastOnce())
@@ -73,15 +68,26 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $priceType
+     * @param string $priceType
      * @return BasePrice|BundleOptionPrice|\PHPUnit_Framework_MockObject_MockObject
      */
     public function getPriceCallback($priceType)
     {
         switch ($priceType) {
             case \Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE:
+                $this->basePriceMock = $this->getMock('Magento\Bundle\Pricing\Price\BasePrice', [], [], '', false);
+                $this->basePriceMock->expects($this->any())
+                    ->method('getValue')
+                    ->will($this->returnValue($this->baseAmount));
                 return $this->basePriceMock;
             case BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION:
+                $this->bundleOptionMock = $this->getMock(
+                    'Magento\Bundle\Pricing\Price\BundleOptionPrice',
+                    [],
+                    [],
+                    '',
+                    false
+                );
                 return $this->bundleOptionMock;
             default:
                 break;
