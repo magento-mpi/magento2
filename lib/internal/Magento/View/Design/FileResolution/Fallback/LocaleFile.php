@@ -83,11 +83,12 @@ class LocaleFile
     {
         $params = array('area' => $area, 'theme' => $themeModel, 'locale' => $locale);
         $path = $this->cache->getFromCache('locale', $file, $params);
-        if ($path) {
-            $path = $this->rootDirectory->getAbsolutePath($path);
+        if (false !== $path) {
+            $path = $path ? $this->rootDirectory->getAbsolutePath($path) : false;
         } else {
             $path = $this->resolver->resolveFile($this->rootDirectory, $this->getRule(), $file, $params);
-            $this->cache->saveToCache($this->rootDirectory->getRelativePath($path), 'locale', $file, $params);
+            $cachedValue = $path ? $this->rootDirectory->getRelativePath($path) : '';
+            $this->cache->saveToCache($cachedValue, 'locale', $file, $params);
         }
         return $path;
     }

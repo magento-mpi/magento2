@@ -86,11 +86,12 @@ class File
             list($params['namespace'], $params['module']) = explode('_', $module, 2);
         }
         $path = $this->cache->getFromCache('file', $file, $params);
-        if ($path) {
-            $path = $this->rootDirectory->getAbsolutePath($path);
+        if (false !== $path) {
+            $path = $path ? $this->rootDirectory->getAbsolutePath($path) : false;
         } else {
             $path = $this->resolver->resolveFile($this->rootDirectory, $this->getRule(), $file, $params);
-            $this->cache->saveToCache($this->rootDirectory->getRelativePath($path), 'file', $file, $params);
+            $cachedValue = $path ? $this->rootDirectory->getRelativePath($path) : '';
+            $this->cache->saveToCache($cachedValue, 'file', $file, $params);
         }
         return $path;
     }

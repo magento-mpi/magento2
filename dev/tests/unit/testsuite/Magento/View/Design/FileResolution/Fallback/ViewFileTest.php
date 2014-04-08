@@ -140,6 +140,9 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($expectedFileName));
 
         $this->cache->expects($this->once())
+            ->method('getFromCache')
+            ->will($this->returnValue(false));
+        $this->cache->expects($this->once())
             ->method('saveToCache')
             ->with($expectedFileName, 'view', $requestedFile, $params)
             ->will($this->returnValue(true));
@@ -210,6 +213,9 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
         $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => 'Namespace', 'module' => 'Module',
             'locale' => 'locale');
 
+        $this->cache->expects($this->once())
+            ->method('getFromCache')
+            ->will($this->returnValue(false));
         $this->resolver->expects($this->at(0))
             ->method('resolveFile')
             ->with($this->directoryMock, $this->rule, $requestedCssFile, $params)

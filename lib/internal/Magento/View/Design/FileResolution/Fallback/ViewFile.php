@@ -106,15 +106,16 @@ class ViewFile
             list($params['namespace'], $params['module']) = explode('_', $module, 2);
         }
         $path = $this->cache->getFromCache('view', $file, $params);
-        if ($path) {
-            $path = $this->rootDirectory->getAbsolutePath($path);
+        if (false !== $path) {
+            $path = $path ? $this->rootDirectory->getAbsolutePath($path) : false;
         } else {
             $rule = $this->getRule();
             $path = $this->resolver->resolveFile($this->rootDirectory, $rule, $file, $params);
             if (!$path) {
                 $path = $this->lookupAdditionalExtensions($rule, $file, $params);
             }
-            $this->cache->saveToCache($this->rootDirectory->getRelativePath($path), 'view', $file, $params);
+            $cachedValue = $path ? $this->rootDirectory->getRelativePath($path) : '';
+            $this->cache->saveToCache($cachedValue, 'view', $file, $params);
         }
         return $path;
     }

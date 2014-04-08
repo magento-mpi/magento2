@@ -110,6 +110,9 @@ class LocaleFileTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($expectedFileName));
 
         $this->cache->expects($this->once())
+            ->method('getFromCache')
+            ->will($this->returnValue(false));
+        $this->cache->expects($this->once())
             ->method('saveToCache')
             ->with($expectedFileName, 'locale', $requestedFile, $params)
             ->will($this->returnValue(true));

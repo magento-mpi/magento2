@@ -108,6 +108,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ->with($this->directoryMock, $this->rule, $requestedFile, $params)
             ->will($this->returnValue($expectedFileName));
 
+        $this->cache->expects($this->any())
+            ->method('getFromCache')
+            ->will($this->returnValue(false));
         $this->cache->expects($this->once())
             ->method('saveToCache')
             ->with($expectedFileName, 'file', $requestedFile, $params)
