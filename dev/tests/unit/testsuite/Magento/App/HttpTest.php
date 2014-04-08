@@ -53,9 +53,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_requestMock = $this->getMockBuilder('Magento\App\Request\Http')->disableOriginalConstructor()->setMethods(
-            ['getFrontName']
-        )->getMock();
+        $this->_requestMock = $this->getMockBuilder(
+            'Magento\App\Request\Http'
+        )->disableOriginalConstructor()->setMethods(['getFrontName'])->getMock();
         $frontName = 'frontName';
         $this->_requestMock->expects($this->once())->method('getFrontName')->will($this->returnValue($frontName));
         $areaCode = 'areaCode';
@@ -132,8 +132,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testLaunchDispatchException()
     {
         $this->_frontControllerMock->expects($this->once())->method('dispatch')->with($this->_requestMock)->will(
-            $this->returnCallback(function()
-                {
+            $this->returnCallback(
+                function () {
                     throw new \Exception('Message');
                 }
             )

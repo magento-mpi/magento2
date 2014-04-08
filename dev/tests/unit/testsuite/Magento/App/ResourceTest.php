@@ -176,7 +176,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     private function setConnection()
     {
         $connectionSetter = \Closure::bind(
-            function(\Magento\App\Resource $resource, $connection, $connectionName) {
+            function (\Magento\App\Resource $resource, $connection, $connectionName) {
                 $resource->_connections[$connectionName] = $connection;
             }, null, 'Magento\App\Resource'
         );
