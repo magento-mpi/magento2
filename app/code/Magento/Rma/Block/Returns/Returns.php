@@ -66,9 +66,9 @@ class Returns extends \Magento\View\Element\Template
         $this->_coreRegistry = $registry;
         $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $data);
-        $this->_isScopePrivate = true;
         $this->httpContext = $httpContext;
+        $this->_isScopePrivate = true;
+        parent::__construct($context, $data);
     }
 
     /**
