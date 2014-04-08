@@ -271,7 +271,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $beforeForwardInfo = $this->_initForward();
         $this->assertNull($this->_model->getBeforeForwardInfo('not_existing_forward_info_key'));
-        foreach ($beforeForwardInfo as $key => $value) {
+        foreach (array_keys($beforeForwardInfo) as $key) {
             $this->assertEquals($beforeForwardInfo[$key], $this->_model->getBeforeForwardInfo($key));
         }
         $this->assertEquals($beforeForwardInfo, $this->_model->getBeforeForwardInfo());

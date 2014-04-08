@@ -9,6 +9,10 @@ namespace Magento;
 
 use Magento\TestFramework\Matcher\MethodInvokedAtIndex;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
+ */
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Translate */
