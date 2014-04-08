@@ -45,6 +45,15 @@ class BookTest extends \PHPUnit_Framework_TestCase
             );
     }
 
+    protected function tearDown()
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        // Cleanup customer from registry
+        $customerRegistry->remove(1);
+    }
+
     public function testGetAddressEditUrl()
     {
         $this->assertEquals(

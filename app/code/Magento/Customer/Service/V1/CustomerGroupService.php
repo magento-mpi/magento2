@@ -13,6 +13,7 @@ use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
+use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
@@ -59,6 +60,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_taxClassModelFactory;
 
     /**
+     * @var GroupRegistry
+     */
+    private $_groupRegistry;
+
+    /**
      * The default tax class id if no tax class id is specified
      */
     const DEFAULT_TAX_CLASS_ID = 3;
@@ -70,6 +76,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      * @param TaxClassModelFactory $taxClassModel
+     * @param GroupRegistry $groupRegistry
      */
     public function __construct(
         GroupFactory $groupFactory,
@@ -77,7 +84,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         StoreManagerInterface $storeManager,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
-        TaxClassModelFactory $taxClassModelFactory
+        TaxClassModelFactory $taxClassModelFactory,
+        GroupRegistry $groupRegistry
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_storeConfig = $storeConfig;
@@ -85,6 +93,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
         $this->_taxClassModelFactory = $taxClassModelFactory;
+        $this->_groupRegistry = $groupRegistry;
     }
 
     /**
@@ -230,12 +239,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function getGroup($groupId)
     {
-        $customerGroup = $this->_groupFactory->create();
-        $customerGroup->load($groupId);
-        // Throw exception if a customer group does not exist
-        if (is_null($customerGroup->getId())) {
-            throw new NoSuchEntityException('groupId', $groupId);
-        }
+        $customerGroup = $this->_groupRegistry->retrieve($groupId);
         $this->_customerGroupBuilder->setId($customerGroup->getId())
             ->setCode($customerGroup->getCode())
             ->setTaxClassId($customerGroup->getTaxClassId());
@@ -267,14 +271,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function canDelete($groupId)
     {
-        $customerGroup = $this->_groupFactory->create();
-        $customerGroup->load($groupId);
-
-        // Throw exception if a customer group does not exist
-        if (is_null($customerGroup->getId())) {
-            throw new NoSuchEntityException('groupId', $groupId);
-        }
-
+        $customerGroup = $this->_groupRegistry->retrieve($groupId);
         return $groupId > 0 && !$customerGroup->usesAsDefault();
     }
 
@@ -287,15 +284,16 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             throw InputException::create(InputException::INVALID_FIELD_VALUE, 'code', $group->getCode());
         }
 
-        $customerGroup = $this->_groupFactory->create();
-        if ($group->getId()) {
-            $customerGroup->load($group->getId());
+        $customerGroup = null;
 
-            // Throw exception if the customer group does not exist
-            if (is_null($customerGroup->getId())) {
-                throw new NoSuchEntityException('id', $group->getId());
-            }
+        if ($group->getId()) {
+            $customerGroup = $this->_groupRegistry->retrieve($group->getId());
         }
+
+        if (!$customerGroup) {
+            $customerGroup = $this->_groupFactory->create();
+        }
+
         $customerGroup->setCode($group->getCode());
 
         $taxClassId = $group->getTaxClassId();
@@ -356,6 +354,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup = $this->_groupFactory->create();
         $customerGroup->setId($groupId);
         $customerGroup->delete();
+        $this->_groupRegistry->remove($groupId);
         return true;
     }
 }

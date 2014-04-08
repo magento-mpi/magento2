@@ -101,6 +101,14 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_expectedAddresses = array($address, $address2);
     }
 
+    protected function tearDown()
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Customer\Model\AddressRegistry $addressRegistry */
+        $customerRegistry = $objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        $customerRegistry->remove(1);
+    }
+
     /**
      * @magentoDataFixture  Magento/Customer/_files/customer.php
      * @magentoDataFixture  Magento/Customer/_files/customer_address.php
@@ -465,10 +473,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_service->saveAddresses(4200, array($proposedAddress));
             $this->fail('Expected exception not thrown');
-        } catch (NoSuchEntityException $nsee) {
-            $expectedParams = array('customerId' => '4200');
-            $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = 4200', $nsee->getMessage());
+        } catch (NoSuchEntityException $e) {
+            $expectedParams = [
+                'customerId' => '4200',
+            ];
+            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('No such entity with customerId = 4200', $e->getMessage());
         }
     }
 
@@ -478,10 +488,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_service->saveAddresses('this_is_not_a_valid_id', array($proposedAddress));
             $this->fail('Expected exception not thrown');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = array('customerId' => 'this_is_not_a_valid_id');
-            $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $nsee->getMessage());
+            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $e->getMessage());
         }
     }
 

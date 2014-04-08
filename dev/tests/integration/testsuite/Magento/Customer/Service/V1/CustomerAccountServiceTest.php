@@ -93,6 +93,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Clean up shared dependencies
+     */
+    protected function tearDown()
+    {
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $this->_objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
+    }
+
+    /**
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
@@ -216,11 +227,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_customerAccountService->activateCustomer('1234' . $customerModel->getId(), $key);
             $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'customerId' => '12341',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals($expectedParams, $e->getParams());
         }
     }
 
@@ -299,11 +310,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_customerAccountService->validateResetPasswordLinkToken(4200, $resetToken);
             $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'customerId' => '4200',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals($expectedParams, $e->getParams());
         }
     }
 
@@ -351,12 +362,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->initiatePasswordReset($email, 0,
                 CustomerAccountServiceInterface::EMAIL_RESET);
             $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'email' => $email,
                 'websiteId' => 0,
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals($expectedParams, $e->getParams());
         }
     }
 
@@ -427,11 +438,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_customerAccountService->resetPassword(4200, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'customerId' => '4200',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals($expectedParams, $e->getParams());
         }
     }
 
@@ -481,12 +492,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_customerAccountService->resendConfirmation('customer@needAconfirmation.com', 'notAWebsiteId');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'email' => 'customer@needAconfirmation.com',
                 'websiteId' => 'notAWebsiteId',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals($expectedParams, $e->getParams());
         }
     }
 
@@ -498,12 +509,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_customerAccountService->resendConfirmation('wrongemail@example.com', 1);
             $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'email' => 'wrongemail@example.com',
                 'websiteId' => '1',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals($expectedParams, $e->getParams());
         }
     }
 
@@ -1081,12 +1092,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
             $this->_customerAccountService->getCustomer(1);
             $this->fail('Did not throw expected exception.');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'customerId' => '1',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = 1', $nsee->getMessage());
+            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('No such entity with customerId = 1', $e->getMessage());
         }
     }
 
@@ -1320,7 +1331,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEmailAvailableNoWebsiteSpecified()
     {
-        $this->_customerAccountService->isEmailAvailable('customer@example.com', null);
+        $this->assertTrue($this->_customerAccountService->isEmailAvailable('customer@example.com', null));
     }
 
     public function testIsEmailAvailableNonExistentEmail()
