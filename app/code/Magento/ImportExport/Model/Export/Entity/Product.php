@@ -317,7 +317,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                 throw new \Magento\Model\Exception(
                     __(
                         'Entity type model must be an instance of'
-                            . ' \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType'
+                        . ' \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType'
                     )
                 );
             }
@@ -1161,10 +1161,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     {
         foreach ($this->getAttributeCollection() as $attribute) {
             $this->_attributeValues[$attribute->getAttributeCode()] = $this->getAttributeOptions($attribute);
-            $this->_attributeTypes[$attribute
-                ->getAttributeCode()] = \Magento\ImportExport\Model\Import::getAttributeType(
-                $attribute
-            );
+            $this->_attributeTypes[$attribute->getAttributeCode()] =
+                \Magento\ImportExport\Model\Import::getAttributeType($attribute);
         }
         return $this;
     }
