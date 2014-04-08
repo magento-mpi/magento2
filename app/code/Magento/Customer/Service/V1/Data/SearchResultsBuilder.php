@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Customer\Service\V1\Data;
+
 use Magento\Service\V1\Data\SearchCriteria;
 
 /**
