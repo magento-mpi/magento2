@@ -16,11 +16,6 @@ use Magento\Customer\Model\Group;
 class TierPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var TierPrice
-     */
-    protected $object;
-
-    /**
      * Test customer group
      *
      * @var int

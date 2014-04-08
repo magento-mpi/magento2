@@ -8,6 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+    <move element="product.price.final" destination="product.info.form.options" before="product.info.giftcard"/>
+
     <referenceBlock name="catalog.product.related">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">giftcard</argument>

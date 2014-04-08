@@ -8,19 +8,14 @@
  * @license     {license_link}
  */
 
-
-/**
- * Catalog products compare block
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Block\Product\Compare;
 
 use Magento\App\Action\Action;
 use Magento\Catalog\Model\Product;
 
+/**
+ * Catalog products compare block
+ */
 class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 {
     /**
@@ -257,7 +252,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      * Render price block
      *
      * @param Product $product
-     * @param string|null $priceId
+     * @param string|null $idSuffix
      * @return string
      */
     public function getProductPrice(\Magento\Catalog\Model\Product $product, $idSuffix = '')

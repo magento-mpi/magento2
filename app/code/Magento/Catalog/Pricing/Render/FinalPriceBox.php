@@ -109,10 +109,10 @@ class FinalPriceBox extends BasePriceBox
     {
         /** @var Price\FinalPrice $finalPrice */
         $finalPrice = $this->getPriceType(Price\FinalPriceInterface::PRICE_TYPE_FINAL);
-        $finalPriceAmount = $finalPrice->getAmount()->getValue();
-        $minimalPriceAmount = $finalPrice->getMinimalPrice()->getValue();
+        $finalPriceValue = $finalPrice->getAmount()->getValue();
+        $minimalPriceAValue = $finalPrice->getMinimalPrice()->getValue();
         return $this->getDisplayMinimalPrice()
-            && $minimalPriceAmount
-            && $minimalPriceAmount < $finalPriceAmount;
+        && $minimalPriceAValue
+        && $minimalPriceAValue < $finalPriceValue;
     }
 }
