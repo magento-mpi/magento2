@@ -1,0 +1,19 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo $this->getHeaderText() ?></span>
+        <div class="actions"><?php echo $this->getButtonsHtml() ?></div>
+    </div>
+
+    <?php echo $this->getChildHtml('', true) ?>
+</div>

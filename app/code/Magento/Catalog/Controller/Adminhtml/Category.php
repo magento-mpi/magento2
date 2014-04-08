@@ -99,7 +99,7 @@ class Category extends \Magento\Backend\App\Action
         $parentId = (int)$this->getRequest()->getParam('parent');
         $prevStoreId = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getLastViewedStore(true);
 
-        if (!empty($prevStoreId) && !$this->getRequest()->getQuery('isAjax')) {
+        if (!is_null($prevStoreId) && !$this->getRequest()->getQuery('isAjax')) {
             $params['store'] = $prevStoreId;
             $redirect = true;
         }

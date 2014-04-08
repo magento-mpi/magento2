@@ -16,12 +16,6 @@
 
 <div class="cms-hierarchy">
 
-    <?php if ($this->getStoreSwitcherHtml()): ?>
-    <fieldset class="fieldset fieldset-switcher">
-        <?php echo $this->getStoreSwitcherHtml() ?>
-    </fieldset>
-    <?php endif; ?>
-
     <?php echo $this->getParentBlock()->getChildHtml('hierarchy_manage') ?>
 
     <div class="cms-hierarchy-tree">

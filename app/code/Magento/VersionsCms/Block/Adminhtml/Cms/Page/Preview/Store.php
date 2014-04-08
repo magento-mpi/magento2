@@ -15,6 +15,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
  * @category   Magento
  * @package    Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated
  */
 class Store extends \Magento\Backend\Block\Store\Switcher
 {

@@ -11,6 +11,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Scope;
 
 /**
  * Store switcher block
+ * @deprecated
  */
 class Switcher extends \Magento\Backend\Block\System\Config\Switcher
 {
