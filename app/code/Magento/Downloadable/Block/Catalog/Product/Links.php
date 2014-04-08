@@ -167,8 +167,21 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         $config = array();
 
+        $priceModel = $this->getProduct()->getPriceInfo()->getPrice('final_price');
+
         foreach ($this->getLinks() as $link) {
-            $config[$link->getId()] = $this->coreData->currency($link->getPrice(), false, false);
+            $amount = $priceModel->getCustomAmount($link->getPrice());
+            $config[$link->getId()] = [
+                'price' => $this->coreData->currency($link->getPrice(), false, false),
+                'inclTaxPrice' => $this->coreData->currency(
+                    $amount->getValue(),
+                    false,
+                    false),
+                'exclTaxPrice' => $this->coreData->currency(
+                    $amount->getValue(),
+                    false,
+                    false)
+            ];
         }
 
         return $this->jsonEncoder->encode($config);
