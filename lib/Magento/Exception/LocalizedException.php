@@ -40,16 +40,6 @@ class LocalizedException extends \Exception
     }
 
     /**
-     * Returns the parameters detailing specifics of this Exception
-     *
-     * @return array
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
      * Get the un-processed message, without the parameters filled in
      *
      * @return string
