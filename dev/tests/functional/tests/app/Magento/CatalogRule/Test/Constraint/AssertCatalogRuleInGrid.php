@@ -35,10 +35,9 @@ class AssertCatalogRuleInGrid extends AbstractConstraint
      */
     public function processAssert(Fixture\CatalogRule $catalogRule, Page\CatalogRule $catalogRuleInGrid)
     {
-        $filter = ['name' => $catalogRule->getName()];
         $catalogRuleInGrid->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogRuleInGrid->getCatalogPriceRuleGridBlock()->isRuleVisible($filter),
+            $catalogRuleInGrid->getCatalogPriceRuleGridBlock()->isRuleVisible($catalogRule->getName()),
             'Product with sku \'' . $catalogRule->getName() . '\' is absent in Products grid.'
         );
     }
