@@ -43,14 +43,20 @@ class Calculator implements CalculatorInterface
         $adjustments = [];
         foreach ($saleableItem->getPriceInfo()->getAdjustments() as $adjustment) {
             $code = $adjustment->getAdjustmentCode();
+            $toExclude = false;
             if ($exclude !== null && $code === $exclude) {
-                continue;
+                $toExclude = true;
             }
             if ($adjustment->isIncludedInBasePrice()) {
                 $adjust = $adjustment->extractAdjustment($baseAmount, $saleableItem);
                 $baseAmount -= $adjust;
-                $adjustments[$code] = $adjust;
+                if (!$toExclude) {
+                    $adjustments[$code] = $adjust;
+                }
             } elseif ($adjustment->isIncludedInDisplayPrice($saleableItem)) {
+                if ($toExclude) {
+                    continue;
+                }
                 $newAmount = $adjustment->applyAdjustment($fullAmount, $saleableItem);
                 $adjust = $newAmount - $fullAmount;
                 $adjustments[$code] = $adjust;
