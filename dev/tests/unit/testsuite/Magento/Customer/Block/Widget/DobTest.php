@@ -89,10 +89,10 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_metadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue($this->_attribute)
-        );
+                'getCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue($this->_attribute)
+            );
 
         date_default_timezone_set('America/Los_Angeles');
 
@@ -128,10 +128,14 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_metadataService->expects(
             $this->any()
         )->method(
-            'getAttributeMetadata'
-        )->will(
-            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
-        );
+                'getAttributeMetadata'
+            )->will(
+                $this->throwException(new NoSuchEntityException(
+                        'No such entity with %fieldName = $value',
+                        ['fieldName' => 'field', 'value' => 'value']
+                    )
+                )
+            );
         $this->assertSame(false, $this->_block->isEnabled());
     }
 
@@ -152,10 +156,14 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_metadataService->expects(
             $this->any()
         )->method(
-            'getAttributeMetadata'
-        )->will(
-            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
-        );
+                'getAttributeMetadata'
+            )->will(
+                $this->throwException(new NoSuchEntityException(
+                        'No such entity with %fieldName = $value',
+                        ['fieldName' => 'field', 'value' => 'value']
+                    )
+                )
+            );
         $this->assertSame(false, $this->_block->isRequired());
     }
 
@@ -282,10 +290,10 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_attribute->expects(
             $this->once()
         )->method(
-            'getValidationRules'
-        )->will(
-            $this->returnValue($validationRules)
-        );
+                'getValidationRules'
+            )->will(
+                $this->returnValue($validationRules)
+            );
         $this->assertEquals($expectedValue, $this->_block->getMinDateRange());
     }
 
@@ -308,10 +316,14 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_metadataService->expects(
             $this->any()
         )->method(
-            'getAttributeMetadata'
-        )->will(
-            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
-        );
+                'getAttributeMetadata'
+            )->will(
+                $this->throwException(new NoSuchEntityException(
+                        'No such entity with %fieldName = $value',
+                        ['fieldName' => 'field', 'value' => 'value']
+                    )
+                )
+            );
         $this->assertNull($this->_block->getMinDateRange());
     }
 
@@ -326,10 +338,10 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_attribute->expects(
             $this->once()
         )->method(
-            'getValidationRules'
-        )->will(
-            $this->returnValue($validationRules)
-        );
+                'getValidationRules'
+            )->will(
+                $this->returnValue($validationRules)
+            );
         $this->assertEquals($expectedValue, $this->_block->getMaxDateRange());
     }
 
@@ -352,10 +364,14 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_metadataService->expects(
             $this->any()
         )->method(
-            'getAttributeMetadata'
-        )->will(
-            $this->throwException((new NoSuchEntityException())->addField('field', 'value'))
-        );
+                'getAttributeMetadata'
+            )->will(
+                $this->throwException(new NoSuchEntityException(
+                        'No such entity with %fieldName = $value',
+                        ['fieldName' => 'field', 'value' => 'value']
+                    )
+                )
+            );
         $this->assertNull($this->_block->getMaxDateRange());
     }
 }

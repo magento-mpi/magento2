@@ -24,7 +24,6 @@ class NoSuchEntityExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('No such entity with field = value', $exception->getMessage());
         $this->assertEquals('No such entity with %fieldName = %value', $exception->getRawMessage());
         $this->assertEquals('No such entity with field = value', $exception->getLogMessage());
-        $this->assertEquals(['fieldName' => 'field', 'value' => 'value'], $exception->getParams());
 
         $exception = new NoSuchEntityException(
             'No such entity with %fieldName1 = %value1, %fieldName2 = %value2',

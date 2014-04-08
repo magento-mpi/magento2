@@ -676,7 +676,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->initiatePasswordReset($email, 0, CustomerAccountServiceInterface::EMAIL_RESET);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
-            $this->assertSame("No such entity with email = foo@example.com\n websiteId = 0", $nsee->getMessage());
+            $this->assertSame("No such entity with email = foo@example.com, websiteId = 0", $nsee->getMessage());
         }
     }
 
@@ -1037,7 +1037,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->resendConfirmation('email@no.customer', 1);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $nsee) {
-            $this->assertSame("No such entity with email = email@no.customer\n websiteId = 1", $nsee->getMessage());
+            $this->assertSame("No such entity with email = email@no.customer, websiteId = 1", $nsee->getMessage());
         }
     }
 
@@ -1753,7 +1753,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomerModel'
         )->will(
-            $this->throwException((new NoSuchEntityException())->addField('testField', 'value'))
+            $this->throwException(new NoSuchEntityException(
+                    'No such entity with %fieldName = $value',
+                    ['fieldName' => 'testField', 'value' => 'value']
+                )
+            )
         );
         $this->_converter->expects(
             $this->any()
@@ -1783,7 +1787,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomerModelByEmail'
         )->will(
-            $this->throwException((new NoSuchEntityException())->addField('testField', 'value'))
+            $this->throwException(new NoSuchEntityException(
+                    'No such entity with %fieldName = $value',
+                    ['fieldName' => 'testField', 'value' => 'value']
+                )
+            )
         );
         $this->assertTrue($service->isEmailAvailable('email', 1));
     }
