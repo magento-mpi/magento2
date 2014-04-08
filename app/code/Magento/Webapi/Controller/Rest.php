@@ -217,11 +217,15 @@ class Rest implements \Magento\App\FrontControllerInterface
 
     /**
      * Override parameter values based on webapi.xml
+     *
+     * @param array $parameters Contains parameters to replace or default
+     * @param array $inputData Incoming data from request
+     * @return array Data in same format as $inputData with appropriate parameters added or changed
      */
     protected function _overrideParams(array $parameters, array $inputData)
     {
         foreach ($parameters as $name => $paramData) {
-            if ( $paramData['force'] || !isset($inputData[$name])) {
+            if ($paramData['force'] || !isset($inputData[$name])) {
                 $inputData[$name] = $paramData['value'];
             }
         }
