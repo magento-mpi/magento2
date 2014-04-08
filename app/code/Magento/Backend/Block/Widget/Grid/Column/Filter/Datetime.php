@@ -142,12 +142,8 @@ class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
                         dateFormat: "' . $format . '",
                         timeFormat: "' . $timeFormat . '",
                         showsTime: ' . ($this->getColumn()->getFilterTime() ? 'true' : 'false') . ',
-                        buttonImage: "' . $this->getViewFileUrl(
-                'images/grid-cal.gif'
-            ) . '",
-                            buttonText: "' . $this->escapeHtml(
-                __('Date selector')
-            ) . '",
+                        buttonImage: "' . $this->getViewFileUrl('images/grid-cal.gif') . '",
+                        buttonText: "' . $this->escapeHtml(__('Date selector')) . '",
                         from: {
                             id: "' . $htmlId . '_from"
                         },

@@ -208,9 +208,7 @@ class Options extends \Magento\Backend\Block\Template
         foreach ($this->getStores() as $store) {
             $storeId = $store->getId();
             $value['store' . $storeId] = $storeId ==
-                \Magento\Store\Model\Store::DEFAULT_STORE_ID ? $valuePrefix . $this->escapeHtml(
-                $option['label']
-            ) : '';
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID ? $valuePrefix . $this->escapeHtml($option['label']) : '';
         }
 
         return array($value);

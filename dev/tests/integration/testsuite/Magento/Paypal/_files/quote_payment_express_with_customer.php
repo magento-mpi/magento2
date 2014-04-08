@@ -10,9 +10,13 @@ require __DIR__ . '/../../Customer/_files/customer.php';
 require __DIR__ . '/../../Customer/_files/customer_two_addresses.php';
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')->getStore()
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Store\Model\StoreManagerInterface')
+    ->getStore()
     ->setConfig('carriers/flatrate/active', 1);
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')->getStore()
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Store\Model\StoreManagerInterface')
+    ->getStore()
     ->setConfig('payment/paypal_express/active', 1);
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -84,4 +88,3 @@ $service->submitAllWithDataObject();
 
 $order = $service->getOrder();
 $order->save();
-

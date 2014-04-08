@@ -586,9 +586,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             empty($vatNumber) ||
             empty($requesterCountryCode) && !empty($requesterVatNumber) ||
             !empty($requesterCountryCode) && empty($requesterVatNumber) ||
-            !empty($requesterCountryCode) && !$this->isCountryInEU(
-            $requesterCountryCode
-        )
+            !empty($requesterCountryCode) && !$this->isCountryInEU($requesterCountryCode)
         ) {
             $result = false;
         }

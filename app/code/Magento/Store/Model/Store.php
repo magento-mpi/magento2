@@ -422,7 +422,7 @@ class Store extends AbstractModel implements
         $storeCodeRule = new \Zend_Validate_Regex('/^[a-z]+[a-z0-9_]*$/');
         $storeCodeRule->setMessage(
             __(
-              'The store code may contain only letters (a-z), numbers (0-9) or underscore(_),'
+                'The store code may contain only letters (a-z), numbers (0-9) or underscore(_),'
                 . ' the first character must be a letter'
             ),
             \Zend_Validate_Regex::NOT_MATCH
@@ -696,9 +696,7 @@ class Store extends AbstractModel implements
         return !($this->hasDisableStoreInUrl() &&
             $this->getDisableStoreInUrl()) &&
             $this->_appState->isInstalled() &&
-            $this->_getConfig(
-            self::XML_PATH_STORE_IN_URL
-        );
+            $this->_getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**
@@ -1179,11 +1177,8 @@ class Store extends AbstractModel implements
             $storeParsedUrl['path'] .
             $requestString .
             ($storeParsedQuery ? '?' .
-            http_build_query(
-            $storeParsedQuery,
-            '',
-            '&amp;'
-        ) : '');
+            http_build_query($storeParsedQuery, '', '&amp;') : ''
+            );
     }
 
     /**

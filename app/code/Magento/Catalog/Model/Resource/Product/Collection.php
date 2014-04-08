@@ -826,8 +826,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode . '_max_value';
         $fieldAlias = 'max_' . $attributeCode;
-        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql(
+        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id AND ' . $this->_getConditionSql(
             $tableAlias . '.attribute_id',
             $attribute->getId()
         );
@@ -862,8 +861,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode . '_range_count_value';
 
-        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql(
+        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id AND ' . $this->_getConditionSql(
             $tableAlias . '.attribute_id',
             $attribute->getId()
         );

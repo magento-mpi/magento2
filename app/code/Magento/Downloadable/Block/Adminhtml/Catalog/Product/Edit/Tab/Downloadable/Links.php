@@ -212,9 +212,9 @@ class Links extends \Magento\Backend\Block\Template
         return $this->getProduct()->getId() &&
             $this->getProduct()->getTypeId() ==
             'downloadable' ? $this->getProduct()->getLinksTitle() : $this->_storeConfig->getValue(
-            \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
+                \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
     }
 
     /**

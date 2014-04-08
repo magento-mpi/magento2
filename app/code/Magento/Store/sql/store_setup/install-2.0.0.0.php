@@ -7,7 +7,6 @@
  */
 use Magento\DB\Ddl\Table;
 
-
 /* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 

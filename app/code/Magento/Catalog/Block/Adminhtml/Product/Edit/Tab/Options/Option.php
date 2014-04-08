@@ -259,14 +259,14 @@ class Option extends Widget
         $this->getChildBlock('text_option_type')->setCanReadPrice($canReadPrice)->setCanEditPrice($canEditPrice);
 
         $templates = $this->getChildHtml(
-                'text_option_type'
-            ) . "\n" . $this->getChildHtml(
-                'file_option_type'
-            ) . "\n" . $this->getChildHtml(
-                'select_option_type'
-            ) . "\n" . $this->getChildHtml(
-                'date_option_type'
-            );
+            'text_option_type'
+        ) . "\n" . $this->getChildHtml(
+            'file_option_type'
+        ) . "\n" . $this->getChildHtml(
+            'select_option_type'
+        ) . "\n" . $this->getChildHtml(
+            'date_option_type'
+        );
 
         return $templates;
     }
