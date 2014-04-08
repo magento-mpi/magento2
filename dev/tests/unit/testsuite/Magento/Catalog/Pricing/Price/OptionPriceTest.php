@@ -83,7 +83,7 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->object = new OptionPrice(
+        $this->object = new CustomOptionPrice(
             $this->product,
             PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT,
             $this->calculator
