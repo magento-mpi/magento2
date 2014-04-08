@@ -111,27 +111,6 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * Retrieve application store object without Store_Exception
-     *
-     * @param string|int|Store $storeId
-     * @throws \Magento\Model\Exception
-     * @return Store
-     */
-    public function getSafeStore($storeId = null)
-    {
-        try {
-            return $this->getStore($storeId);
-        } catch (\Exception $e) {
-            if ($this->_getStorage()->getCurrentStore()) {
-                $this->_request->setActionName('noroute');
-                return new \Magento\Object();
-            }
-
-            throw new \Magento\Model\Exception(__('Requested invalid store "%1"', $storeId));
-        }
-    }
-
-    /**
      * Set current default store
      *
      * @param string $store

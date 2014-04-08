@@ -457,9 +457,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int)$this->_coreConfig->getValue(
+        return (int)$this->_scopeConfig->getValue(
             self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
-            'default'
+            \Magento\App\ScopeInterface::SCOPE_DEFAULT
         );
     }
 

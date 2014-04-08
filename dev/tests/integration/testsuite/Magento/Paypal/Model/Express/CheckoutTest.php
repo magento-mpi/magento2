@@ -127,8 +127,11 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             'customer/account/confirmation/email/%s/key/',
             $customerDetails->getCustomer()->getEmail()
         );
+        /** @var \Magento\Message\MessageInterface $message */
+        $message = $messageManager->getMessages()->getLastAddedMessage();
+        $this->assertInstanceOf('\Magento\Message\MessageInterface', $message);
         $this->assertTrue(
-            strpos($messageManager->getMessages()->getLastAddedMessage()->getText(), $confirmationText) !== false
+            strpos($message->getText(), $confirmationText) !== false
         );
 
     }
