@@ -54,8 +54,7 @@
                                 </a>
                             </strong>
                             <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
-                            <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
-                            <?php echo $this->getProductPrice($_item) ?>
+                            <?php echo $this->getProductPrice($_item, '-compare-list-top') ?>
                             <div class="product actions">
                                 <div class="primary">
                                     <?php if($_item->isSaleable()): ?>
@@ -99,7 +98,12 @@
                                 <div class="attibute value">
                                     <?php switch ($_attribute->getAttributeCode()) {
                                         case "price": ?>
-                                            <?php echo $this->getPriceHtml($_item, true, '-compare-list-' . $_attribute->getCode()) ?>
+                                            <?php
+                                                echo $this->getProductPrice(
+                                                    $_item,
+                                                    '-compare-list-' . $_attribute->getCode()
+                                                )
+                                            ?>
                                             <?php break;
                                         case "small_image": ?>
                                             <img src="<?php echo $this->getSmallImageUrl($_item); ?>"
