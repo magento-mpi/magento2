@@ -2146,10 +2146,7 @@ return array(
     ['Magento\Translation\Helper\Data'],
     ['Magento\Translate\Factory'],
     ['Magento\Backend\Model\Translate'],
-    ['Magento\Backend\Model\Resource\Translate'],
-    ['Magento\Backend\Model\Resource\Translate\String'],
     ['Magento\DesignEditor\Model\Translate\InlineVde', 'Magento\DesignEditor\Model\Translate\Inline'],
-    ['Magento\Backend\Model\Translate\Inline'],
     ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
     ['Magento\Translate\Inline\ConfigFactory'],
     array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
@@ -2215,4 +2212,11 @@ return array(
     ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
+    [
+        'Magento\App\FrontController\Plugin\Clickjacking',
+        'X-Frame-Options HTTP header setting moved to server configuration'
+    ],
+    ['Magento\Backend\Model\Translate\Inline', 'Magento\Translate\Inline'],
+    ['Magento\Backend\Model\Resource\Translate', 'Magento\Translation\Model\Resource\Translate'],
+    ['Magento\Backend\Model\Resource\Translate\String', 'Magento\Translation\Model\Resource\String'],
 );
