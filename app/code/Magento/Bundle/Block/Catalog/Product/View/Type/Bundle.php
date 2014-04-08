@@ -151,6 +151,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             $defaultValues = array();
         }
 
+
+
         $position = 0;
         foreach ($optionsArray as $_option) {
             /* @var $_option \Magento\Bundle\Model\Option */
@@ -174,10 +176,20 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 $_qty = !($_selection->getSelectionQty() * 1) ? '1' : $_selection->getSelectionQty() * 1;
                 // recalculate currency
                 $tierPrices = $_selection->getTierPrice();
+
                 foreach ($tierPrices as &$tierPriceInfo) {
+                    $tierPriceAmount = $_selection->getPriceInfo()->getPrice('regular_price')
+                        ->getCustomAmount($tierPriceInfo['price']);
                     $tierPriceInfo['price'] = $this->coreData->currency($tierPriceInfo['price'], false, false);
+                    $tierPriceInfo['inclTaxPrice'] = $this->coreData->currency(
+                        $tierPriceAmount->getValue(),
+                        false, false);
+                    $tierPriceInfo['exclTaxPrice'] = $this->coreData->currency(
+                        $tierPriceAmount->getBaseAmount(),
+                        false, false);
                 }
-                unset($tierPriceInfo);
+
+                // unset($tierPriceInfo);
                 // break the reference with the last element
 
                 $itemPrice = $bundlePriceModel->getSelectionFinalTotalPrice(
@@ -191,22 +203,26 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
                 $canApplyMAP = false;
 
-                $_priceInclTax = $currentProduct->getPriceInfo()->getPrice('bundle_option')
-                    ->getOptionSelectionAmount($_selection)->getValue();
-                $_priceExclTax = $currentProduct->getPriceInfo()->getPrice('bundle_option')
-                    ->getOptionSelectionAmount($_selection)->getBaseAmount();
+                $bundleOptionPriceAmount = $currentProduct->getPriceInfo()->getPrice('bundle_option')
+                    ->getOptionSelectionAmount($_selection);
+                $_priceInclTax = $bundleOptionPriceAmount->getValue();
+                $_priceExclTax = $bundleOptionPriceAmount->getBaseAmount();
 
-                if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
-                    $_priceInclTax = $this->_taxData->getPrice($currentProduct, $itemPrice, true);
-                    $_priceExclTax = $this->_taxData->getPrice($currentProduct, $itemPrice);
-                }
+//                if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
+//                    $_priceInclTax = $this->_taxData->getPrice($currentProduct, $itemPrice, true);
+//                    $_priceExclTax = $this->_taxData->getPrice($currentProduct, $itemPrice);
+//                }
 
                 $selection = array(
                     'qty' => $_qty,
                     'customQty' => $_selection->getSelectionCanChangeQty(),
                     'price' => $this->coreData->currency($_selection->getFinalPrice(), false, false),
-                    'priceInclTax' => $this->coreData->currency($_priceInclTax, false, false),
-                    'priceExclTax' => $this->coreData->currency($_priceExclTax, false, false),
+                    'inclTaxPrice' => $this->coreData->currency(
+                            $_priceInclTax,
+                            false, false),
+                    'exclTaxPrice' => $this->coreData->currency(
+                            $_priceExclTax,
+                            false, false),
                     'priceValue' => $this->coreData->currency($_selection->getSelectionPriceValue(), false, false),
                     'priceType' => $_selection->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
@@ -251,7 +267,11 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'basePrice' => $this->coreData->currency($currentProduct->getPrice(), false, false),
             'finalBasePriceInclTax' => $this->coreData->currency(
-                    $this->_taxData->getPrice($currentProduct, $currentProduct->getFinalPrice(), true),
+                    $this->_taxData->getPrice(
+                        $currentProduct,
+                        $currentProduct->getFinalPrice(),
+                        true
+                    ),
                     false,
                     false
                 ),
