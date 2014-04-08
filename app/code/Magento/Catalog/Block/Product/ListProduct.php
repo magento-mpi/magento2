@@ -16,7 +16,7 @@ use Magento\View\Block\IdentityInterface;
 /**
  * Product list
  */
-class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct implements IdentityInterface
+class ListProduct extends AbstractProduct implements IdentityInterface
 {
     /**
      * Default toolbar block name

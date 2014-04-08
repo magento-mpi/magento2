@@ -267,14 +267,10 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'basePrice' => $this->coreData->currency($currentProduct->getPrice(), false, false),
             'finalBasePriceInclTax' => $this->coreData->currency(
-                    $this->_taxData->getPrice(
-                        $currentProduct,
-                        $currentProduct->getFinalPrice(),
-                        true
-                    ),
-                    false,
-                    false
-                ),
+                $this->_taxData->getPrice($currentProduct, $currentProduct->getFinalPrice(), true),
+                false,
+                false
+            ),
             'finalBasePriceExclTax' => $this->coreData->currency($currentProduct->getFinalPrice(), false, false),
             'priceType' => $currentProduct->getPriceType(),
             'specialPrice' => $currentProduct->getSpecialPrice(),
