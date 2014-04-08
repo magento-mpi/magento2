@@ -37,7 +37,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
-     * @return float|bool
+     * @return float
      */
     public function getValue()
     {

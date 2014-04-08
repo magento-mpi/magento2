@@ -24,6 +24,9 @@ use Magento\Catalog\Pricing\Price\MsrpPriceInterface;
  */
 class FinalPriceBox extends BasePriceBox
 {
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $result = parent::_toHtml();
@@ -109,7 +112,7 @@ class FinalPriceBox extends BasePriceBox
         $finalPriceAmount = $finalPrice->getAmount()->getValue();
         $minimalPriceAmount = $finalPrice->getMinimalPrice()->getValue();
         return $this->getDisplayMinimalPrice()
-        && $minimalPriceAmount
-        && $minimalPriceAmount < $finalPriceAmount;
+            && $minimalPriceAmount
+            && $minimalPriceAmount < $finalPriceAmount;
     }
 }

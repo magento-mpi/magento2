@@ -124,7 +124,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     {
         $this->priceInfo->expects($this->once())
             ->method('getPrice')
-            ->with($this->equalTo('msrp'))
+            ->with($this->equalTo('msrp_price'))
             ->will($this->returnValue($this->priceType));
 
         $this->priceType->expects($this->any())
@@ -144,7 +144,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     {
         $this->priceInfo->expects($this->once())
             ->method('getPrice')
-            ->with($this->equalTo('msrp'))
+            ->with($this->equalTo('msrp_price'))
             ->will($this->returnValue($this->priceType));
 
         $this->priceType->expects($this->any())
@@ -161,7 +161,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $this->rendererPool->expects($this->once())
             ->method('createPriceRender')
-            ->with('msrp')
+            ->with('msrp_price')
             ->will($this->returnValue($priceBoxRender));
 
         $result = $this->object->toHtml();
@@ -177,7 +177,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $this->priceInfo->expects($this->once())
             ->method('getPrice')
-            ->with($this->equalTo('msrp'))
+            ->with($this->equalTo('msrp_price'))
             ->will($this->throwException(new \InvalidArgumentException()));
 
         $result = $this->object->toHtml();

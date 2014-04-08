@@ -20,6 +20,7 @@ namespace Magento\Bundle\Model;
  * @method \Magento\Bundle\Model\Option setPosition(int $value)
  * @method string getType()
  * @method \Magento\Bundle\Model\Option setType(string $value)
+ * @method \Magento\Catalog\Model\Product[] getSelections()
  */
 class Option extends \Magento\Model\AbstractModel
 {

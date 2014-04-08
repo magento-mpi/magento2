@@ -103,8 +103,8 @@ class RegularPrice implements PriceInterface
     }
 
     /**
-     * @param $amount
-     * @param null $exclude
+     * @param float $amount
+     * @param null|string $exclude
      * @return AmountInterface
      */
     public function getCustomAmount($amount = null, $exclude = null)

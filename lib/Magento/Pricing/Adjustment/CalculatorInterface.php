@@ -20,8 +20,8 @@ interface CalculatorInterface
     /**
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
-     * @param null $exclude
-     * @return mixed
+     * @param null|string $exclude
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null);
 }

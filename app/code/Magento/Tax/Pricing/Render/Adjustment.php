@@ -41,6 +41,9 @@ class Adjustment extends AbstractAdjustment
         parent::__construct($context, $priceCurrency, $data);
     }
 
+    /**
+     * return null
+     */
     protected function apply()
     {
         $html = $this->toHtml();
@@ -55,7 +58,7 @@ class Adjustment extends AbstractAdjustment
                 $this->amountRender->getDisplayValue() -
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
             );
-        } else if ($this->displayPriceExcludingTax()) {
+        } elseif ($this->displayPriceExcludingTax()) {
             $this->amountRender->setDisplayValue(
                 $this->amountRender->getDisplayValue() -
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())

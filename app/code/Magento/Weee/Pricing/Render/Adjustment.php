@@ -47,6 +47,9 @@ class Adjustment extends AbstractAdjustment
         parent::__construct($context, $priceCurrency, $data);
     }
 
+    /**
+     * @return null
+     */
     protected function apply()
     {
         if ($this->typeOfDisplay([
@@ -76,6 +79,9 @@ class Adjustment extends AbstractAdjustment
         return \Magento\Weee\Pricing\Adjustment::CODE;
     }
 
+    /**
+     * @return float
+     */
     public function getFinalAmount()
     {
         return $this->finalAmount;

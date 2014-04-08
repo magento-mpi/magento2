@@ -12,7 +12,7 @@
 <?php
 /** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $this */
 
-$id = $this->getSaleableItem()->getId();
+$productId = $this->getSaleableItem()->getId();
 
 /** @var \Magento\Catalog\Pricing\Price\RegularPrice $priceModel */
 $priceModel = $this->getPriceType('regular_price');
@@ -36,7 +36,7 @@ if (isset($_GET['showmeprice'])) {
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel->getAmount(), [
             'display_label'     => __('Regular Price:'),
-            'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('old-price-' . $id),
+            'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('old-price-' . $productId),
             'include_container' => true,
             'skip_adjustments'  => true
         ]); ?>
@@ -44,13 +44,13 @@ if (isset($_GET['showmeprice'])) {
     <p class="special-price">
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('Special Price:'),
-            'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('old-price-' . $id),
+            'price_id'          => $this->getPriceId() ? $this->getPriceId() : ('old-price-' . $productId),
             'include_container' => false
         ]); ?>
     </p>
 <?php else: ?>
     <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
-        'price_id'          => $this->getPriceId() ? $this->getPriceId() : ($id),
+        'price_id'          => $this->getPriceId() ? $this->getPriceId() : ($productId),
         'include_container' => true
     ]); ?>
 <?php endif; ?>
@@ -65,5 +65,4 @@ if (isset($_GET['showmeprice'])) {
             <?php echo $this->renderAmountMinimal(); ?>
         </span>
     <?php endif?>
-
 <?php endif; ?>
