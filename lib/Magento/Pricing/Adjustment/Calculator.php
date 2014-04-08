@@ -34,8 +34,8 @@ class Calculator implements CalculatorInterface
     /**
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
-     * @param null $exclude
-     * @return \Magento\Pricing\Amount\AmountInterface|mixed
+     * @param null|string $exclude
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null)
     {
@@ -43,10 +43,8 @@ class Calculator implements CalculatorInterface
         $adjustments = [];
         foreach ($saleableItem->getPriceInfo()->getAdjustments() as $adjustment) {
             $code = $adjustment->getAdjustmentCode();
-            if ($exclude !== null) {
-                if ($code === $exclude) {
-                    continue;
-                }
+            if ($exclude !== null && $code === $exclude) {
+                continue;
             }
             if ($adjustment->isIncludedInBasePrice()) {
                 $adjust = $adjustment->extractAdjustment($baseAmount, $saleableItem);

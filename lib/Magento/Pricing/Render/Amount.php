@@ -58,7 +58,7 @@ class Amount extends Template implements AmountRenderInterface
     protected $amount;
 
     /**
-     * @var null
+     * @var null|float
      */
     protected $displayValue;
 
@@ -139,8 +139,8 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
-     * @param $code
-     * @param $html
+     * @param string $code
+     * @param string $html
      * @return void
      */
     public function addAdjustmentHtml($code, $html)

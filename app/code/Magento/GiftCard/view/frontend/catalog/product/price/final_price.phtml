@@ -8,17 +8,17 @@
 ?>
 
 <?php /** @var \Magento\GiftCard\Pricing\Render\FinalPriceBox $this */ ?>s
-<?php $id = $this->getSaleableItem()->getId(); ?>
+<?php $productId = $this->getSaleableItem()->getId(); ?>
 
 <?php if ($this->getCanShowPrice() !== false):?>
     <div class="price-box">
         <?php if ($this->isMinEqualToMax()): ?>
-            <span class="price" id="product-price-<?php echo $id ?><?php echo $this->getIdSuffix() ?>">
+            <span class="price" id="product-price-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
             <?php echo $this->convertAndFormatCurrency($this->getMinValue(), false) ?>
         </span>
         <?php elseif ($this->getMinValue() !== 0): ?>
             <span class="price-label"><?php echo __('From') ?></span>
-            <span class="price" id="min-product-price-<?php echo $id ?><?php echo $this->getIdSuffix() ?>">
+            <span class="price" id="min-product-price-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
             <?php echo $this->convertAndFormatCurrency($this->getMinValue(), false) ?>
         </span>
         <?php endif; ?>
@@ -29,7 +29,7 @@
     <?php if ($this->isRegularPrice()): ?>
         <div class="price-box">
             <span class="regular-price">
-                <span class="price" id="product-price-<?php echo $id ?><?php echo $this->getIdSuffix() ?>">
+                <span class="price" id="product-price-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $this->convertAndFormatCurrency($this->getRegularPrice(), false) ?>
                 </span>
             </span>

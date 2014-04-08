@@ -19,7 +19,7 @@ use Magento\Bundle\Pricing\Price\BundleSelectionFactory;
 use Magento\Bundle\Pricing\Price\BundleOptionPrice;
 
 /**
- * Class Calculator
+ * Bundle price calculator
  */
 class Calculator implements BundleCalculatorInterface
 {
@@ -56,8 +56,8 @@ class Calculator implements BundleCalculatorInterface
     /**
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
-     * @param null $exclude
-     * @return \Magento\Pricing\Amount\AmountInterface|mixed
+     * @param null|string $exclude
+     * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null)
     {
@@ -78,7 +78,7 @@ class Calculator implements BundleCalculatorInterface
     /**
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
-     * @param null $exclude
+     * @param null|string $exclude
      * @param bool $searchMin
      * @return \Magento\Pricing\Amount\AmountInterface
      */
@@ -98,7 +98,7 @@ class Calculator implements BundleCalculatorInterface
             if ($searchMin) {
                 if ($minOptionAmount === null) {
                     $minOptionAmount = end($optionsAmounts);
-                } else if (end($optionsAmounts)->getValue() < $minOptionAmount->getValue()) {
+                } elseif (end($optionsAmounts)->getValue() < $minOptionAmount->getValue()) {
                     $minOptionAmount = end($optionsAmounts);
                 }
             } else {

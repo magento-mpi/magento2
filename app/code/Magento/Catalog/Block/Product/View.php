@@ -257,8 +257,16 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
             'showBothPrices' => $this->_taxData->displayBothPrices(),
             'productPrice' => $this->_coreData->currency($_finalPrice, false, false),
             'productOldPrice' => $this->_coreData->currency($_regularPrice, false, false),
-            'priceInclTax' => $this->_coreData->currency($product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(), false, false),
-            'priceExclTax' => $this->_coreData->currency($product->getPriceInfo()->getPrice('final_price')->getValue(), false, false),
+            'priceInclTax' => $this->_coreData->currency(
+                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
+                false,
+                false
+            ),
+            'priceExclTax' => $this->_coreData->currency(
+                $product->getPriceInfo()->getPrice('final_price')->getValue(),
+                false,
+                false
+            ),
             'defaultTax' => $defaultTax,
             'currentTax' => $currentTax,
             'idSuffix' => '_clone',

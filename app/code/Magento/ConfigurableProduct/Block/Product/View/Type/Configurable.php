@@ -262,7 +262,11 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                         'label' => $value['label'],
                         'price' => $configurablePrice,
                         'oldPrice' => $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']),
-                        'inclTaxPrice' => $currentProduct->getPriceInfo()->getPrice('final_price')->getCustomAmount($configurablePrice, 'weee')->getValue(),
+                        'inclTaxPrice' => $currentProduct
+                            ->getPriceInfo()
+                            ->getPrice('final_price')
+                            ->getCustomAmount($configurablePrice, 'weee')
+                            ->getValue(),
                         'exclTaxPrice' => $configurablePrice,
                         'products' => $productsIndex
                     );

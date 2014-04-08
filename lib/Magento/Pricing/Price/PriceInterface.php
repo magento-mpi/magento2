@@ -42,8 +42,8 @@ interface PriceInterface
      * Get Custom Amount object
      * (specify adjustment code to exclude)
      *
-     * @param $amount
-     * @param null $exclude
+     * @param float $amount
+     * @param null|string $exclude
      * @return AmountInterface
      */
     public function getCustomAmount($amount = null, $exclude = null);
