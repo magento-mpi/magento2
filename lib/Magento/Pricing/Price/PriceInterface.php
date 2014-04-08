@@ -43,7 +43,7 @@ interface PriceInterface
      * (specify adjustment code to exclude)
      *
      * @param float $amount
-     * @param null|string $exclude
+     * @param null|bool|string $exclude
      * @return AmountInterface
      */
     public function getCustomAmount($amount = null, $exclude = null);

@@ -59,6 +59,7 @@ class Adjustment extends AbstractAdjustment
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
             );
         } elseif ($this->displayPriceExcludingTax()) {
+
             $this->amountRender->setDisplayValue(
                 $this->amountRender->getDisplayValue() -
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
