@@ -31,3 +31,7 @@ $customerAddress->setData(
     1
 );
 $customerAddress->save();
+
+/** @var \Magento\Customer\Model\Customer $customer */
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+$customer->load(1)->save();
