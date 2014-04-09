@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data;
+
+namespace Magento\Service\V1\Data;
 
 use Magento\Service\Data\AbstractObject;
 
@@ -17,16 +18,16 @@ class SearchCriteria extends AbstractObject
     const SORT_ASC = 1;
 
     const SORT_DESC = -1;
-    const ROOT_GROUP_TYPE = 'andGroup';
+    const FILTER_GROUPS = 'filterGroups';
 
     /**
-     * Get filters
-     * 
-     * @return \Magento\Customer\Service\V1\Data\Search\AndGroup
+     * Returns a list of filter groups
+     *
+     * @return \Magento\Service\V1\Data\Search\FilterGroup[]
      */
-    public function getAndGroup()
+    public function getFilterGroups()
     {
-        return $this->_get(self::ROOT_GROUP_TYPE);
+        return $this->_get(self::FILTER_GROUPS);
     }
 
     /**

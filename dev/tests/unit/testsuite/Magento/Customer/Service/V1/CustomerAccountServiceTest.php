@@ -5,11 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\CustomerRegistry;
-use Magento\Customer\Service\V1\Data\Search\AndGroupBuilder;
+use Magento\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
@@ -17,7 +18,7 @@ use Magento\Service\V1\Data\FilterBuilder;
 use Magento\Mail\Exception as MailException;
 
 /**
- * \Magento\Customer\Service\V1\CustomerAccountService
+ * Test for \Magento\Customer\Service\V1\CustomerAccountService
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -98,9 +99,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerHelperMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
-    protected $_objectManagerMock;
+    protected $_objectManager;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Config\Share */
     private $_configShareMock;
@@ -108,8 +109,23 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Encryption\EncryptorInterface  */
     private $_encryptorMock;
 
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $_searchBuilder;
+
     public function setUp()
     {
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $filterGroupBuilder = $this->_objectManager
+            ->getObject('Magento\Service\V1\Data\Search\FilterGroupBuilder');
+        /** @var SearchCriteriaBuilder $searchBuilder */
+        $this->_searchBuilder = $this->_objectManager->getObject(
+            'Magento\Service\V1\Data\SearchCriteriaBuilder',
+            ['filterGroupBuilder' => $filterGroupBuilder]
+        );
+
         $this->_customerFactoryMock = $this->getMockBuilder(
             'Magento\Customer\Model\CustomerFactory'
         )->disableOriginalConstructor()->setMethods(
@@ -236,13 +252,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerHelperMock->expects($this->any())
             ->method('isCustomerInStore')
             ->will($this->returnValue(false));
-
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', [], [], '', false);
-        $this->_objectManagerMock
-            ->expects($this->any())
-            ->method('create')
-            ->with('Magento\Customer\Helper\Data')
-            ->will($this->returnValue($this->_customerHelperMock));
 
         $this->_urlMock = $this->getMockBuilder('\Magento\UrlInterface')
             ->disableOriginalConstructor()
@@ -1515,12 +1524,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerService = $this->_createService();
-        $searchBuilder = new Data\SearchCriteriaBuilder(new AndGroupBuilder(new FilterBuilder()));
         $filterBuilder = new FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue('customer@search.example.com')->create();
-        $searchBuilder->addFilter($filter);
+        $this->_searchBuilder->addFilter([$filter]);
 
-        $searchResults = $customerService->searchCustomers($searchBuilder->create());
+        $searchResults = $customerService->searchCustomers($this->_searchBuilder->create());
         $this->assertEquals(0, $searchResults->getTotalCount());
     }
 
@@ -1586,12 +1594,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerService = $this->_createService();
-        $searchBuilder = new Data\SearchCriteriaBuilder(new AndGroupBuilder(new FilterBuilder()));
         $filterBuilder = new FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue(self::EMAIL)->create();
-        $searchBuilder->addFilter($filter);
+        $this->_searchBuilder->addFilter([$filter]);
 
-        $searchResults = $customerService->searchCustomers($searchBuilder->create());
+        $searchResults = $customerService->searchCustomers($this->_searchBuilder->create());
         $this->assertEquals(1, $searchResults->getTotalCount());
         $this->assertEquals(self::EMAIL, $searchResults->getItems()[0]->getCustomer()->getEmail());
     }
@@ -1783,8 +1790,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createService()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $customerService = $objectManager->getObject('Magento\Customer\Service\V1\CustomerAccountService',
+        $customerService = $this->_objectManager->getObject('Magento\Customer\Service\V1\CustomerAccountService',
             [
                 'customerFactory' => $this->_customerFactoryMock,
                 'storeManager' => $this->_storeManagerMock,

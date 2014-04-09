@@ -15,6 +15,7 @@ use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Model\Resource\Customer\Collection;
+use Magento\Service\V1\Data\Search\FilterGroup;
 use Magento\Event\ManagerInterface;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
@@ -22,6 +23,7 @@ use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Mail\Exception as MailException;
 use Magento\Math\Random;
+use Magento\Service\V1\Data\SearchCriteria;
 use Magento\UrlInterface;
 use Magento\Logger;
 use Magento\Encryption\EncryptorInterface as Encryptor;
@@ -464,7 +466,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * (@inheritdoc)
      */
-    public function searchCustomers(Data\SearchCriteria $searchCriteria)
+    public function searchCustomers(SearchCriteria $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
 
@@ -483,12 +485,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left')
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left');
-        $this->addFiltersFromRootToCollection($searchCriteria->getAndGroup(), $collection);
+        //Add filters from root filter group to the collection
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $collection);
+        }
         $this->searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $collection->addOrder($field, $direction == Data\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -509,54 +514,18 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * Adds some filters from the root filter group to a collection.
-     *
-     * @param Data\Search\AndGroup $rootAndGroup
-     * @param Collection $collection
-     * @return void
-     * @throws \Magento\Exception\InputException
-     */
-    protected function addFiltersFromRootToCollection(Data\Search\AndGroup $rootAndGroup, Collection $collection)
-    {
-        if (count($rootAndGroup->getAndGroups())) {
-            throw new InputException('Only OR groups are supported as nested groups.');
-        }
-
-        foreach ($rootAndGroup->getFilters() as $filter) {
-            $this->addFilterToCollection($collection, $filter);
-        }
-
-        foreach ($rootAndGroup->getOrGroups() as $group) {
-            $this->addFilterOrGroupToCollection($collection, $group);
-        }
-    }
-
-    /**
-     * Helper function that adds a filter to the collection
-     *
-     * @param Collection $collection
-     * @param Filter $filter
-     * @return void
-     */
-    protected function addFilterToCollection(Collection $collection, Filter $filter)
-    {
-        $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-        $collection->addFieldToFilter($filter->getField(), array($condition => $filter->getValue()));
-    }
-
-    /**
      * Helper function that adds a FilterGroup to the collection.
      *
+     * @param FilterGroup $filterGroup
      * @param Collection $collection
-     * @param Data\Search\OrGroup $orGroup
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFilterOrGroupToCollection(Collection $collection, Data\Search\OrGroup $orGroup)
+    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
         $fields = [];
         $conditions = [];
-        foreach ($orGroup->getFilters() as $filter) {
+        foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
         }

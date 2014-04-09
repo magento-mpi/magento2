@@ -78,7 +78,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function testGetGroup($testGroup)
     {
-        $groupId = $testGroup['id'];
+        $groupId = $testGroup[CustomerGroup::ID];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupId",
@@ -104,10 +104,28 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function getGroupDataProvider()
     {
         return [
-            'NOT LOGGED IN' => [['id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3]],
-            'General' => [['id' => 1, 'code' => 'General', 'tax_class_id' => 3]],
-            'Wholesale' => [['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3]],
-            'Retailer' => [['id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3]],
+            'NOT LOGGED IN' => [
+                [
+                    CustomerGroup::ID => 0,
+                    CustomerGroup::CODE => 'NOT LOGGED IN',
+                    CustomerGroup::TAX_CLASS_ID => 3
+                ]
+            ],
+            'General' => [[CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]],
+            'Wholesale' => [
+                [
+                    CustomerGroup::ID => 2,
+                    CustomerGroup::CODE => 'Wholesale',
+                    CustomerGroup::TAX_CLASS_ID => 3
+                ]
+            ],
+            'Retailer' => [
+                [
+                    CustomerGroup::ID => 3,
+                    CustomerGroup::CODE => 'Retailer',
+                    CustomerGroup::TAX_CLASS_ID => 3
+                ]
+            ],
         ];
     }
 
@@ -117,10 +135,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testGetGroups()
     {
         $expectedGroups = [
-            ['id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3],
-            ['id' => 1, 'code' => 'General', 'tax_class_id' => 3],
-            ['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3],
-            ['id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3]
+            [CustomerGroup::ID => 0, CustomerGroup::CODE => 'NOT LOGGED IN', CustomerGroup::TAX_CLASS_ID => 3],
+            [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3],
+            [CustomerGroup::ID => 2, CustomerGroup::CODE => 'Wholesale', CustomerGroup::TAX_CLASS_ID => 3],
+            [CustomerGroup::ID => 3, CustomerGroup::CODE => 'Retailer', CustomerGroup::TAX_CLASS_ID => 3]
         ];
 
         $serviceInfo = [
@@ -181,8 +199,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function getDefaultGroupDataProvider()
     {
         return [
-            'admin' => [0, ['id' => 1, 'code' => 'General', 'tax_class_id' => 3]],
-            'base' => [1, ['id' => 1, 'code' => 'General', 'tax_class_id' => 3]]
+            'admin' => [
+                0,
+                [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]
+            ],
+            'base' => [1, [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]]
         ];
     }
 
@@ -329,9 +350,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Create Group REST',
-            'tax_class_id' => 3
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Create Group REST',
+            CustomerGroup::TAX_CLASS_ID => 3
         ];
         $requestData = ['group' => $groupData];
 
@@ -340,9 +361,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $newGroup = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
-        $this->assertEquals($groupData['code'], $newGroup->getCode(), 'The group code does not match.');
+        $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
-            $groupData['tax_class_id'],
+            $groupData[CustomerGroup::TAX_CLASS_ID],
             $newGroup->getTaxClassId(),
             'The group tax class id does not match.'
         );
@@ -359,9 +380,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                'id' => null,
-                'code' => $duplicateGroupCode,
-                'tax_class_id' => 3
+                CustomerGroup::ID => null,
+                CustomerGroup::CODE => $duplicateGroupCode,
+                CustomerGroup::TAX_CLASS_ID => 3
             ])->create()
         );
 
@@ -373,9 +394,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => $duplicateGroupCode,
-            'tax_class_id' => 3
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => $duplicateGroupCode,
+            CustomerGroup::TAX_CLASS_ID => 3
         ];
         $requestData = ['group' => $groupData];
 
@@ -420,9 +441,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Default Class Tax ID REST',
-            'tax_class_id' => null
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Default Class Tax ID REST',
+            CustomerGroup::TAX_CLASS_ID => null
         ];
         $requestData = ['group' => $groupData];
 
@@ -431,7 +452,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $newGroup = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
-        $this->assertEquals($groupData['code'], $newGroup->getCode(), 'The group code does not match.');
+        $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
             CustomerGroupService::DEFAULT_TAX_CLASS_ID,
             $newGroup->getTaxClassId(),
@@ -454,9 +475,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => null,
-            'tax_class_id' => null
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => null,
+            CustomerGroup::TAX_CLASS_ID => null
         ];
         $requestData = ['group' => $groupData];
 
@@ -496,9 +517,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Invalid Tax Class Id Code',
-            'tax_class_id' => $invalidTaxClassId
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Invalid Tax Class Id Code',
+            CustomerGroup::TAX_CLASS_ID => $invalidTaxClassId
         ];
         $requestData = ['group' => $groupData];
 
@@ -530,9 +551,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $groupId = $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                'id' => null,
-                'code' => 'New Group REST',
-                'tax_class_id' => 3
+                CustomerGroup::ID => null,
+                CustomerGroup::CODE => 'New Group REST',
+                CustomerGroup::TAX_CLASS_ID => 3
             ])->create()
         );
 
@@ -544,9 +565,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => $groupId,
-            'code' => 'Updated Group REST',
-            'tax_class_id' => 3
+            CustomerGroup::ID => $groupId,
+            CustomerGroup::CODE => 'Updated Group REST',
+            CustomerGroup::TAX_CLASS_ID => 3
         ];
         $requestData = ['group' => $groupData];
 
@@ -554,9 +575,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
 
         $group = $this->groupService->getGroup($newGroupId);
-        $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
+        $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
-            $groupData['tax_class_id'],
+            $groupData[CustomerGroup::TAX_CLASS_ID],
             $group->getTaxClassId(),
             'The group tax class id did not change'
         );
@@ -579,9 +600,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => $nonExistentGroupId,
-            'code' => 'Updated Group REST Does Not Exist',
-            'tax_class_id' => 3
+            CustomerGroup::ID => $nonExistentGroupId,
+            CustomerGroup::CODE => 'Updated Group REST Does Not Exist',
+            CustomerGroup::TAX_CLASS_ID => 3
         ];
         $requestData = ['group' => $groupData];
 
@@ -615,8 +636,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Create Group SOAP',
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Create Group SOAP',
             'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
@@ -626,7 +647,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $newGroup = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
-        $this->assertEquals($groupData['code'], $newGroup->getCode(), "The group code does not match.");
+        $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
             $groupData['taxClassId'],
             $newGroup->getTaxClassId(),
@@ -645,9 +666,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $groupId = $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                'id' => null,
-                'code' => $duplicateGroupCode,
-                'tax_class_id' => 3
+                CustomerGroup::ID => null,
+                CustomerGroup::CODE => $duplicateGroupCode,
+                CustomerGroup::TAX_CLASS_ID => 3
             ])->create()
         );
 
@@ -660,8 +681,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => $duplicateGroupCode,
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => $duplicateGroupCode,
             'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
@@ -701,8 +722,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Default Class Tax ID SOAP',
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Default Class Tax ID SOAP',
             'taxClassId' => null
         ];
         $requestData = ['group' => $groupData];
@@ -712,7 +733,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $newGroup = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
-        $this->assertEquals($groupData['code'], $newGroup->getCode(), "The group code does not match.");
+        $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
             CustomerGroupService::DEFAULT_TAX_CLASS_ID,
             $newGroup->getTaxClassId(),
@@ -736,8 +757,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => null,
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => null,
             'taxClassId' => null
         ];
         $requestData = ['group' => $groupData];
@@ -779,8 +800,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Invalid Class Tax ID SOAP',
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Invalid Class Tax ID SOAP',
             'taxClassId' => $invalidTaxClassId
         ];
         $requestData = ['group' => $groupData];
@@ -813,9 +834,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $groupId = $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                    'id' => null,
-                    'code' => 'New Group SOAP',
-                    'tax_class_id' => 3
+                    CustomerGroup::ID => null,
+                    CustomerGroup::CODE => 'New Group SOAP',
+                    CustomerGroup::TAX_CLASS_ID => 3
                 ])->create()
         );
 
@@ -828,8 +849,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => $groupId,
-            'code' => 'Updated Group SOAP',
+            CustomerGroup::ID => $groupId,
+            CustomerGroup::CODE => 'Updated Group SOAP',
             'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
@@ -838,7 +859,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
 
         $group = $this->groupService->getGroup($newGroupId);
-        $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
+        $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData['taxClassId'],
             $group->getTaxClassId(),
@@ -864,8 +885,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => $nonExistentGroupId,
-            'code' => 'Updated Non-Existent Group SOAP',
+            CustomerGroup::ID => $nonExistentGroupId,
+            CustomerGroup::CODE => 'Updated Non-Existent Group SOAP',
             'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
@@ -890,9 +911,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $groupId = $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                'id' => null,
-                'code' => 'Delete Group',
-                'tax_class_id' => 3
+                CustomerGroup::ID => null,
+                CustomerGroup::CODE => 'Delete Group',
+                CustomerGroup::TAX_CLASS_ID => 3
             ])->create()
         );
 

@@ -30,7 +30,7 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Service\V1\Data\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
@@ -46,7 +46,7 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
      * @param \Magento\Customer\Model\Group $modelCustomerGroup
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Service\V1\Data\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param array $data
      */
     public function __construct(
@@ -54,7 +54,7 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
         \Magento\Customer\Model\Group $modelCustomerGroup,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Service\V1\Data\FilterBuilder $filterBuilder,
-        \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
@@ -86,7 +86,7 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
     public function getAssignedDataObjects()
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-            $this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create()
+            [$this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create()]
         )->create();
         $result = $this->groupService->searchGroups($searchCriteria);
         return $result->getItems();
