@@ -25,7 +25,7 @@
     </div>
 <?php endif; ?>
 
-<?php if ($this->getRenderForm() !== false && $this->getZone() === \Magento\Pricing\Render::ZONE_ITEM_VIEW): ?>
+<?php if ($this->getRenderForm()): ?>
     <?php if ($this->isRegularPrice()): ?>
         <div class="price-box">
             <span class="regular-price">
