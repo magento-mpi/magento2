@@ -66,4 +66,3 @@ class AddressRegistry
         unset($this->registry[$addressId]);
     }
 }
-
