@@ -58,15 +58,6 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     {
         parent::_construct();
         $this->setId('checkout_manage_container');
-
-        if ($this->_authorization->isAllowed('Magento_Sales::create')) {
-            $this->_updateButton('save', 'label', __('Create Order'));
-            $this->_updateButton('save', 'onclick', 'setLocation(\'' . $this->getCreateOrderUrl() . '\');');
-        } else {
-            $this->_removeButton('save');
-        }
-        $this->_removeButton('reset');
-        $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getBackUrl() . '\');');
     }
 
     /**
@@ -79,6 +70,28 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')) {
             return $this;
         }
+
+        if ($this->_authorization->isAllowed('Magento_Sales::create')) {
+            $this->getToolbar()->addChild(
+                'save',
+                'Magento\Backend\Block\Widget\Button',
+                array(
+                    'label' => __('Create Order'),
+                    'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\');',
+                    'class' => 'save primary'
+                )
+            );
+        }
+
+        $this->getToolbar()->addChild(
+            'back',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Back'),
+                'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\');',
+                'class' => 'back'
+            )
+        );
 
         $this->addChild(
             'add_products_button',

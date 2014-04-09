@@ -107,7 +107,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $key = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/model';
         $class = $this->_storeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        return $this->_methodFactory->create($class);
+        return $class ? $this->_methodFactory->create($class) : false;
     }
 
     /**

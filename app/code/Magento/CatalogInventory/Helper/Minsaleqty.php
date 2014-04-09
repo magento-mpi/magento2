@@ -14,6 +14,7 @@
 namespace Magento\CatalogInventory\Helper;
 
 use Magento\Store\Model\Store;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface as CustomerGroupService;
 
 class Minsaleqty
 {
@@ -63,21 +64,19 @@ class Minsaleqty
         if (is_numeric($value)) {
             $data = (double)$value;
             return (string)$data;
-        } else {
-            if (is_array($value)) {
-                $data = array();
-                foreach ($value as $groupId => $qty) {
-                    if (!array_key_exists($groupId, $data)) {
-                        $data[$groupId] = $this->_fixQty($qty);
-                    }
+        } else if (is_array($value)) {
+            $data = array();
+            foreach ($value as $groupId => $qty) {
+                if (!array_key_exists($groupId, $data)) {
+                    $data[$groupId] = $this->_fixQty($qty);
                 }
-                if (count($data) == 1 && array_key_exists(\Magento\Customer\Model\Group::CUST_GROUP_ALL, $data)) {
-                    return (string)$data[\Magento\Customer\Model\Group::CUST_GROUP_ALL];
-                }
-                return serialize($data);
-            } else {
-                return '';
             }
+            if (count($data) == 1 && array_key_exists(CustomerGroupService::CUST_GROUP_ALL, $data)) {
+                return (string)$data[CustomerGroupService::CUST_GROUP_ALL];
+            }
+            return serialize($data);
+        } else {
+            return '';
         }
     }
 
@@ -90,7 +89,7 @@ class Minsaleqty
     protected function _unserializeValue($value)
     {
         if (is_numeric($value)) {
-            return array(\Magento\Customer\Model\Group::CUST_GROUP_ALL => $this->_fixQty($value));
+            return array(CustomerGroupService::CUST_GROUP_ALL => $this->_fixQty($value));
         } elseif (is_string($value) && !empty($value)) {
             return unserialize($value);
         } else {
@@ -196,10 +195,8 @@ class Minsaleqty
             if ($groupId == $customerGroupId) {
                 $result = $qty;
                 break;
-            } else {
-                if ($groupId == \Magento\Customer\Model\Group::CUST_GROUP_ALL) {
-                    $result = $qty;
-                }
+            } else if ($groupId == CustomerGroupService::CUST_GROUP_ALL) {
+                $result = $qty;
             }
         }
         return $this->_fixQty($result);

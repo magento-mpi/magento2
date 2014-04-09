@@ -19,25 +19,11 @@ class QuoteConfigProductAttributes
     protected $_ruleResource;
 
     /**
-     * @var Session
-     */
-    protected $_customerSession;
-
-    /**
-     * @var StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param Rule $ruleResource
-     * @param Session $customerSession
-     * @param StoreManagerInterface $storeManager
      */
-    public function __construct(Rule $ruleResource, Session $customerSession, StoreManagerInterface $storeManager)
+    public function __construct(Rule $ruleResource)
     {
         $this->_ruleResource = $ruleResource;
-        $this->_customerSession = $customerSession;
-        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -51,15 +37,10 @@ class QuoteConfigProductAttributes
      */
     public function afterGetProductAttributes(\Magento\Sales\Model\Quote\Config $subject, array $attributeKeys)
     {
-        $attributes = $this->_ruleResource->getActiveAttributes(
-            $this->_storeManager->getWebsite()->getId(),
-            $this->_customerSession->getCustomer()->getGroupId()
-        );
-
+        $attributes = $this->_ruleResource->getActiveAttributes();
         foreach ($attributes as $attribute) {
             $attributeKeys[] = $attribute['attribute_code'];
         }
-
         return $attributeKeys;
     }
 }

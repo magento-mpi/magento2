@@ -27,7 +27,6 @@ class Rss extends \Magento\Rss\Helper\WishlistRss
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param Data $multiplewishlistHelperData
      */
     public function __construct(
@@ -41,10 +40,8 @@ class Rss extends \Magento\Rss\Helper\WishlistRss
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         Data $multiplewishlistHelperData
     ) {
-        /* TODO this helper must be eliminated after refactoring of Magento\Wishlist\Helper\Data */
         $this->_multiplewishlistHelperData = $multiplewishlistHelperData;
 
         parent::__construct(
@@ -57,8 +54,7 @@ class Rss extends \Magento\Rss\Helper\WishlistRss
             $storeManager,
             $postDataHelper,
             $customerViewHelper,
-            $customerBuilder,
-            $customerAccountService
+            $customerBuilder
         );
     }
 

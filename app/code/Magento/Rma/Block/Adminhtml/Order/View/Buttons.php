@@ -58,11 +58,11 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
                 'adminhtml/rma/new',
                 array('order_id' => $parentBlock->getOrderId())
             );
-            $parentBlock->addButton(
+
+            $this->getToolbar()->addChild(
                 'create_rma',
-                array('label' => __('Create Returns'), 'onclick' => 'setLocation(\'' . $buttonUrl . '\')'),
-                0,
-                $this->_getCreateRmaButtonSortOrder()
+                'Magento\Backend\Block\Widget\Button',
+                array('label' => __('Create Returns'), 'onclick' => 'setLocation(\'' . $buttonUrl . '\')')
             );
         }
         return $this;
@@ -82,20 +82,5 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
                 $parentBlock->getOrder(),
                 true
             );
-    }
-
-    /**
-     * Retrieve sort order of 'Create RMA' button
-     *
-     * @return int
-     */
-    protected function _getCreateRmaButtonSortOrder()
-    {
-        $sortOrder = self::CREATE_RMA_BUTTON_DEFAULT_SORT_ORDER;
-        // 'Create RMA' button has to be placed after 'Send Email' button
-        if (isset($this->_buttons[0]['send_notification']['sort_order'])) {
-            $sortOrder = $this->_buttons[0]['send_notification']['sort_order'] + 5;
-        }
-        return $sortOrder;
     }
 }

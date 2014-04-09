@@ -137,11 +137,6 @@ class Template extends \Magento\Backend\App\Action
             $model->addData($values);
         }
 
-        $editBlock = $this->_view->getLayout()->getBlock('template_edit');
-        if ($editBlock) {
-            $editBlock->setEditMode($model->getId() > 0);
-        }
-
         $this->_view->renderLayout();
     }
 

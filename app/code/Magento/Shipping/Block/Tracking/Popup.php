@@ -115,6 +115,6 @@ class Popup extends \Magento\View\Element\Template
      */
     public function getContactUs()
     {
-        return $this->getUrl('contacts');
+        return $this->getUrl('contact');
     }
 }

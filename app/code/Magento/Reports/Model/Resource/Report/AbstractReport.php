@@ -445,7 +445,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
                 $tr = $transitions[$i];
                 try {
                     $this->timezoneValidator->validate($tr['ts'], $to);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     continue;
                 }
 

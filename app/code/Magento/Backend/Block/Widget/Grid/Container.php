@@ -151,7 +151,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
             array(
                 'label' => $this->getAddButtonLabel(),
                 'onclick' => 'setLocation(\'' . $this->getCreateUrl() . '\')',
-                'class' => 'add'
+                'class' => 'add primary'
             )
         );
     }

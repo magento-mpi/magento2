@@ -9,6 +9,11 @@
  */
 namespace Magento\Backend\Block\System\Config;
 
+/**
+ * Class Switcher
+ * @package Magento\Backend\Block\System\Config
+ * @deprecated
+ */
 class Switcher extends \Magento\Backend\Block\Template
 {
     /**

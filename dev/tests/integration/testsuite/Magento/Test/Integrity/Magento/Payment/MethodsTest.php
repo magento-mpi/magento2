@@ -40,6 +40,21 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             $this->fail("Model of '{$code}' payment method is not found.");
         }
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($methodClass);
+        if ($code == \Magento\Payment\Model\Method\Substitution::CODE) {
+            $paymentInfo = $this->getMockBuilder(
+                'Magento\Payment\Model\Info'
+            )->disableOriginalConstructor()->setMethods(
+                []
+            )->getMock();
+            $paymentInfo->expects(
+                $this->any()
+            )->method(
+                'getAdditionalInformation'
+            )->will(
+                $this->returnValue('Additional data mock')
+            );
+            $model->setInfoInstance($paymentInfo);
+        }
         $this->assertNotEmpty($model->getTitle());
         foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
             $message = "Block class: {$blockClass}";
