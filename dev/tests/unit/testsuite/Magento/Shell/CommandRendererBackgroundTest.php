@@ -27,9 +27,6 @@ class CommandRendererBackgroundTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Covered CommandRendererBackground class
-     *
-     * @test
      * @dataProvider commandPerOsTypeDataProvider
      * @param bool $isWindows
      * @param string $expectedResults
@@ -55,8 +52,8 @@ class CommandRendererBackgroundTest extends \PHPUnit_Framework_TestCase
     public function commandPerOsTypeDataProvider()
     {
         return array(
-            'windows' => array(true, CommandRendererBackground::WINDOWS_PREFIX . $this->testCommand . ' 2>&1'),
-            'unix'    => array(false, $this->testCommand . ' 2>&1' . CommandRendererBackground::UNIX_SUFFIX),
+            'windows' => array(true, 'start /B "magento background task" ' . $this->testCommand . ' 2>&1'),
+            'unix'    => array(false, $this->testCommand . ' 2>&1 > /dev/null &'),
         );
     }
 }

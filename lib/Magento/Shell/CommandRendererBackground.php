@@ -13,10 +13,6 @@ use Magento\OsInfo;
 
 class CommandRendererBackground extends CommandRenderer
 {
-    const WINDOWS_PREFIX = 'start /B "magento background task" ';
-
-    const UNIX_SUFFIX = ' > /dev/null &';
-
     /**
      * @var \Magento\OsInfo
      */
@@ -41,7 +37,7 @@ class CommandRendererBackground extends CommandRenderer
     {
         $command = parent::render($command, $arguments);
         return $this->osInfo->isWindows() ?
-            self::WINDOWS_PREFIX . $command
-            : $command . self::UNIX_SUFFIX;
+            'start /B "magento background task" ' . $command
+            : $command . ' > /dev/null &';
     }
 }
