@@ -274,9 +274,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $formKey = 'asdfaswqrwqe12';
 
         //Verification
-        $this->_configMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
         $this->_formKey->expects($this->once())
             ->method('get')
             ->will($this->returnValue($formKey));
