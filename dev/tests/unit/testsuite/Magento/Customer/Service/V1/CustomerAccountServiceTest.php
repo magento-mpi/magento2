@@ -280,7 +280,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException  \Magento\Exception\InvalidStateException
+     * @expectedException  \Magento\Exception\State\InvalidStateException
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -1035,7 +1035,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\InvalidStateException
+     * @expectedException \Magento\Exception\State\InvalidStateException
      */
     public function testResendConfirmationNotNeeded()
     {

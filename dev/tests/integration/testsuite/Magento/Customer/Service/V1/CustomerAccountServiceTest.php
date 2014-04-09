@@ -215,7 +215,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      * @magentoAppArea frontend
-     * @expectedException \Magento\Exception\InvalidStateException
+     * @expectedException \Magento\Exception\State\InvalidStateException
      */
     public function testActivateCustomerAlreadyActive()
     {
@@ -462,7 +462,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\InvalidStateException
+     * @expectedException \Magento\Exception\State\InvalidStateException
      */
     public function testResendConfirmationNotNeeded()
     {
