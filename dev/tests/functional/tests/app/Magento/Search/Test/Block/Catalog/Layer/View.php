@@ -22,7 +22,8 @@ class View extends Block
      *
      * @var string
      */
-    protected $clearAll = '.action.reset';
+//    protected $clearAll = '.action.reset';
+    protected $clearAll = './/*[@class="action reset"]';
 
     /**
      * Price range
@@ -44,7 +45,7 @@ class View extends Block
     public function clearAll()
     {
         $this->reinitRootElement();
-        $this->_rootElement->find($this->clearAll)->click();
+        $this->_rootElement->find($this->clearAll, locator::SELECTOR_XPATH)->click();
     }
 
     /**
