@@ -86,7 +86,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
                 array(
                     'label' => __('Save Category'),
                     'onclick' => "categorySubmit('" . $this->getSaveUrl() . "', true)",
-                    'class' => 'save'
+                    'class' => 'save primary save-category'
                 )
             );
         }
@@ -115,7 +115,8 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
                 'Magento\Backend\Block\Widget\Button',
                 array(
                     'label' => __('Reset'),
-                    'onclick' => "categoryReset('" . $this->getUrl($resetPath, array('_current' => true)) . "',true)"
+                    'onclick' => "categoryReset('" . $this->getUrl($resetPath, array('_current' => true)) . "',true)",
+                    'class' => 'reset'
                 )
             );
         }

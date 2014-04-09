@@ -45,6 +45,13 @@ class UserEdit extends Page
     protected $roleGridBlock = 'permissionsUserRolesGrid';
 
     /**
+     * Grid page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -84,6 +91,18 @@ class UserEdit extends Page
     {
         return Factory::getBlockFactory()->getMagentoUserUserEditTabRoles(
             $this->_browser->find($this->roleGridBlock, Locator::SELECTOR_ID));
+    }
+
+    /**
+     * Get Grid page actions block
+     *
+     * @return \Magento\User\Test\Block\Backend\UserEditPageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoUserBackendUserEditPageActions(
+            $this->_browser->find($this->pageActionsBlock)
+        );
     }
 }
 

@@ -48,7 +48,7 @@ class ProductTest extends Functional
         $productGridBlock->searchAndSelect(array('sku' => $urlRewriteProduct->getProductSku()));
         $categoryTreeBlock->selectCategory($urlRewriteProduct->getCategoryName());
         $urlRewriteInfoForm->fill($urlRewriteProduct);
-        $urlRewriteInfoForm->save();
+        $urlRewriteEditPage->getActionsBlock()->save();
         $this->assertContains(
             'The URL Rewrite has been saved.',
             $urlRewriteGridPage->getMessagesBlock()->getSuccessMessages()

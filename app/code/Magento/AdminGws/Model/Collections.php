@@ -273,7 +273,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit ratings collection
      *
-     * @param \Magento\Rating\Model\Resource\Rating\Collection $collection
+     * @param \Magento\Review\Model\Resource\Rating\Collection $collection
      * @return void
      */
     public function limitRatings($collection)

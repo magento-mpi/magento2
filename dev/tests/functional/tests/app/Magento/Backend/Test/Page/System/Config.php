@@ -31,18 +31,11 @@ class Config extends Page
     protected $form = '#config-edit-form';
 
     /**
-     * Store switcher selector
-     *
-     * @var string
-     */
-    protected $storeSwitcher = '#store_switcher';
-
-    /**
      * Page actions selector
      *
      * @var string
      */
-    protected $pageActions = '.page-actions';
+    protected $pageActions = '.page-main-actions';
 
     /**
      * Messages selector
@@ -70,25 +63,13 @@ class Config extends Page
     }
 
     /**
-     * Retrieve store switcher block
-     *
-     * @return Switcher
-     */
-    public function getStoreSwitcher()
-    {
-        return Factory::getBlockFactory()->getMagentoBackendSystemConfigSwitcher(
-            $this->_browser->find($this->storeSwitcher, Locator::SELECTOR_CSS, 'select')
-        );
-    }
-
-    /**
      * Retrieve page actions block
      *
-     * @return \Magento\Backend\Test\Block\System\Store\Actions
+     * @return \Magento\Backend\Test\Block\System\Config\PageActions
      */
-    public function getActions()
+    public function getPageActions()
     {
-        return Factory::getBlockFactory()->getMagentoBackendSystemConfigActions(
+        return Factory::getBlockFactory()->getMagentoBackendSystemConfigPageActions(
             $this->_browser->find($this->pageActions)
         );
     }

@@ -122,16 +122,6 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
             );
         }
 
-        $this->setChild(
-            'store_switcher',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Store\Switcher'
-            )->setSwitchUrl(
-                $this->getUrl('catalog/*/*', array('_current' => true, '_query' => false, 'store' => null))
-            )->setTemplate(
-                'Magento_Backend::store/switcher/enhanced.phtml'
-            )
-        );
         return parent::_prepareLayout();
     }
 

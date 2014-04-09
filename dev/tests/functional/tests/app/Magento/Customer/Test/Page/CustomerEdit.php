@@ -17,6 +17,7 @@ use Magento\Customer\Test\Block\Backend\CustomerForm;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
+use Magento\Backend\Test\Block\FormPageActions;
 
 /**
  * Class CustomerEdit
@@ -32,15 +33,25 @@ class CustomerEdit extends Page
     const MCA = 'customer/edit';
 
     /**
+     * Title Block
+     *
      * @var string
      */
     protected $titleBlock = '.page-title .title';
 
     /**
+     * "Edit Customer" page form
+     *
      * @var string
      */
     protected $editCustomerForm = '[id="page:main-container"]';
 
+    /**
+     * Form page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * Custom constructor
@@ -71,5 +82,16 @@ class CustomerEdit extends Page
     {
         return Factory::getBlockFactory()->getMagentoCustomerBackendCustomerForm(
             $this->_browser->find($this->editCustomerForm));
+    }
+
+    /**
+     * Get Form page actions block
+     *
+     * @return FormPageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendFormPageActions(
+            $this->_browser->find($this->pageActionsBlock));
     }
 }
