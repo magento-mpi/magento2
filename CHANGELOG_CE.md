@@ -1,4 +1,12 @@
 * Framework Improvements:
+  * Covered Magento library components with unit tests: (MAGETWO-21115)
+    * Magento/App/Request
+    * Magento/App/Resource folder and Magento/App/Resource.php
+    * Magento/App/Response
+    * Magento/App/Route
+    * Magento/App/Router
+    * Magento/App/Http.php
+    * Magento/Translate.php
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
   * API Service Exception Handling (MAGETWO-14490)
