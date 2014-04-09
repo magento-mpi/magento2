@@ -1926,7 +1926,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createService()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $customerService = new CustomerAccountService(
             $this->_customerFactoryMock,
             $this->_eventManagerMock,
@@ -1934,7 +1933,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_mathRandomMock,
             $this->_converter,
             $this->_validator,
-            $objectManager->getObject('\Magento\Customer\Service\V1\Data\CustomerBuilder'),
+            new CustomerBuilder(new AttributeValueBuilder(), $this->_customerMetadataService),
             $this->_customerDetailsBuilder,
             new Data\SearchResultsBuilder,
             new Data\CustomerValidationResultsBuilder(),
