@@ -13,19 +13,6 @@ namespace Magento\Webapi\Routing;
 
 class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
 {
-    public function testBasicRoutingPathAutoDetection()
-    {
-        $itemId = 1;
-        $serviceInfo = array(
-            'serviceInterface' => 'Magento\TestModule1\Service\V1\AllSoapAndRestInterface',
-            'method' => 'item',
-            'entityId' => $itemId
-        );
-        $requestData = array('itemId' => $itemId);
-        $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('testProduct1', $item['name'], "Item was retrieved unsuccessfully");
-    }
-
     public function testBasicRoutingExplicitPath()
     {
         $itemId = 1;
