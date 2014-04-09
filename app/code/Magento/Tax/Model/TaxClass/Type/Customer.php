@@ -60,9 +60,7 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
     }
 
     /**
-     * Get Customer Groups Data Objects with this tax class
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isAssignedToObjects()
     {
@@ -71,7 +69,8 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
         )->create();
 
         $result = $this->groupService->searchGroups($searchCriteria);
-        return count($result->getItems());
+        $items = $result->getItems();
+        return !empty($items);
     }
 
     /**

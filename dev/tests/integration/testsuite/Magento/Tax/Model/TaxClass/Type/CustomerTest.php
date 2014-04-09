@@ -21,7 +21,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function testGetAssignedToObjects()
+    public function testIsAssignedToObjects()
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -44,7 +44,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\Tax\Model\TaxClass\Type\Customer */
         $model = $this->_objectManager->create('Magento\Tax\Model\TaxClass\Type\Customer');
         $model->setId($taxClassId);
-        $this->assertEquals(1, $model->getAssignedToObjectsSize());
+        $this->assertTrue($model->isAssignedToObjects());
     }
 }
 
