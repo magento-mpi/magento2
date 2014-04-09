@@ -71,7 +71,6 @@
                 parent = $(options.parent) || elem.parent(),
                 menu = $(options.menu, parent) || $('.dropdown-menu', parent);
 
-            elem.off('click.toggleDropdown');
             elem.on('click.toggleDropdown', function() {
                 if(options.autoclose === true) {
                     self.reset({elems: actionElem.not(elem)});
@@ -79,10 +78,6 @@
                 self[elem.hasClass('active') ? 'closeDropdown' : 'openDropdown'](elem);
 
                 return false;
-            });
-
-            menu.on('click.preventMenuClosing', function(e) {
-                e.stopPropagation();
             });
         });
     };
