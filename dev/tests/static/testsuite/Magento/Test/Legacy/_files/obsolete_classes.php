@@ -2200,7 +2200,7 @@ return array(
     ['Magento\Rating\Block\Adminhtml\Edit\Tab\Options'],
     ['Magento\Rating\Model\Rating', 'Magento\Review\Model\Rating'],
     [
-        'Magento\Rating\Model\Resource\Rating\Option\Vote\Collection',        
+        'Magento\Rating\Model\Resource\Rating\Option\Vote\Collection',
         'Magento\Review\Model\Resource\Rating\Option\Vote\Collection'
     ],
     [

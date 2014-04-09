@@ -131,4 +131,5 @@ class CustomerRegistry
             unset($this->customerRegistryById[$customer->getId()]);
         }
     }
-} 
+}
+
