@@ -41,8 +41,8 @@ class SendTest extends \PHPUnit_Framework_TestCase
     public function formDataProvider()
     {
         return [
-            ['name', 'Customer' . time()],
-            ['email', time() . '@example.com']
+            ['name', 'Customer Form Name'],
+            ['email', 'customer_form_email@example.com']
         ];
     }
 
