@@ -1959,7 +1959,7 @@ return array(
     array('Magento\View\Layout\Argument\HandlerInterface', 'Magento\Data\Argument\InterpreterInterface'),
     array('Magento\View\Layout\Argument\HandlerFactory', 'Magento\Data\Argument\Interpreter\Composite'),
     array('Magento\Phrase\Renderer\Factory'),
-    array('Magento\Core\Model\Layout\Factory', 'Magento\DesignEditor\Model\AreaEmulator'),
+    array('Magento\View\Layout\Factory', 'Magento\DesignEditor\Model\AreaEmulator'),
     array('Magento\Catalog\Model\Category\Indexer\Product'),
     array('Magento\Catalog\Model\Resource\Category\Indexer\Product'),
     array('Magento\Catalog\Model\Index'),
