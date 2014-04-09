@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Block\Product;
+namespace Magento\Catalog\Product;
 
 /**
  * Class for testing methods of AbstractProduct
