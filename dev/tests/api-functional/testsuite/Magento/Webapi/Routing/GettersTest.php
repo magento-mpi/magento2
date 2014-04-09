@@ -49,9 +49,9 @@ class GettersTest extends \Magento\Webapi\Routing\BaseService
         $requestData = ['id' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
-        $isEnabled = isset($item['enabled']) && $item['enabled'] === true;
+        $isEnabled = isset($item['isEnabled']) && $item['isEnabled'] === true;
         $this->assertTrue($isEnabled, 'Getter with "is" prefix is processed incorrectly.');
-        $hasOrders = isset($item['orders']) && $item['orders'] === true;
-        $this->assertTrue($hasOrders, 'Getter with "has" prefix is processed incorrectly.');
+        $hasName = isset($item['hasName']) && $item['hasName'] === true;
+        $this->assertTrue($hasName, 'Getter with "has" prefix is processed incorrectly.');
     }
 }
