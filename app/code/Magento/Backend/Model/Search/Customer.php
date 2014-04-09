@@ -100,7 +100,7 @@ class Customer extends \Magento\Object
                 ->setValue($this->getQuery() . '%')
                 ->create();
         }
-        $this->_searchCriteriaBuilder->addOrGroup($filters);
+        $this->_searchCriteriaBuilder->addFilter($filters);
         $searchCriteria = $this->_searchCriteriaBuilder->create();
         $searchResults = $this->_customerService->searchCustomers($searchCriteria);
 
