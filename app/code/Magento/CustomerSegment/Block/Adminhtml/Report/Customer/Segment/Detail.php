@@ -76,7 +76,8 @@ class Detail extends \Magento\Backend\Block\Widget\Grid\Container
             'refresh',
             array(
                 'label' => __('Refresh Segment Data'),
-                'onclick' => 'setLocation(\'' . $this->getRefreshUrl() . '\')'
+                'onclick' => 'setLocation(\'' . $this->getRefreshUrl() . '\')',
+                'class' => 'refresh primary'
             )
         );
     }

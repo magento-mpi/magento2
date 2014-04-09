@@ -135,9 +135,13 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
-            $this->_customerGroupBuilder->setId($group->getId())
-                ->setCode($group->getCode())
-                ->setTaxClassId($group->getTaxClassId());
+            $this->_customerGroupBuilder->setId(
+                $group->getId()
+            )->setCode(
+                $group->getCode()
+            )->setTaxClassId(
+                $group->getTaxClassId()
+            );
             $groups[] = $this->_customerGroupBuilder->create();
         }
         $this->_searchResultsBuilder->setItems($groups);

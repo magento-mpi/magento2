@@ -133,14 +133,14 @@ class Product extends \Magento\Backend\App\Action
 
                     $arrRatingId = $this->getRequest()->getParam('ratings', array());
                     $votes = $this->_objectManager->create(
-                        'Magento\Rating\Model\Rating\Option\Vote'
+                        'Magento\Review\Model\Rating\Option\Vote'
                     )->getResourceCollection()->setReviewFilter(
                         $reviewId
                     )->addOptionInfo()->load()->addRatingOptions();
                     foreach ($arrRatingId as $ratingId => $optionId) {
                         if ($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
                             $this->_objectManager->create(
-                                'Magento\Rating\Model\Rating'
+                                'Magento\Review\Model\Rating'
                             )->setVoteId(
                                 $vote->getId()
                             )->setReviewId(
@@ -150,7 +150,7 @@ class Product extends \Magento\Backend\App\Action
                             );
                         } else {
                             $this->_objectManager->create(
-                                'Magento\Rating\Model\Rating'
+                                'Magento\Review\Model\Rating'
                             )->setRatingId(
                                 $ratingId
                             )->setReviewId(
@@ -370,7 +370,7 @@ class Product extends \Magento\Backend\App\Action
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
                 foreach ($arrRatingId as $ratingId => $optionId) {
                     $this->_objectManager->create(
-                        'Magento\Rating\Model\Rating'
+                        'Magento\Review\Model\Rating'
                     )->setRatingId(
                         $ratingId
                     )->setReviewId(

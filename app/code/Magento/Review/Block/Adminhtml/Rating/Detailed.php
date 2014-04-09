@@ -9,10 +9,10 @@
  */
 namespace Magento\Review\Block\Adminhtml\Rating;
 
-use Magento\Rating\Model\Rating;
-use Magento\Rating\Model\Rating\Option;
-use Magento\Rating\Model\Resource\Rating\Collection as RatingCollection;
-use Magento\Rating\Model\Resource\Rating\Option\Vote\Collection as VoteCollection;
+use Magento\Review\Model\Rating;
+use Magento\Review\Model\Rating\Option;
+use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
+use Magento\Review\Model\Resource\Rating\Option\Vote\Collection as VoteCollection;
 
 /**
  * Adminhtml detailed rating stars
@@ -31,7 +31,7 @@ class Detailed extends \Magento\Backend\Block\Template
      *
      * @var string
      */
-    protected $_template = 'Magento_Rating::rating/detailed.phtml';
+    protected $_template = 'Magento_Review::rating/detailed.phtml';
 
     /**
      * Core registry
@@ -43,28 +43,28 @@ class Detailed extends \Magento\Backend\Block\Template
     /**
      * Rating resource model
      *
-     * @var \Magento\Rating\Model\Resource\Rating\CollectionFactory
+     * @var \Magento\Review\Model\Resource\Rating\CollectionFactory
      */
     protected $_ratingsFactory;
 
     /**
      * Rating resource option model
      *
-     * @var \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory
+     * @var \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory
      */
     protected $_votesFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Rating\Model\Resource\Rating\CollectionFactory $ratingsFactory
-     * @param \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory
+     * @param \Magento\Review\Model\Resource\Rating\CollectionFactory $ratingsFactory
+     * @param \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Rating\Model\Resource\Rating\CollectionFactory $ratingsFactory,
-        \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
+        \Magento\Review\Model\Resource\Rating\CollectionFactory $ratingsFactory,
+        \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
         \Magento\Registry $registry,
         array $data = array()
     ) {
@@ -151,7 +151,7 @@ class Detailed extends \Magento\Backend\Block\Template
      * Indicator of whether or not a rating is selected
      *
      * @param Option $option
-     * @param Rating $rating
+     * @param \Magento\Review\Model\Rating $rating
      * @return bool
      */
     public function isSelected($option, $rating)

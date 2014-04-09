@@ -49,7 +49,7 @@ class CategoryTest extends Injectable
         $pageActionsBlock->addNewUrlRewrite();
         $categoryTreeBlock->selectCategory($urlRewriteCategory->getCategoryName());
         $urlRewriteInfoForm->fill($urlRewriteCategory);
-        $urlRewriteInfoForm->save();
+        $urlRewriteEditPage->getActionsBlock()->save();
         $this->assertContains(
             'The URL Rewrite has been saved.',
             $urlRewriteGridPage->getMessagesBlock()->getSuccessMessages()
