@@ -8,22 +8,15 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
-    <module name="Magento_Shipping" version="1.6.0.0" active="true">
+    <module name="Magento_Contact" version="1.6.0.0" active="true">
         <sequence>
             <module name="Magento_Core"/>
-            <module name="Magento_Catalog"/>
         </sequence>
         <depends>
             <module name="Magento_Core"/>
-            <module name="Magento_Catalog"/>
-            <module name="Magento_Sales"/>
-            <module name="Magento_Backend"/>
-            <module name="Magento_Directory"/>
-            <module name="Magento_Contact"/>
             <module name="Magento_Customer"/>
-            <module name="Magento_Payment"/>
-            <module name="Magento_Theme"/>
-            <module name="Magento_Tax"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Cms"/>
         </depends>
     </module>
 </config>
