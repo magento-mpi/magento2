@@ -12,12 +12,13 @@ namespace Magento\Tax\Model\TaxClass\Type;
 
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetAssignedObjects()
+    public function testGetAssignedObjectsSize()
     {
-        $this->markTestSkipped('Need to be updated');
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $collectionMock = $objectManagerHelper->getObject('Magento\Tax\Model\TaxClass\Type\Customer');
+        $collectionMock = $this->getMockBuilder('Magento\Tax\Model\TaxClass\Type\Customer')->setMethods(
+            array('addFieldToFilter', 'getCollection')
+        )->disableOriginalConstructor()->getMock();
         $collectionMock->expects(
             $this->once()
         )->method(
