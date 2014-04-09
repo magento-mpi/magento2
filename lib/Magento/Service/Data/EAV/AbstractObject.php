@@ -21,7 +21,7 @@ abstract class AbstractObject extends \Magento\Service\Data\AbstractObject
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return AttributeValue|null The attribute value. Null if the attribute has not been set
+     * @return \Magento\Service\Data\Eav\AttributeValue|null The attribute value. Null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
@@ -41,7 +41,7 @@ abstract class AbstractObject extends \Magento\Service\Data\AbstractObject
     /**
      * Retrieve custom attributes values as an associative array.
      *
-     * @return AttributeValue[]|null
+     * @return \Magento\Service\Data\Eav\AttributeValue[]|null
      */
     public function getCustomAttributes()
     {
