@@ -17,6 +17,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Core\Test\Block\Messages;
 use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Backend\Test\Block\FormPageActions;
 
 /**
  * Class SalesRuleNew
@@ -66,6 +67,13 @@ class SalesRuleNew extends Page
     protected $promoQuoteFormSelector = 'page:main-container';
 
     /**
+     * Form page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
+
+    /**
      * {@inheritDoc}
      */
     protected function _init()
@@ -96,18 +104,6 @@ class SalesRuleNew extends Page
     }
 
     /**
-     * Get the Conditions Form Tab
-     *
-     * @return FormTabs
-     */
-    public function getConditionsFormTab()
-    {
-        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
-            $this->_browser->find($this->conditionsTabId, Locator::SELECTOR_ID)
-        );
-    }
-
-    /**
      * Get the Actions Tab
      *
      * @return FormTabs
@@ -120,6 +116,18 @@ class SalesRuleNew extends Page
     }
 
     /**
+     * Get the Conditions Form Tab
+     *
+     * @return FormTabs
+     */
+    public function getConditionsFormTab()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
+            $this->_browser->find($this->conditionsTabId, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
      * Get the Conditions Tab
      *
      * @return Conditions
@@ -128,6 +136,18 @@ class SalesRuleNew extends Page
     {
         return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuoteEditTabConditions(
             $this->_browser->find($this->conditionsChildSelector, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get Form page actions block
+     *
+     * @return FormPageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendFormPageActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }

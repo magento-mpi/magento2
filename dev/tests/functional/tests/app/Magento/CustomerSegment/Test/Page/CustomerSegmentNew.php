@@ -12,7 +12,6 @@
 
 namespace Magento\CustomerSegment\Test\Page;
 
-
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Core\Test\Block\Messages;
 use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Report\Customer\Segment\Detail\Grid;
@@ -48,6 +47,13 @@ class CustomerSegmentNew extends Page
      * @var string
      */
     protected $messagesBlock = '#messages .messages';
+
+    /**
+     * Form page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * Custom constructor
@@ -138,6 +144,16 @@ class CustomerSegmentNew extends Page
     {
         return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlReportCustomerSegmentDetailGrid(
             $this->_browser->find('#segmentGrid')
+        );
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\FormPageActions
+     */
+    public function getActions()
+    {
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentEditActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }

@@ -80,7 +80,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
         $customer = $this->_customerFactory->create();
         $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($this->_email);
 
-        $collection->filterByCustomer($customer);
+        $collection->filterByCustomerId($customer->getId());
         foreach ($collection as $item) {
             $item->setCustomer($customer);
         }

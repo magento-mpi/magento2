@@ -1,13 +1,72 @@
 * Framework Improvements:
-  * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
+  * Covered Magento library components with unit tests: (MAGETWO-21115)
+    * Magento/App/Request
+    * Magento/App/Resource folder and Magento/App/Resource.php
+    * Magento/App/Response
+    * Magento/App/Route
+    * Magento/App/Router
+    * Magento/App/Http.php
+    * Magento/Translate.php
+  * Improve Web API framework based on Customer Service (MAGETWO-22045)
+  * API Service Exception Handling (MAGETWO-14490)
+* Themes update:
+  * Admin theme look&feel updated
 * Modularity improvements:
-  * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
-  * Moved resource model to Magento_Install module(MAGETWO-21599)
-  * Eliminated Core\Helper\Js class (MAGETWO-21600)
-  * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
-  * Moved library related logic of Cache from Core module (MAGETWO-21598)
+  * Resolved issues with cases when order has been placed before module disabling (MAGETWO-18064)
+  * Eliminated dependency of Magento_Catalog on Magento_Rating Module (MAGETWO-21481)
+  * Coupled Magento_Rating and Magento_Rating modules. Magento_Rating is removed (MAGETWO-23048)
+* Customer Service usage:
+  * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
+  * Refactor PayPal module to use Customer Service (MAGETWO-20477)
+  * Log, RSS, and Review module are fully refactored to use Customer Service Layer (MAGETWO-22788)
+  * Refactor Wishlist & WEEE module to use Customer Services (MAGETWO-20499)
+  * Refactor CatalogInventory to use Customer Service for customer services (MAGETWO-20464)
+  * Refactor CatalogRule Module to use Customer Service (MAGETWO-20471)
+  * Refactor SalesRule module to use customer services (MAGETWO-20496)
+* GitHub requests:
+  * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
+  * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
+  * [#516] (https://github.com/magento/magento2/issues/516) -- Make Sure That save_before Event Is Dispatched
+  * [#465] (https://github.com/magento/magento2/issues/465) -- Absolute path is assembled incorrectly when merging js/css files
+  * [#504] (https://github.com/magento/magento2/issues/504) -- Renamed "contacts" module to "contact" (MAGETWO-23150)
+  * [#529] (https://github.com/magento/magento2/issues/529) -- Fixed exception at admin dashboard (MAGETWO-23164)
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed an issue during creating or editing product template (MAGETWO-23170)
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed Typo in the module name (MAGETWO-23173)
+  * [#538] (https://github.com/magento/magento2/issues/538) -- Fixed missing tax amount in the invoice (MAGETWO-23175)
+* Fixed bugs:
+  * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
+  * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
+  * Fixed: Impossible export several entyties (Credit Memos, Report Shopping Cart ...) for user with restricted permission (MAGETWO-19346)
+  * Fixed: Checkout is blocked by "Please enter the State/Province pop-up" pop-up for customer that have saved address (MAGETWO-22006)
+  * Fixed: Fatal error on OnePageCheckout when trying to checkout second time (MAGETWO-23071)
+  * Fixed: Fatal error if provide online invoice for order placed with PayPal express checkout (Payment Action order) (MAGETWO-22617)
+  * Fixed: Wrong special price calculating for Bundle Product (MAGETWO-22562)
+  * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
+  * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
+* GitHub requests:
+  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
+
+2.0.0.0-dev72
+=============
+* Framework Improvements:
+  * Fixed performance degradation caused by DI argument processors
+* Modularity improvements:
+  * Introduced the Magento_UrlRewrite module, and moved corresponding classes from Magento_Core to Magento_UrlRewrite
+  * Moved all Install logic to the Magento_Install module
+  * Eliminated the Core\Helper\Js class
+  * Moved the Email related logic from the Magento_Core module to the Magento_Email module
+  * Moved the Cache related logic from the Magento_Core module to library
 * Indexer improvements:
-  * Added execution time hints for console reindex (MAGETWO-22818)
+  * Added execution time hints for console reindex
+* Customer Service usage:
+  * Refactored the Magento_Newsletter module to use Customer service layer
+* Fixed bugs:
+  * Fixed an issue with resetting customer password from the frontend
+  * Fixed an issue where mistakenly the attribute of the Customer Address Edit form was cached
+  * Fixed an issue where admin could not unsubscribe customer on the customer edit page in the backend
+  * Fixed an issue where customers were always subscribed to the newsletter even if not selected during registration
+* GitHub requests:
+  * [#325] (https://github.com/magento/magento2/pull/325) -- ImportExport: Fix notice if _attribute_set column is missing
 
 2.0.0.0-dev71
 =============
@@ -44,7 +103,7 @@
   * Updated the whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:
   * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
-  * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
+  * [#520] (https://github.com/magento/magento2/pull/520) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
 * Customer Service usage:
   * Refactored the Log module to use Customer Service
