@@ -38,7 +38,7 @@ return array(
     array('_customerFormFactory', '\Magento\Sales\Block\Adminhtml\Order\Create\Form\Account'),
     array('_defaultTemplates', 'Magento\Email\Model\Template'),
     array('_designProductSettingsApplied'),
-    array('_directOutput', 'Magento\Core\Model\Layout'),
+    array('_directOutput', 'Magento\View\Layout'),
     array('_dirs', 'Magento\App\Resource'),
     array('_distroServerVars'),
     array('_entityIdsToIncrementIds'),
@@ -317,4 +317,7 @@ return array(
     ['_translate', 'Magento\Rma\Model\Rma'],
     ['_translate', 'Magento\Rma\Model\Rma\Status\History'],
     ['_translate', 'Magento\Sales\Model\Order\Pdf\AbstractPdf'],
+    ['_layout', 'Magento\Install\App\Action\Plugin\Design'],
+    ['_layout', 'Magento\View\DesignLoader'],
+    ['_area', 'Magento\View\Layout'],
 );

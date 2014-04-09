@@ -117,7 +117,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
 
 
         $this->_layoutMock = $this->getMock(
-            '\Magento\Core\Model\Layout',
+            '\Magento\View\Layout',
             array('getBlock', 'initMessages', 'addBlock'),
             array(),
             '',

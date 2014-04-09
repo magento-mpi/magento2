@@ -341,7 +341,7 @@ class Context
      */
     public function getArea()
     {
-        return $this->layout->getArea();
+        return $this->appState->getAreaCode();
     }
 
     /**

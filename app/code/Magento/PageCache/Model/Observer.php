@@ -82,7 +82,7 @@ class Observer
     public function processLayoutRenderElement(\Magento\Event\Observer $observer)
     {
         $event = $observer->getEvent();
-        /** @var \Magento\Core\Model\Layout $layout */
+        /** @var \Magento\View\Layout $layout */
         $layout = $event->getLayout();
         if ($layout->isCacheable() && $this->_config->isEnabled()) {
             $name = $event->getElementName();

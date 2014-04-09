@@ -35,9 +35,9 @@ class EditorTest extends \PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        /** @var $layoutMock \Magento\Core\Model\Layout|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $layoutMock \Magento\View\Layout|PHPUnit_Framework_MockObject_MockObject */
         $layoutMock = $this->getMock(
-            'Magento\Core\Model\Layout',
+            'Magento\View\Layout',
             array(
                 'getBlock',
                 'getUpdate',

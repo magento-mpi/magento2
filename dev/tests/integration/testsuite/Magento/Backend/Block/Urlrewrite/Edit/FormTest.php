@@ -24,7 +24,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getFormInstance($args = array())
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Backend\Block\Urlrewrite\Edit\Form */
         $block = $layout->createBlock('Magento\Backend\Block\Urlrewrite\Edit\Form', 'block', array('data' => $args));

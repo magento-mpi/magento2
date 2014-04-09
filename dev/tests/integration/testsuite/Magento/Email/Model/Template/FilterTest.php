@@ -119,13 +119,8 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         );
 
         /** @var $layout \Magento\View\LayoutInterface */
-        $layout = $objectManager->create('Magento\Core\Model\Layout');
-        $objectManager->addSharedInstance($layout, 'Magento\Core\Model\Layout');
-        $this->assertEquals($area, $layout->getArea());
-        $this->assertEquals(
-            $area,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')->getArea()
-        );
+        $layout = $objectManager->create('Magento\View\Layout');
+        $objectManager->addSharedInstance($layout, 'Magento\View\Layout');
         $objectManager->get('Magento\View\DesignInterface')->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(

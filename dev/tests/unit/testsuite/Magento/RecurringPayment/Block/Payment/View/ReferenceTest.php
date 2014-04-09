@@ -63,7 +63,7 @@ class ReferenceTest extends \PHPUnit_Framework_TestCase
         );
 
         $layout = $this->getMockBuilder(
-            'Magento\Core\Model\Layout'
+            'Magento\View\Layout'
         )->disableOriginalConstructor()->setMethods(
             array('helper')
         )->getMock();

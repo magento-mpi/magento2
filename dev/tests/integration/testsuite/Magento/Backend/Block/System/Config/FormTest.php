@@ -56,7 +56,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Layout',
+            'Magento\View\Layout',
             array('area' => 'adminhtml')
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(

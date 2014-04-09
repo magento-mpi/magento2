@@ -23,7 +23,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Element\AbstractBlock */
     protected $_blockMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Layout */
     protected $_layoutMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Event\Observer */
@@ -75,7 +75,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array('getEvent'), array(), '', false);
         $this->_layoutMock = $this->getMock(
-            'Magento\Core\Model\Layout',
+            'Magento\View\Layout',
             array('isCacheable', 'getBlock', 'getUpdate', 'getHandles'),
             array(),
             '',
