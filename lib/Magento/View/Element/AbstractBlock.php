@@ -616,8 +616,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         if ($this->_storeConfig->getValue(
             'advanced/modules_disable_output/' . $this->getModuleName(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        )
-        ) {
+        )) {
             return '';
         }
 

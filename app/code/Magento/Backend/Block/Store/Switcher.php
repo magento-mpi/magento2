@@ -281,10 +281,10 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Core\Model\Store\Group $group
+     * @param \Magento\Store\Model\Group $group
      * @return bool
      */
-    public function isStoreGroupSelected(\Magento\Core\Model\Store\Group $group)
+    public function isStoreGroupSelected(\Magento\Store\Model\Group $group)
     {
         return $this->getStoreGroupId() === $group->getId() && $this->getStoreGroupId() === null;
     }
@@ -351,10 +351,10 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return bool
      */
-    public function isStoreSelected(\Magento\Core\Model\Store $store)
+    public function isStoreSelected(\Magento\Store\Model\Store $store)
     {
         return $this->getStoreId() !== null && (int)$this->getStoreId() === (int)$store->getId();
     }

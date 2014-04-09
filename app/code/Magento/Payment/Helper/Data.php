@@ -47,13 +47,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_methodFactory;
 
     /**
-     * Config
-     *
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_config;
-
-    /**
      * App emulation model
      *
      * @var \Magento\Core\Model\App\Emulation
@@ -82,7 +75,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\App\Config\Initial $initialConfig
@@ -91,7 +83,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_storeConfig = $coreStoreConfig;
         $this->_layout = $layout;
         $this->_methodFactory = $paymentMethodFactory;
-        $this->_config = $config;
         $this->_appEmulation = $appEmulation;
         $this->_paymentConfig = $paymentConfig;
         $this->_initialConfig = $initialConfig;
