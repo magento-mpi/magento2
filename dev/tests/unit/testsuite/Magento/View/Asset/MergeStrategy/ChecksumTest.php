@@ -119,7 +119,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
     {
         $one = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $one->expects($this->once())->method('getSourceFile')->will($this->returnValue('/dir/file/one.txt'));
-        $two = $this->getMock('\Magento\View\Asset\File',  array(), array(), '', false);
+        $two = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $two->expects($this->once())->method('getSourceFile')->will($this->returnValue('/dir/file/two.txt'));
         $this->sourceDir->expects($this->exactly(2))
             ->method('getRelativePath')

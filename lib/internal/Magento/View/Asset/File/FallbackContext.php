@@ -34,7 +34,7 @@ class FallbackContext extends Context
      * @param string $themePath
      * @param string $localeCode
      */
-    function __construct($baseUrl, $areaType, $themePath, $localeCode)
+    public function __construct($baseUrl, $areaType, $themePath, $localeCode)
     {
         $this->area = $areaType;
         $this->theme = $themePath;

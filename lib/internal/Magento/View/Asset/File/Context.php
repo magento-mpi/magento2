@@ -35,7 +35,7 @@ class Context implements Asset\ContextInterface
      * @param string $baseDirType
      * @param string $contextPath
      */
-    function __construct($baseUrl, $baseDirType, $contextPath)
+    public function __construct($baseUrl, $baseDirType, $contextPath)
     {
         $this->baseUrl = $baseUrl;
         $this->baseDir = $baseDirType;
