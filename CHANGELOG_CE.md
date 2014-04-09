@@ -17,6 +17,7 @@
   * Resolved issues with cases when order has been placed before module disabling (MAGETWO-18064)
   * Eliminated dependency of Magento_Catalog on Magento_Rating Module (MAGETWO-21481)
   * Coupled Magento_Rating and Magento_Rating modules. Magento_Rating is removed (MAGETWO-23048)
+  * Moved View related components from Magento\Core module to Magento\View (MAGETWO-21590)
 * Customer Service usage:
   * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
   * Refactor PayPal module to use Customer Service (MAGETWO-20477)
@@ -35,6 +36,7 @@
   * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed an issue during creating or editing product template (MAGETWO-23170)
   * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed Typo in the module name (MAGETWO-23173)
   * [#538] (https://github.com/magento/magento2/issues/538) -- Fixed missing tax amount in the invoice (MAGETWO-23175)
+  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 * Fixed bugs:
   * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
   * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
@@ -45,8 +47,9 @@
   * Fixed: Wrong special price calculating for Bundle Product (MAGETWO-22562)
   * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
   * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
-* GitHub requests:
-  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
+  * Fixed an issue with active tab is changed to upper one after attribute set has been changed (MAGETWO-10611)
+  * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
+  * Fixed an issue with tier price attribute save (MAGETWO-19371)
 
 2.0.0.0-dev72
 =============

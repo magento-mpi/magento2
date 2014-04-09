@@ -249,7 +249,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_block->getChildBlock($childAlias));
 
         // With layout
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         $child = $layout->createBlock('Magento\View\Element\Text', $childName);
         $layout->addBlock($this->_block, $parentName);
@@ -440,7 +440,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @covers \Magento\View\Element\AbstractBlock::getGroupChildNames
-     * @covers \Magento\Core\Model\Layout::addToParentGroup
+     * @covers \Magento\View\Layout::addToParentGroup
      */
     public function testAddToParentGroup()
     {

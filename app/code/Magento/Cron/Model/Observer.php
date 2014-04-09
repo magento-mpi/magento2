@@ -82,7 +82,7 @@ class Observer
     protected $_request;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\ShellInterface
      */
     protected $_shell;
 
@@ -93,7 +93,7 @@ class Observer
      * @param ConfigInterface $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\Console\Request $request
-     * @param \Magento\Shell $shell
+     * @param \Magento\ShellInterface $shell
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -102,7 +102,7 @@ class Observer
         \Magento\Cron\Model\ConfigInterface $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\Console\Request $request,
-        \Magento\Shell $shell
+        \Magento\ShellInterface $shell
     ) {
         $this->_objectManager = $objectManager;
         $this->_scheduleFactory = $scheduleFactory;
@@ -134,16 +134,13 @@ class Observer
                 'system/cron/' . $groupId . '/use_separate_process'
             ) == 1
             ) {
-                $this->_shell->executeInBackground(
-                    '"' .
-                    PHP_BINARY .
-                    '" -f ' .
-                    BP .
-                    DIRECTORY_SEPARATOR .
-                    \Magento\App\Filesystem::PUB_DIR .
-                    DIRECTORY_SEPARATOR .
-                    'cron.php -- --group=' .
-                    $groupId
+                $this->_shell->execute(
+                    '%s -f %s -- --group=%s',
+                    array(
+                        PHP_BINARY,
+                        BP . DIRECTORY_SEPARATOR . \Magento\App\Filesystem::PUB_DIR .  DIRECTORY_SEPARATOR . 'cron.php',
+                        $groupId
+                    )
                 );
                 continue;
             }
