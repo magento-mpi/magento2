@@ -124,7 +124,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $groups = array();
         /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection();
-        //Adds filters from a root filter group to a collection
+        //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
         }
