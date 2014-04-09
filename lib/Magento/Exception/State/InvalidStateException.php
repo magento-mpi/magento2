@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Exception\State;
 
-class InvalidStateException extends \Magento\Exception\LocalizedException
+class InvalidStateException extends \Magento\Exception\StateException
 {
 
 }

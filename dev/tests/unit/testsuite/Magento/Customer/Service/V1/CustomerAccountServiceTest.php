@@ -337,7 +337,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\InputMismatchException
+     * @expectedException \Magento\Exception\State\InputMismatchException
      */
     public function testActivateAccountBadKey()
     {
@@ -487,7 +487,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\ExpiredException
+     * @expectedException \Magento\Exception\State\ExpiredException
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -516,7 +516,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\InputMismatchException
+     * @expectedException \Magento\Exception\State\InputMismatchException
      */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
@@ -840,7 +840,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\ExpiredException
+     * @expectedException \Magento\Exception\State\ExpiredException
      */
     public function testResetPasswordTokenExpired()
     {
@@ -874,7 +874,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\InputMismatchException
+     * @expectedException \Magento\Exception\State\InputMismatchException
      */
     public function testResetPasswordTokenInvalid()
     {

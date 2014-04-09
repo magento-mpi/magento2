@@ -178,8 +178,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
-     *
-     * @expectedException \Magento\Exception\InputMismatchException
+     * @expectedException \Magento\Exception\State\InputMismatchException
      */
     public function testActivateCustomerConfirmationKeyWrongKey()
     {
@@ -240,7 +239,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\ExpiredException
+     * @expectedException \Magento\Exception\State\ExpiredException
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -347,7 +346,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\ExpiredException
+     * @expectedException \Magento\Exception\State\ExpiredException
      */
     public function testResetPasswordTokenExpired()
     {

@@ -12,11 +12,11 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\AuthenticationException;
-use Magento\Exception\ExpiredException;
+use Magento\Exception\State\ExpiredException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\InputMismatchException;
-use Magento\Exception\InvalidStateException;
+use Magento\Exception\State\InputMismatchException;
+use Magento\Exception\State\InvalidStateException;
 use Magento\Exception\StateException;
 
 /**
@@ -461,7 +461,7 @@ class Account extends \Magento\App\Action\Action
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             }
             return;
-        } catch (InputMismatchException $e) {
+        } catch (StateException $e) {
             $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
             // @codingStandardsIgnoreStart
             $message = __(

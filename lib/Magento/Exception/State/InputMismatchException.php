@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Exception\State;
 
-class InputMismatchException extends \Magento\Exception\LocalizedException
+class InputMismatchException extends \Magento\Exception\StateException
 {
 
 }

@@ -14,11 +14,11 @@ use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Model\Resource\Customer\Collection;
 use Magento\Event\ManagerInterface;
-use Magento\Exception\ExpiredException;
+use Magento\Exception\State\ExpiredException;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
-use Magento\Exception\InputMismatchException;
-use Magento\Exception\InvalidStateException;
+use Magento\Exception\State\InputMismatchException;
+use Magento\Exception\State\InvalidStateException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Mail\Exception as MailException;
 use Magento\Math\Random;
@@ -664,8 +664,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $resetPasswordLinkToken
      * @return CustomerModel
-     * @throws \Magento\Exception\InputMismatchException If token is mismatched
-     * @throws \Magento\Exception\ExpiredException If token is expired
+     * @throws \Magento\Exception\State\InputMismatchException If token is mismatched
+     * @throws \Magento\Exception\State\ExpiredException If token is expired
      * @throws \Magento\Exception\InputException If token or customer id is invalid
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
