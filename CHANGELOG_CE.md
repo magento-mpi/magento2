@@ -1,8 +1,14 @@
 * Framework Improvements:
+  * StoreConfig class and ability to work with Configuration through the Store object has been eliminated. Scope Config has been introduced instead. (MAGETWO-21584)
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
   * API Service Exception Handling (MAGETWO-14490)
 * Modularity improvements:
+  * Store module has been introduced. All Store related logic from Magento\Core was moved into it (MAGETWO-21585)
+  * Moved library part of Config component from Core module to library (MAGETWO-21587)
+  * Moved Session related logic from Core module to library (MAGETWO-21594)
+  * Moved abstract logic related to Magento "Module" from Core to library (MAGETWO-21601)
+  * Moved functionality related to form key into library (MAGETWO-21606)
   * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
   * Moved resource model to Magento_Install module(MAGETWO-21599)
   * Eliminated Core\Helper\Js class (MAGETWO-21600)
