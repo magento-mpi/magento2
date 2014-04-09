@@ -93,9 +93,9 @@ class Email extends \Magento\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Customer\Model\CustomerFactory
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
-    protected $_customerFactory;
+    protected $_customerAccountService;
 
     /**
      * @var \Magento\Core\Model\App\Emulation
@@ -113,7 +113,7 @@ class Email extends \Magento\Model\AbstractModel
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -126,7 +126,7 @@ class Email extends \Magento\Model\AbstractModel
         \Magento\ProductAlert\Helper\Data $productAlertData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Model\Resource\AbstractResource $resource = null,
@@ -136,7 +136,7 @@ class Email extends \Magento\Model\AbstractModel
         $this->_productAlertData = $productAlertData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
-        $this->_customerFactory = $customerFactory;
+        $this->_customerAccountService = $customerAccountService;
         $this->_appEmulation = $appEmulation;
         $this->_transportBuilder = $transportBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -195,17 +195,17 @@ class Email extends \Magento\Model\AbstractModel
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = $this->_customerFactory->create()->load($customerId);
+        $this->_customer = $this->_customerAccountService->getCustomer($customerId);
         return $this;
     }
 
     /**
      * Set customer model
      *
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @return $this
      */
-    public function setCustomer(\Magento\Customer\Model\Customer $customer)
+    public function setCustomerData($customer)
     {
         $this->_customer = $customer;
         return $this;

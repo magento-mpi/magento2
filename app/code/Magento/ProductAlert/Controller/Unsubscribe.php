@@ -22,6 +22,23 @@ use Magento\App\RequestInterface;
 class Unsubscribe extends \Magento\App\Action\Action
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($context);
+    }
+
+    /**
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
@@ -29,14 +46,10 @@ class Unsubscribe extends \Magento\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_customerSession->authenticate($this)) {
             $this->_actionFlag->set('', 'no-dispatch', true);
-            if (!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
-                $this->_objectManager->get(
-                    'Magento\Customer\Model\Session'
-                )->setBeforeUrl(
-                    $this->_redirect->getRefererUrl()
-                );
+            if (!$this->_customerSession->getBeforeUrl()) {
+                $this->_customerSession->setBeforeUrl($this->_redirect->getRefererUrl());
             }
         }
         return parent::dispatch($request);
@@ -65,7 +78,7 @@ class Unsubscribe extends \Magento\App\Action\Action
             $model = $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Price'
             )->setCustomerId(
-                $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId()
+                $this->_customerSession->getCustomerId()
             )->setProductId(
                 $product->getId()
             )->setWebsiteId(
@@ -87,14 +100,11 @@ class Unsubscribe extends \Magento\App\Action\Action
      */
     public function priceAllAction()
     {
-        $session = $this->_objectManager->get('Magento\Customer\Model\Session');
-        /* @var $session \Magento\Customer\Model\Session */
-
         try {
             $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Price'
             )->deleteCustomer(
-                $session->getCustomerId(),
+                $this->_customerSession->getCustomerId(),
                 $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('You will no longer receive price alerts for this product.'));
@@ -116,8 +126,8 @@ class Unsubscribe extends \Magento\App\Action\Action
             return;
         }
 
-        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         /* @var $product \Magento\Catalog\Model\Product */
+        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $this->messageManager->addError(__('The product was not found.'));
             $this->_redirect('customer/account/');
@@ -128,7 +138,7 @@ class Unsubscribe extends \Magento\App\Action\Action
             $model = $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Stock'
             )->setCustomerId(
-                $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId()
+                $this->_customerSession->getCustomerId()
             )->setProductId(
                 $product->getId()
             )->setWebsiteId(
@@ -149,14 +159,11 @@ class Unsubscribe extends \Magento\App\Action\Action
      */
     public function stockAllAction()
     {
-        $session = $this->_objectManager->get('Magento\Customer\Model\Session');
-        /* @var $session \Magento\Customer\Model\Session */
-
         try {
             $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Stock'
             )->deleteCustomer(
-                $session->getCustomerId(),
+                $this->_customerSession->getCustomerId(),
                 $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('You will no longer receive stock alerts.'));

@@ -10,14 +10,13 @@
 namespace Magento\ProductAlert\Helper;
 
 use Magento\Core\Model\Store;
-use Magento\Customer\Model\Session;
 
 /**
  * ProductAlert data helper
  *
  * @category   Magento
  * @package    Magento_ProductAlert
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Data extends \Magento\Core\Helper\Url
 {
@@ -48,30 +47,22 @@ class Data extends \Magento\Core\Helper\Url
     protected $_layout;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_session;
-
-    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Customer\Model\Session $session
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $coreRegistry,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Customer\Model\Session $session
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_layout = $layout;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_session = $session;
         parent::__construct($context, $storeManager);
     }
 
@@ -98,14 +89,6 @@ class Data extends \Magento\Core\Helper\Url
     {
         $this->_product = $product;
         return $this;
-    }
-
-    /**
-     * @return Session
-     */
-    public function getCustomer()
-    {
-        return $this->_session;
     }
 
     /**

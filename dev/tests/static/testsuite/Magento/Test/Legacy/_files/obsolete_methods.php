@@ -1597,4 +1597,5 @@ return array(
         'getRatingSummary',
         'Magento\Catalog\Model\Product'
     ),
+    ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
 );

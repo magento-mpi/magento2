@@ -31,18 +31,12 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * Add customer filter
      *
-     * @param mixed $customer
+     * @param int $customerId
      * @return $this
      */
-    public function addCustomerFilter($customer)
+    public function addCustomerFilter($customerId)
     {
-        if (is_array($customer)) {
-            $condition = $this->getConnection()->quoteInto('customer_id IN(?)', $customer);
-        } elseif ($customer instanceof \Magento\Customer\Model\Customer) {
-            $condition = $this->getConnection()->quoteInto('customer_id=?', $customer->getId());
-        } else {
-            $condition = $this->getConnection()->quoteInto('customer_id=?', $customer);
-        }
+        $condition = $this->getConnection()->quoteInto('customer_id=?', $customerId);
         $this->addFilter('customer_id', $condition, 'string');
         return $this;
     }

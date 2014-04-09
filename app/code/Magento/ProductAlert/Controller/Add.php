@@ -22,6 +22,11 @@ use Magento\App\RequestInterface;
 class Add extends \Magento\App\Action\Action
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -29,12 +34,15 @@ class Add extends \Magento\App\Action\Action
     /**
      * @param Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
 
@@ -46,14 +54,10 @@ class Add extends \Magento\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_customerSession->authenticate($this)) {
             $this->_actionFlag->set('', 'no-dispatch', true);
-            if (!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
-                $this->_objectManager->get(
-                    'Magento\Customer\Model\Session'
-                )->setBeforeUrl(
-                    $this->_redirect->getRefererUrl()
-                );
+            if (!$this->_customerSession->getBeforeUrl()) {
+                $this->_customerSession->setBeforeUrl($this->_redirect->getRefererUrl());
             }
         }
         return parent::dispatch($request);
@@ -97,7 +101,7 @@ class Add extends \Magento\App\Action\Action
             $model = $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Price'
             )->setCustomerId(
-                $this->_objectManager->get('Magento\Customer\Model\Session')->getId()
+                $this->_customerSession->getCustomerId()
             )->setProductId(
                 $product->getId()
             )->setPrice(
@@ -136,7 +140,7 @@ class Add extends \Magento\App\Action\Action
             $model = $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Stock'
             )->setCustomerId(
-                $this->_objectManager->get('Magento\Customer\Model\Session')->getId()
+                $this->_customerSession->getCustomerId()
             )->setProductId(
                 $product->getId()
             )->setWebsiteId(
