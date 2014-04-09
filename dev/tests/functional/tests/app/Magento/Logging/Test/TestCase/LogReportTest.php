@@ -50,10 +50,11 @@ class LogReportTest extends Functional
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($configUser);
         $loginPage->getLoginBlock()->submit();
+        $loginPage->waitForHeaderBlock();
 
         //Step: Save config
         $systemConfigPage->open();
-        $configForm->save();
+        $systemConfigPage->getPageActions()->save();
         $systemConfigPage->getMessagesBlock()->assertSuccessMessage();
 
         //Step: Logout
@@ -63,6 +64,7 @@ class LogReportTest extends Functional
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($loginUser);
         $loginPage->getLoginBlock()->submit();
+        $loginPage->waitForHeaderBlock();
 
         //Step: Open logging report grid
         $logReportPage->open();

@@ -33,7 +33,7 @@ class Dashboard extends Page
      *
      * @var string
      */
-    protected $adminPanelHeader = 'header-panel';
+    protected $adminPanelHeader = 'page-header';
 
     /**
      * Page title block

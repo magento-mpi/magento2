@@ -12,11 +12,4 @@ namespace Magento\Customer\Service\V1\Data\Search;
  */
 class OrGroup extends AbstractFilterGroup
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getGroupType()
-    {
-        return 'OR';
-    }
 }

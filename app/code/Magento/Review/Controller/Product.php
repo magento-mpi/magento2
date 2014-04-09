@@ -72,7 +72,7 @@ class Product extends \Magento\App\Action\Action
     /**
      * Rating model
      *
-     * @var \Magento\Rating\Model\RatingFactory
+     * @var \Magento\Review\Model\RatingFactory
      */
     protected $_ratingFactory;
 
@@ -112,7 +112,7 @@ class Product extends \Magento\App\Action\Action
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
-     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Session\Generic $reviewSession
@@ -127,7 +127,7 @@ class Product extends \Magento\App\Action\Action
         \Magento\Logger $logger,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
-        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Session\Generic $reviewSession,
