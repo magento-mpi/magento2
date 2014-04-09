@@ -9,6 +9,11 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <move element="product.price.final" destination="product.info.form.options" before="product.info.giftcard"/>
+    <referenceBlock name="product.price.final">
+        <arguments>
+            <argument name="render_form" xsi:type="string">1</argument>
+        </arguments>
+    </referenceBlock>
     <referenceBlock name="product.info.form.options">
         <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml" before="-" cacheable="false">
             <action method="addPriceBlockType">
@@ -18,10 +23,5 @@
             </action>
             <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
         </block>
-    </referenceBlock>
-    <referenceBlock name="product.clone_prices">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">Magento_GiftCard::catalog/product/price/final_price_clone.phtml</argument>
-        </action>
     </referenceBlock>
 </layout>
