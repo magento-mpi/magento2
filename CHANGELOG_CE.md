@@ -81,13 +81,13 @@
   * Fixed an issue with incorrect error message during registration, and inability for a shopper to ask for resending a confirmation email
   * Fixed an issue where the Catalog module resource Setup Upgrade logic was broken
 * Modularity improvements:
-  * Moved abstract Core models and related logic into Magento/Model library (MAGETWO-21588)
-  * Moved abstract DB logic and Core resource helpers into Magento/DB library (MAGETWO-21588)
-  * Eliminated Core\Model\App class (MAGETWO-21593)
-  * Moved Magento Flag functionality to the library (MAGETWO-21605)
-  * Resolved dependency of Catalog and related modules on Review module (MAGETWO-21480)
-  * Moved indexers related logic from Core Module to Indexer Module (MAGETWO-21597)
-  * Moved Inline translation and user intended translate functionality from Magento\Core module into a separate Magento\Translation module (MAGETWO-21596)
+  * Moved abstract Core models and related logic into Magento/Model library
+  * Moved abstract DB logic and Core resource helpers into Magento/DB library
+  * Eliminated Core\Model\App class
+  * Moved Magento Flag functionality to the library
+  * Resolved dependency of Catalog and related modules on Review module
+  * Moved indexers related logic from Core Module to Indexer Module
+  * Moved Inline translation and user intended translate functionality from Magento\Core module into a separate Magento\Translation module
 * Framework Improvements:
   * Covered Magento library components with unit tests:
      * Magento\Config
