@@ -98,17 +98,6 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetViewFile()
-    {
-        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
-        $asset->expects($this->once())->method('getSourceFile')->will($this->returnValue('/source/file'));
-        $this->_assetRepo->expects($this->once())
-            ->method('createAsset')
-            ->with('file', array())
-            ->will($this->returnValue($asset));
-        $this->assertEquals('/source/file', $this->_model->getViewFile('file'));
-    }
-
     /**
      * @param string $path
      * @param string $expectedResult

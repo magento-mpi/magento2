@@ -49,14 +49,6 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
-    public function testGetViewFile()
-    {
-        $expected = '%s/frontend/vendor_custom_theme/Fixture_Module/fixture_script.js';
-        $params = array('theme' => 'vendor_custom_theme');
-        $actual = $this->_model->getViewFile('Fixture_Module::fixture_script.js', $params);
-        $this->_testExpectedVersusActualFilename($expected, $actual);
-    }
-
     /**
      * Tests expected vs actual found fallback filename
      *

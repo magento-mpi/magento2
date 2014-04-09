@@ -274,7 +274,7 @@ class Widget
         if (is_array($widget) && isset($widget['placeholder_image'])) {
             $placeholder = (string)$widget['placeholder_image'];
         }
-        if (!$placeholder || !$this->_viewFileSystem->getViewFile($placeholder)) {
+        if (!$placeholder || !$this->_assetRepo->createAsset($placeholder)->getSourceFile()) {
             $placeholder = 'Magento_Widget::placeholder.gif';
         }
         return $this->_assetRepo->getUrl($placeholder);

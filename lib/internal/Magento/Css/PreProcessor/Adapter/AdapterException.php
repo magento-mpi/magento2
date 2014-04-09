@@ -9,9 +9,8 @@
 namespace Magento\Css\PreProcessor\Adapter;
 
 /**
- * LESS adapter exception
+ * CSS pre-processing adapter exception
  */
 class AdapterException extends \Exception
 {
-
 }
