@@ -15,6 +15,7 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {

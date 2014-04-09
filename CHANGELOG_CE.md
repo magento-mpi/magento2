@@ -1,6 +1,17 @@
 * Fixed bugs:
   * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
   * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
+  * An issue with inability to add product with custom quantity to Wishlist was fixed (MAGETWO-15355)
+  * An issue with js validation skipped while creating CMS Page (MAGETWO-15743)
+  * An issue with "New Customer Address Attribute" and "New Customer Attribute" pages have the same title (MAGETWO-18731)
+  * An issue with form is submitted twice while CMS page creation (MAGETWO-20210)
+  * An issue with fatal error appears on attempt to edit product from wishlist if more than one store view available (MAGETWO-20859)
+  * An issue with inability to change page layout for categories (MAGETWO-21365)
+  * An issue with possibility to create product with grouped price when Price Scope = Website (MAGETWO-21709)
+  * An issue with possibility to create RMA when required custom attribute is added (MAGETWO-22344)
+  * An issue with disabled quantity_and_stock_status dropdown for bundle product (MAGETWO-22346)
+  * An issue with inactive "Related Products Rule" still shows on frontend(Related Products, Up-sell) (MAGETWO-22672)
+  * An issue with clickjacking vulnerability (MAGETWO-22696)
 * Framework Improvements:
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
