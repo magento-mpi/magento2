@@ -14,16 +14,9 @@ namespace Magento\View\Asset;
 interface PreProcessorInterface
 {
     /**
-     * Transform content and/or content type for the specified asset
+     * Transform content and/or content type for the specified preprocessing chain object
      *
-     * The $content and $contentType are data that's known about this asset so far. This pre-processor may modify them.
-     * Return value must be array of exactly 2 elements: array($content, $contentType)
-     * Where the return values may be the same or modified, depending on preprocessor implementation
-     *
-     * @param string $content
-     * @param string $contentType
-     * @param LocalInterface $asset
-     * @return array array($content, $contentType)
+     * @param \Magento\View\Asset\PreProcessor\Chain $chain
      */
-    public function process($content, $contentType, LocalInterface $asset);
+    public function process(PreProcessor\Chain $chain);
 } 

@@ -23,7 +23,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->themeProvider = $this->getMock('\Magento\View\Design\Theme\Provider', array(), array(), '', false);
-        $assetSource = $this->getMock('Magento\View\Asset\File\Source', array(), array(), '', false);
+        $assetSource = $this->getMock('Magento\View\Asset\Source', array(), array(), '', false);
         $this->object = new Repository(
             $this->getMockForAbstractClass('\Magento\UrlInterface'),
             $this->getMockForAbstractClass('Magento\View\DesignInterface'),
@@ -32,16 +32,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testExtractScope()
+    public function testCreate()
     {
-        $originalData = array('original' => 'data');
-        $params = $originalData;
-        $this->assertEquals('file.ext', $this->object->extractScope('file.ext', $params));
-        $this->assertSame($originalData, $params);
-
-        $this->assertEquals('file.ext', $this->object->extractScope('Module_One::file.ext', $params));
-        $this->assertArrayHasKey('module', $params);
-        $this->assertEquals('Module_One', $params['module']);
+        $this->markTestIncomplete('MAGETWO-21654');
     }
 
     /**
@@ -56,5 +49,37 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ->with('nonexistent_theme', 'area')
             ->will($this->returnValue(null));
         $this->object->updateDesignParams($params);
+    }
+
+    /**
+     * @param string $file
+     * @param string $expectedErrorMessage
+     * @dataProvider extractModuleExceptionDataProvider
+     */
+    public function testExtractModuleException($file, $expectedErrorMessage)
+    {
+        $this->setExpectedException('\Magento\Exception', $expectedErrorMessage);
+        Repository::extractModule($file);
+    }
+
+    /**
+     * @return array
+     */
+    public function extractModuleExceptionDataProvider()
+    {
+        return array(
+            array('::no_scope.ext', 'Scope separator "::" cannot be used without scope identifier.'),
+            array('../file.ext', 'File name \'../file.ext\' is forbidden for security reasons.'),
+        );
+    }
+
+    public function testExtractModule()
+    {
+        $this->assertEquals(array('Module_One', 'File'), Repository::extractModule('Module_One::File'));
+        $this->assertEquals(array('', 'File'), Repository::extractModule('File'));
+        $this->assertEquals(
+            array('Module_One', 'File::SomethingElse'),
+            Repository::extractModule('Module_One::File::SomethingElse')
+        );
     }
 } 

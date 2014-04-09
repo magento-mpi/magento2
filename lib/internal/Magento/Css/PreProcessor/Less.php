@@ -9,7 +9,6 @@
 namespace Magento\Css\PreProcessor;
 
 use Magento\View\Asset\PreProcessorInterface;
-use Magento\View\Asset\LocalInterface;
 
 class Less implements PreProcessorInterface
 {
@@ -46,17 +45,20 @@ class Less implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process($content, $contentType, LocalInterface $asset)
+    public function process(\Magento\View\Asset\PreProcessor\Chain $chain)
     {
+        $contentType = $chain->getContentType();
         try {
-            $tmpLessFile = $this->fileGenerator->generateLessFileTree($content, $asset);
-            $content = $this->adapter->process($tmpLessFile);
-            $contentType = 'css';
+            $chain->setContentType('less');
+            $tmpLessFile = $this->fileGenerator->generateLessFileTree($chain);
+            $chain->setContent($this->adapter->process($tmpLessFile));
+            $chain->setContentType('css');
         } catch (\Magento\Filesystem\FilesystemException $e) {
+            $chain->setContentType($contentType);
             $this->logger->logException($e);
         } catch (Adapter\AdapterException $e) {
+            $chain->setContentType($contentType);
             $this->logger->logException($e);
         }
-        return array($content, $contentType);
     }
 }

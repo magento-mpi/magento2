@@ -11,8 +11,15 @@ namespace Magento\View\Asset;
 /**
  * Minified page asset
  */
-class Minified implements MergeableInterface
+class Minified implements LocalInterface
 {
+    /**#@+
+     * Public directories prefix group
+     */
+    const FILE_EXISTS = 'file_exists';
+    const MTIME = 'mtime';
+    /**#@-*/
+
     /**
      * LocalInterface
      *
@@ -21,9 +28,7 @@ class Minified implements MergeableInterface
     protected $originalAsset;
 
     /**
-     * Minification strategy
-     *
-     * @var \Magento\Code\Minifier\StrategyInterface
+     * @var string
      */
     protected $strategy;
 
@@ -39,7 +44,7 @@ class Minified implements MergeableInterface
      *
      * @var string
      */
-    protected $relativePath;
+    protected $path;
 
     /**
      * @var string
@@ -57,6 +62,11 @@ class Minified implements MergeableInterface
      * @var string
      */
     protected $url;
+
+    /**
+     * @var \Magento\Code\Minifier\AdapterInterface
+     */
+    protected $adapter;
 
     /**
      * Logger
@@ -90,24 +100,27 @@ class Minified implements MergeableInterface
      * Constructor
      *
      * @param LocalInterface $asset
-     * @param \Magento\Code\Minifier\StrategyInterface $strategy
      * @param \Magento\Logger $logger
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\UrlInterface $baseUrl
+     * @param \Magento\Code\Minifier\AdapterInterface $adapter
+     * @param string $strategy
      */
     public function __construct(
         LocalInterface $asset,
-        \Magento\Code\Minifier\StrategyInterface $strategy,
         \Magento\Logger $logger,
         \Magento\App\Filesystem $filesystem,
-        \Magento\UrlInterface $baseUrl
+        \Magento\UrlInterface $baseUrl,
+        \Magento\Code\Minifier\AdapterInterface $adapter,
+        $strategy = self::FILE_EXISTS
     ) {
         $this->originalAsset = $asset;
         $this->strategy = $strategy;
         $this->logger = $logger;
         $this->rootDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->staticViewDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
+        $this->staticViewDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $this->baseUrl = $baseUrl;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -141,18 +154,18 @@ class Minified implements MergeableInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getRelativePath()
+    public function getPath()
     {
-        if (empty($this->relativePath)) {
+        if (empty($this->path)) {
             $this->process();
         }
-        return $this->relativePath;
+        return $this->path;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFilePath()
     {
@@ -163,7 +176,7 @@ class Minified implements MergeableInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContext()
     {
@@ -174,13 +187,32 @@ class Minified implements MergeableInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getModule()
+    {
+        return $this->originalAsset->getModule();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContent()
+    {
+        if (null === $this->path) {
+            $this->process();
+        }
+        return $this->staticViewDir->readFile($this->path);
+    }
+
+    /**
      * Minify content of child asset
      *
      * @return void
      */
     protected function process()
     {
-        if ($this->isFileMinified($this->originalAsset->getRelativePath())) {
+        if ($this->isFileMinified($this->originalAsset->getPath())) {
             $this->fillPropertiesByOriginalAsset();
         } else if ($this->hasPreminifiedFile($this->originalAsset->getSourceFile())) {
             $this->fillPropertiesByOriginalAssetWithMin();
@@ -210,7 +242,7 @@ class Minified implements MergeableInterface
     /**
      * Check, whether the file has its preminified version in the same directory
      *
-     * @param $fileName
+     * @param string $fileName
      * @return bool
      */
     protected function hasPreminifiedFile($fileName)
@@ -236,7 +268,7 @@ class Minified implements MergeableInterface
     protected function fillPropertiesByOriginalAsset()
     {
         $this->file = $this->originalAsset->getSourceFile();
-        $this->relativePath = $this->originalAsset->getRelativePath();
+        $this->path = $this->originalAsset->getPath();
         $this->filePath = $this->originalAsset->getFilePath();
         $this->context = $this->originalAsset->getContext();
         $this->url = $this->originalAsset->getUrl();
@@ -248,7 +280,7 @@ class Minified implements MergeableInterface
     protected function fillPropertiesByOriginalAssetWithMin()
     {
         $this->file = $this->composeMinifiedName($this->originalAsset->getSourceFile());
-        $this->relativePath = $this->composeMinifiedName($this->originalAsset->getRelativePath());
+        $this->path = $this->composeMinifiedName($this->originalAsset->getPath());
         $this->filePath = $this->composeMinifiedName($this->originalAsset->getFilePath());
         $this->context = $this->originalAsset->getContext();
         $this->url = $this->composeMinifiedName($this->originalAsset->getUrl());
@@ -259,19 +291,38 @@ class Minified implements MergeableInterface
      */
     protected function fillPropertiesByMinifyingAsset()
     {
-        $originalFile = $this->originalAsset->getSourceFile();
-        $originalFileRelRoot = $this->rootDir->getRelativePath($originalFile);
-        $origRelativePath = $this->originalAsset->getRelativePath();
-
+        $path = $this->originalAsset->getPath();
         $this->context = new \Magento\View\Asset\File\Context(
             $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC)),
             \Magento\App\Filesystem::STATIC_VIEW_DIR,
             \Magento\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified'
         );
-        $this->filePath = md5($origRelativePath) . '_' . $this->composeMinifiedName(basename($origRelativePath));
-        $this->relativePath = $this->context->getPath() . '/' . $this->filePath;
-        $this->strategy->minifyFile($originalFileRelRoot, $this->relativePath);
-        $this->file = $this->staticViewDir->getAbsolutePath($this->relativePath);
-        $this->url = $this->context->getBaseUrl() . $this->relativePath;
+        $this->filePath = md5($path) . '_' . $this->composeMinifiedName(basename($path));
+        $this->path = $this->context->getPath() . '/' . $this->filePath;
+        $this->minify();
+        $this->file = $this->staticViewDir->getAbsolutePath($this->path);
+        $this->url = $this->context->getBaseUrl() . $this->path;
+    }
+
+    /**
+     * Perform actual minification
+     */
+    private function minify()
+    {
+        $isExists = $this->staticViewDir->isExist($this->path);
+        if (!$isExists) {
+            $shouldMinify = true;
+        } elseif ($this->strategy == self::FILE_EXISTS) {
+            $shouldMinify = false;
+        } else {
+            $origlFile = $this->rootDir->getRelativePath($this->originalAsset->getSourceFile());
+            $origMtime = $this->rootDir->stat($origlFile)['mtime'];
+            $minMtime = $this->staticViewDir->stat($this->path)['mtime'];
+            $shouldMinify = $origMtime != $minMtime;
+        }
+        if ($shouldMinify) {
+            $content = $this->adapter->minify($this->originalAsset->getContent());
+            $this->staticViewDir->writeFile($this->path, $content);
+        }
     }
 }

@@ -127,7 +127,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
         ;
         $this->sourceDir->expects($this->exactly(2))->method('stat')->will($this->returnValue(array('mtime' => '1')));
         $this->resultAsset->expects($this->once())
-            ->method('getRelativePath')
+            ->method('getPath')
             ->will($this->returnValue('merged/result.txt'))
         ;
         return array($one, $two);

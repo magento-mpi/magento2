@@ -112,7 +112,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     {
         $asset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
         $asset->expects($this->any())
-            ->method('getRelativePath')
+            ->method('getPath')
             ->will($this->returnValue('some/file.ext'));
         $asset->expects($this->any())
             ->method('getSourceFile')

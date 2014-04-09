@@ -65,13 +65,13 @@ class MagentoImport implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process($content, $contentType, LocalInterface $asset)
+    public function process(\Magento\View\Asset\PreProcessor\Chain $chain)
     {
+        $asset = $chain->getAsset();
         $replaceCallback = function ($matchContent) use ($asset) {
             return $this->replace($matchContent, $asset);
         };
-        $content = preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $content);
-        return array($content, $contentType);
+        $chain->setContent(preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $chain->getContent()));
     }
 
     /**

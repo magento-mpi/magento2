@@ -38,7 +38,7 @@ class Publisher
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function publish(Asset\LocalInterface $asset)
     {
@@ -46,7 +46,7 @@ class Publisher
             return false;
         }
         $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        if ($dir->isExist($asset->getRelativePath())) {
+        if ($dir->isExist($asset->getPath())) {
             return true;
         }
         return $this->publishAsset($asset);
@@ -63,7 +63,7 @@ class Publisher
         $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $rootDir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $source = $rootDir->getRelativePath($asset->getSourceFile());
-        $destination = $asset->getRelativePath();
+        $destination = $asset->getPath();
         return $rootDir->copyFile($source, $destination, $dir);
     }
 }

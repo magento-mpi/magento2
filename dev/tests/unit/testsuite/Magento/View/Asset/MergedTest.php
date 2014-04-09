@@ -44,12 +44,12 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     {
         $this->_assetJsOne = $this->getMockForAbstractClass('Magento\View\Asset\MergeableInterface');
         $this->_assetJsOne->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
-        $this->_assetJsOne->expects($this->any())->method('getRelativePath')
+        $this->_assetJsOne->expects($this->any())->method('getPath')
             ->will($this->returnValue('script_one.js'));
 
         $this->_assetJsTwo = $this->getMockForAbstractClass('Magento\View\Asset\MergeableInterface');
         $this->_assetJsTwo->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
-        $this->_assetJsTwo->expects($this->any())->method('getRelativePath')
+        $this->_assetJsTwo->expects($this->any())->method('getPath')
             ->will($this->returnValue('script_two.js'));
 
         $this->_logger = $this->getMock('Magento\Logger', array('logException'), array(), '', false);
@@ -129,7 +129,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $mergeError = new \Exception('File not found');
         $assetBroken = $this->getMockForAbstractClass('Magento\View\Asset\MergeableInterface');
         $assetBroken->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
-        $assetBroken->expects($this->any())->method('getRelativePath')
+        $assetBroken->expects($this->any())->method('getPath')
             ->will($this->throwException($mergeError));
 
         $merged = new \Magento\View\Asset\Merged(

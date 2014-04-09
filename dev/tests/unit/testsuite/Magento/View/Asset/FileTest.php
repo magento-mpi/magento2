@@ -11,34 +11,107 @@ namespace Magento\View\Asset;
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $file
-     * @param string $expectedErrorMessage
-     * @dataProvider extractModuleExceptionDataProvider
+     * @var Source|\PHPUnit_Framework_MockObject_MockObject
      */
-    public function testExtractModuleException($file, $expectedErrorMessage)
+    private $source;
+
+    /**
+     * @var \Magento\View\Asset\ContextInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $context;
+
+    /**
+     * @var File
+     */
+    private $object;
+
+    public function setUp()
     {
-        $this->setExpectedException('\Magento\Exception', $expectedErrorMessage);
-        File::extractModule($file);
+        $this->source = $this->getMock('Magento\View\Asset\Source', [], [], '', false);
+        $this->context = $this->getMockForAbstractClass('\Magento\View\Asset\ContextInterface');
+        $this->object = new File($this->source, $this->context, 'dir/file.css', 'Magento_Module', 'css');
+    }
+
+    public function testGetUrl()
+    {
+        $this->context->expects($this->once())->method('getBaseUrl')->will($this->returnValue('http://example.com/'));
+        $this->context->expects($this->once())->method('getPath')->will($this->returnValue('static'));
+        $this->assertEquals('http://example.com/static/Magento_Module/dir/file.css', $this->object->getUrl());
+    }
+
+    public function testGetContentType()
+    {
+        $this->assertEquals('css', $this->object->getContentType());
+        $object = new File($this->source, $this->context, '', '', 'type');
+        $this->assertEquals('type', $object->getContentType());
+    }
+
+    /**
+     * @param string $contextPath
+     * @param string $module
+     * @param string $filePath
+     * @param string $expected
+     * @dataProvider getPathDataProvider
+     */
+    public function testGetPath($contextPath, $module, $filePath, $expected)
+    {
+        $this->context->expects($this->once())->method('getPath')->will($this->returnValue($contextPath));
+        $object = new File($this->source, $this->context, $filePath, $module, '');
+        $this->assertEquals($expected, $object->getPath());
     }
 
     /**
      * @return array
      */
-    public function extractModuleExceptionDataProvider()
+    public function getPathDataProvider()
     {
-        return array(
-            array('::no_scope.ext', 'Scope separator "::" cannot be used without scope identifier.'),
-            array('../file.ext', 'File name \'../file.ext\' is forbidden for security reasons.'),
-        );
+        return [
+            ['', '', '', ''],
+            ['', '', 'c/d', 'c/d'],
+            ['', 'b', '', 'b'],
+            ['', 'b', 'c/d', 'b/c/d'],
+            ['a', '', '', 'a'],
+            ['a', '', 'c/d', 'a/c/d'],
+            ['a', 'b', '', 'a/b'],
+            ['a', 'b', 'c/d', 'a/b/c/d'],
+        ];
     }
 
-    public function testExtractModule()
+    public function testGetSourceFile()
     {
-        $this->assertEquals(array('Module_One', 'File'), File::extractModule('Module_One::File'));
-        $this->assertEquals(array('', 'File'), File::extractModule('File'));
-        $this->assertEquals(
-            array('Module_One', 'File::SomethingElse'),
-            File::extractModule('Module_One::File::SomethingElse')
-        );
+        $this->source->expects($this->once())
+            ->method('getFile')
+            ->with($this->object)
+            ->will($this->returnValue('result'));
+        $this->assertEquals('result', $this->object->getSourceFile());
+        $this->assertEquals('result', $this->object->getSourceFile()); // second time to assert in-memory caching
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Unable to resolve the source file for 'context/Magento_Module/dir/file.css'
+     */
+    public function testGetSourceFileMissing()
+    {
+        $this->context->expects($this->once())->method('getPath')->will($this->returnValue('context'));
+        $this->source->expects($this->once())->method('getFile')->will($this->returnValue(false));
+        $this->object->getSourceFile();
+    }
+
+    public function testGetContent()
+    {
+        $this->source->expects($this->exactly(2))
+            ->method('getContent')
+            ->with($this->object)
+            ->will($this->returnValue('content'));
+        $this->assertEquals('content', $this->object->getContent());
+        $this->assertEquals('content', $this->object->getContent()); // no in-memory caching for content
+    }
+
+    public function testSimpleGetters()
+    {
+        $this->assertEquals('dir/file.css', $this->object->getFilePath());
+        $this->assertSame($this->context, $this->object->getContext());
+        $this->assertEquals('Magento_Module', $this->object->getModule());
     }
 }

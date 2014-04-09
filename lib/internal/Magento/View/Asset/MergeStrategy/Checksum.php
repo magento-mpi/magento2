@@ -53,7 +53,7 @@ class Checksum implements \Magento\View\Asset\MergeStrategyInterface
             return; // nothing to merge
         }
 
-        $dat = $resultAsset->getRelativePath() . '.dat';
+        $dat = $resultAsset->getPath() . '.dat';
         $targetDir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         if (!$targetDir->isExist($dat) || strcmp($mTime, $targetDir->readFile($dat)) !== 0) {
             $this->strategy->merge($assetsToMerge, $resultAsset);

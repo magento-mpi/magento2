@@ -10,14 +10,11 @@ namespace Magento\View\Asset;
 
 /**
  * A locally available static view file asset that can be referred with a file path
+ *
+ * This class is a value object with lazy loading of some of its data (content, physical file path)
  */
 class File implements MergeableInterface
 {
-    /**
-     * Scope separator for module notation of file ID
-     */
-    const FILE_ID_SEPARATOR = '::';
-
     /**
      * @var string
      */
@@ -34,12 +31,12 @@ class File implements MergeableInterface
     protected $contentType;
 
     /**
-     * @var File\Context
+     * @var ContextInterface
      */
     protected $context;
 
     /**
-     * @var File\Source
+     * @var Source
      */
     protected $source;
 
@@ -49,29 +46,31 @@ class File implements MergeableInterface
     private $resolvedFile;
 
     /**
-     * @param File\Source $source
-     * @param File\Context $context
-     * @param string $fileId
+     * @param Source $source
+     * @param ContextInterface $context
+     * @param string $filePath
+     * @param string $module
      * @param string $contentType
      */
-    public function __construct(File\Source $source, File\Context $context, $fileId, $contentType)
+    public function __construct(Source $source, ContextInterface $context, $filePath, $module, $contentType)
     {
         $this->source = $source;
         $this->context = $context;
-        list($this->module, $this->filePath) = self::extractModule($fileId);
+        $this->filePath = $filePath;
+        $this->module = $module;
         $this->contentType = $contentType;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUrl()
     {
-        return $this->context->getBaseUrl() . $this->getRelativePath();
+        return $this->context->getBaseUrl() . $this->getPath();
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContentType()
     {
@@ -79,27 +78,54 @@ class File implements MergeableInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getRelativePath()
+    public function getPath()
     {
-        $contextPath = trim($this->context->getPath() . '/' . ($this->module ? $this->module . '/' : ''), '/');
-        return ($contextPath ? $contextPath . '/' : '') . $this->filePath;
+        $result = '';
+        $result = $this->join($result, $this->context->getPath());
+        $result = $this->join($result, $this->module);
+        $result = $this->join($result, $this->filePath);
+        return $result;
     }
 
     /**
-     * @inheritdoc
+     * Subroutine for building path
+     *
+     * @param string $path
+     * @param string $item
+     * @return string
+     */
+    private function join($path, $item)
+    {
+        return trim($path . ($item ? '/' . $item : ''), '/');
+    }
+
+    /**
+     * {@inheritdoc}
+     * @throws \LogicException if file cannot be resolved
      */
     public function getSourceFile()
     {
         if (null === $this->resolvedFile) {
             $this->resolvedFile = $this->source->getFile($this);
+            if (false === $this->resolvedFile) {
+                throw new \LogicException("Unable to resolve the source file for '{$this->getPath()}'");
+            }
         }
         return $this->resolvedFile;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     */
+    public function getContent()
+    {
+        return (string)$this->source->getContent($this);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getFilePath()
     {
@@ -107,7 +133,7 @@ class File implements MergeableInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @return File\Context
      */
     public function getContext()
@@ -116,34 +142,10 @@ class File implements MergeableInterface
     }
 
     /**
-     * Get the module context of path (if any)
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getModule()
     {
         return $this->module;
-    }
-
-    /**
-     * Extract module name from specified file ID
-     *
-     * @param string $fileId
-     * @return array
-     * @throws \Magento\Exception
-     */
-    public static function extractModule($fileId)
-    {
-        if (strpos(str_replace('\\', '/', $fileId), './') !== false) {
-            throw new \Magento\Exception("File name '{$fileId}' is forbidden for security reasons.");
-        }
-        if (strpos($fileId, self::FILE_ID_SEPARATOR) === false) {
-            return array('', $fileId);
-        }
-        $result = explode(self::FILE_ID_SEPARATOR, $fileId, 2);
-        if (empty($result[0])) {
-            throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
-        }
-        return array($result[0], $result[1]);
     }
 }

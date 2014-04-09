@@ -219,7 +219,7 @@ class Design implements \Magento\View\DesignInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getThemePath(\Magento\View\Design\ThemeInterface $theme)
     {

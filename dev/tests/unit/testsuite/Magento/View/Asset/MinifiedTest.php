@@ -10,38 +10,10 @@ namespace Magento\View\Asset;
 
 class MinifiedTest extends \PHPUnit_Framework_TestCase
 {
-    const STATIC_BASE_URL = 'http://localhost/static_dir/';
-    const STATIC_PATH = '/home/htdocs/static_dir';
-
-    const ORIG_PREMINIFIED_FILE = '/home/htdocs/some/other/dir/original.min.js';
-    const ORIG_PREMINIFIED_RELPATH = 'other/dir/original.min.js';
-    const ORIG_PREMINIFIED_URL = 'http://localhost/static_dir/other/dir/original.min.js';
-    const ORIG_PREMINIFIED_ROOT_RELPATH = 'some/other/dir/original.min.js';
-
-    const ORIG_HASMINIFIED_FILE = '/home/htdocs/some/other/dir/original.js';
-    const ORIG_HASMINIFIED_RELPATH = 'other/dir/original.js';
-    const ORIG_HASMINIFIED_URL = 'http://localhost/static_dir/other/dir/original.js';
-    const ORIG_HASMINIFIED_ROOT_RELPATH = 'some/other/dir/original.js';
-
-    const ORIG_FILE = '/home/htdocs/some/dir/original.js';
-    const ORIG_RELPATH = 'dir/original.js';
-    const ORIG_URL = 'http://localhost/static_dir/dir/original.js';
-    const ORIG_ROOT_RELPATH = 'some/dir/original.js';
-    const ORIG_FILE_MINIFIED_TRY = '/home/htdocs/some/dir/original.min.js';
-    const ORIG_FILE_MINIFIED_TRY_ROOT_RELPATH = 'some/dir/original.min.js';
-    const MINIFIED_URL_PATTERN = 'http://localhost/static_dir/_cache/minified/%s_original.min.js';
-    const MINIFIED_FILE_PATTERN = '/home/htdocs/static_dir/_cache/minified/%s_original.min.js';
-    const MINIFIED_RELPATH_PATTERN = '_cache/minified/%s_original.min.js';
-
     /**
      * @var \Magento\View\Asset\LocalInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_asset;
-
-    /**
-     * @var \Magento\Code\Minifier\StrategyInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_strategy;
 
     /**
      * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
@@ -64,261 +36,249 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     protected $_baseUrl;
 
     /**
+     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_filesystem;
+
+    /**
+     * @var \Magento\Code\Minifier\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_adapter;
+
+    /**
      * @var \Magento\View\Asset\Minified
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_asset = $this->getMockForAbstractClass(
-            '\Magento\View\Asset\LocalInterface',
-            array(),
-            '',
-            false
-        );
-        $this->_strategy = $this->getMock('\Magento\Code\Minifier\StrategyInterface', array(),
-            array(), '', false);
+        $this->_asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
         $this->_logger = $this->getMock('\Magento\Logger', array(), array(), '', false);
         $this->_baseUrl = $this->getMock('\Magento\Url', array(), array(), '', false);
-        $this->_staticViewDir = $this->getMock('\Magento\Filesystem\Directory\ReadInterface', array(), array(), '',
-            false);
-        $this->_rootDir = $this->getMock('\Magento\Filesystem\Directory\ReadInterface', array(), array(), '',
-            false);
-
-        $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
-        $filesystem->expects($this->any())
+        $this->_staticViewDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\WriteInterface');
+        $this->_rootDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
+        $this->_filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
+        $this->_filesystem->expects($this->any())
             ->method('getDirectoryRead')
             ->will($this->returnValueMap([
                 [\Magento\App\Filesystem::STATIC_VIEW_DIR, $this->_staticViewDir],
                 [\Magento\App\Filesystem::ROOT_DIR, $this->_rootDir],
             ]));
-
-        $this->_model = new \Magento\View\Asset\Minified($this->_asset, $this->_strategy, $this->_logger,
-            $filesystem, $this->_baseUrl);
-    }
-
-    protected function tearDown()
-    {
-        $this->_asset = null;
-        $this->_strategy = null;
-        $this->_logger = null;
-        $this->_staticViewDir = null;
-        $this->_baseUrl = null;
-        $this->_model = null;
-    }
-
-    /**
-     * @param string $originalFile
-     * @param string $expectedUrl
-     * @param string $expectedFileToMinify
-     * @dataProvider getUrlDataProvider
-     */
-    public function testGetUrl($originalFile, $expectedUrl, $expectedFileToMinify = null)
-    {
-        $this->_prepareProcessMock($originalFile, $expectedFileToMinify);
-        $this->assertStringMatchesFormat($expectedUrl, $this->_model->getUrl());
-    }
-
-    /**
-     * @return array
-     */
-    public static function getUrlDataProvider()
-    {
-        return array(
-            'already minified' => array(
-                self::ORIG_PREMINIFIED_FILE,
-                self::ORIG_PREMINIFIED_URL,
-            ),
-            'has minified version' => array(
-                self::ORIG_HASMINIFIED_FILE,
-                self::ORIG_PREMINIFIED_URL,
-            ),
-            'needs minification' => array(
-                self::ORIG_FILE,
-                self::MINIFIED_URL_PATTERN,
-            ),
+        $this->_filesystem->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+            ->will($this->returnValue($this->_staticViewDir));
+        $this->_adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface');
+        $this->_model = new Minified(
+            $this->_asset,
+            $this->_logger,
+            $this->_filesystem,
+            $this->_baseUrl,
+            $this->_adapter
         );
     }
 
     /**
-     * @param string $originalFile
-     * @param string $expectedSourceFile
-     * @dataProvider getSourceFileDataProvider
+     * @param string $method
+     * @param string $expected
+     * @dataProvider inMemoryDecoratorDataProvider
      */
-    public function testGetSourceFile($originalFile, $expectedSourceFile)
+    public function testInMemoryDecorator($method, $expected)
     {
-        $this->_prepareProcessMock($originalFile);
-        $this->assertStringMatchesFormat($expectedSourceFile, $this->_model->getSourceFile());
+        $this->prepareRequestedAsMinifiedMock();
+        $this->_adapter->expects($this->never())->method('minify');
+        $this->assertSame($expected, $this->_model->$method());
+        $this->assertSame($expected, $this->_model->$method()); // invoke second time to test in-memory caching
     }
 
     /**
-     * @return array
-     */
-    public static function getSourceFileDataProvider()
-    {
-        return array(
-            'already minified' => array(
-                self::ORIG_PREMINIFIED_FILE,
-                self::ORIG_PREMINIFIED_FILE,
-            ),
-            'has minified version' => array(
-                self::ORIG_HASMINIFIED_FILE,
-                self::ORIG_PREMINIFIED_FILE,
-            ),
-            'needs minification' => array(
-                self::ORIG_FILE,
-                self::MINIFIED_FILE_PATTERN,
-            ),
-        );
-    }
-
-    /**
-     * @param string $originalFile
-     * @param string $expectedPath
-     * @dataProvider getRelativePathDataProvider
-     */
-    public function testGetRelativePath($originalFile, $expectedPath)
-    {
-        $this->_prepareProcessMock($originalFile);
-        $this->assertStringMatchesFormat($expectedPath, $this->_model->getRelativePath());
-    }
-
-    public function testGetFilePath()
-    {
-        $this->_prepareProcessMock(self::ORIG_FILE);
-        $this->assertStringMatchesFormat('%s_original.min.js', $this->_model->getFilePath());
-    }
-
-    public function testGetContext()
-    {
-        $this->_prepareProcessMock(self::ORIG_FILE);
-        $result = $this->_model->getContext();
-        $this->assertInstanceOf('\Magento\View\Asset\ContextInterface', $result);
-        $this->assertEquals('_cache/minified', $result->getPath());
-        $this->assertEquals(\Magento\App\Filesystem::STATIC_VIEW_DIR, $result->getBaseDirType());
-        $this->assertEquals('http://localhost/static_dir/', $result->getBaseUrl());
-    }
-
-    /**
-     * @return array
-     */
-    public static function getRelativePathDataProvider()
-    {
-        return array(
-            'already minified' => array(
-                self::ORIG_PREMINIFIED_FILE,
-                self::ORIG_PREMINIFIED_RELPATH,
-            ),
-            'has minified version' => array(
-                self::ORIG_HASMINIFIED_FILE,
-                self::ORIG_PREMINIFIED_RELPATH,
-            ),
-            'needs minification' => array(
-                self::ORIG_FILE,
-                self::MINIFIED_RELPATH_PATTERN,
-            ),
-        );
-    }
-
-    /**
-     * Prepare mocked system to be used in tests
+     * Prepare case when an asset is requested explicitly with ".min" suffix
      *
-     * @param string $originalFile
-     * @throws \Exception
+     * In this case the minification is not supposed to occur
      */
-    protected function _prepareProcessMock($originalFile)
+    private function prepareRequestedAsMinifiedMock()
     {
-        switch ($originalFile) {
-            case self::ORIG_PREMINIFIED_FILE:
-                $relPath = self::ORIG_PREMINIFIED_RELPATH;
-                $url = self::ORIG_PREMINIFIED_URL;
-                break;
-            case self::ORIG_HASMINIFIED_FILE:
-                $relPath = self::ORIG_HASMINIFIED_RELPATH;
-                $url = self::ORIG_HASMINIFIED_URL;
-                break;
-            case self::ORIG_FILE:
-                $relPath = self::ORIG_RELPATH;
-                $url = self::ORIG_URL;
-                break;
-            default:
-                throw new \Exception("Invalid original file to setup the environment: {$originalFile}");
-        }
-        $this->_asset->expects($this->atLeastOnce())
-            ->method('getSourceFile')
-            ->will($this->returnValue($originalFile));
-        $this->_asset->expects($this->any())
-            ->method('getRelativePath')
-            ->will($this->returnValue($relPath));
-        $this->_asset->expects($this->any())
-            ->method('getUrl')
-            ->will($this->returnValue($url));
-
-        $this->_rootDir->expects($this->any())
-            ->method('getRelativePath')
-            ->will($this->returnValueMap([
-                [self::ORIG_PREMINIFIED_FILE, self::ORIG_PREMINIFIED_ROOT_RELPATH],
-                [self::ORIG_HASMINIFIED_FILE, self::ORIG_HASMINIFIED_ROOT_RELPATH],
-                [self::ORIG_FILE, self::ORIG_ROOT_RELPATH],
-                [self::ORIG_FILE_MINIFIED_TRY, self::ORIG_FILE_MINIFIED_TRY_ROOT_RELPATH],
-            ]));
-        $this->_rootDir->expects($this->any())
-            ->method('isExist')
-            ->will($this->returnValueMap([
-                [self::ORIG_PREMINIFIED_ROOT_RELPATH, $originalFile == self::ORIG_HASMINIFIED_FILE],
-                [self::ORIG_FILE_MINIFIED_TRY_ROOT_RELPATH, false],
-            ]));
-
-        if ($originalFile == self::ORIG_FILE) {
-            $this->_strategy->expects($this->once())
-                ->method('minifyFile')
-                ->with(self::ORIG_ROOT_RELPATH);
-        } else {
-            $this->_strategy->expects($this->never())
-                ->method('minifyFile');
-        }
-
-        $this->_staticViewDir->expects($this->any())
-            ->method('getAbsolutePath')
-            ->will($this->returnCallback(
-                function ($relPath) {
-                    return self::STATIC_PATH . '/' . $relPath;
-                }
-            ));
-
-        $this->_baseUrl->expects($this->any())
-            ->method('getBaseUrl')
-            ->with(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
-            ->will($this->returnValue(self::STATIC_BASE_URL));
+        $this->_asset->expects($this->exactly(2))->method('getPath')->will($this->returnValue('test/library.min.js'));
+        $this->_asset->expects($this->once())->method('getSourceFile')->will($this->returnValue('source_file'));
+        $this->_asset->expects($this->once())->method('getFilePath')->will($this->returnValue('file_path'));
+        $this->_asset->expects($this->once())->method('getContext')->will($this->returnValue('context'));
+        $this->_asset->expects($this->once())->method('getUrl')->will($this->returnValue('url'));
     }
 
-    public function testProcessException()
+    /**
+     * @return array
+     */
+    public function inMemoryDecoratorDataProvider()
     {
-        $this->_asset->expects($this->atLeastOnce())
-            ->method('getSourceFile')
-            ->will($this->returnValue(self::ORIG_FILE));
-        $this->_asset->expects($this->once())
-            ->method('getUrl')
-            ->will($this->returnValue(self::ORIG_URL));
-        $this->_asset->expects($this->atLeastOnce())
-            ->method('getRelativePath')
-            ->will($this->returnValue(self::ORIG_RELPATH));
+        return [
+            ['getUrl', 'url'],
+            ['getSourceFile', 'source_file'],
+            ['getPath', 'test/library.min.js'],
+            ['getFilePath', 'file_path'],
+            ['getContext', 'context'],
+        ];
+    }
 
-        $this->_strategy->expects($this->once())
-            ->method('minifyFile')
-            ->will($this->throwException(new \Exception('Error')));
+    /**
+     * @param string $method
+     * @param string $expected
+     * @dataProvider assetDecoratorDataProvider
+     */
+    public function testAssetDecorator($method, $expected)
+    {
+        $this->_asset->expects($this->exactly(2))->method($method)->will($this->returnValue($expected));
+        $this->assertSame($expected, $this->_model->$method());
+        $this->assertSame($expected, $this->_model->$method()); // 2 times to ensure asset is invoked every time
+    }
 
-        $this->assertSame(self::ORIG_URL, $this->_model->getUrl());
-        $this->assertSame(self::ORIG_RELPATH, $this->_model->getRelativePath());
-        $this->assertSame(self::ORIG_FILE, $this->_model->getSourceFile());
+    /**
+     * @return array
+     */
+    public function assetDecoratorDataProvider()
+    {
+        return [
+            ['getContentType', 'content_type'],
+            ['getModule', 'module'],
+        ];
     }
 
     public function testGetContent()
     {
-        $contentType = 'content_type';
-        $this->_asset->expects($this->once())
-            ->method('getContentType')
-            ->will($this->returnValue($contentType));
-        $this->assertSame($contentType, $this->_model->getContentType());
+        $this->prepareRequestedAsMinifiedMock();
+        $this->_adapter->expects($this->never())->method('minify');
+        $this->_staticViewDir->expects($this->exactly(2))
+            ->method('readFile')
+            ->with('test/library.min.js')
+            ->will($this->returnValue('content'));
+        $this->assertEquals('content', $this->_model->getContent());
+        $this->assertEquals('content', $this->_model->getContent());
+    }
+
+    public function testHasPreminifiedFile()
+    {
+        $this->_asset->expects($this->exactly(2))->method('getPath')->will($this->returnValue('test/library.js'));
+        $this->_asset->expects($this->atLeastOnce())
+            ->method('getSourceFile')
+            ->will($this->returnValue('/foo/bar/test/library.js'));
+        $this->_asset->expects($this->once())->method('getFilePath')->will($this->returnValue('file_path'));
+        $this->_asset->expects($this->once())->method('getContext')->will($this->returnValue('context'));
+        $this->_asset->expects($this->once())->method('getUrl')->will($this->returnValue('url'));
+        $this->_rootDir->expects($this->once())
+            ->method('getRelativePath')
+            ->with('/foo/bar/test/library.min.js')
+            ->will($this->returnValue('test/library.min.js'));
+        $this->_rootDir->expects($this->once())
+            ->method('isExist')
+            ->with('test/library.min.js')
+            ->will($this->returnValue(true));
+        $this->_adapter->expects($this->never())->method('minify');
+        $this->assertEquals('test/library.min.js', $this->_model->getPath());
+    }
+
+    public function testMinify()
+    {
+        $this->prepareAttemptToMinifyMock(false);
+        $this->_asset->expects($this->once())->method('getContent')->will($this->returnValue('content'));
+        $this->_adapter->expects($this->once())->method('minify')->with('content')->will($this->returnValue('mini'));
+        $this->_staticViewDir->expects($this->once())->method('writeFile')->with($this->anything(), 'mini');
+        $this->assertStringMatchesFormat('%s_library.min.js', $this->_model->getFilePath());
+    }
+
+    private function prepareAttemptToMinifyMock($fileExists, $rootDirExpectations = true)
+    {
+        $this->_asset->expects($this->atLeastOnce())->method('getPath')->will($this->returnValue('test/library.js'));
+        $this->_asset->expects($this->atLeastOnce())
+            ->method('getSourceFile')
+            ->will($this->returnValue('/foo/bar/test/library.js'));
+        if ($rootDirExpectations) {
+            $this->_rootDir->expects($this->once())
+                ->method('getRelativePath')
+                ->with('/foo/bar/test/library.min.js')
+                ->will($this->returnValue('test/library.min.js'));
+            $this->_rootDir->expects($this->once())
+                ->method('isExist')
+                ->with('test/library.min.js')
+                ->will($this->returnValue(false));
+        }
+        $this->_baseUrl->expects($this->once())->method('getBaseUrl')->will($this->returnValue('http://example.com/'));
+        $this->_staticViewDir->expects($this->once())->method('isExist')->will($this->returnValue($fileExists));
+    }
+
+    public function testMinificationFailed()
+    {
+        $this->prepareAttemptToMinifyMock(false);
+        $this->_asset->expects($this->once())->method('getContent')->will($this->returnValue('content'));
+        $e = new \Exception('test');
+        $this->_adapter->expects($this->once())->method('minify')->with('content')->will($this->throwException($e));
+        $this->_logger->expects($this->once())->method('logException');
+        $this->_staticViewDir->expects($this->never())->method('writeFile');
+        $this->_asset->expects($this->once())->method('getFilePath')->will($this->returnValue('file_path'));
+        $this->_asset->expects($this->once())->method('getContext')->will($this->returnValue('context'));
+        $this->_asset->expects($this->once())->method('getUrl')->will($this->returnValue('url'));
+        $this->assertEquals('test/library.js', $this->_model->getPath());
+    }
+
+    public function testShouldNotMinifyCozExists()
+    {
+        $this->prepareAttemptToMinifyMock(true);
+        // IS_EXISTS is assumed by default, so nothing to mock here
+        $this->_adapter->expects($this->never())->method('minify');
+        $this->assertStringMatchesFormat('%s_library.min.js', $this->_model->getFilePath());
+    }
+
+    /**
+     * @param int $mtimeOrig
+     * @param int $mtimeMinified
+     * @param bool $isMinifyExpected
+     * @dataProvider minifyMtimeDataProvider
+     */
+    public function testMinifyMtime($mtimeOrig, $mtimeMinified, $isMinifyExpected)
+    {
+        $this->prepareAttemptToMinifyMock(true, false);
+        $model = new Minified(
+            $this->_asset,
+            $this->_logger,
+            $this->_filesystem,
+            $this->_baseUrl,
+            $this->_adapter,
+            Minified::MTIME
+        );
+        $this->_rootDir->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnValueMap(array(
+                array('/foo/bar/test/library.min.js', 'test/library.min.js'),
+                array('/foo/bar/test/library.js', 'test/library.js'),
+            )));
+        $this->_rootDir->expects($this->once())
+            ->method('isExist')
+            ->with('test/library.min.js')
+            ->will($this->returnValue(false));
+        $this->_rootDir->expects($this->once())
+            ->method('stat')
+            ->with('test/library.js')
+            ->will($this->returnValue(array('mtime' => $mtimeOrig)));
+        $this->_staticViewDir->expects($this->once())
+            ->method('stat')
+            ->with($this->anything())
+            ->will($this->returnValue(array('mtime' => $mtimeMinified)));
+        if ($isMinifyExpected) {
+            $this->_asset->expects($this->once())->method('getContent')->will($this->returnValue('content'));
+            $this->_adapter->expects($this->once())->method('minify')->with('content')->will($this->returnValue('mini'));
+            $this->_staticViewDir->expects($this->once())->method('writeFile')->with($this->anything(), 'mini');
+        } else {
+            $this->_adapter->expects($this->never())->method('minify');
+        }
+        $this->assertStringMatchesFormat('%s_library.min.js', $model->getFilePath());
+    }
+
+    /**
+     * @return array
+     */
+    public function minifyMtimeDataProvider()
+    {
+        return array(
+            array(1, 2, true),
+            array(3, 3, false),
+        );
     }
 }

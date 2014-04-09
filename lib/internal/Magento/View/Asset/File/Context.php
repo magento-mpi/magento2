@@ -43,7 +43,7 @@ class Context implements Asset\ContextInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPath()
     {
@@ -51,9 +51,7 @@ class Context implements Asset\ContextInterface
     }
 
     /**
-     * Get base URL
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getBaseUrl()
     {

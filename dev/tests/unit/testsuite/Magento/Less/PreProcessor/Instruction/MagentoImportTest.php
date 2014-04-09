@@ -31,6 +31,11 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     private $notationResolver;
 
     /**
+     * @var \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $asset;
+
+    /**
      * @var \Magento\Less\PreProcessor\Instruction\Import
      */
     private $object;
@@ -41,7 +46,8 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $this->fileSource = $this->getMockForAbstractClass('\Magento\View\File\CollectorInterface');
         $this->errorHandler = $this->getMockForAbstractClass('\Magento\Less\PreProcessor\ErrorHandlerInterface');
         $this->notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver', [], [], '', false);
-
+        $this->asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $this->asset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         $this->object = new \Magento\Less\PreProcessor\Instruction\MagentoImport(
             $this->design, $this->fileSource, $this->errorHandler, $this->notationResolver
         );
@@ -58,10 +64,10 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess($originalContent, $foundPath, $resolvedPath, $foundFiles, $expectedContent)
     {
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')
-            ->with($asset, $foundPath)
+            ->with($this->asset, $foundPath)
             ->will($this->returnValue($resolvedPath));
         $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
         $this->design->expects($this->once())
@@ -82,8 +88,9 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
             ->method('getFiles')
             ->with($theme, $resolvedPath)
             ->will($this->returnValue($files));
-        $actual = $this->object->process($originalContent, 'css', $asset);
-        $this->assertSame([$expectedContent, 'css'], $actual);
+        $this->object->process($chain);
+        $this->assertEquals($expectedContent, $chain->getContent());
+        $this->assertEquals('css', $chain->getContentType());
     }
 
     /**
@@ -118,26 +125,27 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     {
         $originalContent = 'color: #000000;';
         $expectedContent = 'color: #000000;';
-
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
         $this->notationResolver->expects($this->never())
             ->method('convertModuleNotationToPath');
-        $actual = $this->object->process($originalContent, 'css', $asset);
-        $this->assertSame([$expectedContent, 'css'], $actual);
+        $this->object->process($chain);
+        $this->assertEquals($expectedContent, $chain->getContent());
+        $this->assertEquals('css', $chain->getContentType());
     }
 
     public function testProcessException()
     {
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, '//@magento_import "some/file.css";', 'css');
         $exception = new \LogicException('Error happened');
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')
-            ->with($asset, 'some/file.css')
+            ->with($this->asset, 'some/file.css')
             ->will($this->throwException($exception));
         $this->errorHandler->expects($this->once())
             ->method('processException')
             ->with($exception);
-        $actual = $this->object->process('//@magento_import "some/file.css";', 'css', $asset);
-        $this->assertSame(['', 'css'], $actual);
+        $this->object->process($chain);
+        $this->assertEquals('', $chain->getContent());
+        $this->assertEquals('css', $chain->getContentType());
     }
 }

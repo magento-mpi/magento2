@@ -19,4 +19,11 @@ interface ContextInterface
      * @return string
      */
     public function getPath();
-} 
+
+    /**
+     * Get base URL
+     *
+     * @return string
+     */
+    public function getBaseUrl();
+}

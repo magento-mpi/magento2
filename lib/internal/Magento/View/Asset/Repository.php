@@ -9,12 +9,18 @@
 namespace Magento\View\Asset;
 
 use \Magento\UrlInterface;
+use \Magento\App\Filesystem;
 
 /**
  * A repository service for view assets
  */
 class Repository
 {
+    /**
+     * Scope separator for module notation of file ID
+     */
+    const FILE_ID_SEPARATOR = '::';
+
     /**
      * @var \Magento\UrlInterface
      */
@@ -31,7 +37,7 @@ class Repository
     private $themeProvider;
 
     /**
-     * @var \Magento\View\Asset\File\Source
+     * @var \Magento\View\Asset\Source
      */
     private $assetSource;
 
@@ -41,17 +47,22 @@ class Repository
     private $appMode;
 
     /**
+     * @var \Magento\View\Asset\File\FallbackContext[]
+     */
+    private $contextPool = array();
+
+    /**
      * @param \Magento\UrlInterface $baseUrl
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Design\Theme\Provider $themeProvider
-     * @param \Magento\View\Asset\File\Source $assetSource
+     * @param \Magento\View\Asset\Source $assetSource
      * @param string $appMode
      */
     public function __construct(
         \Magento\UrlInterface $baseUrl,
         \Magento\View\DesignInterface $design,
         \Magento\View\Design\Theme\Provider $themeProvider,
-        \Magento\View\Asset\File\Source $assetSource,
+        \Magento\View\Asset\Source $assetSource,
         $appMode = \Magento\App\State::MODE_DEFAULT
     ) {
         $this->baseUrl = $baseUrl;
@@ -113,26 +124,6 @@ class Repository
     }
 
     /**
-     * Identify file scope if it defined in file name and override 'module' parameter in $params array
-     *
-     * It accepts $fileId e.g. \Magento\Core::prototype/magento.css and splits it to module part and path part.
-     * Then sets module path to $params['module'] and returns path part.
-     *
-     * @param string $fileId
-     * @param array &$params
-     * @return string
-     * @throws \Magento\Exception
-     */
-    public function extractScope($fileId, array &$params)
-    {
-        list($module, $file) = File::extractModule($fileId);
-        if (!empty($module)) {
-            $params['module'] = $module;
-        }
-        return $file;
-    }
-
-    /**
      * Create a file asset that's subject of fallback system
      *
      * @param string $fileId
@@ -141,25 +132,36 @@ class Repository
      */
     public function createAsset($fileId, array $params = array())
     {
+        list($module, $filePath) = self::extractModule($fileId);
         $this->updateDesignParams($params);
-        $filePath = $this->extractScope($fileId, $params);
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
-        if ($params['module']) {
-            $fileId = $params['module'] . File::FILE_ID_SEPARATOR . $filePath;
-        }
         $themePath = $this->design->getThemePath($params['themeModel']);
-        if ($this->appMode == \Magento\App\State::MODE_PRODUCTION) {
-            $locale = ''; // a workaround while support for locale is not implemented in production mode
-        } else {
-            $locale = $params['locale'];
+        $context = $this->getFallbackContext($isSecure, $params['area'], $themePath, $params['locale']);
+        return new File($this->assetSource, $context, $filePath, $module, $this->inferType($filePath));
+    }
+
+    /**
+     * Get a fallback context value object
+     *
+     * Create only one instance per combination of parameters
+     *
+     * @param bool $isSecure
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @return File\FallbackContext
+     */
+    private function getFallbackContext($isSecure, $area, $themePath, $locale)
+    {
+        $id = implode('|', array((int)$isSecure, $area, $themePath, $locale));
+        if (!isset($this->contextPool[$id])) {
+            if ($this->appMode == \Magento\App\State::MODE_PRODUCTION) {
+                $locale = ''; // a workaround while support for locale is not implemented in production mode
+            }
+            $url = $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure));
+            $this->contextPool[$id] = new File\FallbackContext($url, $area, $themePath, $locale);
         }
-        $context = new File\FallbackContext(
-            $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure)),
-            $params['area'],
-            $themePath,
-            $locale
-        );
-        return new File($this->assetSource, $context, $fileId, $this->inferContentType($filePath));
+        return $this->contextPool[$id];
     }
 
     /**
@@ -171,7 +173,11 @@ class Repository
      */
     public function createSimilar($fileId, LocalInterface $similarTo)
     {
-        return new File($this->assetSource, $similarTo->getContext(), $fileId, $this->inferContentType($fileId));
+        list($module, $filePath) = self::extractModule($fileId);
+        if (!$module) {
+            $module = $similarTo->getModule();
+        }
+        return new File($this->assetSource, $similarTo->getContext(), $filePath, $module, $this->inferType($filePath));
     }
 
     /**
@@ -189,13 +195,13 @@ class Repository
     public function createArbitrary(
         $filePath,
         $dirPath,
-        $baseDirType = \Magento\App\Filesystem::STATIC_VIEW_DIR,
+        $baseDirType = Filesystem::STATIC_VIEW_DIR,
         $baseUrlType = UrlInterface::URL_TYPE_STATIC
     ) {
         $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => $baseUrlType));
         $context = new File\Context($baseUrl, $baseDirType, $dirPath);
-        $contentType = $this->inferContentType($filePath);
-        return new File($this->assetSource, $context, $filePath, $contentType);
+        $contentType = $this->inferType($filePath);
+        return new File($this->assetSource, $context, $filePath, '', $contentType);
     }
 
     /**
@@ -205,14 +211,14 @@ class Repository
      * @param LocalInterface $relativeTo
      * @return File
      */
-    public function createRelative($fileId, LocalInterface $relativeTo)
+    public function createRelated($fileId, LocalInterface $relativeTo)
     {
-        list($module, $filePath) = File::extractModule($fileId);
+        list($module, $filePath) = self::extractModule($fileId);
         if ($module) {
             return $this->createSimilar($fileId, $relativeTo);
         }
-        $newFileId = \Magento\View\FileSystem::normalizePath(dirname($relativeTo->getFilePath()) . '/' . $filePath);
-        return $this->createSimilar($newFileId, $relativeTo);
+        $filePath = \Magento\View\FileSystem::normalizePath(dirname($relativeTo->getFilePath()) . '/' . $filePath);
+        return $this->createSimilar($filePath, $relativeTo);
     }
 
     /**
@@ -221,7 +227,7 @@ class Repository
      * @param string $path
      * @return string
      */
-    private function inferContentType($path)
+    private function inferType($path)
     {
         return pathinfo($path, PATHINFO_EXTENSION);
     }
@@ -264,5 +270,27 @@ class Repository
     {
         $asset = $this->createAsset($fileId, $params);
         return $asset->getUrl();
+    }
+
+    /**
+     * Extract module name from specified file ID
+     *
+     * @param string $fileId
+     * @return array
+     * @throws \Magento\Exception
+     */
+    public static function extractModule($fileId)
+    {
+        if (strpos(str_replace('\\', '/', $fileId), './') !== false) {
+            throw new \Magento\Exception("File name '{$fileId}' is forbidden for security reasons.");
+        }
+        if (strpos($fileId, self::FILE_ID_SEPARATOR) === false) {
+            return array('', $fileId);
+        }
+        $result = explode(self::FILE_ID_SEPARATOR, $fileId, 2);
+        if (empty($result[0])) {
+            throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
+        }
+        return array($result[0], $result[1]);
     }
 }

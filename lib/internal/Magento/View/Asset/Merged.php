@@ -111,7 +111,7 @@ class Merged implements \Iterator
         $paths = array();
         /** @var MergeableInterface $asset */
         foreach ($assets as $asset) {
-            $paths[] = $asset->getRelativePath();
+            $paths[] = $asset->getPath();
         }
         $paths = array_unique($paths);
         $filePath = md5(implode('|', $paths)) . '.' . $this->contentType;

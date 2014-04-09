@@ -38,16 +38,14 @@ class ModuleNotationTest extends \PHPUnit_Framework_TestCase
     public function testProcess()
     {
         $content = 'ol.favicon {background: url(Magento_Theme::favicon.ico)}';
+        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->assetMock, $content, 'css');
         $replacedContent = 'Foo_Bar/images/logo.gif';
-        $contentType = 'type';
         $this->cssResolverMock->expects($this->once())
             ->method('replaceRelativeUrls')
             ->with($content, $this->isInstanceOf('Closure'))
             ->will($this->returnValue($replacedContent));
-
-        $this->assertSame(
-            array($replacedContent, $contentType),
-            $this->moduleNotation->process($content, $contentType, $this->assetMock)
-        );
+        $this->assertSame($content, $chain->getContent());
+        $this->moduleNotation->process($chain);
+        $this->assertSame($replacedContent, $chain->getContent());
     }
 }

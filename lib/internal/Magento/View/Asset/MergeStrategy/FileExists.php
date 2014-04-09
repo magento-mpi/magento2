@@ -41,7 +41,7 @@ class FileExists implements \Magento\View\Asset\MergeStrategyInterface
     public function merge(array $assetsToMerge, \Magento\View\Asset\LocalInterface $resultAsset)
     {
         $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        if (!$dir->isExist($resultAsset->getRelativePath())) {
+        if (!$dir->isExist($resultAsset->getPath())) {
             $this->strategy->merge($assetsToMerge, $resultAsset);
         }
     }

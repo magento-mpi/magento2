@@ -43,14 +43,14 @@ class ModuleNotation implements Asset\PreProcessorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function process($content, $contentType, Asset\LocalInterface $asset)
+    public function process(Chain $chain)
     {
+        $asset = $chain->getAsset();
         $callback = function ($path) use ($asset) {
             return $this->notationResolver->convertModuleNotationToPath($asset, $path);
         };
-        $content = $this->cssResolver->replaceRelativeUrls($content, $callback);
-        return array($content, $contentType);
+        $chain->setContent($this->cssResolver->replaceRelativeUrls($chain->getContent(), $callback));
     }
 }

@@ -42,7 +42,7 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
         ;
         $this->fileExists = new FileExists($this->mergerMock, $filesystem);
         $this->resultAsset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
-        $this->resultAsset->expects($this->once())->method('getRelativePath')->will($this->returnValue('foo/file'));
+        $this->resultAsset->expects($this->once())->method('getPath')->will($this->returnValue('foo/file'));
     }
 
     public function testMergeExists()

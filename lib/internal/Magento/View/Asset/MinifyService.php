@@ -35,44 +35,30 @@ class MinifyService
     protected $enabled = array();
 
     /**
-     * Minfiers
-     *
-     * @var \Magento\Code\Minifier\StrategyInterface[]
+     * @var \Magento\Code\Minifier\AdapterInterface[]
      */
-    protected $strategies = array();
+    protected $adapters = array();
 
     /**
-     * Applicaiton State
-     *
-     * @var \Magento\App\State
+     * @var string
      */
-    protected $appState;
-
-    /**
-     * Filesystem instance
-     *
-     * @var \Magento\App\Filesystem
-     */
-    protected $_filesystem;
+    protected $appMode;
 
     /**
      * Constructor
      *
      * @param ConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\State $appState
-     * @param \Magento\App\Filesystem $filesystem
+     * @param string $appMode
      */
     public function __construct(
         ConfigInterface $config,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\State $appState,
-        \Magento\App\Filesystem $filesystem
+        $appMode = \Magento\App\State::MODE_DEFAULT
     ) {
         $this->config = $config;
         $this->objectManager = $objectManager;
-        $this->appState = $appState;
-        $this->_filesystem = $filesystem;
+        $this->appMode = $appMode;
     }
 
     /**
@@ -80,51 +66,27 @@ class MinifyService
      * Assets applicable for minification are wrapped with the minified asset
      *
      * @param array|\Iterator $assets
-     * @return array
+     * @return \Magento\View\Asset\Minified[]
      */
     public function getAssets($assets)
     {
         $resultAssets = array();
+        $strategy = $this->appMode == \Magento\App\State::MODE_PRODUCTION ? Minified::FILE_EXISTS : Minified::MTIME;
         /** @var $asset AssetInterface */
         foreach ($assets as $asset) {
             $contentType = $asset->getContentType();
             if ($this->isEnabled($contentType)) {
+                /** @var \Magento\View\Asset\Minified $asset */
                 $asset = $this->objectManager
                     ->create('Magento\View\Asset\Minified', array(
                         'asset' => $asset,
-                        'strategy' => $this->getStrategy($contentType)
+                        'strategy' => $strategy,
+                        'adapter' => $this->getAdapter($contentType),
                     ));
             }
             $resultAssets[] = $asset;
         }
         return $resultAssets;
-    }
-
-    /**
-     * Get minification strategy object configured with specified content type
-     *
-     * @param string $contentType
-     * @return \Magento\Code\Minifier\StrategyInterface
-     */
-    protected function getStrategy($contentType)
-    {
-        if (!isset($this->strategies[$contentType])) {
-            $adapter = $this->getAdapter($contentType);
-            $strategyParams = array(
-                'adapter' => $adapter,
-            );
-            switch ($this->appState->getMode()) {
-                case \Magento\App\State::MODE_PRODUCTION:
-                    $strategy = $this->objectManager->create('Magento\Code\Minifier\Strategy\Lite', $strategyParams);
-                    break;
-                default:
-                    $strategy = $this->objectManager
-                        ->create('Magento\Code\Minifier\Strategy\Generate', $strategyParams);
-            }
-
-            $this->strategies[$contentType] = $strategy;
-        }
-        return $this->strategies[$contentType];
     }
 
     /**
@@ -145,19 +107,26 @@ class MinifyService
      * Get minification adapter by specified content type
      *
      * @param string $contentType
-     * @return mixed
+     * @return \Magento\Code\Minifier\AdapterInterface
      * @throws \Magento\Exception
      */
     protected function getAdapter($contentType)
     {
-        $adapterClass = $this->config->getAssetMinificationAdapter($contentType);
-        if (!$adapterClass) {
-            throw new \Magento\Exception(
-                "Minification adapter is not specified for '$contentType' content type"
-            );
+        if (!isset($this->adapters[$contentType])) {
+            $adapterClass = $this->config->getAssetMinificationAdapter($contentType);
+            if (!$adapterClass) {
+                throw new \Magento\Exception(
+                    "Minification adapter is not specified for '$contentType' content type"
+                );
+            }
+            $adapter = $this->objectManager->get($adapterClass);
+            if (!($adapter instanceof \Magento\Code\Minifier\AdapterInterface)) {
+                throw new \Magento\Exception(
+                    'The configured adapter doesn\'t correspond to a necessary interface'
+                );
+            }
+            $this->adapters[$contentType] = $adapter;
         }
-
-        $adapter = $this->objectManager->create($adapterClass);
-        return $adapter;
+        return $this->adapters[$contentType];
     }
 }

@@ -26,7 +26,7 @@
             <ul class="items">
                 <?php foreach ($this->getAssets() as $fileId => $asset): ?>
                     <li class="item">
-                        <span class="filename" title="<?php echo $asset->getRelativePath() ?>"><?php echo $fileId ?></span>
+                        <span class="filename" title="<?php echo $asset->getPath() ?>"><?php echo $fileId ?></span>
                         <?php if ($this->hasDownloadButton()): ?>
                             <a href="<?php echo $this->getDownloadUrl($fileId, $this->getThemeId()) ?>" class="action-download" title="<?php echo __('Download file'); ?>">
                                 <span><?php echo __('Download file'); ?></span>

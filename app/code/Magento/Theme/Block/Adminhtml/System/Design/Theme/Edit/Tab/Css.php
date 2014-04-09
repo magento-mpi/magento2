@@ -116,7 +116,7 @@ class Css
             $links[$fileId] = array(
                 'href'      => $this->getDownloadUrl($fileId, $this->_getCurrentTheme()->getId()),
                 'label'     => $fileId,
-                'title'     => $asset->getRelativePath(),
+                'title'     => $asset->getPath(),
                 'delimiter' => '<br />'
             );
         }

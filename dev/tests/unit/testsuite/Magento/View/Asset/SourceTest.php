@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\File;
+namespace Magento\View\Asset;
 
 class SourceTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     private $staticDirWrite;
 
     /**
-     * @var \Magento\View\Asset\File\Source\Cache|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\PreProcessor\Cache|\PHPUnit_Framework_MockObject_MockObject
      */
     private $cache;
 
@@ -68,7 +68,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->cache = $this->getMock(
-            'Magento\View\Asset\File\Source\Cache', array(), array(), '', false
+            'Magento\View\Asset\PreProcessor\Cache', array(), array(), '', false
         );
         $this->preprocessorFactory = $this->getMock(
             'Magento\View\Asset\PreProcessor\Factory', array(), array(), '', false
@@ -77,11 +77,6 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Design\FileResolution\Fallback\ViewFile', array(), array(), '', false
         );
         $this->theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
-
-        $cacheFactory = $this->getMock('Magento\View\Asset\File\Source\CacheFactory', array(), array(), '', false);
-        $cacheFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->cache));
 
         $themeProvider = $this->getMock('Magento\View\Design\Theme\Provider', array(), array(), '', false);
         $themeProvider->expects($this->any())
@@ -92,7 +87,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $this->initFilesystem();
 
         $this->object = new Source(
-            $cacheFactory,
+            $this->cache,
             $this->filesystem,
             $this->preprocessorFactory,
             $this->viewFileResolution,
@@ -120,101 +115,92 @@ class SourceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFileCached()
     {
-        $originalFile = '/root/some/file.ext';
+        $root = '/root/some/file.ext';
         $expected = '/var/some/file.ext';
+        $filePath = 'some/file.ext';
         $this->viewFileResolution->expects($this->once())
             ->method('getViewFile')
-            ->with('frontend', $this->theme, 'en_US', 'some/file.ext', 'Magento_Module')
-            ->will($this->returnValue($originalFile));
+            ->with('frontend', $this->theme, 'en_US', $filePath, 'Magento_Module')
+            ->will($this->returnValue($root));
+        $this->rootDirRead->expects($this->once())
+            ->method('getRelativePath')
+            ->with($root)
+            ->will($this->returnValue($filePath));
         $this->cache->expects($this->once())
-            ->method('getProcessedFileFromCache')
-            ->with($originalFile)
-            ->will($this->returnValue($expected));
-        $actual = $this->object->getFile($this->getAsset());
-        $this->assertSame($expected, $actual);
-    }
+            ->method('load')
+            ->with("some/file.ext:{$filePath}")
+            ->will($this->returnValue(serialize(array(\Magento\App\Filesystem::VAR_DIR, $filePath))));
 
-    public function testGetFileCachedBasic()
-    {
-        $originalFile = '/root/some/file.ext';
-        $expected = '/var/some/file.ext';
-        $this->staticDirRead->expects($this->once())
-            ->method('getAbsolutePath')
-            ->with('some/file.ext')
-            ->will($this->returnValue($originalFile));
-        $this->cache->expects($this->once())
-            ->method('getProcessedFileFromCache')
-            ->with($originalFile)
+        $this->varDir->expects($this->once())->method('getAbsolutePath')
+            ->with($filePath)
             ->will($this->returnValue($expected));
-        $actual = $this->object->getFile($this->getAsset(false));
-        $this->assertSame($expected, $actual);
+        $this->assertSame($expected, $this->object->getFile($this->getAsset()));
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The requested asset type was 'ext', but ended up with 'ext2'
-     */
-    public function testGetFileBadContentType()
-    {
-        $originalFile = '/root/some/file.ext2';
-        $updatedContent = 'Updated content';
-        $asset = $this->getAsset();
-        $this->mockPreProcessing($asset, $originalFile, $updatedContent, 'ext2', 'ext2');
-        $this->object->getFile($asset);
-    }
-
-    /**
-     * @param string $updatedContent
-     * @param string $originalFile
-     * @param string $originalContentType
+     * @param string $origFile
+     * @param string $origPath
+     * @param string $origContentType
+     * @param string $isMaterialization
      * @dataProvider getFileDataProvider
      */
-    public function testGetFile($updatedContent, $originalFile, $originalContentType)
+    public function testGetFile($origFile, $origPath, $origContentType, $isMaterialization)
     {
-        $expected = '/var/view_preprocessed/some/file.ext';
-        $asset = $this->getAsset();
-        $this->mockPreProcessing($asset, $originalFile, $updatedContent, $originalContentType, 'ext');
-
-        $this->varDir->expects($this->any())
-            ->method('getAbsolutePath')
-            ->will($this->returnValue('/var'));
-        $this->varDir->expects($this->once())
-            ->method('writeFile')
-            ->with('view_preprocessed/some/file.ext', $updatedContent);
-
+        $filePath = 'some/file.ext';
+        $cacheValue = "{$origPath}:{$filePath}";
+        $this->viewFileResolution->expects($this->once())
+            ->method('getViewFile')
+            ->with('frontend', $this->theme, 'en_US', $filePath, 'Magento_Module')
+            ->will($this->returnValue($origFile));
+        $this->rootDirRead->expects($this->once())
+            ->method('getRelativePath')
+            ->with($origFile)
+            ->will($this->returnValue($origPath));
         $this->cache->expects($this->once())
-            ->method('saveProcessedFileToCache')
-            ->with($expected, $originalFile);
-
-        $actual = $this->object->getFile($asset);
-        $this->assertSame($expected, $actual);
+            ->method('load')
+            ->will($this->returnValue(false));
+        $this->rootDirRead->expects($this->once())
+            ->method('readFile')
+            ->with($origPath)
+            ->will($this->returnValue('content'));
+        $processor = $this->getMockForAbstractClass('Magento\View\Asset\PreProcessorInterface');
+        $this->preprocessorFactory->expects($this->once())
+            ->method('getPreProcessors')
+            ->with($origContentType, 'ext')
+            ->will($this->returnValue([$processor]));
+        $processor->expects($this->once())->method('process')->with($this->anything()); // with chain
+        if ($isMaterialization) {
+            $this->varDir->expects($this->once())
+                ->method('writeFile')
+                ->with('view_preprocessed/some/file.ext', 'content');
+            $this->cache->expects($this->once())
+                ->method('save')
+                ->with(serialize([\Magento\App\Filesystem::VAR_DIR, 'view_preprocessed/some/file.ext']), $cacheValue);
+            $this->varDir->expects($this->once())
+                ->method('getAbsolutePath')
+                ->with('view_preprocessed/some/file.ext')->will($this->returnValue('result'));
+        } else {
+            $this->varDir->expects($this->never())->method('writeFile');
+            $this->cache->expects($this->once())
+                ->method('save')
+                ->with(serialize([\Magento\App\Filesystem::ROOT_DIR, 'some/file.ext']), $cacheValue);
+            $this->rootDirRead->expects($this->once())
+                ->method('getAbsolutePath')
+                ->with('some/file.ext')
+                ->will($this->returnValue('result'));
+        }
+        $this->assertSame('result', $this->object->getFile($this->getAsset()));
     }
 
+    /**
+     * @return array
+     */
     public function getFileDataProvider()
     {
         return [
-            'updated content' => ['Updated content', '/root/some/file.ext', 'ext'],
-            'updated content type' => ["Content of '/root/some/file.ext'", '/root/some/file.ext2', 'ext2'],
-            'updated both content and content type' => ['Updated content', '/root/some/file.ext2', 'ext2'],
+            ['/root/some/file.ext', 'some/file.ext', 'ext', false],
+            ['/root/some/file.ext2', 'some/file.ext2', 'ext2', true],
         ];
-    }
-
-    public function testGetFileNotChanged()
-    {
-        $originalFile = '/root/some/file.ext';
-        $updatedContent = "Content of '/root/some/file.ext'";
-        $asset = $this->getAsset();
-        $this->mockPreProcessing($asset, $originalFile, $updatedContent, 'ext', 'ext');
-
-        $this->varDir->expects($this->never())
-            ->method('writeFile');
-
-        $this->cache->expects($this->once())
-            ->method('saveProcessedFileToCache')
-            ->with($originalFile, $originalFile);
-
-        $actual = $this->object->getFile($asset);
-        $this->assertSame($originalFile, $actual);
     }
 
     protected function initFilesystem()
@@ -229,6 +215,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $readDirMap = [
             [\Magento\App\Filesystem::ROOT_DIR, $this->rootDirRead],
             [\Magento\App\Filesystem::STATIC_VIEW_DIR, $this->staticDirRead],
+            [\Magento\App\Filesystem::VAR_DIR, $this->varDir],
         ];
         $writeDirMap = [
             [\Magento\App\Filesystem::ROOT_DIR, $this->rootDirWrite],
@@ -245,44 +232,6 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject $asset
-     * @param string $originalFile
-     * @param string $updatedContent
-     * @param string $originalContentType
-     * @param string $updatedContentType
-     */
-    protected function mockPreProcessing(
-        $asset, $originalFile, $updatedContent, $originalContentType, $updatedContentType
-    ) {
-        $this->viewFileResolution->expects($this->once())
-            ->method('getViewFile')
-            ->with('frontend', $this->theme, 'en_US', 'some/file.ext', 'Magento_Module')
-            ->will($this->returnValue($originalFile));
-        $this->cache->expects($this->once())
-            ->method('getProcessedFileFromCache')
-            ->with($originalFile)
-            ->will($this->returnValue(false));
-        $this->rootDirRead->expects($this->any())
-            ->method('getRelativePath')
-            ->will($this->returnArgument(0));
-        $this->rootDirRead->expects($this->any())
-            ->method('readFile')
-            ->will($this->returnCallback(function ($file) {
-                return "Content of '$file'";
-            }));
-
-        $processor = $this->getMockForAbstractClass('Magento\View\Asset\PreProcessorInterface');
-        $processor->expects($this->once())
-            ->method('process')
-            ->with("Content of '$originalFile'", $originalContentType, $asset)
-            ->will($this->returnValue([$updatedContent, $updatedContentType]));
-        $this->preprocessorFactory->expects($this->once())
-            ->method('getPreProcessors')
-            ->with($originalContentType, 'ext')
-            ->will($this->returnValue([$processor]));
-    }
-
-    /**
      * Create an asset mock
      *
      * @param bool $isFallback
@@ -291,14 +240,14 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     protected function getAsset($isFallback = true)
     {
         if ($isFallback) {
-            $context = new FallbackContext(
+            $context = new File\FallbackContext(
                 'http://example.com/static/',
                 'frontend',
                 'magento_theme',
                 'en_US'
             );
         } else {
-            $context = new Context('http://example.com/static/', \Magento\App\Filesystem::STATIC_VIEW_DIR, '');
+            $context = new File\Context('http://example.com/static/', \Magento\App\Filesystem::STATIC_VIEW_DIR, '');
         }
 
         $asset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
@@ -309,7 +258,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             ->method('getFilePath')
             ->will($this->returnValue('some/file.ext'));
         $asset->expects($this->any())
-            ->method('getRelativePath')
+            ->method('getPath')
             ->will($this->returnValue('some/file.ext'));
         $asset->expects($this->any())
             ->method('getModule')

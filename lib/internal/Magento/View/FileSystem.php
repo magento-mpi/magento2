@@ -56,7 +56,10 @@ class FileSystem
      */
     public function getFilename($fileId, array $params = array())
     {
-        $filePath = $this->_assetRepo->extractScope($this->normalizePath($fileId), $params);
+        list($module, $filePath) = \Magento\View\Asset\Repository::extractModule($this->normalizePath($fileId));
+        if ($module) {
+            $params['module'] = $module;
+        }
         $this->_assetRepo->updateDesignParams($params);
         $file = $this->_fileResolution
             ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);

@@ -34,7 +34,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertModuleNotationToPathNoModularSeparator()
     {
-        $this->asset->expects($this->never())->method('getRelativePath');
+        $this->asset->expects($this->never())->method('getPath');
         $this->assetRepo->expects($this->never())->method('createUsingContext');
         $textNoSeparator = 'name_without_double_colon.ext';
         $this->assertEquals(
@@ -55,10 +55,10 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     ) {
         $similarAsset = $this->getMock('Magento\View\Asset\File', array(), array(), '', false);
         $similarAsset->expects($this->any())
-            ->method('getRelativePath')
+            ->method('getPath')
             ->will($this->returnValue($similarRelPath));
         $this->asset->expects($this->once())
-            ->method('getRelativePath')
+            ->method('getPath')
             ->will($this->returnValue($assetRelPath));
         $this->assetRepo->expects($this->once())
             ->method('createSimilar')

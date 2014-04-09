@@ -210,14 +210,14 @@ class ThemeDeployment
         $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
         if (strtolower($extension) == 'css') { // For CSS files we need to process content and fix urls
             // Callback to resolve relative urls to the file names
-            $fileId = ltrim(str_replace('\\', '/', str_replace($context['source'], '', $fileSource)), '/');
+            $filePath = ltrim(str_replace('\\', '/', str_replace($context['source'], '', $fileSource)), '/');
             $assetContext = new \Magento\View\Asset\File\FallbackContext(
                 '',
                 $context['destinationContext']['area'],
                 $context['destinationContext']['themePath'],
                 ''
             );
-            $thisAsset = new \Magento\Tools\View\Generator\Asset($assetContext, $fileId, 'css');
+            $thisAsset = new Asset($assetContext, $filePath, '', 'css');
             $callback = function ($path) use ($thisAsset) {
                 return $this->_notationResolver->convertModuleNotationToPath($thisAsset, $path);
             };

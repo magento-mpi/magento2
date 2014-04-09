@@ -39,12 +39,12 @@ class Resolver
      */
     public function convertModuleNotationToPath(Asset\LocalInterface $thisAsset, $relatedFileId)
     {
-        if (false === strpos($relatedFileId, Asset\File::FILE_ID_SEPARATOR)) {
+        if (false === strpos($relatedFileId, Asset\Repository::FILE_ID_SEPARATOR)) {
             return $relatedFileId;
         }
-        $thisPath = $thisAsset->getRelativePath();
+        $thisPath = $thisAsset->getPath();
         $relatedAsset = $this->assetRepo->createSimilar($relatedFileId, $thisAsset);
-        $relatedPath = $relatedAsset->getRelativePath();
+        $relatedPath = $relatedAsset->getPath();
         $offset = FileSystem::offsetPath($relatedPath, $thisPath);
         return FileSystem::normalizePath($offset . '/' . basename($relatedPath));
     }

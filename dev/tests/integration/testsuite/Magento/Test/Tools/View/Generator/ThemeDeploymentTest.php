@@ -76,7 +76,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->getMockForAbstractClass('Magento\UrlInterface'),
             $this->getMockForAbstractClass('Magento\View\DesignInterface'),
             $this->getMock('Magento\View\Design\Theme\Provider', array(), array(), '', false),
-            $this->getMock('Magento\View\Asset\File\Source', array(), array(), '', false),
+            $this->getMock('Magento\View\Asset\Source', array(), array(), '', false),
             \Magento\App\State::MODE_PRODUCTION
         );
         $this->notationResolver = new \Magento\View\Asset\ModuleNotation\Resolver($assetRepository);

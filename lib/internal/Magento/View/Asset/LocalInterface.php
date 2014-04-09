@@ -23,6 +23,13 @@ interface LocalInterface extends AssetInterface
     public function getSourceFile();
 
     /**
+     * Get content of a local asset
+     *
+     * @return string
+     */
+    public function getContent();
+
+    /**
      * Get an invariant relative path to file
      *
      * @return string
@@ -37,11 +44,18 @@ interface LocalInterface extends AssetInterface
     public function getContext();
 
     /**
+     * Get the module context of file path
+     *
+     * @return string
+     */
+    public function getModule();
+
+    /**
      * Get a relative "context" path to the asset file
      *
      * This path includes both invariant and context part that can serve as an identifier of the file in current context
      *
      * @return string
      */
-    public function getRelativePath();
+    public function getPath();
 }

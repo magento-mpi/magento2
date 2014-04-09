@@ -25,6 +25,11 @@ class LessTest extends \PHPUnit_Framework_TestCase
     private $logger;
 
     /**
+     * @var \Magento\View\Asset\PreProcessor\Chain
+     */
+    private $chain;
+
+    /**
      * @var \Magento\Css\PreProcessor\Less
      */
     private $object;
@@ -34,6 +39,9 @@ class LessTest extends \PHPUnit_Framework_TestCase
         $this->fileGenerator = $this->getMock('\Magento\Less\FileGenerator', array(), array(), '', false);
         $this->adapter = $this->getMockForAbstractClass('\Magento\Css\PreProcessor\AdapterInterface');
         $this->logger = $this->getMock('\Magento\Logger', array(), array(), '', false);
+        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $asset->expects($this->once())->method('getContentType')->will($this->returnValue('origType'));
+        $this->chain = new \Magento\View\Asset\PreProcessor\Chain($asset, 'original content', 'origType');
         $this->object = new \Magento\Css\PreProcessor\Less($this->fileGenerator, $this->adapter, $this->logger);
     }
 
@@ -41,17 +49,17 @@ class LessTest extends \PHPUnit_Framework_TestCase
     {
         $expectedContent = 'updated content';
         $tmpFile = 'tmp/file.ext';
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->fileGenerator->expects($this->once())
             ->method('generateLessFileTree')
-            ->with('content', $asset)
+            ->with($this->chain)
             ->will($this->returnValue($tmpFile));
         $this->adapter->expects($this->once())
             ->method('process')
             ->with($tmpFile)
             ->will($this->returnValue($expectedContent));
-        $actual = $this->object->process('content', 'less', $asset);
-        $this->assertSame([$expectedContent, 'css'], $actual);
+        $this->object->process($this->chain);
+        $this->assertEquals($expectedContent, $this->chain->getContent());
+        $this->assertEquals('css', $this->chain->getContentType());
     }
 
     /**
@@ -61,16 +69,16 @@ class LessTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessException($exception)
     {
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
         $this->fileGenerator->expects($this->once())
             ->method('generateLessFileTree')
-            ->with('content', $asset)
+            ->with($this->chain)
             ->will($this->throwException($exception));
         $this->logger->expects($this->once())
             ->method('logException')
             ->with($exception);
-        $actual = $this->object->process('content', 'less', $asset);
-        $this->assertSame(['content', 'less'], $actual);
+        $this->object->process($this->chain);
+        $this->assertEquals('original content', $this->chain->getContent());
+        $this->assertEquals('origType', $this->chain->getContentType());
     }
 
     /**

@@ -17,10 +17,17 @@ use Magento\View\Asset\File;
  */
 class Asset extends File
 {
-    public function __construct(File\Context $context, $fileId, $contentType)
+    /**
+     * @param File\Context $context
+     * @param \Magento\View\Asset\ContextInterface $filePath
+     * @param string $module
+     * @param string $contentType
+     */
+    public function __construct(File\Context $context, $filePath, $module, $contentType)
     {
         $this->context = $context;
-        list($this->module, $this->filePath) = self::extractModule($fileId);
+        $this->filePath = $filePath;
+        $this->module = $module;
         $this->contentType = $contentType;
     }
 }
