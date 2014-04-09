@@ -589,7 +589,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
-            $expectedMessage = "No such entity with groupId = $nonExistentGroupId";
+            $expectedMessage = "No such entity with id = $nonExistentGroupId";
 
             $this->assertContains(
                 $expectedMessage,

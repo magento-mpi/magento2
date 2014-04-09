@@ -287,7 +287,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup = null;
 
         if ($group->getId()) {
-            $customerGroup = $this->_groupRegistry->retrieve($group->getId());
+            try {
+                $customerGroup = $this->_groupRegistry->retrieve($group->getId());
+            } catch (NoSuchEntityException $e) {
+                throw new NoSuchEntityException('id', $group->getId());
+            }
         }
 
         if (!$customerGroup) {
