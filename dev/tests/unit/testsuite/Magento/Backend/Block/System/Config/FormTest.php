@@ -80,7 +80,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         $requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap($requestParams));
 
-        $layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
+        $layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false, false);
 
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
         $configFactoryMock = $this->getMock(

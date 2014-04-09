@@ -15,7 +15,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     /**
      * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento\Core\Model\Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento\View\Layout';
 
     /**
      * Url model classes that will be used instead of \Magento\UrlInterface in different vde modes
@@ -307,6 +307,6 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $this->_areaEmulator->expects($this->once())->method('emulateLayoutArea')->with(self::AREA_CODE);
         $controller = $this->getMock('Magento\Backend\Controller\Adminhtml\Action', array(), array(), '', false);
 
-        $this->assertNull($this->_model->update(self::AREA_CODE, $request, $controller));
+        $this->_model->update(self::AREA_CODE, $request, $controller);
     }
 }
