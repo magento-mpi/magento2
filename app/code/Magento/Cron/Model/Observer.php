@@ -134,9 +134,14 @@ class Observer
                 'system/cron/' . $groupId . '/use_separate_process'
             ) == 1
             ) {
-                $command = '"' . PHP_BINARY . '" -f ' . BP . DIRECTORY_SEPARATOR .
-                    \Magento\App\Filesystem::PUB_DIR .  DIRECTORY_SEPARATOR . 'cron.php -- --group=' . $groupId;
-                $this->_shell->execute($command);
+                $this->_shell->execute(
+                    '%s -f %s -- --group=%s',
+                    array(
+                        PHP_BINARY,
+                        BP . DIRECTORY_SEPARATOR . \Magento\App\Filesystem::PUB_DIR .  DIRECTORY_SEPARATOR . 'cron.php',
+                        $groupId
+                    )
+                );
                 continue;
             }
             if ($this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId) {
