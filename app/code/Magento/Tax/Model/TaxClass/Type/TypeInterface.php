@@ -16,11 +16,11 @@ namespace Magento\Tax\Model\TaxClass\Type;
 interface TypeInterface
 {
     /**
-     * Get Collection of Objects that are assigned to this tax class
+     * Check are any objects assigned to the tax class
      *
-     * @return int
+     * @return bool
      */
-    public function getAssignedToObjectsSize();
+    public function isAssignedToObjects();
 
     /**
      * Get Collection of Tax Rules that are assigned to this tax class
