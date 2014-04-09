@@ -169,7 +169,9 @@ class FinalPriceBox extends PriceBox
      */
     public function isMinEqualToMax()
     {
-        return $this->minMaxCache['min'] === $this->minMaxCache['max'];
+        return ($this->minMaxCache['min'] && $this->minMaxCache['max'])
+            ? $this->minMaxCache['min'] === $this->minMaxCache['max']
+            : false;
     }
 
     /**
