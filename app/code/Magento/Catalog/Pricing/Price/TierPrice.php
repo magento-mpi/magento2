@@ -134,7 +134,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     {
         if (null === $this->priceList) {
             $priceList = $this->getStoredTierPrices();
-            $this->priceList = $this->filterTearPrices($priceList);
+            $this->priceList = $this->filterTierPrices($priceList);
             array_walk(
                 $this->priceList,
                 function (&$priceData) {
@@ -151,7 +151,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
      * @param array $priceList
      * @return array
      */
-    protected function filterTearPrices(array $priceList)
+    protected function filterTierPrices(array $priceList)
     {
         $qtyCache = [];
         foreach ($priceList as $priceKey => $price) {
@@ -160,7 +160,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
                 unset($priceList[$priceKey]);
                 continue;
             }
-            /* select a lower price between tear price and base price */
+            /* select a lower price between Tier price and base price */
             if ($this->filterByBasePrice && $price['price'] > $this->getBasePrice()) {
                 unset($priceList[$priceKey]);
                 continue;
