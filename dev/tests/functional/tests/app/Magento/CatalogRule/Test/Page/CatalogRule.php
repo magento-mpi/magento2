@@ -38,7 +38,6 @@ class CatalogRule extends BackendPage
      */
     protected $catalogRuleGrid = '#promo_catalog_grid';
 
-
     /**
      * Custom constructor
      */

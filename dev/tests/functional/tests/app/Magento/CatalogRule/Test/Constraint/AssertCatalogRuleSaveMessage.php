@@ -18,6 +18,9 @@ use Magento\CatalogRule\Test\Page;
  */
 class AssertCatalogRuleSaveMessage extends AbstractConstraint
 {
+    /**
+     * Catalog rule is saved message
+     */
     const SUCCESS_MESSAGE = 'The rule has been saved.';
 
     /**
