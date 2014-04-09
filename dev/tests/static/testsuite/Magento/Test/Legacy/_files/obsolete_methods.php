@@ -1597,4 +1597,5 @@ return array(
         'getRatingSummary',
         'Magento\Catalog\Model\Product'
     ),
+    ['getCustomer', 'Magento\Persistent\Helper\Session']
 );

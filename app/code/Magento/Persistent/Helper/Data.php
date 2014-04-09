@@ -52,6 +52,13 @@ class Data extends \Magento\Core\Helper\Data
     protected $_modulesReader;
 
     /**
+     * Customer view helper
+     *
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -59,6 +66,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param Session $persistentSession
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -69,11 +77,13 @@ class Data extends \Magento\Core\Helper\Data
         Session $persistentSession,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Escaper $escaper,
+        \Magento\Customer\Helper\View $customerViewHelper,
         $dbCompatibleMode = true
     ) {
         $this->_modulesReader = $modulesReader;
         $this->_persistentSession = $persistentSession;
         $this->_escaper = $escaper;
+        $this->_customerViewHelper = $customerViewHelper;
 
         parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $dbCompatibleMode);
     }
@@ -161,7 +171,9 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getPersistentName()
     {
-        return __('(Not %1?)', $this->_escaper->escapeHtml($this->_persistentSession->getCustomer()->getName()));
+        return __('(Not %1?)', $this->_escaper->escapeHtml(
+            $this->_customerViewHelper->getCustomerName($this->_persistentSession->getCustomerDataObject()))
+        );
     }
 
     /**

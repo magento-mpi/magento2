@@ -19,23 +19,23 @@ namespace Magento\Persistent\Block\Header;
 class Additional extends \Magento\View\Element\Html\Link
 {
     /**
-     * Persistent session
+     * Persistent helper
      *
-     * @var \Magento\Persistent\Helper\Session
+     * @var \Magento\Persistent\Helper\Data
      */
-    protected $_persistentSession = null;
+    protected $_persistentHelper;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Persistent\Helper\Data $persistentHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Persistent\Helper\Data $persistentHelper,
         array $data = array()
     ) {
-        $this->_persistentSession = $persistentSession;
+        $this->_persistentHelper = $persistentHelper;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -57,7 +57,7 @@ class Additional extends \Magento\View\Element\Html\Link
      */
     protected function _toHtml()
     {
-        $text = __('(Not %1?)', $this->escapeHtml($this->_persistentSession->getCustomer()->getName()));
+        $text = $this->_persistentHelper->getPersistentName();
 
         return '<span><a ' . $this->getLinkAttributes() . ' >' . $this->escapeHtml($text) . '</a></span>';
     }

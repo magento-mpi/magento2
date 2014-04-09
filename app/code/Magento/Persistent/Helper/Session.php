@@ -24,7 +24,7 @@ class Session extends \Magento\Core\Helper\Data
     /**
      * Persistent customer
      *
-     * @var null|\Magento\Customer\Model\Customer
+     * @var null|\Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customer;
 
@@ -50,18 +50,18 @@ class Session extends \Magento\Core\Helper\Data
     protected $_sessionFactory;
 
     /**
-     * Customer factory
-     *
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
      * Checkout session
      *
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
+
+    /**
+     * Customer account service
+     *
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -70,8 +70,8 @@ class Session extends \Magento\Core\Helper\Data
      * @param \Magento\App\State $appState
      * @param Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -81,14 +81,14 @@ class Session extends \Magento\Core\Helper\Data
         \Magento\App\State $appState,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         $dbCompatibleMode = true
     ) {
         $this->_persistentData = $persistentData;
         $this->_checkoutSession = $checkoutSession;
-        $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $dbCompatibleMode);
     }
 
@@ -166,13 +166,13 @@ class Session extends \Magento\Core\Helper\Data
     /**
      * Return persistent customer
      *
-     * @return \Magento\Customer\Model\Customer|bool
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
-    public function getCustomer()
+    public function getCustomerDataObject()
     {
         if (is_null($this->_customer)) {
             $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = $this->_customerFactory->create()->load($customerId);
+            $this->_customer = $this->_customerAccountService->getCustomer($customerId);
         }
         return $this->_customer;
     }

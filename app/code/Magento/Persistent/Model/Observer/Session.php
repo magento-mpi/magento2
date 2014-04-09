@@ -90,7 +90,7 @@ class Session
      */
     public function synchronizePersistentOnLogin(Observer $observer)
     {
-        /** @var $customer \Magento\Customer\Model\Customer */
+        /** @var $customer \Magento\Customer\Service\V1\Data\Customer */
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid (remove persistent cookie for invalid customer)
         if (!$customer || !$customer->getId() || !$this->_persistentSession->isRememberMeChecked()) {
@@ -145,10 +145,8 @@ class Session
             return;
         }
 
-        /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid
-        if (!$customer || !$customer->getId()) {
+        if (!$this->_customerSession->isLoggedIn()) {
             return;
         }
 
