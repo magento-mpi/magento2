@@ -191,7 +191,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $themeResolver;
 
     /**
-     * @var \Magento\BaseScopeResolverInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
     protected $scopeResolver;
 
@@ -208,7 +208,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\View\Design\Theme\ResolverInterface $themeResolver
-     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param string $scopeType
      */
     public function __construct(
@@ -224,7 +224,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\View\Design\Theme\ResolverInterface $themeResolver,
-        \Magento\BaseScopeResolverInterface $scopeResolver,
+        \Magento\App\ScopeResolverInterface $scopeResolver,
         $scopeType
     ) {
         $this->_eventManager = $eventManager;

@@ -54,7 +54,6 @@
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
     <preference for="Magento\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
-    <preference for="Magento\App\ScopeResolverInterface" type="Magento\Store\Model\Resolver\Store" />
     <preference for="Magento\LocaleInterface" type="Magento\Locale" />
     <preference for="Magento\Locale\CurrencyInterface" type="Magento\Locale\Currency" />
     <preference for="Magento\CurrencyInterface" type="Magento\Currency" />

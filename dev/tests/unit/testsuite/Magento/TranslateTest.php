@@ -36,7 +36,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Module\Dir\Reader */
     protected $_modulesReader;
 
-    /** @var \Magento\BaseScopeResolverInterface */
+    /** @var \Magento\App\ScopeResolverInterface */
     protected $_scopeResolver;
 
     /** @var \Magento\Translate\ResourceInterface */

@@ -99,7 +99,7 @@ class Layout
             'appState' => $objectManager->get('Magento\App\State'),
             'messageManager' => $objectManager->get('Magento\Message\ManagerInterface'),
             'themeResolver' => $objectManager->get('Magento\View\Design\Theme\ResolverInterface'),
-            'scopeResolver' => $objectManager->get('Magento\BaseScopeResolverInterface'),
+            'scopeResolver' => $objectManager->get('Magento\App\ScopeResolverInterface'),
             'scopeType' => \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
         );
     }
