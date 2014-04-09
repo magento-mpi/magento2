@@ -136,12 +136,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         } elseif ($taxHelper->displayBothPrices()) {
             $priceStr .= $coreHelper->currencyByStore($_priceExclTax, $store);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' (+' . $coreHelper->currencyByStore(
-                        $_priceInclTax,
-                        $store
-                    ) . ' ' . __(
-                        'Incl. Tax'
-                    ) . ')';
+                $priceStr .= ' (+' . $coreHelper->currencyByStore($_priceInclTax, $store) . ' ' . __('Incl. Tax') . ')';
             }
         }
         $priceStr .= '</span>';
@@ -175,15 +170,15 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             $config[$link->getId()] = [
                 'price' => $this->coreData->currency($link->getPrice(), false, false),
                 'inclTaxPrice' => $this->coreData->currency(
-                        $amount->getValue(),
-                        false,
-                        false
-                    ),
+                    $amount->getValue(),
+                    false,
+                    false
+                ),
                 'exclTaxPrice' => $this->coreData->currency(
-                        $amount->getBaseAmount(),
-                        false,
-                        false
-                    )
+                    $amount->getBaseAmount(),
+                    false,
+                    false
+                )
             ];
         }
 
