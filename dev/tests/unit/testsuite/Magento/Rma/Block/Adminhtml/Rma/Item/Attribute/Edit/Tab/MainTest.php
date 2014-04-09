@@ -10,6 +10,10 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class MainTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Main */
@@ -123,6 +127,9 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Rma\Helper\Eav|\PHPUnit_Framework_MockObject_MockObject */
     protected $rmaEavHelper;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->requestInterface = $this->getMock(

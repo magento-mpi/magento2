@@ -13,6 +13,9 @@ namespace Magento\Catalog\Controller;
 use Magento\App\Action\Action;
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
