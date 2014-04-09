@@ -29,10 +29,10 @@ $msrpPrice = $this->renderAmount($priceType->getCustomAmount($product->getMsrp()
     ]
 );
 $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
-$addToCartUrl = 'x';
+$addToCartUrl = '';
 if ($product->isSaleable()) {
     $addToCartUrl = $this->helper('\Magento\Checkout\Helper\Cart')
-        ->getAddUrl($product, ['qty' => $price['price_qty']]);
+        ->getAddUrl($product);
 }
 ?>
 
