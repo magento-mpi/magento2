@@ -1,5 +1,12 @@
 * Framework Improvements:
-  * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
+  * Covered Magento library components with unit tests: (MAGETWO-21115)
+    * Magento/App/Request
+    * Magento/App/Resource folder and Magento/App/Resource.php
+    * Magento/App/Response
+    * Magento/App/Route
+    * Magento/App/Router
+    * Magento/App/Http.php
+    * Magento/Translate.php
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
   * API Service Exception Handling (MAGETWO-14490)
   * Extracted vendor name from app/design/*/magento_<theme> into app/design/*/Magento/<theme> (MAGETWO-20865)
@@ -7,18 +14,10 @@
 * Themes update:
   * Admin theme look&feel updated
 * Modularity improvements:
-  * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
-  * Moved resource model to Magento_Install module(MAGETWO-21599)
-  * Eliminated Core\Helper\Js class (MAGETWO-21600)
-  * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
-  * Moved library related logic of Cache from Core module (MAGETWO-21598)
   * Resolved issues with cases when order has been placed before module disabling (MAGETWO-18064)
   * Eliminated dependency of Magento_Catalog on Magento_Rating Module (MAGETWO-21481)
   * Coupled Magento_Rating and Magento_Rating modules. Magento_Rating is removed (MAGETWO-23048)
-* Indexer improvements:
-  * Added execution time hints for console reindex (MAGETWO-22818)
 * Customer Service usage:
-  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
   * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
   * Refactor PayPal module to use Customer Service (MAGETWO-20477)
   * Log, RSS, and Review module are fully refactored to use Customer Service Layer (MAGETWO-22788)
@@ -31,12 +30,13 @@
   * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
   * [#516] (https://github.com/magento/magento2/issues/516) -- Make Sure That save_before Event Is Dispatched
   * [#465] (https://github.com/magento/magento2/issues/465) -- Absolute path is assembled incorrectly when merging js/css files
+  * [#504] (https://github.com/magento/magento2/issues/504) -- Renamed "contacts" module to "contact" (MAGETWO-23150)
+  * [#529] (https://github.com/magento/magento2/issues/529) -- Fixed exception at admin dashboard (MAGETWO-23164)
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed an issue during creating or editing product template (MAGETWO-23170)
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed Typo in the module name (MAGETWO-23173)
+  * [#538] (https://github.com/magento/magento2/issues/538) -- Fixed missing tax amount in the invoice (MAGETWO-23175)
 * Fixed bugs:
-  * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
-  * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)
   * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
-  * Fixed an issue where admin could not unsubscribe customer from backend customer edit page (MAGETWO-22982)
-  * Fixed an issue where customers are always subscribed even if not selected during registration (MAGETWO-22966)
   * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
   * Fixed: Impossible export several entyties (Credit Memos, Report Shopping Cart ...) for user with restricted permission (MAGETWO-19346)
   * Fixed: Checkout is blocked by "Please enter the State/Province pop-up" pop-up for customer that have saved address (MAGETWO-22006)
@@ -47,6 +47,28 @@
   * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
 * GitHub requests:
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
+
+2.0.0.0-dev72
+=============
+* Framework Improvements:
+  * Fixed performance degradation caused by DI argument processors
+* Modularity improvements:
+  * Introduced the Magento_UrlRewrite module, and moved corresponding classes from Magento_Core to Magento_UrlRewrite
+  * Moved all Install logic to the Magento_Install module
+  * Eliminated the Core\Helper\Js class
+  * Moved the Email related logic from the Magento_Core module to the Magento_Email module
+  * Moved the Cache related logic from the Magento_Core module to library
+* Indexer improvements:
+  * Added execution time hints for console reindex
+* Customer Service usage:
+  * Refactored the Magento_Newsletter module to use Customer service layer
+* Fixed bugs:
+  * Fixed an issue with resetting customer password from the frontend
+  * Fixed an issue where mistakenly the attribute of the Customer Address Edit form was cached
+  * Fixed an issue where admin could not unsubscribe customer on the customer edit page in the backend
+  * Fixed an issue where customers were always subscribed to the newsletter even if not selected during registration
+* GitHub requests:
+  * [#325] (https://github.com/magento/magento2/pull/325) -- ImportExport: Fix notice if _attribute_set column is missing
 
 2.0.0.0-dev71
 =============
@@ -66,24 +88,24 @@
   * Moved indexers related logic from the Core module to the Indexer module
   * Moved the Inline translation and user intended translate functionality from the Core module to a separate Translation module
 * Framework Improvements:
-  * Covered Magento library components with unit tests: (MAGETWO-21135)
-    * Magento/Config
-    * Magento/Convert
-    * Magento/Controller
-    * Magento/Data/Collection/Db
-    * Magento/Mview
-    * Magento/Url folder and Magento/Url.php
-  * Covered Magento application components with unit tests: (MAGETWO-21135)
-    * Magento/Checkout/Model/Config
-    * Magento/Checkout/Model/Observer
-    * Magento/Checkout/Model/Type
-    * Magento/Sales/Model/Config
-  * LauncherInterface renamed to AppInterface (MAGETWO-21593)
+  * Covered Magento library components with unit tests:
+     * Magento\Config
+     * Magento\Convert
+     * Magento\Controller
+     * Magento\Data\Collection\Db
+     * Magento\Mview
+     * Magento\Url and Magento/Url.php
+  * Covered Magento application components with unit tests:
+     * Magento\Checkout\Model\Config
+     * Magento\Checkout\Model\Observer
+     * Magento\Checkout\Model\Type
+     * Magento\Sales\Model\Config
+  * Renamed LauncherInterface to AppInterface
 * Improvements in code coverage calculation:
   * Updated the whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:
   * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
-  * [#502] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
+  * [#520] (https://github.com/magento/magento2/pull/520) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
 * Customer Service usage:
   * Refactored the Log module to use Customer Service
@@ -128,24 +150,24 @@
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
   * [#499](https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
 * Fixed bugs:
-  * Fixed fatal error with dependency in pub/errors/report.php (MAGETWO-21840)
-  * Fixed code coverage fails for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
-  * Fixed PayPal Express Checkout must not redirect to Paypal site if Allow Guest Checkout option is No (MAGETWO-19523)
-  * Fixed ability to reset password for customer from backend (MAGETWO-20164)
-  * Fixed ability to download backup (MAGETWO-21353)
-  * Fixed possibility of XSS injection in the Integration re-authorization flow
-  * Fixed cancellation of the Billing Agreement from backend
-  * Fixed debug section in the developer settings
-  * Fixed unreliable implementation of fetching authorization header via SOAP
-  * Fixed WSDL generation error reporting issues
-  * Fixed correct order Recurring Profile tab in Account Customer on frontend (MAGETWO-20706)
-  * Fixed displaying an image on recurring profile page (MAGETWO-21375)
-  * Fixed ability to edit Product Template (MAGETWO-21757)
-  * Fixed duplicated shipping method options (MAGETWO-20055)
-  * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
-  * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
-  * Fixed JS/CSS merging functionality (MAGETWO-21924)
-  * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
+  * Fixed a fatal error that occurred with a dependency in pub/errors/report.php
+  * Fixed an issue where code coverage failed for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
+  * Fixed an issue where PayPal Express Checkout redirected to the PayPal site even though the Allow Guest Checkout option was set to 'No'
+  * Fixed an issue where invalid password reset link was sent when resetting customer password from the backend
+  * Fixed an issue where it was not possible to download a previously created backup
+  * Fixed a security issue with possibility of a XSS injection in the Integration re-authorization flow
+  * Fixed an issue where Billing Agreement cancellation from the backend did not work
+  * Fixed an issue with the debug section in the developer settings
+  * Fixed the unreliable implementation of the fetching authorization header via SOAP
+  * Fixed issues with WSDL generation error reporting
+  * Fixed an issue with incorrect order of the Recurring Profile tab in Account Customer on the frontend
+  * Fixed an issue when the information about a custom option of the 'File' type was not displayed correctly on the recurring profile page
+  * Fixed an issue with editing Product template
+  * Fixed an issue with duplicated shipping method options during checkout
+  * Fixed an issue where flat indexers were re-indexed in shell when they were disabled
+  * Fixed an issue where adding a wrong/nonexistent SKU using 'Order by SKU' from My Account caused a fatal error
+  * Fixed an issue with the JS/CSS merging functionality
+  * Fixed an issue with static view files publication tool used for the 'production' mode
 * Modularity improvements:
   * Removed the deprecated GoogleCheckout functionality
   * Removed all dependencies on the RecurringPayment module
@@ -157,13 +179,13 @@
   * Re-factored the View publisher
 * Framework improvements:
   * Added restrictions on the data populated to the Service Data Object
-  * Renamed Data Transfer Object to the Service Data Object
-  * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
+  * Renamed Data Transfer Object to Service Data Object
+  * Updated the view files population tool to support LESS
 * Customer Service usage:
-  * Tax module refactoring to use customer service layer
-  * Refactored Customer module Adminhtml internal controllers and helper to use customer services
-  * Added and updated customer service APIs
-  * Exposed customer services as REST APIs
+  * Refactored the Tax module to use Customer service layer
+  * Refactored Customer module Adminhtml internal controllers and helper to use Customer services
+  * Added and updated the Customer service APIs
+  * Exposed Customer services as REST APIs
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
 * Updated various PHPDoc with the parameter and return types
