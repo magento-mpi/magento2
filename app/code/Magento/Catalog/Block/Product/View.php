@@ -235,7 +235,6 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
         $_request->setProductClassId($product->getTaxClassId());
         $currentTax = $this->_taxCalculation->getRate($_request);
 
-        $_finalPrice = $product->getFinalPrice();
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {
@@ -260,12 +259,12 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
                 $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getBaseAmount(),
                 false,
                 false),
-            'priceInclTax' => $this->_coreData->currency(
+            'inclTaxPrice' => $this->_coreData->currency(
                 $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
                 false,
                 false
             ),
-            'priceExclTax' => $this->_coreData->currency(
+            'exclTaxPrice' => $this->_coreData->currency(
                 $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
                 false,
                 false

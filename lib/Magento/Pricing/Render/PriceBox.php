@@ -87,6 +87,26 @@ class PriceBox extends Template implements PriceBoxRenderInterface
         return $this->price;
     }
 
+    public function getPriceId($defaultPrefix = null, $defaultSuffix = null)
+    {
+        if ($this->hasData('price_id')) {
+            return $this->getData('price_id');
+        }
+        $priceId = $this->saleableItem->getId();
+        if ($this->hasData('price_id_prefix')) {
+            $prefix = $this->getData('price_id_prefix') . $priceId;
+        } else {
+            $prefix = $defaultPrefix;
+        }
+        if ($this->hasData('price_id_suffix')) {
+            $suffix = $this->getData('price_id_suffix');
+        } else {
+            $suffix = $defaultSuffix;
+        }
+        $priceId = $prefix . $priceId . $suffix;
+        return $priceId;
+    }
+
     /**
      * Retrieve price object of given type and quantity
      *

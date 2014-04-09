@@ -20,9 +20,9 @@
         _reloadPrice: function() {
             var price = 0, inclTaxPrice = 0, exclTaxPrice = 0;
             this.element.find(this.options.linkElement + ':checked').each($.proxy(function(index, element) {
-                price += this.options.config[$(element).val()]['price'];
-                inclTaxPrice += this.options.config[$(element).val()]['inclTaxPrice'];
-                exclTaxPrice += this.options.config[$(element).val()]['exclTaxPrice'];
+                price += this.options.config[$(element).val()].price;
+                inclTaxPrice += this.options.config[$(element).val()].inclTaxPrice;
+                exclTaxPrice += this.options.config[$(element).val()].exclTaxPrice;
             }, this));
             this.element.trigger('changePrice', {
                 'config': 'config',

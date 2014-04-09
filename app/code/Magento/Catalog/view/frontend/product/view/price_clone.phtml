@@ -6,5 +6,13 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var \Magento\Catalog\Block\Product\AbstractProduct $this */ ?>
 <?php $_product = $this->getProduct() ?>
-<?php echo $this->getPriceHtml($_product, false, '_clone') ?>
+<?php echo $this->getProductPriceHtml(
+    $_product,
+    'final_price',
+    \Magento\Pricing\Render::ZONE_ITEM_VIEW,
+    [
+        'price_id_suffix' => '_clone'
+    ]
+) ?>
