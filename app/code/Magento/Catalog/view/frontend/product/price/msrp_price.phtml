@@ -29,6 +29,11 @@ $msrpPrice = $this->renderAmount($priceType->getCustomAmount($product->getMsrp()
     ]
 );
 $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
+$addToCartUrl = 'x';
+if ($product->isSaleable()) {
+    $addToCartUrl = $this->helper('\Magento\Checkout\Helper\Cart')
+        ->getAddUrl($product, ['qty' => $price['price_qty']]);
+}
 ?>
 
 <?php if ($product->getMsrp()): ?>
@@ -67,7 +72,8 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
                     msrpPrice: <?php echo $this->jsonEncode($msrpPrice) ?>,
                     priceElementId: '<?php echo $priceElementId ?>',
                     closeButtonId: '#map-popup-close',
-                    popupCartButtonId: "#map-popup-button"
+                    popupCartButtonId: "#map-popup-button",
+                    addToCartUrl: '<?php echo $addToCartUrl; ?>'
                 });
                 <?php endif; ?>
                 <?php if ($this->getZone() == \Magento\Pricing\Render::ZONE_ITEM_VIEW): ?>
