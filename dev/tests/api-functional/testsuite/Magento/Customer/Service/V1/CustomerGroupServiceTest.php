@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
 use Magento\Customer\Service\V1\CustomerGroupService;
@@ -30,12 +31,19 @@ class CustomerGroupServiceTest extends WebapiAbstract
     private $groupService;
 
     /**
+     * @var GroupRegistry
+     */
+    private $groupRegistry;
+
+    /**
      * Execute per test initialization.
      */
     public function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $this->groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+        $this->groupRegistry = $objectManager->get('Magento\Customer\Model\GroupRegistry');
+        $this->groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface',
+            [ 'groupRegistry' => $this->groupRegistry ]);
     }
 
     /**
@@ -581,7 +589,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
-            $expectedMessage = "No such entity with id = $nonExistentGroupId";
+            $expectedMessage = "No such entity with groupId = $nonExistentGroupId";
 
             $this->assertContains(
                 $expectedMessage,
@@ -1017,6 +1025,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $newGroup->getTaxClassId(),
             'The group tax class id does not match.'
         );
+
+        $this->groupRegistry->remove($groupId);
 
         return $groupId;
     }

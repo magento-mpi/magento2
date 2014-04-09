@@ -707,6 +707,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
         $customerModel->delete();
         $this->customerRegistry->remove($customerId);
+
+        return true;
     }
 
     /**

@@ -8,14 +8,15 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Service\V1\Data\FilterBuilder;
-use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -70,12 +71,22 @@ class CustomerAccountServiceTest extends WebapiAbstract
     private $helper;
 
     /**
+     * @var CustomerRegistry
+     */
+    private $customerRegistry;
+
+    /**
      * Execute per test initialization.
      */
     public function setUp()
     {
+        $this->customerRegistry = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Model\CustomerRegistry'
+        );
+
         $this->customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface',
+            [ 'customerRegistry' => $this->customerRegistry ]
         );
         $this->addressBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\AddressBuilder'
@@ -112,7 +123,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerData = $this->_createSampleCustomer();
 
         //Get expected details from the Service directly
-        $expectedCustomerDetails = $this->customerAccountService->getCustomerDetails($customerData['id'])->__toArray();
+        $expectedCustomerDetails = $this->_getCustomerDetails($customerData['id'])->__toArray();
 
         //Test GetDetails
         $serviceInfo = [
@@ -499,7 +510,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'Magento\Exception\NoSuchEntityException',
             sprintf("No such entity with customerId = %s", $customerData[Customer::ID])
         );
-        $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $this->_getCustomerDetails($customerData[Customer::ID]);
     }
 
     public function testDeleteCustomerInvalidCustomerId()
@@ -584,7 +595,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testUpdateCustomer()
     {
         $customerData = $this->_createSampleCustomer();
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
         $updatedCustomer = $this->customerBuilder->populate($customerDetails->getCustomer())->setLastname(
@@ -613,14 +624,14 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertTrue($response);
 
         //Verify if the customer is updated
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $this->assertEquals($lastName . "Updated", $customerDetails->getCustomer()->getLastname());
     }
 
     public function testUpdateCustomerException()
     {
         $customerData = $this->_createSampleCustomer();
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
         //Set non-existent id = -1
@@ -857,5 +868,18 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         return substr("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", mt_rand(0, 50), 1) .
         substr(md5(time()), 1);
+    }
+
+    /**
+     * Return the customer details.
+     *
+     * @param int $customerId
+     * @return \Magento\Customer\Service\V1\Data\CustomerDetails
+     */
+    protected function _getCustomerDetails($customerId)
+    {
+        $details =  $this->customerAccountService->getCustomerDetails($customerId);
+        $this->customerRegistry->remove($customerId);
+        return $details;
     }
 }
