@@ -79,8 +79,6 @@ class Edit extends Container
             );
         }
 
-        parent::_prepareLayout();
-
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
             $this->setChild(
                 'form',
@@ -112,6 +110,8 @@ class Edit extends Container
         if (!$this->getEvent()->isDeleteable()) {
             $this->_removeButton('delete');
         }
+
+        parent::_prepareLayout();
 
         return $this;
     }

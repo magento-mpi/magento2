@@ -69,7 +69,7 @@ class View extends \Magento\Backend\Block\Widget\Container
                     'onclick' => 'deleteConfirm(\'' . $this->escapeJsQuote(
                         __('Are you sure you want to discard this invitation?')
                     ) . '\', \'' . $massCancelUrl . '\' )',
-                    'class' => 'cancel'
+                    'class' => 'cancel primary'
                 ),
                 -1
             );

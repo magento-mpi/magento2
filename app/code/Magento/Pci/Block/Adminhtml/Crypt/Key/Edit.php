@@ -41,7 +41,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             'save',
             array(
                 'label' => __('Change Encryption Key'),
-                'class' => 'save',
+                'class' => 'save primary save-encryption-key',
                 'data_attribute' => array(
                     'mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form'))
                 )

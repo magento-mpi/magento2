@@ -70,14 +70,14 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
      *
      * @var string
      */
-    protected $_width = '587';
+    protected $_width = '780';
 
     /**
      * Chart height
      *
      * @var string
      */
-    protected $_height = '300';
+    protected $_height = '384';
 
     /**
      * Google chart api data encoding
@@ -197,9 +197,11 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
     {
         $params = array(
             'cht' => 'lc',
-            'chf' => 'bg,s,f4f4f4|c,lg,90,ffffff,0.1,ededed,0',
-            'chm' => 'B,f4d4b2,0,0,0',
-            'chco' => 'db4814'
+            'chf' => 'bg,s,ffffff',
+            'chco' => 'ef672f',
+            'chls' => '7',
+            'chxs' => '0,676056,15,0,l,676056|1,676056,15,0,l,676056',
+            'chm' => 'h,f2ebde,0,0:1:.1,1,-1'
         );
 
         $this->_allSeries = $this->getRowsData($this->_dataRows);
@@ -254,10 +256,12 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
          */
         if (count($dates) > 8 && count($dates) < 15) {
             $c = 1;
-        } else if (count($dates) >= 15) {
-            $c = 2;
         } else {
-            $c = 0;
+            if (count($dates) >= 15) {
+                $c = 2;
+            } else {
+                $c = 0;
+            }
         }
         /**
          * skipping some x labels for good reading
@@ -339,7 +343,6 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                         $chartdata[] = $dataMissing . $dataDelimiter;
                     }
                 }
-                // END SIMPLE ENCODING
             } else {
                 // EXTENDED ENCODING
                 for ($j = 0; $j < sizeof($thisdataarray); $j++) {
@@ -366,7 +369,6 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                         $chartdata[] = $dataMissing . $dataDelimiter;
                     }
                 }
-                // ============= END EXTENDED ENCODING =============
             }
             $chartdata[] = $dataSetdelimiter;
         }
@@ -420,18 +422,6 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                     $tmpstring = implode('|', $this->_axisLabels[$idx]);
 
                     $valueBuffer[] = $indexid . ":|" . $tmpstring;
-                    if (sizeof($this->_axisLabels[$idx]) > 1) {
-                        $deltaX = 100 / (sizeof($this->_axisLabels[$idx]) - 1);
-                    } else {
-                        $deltaX = 100;
-                    }
-                } else if ($idx == 'y') {
-                    $valueBuffer[] = $indexid . ":|" . implode('|', $yLabels);
-                    if (sizeof($yLabels) - 1) {
-                        $deltaY = 100 / (sizeof($yLabels) - 1);
-                    } else {
-                        $deltaY = 100;
-                    }
                 }
                 $indexid++;
             }
@@ -440,10 +430,6 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
 
         // chart size
         $params['chs'] = $this->getWidth() . 'x' . $this->getHeight();
-
-        if (isset($deltaX) && isset($deltaY)) {
-            $params['chg'] = $deltaX . ',' . $deltaY . ',1,0';
-        }
 
         // return the encoded data
         if ($directUrl) {
