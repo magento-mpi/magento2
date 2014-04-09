@@ -87,6 +87,13 @@ class PriceBox extends Template implements PriceBoxRenderInterface
         return $this->price;
     }
 
+    /**
+     * Get price id
+     *
+     * @param null|string $defaultPrefix
+     * @param null|string $defaultSuffix
+     * @return string
+     */
     public function getPriceId($defaultPrefix = null, $defaultSuffix = null)
     {
         if ($this->hasData('price_id')) {
