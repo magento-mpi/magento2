@@ -115,7 +115,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             return '';
         }
 
-        if ((!$this->calculationModel->getCustomerData() || !$this->calculationModel->getCustomerData()->getId())
+        if (!$this->calculationModel->getCustomerData()->getId()
             && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
         ) {
             $customer = $this->accountService
