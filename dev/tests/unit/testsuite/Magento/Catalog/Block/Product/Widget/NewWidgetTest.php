@@ -72,7 +72,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
 
         $priceBoxMock->expects($this->once())
             ->method('render')
-            ->with('final_price', $productMock, $arguments)
+            ->with($this->equalTo('final_price'), $this->equalTo($productMock), $this->equalTo($arguments))
             ->will($this->returnValue($expectedHtml));
 
         $result = $this->block->getProductPriceHtml($productMock, $type);

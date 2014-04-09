@@ -142,8 +142,8 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
             }
             //@todo: move canonical link to separate block
             if ($this->_productHelper->canUseCanonicalTag() && !$headBlock->getChildBlock(
-                'magento-page-head-product-canonical-link'
-            )
+                    'magento-page-head-product-canonical-link'
+                )
             ) {
                 $params = array('_ignore_category' => true);
                 $headBlock->addChild(
@@ -254,21 +254,23 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
             'productPrice' => $this->_coreData->currency(
                     $product->getPriceInfo()->getPrice('final_price')->getValue(),
                     false,
-                    false),
+                    false
+                ),
             'productOldPrice' => $this->_coreData->currency(
-                $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getBaseAmount(),
-                false,
-                false),
+                    $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getBaseAmount(),
+                    false,
+                    false
+                ),
             'inclTaxPrice' => $this->_coreData->currency(
-                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
-                false,
-                false
-            ),
+                    $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
+                    false,
+                    false
+                ),
             'exclTaxPrice' => $this->_coreData->currency(
-                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
-                false,
-                false
-            ),
+                    $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
+                    false,
+                    false
+                ),
             'defaultTax' => $defaultTax,
             'currentTax' => $currentTax,
             'idSuffix' => '_clone',

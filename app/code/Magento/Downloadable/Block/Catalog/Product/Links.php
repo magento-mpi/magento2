@@ -116,7 +116,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         }
 
         if (!$this->calculationModel->getCustomerData()->getId()
-            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)) {
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+        ) {
             $customer = $this->accountService
                 ->getCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
             $this->calculationModel->setCustomerData($customer);
@@ -136,11 +137,11 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             $priceStr .= $coreHelper->currencyByStore($_priceExclTax, $store);
             if ($_priceInclTax != $_priceExclTax) {
                 $priceStr .= ' (+' . $coreHelper->currencyByStore(
-                    $_priceInclTax,
-                    $store
-                ) . ' ' . __(
-                    'Incl. Tax'
-                ) . ')';
+                        $_priceInclTax,
+                        $store
+                    ) . ' ' . __(
+                        'Incl. Tax'
+                    ) . ')';
             }
         }
         $priceStr .= '</span>';
@@ -174,13 +175,15 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             $config[$link->getId()] = [
                 'price' => $this->coreData->currency($link->getPrice(), false, false),
                 'inclTaxPrice' => $this->coreData->currency(
-                    $amount->getValue(),
-                    false,
-                    false),
+                        $amount->getValue(),
+                        false,
+                        false
+                    ),
                 'exclTaxPrice' => $this->coreData->currency(
-                    $amount->getBaseAmount(),
-                    false,
-                    false)
+                        $amount->getBaseAmount(),
+                        false,
+                        false
+                    )
             ];
         }
 
