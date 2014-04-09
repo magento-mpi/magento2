@@ -2152,6 +2152,8 @@ return array(
     ['Magento\Backend\Model\Translate\Inline'],
     ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
     ['Magento\Translate\Inline\ConfigFactory'],
+    ['Magento\Bundle\Model\Price\Index'],
+    ['Magento\Bundle\Model\Resource\Price\Index'],
     array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
     array('Magento\Core\Helper\Js'),
     array('Magento\Backend\Helper\Media\Js'),
@@ -2198,7 +2200,7 @@ return array(
     ['Magento\Rating\Block\Adminhtml\Edit\Tab\Options'],
     ['Magento\Rating\Model\Rating', 'Magento\Review\Model\Rating'],
     [
-        'Magento\Rating\Model\Resource\Rating\Option\Vote\Collection',
+        'Magento\Rating\Model\Resource\Rating\Option\Vote\Collection',        
         'Magento\Review\Model\Resource\Rating\Option\Vote\Collection'
     ],
     [

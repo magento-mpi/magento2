@@ -59,6 +59,16 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
     protected $_config;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerService;
+
+    /**
+     * @var \Magento\Customer\Model\Converter
+     */
+    protected $_customerConverter;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
@@ -69,6 +79,8 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
+     * @param \Magento\Customer\Model\Converter $customerConverter
      * @param array $data
      */
     public function __construct(
@@ -82,11 +94,15 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\App\ConfigInterface $config,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
+        \Magento\Customer\Model\Converter $customerConverter,
         array $data = array()
     ) {
         $this->_adminhtmlSessionQuote = $adminhtmlSessionQuote;
         $this->_backendUrl = $backendUrl;
         $this->_config = $config;
+        $this->_customerService = $customerService;
+        $this->_customerConverter = $customerConverter;
         parent::__construct(
             $context,
             $customerSession,
@@ -147,14 +163,31 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
     /**
      * Get current customer object
      *
-     * @return null|\Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Model\Customer|null
+     * @deprecated Use _getCurrentCustomerData() instead
      */
     protected function _getCurrentCustomer()
     {
-        if ($this->_adminhtmlSessionQuote->getCustomer() instanceof \Magento\Customer\Model\Customer) {
-            return $this->_adminhtmlSessionQuote->getCustomer();
+        /**
+         * TODO: This method should be removed when all external dependencies are refactored
+         * and converter usage should be eliminated
+         */
+        if ($this->_adminhtmlSessionQuote->hasCustomerId()) {
+            return $this->_customerConverter->createCustomerModel($this->_getCurrentCustomerData());
         }
+        return null;
+    }
 
+    /**
+     * Get current customer data object.
+     *
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
+     */
+    protected function _getCurrentCustomerData()
+    {
+        if ($this->_adminhtmlSessionQuote->hasCustomerId()) {
+            return $this->_customerService->getCustomer($this->_adminhtmlSessionQuote->getCustomerId());
+        }
         return null;
     }
 

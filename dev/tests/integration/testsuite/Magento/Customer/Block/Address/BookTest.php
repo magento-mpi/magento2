@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Block\Address;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -120,7 +121,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressHtml()
     {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>" .
+        $expected = "John Smith<br/>\nCompanyName<br />\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>" .
             "\nUnited States<br/>\nT: 3468676\n\n";
         $address = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'

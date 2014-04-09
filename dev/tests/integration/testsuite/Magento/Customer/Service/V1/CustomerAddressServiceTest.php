@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1;
 
 use Magento\Exception\InputException;
@@ -43,59 +44,42 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
 
-        $this->_addressBuilder->setId(
-            1
-        )->setCountryId(
-            'US'
-        )->setCustomerId(
-            1
-        )->setDefaultBilling(
-            true
-        )->setDefaultShipping(
-            true
-        )->setPostcode(
-            '75477'
-        )->setRegion(
-            (new V1\Data\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
-        )->setStreet(
-            array('Green str, 67')
-        )->setTelephone(
-            '3468676'
-        )->setCity(
-            'CityM'
-        )->setFirstname(
-            'John'
-        )->setLastname(
-            'Smith'
-        );
+        $region = (new \Magento\Customer\Service\V1\Data\RegionBuilder())
+            ->setRegionCode('AL')
+            ->setRegion('Alabama')
+            ->setRegionId(1)
+            ->create();
+        $this->_addressBuilder
+            ->setId(1)
+            ->setCountryId('US')
+            ->setCustomerId(1)
+            ->setDefaultBilling(true)
+            ->setDefaultShipping(true)
+            ->setPostcode('75477')
+            ->setRegion($region)
+            ->setStreet(array('Green str, 67'))
+            ->setTelephone('3468676')
+            ->setCity('CityM')
+            ->setFirstname('John')
+            ->setLastname('Smith')
+            ->setCompany('CompanyName');
         $address = $this->_addressBuilder->create();
 
         /* XXX: would it be better to have a clear method for this? */
-        $this->_addressBuilder->setId(
-            2
-        )->setCountryId(
-            'US'
-        )->setCustomerId(
-            1
-        )->setDefaultBilling(
-            false
-        )->setDefaultShipping(
-            false
-        )->setPostcode(
-            '47676'
-        )->setRegion(
-            (new V1\Data\RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
-        )->setStreet(
-            array('Black str, 48')
-        )->setCity(
-            'CityX'
-        )->setTelephone(
-            '3234676'
-        )->setFirstname(
-            'John'
-        )->setLastname(
-            'Smith'
-        );
+        $this->_addressBuilder
+            ->setId(2)
+            ->setCountryId('US')
+            ->setCustomerId(1)
+            ->setDefaultBilling(false)
+            ->setDefaultShipping(false)
+            ->setPostcode('47676')
+            ->setRegion($region)
+            ->setStreet(array('Black str, 48'))
+            ->setCity('CityX')
+            ->setTelephone('3234676')
+            ->setFirstname('John')
+            ->setLastname('Smith');
+
         $address2 = $this->_addressBuilder->create();
 
         $this->_expectedAddresses = array($address, $address2);

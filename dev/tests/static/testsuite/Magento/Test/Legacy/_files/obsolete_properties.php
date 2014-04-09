@@ -182,6 +182,8 @@ return array(
     array('_dirs', 'Magento\Core\Helper\Theme'),
     array('_dirs', 'Magento\Model\Resource\Type\Db\Pdo\Mysql'),
     array('_filesystem', 'Magento\GiftWrapping\Model\Wrapping'),
+    array('_customer', 'Magento\Backend\Model\Session\Quote'),
+    array('_customerFactory', 'Magento\Backend\Model\Session\Quote'),
     array('_dirs', 'Magento\Index\Model\Lock\Storage'),
     array('_filesystem', 'Magento\Index\Model\Lock\Storage'),
     array('_coreDir', 'Magento\Sales\Model\Order\Pdf\AbstractPdf'),

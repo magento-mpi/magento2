@@ -20,6 +20,7 @@ $customerAddress->setData(
         'postcode' => 75477,
         'country_id' => 'US',
         'city' => 'CityM',
+        'company' => 'CompanyName',
         'street' => array('Green str, 67'),
         'lastname' => 'Smith',
         'firstname' => 'John',
