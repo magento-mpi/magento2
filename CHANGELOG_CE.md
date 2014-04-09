@@ -29,6 +29,11 @@
   * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
   * [#516] (https://github.com/magento/magento2/issues/516) -- Make Sure That save_before Event Is Dispatched
   * [#465] (https://github.com/magento/magento2/issues/465) -- Absolute path is assembled incorrectly when merging js/css files
+  * [#504] (https://github.com/magento/magento2/issues/504) -- Renamed "contacts" module to "contact" (MAGETWO-23150)
+  * [#529] (https://github.com/magento/magento2/issues/529) -- Fixed exception at admin dashboard (MAGETWO-23164)
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed an issue during creating or editing product template (MAGETWO-23170)
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed Typo in the module name (MAGETWO-23173)
+  * [#538] (https://github.com/magento/magento2/issues/538) -- Fixed missing tax amount in the invoice (MAGETWO-23175)
 * Fixed bugs:
   * Fixed an issue with reset customer password from frontend (MAGETWO-22860)
   * Fixed an issue with cachable attribute on Customer Address Edit form (MAGETWO-22855)

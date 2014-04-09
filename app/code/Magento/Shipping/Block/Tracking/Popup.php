@@ -93,7 +93,7 @@ class Popup extends \Magento\View\Element\Template
      */
     public function getContactUsEnabled()
     {
-        return (bool)$this->_storeConfig->getConfig('contacts/contacts/enabled');
+        return (bool)$this->_storeConfig->getConfig('contact/contact/enabled');
     }
 
     /**
@@ -109,6 +109,6 @@ class Popup extends \Magento\View\Element\Template
      */
     public function getContactUs()
     {
-        return $this->getUrl('contacts');
+        return $this->getUrl('contact');
     }
 }
