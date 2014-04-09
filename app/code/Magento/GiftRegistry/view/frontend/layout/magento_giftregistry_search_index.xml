@@ -9,6 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="page_calendar"/>
+    <referenceBlock name="head.components">
+        <block class="Magento\View\Element\Js\Components" name="giftregistry_page_head_components" template="Magento_GiftRegistry::js/components.phtml"/>
+    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\GiftRegistry\Block\Search\Form" name="giftregistry.search.form" template="search/form.phtml" cacheable="false"/>
     </referenceContainer>

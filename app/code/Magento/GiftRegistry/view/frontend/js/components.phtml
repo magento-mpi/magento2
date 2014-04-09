@@ -17,6 +17,18 @@
             $.mage.component({
                 regionUpdater: [
                     '<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>'
+                ],
+                advancedSearch: [
+                    '<?php echo $this->getViewFileUrl('Magento_GiftRegistry::advanced-search.js') ?>'
+                ],
+                rowBuilder: [
+                    '<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js') ?>'
+                ],
+                validation: [
+                    '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>',
+                    '<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>',
+                    '<?php echo $this->getViewFileUrl('mage/validation.js')?>',
+                    '<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>'
                 ]
             });
         })(jQuery);
