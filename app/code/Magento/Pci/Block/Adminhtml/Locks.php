@@ -17,23 +17,11 @@ namespace Magento\Pci\Block\Adminhtml;
 class Locks extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
-     * Header text getter
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getHeaderText()
+    protected function _construct()
     {
-        return __('Locked administrators');
-    }
-
-    /**
-     * Produce buttons HTML
-     *
-     * @param string $region
-     * @return string
-     */
-    public function getButtonsHtml($region = null)
-    {
-        return '';
+        parent::_construct();
+        $this->_removeButton('add');
     }
 }

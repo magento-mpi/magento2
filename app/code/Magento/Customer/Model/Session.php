@@ -400,6 +400,7 @@ class Session extends \Magento\Session\SessionManager
     {
         $this->setCustomer($customer);
         $this->_eventManager->dispatch('customer_login', array('customer' => $customer));
+        $this->_eventManager->dispatch('customer_data_object_login', ['customer' => $this->getCustomerDataObject()]);
         $this->regenerateId();
         return $this;
     }
@@ -417,6 +418,7 @@ class Session extends \Magento\Session\SessionManager
         $this->setCustomer($customerModel);
 
         $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
+        $this->_eventManager->dispatch('customer_data_object_login', ['customer' => $customer]);
         return $this;
     }
 

@@ -71,11 +71,11 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/connect/',
         'app/design/adminhtml/default/default/layout/connect.xml'
     ),
-    'Magento_Contacts' => array(
-        'app/code/Magento/Contacts/',
-        'app/design/frontend/base/default/template/contacts/',
-        'app/design/frontend/base/default/layout/contacts.xml',
-        'app/design/frontend/default/modern/layout/contacts.xml'
+    'Magento_Contact' => array(
+        'app/code/Magento/Contact/',
+        'app/design/frontend/base/default/template/contact/',
+        'app/design/frontend/base/default/layout/contact.xml',
+        'app/design/frontend/default/modern/layout/contact.xml'
     ),
     'Magento_Core' => array(
         'app/code/Magento/Core/',
@@ -219,7 +219,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/protx/',
         'app/design/frontend/base/default/layout/protx.xml'
     ),
-    'Magento_Rating' => array('app/code/Magento/Rating/', 'app/design/frontend/base/default/template/rating/'),
     'Magento_Reports' => array(
         'app/code/Magento/Reports/',
         'app/design/frontend/base/default/template/reports/',
@@ -229,7 +228,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Review/',
         'app/design/frontend/base/default/template/review/',
         'app/design/frontend/base/default/layout/review.xml',
-        'app/design/frontend/default/modern/layout/review.xml'
+        'app/design/frontend/default/modern/layout/review.xml',
+        'app/design/frontend/base/default/template/rating/'
     ),
     'Magento_Rss' => array(
         'app/code/Magento/Rss/',
@@ -484,7 +484,7 @@ $CONFIG['helpers'] = array(
     'cms' => 'Magento_Cms',
     'compiler' => 'Magento_Compiler',
     'connect' => 'Magento_Connect',
-    'contacts' => 'Magento_Contacts',
+    'contact' => 'Magento_Contact',
     'core' => 'Magento_Core',
     'cron' => 'Magento_Cron',
     'customer' => 'Magento_Customer',
@@ -517,7 +517,6 @@ $CONFIG['helpers'] = array(
     'persistent' => 'Magento_Persistent',
     'productalert' => 'Magento_ProductAlert',
     'protx' => 'Magento_Protx',
-    'rating' => 'Magento_Rating',
     'reports' => 'Magento_Reports',
     'review' => 'Magento_Review',
     'rss' => 'Magento_Rss',

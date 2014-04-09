@@ -49,14 +49,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Rating model
      *
-     * @var \Magento\Rating\Model\RatingFactory
+     * @var \Magento\Review\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
      * Rating option vote model
      *
-     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
+     * @var \Magento\Review\Model\Rating\Option\VoteFactory
      */
     protected $_voteFactory;
 
@@ -79,8 +79,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
-     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Review\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory
      * @param mixed $connection
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -104,8 +104,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Rating\Model\RatingFactory $ratingFactory,
-        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
+        \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,
         $connection = null
     ) {
         $this->_ratingFactory = $ratingFactory;
