@@ -55,7 +55,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
     {
         $blockClass = '';
         try {
-            /** @var $website \Magento\Core\Model\Website */
+            /** @var $website \Magento\Store\Model\Website */
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->setWebsiteId(

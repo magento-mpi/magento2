@@ -16,9 +16,9 @@ $storeManager = $this->getObjectManager()->create('\Magento\Store\Model\StoreMan
 /** @var $category \Magento\Catalog\Model\Category */
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 
-/** @var $defaultWebsite \Magento\Core\Model\Website */
+/** @var $defaultWebsite \Magento\Store\Model\Website */
 $defaultWebsite = $storeManager->getWebsite();
-/** @var $defaultStoreGroup \Magento\Store\Model\Store\Group */
+/** @var $defaultStoreGroup \Magento\Store\Model\Group */
 $defaultStoreGroup = $storeManager->getGroup();
 /** @var $defaultStoreView \Magento\Store\Model\Store */
 $defaultStoreView = $storeManager->getDefaultStoreView();

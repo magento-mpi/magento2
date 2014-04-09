@@ -52,7 +52,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $currencyMock;
 
     /**
-     * @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Website|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $websiteMock;
 
@@ -88,7 +88,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             array('__wakeup', 'getDefaultCurrency'), array(), '', false);
         $this->currencyMock = $this->getMock('Magento\Directory\Model\Currency',
             array('getCode', '__wakeup'), array(), '', false);
-        $this->websiteMock = $this->getMock('Magento\Core\Model\Website',
+        $this->websiteMock = $this->getMock('Magento\Store\Model\Website',
             array('getDefaultStore', '__wakeup'), array(), '', false);
         $this->closureMock = function () {
             return 'ExpectedValue';

@@ -203,10 +203,10 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Store\Model\Website $website
      * @return bool
      */
-    public function isWebsiteSelected(\Magento\Core\Model\Website $website)
+    public function isWebsiteSelected(\Magento\Store\Model\Website $website)
     {
         return $this->getWebsiteId() === $website->getId() && $this->getStoreId() === null;
     }
