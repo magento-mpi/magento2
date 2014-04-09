@@ -35,6 +35,9 @@ class GroupOption extends Block
                 ->find('#' . $rowPrefix . '_cust_group', Locator::SELECTOR_CSS, 'select')
                 ->setValue($data['customer_group']);
         }
+        if (isset($data['quantity'])) {
+            $this->_rootElement->find('#' . $rowPrefix . '_qty')->setValue($data['price']);
+        }
         if (isset($data['price'])) {
             $this->_rootElement->find('#' . $rowPrefix . '_price')->setValue($data['price']);
         }
