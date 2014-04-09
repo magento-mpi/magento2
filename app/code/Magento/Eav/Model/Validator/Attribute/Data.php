@@ -148,7 +148,7 @@ class Data extends \Magento\Validator\AbstractValidator
      * This method return specified $_attributes if they defined by setAttributes method, otherwise if $entity
      * is EAV-model it returns it's all available attributes, otherwise it return empty array.
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
+     * @param \Magento\Model\AbstractModel $entity
      * @return array
      */
     protected function _getAttributes($entity)

@@ -58,11 +58,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $searchResultsBuilder;
 
     /**
-     * @var Data\CustomerValidationResultsBuilder
-     */
-    private $_customerValidationResultsBuilder;
-
-    /**
      * @var ManagerInterface
      */
     private $eventManager;
