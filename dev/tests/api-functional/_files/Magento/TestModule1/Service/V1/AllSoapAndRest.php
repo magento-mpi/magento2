@@ -51,9 +51,9 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
     public function testOptionalParam($name = null)
     {
         if (is_null($name)) {
-            return (new ItemBuilder())->setId(3)->setName('No Name')->create();
+            return (new ItemBuilder())->setItemId(3)->setName('No Name')->create();
         } else {
-            return (new ItemBuilder())->setId(3)->setName($name)->create();
+            return (new ItemBuilder())->setItemId(3)->setName($name)->create();
         }
     }
 }
