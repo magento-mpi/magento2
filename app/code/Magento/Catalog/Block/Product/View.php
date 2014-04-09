@@ -235,7 +235,6 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
         $_request->setProductClassId($product->getTaxClassId());
         $currentTax = $this->_taxCalculation->getRate($_request);
 
-        $_finalPrice = $product->getFinalPrice();
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {

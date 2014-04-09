@@ -834,13 +834,14 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST,
         array $arguments = []
     ) {
+        if (!isset($arguments['zone'])) {
+            $arguments['zone'] = $renderZone;
+        }
+
         /** @var \Magento\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
         $price = '';
 
-        if (!isset($arguments['zone'])) {
-            $arguments['zone'] = $renderZone;
-        }
         if ($priceRender) {
             $price = $priceRender->render(
                 $priceType,

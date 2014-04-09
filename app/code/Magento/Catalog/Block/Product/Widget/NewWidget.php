@@ -200,16 +200,34 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
      * Return HTML block with price
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param string $type
+     * @param string $priceType
      * @param string $renderZone
+     * @param array $arguments
      * @return string
      */
     public function getProductPriceHtml(
         \Magento\Catalog\Model\Product $product,
-        $type = null,
-        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST
+        $priceType = null,
+        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST,
+        array $arguments = []
     ) {
-        /** @var \Magento\Pricing\Render $priceRender */
+        if (!isset($arguments['zone'])) {
+            $arguments['zone'] = $renderZone;
+        }
+        $arguments['zone'] = isset($arguments['zone'])
+            ? $arguments['zone']
+            : $renderZone;
+        $arguments['price_id'] = isset($arguments['price_id'])
+            ? $arguments['price_id']
+            : 'old-price-' . $product->getId() . '-' . $priceType;
+        $arguments['include_container'] = isset($arguments['include_container'])
+            ? $arguments['include_container']
+            : true;
+        $arguments['display_minimal_price'] = isset($arguments['display_minimal_price'])
+            ? $arguments['display_minimal_price']
+            : true;
+
+            /** @var \Magento\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
 
         $price = '';
@@ -217,12 +235,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
             $price = $priceRender->render(
                 \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
                 $product,
-                [
-                    'price_id'              => 'old-price-' . $product->getId() . '-' . $type,
-                    'display_minimal_price' => true,
-                    'include_container'     => true,
-                    'zone'                  => $renderZone
-                ]
+                $arguments
             );
         }
         return $price;

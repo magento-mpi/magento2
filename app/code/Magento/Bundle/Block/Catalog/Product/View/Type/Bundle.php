@@ -188,18 +188,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                         $tierPriceAmount->getBaseAmount(),
                         false, false);
                 }
-
                 // unset($tierPriceInfo);
                 // break the reference with the last element
-
-                $itemPrice = $bundlePriceModel->getSelectionFinalTotalPrice(
-                    $currentProduct,
-                    $_selection,
-                    $currentProduct->getQty(),
-                    $_selection->getQty(),
-                    false,
-                    false
-                );
 
                 $canApplyMAP = false;
 
@@ -208,10 +198,18 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 $_priceInclTax = $bundleOptionPriceAmount->getValue();
                 $_priceExclTax = $bundleOptionPriceAmount->getBaseAmount();
 
-//                if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
-//                    $_priceInclTax = $this->_taxData->getPrice($currentProduct, $itemPrice, true);
-//                    $_priceExclTax = $this->_taxData->getPrice($currentProduct, $itemPrice);
-//                }
+                //if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
+                //    $_priceInclTax = $this->_taxData->getPrice($currentProduct, $itemPrice, true);
+                //    $_priceExclTax = $this->_taxData->getPrice($currentProduct, $itemPrice);
+                //}
+                //$itemPrice = $bundlePriceModel->getSelectionFinalTotalPrice(
+                //    $currentProduct,
+                //    $_selection,
+                //    $currentProduct->getQty(),
+                //    $_selection->getQty(),
+                //   false,
+                //    false
+                //);
 
                 $selection = array(
                     'qty' => $_qty,
