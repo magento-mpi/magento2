@@ -960,8 +960,8 @@ class Index extends \Magento\Backend\App\Action
         $customersUpdated = $this->actUponMultipleCustomers(
             function ($customerId) {
                 // Verify customer exists
-                $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
-                $this->_customerBuilder->populate($customerDetails->getCustomer());
+                $customer = $this->_customerAccountService->getCustomer($customerId);
+                $this->_customerBuilder->populate($customer);
                 $customer = $this->_customerBuilder->setGroupId($this->getRequest()->getParam('group'))->create();
                 $customerDetails = $this->_customerDetailsBuilder
                     ->setCustomer($customer)
