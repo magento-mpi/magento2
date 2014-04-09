@@ -136,7 +136,7 @@ class Handler
      */
     protected function _prepareResponseData($data)
     {
-        if ($data instanceof AbstractObject) {
+        if ($this->_isDataObject($data)) {
             $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {

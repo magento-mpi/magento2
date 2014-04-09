@@ -15,7 +15,7 @@
             <resource ref="Magento_TestModule1::resource1" />
         </resources>
         <data>
-            <parameter name="id" force="true">-55</parameter>
+            <parameter name="itemId" force="true">-55</parameter>
         </data>
     </route>
 
@@ -29,7 +29,7 @@
         </data>
     </route>
 
-    <route method="GET" url="/V1/testmodule1/:id">
+    <route method="GET" url="/V1/testmodule1/:itemId">
         <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" method="item" />
         <resources>
             <resource ref="Magento_TestModule1::resource1" />
@@ -47,7 +47,7 @@
             <resource ref="Magento_TestModule1::resource3" />
         </resources>
     </route>
-    <route method="PUT" url="/V1/testmodule1/:id">
+    <route method="PUT" url="/V1/testmodule1/:itemId">
         <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" method="update" />
         <resources>
             <resource ref="Magento_TestModule1::resource1" />

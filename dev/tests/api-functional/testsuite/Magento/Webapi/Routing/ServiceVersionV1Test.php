@@ -49,7 +49,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Item']
         ];
-        $requestData = ['id' => $itemId];
+        $requestData = ['itemId' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('testProduct1', $item['name'], 'Item was retrieved unsuccessfully');
     }
@@ -59,7 +59,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
      */
     public function testItems()
     {
-        $itemArr = [['id' => 1, 'name' => 'testProduct1'], ['id' => 2, 'name' => 'testProduct2']];
+        $itemArr = [['item_id' => 1, 'name' => 'testProduct1'], ['item_id' => 2, 'name' => 'testProduct2']];
         $serviceInfo = [
             'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_GET],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Items']
@@ -121,7 +121,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Update']
         ];
-        $requestData = ['item' => ['id' => $itemId, 'name' => 'testName']];
+        $requestData = ['item' => ['itemId' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
     }
@@ -139,7 +139,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Delete']
         ];
-        $requestData = ['id' => $itemId, 'name' => 'testName'];
+        $requestData = ['itemId' => $itemId, 'name' => 'testName'];
         $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
 
@@ -153,7 +153,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ]
         ];
         $item = $this->_webApiCall($serviceInfo, []);
-        $this->assertEquals(['id' => -55, 'name' => 'testProduct1'], $item);
+        $this->assertEquals(['item_id' => -55, 'name' => 'testProduct1'], $item);
     }
 
     public function testDefaulted()
@@ -166,7 +166,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ]
         ];
         $item = $this->_webApiCall($serviceInfo, []);
-        $this->assertEquals(['id' => 3, 'name' => 'Default Name'], $item);
+        $this->assertEquals(['item_id' => 3, 'name' => 'Default Name'], $item);
     }
 
     public function testDefaultedWithValue()
@@ -179,6 +179,6 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ]
         ];
         $item = $this->_webApiCall($serviceInfo, ['name' => 'Ms. LaGrange']);
-        $this->assertEquals(['id' => 3, 'name' => 'Ms. LaGrange'], $item);
+        $this->assertEquals(['item_id' => 3, 'name' => 'Ms. LaGrange'], $item);
     }
 }

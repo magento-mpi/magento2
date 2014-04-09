@@ -26,7 +26,7 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
                 'operation' => 'testModule1AllSoapAndRestV1Item'
             ]
         ];
-        $requestData = ['id' => $itemId];
+        $requestData = ['itemId' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('testProduct1', $item['name'], "Item was retrieved unsuccessfully");
     }
@@ -44,7 +44,7 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
                 'operation' => 'testModule1AllSoapAndRestV1Item'
             ]
         ];
-        $requestData = ['id' => $itemId];
+        $requestData = ['itemId' => $itemId];
 
         /** Disable integration associated with active OAuth credentials. */
         $credentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
