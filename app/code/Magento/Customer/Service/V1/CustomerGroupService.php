@@ -124,7 +124,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $groups = array();
         /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection();
-        $this->addFiltersFromRootToCollection($searchCriteria->getFilterGroups(), $collection);
+        //Adds filters from a root filter group to a collection
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $collection);
+        }
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
@@ -148,43 +151,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * Adds some filters from a root filter group to a collection.
-     *
-     * @param FilterGroup[] $filterGroups
-     * @param Collection $collection
-     * @return void
-     * @throws \Magento\Exception\InputException
-     */
-    protected function addFiltersFromRootToCollection(array $filterGroups, Collection $collection)
-    {
-        foreach ($filterGroups as $group) {
-            $this->addFilterGroupToCollection($collection, $group);
-        }
-    }
-
-    /**
-     * Helper function that adds a filter to the collection
-     *
-     * @param Collection $collection
-     * @param Filter $filter
-     * @return void
-     */
-    protected function addFilterToCollection(Collection $collection, Filter $filter)
-    {
-        $field = $this->translateField($filter->getField());
-        $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-        $collection->addFieldToFilter($field, [$condition => $filter->getValue()]);
-    }
-
-    /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param Collection $collection
      * @param FilterGroup $filterGroup
+     * @param Collection $collection
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFilterGroupToCollection(Collection $collection, FilterGroup $filterGroup)
+    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
         $fields = [];
         $conditions = [];

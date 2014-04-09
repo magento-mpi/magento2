@@ -681,7 +681,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setField(Customer::EMAIL)
             ->setValue($customerData[Customer::EMAIL])
             ->create();
-        $this->searchCriteriaBuilder->addFilterGroup([$filter]);
+        $this->searchCriteriaBuilder->addFilter([$filter]);
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
@@ -719,8 +719,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setField(Customer::LASTNAME)
             ->setValue($customerData1[Customer::LASTNAME])
             ->create();
-        $this->searchCriteriaBuilder->addFilterGroup([$filter1, $filter2]);
-        $this->searchCriteriaBuilder->addFilterGroup([$filter3]);
+        $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilter([$filter3]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
@@ -760,8 +760,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setField(Customer::LASTNAME)
             ->setValue('INVALID')
             ->create();
-        $this->searchCriteriaBuilder->addFilterGroup([$filter1, $filter2]);
-        $this->searchCriteriaBuilder->addFilterGroup([$filter3]);
+        $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilter([$filter3]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
@@ -804,9 +804,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setValue($customerData1[Customer::LASTNAME])
             ->create();
 
-        $this->searchCriteriaBuilder->addFilterGroup([$filter1]);
-        $this->searchCriteriaBuilder->addFilterGroup([$filter2, $filter3]);
-        $this->searchCriteriaBuilder->addFilterGroup([$filter4]);
+        $this->searchCriteriaBuilder->addFilter([$filter1]);
+        $this->searchCriteriaBuilder->addFilter([$filter2, $filter3]);
+        $this->searchCriteriaBuilder->addFilter([$filter4]);
         $searchCriteria = $this->searchCriteriaBuilder->setCurrentPage(1)->setPageSize(10)->create();
         $serviceInfo = [
             'rest' => [
@@ -831,9 +831,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setValue('invalid')
             ->create();
 
-        $this->searchCriteriaBuilder->addFilterGroup([$filter1]);
-        $this->searchCriteriaBuilder->addFilterGroup([$filter2, $filter3]);
-        $this->searchCriteriaBuilder->addFilterGroup([$filter4]);
+        $this->searchCriteriaBuilder->addFilter([$filter1]);
+        $this->searchCriteriaBuilder->addFilter([$filter2, $filter3]);
+        $this->searchCriteriaBuilder->addFilter([$filter4]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $searchData = $searchCriteria->__toArray();
         $requestData = ['searchCriteria' => $searchData];

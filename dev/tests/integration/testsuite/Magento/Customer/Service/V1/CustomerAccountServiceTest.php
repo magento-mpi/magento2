@@ -1132,10 +1132,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Service\V1\Data\SearchCriteriaBuilder'
         );
         foreach ($filters as $filter) {
-            $searchBuilder->addFilterGroup([$filter]);
+            $searchBuilder->addFilter([$filter]);
         }
         if (!is_null($filterGroup)) {
-            $searchBuilder->addFilterGroup($filterGroup);
+            $searchBuilder->addFilter($filterGroup);
         }
 
         $searchResults = $this->_customerAccountService->searchCustomers($searchBuilder->create());
@@ -1208,7 +1208,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $filterBuilder = new FilterBuilder();
         $firstnameFilter = $filterBuilder->
             setField('firstname')->setConditionType('like')->setValue('First%')->create();
-        $searchBuilder->addFilterGroup([$firstnameFilter]);
+        $searchBuilder->addFilter([$firstnameFilter]);
 
         // Search ascending order
         $searchBuilder->addSortOrder('lastname', SearchCriteria::SORT_ASC);

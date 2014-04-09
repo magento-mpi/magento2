@@ -129,7 +129,7 @@ abstract class AbstractServiceCollection extends \Magento\Data\Collection
                     $filterGroup[] = $this->createFilterData($field, $filter['condition'][$index]);
                 }
             }
-            $this->searchCriteriaBuilder->addFilterGroup($filterGroup);
+            $this->searchCriteriaBuilder->addFilter($filterGroup);
         }
         foreach ($this->_orders as $field => $direction) {
             $this->searchCriteriaBuilder->addSortOrder(

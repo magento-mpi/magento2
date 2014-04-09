@@ -168,10 +168,10 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $searchBuilder = Bootstrap::getObjectManager()
             ->create('Magento\Service\V1\Data\SearchCriteriaBuilder');
         foreach ($filters as $filter) {
-            $searchBuilder->addFilterGroup([$filter]);
+            $searchBuilder->addFilter([$filter]);
         }
         if (!is_null($filterGroup)) {
-            $searchBuilder->addFilterGroup($filterGroup);
+            $searchBuilder->addFilter($filterGroup);
         }
 
         $searchResults = $this->_groupService->searchGroups($searchBuilder->create());

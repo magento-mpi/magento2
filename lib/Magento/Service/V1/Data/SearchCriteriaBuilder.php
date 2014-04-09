@@ -49,24 +49,24 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     /**
      * Create a filter group based on the filter array provided and add to the filter groups
      *
-     * @param \Magento\Service\V1\Data\Filter[] $group
+     * @param \Magento\Service\V1\Data\Filter[] $filter
      * @return $this
      */
-    public function addFilterGroup(array $group)
+    public function addFilter(array $filter)
     {
-        $this->_data[SearchCriteria::FILTER_GROUPS][] = $this->_filterGroupBuilder->setFilters($group)->create();
+        $this->_data[SearchCriteria::FILTER_GROUPS][] = $this->_filterGroupBuilder->setFilters($filter)->create();
         return $this;
     }
 
     /**
      * Set filter groups
      *
-     * @param \Magento\Service\V1\Data\Search\FilterGroup[] $groups
+     * @param \Magento\Service\V1\Data\Search\FilterGroup[] $filterGroups
      * @return $this
      */
-    public function setFilterGroups(array $groups)
+    public function setFilterGroups(array $filterGroups)
     {
-        return $this->_set(SearchCriteria::FILTER_GROUPS, $groups);
+        return $this->_set(SearchCriteria::FILTER_GROUPS, $filterGroups);
     }
 
     /**

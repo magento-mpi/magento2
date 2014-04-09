@@ -465,7 +465,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
             ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
-        $this->addFiltersFromRootToCollection($searchCriteria->getFilterGroups(), $collection);
+        // Adds filters from the root filter group to a collection
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $collection);
+        }
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
@@ -494,29 +497,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * Adds some filters from the root filter group to a collection.
-     *
-     * @param FilterGroup[] $filterGroups
-     * @param Collection $collection
-     * @return void
-     * @throws \Magento\Exception\InputException
-     */
-    protected function addFiltersFromRootToCollection($filterGroups, Collection $collection)
-    {
-        foreach ($filterGroups as $group) {
-            $this->addFilterGroupToCollection($collection, $group);
-        }
-    }
-
-    /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param Collection $collection
      * @param FilterGroup $filterGroup
+     * @param Collection $collection
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFilterGroupToCollection(Collection $collection, FilterGroup $filterGroup)
+    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
         $fields = [];
         $conditions = [];

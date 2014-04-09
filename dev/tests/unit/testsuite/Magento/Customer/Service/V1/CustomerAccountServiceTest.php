@@ -1634,7 +1634,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
         $filterBuilder = new FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue('customer@search.example.com')->create();
-        $this->_searchBuilder->addFilterGroup([$filter]);
+        $this->_searchBuilder->addFilter([$filter]);
 
         $searchResults = $customerService->searchCustomers($this->_searchBuilder->create());
         $this->assertEquals(0, $searchResults->getTotalCount());
@@ -1704,7 +1704,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
         $filterBuilder = new FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue(self::EMAIL)->create();
-        $this->_searchBuilder->addFilterGroup([$filter]);
+        $this->_searchBuilder->addFilter([$filter]);
 
         $searchResults = $customerService->searchCustomers($this->_searchBuilder->create());
         $this->assertEquals(1, $searchResults->getTotalCount());
