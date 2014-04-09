@@ -41,7 +41,7 @@ class Email extends \Magento\Model\AbstractModel
     /**
      * Customer model
      *
-     * @var \Magento\Customer\Model\Customer
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customer;
 
