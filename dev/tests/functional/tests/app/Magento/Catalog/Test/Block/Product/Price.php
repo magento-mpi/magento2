@@ -63,7 +63,7 @@ class Price extends Block
      *
      * @var string
      */
-    protected $actualPrice = '.regular-price .price';
+    protected $actualPrice = '.actual.price .price';
 
     /**
      * 'Add to Cart' button
