@@ -3,10 +3,11 @@
  * {license_notice}
  *
  * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
-<?php echo $this->getChildHtml('copyright');?> /
-<?php echo __('Magento ver. %1', \Magento\AppInterface::VERSION) ?>
+<small class="magento-version"><?php echo __('Magento ver. %1', \Magento\AppInterface::VERSION) ?></small>
+<?php if ($this->getBugreportUrl()): ?>
+<a class="link-report" href="<?php echo $this->getBugreportUrl(); ?>" id="footer_bug_tracking"><?php echo __('Help Us Keep Magento Healthy - Report All Bugs') ?></a>
+<?php endif; ?>
