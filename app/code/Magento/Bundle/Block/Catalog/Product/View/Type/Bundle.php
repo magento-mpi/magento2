@@ -152,7 +152,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         }
 
 
-
         $position = 0;
         foreach ($optionsArray as $_option) {
             /* @var $_option \Magento\Bundle\Model\Option */
@@ -183,10 +182,14 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     $tierPriceInfo['price'] = $this->coreData->currency($tierPriceInfo['price'], false, false);
                     $tierPriceInfo['inclTaxPrice'] = $this->coreData->currency(
                         $tierPriceAmount->getValue(),
-                        false, false);
+                        false,
+                        false
+                    );
                     $tierPriceInfo['exclTaxPrice'] = $this->coreData->currency(
                         $tierPriceAmount->getBaseAmount(),
-                        false, false);
+                        false,
+                        false
+                    );
                 }
                 // unset($tierPriceInfo);
                 // break the reference with the last element
@@ -216,10 +219,14 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     'customQty' => $_selection->getSelectionCanChangeQty(),
                     'inclTaxPrice' => $this->coreData->currency(
                             $_priceInclTax,
-                            false, false),
+                            false,
+                            false
+                        ),
                     'exclTaxPrice' => $this->coreData->currency(
                             $_priceExclTax,
-                            false, false),
+                            false,
+                            false
+                        ),
                     'priceValue' => $this->coreData->currency($_selection->getSelectionPriceValue(), false, false),
                     'priceType' => $_selection->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
@@ -269,10 +276,10 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'basePrice' => $this->coreData->currency($currentProduct->getPrice(), false, false),
             'showIncludeTax' => $this->_taxData->displayPriceIncludingTax(),
             'finalBasePriceInclTax' => $this->coreData->currency(
-                $this->_taxData->getPrice($currentProduct, $currentProduct->getFinalPrice(), true),
-                false,
-                false
-            ),
+                    $this->_taxData->getPrice($currentProduct, $currentProduct->getFinalPrice(), true),
+                    false,
+                    false
+                ),
             'finalBasePriceExclTax' => $this->coreData->currency($currentProduct->getFinalPrice(), false, false),
             'priceType' => $currentProduct->getPriceType(),
             'specialPrice' => $currentProduct->getSpecialPrice(),
