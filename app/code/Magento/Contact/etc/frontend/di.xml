@@ -11,7 +11,7 @@
     <type name="Magento\Core\Model\Url\SecurityInfo">
         <arguments>
             <argument name="secureUrlList" xsi:type="array">
-                <item name="contacts" xsi:type="string">/contacts/</item>
+                <item name="contact" xsi:type="string">/contact/</item>
             </argument>
         </arguments>
     </type>

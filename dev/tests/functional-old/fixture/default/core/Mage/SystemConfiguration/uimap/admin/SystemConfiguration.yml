@@ -368,21 +368,21 @@ system_configuration:
                                         custom2_sender_name: //input[@name='groups[ident_custom2][fields][name][value]']
                                         custom2_sender_email: //input[@name='groups[ident_custom2][fields][email][value]']
                 -
-                    general_contacts:
-                        xpath: //a[contains(@href, 'edit/section/contacts/')]
+                    general_contact:
+                        xpath: //a[contains(@href, 'edit/section/contact/')]
                         fieldsets:
                             -
                                 contact_us:
-                                    xpath: //fieldset[@id='contacts_contacts']
+                                    xpath: //fieldset[@id='contact_contact']
                                     links:
-                                        contact_us_link: //parent::div//a[@id='contacts_contacts-head']
+                                        contact_us_link: //parent::div//a[@id='contact_contact-head']
                                     dropdowns:
-                                        enable_contact_us: //select[@name='groups[contacts][fields][enabled][value]']
+                                        enable_contact_us: //select[@name='groups[contact][fields][enabled][value]']
                             -
                                 email_options:
-                                    xpath: //fieldset[@id='contacts_email']
+                                    xpath: //fieldset[@id='contact_email']
                                     links:
-                                        email_options_link: //parent::div//a[@id='contacts_email-head']
+                                        email_options_link: //parent::div//a[@id='contact_email-head']
                                     fields:
                                         send_emails_to: //input[@name='groups[email][fields][recipient_email][value]']
                                     dropdowns:
@@ -2726,7 +2726,7 @@ system_configuration:
                                         magento_checkout: //select[@id='Magento_Checkout']
                                         magento_cms: //select[@id='Magento_Cms']
                                         magento_connect: //select[@id='Magento_Connect']
-                                        magento_contacts: //select[@id='Magento_Contacts']
+                                        magento_contact: //select[@id='Magento_Contact']
                                         magento_core: //select[@id='Magento_Core']
                                         magento_cron: //select[@id='Magento_Cron']
                                         magento_currencysymbol: //select[@id='Magento_CurrencySymbol']

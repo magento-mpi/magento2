@@ -2,24 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Contacts
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Contact\Helper;
 
 /**
- * Contacts base helper
- *
- * @category   Magento
- * @package    Magento_Contacts
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Contact base helper
  */
-namespace Magento\Contacts\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_ENABLED = 'contacts/contacts/enabled';
+    const XML_PATH_ENABLED = 'contact/contact/enabled';
 
     /**
      * Core store config

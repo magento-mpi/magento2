@@ -2,33 +2,26 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Contacts
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Contacts index controller
- *
- * @category   Magento
- * @package    Magento_Contacts
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Contacts\Controller;
+namespace Magento\Contact\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
+/**
+ * Contact index controller
+ */
 class Index extends \Magento\App\Action\Action
 {
-    const XML_PATH_EMAIL_RECIPIENT = 'contacts/email/recipient_email';
+    const XML_PATH_EMAIL_RECIPIENT = 'contact/email/recipient_email';
 
-    const XML_PATH_EMAIL_SENDER = 'contacts/email/sender_email_identity';
+    const XML_PATH_EMAIL_SENDER = 'contact/email/sender_email_identity';
 
-    const XML_PATH_EMAIL_TEMPLATE = 'contacts/email/email_template';
+    const XML_PATH_EMAIL_TEMPLATE = 'contact/email/email_template';
 
-    const XML_PATH_ENABLED = 'contacts/contacts/enabled';
+    const XML_PATH_ENABLED = 'contact/contact/enabled';
 
     /**
      * @var \Magento\Mail\Template\TransportBuilder
