@@ -17,7 +17,7 @@ abstract class AbstractAggregateException extends LocalizedException
     protected $errors = [];
 
     /**
-     * The original raw rawMessage passed in via the constructor
+     * The original raw message passed in via the constructor
      *
      * @var string
      */
@@ -33,21 +33,21 @@ abstract class AbstractAggregateException extends LocalizedException
     /**
      * Initialize the exception.
      *
-     * @param string     $rawMessage
+     * @param string     $message
      * @param array      $params
      * @param \Exception $cause
      */
-    public function __construct($rawMessage, array $params = [], \Exception $cause = null)
+    public function __construct($message, array $params = [], \Exception $cause = null)
     {
-        parent::__construct($rawMessage, $params, $cause);
-        $this->originalRawMessage = $rawMessage;
+        parent::__construct($message, $params, $cause);
+        $this->originalRawMessage = $message;
         $this->originalParams = $params;
     }
 
     /**
-     * Create a new error raw message object for the rawMessage and its substitution parameters.
+     * Create a new error raw message object for the message and its substitution parameters.
      *
-     * @param string $rawMessage Exception rawMessage
+     * @param string $rawMessage Exception message
      * @param array  $params  Substitution parameters and extra error debug information
      *
      * @return $this
