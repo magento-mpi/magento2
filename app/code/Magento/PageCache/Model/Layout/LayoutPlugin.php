@@ -73,7 +73,7 @@ class LayoutPlugin
             $tags = array();
             foreach ($this->layout->getAllBlocks() as $block) {
                 if ($block instanceof \Magento\View\Block\IdentityInterface) {
-                    $isEsiBlock = ($block->getTtl() > 0);
+                    $isEsiBlock = $block->getTtl() > 0;
                     $isVarnish = $this->config->getType() == \Magento\PageCache\Model\Config::VARNISH;
                     if ($isVarnish && $isEsiBlock) {
                         continue;

@@ -30,9 +30,9 @@ class Lock extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Session model instance
@@ -56,7 +56,7 @@ class Lock extends \Magento\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -65,13 +65,13 @@ class Lock extends \Magento\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_backendAuthSession = $backendAuthSession;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -247,7 +247,10 @@ class Lock extends \Magento\Model\AbstractModel
      */
     public function getLockLifeTime()
     {
-        $timeout = (int)$this->_coreStoreConfig->getConfig('cms/hierarchy/lock_timeout');
+        $timeout = (int)$this->_scopeConfig->getValue(
+            'cms/hierarchy/lock_timeout',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         return $timeout != 0 && $timeout < 120 ? 120 : $timeout;
     }
 }

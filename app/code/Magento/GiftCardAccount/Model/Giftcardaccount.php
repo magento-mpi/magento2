@@ -86,9 +86,9 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Core date
@@ -117,7 +117,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
     /**
      * Store Manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -151,13 +151,13 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftCardAccount\Model\PoolFactory $poolFactory
@@ -169,13 +169,13 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftCardAccount\Model\PoolFactory $poolFactory,
@@ -185,7 +185,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_giftCardAccountData = $giftCardAccountData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_transportBuilder = $transportBuilder;
         $this->_customerBalance = $customerBalance;
         $this->_coreDate = $coreDate;
@@ -345,10 +345,10 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
                 }
             }
             $cards[] = array(
-                'i'=>$this->getId(),        // id
-                'c'=>$this->getCode(),      // code
-                'a'=>$this->getBalance(),   // amount
-                'ba'=>$this->getBalance(),  // base amount
+                'i' => $this->getId(),
+                'c' => $this->getCode(),
+                'a' => $this->getBalance(),
+                'ba' => $this->getBalance()
             );
             $this->_giftCardAccountData->setCards($quote, $cards);
 
@@ -632,7 +632,11 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
         $balance = $this->_localeCurrency->getCurrency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/template', $storeId)
+            $this->_scopeConfig->getValue(
+                'giftcard/giftcardaccount_email/template',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
         )->setTemplateOptions(
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
@@ -644,7 +648,11 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
                 'store_name' => $recipientStore->getName()
             )
         )->setFrom(
-            $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/identity', $storeId)
+            $this->_scopeConfig->getValue(
+                'giftcard/giftcardaccount_email/identity',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
         )->addTo(
             $recipientEmail,
             $recipientName

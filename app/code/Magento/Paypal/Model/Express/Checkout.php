@@ -171,7 +171,7 @@ class Checkout
     protected $_paypalInfo;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -261,7 +261,7 @@ class Checkout
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Paypal\Model\Info $paypalInfo
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $coreUrl
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Logger\AdapterFactory $logFactory
@@ -289,7 +289,7 @@ class Checkout
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Paypal\Model\Info $paypalInfo,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $coreUrl,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Logger\AdapterFactory $logFactory,

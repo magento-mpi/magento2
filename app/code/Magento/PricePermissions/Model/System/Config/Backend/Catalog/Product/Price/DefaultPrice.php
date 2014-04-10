@@ -14,7 +14,7 @@ namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\P
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class DefaultPrice extends \Magento\Core\Model\Config\Value
+class DefaultPrice extends \Magento\App\Config\Value
 {
     /**
      * Price permissions data
@@ -26,8 +26,7 @@ class DefaultPrice extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -36,15 +35,14 @@ class DefaultPrice extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\PricePermissions\Helper\Data $pricePermData,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_pricePermData = $pricePermData;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -22,13 +22,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_catalogSetupFactory;
 
     /**
-     * Enterprise setup migration factory
-     *
-     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
-     */
-    protected $_entMigrationFactory;
-
-    /**
      * Rma refundable list
      * 
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
@@ -40,9 +33,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
-     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param string $moduleName
      * @param string $connectionName
@@ -52,15 +44,13 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
-        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_Rma',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        $this->_entMigrationFactory = $entMigrationFactory;
         $this->productTypeConfig = $productTypeConfig;
         parent::__construct(
             $context,

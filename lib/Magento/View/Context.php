@@ -10,7 +10,7 @@ namespace Magento\View;
 use Magento\App\Request\Http as Request;
 use Magento\App\FrontControllerInterface;
 use Magento\TranslateInterface;
-use Magento\Core\Model\Store\Config as StoreConfig;
+use Magento\App\Config\ScopeConfigInterface;
 use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
@@ -84,9 +84,9 @@ class Context
     /**
      * Store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $storeConfig;
+    protected $scopeConfig;
 
     /**
      * Front controller
@@ -147,7 +147,7 @@ class Context
      * @param Cache $cache
      * @param DesignInterface $design
      * @param SessionManager $session
-     * @param StoreConfig $storeConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param FrontControllerInterface $frontController
      * @param ViewUrl $viewUrl
      * @param ViewConfig $viewConfig
@@ -168,7 +168,7 @@ class Context
         Cache $cache,
         DesignInterface $design,
         SessionManager $session,
-        StoreConfig $storeConfig,
+        ScopeConfigInterface $scopeConfig,
         FrontControllerInterface $frontController,
         ViewUrl $viewUrl,
         ViewConfig $viewConfig,
@@ -184,7 +184,7 @@ class Context
         $this->cache = $cache;
         $this->design = $design;
         $this->session = $session;
-        $this->storeConfig = $storeConfig;
+        $this->scopeConfig = $scopeConfig;
         $this->frontController = $frontController;
         $this->viewUrl         = $viewUrl;
         $this->viewConfig      = $viewConfig;
@@ -265,13 +265,13 @@ class Context
     }
 
     /**
-     * Retrieve store config
+     * Retrieve scope config
      *
-     * @return \Magento\Core\Model\Store\Config
+     * @return \Magento\App\Config\ScopeConfigInterface
      */
-    public function getStoreConfig()
+    public function getScopeConfig()
     {
-        return $this->storeConfig;
+        return $this->scopeConfig;
     }
 
     /**
@@ -501,8 +501,8 @@ class Context
     public function getDesignTheme()
     {
         $theme = $this->design->getDesignTheme();
-        $theme->setCode('magento_plushe');
-        $theme->setThemePath('magento_plushe');
+        $theme->setCode('Magento/plushe');
+        $theme->setThemePath('Magento/plushe');
         $theme->setId(8);
 
         return $this->getPhysicalTheme($theme);

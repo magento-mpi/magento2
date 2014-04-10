@@ -490,12 +490,12 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -596,8 +596,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Order\Config $orderConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
@@ -627,8 +627,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
@@ -653,7 +653,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     ) {
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_orderConfig = $orderConfig;
         $this->_productFactory = $productFactory;
@@ -777,7 +777,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve store model instance
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -1275,8 +1275,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
                 $status = $this->getConfig()->getStateDefaultStatus($state);
             }
             $this->setStatus($status);
-            $history = $this->addStatusHistoryComment($comment, false); // no sense to set $status again
-            $history->setIsCustomerNotified($isCustomerNotified); // for backwards compatibility
+            $history = $this->addStatusHistoryComment($comment, false);
+            // no sense to set $status again
+            $history->setIsCustomerNotified($isCustomerNotified);
         }
         return $this;
     }
@@ -1508,16 +1509,28 @@ class Order extends \Magento\Sales\Model\AbstractModel
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
+        $copyMethod = $this->_scopeConfig->getValue(
+            self::XML_PATH_EMAIL_COPY_METHOD,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
 
         $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($this->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($this->getCustomerIsGuest()) {
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = $this->_scopeConfig->getValue(
+                self::XML_PATH_EMAIL_GUEST_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
             $customerName = $this->getBillingAddress()->getName();
         } else {
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE, $storeId);
+            $templateId = $this->_scopeConfig->getValue(
+                self::XML_PATH_EMAIL_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
             $customerName = $this->getCustomerName();
         }
 
@@ -1533,7 +1546,11 @@ class Order extends \Magento\Sales\Model\AbstractModel
                 'store' => $this->getStore()
             )
         )->setFrom(
-            $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId)
+            $this->_scopeConfig->getValue(
+                self::XML_PATH_EMAIL_IDENTITY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
         )->addTo(
             $this->getCustomerEmail(),
             $customerName
@@ -1563,7 +1580,11 @@ class Order extends \Magento\Sales\Model\AbstractModel
                         'store' => $this->getStore()
                     )
                 )->setFrom(
-                    $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId)
+                    $this->_scopeConfig->getValue(
+                        self::XML_PATH_EMAIL_IDENTITY,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        $storeId
+                    )
                 )->addTo(
                     $email
                 )->getTransport()->sendMessage();
@@ -1592,7 +1613,11 @@ class Order extends \Magento\Sales\Model\AbstractModel
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
+        $copyMethod = $this->_scopeConfig->getValue(
+            self::XML_PATH_UPDATE_EMAIL_COPY_METHOD,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         // Check if at least one recipient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
@@ -1600,10 +1625,18 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
         // Retrieve corresponding email template id and customer name
         if ($this->getCustomerIsGuest()) {
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = $this->_scopeConfig->getValue(
+                self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
             $customerName = $this->getBillingAddress()->getName();
         } else {
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $storeId);
+            $templateId = $this->_scopeConfig->getValue(
+                self::XML_PATH_UPDATE_EMAIL_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
             $customerName = $this->getCustomerName();
         }
 
@@ -1620,7 +1653,11 @@ class Order extends \Magento\Sales\Model\AbstractModel
                     'store' => $this->getStore()
                 )
             )->setFrom(
-                $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId)
+                $this->_scopeConfig->getValue(
+                    self::XML_PATH_UPDATE_EMAIL_IDENTITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storeId
+                )
             )->addTo(
                 $this->getCustomerEmail(),
                 $customerName
@@ -1652,7 +1689,11 @@ class Order extends \Magento\Sales\Model\AbstractModel
                         'store' => $this->getStore()
                     )
                 )->setFrom(
-                    $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId)
+                    $this->_scopeConfig->getValue(
+                        self::XML_PATH_UPDATE_EMAIL_IDENTITY,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        $storeId
+                    )
                 )->addTo(
                     $email
                 )->getTransport()->sendMessage();
@@ -1668,7 +1709,11 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     protected function _getEmails($configPath)
     {
-        $data = $this->_coreStoreConfig->getConfig($configPath, $this->getStoreId());
+        $data = $this->_scopeConfig->getValue(
+            $configPath,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStoreId()
+        );
         if (!empty($data)) {
             return explode(',', $data);
         }
@@ -1794,7 +1839,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
             $products
         )->setVisibility(
             $this->_productVisibility->getVisibleInSiteIds()
-            /* Price data is added to consider item stock status using price index */
         )->addPriceData()->setPageSize(
             $limit
         )->load();
@@ -2428,10 +2472,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
                 if ($this->getState() !== self::STATE_COMPLETE) {
                     $this->_setState(self::STATE_COMPLETE, true, '', $userNotification);
                 }
-                /**
-                * Order can be closed just in case when we have refunded amount.
-                * In case of "0" grand total order checking ForcedCanCreditmemo flag
-                */
             } elseif (floatval(
                 $this->getTotalRefunded()
             ) || !$this->getTotalRefunded() && $this->hasForcedCanCreditmemo()
@@ -2496,7 +2536,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     {
         $storeId = $this->getStoreId();
         if (is_null($storeId)) {
-            return $this->getStoreName(1); // 0 - website name, 1 - store group name, 2 - store name
+            return $this->getStoreName(1);
         }
         return $this->getStore()->getGroup()->getName();
     }

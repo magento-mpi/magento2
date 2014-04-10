@@ -72,7 +72,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -81,7 +81,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\Log\Model\VisitorFactory $visitorFactory
@@ -95,7 +95,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
         \Magento\Log\Model\Visitor $visitor,
         \Magento\Log\Model\VisitorFactory $visitorFactory,
@@ -262,7 +262,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * Check if customer is matched by segment
      *
      * @param int|\Magento\Customer\Model\Customer|\Magento\Object $customer
-     * @param null|\Magento\Core\Model\Website|bool|int|string $website
+     * @param null|\Magento\Store\Model\Website|bool|int|string $website
      *
      * @return bool
      */
