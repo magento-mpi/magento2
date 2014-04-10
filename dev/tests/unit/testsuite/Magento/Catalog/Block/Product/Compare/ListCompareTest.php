@@ -19,13 +19,13 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \Magento\Core\Model\Layout | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
     protected function setUp()
     {
-        $this->layout = $this->getMock('Magento\Core\Model\Layout', ['getBlock'], [], '', false);
+        $this->layout = $this->getMock('Magento\View\Layout', ['getBlock'], [], '', false);
 
         $context = $this->getMock('Magento\Catalog\Block\Product\Context', ['getLayout'], [], '', false);
         $context->expects($this->any())

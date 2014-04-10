@@ -24,7 +24,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
     protected $registry;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -39,7 +39,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 
         $this->pricingRenderBlock = $this->getMock('Magento\Pricing\Render', [], [], '', false);
 
-        $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
+        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
 
         $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
         $config = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
