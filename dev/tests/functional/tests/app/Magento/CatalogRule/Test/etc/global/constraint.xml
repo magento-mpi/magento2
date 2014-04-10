@@ -8,50 +8,42 @@
  */
 -->
 <constraint>
-    <assertProductInGrid module="Magento_Catalog">
-        <severeness>high</severeness>
-        <require>
-            <manageProductsPage class="Magento\Catalog\Test\Page\Product\CatalogProductIndex" />
-            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-        </require>
-    </assertProductInGrid>
-    <assertProductSaveMessage module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-            <productPage class="Magento\Catalog\Test\Page\Product\CatalogProductEdit" />
-        </require>
-    </assertProductSaveMessage>
-    <assertProductOutOfStock module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-            <simple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-        </require>
-    </assertProductOutOfStock>
-    <assertProductInStock module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-            <simple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-        </require>
-    </assertProductInStock>
-    <assertProductVisibleInCategory module="Magento_Catalog">
+    <assertCatalogRuleProductInCategory module="Magento_CatalogRule">
         <severeness>low</severeness>
         <require>
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <category class="Magento\Catalog\Test\Fixture\Category" />
-            <simple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogRule class="Magento\CatalogRule\Test\Fixture\CatalogRule" />
         </require>
-    </assertProductVisibleInCategory>
-    <assertProductSearchableBySku module="Magento_Catalog">
+    </assertCatalogRuleProductInCategory>
+    <assertCatalogRuleProductView module="Magento_CatalogRule">
         <severeness>low</severeness>
         <require>
-            <catalogSearchResult class="Magento\CatalogSearch\Test\Page\CatalogsearchResult" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <simple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogRule class="Magento\CatalogRule\Test\Fixture\CatalogRule" />
         </require>
-    </assertProductSearchableBySku>
+    </assertCatalogRuleProductView>
+    <assertCatalogRuleProductInCart module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogRule class="Magento\CatalogRule\Test\Fixture\CatalogRule" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
+        </require>
+    </assertCatalogRuleProductInCart>
+    <assertCatalogRuleInGrid module="Magento_CatalogRule">
+        <severeness>high</severeness>
+        <require>
+            <catalogRuleInGrid class="Magento\CatalogRule\Test\Page\CatalogRule" />
+            <catalogRule class="Magento\CatalogRule\Test\Fixture\CatalogRule" />
+        </require>
+    </assertCatalogRuleInGrid>
+    <assertCatalogRuleSaveMessage module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <catalogRuleInGrid class="Magento\CatalogRule\Test\Page\CatalogRule" />
+        </require>
+    </assertCatalogRuleSaveMessage>
     <assertProductInCategory module="Magento_Catalog">
         <severeness>low</severeness>
         <require>
