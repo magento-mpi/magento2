@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\App\Action;
+namespace Magento\Store\App\Action\Plugin;
 
 /**
  * Class ContextPluginTest
  */
-class ContextPluginTest extends \PHPUnit_Framework_TestCase
+class ContextTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\App\Action\ContextPlugin
+     * @var \Magento\Store\App\Action\Plugin\Context
      */
     protected $plugin;
 
@@ -95,7 +95,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
         };
         $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\RequestInterface');
-        $this->plugin = new \Magento\Core\Model\App\Action\ContextPlugin(
+        $this->plugin = new \Magento\Store\App\Action\Plugin\Context(
             $this->sessionMock,
             $this->httpContextMock,
             $this->httpRequestMock,

@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\App\Action;
+namespace Magento\Store\App\Action\Plugin;
 
 /**
  * Class ContextPlugin
  */
-class ContextPlugin
+class Context
 {
     /**
      * @var \Magento\Session\SessionManagerInterface
