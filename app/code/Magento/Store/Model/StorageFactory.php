@@ -331,7 +331,11 @@ class StorageFactory
                 $this->_cookie->set(Store::COOKIE_NAME, null);
             } else {
                 $this->_cookie->set(Store::COOKIE_NAME, $storage->getCurrentStore(), true);
-                $this->_httpContext->setValue(Store::ENTITY, $storage->getCurrentStore());
+                $this->_httpContext->setValue(
+                    Store::ENTITY,
+                    $storage->getCurrentStore(),
+                    \Magento\Store\Model\Store::DEFAULT_CODE
+                );
             }
         }
         return;
