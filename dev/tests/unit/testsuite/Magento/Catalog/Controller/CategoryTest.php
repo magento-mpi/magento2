@@ -45,7 +45,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $eventManager;
 
     /**
-     * @var \Magento\Core\Model\Layout|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -75,12 +75,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $categoryFactory;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $store;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
@@ -109,7 +109,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->eventManager = $this->getMock('Magento\Event\ManagerInterface');
 
         $this->update = $this->getMock('Magento\View\Layout\ProcessorInterface');
-        $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
+        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
         $this->layout->expects($this->any())->method('getUpdate')->will($this->returnValue($this->update));
         $this->view = $this->getMock('Magento\App\ViewInterface');
         $this->view->expects($this->any())->method('getLayout')->will($this->returnValue($this->layout));
@@ -125,8 +125,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->category = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
         $this->categoryFactory = $this->getMock('Magento\Catalog\Model\CategoryFactory', ['create'], [], '', false);
 
-        $this->store = $this->getMock('Magento\Core\Model\Store', [], [], '', false);
-        $this->storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
 
         $this->catalogDesign = $this->getMock('Magento\Catalog\Model\Design', [], [], '', false);

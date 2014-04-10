@@ -40,14 +40,14 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $designInterface;
 
-    /** @var \Magento\Core\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Session\Generic|\PHPUnit_Framework_MockObject_MockObject */
     protected $session;
 
     /** @var \Magento\Session\SidResolverInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $sidResolverInterface;
 
-    /** @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject */
-    protected $config;
+    /** @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $scopeConfig;
 
     /** @var \Magento\View\Url|\PHPUnit_Framework_MockObject_MockObject */
     protected $url;
@@ -85,7 +85,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject */
     protected $appState;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerInterface;
 
     /** @var \Magento\AuthorizationInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -142,9 +142,9 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->translateInterface = $this->getMock('Magento\TranslateInterface');
         $this->cacheInterface = $this->getMock('Magento\App\CacheInterface');
         $this->designInterface = $this->getMock('Magento\View\DesignInterface');
-        $this->session = $this->getMock('Magento\Core\Model\Session', [], [], '', false);
+        $this->session = $this->getMock('Magento\Session\Generic', [], [], '', false);
         $this->sidResolverInterface = $this->getMock('Magento\Session\SidResolverInterface');
-        $this->config = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
+        $this->scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->url = $this->getMock('Magento\View\Url', [], [], '', false);
         $this->configInterface = $this->getMock('Magento\View\ConfigInterface');
         $this->cacheState = $this->getMock('Magento\App\Cache\StateInterface');
@@ -157,7 +157,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->viewFilesystem = $this->getMock('Magento\View\FileSystem', [], [], '', false);
         $this->templateEnginePool = $this->getMock('Magento\View\TemplateEnginePool', [], [], '', false);
         $this->appState = $this->getMock('Magento\App\State', [], [], '', false);
-        $this->storeManagerInterface = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->storeManagerInterface = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->authorizationInterface = $this->getMock('Magento\AuthorizationInterface');
         $this->backendSession = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
         $this->random = $this->getMock('Magento\Math\Random');
@@ -177,7 +177,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
                 'design' => $this->designInterface,
                 'session' => $this->session,
                 'sidResolver' => $this->sidResolverInterface,
-                'storeConfig' => $this->config,
+                'storeConfig' => $this->scopeConfig,
                 'viewUrl' => $this->url,
                 'viewConfig' => $this->configInterface,
                 'cacheState' => $this->cacheState,
@@ -207,7 +207,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
             'Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory',
             ['create']
         );
-        $this->config = $this->getMock('Magento\Eav\Model\Entity\Attribute\Config', [], [], '', false);
+        $this->scopeConfig = $this->getMock('Magento\Eav\Model\Entity\Attribute\Config', [], [], '', false);
         $this->customAttributeManagementHelper = $this->getMock(
             'Magento\CustomAttributeManagement\Helper\Data',
             [],
@@ -226,7 +226,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
                 'eavData' => $this->eavHelper,
                 'yesnoFactory' => $this->yesnoFactory,
                 'inputTypeFactory' => $this->inputtypeFactory,
-                'attributeConfig' => $this->config,
+                'attributeConfig' => $this->scopeConfig,
                 'attributeHelper' => $this->customAttributeManagementHelper,
                 'rmaEav' => $this->rmaEavHelper
             ]
