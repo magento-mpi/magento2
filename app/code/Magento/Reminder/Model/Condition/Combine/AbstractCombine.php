@@ -200,7 +200,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {
-        $storeTable = $this->getResource()->getTable('core_store');
+        $storeTable = $this->getResource()->getTable('store');
         $select->join(
             array('store' => $storeTable),
             $storeIdField . '=store.store_id',

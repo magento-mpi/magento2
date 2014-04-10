@@ -115,7 +115,12 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             }
             $customerSession->setBeforeWishlistRequest($request->getParams());
         }
-        if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag('wishlist/general/active')) {
+        if (!$this->_objectManager->get(
+            'Magento\App\Config\ScopeConfigInterface'
+        )->isSetFlag(
+            'wishlist/general/active'
+        )
+        ) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);
@@ -704,16 +709,18 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $message = nl2br(htmlspecialchars($message));
             if (empty($emails)) {
                 $error = __('Email address can\'t be empty.');
-            } else if (count($emails) > $emailsLeft) {
-                $error = __('This wishlist can be shared %1 more times.', $emailsLeft);
             } else {
-                foreach ($emails as $index => $email) {
-                    $email = trim($email);
-                    if (!\Zend_Validate::is($email, 'EmailAddress')) {
-                        $error = __('Please input a valid email address.');
-                        break;
+                if (count($emails) > $emailsLeft) {
+                    $error = __('This wishlist can be shared %1 more times.', $emailsLeft);
+                } else {
+                    foreach ($emails as $index => $email) {
+                        $email = trim($email);
+                        if (!\Zend_Validate::is($email, 'EmailAddress')) {
+                            $error = __('Please input a valid email address.');
+                            break;
+                        }
+                        $emails[$index] = $email;
                     }
-                    $emails[$index] = $email;
                 }
             }
         }
@@ -753,11 +760,14 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $sharingCode = $wishlist->getSharingCode();
 
             try {
-                $storeConfig = $this->_objectManager->get('Magento\Core\Model\Store\Config');
-                $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+                $scopeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
+                $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 foreach ($emails as $email) {
                     $transport = $this->_transportBuilder->setTemplateIdentifier(
-                        $storeConfig->getConfig('wishlist/email/email_template')
+                        $scopeConfig->getValue(
+                            'wishlist/email/email_template',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                        )
                     )->setTemplateOptions(
                         array(
                             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
@@ -775,7 +785,10 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                             'store' => $storeManager->getStore()
                         )
                     )->setFrom(
-                        $storeConfig->getConfig('wishlist/email/email_identity')
+                        $scopeConfig->getValue(
+                            'wishlist/email/email_identity',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                        )
                     )->addTo(
                         $email
                     )->getTransport();

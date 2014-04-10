@@ -196,7 +196,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
-        $subscriber = $objectManager->get("Magento\Newsletter\Model\SubscriberFactory")->create();
+        $subscriber = $objectManager->get('Magento\Newsletter\Model\SubscriberFactory')->create();
         $this->assertEmpty($subscriber->getId());
         $subscriber->loadByCustomerId($customerId);
         $this->assertEmpty($subscriber->getId());
@@ -289,7 +289,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertEquals('new firstname', $newAddress->getFirstname());
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
-        $subscriber = $objectManager->get("Magento\Newsletter\Model\SubscriberFactory")->create();
+        $subscriber = $objectManager->get('Magento\Newsletter\Model\SubscriberFactory')->create();
         $this->assertEmpty($subscriber->getId());
         $subscriber->loadByCustomerId($customerId);
         $this->assertNotEmpty($subscriber->getId());
@@ -308,7 +308,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $objectManager = Bootstrap::getObjectManager();
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
-        $subscriber = $objectManager->get("Magento\Newsletter\Model\SubscriberFactory")->create();
+        $subscriber = $objectManager->get('Magento\Newsletter\Model\SubscriberFactory')->create();
         $this->assertEmpty($subscriber->getId());
         $subscriber->loadByCustomerId($customerId);
         $this->assertNotEmpty($subscriber->getId());
@@ -322,7 +322,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/index/save');
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
-        $subscriber = $objectManager->get("Magento\Newsletter\Model\SubscriberFactory")->create();
+        $subscriber = $objectManager->get('Magento\Newsletter\Model\SubscriberFactory')->create();
         $this->assertEmpty($subscriber->getId());
         $subscriber->loadByCustomerId($customerId);
         $this->assertNotEmpty($subscriber->getId());

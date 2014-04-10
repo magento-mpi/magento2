@@ -77,17 +77,17 @@ class Role extends \Magento\Object
     protected $_categoryCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         array $data = array()
     ) {
@@ -452,7 +452,7 @@ class Role extends \Magento\Object
      * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
-     * @return \Magento\Core\Model\Store\Group|null
+     * @return \Magento\Store\Model\Group|null
      */
     public function getGroup($findGroupId)
     {

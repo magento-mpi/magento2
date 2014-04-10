@@ -33,7 +33,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     protected $_shipment;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -42,7 +42,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -52,7 +52,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -96,7 +96,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Get store object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

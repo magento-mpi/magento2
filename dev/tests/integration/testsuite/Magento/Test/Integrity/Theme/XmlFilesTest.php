@@ -57,7 +57,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     public function themeConfigFileExistsDataProvider()
     {
         $result = array();
-        $files = glob($this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*', GLOB_ONLYDIR);
+        $files = glob($this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*/*', GLOB_ONLYDIR);
         foreach ($files as $themeDir) {
             $result[$themeDir] = array($themeDir);
         }
@@ -96,7 +96,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     public function themeConfigFileDataProvider()
     {
         $result = array();
-        $files = glob($this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*/theme.xml');
+        $files = glob($this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*/*/theme.xml');
         foreach ($files as $file) {
             $result[$file] = array($file);
         }
@@ -113,6 +113,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     protected function _validateConfigFile($file, $schemaFile)
     {
         $domConfig = new \Magento\Config\Dom(file_get_contents($file));
+        $errors = array();
         $result = $domConfig->validate($schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {

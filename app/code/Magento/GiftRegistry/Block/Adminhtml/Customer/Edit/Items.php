@@ -90,8 +90,9 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
                 'index' => 'price',
                 'type' => 'currency',
                 'width' => '120px',
-                'currency_code' => (string)$this->_storeConfig->getConfig(
-                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE
+                'currency_code' => (string)$this->_scopeConfig->getValue(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )
         );

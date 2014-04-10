@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Core\Model\Resource\Setup */
+/** @var $this \Magento\Module\Setup */
 
 /**
  * Create table 'report_compared_product_index'.
@@ -93,9 +93,9 @@ $table = $this->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $this->getFkName('report_compared_product_index', 'store_id', 'core_store', 'store_id'),
+    $this->getFkName('report_compared_product_index', 'store_id', 'store', 'store_id'),
     'store_id',
-    $this->getTable('core_store'),
+    $this->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -187,9 +187,9 @@ $table = $this->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $this->getFkName('report_viewed_product_index', 'store_id', 'core_store', 'store_id'),
+    $this->getFkName('report_viewed_product_index', 'store_id', 'store', 'store_id'),
     'store_id',
-    $this->getTable('core_store'),
+    $this->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
