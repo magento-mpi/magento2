@@ -95,7 +95,7 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function getInline($type, \Magento\Object $entity, $dontDisplayContainer = false)
     {
-        if (!$this->isMessagesAvailable($type, $entity)) {
+        if ('onepage_checkout' != $type && !$this->isMessagesAvailable($type, $entity)) {
             return '';
         }
         return $this->_layoutFactory->create()->createBlock(
