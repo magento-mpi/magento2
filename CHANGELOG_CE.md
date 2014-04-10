@@ -43,6 +43,7 @@
   * Fixed: Wrong special price calculating for Bundle Product (MAGETWO-22562)
   * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
   * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
+  * Fixed: Blank theme - fixed bugs and added improvements
 * GitHub requests:
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 
