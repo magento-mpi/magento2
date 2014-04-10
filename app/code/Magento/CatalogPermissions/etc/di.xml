@@ -16,10 +16,10 @@
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Resource\Store">
+    <type name="Magento\Store\Model\Resource\Store">
         <plugin name="catalogPermissionsIndexerStoreView" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\View" />
     </type>
-    <type name="Magento\Core\Model\Resource\Store\Group">
+    <type name="Magento\Store\Model\Resource\Group">
         <plugin name="catalogPermissionsIndexerStoreGroup" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\Group"/>
     </type>
     <type name="Magento\Indexer\Model\Indexer\State">
@@ -85,5 +85,12 @@
     </type>
     <type name="Magento\Backend\Model\Config">
         <plugin name="configPermissionChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData" />
+    </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_catalogpermissions" xsi:type="string">Magento_CatalogPermissions</item>
+            </argument>
+        </arguments>
     </type>
 </config>

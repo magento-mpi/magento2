@@ -1,4 +1,6 @@
 * Framework Improvements:
+  * StoreConfig class and ability to work with Configuration through the Store object has been eliminated. Scope Config has been introduced instead. (MAGETWO-21584)
+  * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
   * Covered Magento library components with unit tests: (MAGETWO-21115)
     * Magento/App/Request
     * Magento/App/Resource folder and Magento/App/Resource.php
@@ -12,6 +14,16 @@
 * Themes update:
   * Admin theme look&feel updated
 * Modularity improvements:
+  * Store module has been introduced. All Store related logic from Magento\Core was moved into it (MAGETWO-21585)
+  * Moved library part of Config component from Core module to library (MAGETWO-21587)
+  * Moved Session related logic from Core module to library (MAGETWO-21594)
+  * Moved abstract logic related to Magento "Module" from Core to library (MAGETWO-21601)
+  * Moved functionality related to form key into library (MAGETWO-21606)
+  * Introduced Magento_UrlRewrite module and moved corresponding classes from Magento_Core there (MAGETWO-21603)
+  * Moved resource model to Magento_Install module(MAGETWO-21599)
+  * Eliminated Core\Helper\Js class (MAGETWO-21600)
+  * Moved Email related to logic from Core module to Email module (MAGETWO-21604)
+  * Moved library related logic of Cache from Core module (MAGETWO-21598)
   * Resolved issues with cases when order has been placed before module disabling (MAGETWO-18064)
   * Eliminated dependency of Magento_Catalog on Magento_Rating Module (MAGETWO-21481)
   * Coupled Magento_Rating and Magento_Rating modules. Magento_Rating is removed (MAGETWO-23048)

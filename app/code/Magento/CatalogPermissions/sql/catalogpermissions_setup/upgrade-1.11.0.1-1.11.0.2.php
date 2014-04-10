@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/* @var $this \Magento\Core\Model\Resource\Setup */
+/* @var $this \Magento\Module\Setup */
 $this->startSetup();
 
 /** @var \Magento\DB\Adapter\AdapterInterface $connection */
@@ -53,7 +53,7 @@ $connection->dropForeignKey(
 );
 $connection->dropForeignKey(
     $this->getTable('magento_catalogpermissions_index_product'),
-    $this->getFkName('magento_catalogpermissions_index_product', 'store_id', 'core_store', 'store_id')
+    $this->getFkName('magento_catalogpermissions_index_product', 'store_id', 'store', 'store_id')
 );
 $connection->dropIndex(
     $this->getTable('magento_catalogpermissions_index_product'),

@@ -6,8 +6,9 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getInstance()
-    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(
+    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+);
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -40,7 +41,7 @@ $quoteItem = $quote->setCustomerId(
     1
 )->setStoreId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Core\Model\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getId()
 )->setReservedOrderId(
     'test01'

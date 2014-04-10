@@ -47,7 +47,7 @@ class Category extends \Magento\App\Action\Action
     protected $_categoryFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -57,7 +57,7 @@ class Category extends \Magento\App\Action\Action
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -65,7 +65,7 @@ class Category extends \Magento\App\Action\Action
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;

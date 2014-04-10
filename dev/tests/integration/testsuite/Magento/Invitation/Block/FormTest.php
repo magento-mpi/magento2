@@ -67,11 +67,20 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     protected function _changeConfig($path, $value)
     {
-        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
-        )->getStore();
-        $oldValue = $store->getConfig($path);
-        $store->setConfig($path, $value);
+        $oldValue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->getValue(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            $path,
+            $value,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         if (!$this->_rememberedConfig) {
             $this->_rememberedConfig = array('path' => $path, 'old_value' => $oldValue);
@@ -87,10 +96,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function _restoreConfig()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
-        )->getStore()->setConfig(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
             $this->_rememberedConfig['path'],
-            $this->_rememberedConfig['old_value']
+            $this->_rememberedConfig['old_value'],
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         $this->_rememberedConfig = null;
         return $this;

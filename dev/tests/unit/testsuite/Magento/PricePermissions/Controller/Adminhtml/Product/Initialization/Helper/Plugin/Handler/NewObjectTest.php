@@ -38,7 +38,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->requestMock = $this->getMock('\Magento\App\RequestInterface');
         $this->pricePerDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', array(), array(), '', false);
         $this->productMock = $this->getMock(
@@ -130,7 +130,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('setPrice')->with('0.0');
 
         $this->requestMock->expects($this->once())->method('getParam')->with('store')->will($this->returnValue(10));
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->once())->method('getWebsiteId')->will($this->returnValue(5));
         $this->storeManagerMock->expects(
             $this->once()

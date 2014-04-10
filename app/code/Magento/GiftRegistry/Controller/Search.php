@@ -38,14 +38,14 @@ class Search extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_storeManager = $storeManager;

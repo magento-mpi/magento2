@@ -15,7 +15,7 @@ namespace Magento\AdminGws\Model;
 class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -33,13 +33,13 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_collectionsFactory = $collectionsFactory;
         $this->_backendAuthSession = $backendAuthSession;
@@ -51,7 +51,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Limit store views collection. Adding limitation depending
      * on allowed group ids for user.
      *
-     * @param \Magento\Core\Model\Resource\Store\Collection $collection
+     * @param \Magento\Store\Model\Resource\Store\Collection $collection
      * @return void
      */
     public function limitStores($collection)
@@ -64,7 +64,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit websites collection
      *
-     * @param \Magento\Core\Model\Resource\Website\Collection $collection
+     * @param \Magento\Store\Model\Resource\Website\Collection $collection
      * @return void
      */
     public function limitWebsites($collection)
@@ -76,7 +76,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit store groups collection
      *
-     * @param \Magento\Core\Model\Resource\Store\Group\Collection $collection
+     * @param Magento\Store\Model\Resource\Group\Collection $collection
      * @return void
      */
     public function limitStoreGroups($collection)

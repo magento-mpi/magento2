@@ -44,19 +44,19 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         );
         /* Called getConfig as workaround for setConfig bug */
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore(
             $this->_storeId
         )->getConfig(
             'dev/translate_inline/active'
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
-        )->getStore(
-            $this->_storeId
-        )->setConfig(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
             'dev/translate_inline/active',
-            true
+            true,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
         );
     }
 
@@ -67,7 +67,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(
             $this->_model->isAllowed(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Core\Model\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore(
                     $this->_storeId
                 )
@@ -79,7 +79,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(
             $this->_model->isAllowed(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Core\Model\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore(
                     $this->_storeId
                 )

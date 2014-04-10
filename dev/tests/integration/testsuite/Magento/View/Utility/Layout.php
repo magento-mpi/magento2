@@ -95,12 +95,12 @@ class Layout
             'argumentParser' => $objectManager->get('Magento\View\Layout\Argument\Parser'),
             'argumentInterpreter' => $objectManager->get('layoutArgumentInterpreter'),
             'scheduledStructure' => $objectManager->create('Magento\View\Layout\ScheduledStructure', array()),
-            'config' => $objectManager->create('Magento\App\Config'),
+            'scopeConfig' => $objectManager->create('Magento\App\Config\ScopeConfigInterface'),
             'appState' => $objectManager->get('Magento\App\State'),
             'messageManager' => $objectManager->get('Magento\Message\ManagerInterface'),
             'themeResolver' => $objectManager->get('Magento\View\Design\Theme\ResolverInterface'),
-            'scopeResolver' => $objectManager->get('Magento\BaseScopeResolverInterface'),
-            'objectManager' => $objectManager
+            'scopeResolver' => $objectManager->get('Magento\App\ScopeResolverInterface'),
+            'scopeType' => \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
         );
     }
 }

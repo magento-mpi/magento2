@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -118,9 +118,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_invitation', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('magento_invitation', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

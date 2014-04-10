@@ -31,7 +31,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected $_coreResource;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -41,7 +41,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\App\Resource $coreResource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
@@ -51,7 +51,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\App\Resource $coreResource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
         \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {

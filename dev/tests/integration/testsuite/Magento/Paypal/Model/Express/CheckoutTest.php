@@ -95,6 +95,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
+     * @magentoConfigFixture current_store customer/create_account/confirm true
      */
     public function testPrepareNewCustomerQuoteConfirmationRequired()
     {
@@ -110,10 +111,6 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $quote->setCustomerLastname('Lastname');
         $quote->setCustomerIsGuest(false);
 
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('\Magento\Core\Model\StoreManagerInterface');
-        $storeManager->getStore()->setConfig(Customer::XML_PATH_IS_CONFIRM, true);
-
         $checkout = $this->_getCheckout($quote);
         $checkout->place('token');
         $customer = $customerService->getCustomer($quote->getCustomerId());
@@ -127,8 +124,11 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             'customer/account/confirmation/email/%s/key/',
             $customerDetails->getCustomer()->getEmail()
         );
+        /** @var \Magento\Message\MessageInterface $message */
+        $message = $messageManager->getMessages()->getLastAddedMessage();
+        $this->assertInstanceOf('\Magento\Message\MessageInterface', $message);
         $this->assertTrue(
-            strpos($messageManager->getMessages()->getLastAddedMessage()->getText(), $confirmationText) !== false
+            strpos($message->getText(), $confirmationText) !== false
         );
 
     }

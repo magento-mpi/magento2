@@ -17,50 +17,59 @@ class Config implements ConfigInterface
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $coreStoreConfig;
+    protected $scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\Core\Model\Store\ConfigInterface $coreStoreConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->coreStoreConfig = $coreStoreConfig;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
      * Check, whether permissions are enabled
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
     {
-        return $this->coreStoreConfig->getConfigFlag(ConfigInterface::XML_PATH_ENABLED, $store);
+        return $this->scopeConfig->isSetFlag(
+            ConfigInterface::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
      * Return category browsing mode
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getCatalogCategoryViewMode($store = null)
     {
-        return $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW, $store);
+        return $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
      * Return category browsing groups
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string[]
      */
     public function getCatalogCategoryViewGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(
+        $groups = $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
         return $groups ? explode(',', $groups) : array();
@@ -69,24 +78,29 @@ class Config implements ConfigInterface
     /**
      * Return display products mode
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getCatalogProductPriceMode($store = null)
     {
-        return $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE, $store);
+        return $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
      * Return display products groups
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string[]
      */
     public function getCatalogProductPriceGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(
+        $groups = $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
         return $groups ? explode(',', $groups) : array();
@@ -95,24 +109,29 @@ class Config implements ConfigInterface
     /**
      * Return adding to cart mode
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getCheckoutItemsMode($store = null)
     {
-        return $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS, $store);
+        return $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
      * Return adding to cart groups
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string[]
      */
     public function getCheckoutItemsGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(
+        $groups = $this->scopeConfig->getValue(
             ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
         return $groups ? explode(',', $groups) : array();
@@ -121,23 +140,31 @@ class Config implements ConfigInterface
     /**
      * Return catalog search prohibited groups
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string[]
      */
     public function getCatalogSearchDenyGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH, $store);
+        $groups = $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         return $groups ? explode(',', $groups) : array();
     }
 
     /**
      * Return restricted landing page
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getRestrictedLandingPage($store = null)
     {
-        return $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_LANDING_PAGE, $store);
+        return $this->scopeConfig->getValue(
+            ConfigInterface::XML_PATH_LANDING_PAGE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

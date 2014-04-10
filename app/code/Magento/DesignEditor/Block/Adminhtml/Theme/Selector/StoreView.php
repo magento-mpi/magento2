@@ -21,7 +21,7 @@ class StoreView extends \Magento\Backend\Block\Template
     /**
      * Website collection
      *
-     * @var \Magento\Core\Model\Resource\Website\Collection
+     * @var \Magento\Store\Model\Resource\Website\Collection
      */
     protected $_websiteCollection;
 
@@ -37,14 +37,14 @@ class StoreView extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Resource\Website\Collection $websiteCollection
+     * @param \Magento\Store\Model\Resource\Website\Collection $websiteCollection
      * @param \Magento\Theme\Model\Config\Customization $customizationConfig
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Resource\Website\Collection $websiteCollection,
+        \Magento\Store\Model\Resource\Website\Collection $websiteCollection,
         \Magento\Theme\Model\Config\Customization $customizationConfig,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
@@ -59,7 +59,7 @@ class StoreView extends \Magento\Backend\Block\Template
     /**
      * Get website collection with stores and store-views joined
      *
-     * @return \Magento\Core\Model\Resource\Website\Collection
+     * @return \Magento\Store\Model\Resource\Website\Collection
      */
     public function getCollection()
     {
@@ -69,7 +69,7 @@ class StoreView extends \Magento\Backend\Block\Template
     /**
      * Get website, stores and store-views
      *
-     * @return \Magento\Core\Model\Resource\Website\Collection
+     * @return \Magento\Store\Model\Resource\Website\Collection
      */
     public function getWebsiteStructure()
     {
@@ -77,7 +77,7 @@ class StoreView extends \Magento\Backend\Block\Template
         $website = null;
         $store = null;
         $storeView = null;
-        /** @var $row \Magento\Core\Model\Website */
+        /** @var $row \Magento\Store\Model\Website */
         foreach ($this->getCollection() as $row) {
             $website = $row->getName();
             $store = $row->getGroupTitle();
@@ -149,7 +149,7 @@ class StoreView extends \Magento\Backend\Block\Template
             }
 
             $storesByThemes[$themeId] = array();
-            /** @var $store \Magento\Core\Model\Store */
+            /** @var $store \Magento\Store\Model\Store */
             foreach ($stores as $store) {
                 $storesByThemes[$themeId][] = (int)$store->getId();
             }
@@ -168,7 +168,7 @@ class StoreView extends \Magento\Backend\Block\Template
         $isMultipleMode = false;
         $tmpStore = null;
         foreach ($this->_customizationConfig->getStoresByThemes() as $stores) {
-            /** @var $store \Magento\Core\Model\Store */
+            /** @var $store \Magento\Store\Model\Store */
             foreach ($stores as $store) {
                 if ($tmpStore === null) {
                     $tmpStore = $store->getId();
