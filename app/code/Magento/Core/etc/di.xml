@@ -447,7 +447,9 @@
         <arguments>
             <argument name="scopeResolvers" xsi:type="array">
                 <item name="store" xsi:type="object">Magento\Store\Model\Resolver\Store</item>
+                <item name="stores" xsi:type="object">Magento\Store\Model\Resolver\Store</item>
                 <item name="website" xsi:type="object">Magento\Store\Model\Resolver\Website</item>
+                <item name="websites" xsi:type="object">Magento\Store\Model\Resolver\Website</item>
             </argument>
         </arguments>
     </type>

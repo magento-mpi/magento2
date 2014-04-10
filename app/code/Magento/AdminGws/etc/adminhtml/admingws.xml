@@ -12,7 +12,7 @@
         <callback class="magento_sales_model_resource_report_bestsellers_collection" method="limitBestsellersCollection" />
         <callback class="magento_reports_model_resource_product_collection" method="limitProductReports" />
         <callback class="magento_reports_model_resource_report_product_viewed_collection" method="limitMostViewedCollection" />
-        <callback class="magento_store_model_resource_collection" method="limitStores" />
+        <callback class="magento_store_model_resource_store_collection" method="limitStores" />
         <callback class="magento_store_model_resource_website_collection" method="limitWebsites" />
         <callback class="magento_store_model_resource_group_collection" method="limitStoreGroups" />
         <callback class="magento_cms_model_resource_page_collection" method="addStoreFilter" />

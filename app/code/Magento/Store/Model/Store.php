@@ -1057,7 +1057,7 @@ class Store extends AbstractModel implements
      * @param \Magento\Store\Model\Group $group
      * @return void
      */
-    public function setGroup($group)
+    public function setGroup(\Magento\Store\Model\Group $group)
     {
         $this->setGroupId($group->getId());
     }
