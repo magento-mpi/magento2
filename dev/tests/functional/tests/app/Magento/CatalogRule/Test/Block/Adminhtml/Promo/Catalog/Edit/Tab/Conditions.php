@@ -34,7 +34,7 @@ class Conditions extends Tab
      *
      * @param array $fields
      * @param Element $element
-     * @return $this|void
+     * @return void
      */
     public function fillFormTab(array $fields, Element $element)
     {
@@ -45,8 +45,8 @@ class Conditions extends Tab
         );
         $conditionsBlock->clickAddNew();
 
-        $conditionsBlock->selectCondition($data[CatalogPriceRule::CONDITION_TYPE]['value']);
+        $conditionsBlock->selectCondition($data['condition_type']['value']);
         $conditionsBlock->clickEllipsis();
-        $conditionsBlock->selectConditionValue($data[CatalogPriceRule::CONDITION_VALUE]['value']);
+        $conditionsBlock->selectConditionValue($data['condition_value']['value']);
     }
 }
