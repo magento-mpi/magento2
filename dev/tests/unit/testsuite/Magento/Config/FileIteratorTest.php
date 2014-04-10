@@ -62,7 +62,6 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
         foreach ($this->fileIterator as $fileContent) {
             $this->assertEquals($contents[$index++], $fileContent);
         }
-
     }
 
     public function testToArray()
