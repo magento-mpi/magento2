@@ -28,7 +28,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $scopeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Config\ScopeConfigInterface'
         );
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\Filesystem');
         $model = new \Magento\ScheduledImportExport\Model\Observer(
             $operationFactory,
             $transportBuilder,

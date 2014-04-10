@@ -50,8 +50,10 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
      * @return App\Arguments\Proxy
      * @throws \Magento\Exception
      */
-    protected function createAppArguments(\Magento\Framework\App\Filesystem\DirectoryList $directoryList, array $arguments)
-    {
+    protected function createAppArguments(
+        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
+        array $arguments
+    ) {
         if ($this->appArgumentsProxy) {
             // Framework constraint: this is ambiguous situation, because it is not clear what to do with older instance
             throw new \Magento\Exception('Only one creation of application arguments is supported');
@@ -88,7 +90,8 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
         $objectManager->addSharedInstance($appArguments, 'Magento\Framework\App\Arguments');
 
         $objectManager->get('Magento\Interception\PluginList')->reset();
-        $objectManager->configure($objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global'));
+        $objectManager->configure($objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')
+            ->load('global'));
 
         return $objectManager;
     }

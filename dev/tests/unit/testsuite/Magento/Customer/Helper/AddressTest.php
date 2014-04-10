@@ -32,7 +32,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->context = $this->getMockBuilder('Magento\Framework\App\Helper\Context')->disableOriginalConstructor()->getMock();
+        $this->context = $this->getMockBuilder('Magento\Framework\App\Helper\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->blockFactory = $this->getMockBuilder(
             'Magento\View\Element\BlockFactory'
         )->disableOriginalConstructor()->getMock();

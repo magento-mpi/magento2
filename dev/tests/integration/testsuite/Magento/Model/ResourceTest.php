@@ -18,7 +18,8 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Resource');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Resource');
     }
 
     public function testGetTableName()

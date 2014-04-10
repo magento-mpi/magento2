@@ -46,7 +46,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testMatch()
     {
         $this->markTestIncomplete('MAGETWO-3393');
-        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\RequestInterface');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\RequestInterface');
         //Open Node
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);

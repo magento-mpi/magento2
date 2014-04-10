@@ -32,7 +32,9 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
         self::$_themePublicDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
-        self::$_viewPublicMergedDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::PUB_VIEW_CACHE_DIR);
+        self::$_viewPublicMergedDir = $filesystem->getDirectoryWrite(
+            \Magento\Framework\App\Filesystem::PUB_VIEW_CACHE_DIR
+        );
     }
 
     protected function setUp()
@@ -47,7 +49,8 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->setAreaCode('frontend');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('frontend');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\View\DesignInterface'
         )->setDesignTheme(

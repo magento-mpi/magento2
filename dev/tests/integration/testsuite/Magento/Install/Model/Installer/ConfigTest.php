@@ -22,7 +22,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         /** @var \Magento\Framework\App\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\Filesystem');
         self::$_varDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         self::$_tmpDir = self::$_varDirectory->getAbsolutePath('ConfigTest');
         self::$_varDirectory->create(self::$_varDirectory->getRelativePath(self::$_tmpDir));
@@ -54,7 +55,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             )
         );
         $objectManager->get('\Magento\Framework\App\Filesystem\DirectoryList\Configuration')->configure($directoryList);
-        $filesystem = $objectManager->create('Magento\Framework\App\Filesystem', array('directoryList' => $directoryList));
+        $filesystem = $objectManager->create(
+            'Magento\Framework\App\Filesystem',
+            array('directoryList' => $directoryList)
+        );
         $model = $objectManager->create(
             'Magento\Install\Model\Installer\Config',
             array('request' => $request, 'filesystem' => $filesystem)

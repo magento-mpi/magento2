@@ -25,7 +25,13 @@ class PostDataTest extends \PHPUnit_Framework_TestCase
             ]
         ]);
 
-        $contextMock = $this->getMock('Magento\Framework\App\Helper\Context', array('getUrlBuilder'), array(), '', false);
+        $contextMock = $this->getMock(
+            'Magento\Framework\App\Helper\Context',
+            array('getUrlBuilder'),
+            array(),
+            '',
+            false
+        );
         $urlBuilderMock = $this->getMockForAbstractClass(
             'Magento\UrlInterface',
             array(),

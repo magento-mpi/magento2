@@ -87,7 +87,12 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             array($routerListMock, $infoProcessorMock, $uri)
         );
 
-        $matchedController = $this->getMockForAbstractClass('Magento\Framework\App\Action\AbstractAction', array(), '', false);
+        $matchedController = $this->getMockForAbstractClass(
+            'Magento\Framework\App\Action\AbstractAction',
+            array(),
+            '',
+            false
+        );
 
         // method "match" will be invoked for this router because it's first in the list
         $matchedRouter = $this->getMock('Magento\Core\App\Router\Base', array(), array(), '', false);

@@ -91,7 +91,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $productsBeforeImport[] = $product;
         }
 
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Filesystem');
         $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
@@ -138,7 +139,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $stockItems[$productId] = $stockItem;
         }
 
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Filesystem');
         $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import.csv',
@@ -181,7 +183,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         // import data from CSV file
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
 
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Filesystem');
         $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directory);
@@ -246,7 +249,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $productsBeforeImport[$product->getSku()] = $product;
         }
 
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Filesystem');
         $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(

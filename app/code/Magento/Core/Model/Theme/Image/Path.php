@@ -81,7 +81,8 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getImagePreviewDirectory()
     {
-        return $this->filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR) . '/' . self::PREVIEW_DIRECTORY_PATH;
+        return $this->filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+            . '/' . self::PREVIEW_DIRECTORY_PATH;
     }
 
     /**

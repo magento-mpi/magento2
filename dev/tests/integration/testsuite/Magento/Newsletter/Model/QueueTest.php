@@ -23,7 +23,8 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $objectManager->get('Magento\Framework\App\State')->setAreaCode(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-        $area = $objectManager->get('Magento\Framework\App\AreaList')->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $area = $objectManager->get('Magento\Framework\App\AreaList')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $area->load();
 
         /** @var $filter \Magento\Newsletter\Model\Template\Filter */

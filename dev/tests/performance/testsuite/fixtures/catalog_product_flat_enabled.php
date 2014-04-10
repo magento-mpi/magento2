@@ -22,4 +22,5 @@ $configData->setPath(
     1
 )->save();
 
-$this->getObjectManager()->get('Magento\Framework\App\CacheInterface')->clean(array(\Magento\Framework\App\Config::CACHE_TAG));
+$this->getObjectManager()->get('Magento\Framework\App\CacheInterface')
+    ->clean(array(\Magento\Framework\App\Config::CACHE_TAG));

@@ -53,7 +53,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetData()
     {
-        $model = new \Magento\Framework\App\Config\Data($this->_metaDataProcessor, array('test' => array('path' => 'value')));
+        $model = new \Magento\Framework\App\Config\Data(
+            $this->_metaDataProcessor,
+            array('test' => array('path' => 'value'))
+        );
         $this->assertEquals('value', $model->getValue('test/path'));
     }
 }

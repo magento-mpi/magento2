@@ -83,7 +83,8 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $removeUrl = 'catalog/product_compare/remove';
         $compareListUrl = 'catalog/product_compare';
         $postParams = array(
-            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->compareHelper->urlEncode($compareListUrl),
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->compareHelper
+                ->urlEncode($compareListUrl),
             'product' => $productId
         );
 

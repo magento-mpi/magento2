@@ -136,6 +136,9 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
         $request->setModuleName('cms')->setControllerName('page')->setActionName('view')->setParam('page_id', $pageId);
         $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
 
-        return $this->_actionFactory->createController('Magento\Framework\App\Action\Forward', array('request' => $request));
+        return $this->_actionFactory->createController(
+            'Magento\Framework\App\Action\Forward',
+            array('request' => $request)
+        );
     }
 }

@@ -63,7 +63,9 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $this->_mapper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\ObjectManager\Config\Mapper\Dom'
         );
-        $this->_validationState = new \Magento\Framework\App\Arguments\ValidationState(\Magento\Framework\App\State::MODE_DEFAULT);
+        $this->_validationState = new \Magento\Framework\App\Arguments\ValidationState(
+            \Magento\Framework\App\State::MODE_DEFAULT
+        );
         $this->_schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
 
         $this->_mergedConfig = new \DOMDocument();

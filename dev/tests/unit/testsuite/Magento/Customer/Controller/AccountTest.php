@@ -150,7 +150,10 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             $this->returnValueMap(
                 array(
                     array('Magento\Customer\Helper\Data', new \Magento\Object(array('account_url' => 1))),
-                    array('Magento\Framework\App\Config\ScopeConfigInterface', new \Magento\Object(array('config_flag' => 1))),
+                    array(
+                        'Magento\Framework\App\Config\ScopeConfigInterface',
+                        new \Magento\Object(array('config_flag' => 1))
+                    ),
                     array(
                         'Magento\Core\Helper\Data',
                         $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false)

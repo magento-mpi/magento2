@@ -52,7 +52,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     public function testGetArea()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->setAreaCode('frontend');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('frontend');
         $this->assertEquals('frontend', $this->_block->getArea());
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\State'
@@ -74,7 +75,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->setAreaCode('any area');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('any area');
         $this->assertEmpty($this->_block->toHtml());
         $this->_block->setTemplate(uniqid('invalid_filename.phtml'));
         $this->assertEmpty($this->_block->toHtml());

@@ -36,7 +36,8 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
             'Magento\ImportExport\Model\Import\Entity\Eav\Customer'
         );
 
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Filesystem');
         $this->directoryWrite = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
     }
 

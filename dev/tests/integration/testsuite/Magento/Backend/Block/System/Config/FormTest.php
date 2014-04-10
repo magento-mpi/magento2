@@ -249,7 +249,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $fileResolverMock = $this->getMockBuilder(
             'Magento\Framework\App\Config\FileResolver'
         )->disableOriginalConstructor()->getMock();
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\Filesystem');
         /** @var $directory  \Magento\Filesystem\Directory\Read */
         $directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $fileIteratorFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(

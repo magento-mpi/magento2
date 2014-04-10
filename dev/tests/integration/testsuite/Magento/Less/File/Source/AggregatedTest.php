@@ -24,7 +24,9 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
                 \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\Framework\App\Filesystem::PUB_LIB_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
+                    \Magento\Framework\App\Filesystem::PUB_LIB_DIR => array(
+                        'path' => dirname(dirname(__DIR__)) . '/_files/lib'
+                    ),
                     \Magento\Framework\App\Filesystem::THEMES_DIR => array(
                         'path' => dirname(dirname(__DIR__)) . '/_files/design'
                     )

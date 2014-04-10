@@ -22,7 +22,13 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_dirs = $this->getMock('\Magento\Framework\App\Filesystem\DirectoryList', array('getDir'), array(), '', false);
+        $this->_dirs = $this->getMock(
+            '\Magento\Framework\App\Filesystem\DirectoryList',
+            array('getDir'),
+            array(),
+            '',
+            false
+        );
     }
 
     public function testWithOneXmlFile()

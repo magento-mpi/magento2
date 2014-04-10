@@ -223,7 +223,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     /**
      * Create the tested object
      *
-     * @param Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Framework\App\Response\Http|null $response
      * @return \Magento\Backend\Controller\Adminhtml\Dashboard|PHPUnit_Framework_MockObject_MockObject
      */
@@ -238,7 +238,10 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
             'Magento\UrlRewrite\Model\UrlRewriteFactory', array('create'), array(), '', false
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $varienFront = $helper->getObject('Magento\Framework\App\FrontController', array('rewriteFactory' => $rewriteFactory));
+        $varienFront = $helper->getObject(
+            'Magento\Framework\App\FrontController',
+            array('rewriteFactory' => $rewriteFactory)
+        );
 
         $arguments = array(
             'request' => $request,

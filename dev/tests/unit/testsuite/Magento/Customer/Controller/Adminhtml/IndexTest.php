@@ -76,7 +76,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento\Framework\App\Request\Http')->disableOriginalConstructor()->getMock();
+        $this->_request = $this->getMockBuilder('Magento\Framework\App\Request\Http')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_response = $this->getMockBuilder(
             'Magento\Framework\App\Response\Http'
@@ -103,7 +105,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\FrontController'
         )->disableOriginalConstructor()->getMock();
 
-        $actionFlagMock = $this->getMockBuilder('Magento\Framework\App\ActionFlag')->disableOriginalConstructor()->getMock();
+        $actionFlagMock = $this->getMockBuilder('Magento\Framework\App\ActionFlag')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_session = $this->getMockBuilder(
             'Magento\Backend\Model\Session'

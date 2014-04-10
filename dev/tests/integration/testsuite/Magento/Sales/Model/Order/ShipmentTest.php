@@ -17,7 +17,8 @@ class ShipmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendEmail()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->setAreaCode('frontend');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('frontend');
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');

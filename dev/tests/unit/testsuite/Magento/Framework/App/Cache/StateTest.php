@@ -131,7 +131,12 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $appState->expects($this->any())->method('isInstalled')->will($this->returnValue($appInstalled));
 
-        $this->_model = new \Magento\Framework\App\Cache\State($this->_resource, $cacheFrontendPool, $appState, $banAll);
+        $this->_model = new \Magento\Framework\App\Cache\State(
+            $this->_resource,
+            $cacheFrontendPool,
+            $appState,
+            $banAll
+        );
 
         return $this->_model;
     }
@@ -165,7 +170,9 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $model = $this->_buildModel($cacheTypes);
 
         $this->_resource->expects($this->once())->method('saveAllOptions')->with($cacheTypes);
-        $this->_cacheFrontend->expects($this->once())->method('remove')->with(\Magento\Framework\App\Cache\State::CACHE_ID);
+        $this->_cacheFrontend->expects($this->once())
+            ->method('remove')
+            ->with(\Magento\Framework\App\Cache\State::CACHE_ID);
 
         $model->persist();
     }

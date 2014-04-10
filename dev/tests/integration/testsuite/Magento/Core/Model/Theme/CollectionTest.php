@@ -28,7 +28,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             array(
                 'root' => \Magento\Framework\App\Filesystem::ROOT_DIR,
                 'directories' => array(
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design')
+                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                        'path' => dirname(__DIR__) . '/_files/design'
+                    )
                 )
             )
         );

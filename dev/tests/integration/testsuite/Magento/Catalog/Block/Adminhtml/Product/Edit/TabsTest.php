@@ -22,7 +22,8 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     public function testPrepareLayout()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Framework\App\State')->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+        $objectManager->get('Magento\Framework\App\State')
+            ->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $objectManager->get('Magento\View\DesignInterface')->setDefaultDesignTheme();
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $objectManager->create('Magento\Catalog\Model\Product');

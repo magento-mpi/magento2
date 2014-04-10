@@ -43,7 +43,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         /** @var Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Filesystem');
         $publicDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
         $publicDir->delete('adminhtml');
         $publicDir->delete('frontend');
@@ -56,7 +57,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     public function testGetPublicDir()
     {
         /** @var $filesystem Filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\Filesystem');
         $expectedPublicDir = $filesystem->getPath(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
         $this->assertEquals($expectedPublicDir, $this->viewService->getPublicDir());
     }
@@ -404,7 +406,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPublishResourcesAndCssWhenChangedCssDevMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->getMode();
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\State')
+            ->getMode();
         if ($mode != \Magento\Framework\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
@@ -419,7 +423,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPublishResourcesAndCssWhenChangedCssUsualMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->getMode();
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\State')
+            ->getMode();
         if ($mode == \Magento\Framework\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
@@ -481,7 +487,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPublishChangedResourcesWhenUnchangedCssDevMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->getMode();
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\State')
+            ->getMode();
         if ($mode != \Magento\Framework\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
@@ -497,7 +505,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPublishChangedResourcesWhenUnchangedCssUsualMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->getMode();
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\State')
+            ->getMode();
         if ($mode == \Magento\Framework\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
@@ -516,7 +526,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
                 \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => "{$appInstallDir}/media_for_change")
+                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                        'path' => "{$appInstallDir}/media_for_change"
+                    )
                 )
             )
         );

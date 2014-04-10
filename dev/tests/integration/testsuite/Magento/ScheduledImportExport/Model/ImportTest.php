@@ -47,11 +47,16 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $directoryList = $objectManager->create(
             'Magento\Framework\App\Filesystem\DirectoryList',
             array(
-                'directories' => array(\Magento\Framework\App\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')),
+                'directories' => array(
+                    \Magento\Framework\App\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')
+                ),
                 'root' => BP
             )
         );
-        $filesystem = $objectManager->create('Magento\Framework\App\Filesystem', array('directoryList' => $directoryList));
+        $filesystem = $objectManager->create(
+            'Magento\Framework\App\Filesystem',
+            array('directoryList' => $directoryList)
+        );
         $operation = $objectManager->create(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
             array('filesystem' => $filesystem)

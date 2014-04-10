@@ -31,11 +31,17 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__)) . '/_files',
             '/'
         );
-        $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::MODULES_DIR, array('path' => $dirPath . '/code'));
+        $this->directoryList->addDirectory(
+            \Magento\Framework\App\Filesystem::MODULES_DIR,
+            array('path' => $dirPath . '/code')
+        );
         $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::CONFIG_DIR, array('path' => $dirPath));
         $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::ROOT_DIR, array('path' => $dirPath));
 
-        $filesystem = $objectManager->create('Magento\Framework\App\Filesystem', array('directoryList' => $this->directoryList));
+        $filesystem = $objectManager->create(
+            'Magento\Framework\App\Filesystem',
+            array('directoryList' => $this->directoryList)
+        );
 
         /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(

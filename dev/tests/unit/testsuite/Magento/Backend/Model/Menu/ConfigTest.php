@@ -59,7 +59,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheInstanceMock = $this->getMock('Magento\Framework\App\Cache\Type\Config', array(), array(), '', false);
+        $this->_cacheInstanceMock = $this->getMock(
+            'Magento\Framework\App\Cache\Type\Config',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_directorMock = $this->getMock(
             'Magento\Backend\Model\Menu\AbstractDirector',

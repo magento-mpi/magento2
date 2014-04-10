@@ -16,7 +16,8 @@ namespace Magento\Email\Model;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractTemplate extends \Magento\Model\AbstractModel implements \Magento\Framework\App\TemplateTypesInterface
+abstract class AbstractTemplate extends \Magento\Model\AbstractModel
+    implements \Magento\Framework\App\TemplateTypesInterface
 {
     /**
      * Default design area for emulation

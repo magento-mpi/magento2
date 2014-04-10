@@ -51,7 +51,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         /** @var \Magento\Framework\App\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\Filesystem');
         $pubLibPath = $filesystem->getPath(\Magento\Framework\App\Filesystem::PUB_LIB_DIR);
         unlink($pubLibPath . '/prototype/prototype.min.js');
     }
@@ -76,7 +77,9 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
                 \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => realpath(__DIR__ . '/../_files/design'))
+                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                        'path' => realpath(__DIR__ . '/../_files/design')
+                    )
                 )
             )
         );
@@ -92,14 +95,16 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testSetGetArea()
     {
         $this->assertEquals(\Magento\View\DesignInterface::DEFAULT_AREA, $this->_model->getArea());
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->setAreaCode('test');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('test');
         $this->assertEquals('test', $this->_model->getArea());
     }
 
     public function testSetDesignTheme()
     {
         $this->_model->setDesignTheme('test_test');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->setAreaCode('test');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('test');
         $this->assertEquals('test', $this->_model->getArea());
         $this->assertEquals(null, $this->_model->getDesignTheme()->getThemePath());
     }
@@ -213,7 +218,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         )->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
         /** @var $filesystem \Magento\Framework\App\Filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Filesystem');
         $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $relativePath = $directory->getRelativePath($customConfigFile);
         try {

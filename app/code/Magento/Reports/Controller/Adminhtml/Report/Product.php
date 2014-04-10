@@ -64,7 +64,11 @@ class Product extends AbstractReport
         $fileName = 'products_ordered.csv';
         /** @var ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile(),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -134,7 +138,11 @@ class Product extends AbstractReport
         $fileName = 'products_mostviewed.xml';
         $grid = $this->_view->getLayout()->createBlock('Magento\Reports\Block\Adminhtml\Product\Viewed\Grid');
         $this->_initReportAction($grid);
-        return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $grid->getExcelFile($fileName),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -168,7 +176,11 @@ class Product extends AbstractReport
             'adminhtml.block.report.product.lowstock.grid',
             'grid.export'
         );
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile(),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -184,7 +196,11 @@ class Product extends AbstractReport
             'adminhtml.block.report.product.lowstock.grid',
             'grid.export'
         );
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile(),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**

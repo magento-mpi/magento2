@@ -87,7 +87,11 @@ class Customer extends \Magento\Backend\App\Action
         $fileName = 'new_accounts.csv';
         /** @var ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile(),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -137,7 +141,11 @@ class Customer extends \Magento\Backend\App\Action
         $fileName = 'customers_orders.csv';
         /** @var ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile(),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -187,7 +195,11 @@ class Customer extends \Magento\Backend\App\Action
         $fileName = 'customer_totals.csv';
         /** @var ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile(),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**

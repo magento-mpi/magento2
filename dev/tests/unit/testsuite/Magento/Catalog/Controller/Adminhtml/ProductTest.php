@@ -48,7 +48,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $requestInterfaceMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
 
-        $responseInterfaceMock = $this->getMock('Magento\Framework\App\ResponseInterface', array('setRedirect', 'sendResponse'));
+        $responseInterfaceMock = $this->getMock(
+            'Magento\Framework\App\ResponseInterface',
+            array('setRedirect', 'sendResponse')
+        );
 
         $managerInterfaceMock = $this->getMock('Magento\Message\ManagerInterface', array(), array(), '', false);
 

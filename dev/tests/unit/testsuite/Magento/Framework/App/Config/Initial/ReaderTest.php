@@ -41,7 +41,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_filePath = __DIR__ . '/_files/';
         $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $this->_converterMock = $this->getMock('Magento\Framework\App\Config\Initial\Converter');
-        $schemaLocatorMock = $this->getMock('Magento\Framework\App\Config\Initial\SchemaLocator', array(), array(), '', false);
+        $schemaLocatorMock = $this->getMock(
+            'Magento\Framework\App\Config\Initial\SchemaLocator',
+            array(),
+            array(),
+            '',
+            false
+        );
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->once())->method('isValidated')->will($this->returnValue(true));
         $schemaFile = $this->_filePath . 'config.xsd';

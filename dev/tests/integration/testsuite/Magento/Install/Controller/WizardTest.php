@@ -25,7 +25,8 @@ class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
     public static function setUpBeforeClass()
     {
         /** @var \Magento\Framework\App\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\Filesystem');
         $varDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $tmpDir = 'WizardTest';
         $varDirectory->delete($tmpDir);

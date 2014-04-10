@@ -92,7 +92,9 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
                 \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design')
+                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                        'path' => dirname(__DIR__) . '/_files/design'
+                    )
                 )
             )
         );

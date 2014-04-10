@@ -34,7 +34,9 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
                         'root' => BP,
                         'directories' => array(
                             \Magento\Framework\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files/code'),
-                            \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/_files/design'),
+                            \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                                'path' => __DIR__ . '/_files/design'
+                            ),
                             \Magento\Framework\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files/')
                         )
                     )
