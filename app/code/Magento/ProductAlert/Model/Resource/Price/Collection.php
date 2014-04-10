@@ -29,19 +29,6 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     }
 
     /**
-     * Add customer filter
-     *
-     * @param int $customerId
-     * @return $this
-     */
-    public function addCustomerFilter($customerId)
-    {
-        $condition = $this->getConnection()->quoteInto('customer_id=?', $customerId);
-        $this->addFilter('customer_id', $condition, 'string');
-        return $this;
-    }
-
-    /**
      * Add website filter
      *
      * @param mixed $website

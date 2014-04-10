@@ -1598,4 +1598,6 @@ return array(
         'Magento\Catalog\Model\Product'
     ),
     ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
+    ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Stock\Collection'],
+    ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Price\Collection'],
 );
