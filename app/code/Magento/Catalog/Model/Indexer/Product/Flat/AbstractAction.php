@@ -41,7 +41,7 @@ abstract class AbstractAction
     protected $_resource;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -55,9 +55,9 @@ abstract class AbstractAction
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Suffix for drop table (uses on flat table rename)
@@ -119,9 +119,9 @@ abstract class AbstractAction
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param Processor $flatProductProcessor
@@ -130,9 +130,9 @@ abstract class AbstractAction
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $flatProductProcessor,
@@ -142,7 +142,7 @@ abstract class AbstractAction
         $this->_resource = $resource;
         $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_productIndexerHelper = $productHelper;
         $this->_productType = $productType;
         $this->_connection = $resource->getConnection('default');

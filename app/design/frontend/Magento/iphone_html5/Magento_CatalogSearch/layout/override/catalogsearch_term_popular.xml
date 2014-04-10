@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+    <referenceBlock name="head">
+        <action method="setTitle">
+            <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="content">
+        <block class="Magento\CatalogSearch\Block\Term" name="seo.searchterm" template="term.phtml"/>
+    </referenceContainer>
+</layout>

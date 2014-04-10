@@ -347,9 +347,9 @@ class Product extends \Magento\Backend\App\Action
         $productId = $this->getRequest()->getParam('product_id', false);
 
         if ($data = $this->getRequest()->getPost()) {
-            if ($this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->hasSingleStore()) {
+            if ($this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->hasSingleStore()) {
                 $data['stores'] = array(
-                    $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore(true)->getId()
+                    $this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore(true)->getId()
                 );
             } elseif (isset($data['select_stores'])) {
                 $data['stores'] = $data['select_stores'];

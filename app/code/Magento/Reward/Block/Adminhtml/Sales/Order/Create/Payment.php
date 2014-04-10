@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward Points Payment block in admin order creating process
  *
@@ -75,18 +74,21 @@ class Payment extends \Magento\Backend\Block\Template
     public function canUseRewardPoints()
     {
         $websiteId = $this->_storeManager->getStore($this->getQuote()->getStoreId())->getWebsiteId();
-        $minPointsBalance = (int)$this->_storeConfig->getConfig(
+        $minPointsBalance = (int)$this->_scopeConfig->getValue(
             \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getQuote()->getStoreId()
         );
 
-        return $this->getReward()->getPointsBalance() >= $minPointsBalance && $this->_rewardData->isEnabledOnFront(
+        return $this->getReward()->getPointsBalance() >= $minPointsBalance
+        && $this->_rewardData->isEnabledOnFront(
             $websiteId
-        ) && $this->_authorization->isAllowed(
+        )
+        && $this->_authorization->isAllowed(
             \Magento\Reward\Helper\Data::XML_PATH_PERMISSION_AFFECT
-        ) &&
-            (double)$this->getCurrencyAmount() &&
-            $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
+        )
+        && (double)$this->getCurrencyAmount()
+        && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
     }
 
     /**

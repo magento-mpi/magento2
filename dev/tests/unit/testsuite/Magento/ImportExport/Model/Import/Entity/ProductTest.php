@@ -40,7 +40,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $_optionModel;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -132,7 +132,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_storeManager = $this->getMock(
-            '\Magento\Core\Model\StoreManager',
+            '\Magento\Store\Model\StoreManager',
             array('getWebsites', 'getStores'),
             array(),
             '',

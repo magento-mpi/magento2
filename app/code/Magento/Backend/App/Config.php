@@ -35,7 +35,7 @@ class Config implements ConfigInterface
      */
     public function getValue($path)
     {
-        return $this->_scopePool->getScope('default', null)->getValue($path);
+        return $this->_scopePool->getScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT, null)->getValue($path);
     }
 
     /**
@@ -47,17 +47,7 @@ class Config implements ConfigInterface
      */
     public function setValue($path, $value)
     {
-        $this->_scopePool->getScope('default', null)->setValue($path, $value);
-    }
-
-    /**
-     * Reinitialize configuration
-     *
-     * @return void
-     */
-    public function reinit()
-    {
-        $this->_scopePool->clean();
+        $this->_scopePool->getScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT, null)->setValue($path, $value);
     }
 
     /**
@@ -68,6 +58,6 @@ class Config implements ConfigInterface
      */
     public function isSetFlag($path)
     {
-        return !!$this->_scopePool->getScope('default', null)->getValue($path);
+        return !!$this->_scopePool->getScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT, null)->getValue($path);
     }
 }

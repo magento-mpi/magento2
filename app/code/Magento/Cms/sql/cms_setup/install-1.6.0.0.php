@@ -9,7 +9,7 @@
  */
 
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -94,9 +94,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('cms_block_store', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('cms_block_store', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -254,9 +254,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('cms_page_store', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('cms_page_store', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

@@ -19,7 +19,7 @@ namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbala
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -33,7 +33,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
@@ -41,7 +41,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;

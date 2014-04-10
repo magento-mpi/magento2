@@ -69,7 +69,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

@@ -45,12 +45,14 @@ class CustomOptionsTab extends Tab
 
         $container = $root->find('#product_options_container');
 
-        foreach ($fields['custom_options']['value'] as $index => $data) {
-            $button->click();
-            $row = $container->find('.fieldset-wrapper:nth-child(' . ($index + 1) . ')');
-            Factory::getBlockFactory()
-                ->getMagentoCatalogAdminhtmlProductEditCustomOptionsTabOption($row)
-                ->fill($data);
+        if (isset($fields['custom_options']['value'])) {
+            foreach ($fields['custom_options']['value'] as $index => $data) {
+                $button->click();
+                $row = $container->find('.fieldset-wrapper:nth-child(' . ($index + 1) . ')');
+                Factory::getBlockFactory()
+                    ->getMagentoCatalogAdminhtmlProductEditCustomOptionsTabOption($row)
+                    ->fill($data);
+            }
         }
 
         return $this;

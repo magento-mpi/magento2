@@ -15,8 +15,8 @@ use Magento\Catalog\Model\Resource\Category\Flat\Collection as FlatCollection;
 use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
 use Magento\CatalogPermissions\Helper\Data as Helper;
 use Magento\CatalogPermissions\Model\Permission;
-use Magento\Core\Model\Store;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Eav\Model\Entity\Attribute;
 
 class Index extends \Magento\Model\Resource\Db\AbstractDb
