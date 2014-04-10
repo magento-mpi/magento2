@@ -317,4 +317,5 @@ return array(
     ['_translate', 'Magento\Rma\Model\Rma'],
     ['_translate', 'Magento\Rma\Model\Rma\Status\History'],
     ['_translate', 'Magento\Sales\Model\Order\Pdf\AbstractPdf'],
+    ['_coreData', '\Magento\Rss\Block\Catalog\Special', 'priceCurrency'],
 );

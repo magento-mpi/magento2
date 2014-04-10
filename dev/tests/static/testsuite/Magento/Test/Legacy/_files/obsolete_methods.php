@@ -1587,4 +1587,6 @@ return array(
     ['_getStoreId', 'Magento\Translation\Model\Resource\String', 'getScope'],
     ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
     ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
+    ['getPriceHtml', '\Magento\Rss\Block\Catalog\AbstractCatalog'],
+    ['_getPriceBlock', '\Magento\Rss\Block\Catalog\AbstractCatalog'],
 );

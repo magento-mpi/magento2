@@ -167,9 +167,9 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 // render a row for RSS feed
                 $product->setData($result);
                 $html = sprintf(
-                    '<table><tr>
-                    <td><a href="%s"><img src="%s" alt="" border="0" align="left" height="75" width="75" /></a></td>
-                    <td style="text-decoration:none;">%s',
+                    '<table><tr>' .
+                    '<td><a href="%s"><img src="%s" alt="" border="0" align="left" height="75" width="75" /></a></td>' .
+                    '<td style="text-decoration:none;">%s',
                     $product->getProductUrl(),
                     $this->_imageHelper->init($product, 'thumbnail')->resize(75, 75),
                     $this->_outputHelper->productAttribute($product, $product->getDescription(), 'description')
