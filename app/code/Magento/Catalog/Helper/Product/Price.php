@@ -81,7 +81,7 @@ class Price extends \Magento\App\Helper\AbstractHelper
     /**
      * Get customer data object
      *
-     * @return Customer|false
+     * @return Customer
      */
     public function getCustomer()
     {

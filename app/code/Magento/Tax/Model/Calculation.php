@@ -10,6 +10,7 @@ namespace Magento\Tax\Model;
 use Magento\Core\Model\Store;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -112,6 +113,11 @@ class Calculation extends \Magento\Model\AbstractModel
     protected $customerAccountService;
 
     /**
+     * @var CustomerBuilder
+     */
+    protected $customerBuilder;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -124,6 +130,7 @@ class Calculation extends \Magento\Model\AbstractModel
      * @param AddressServiceInterface $addressService
      * @param GroupServiceInterface $groupService
      * @param CustomerAccountServiceInterface $customerAccount
+     * @param CustomerBuilder $customerBuilder
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      * @internal param \Magento\Customer\Model\Converter $converter
@@ -141,6 +148,7 @@ class Calculation extends \Magento\Model\AbstractModel
         AddressServiceInterface $addressService,
         GroupServiceInterface $groupService,
         CustomerAccountServiceInterface $customerAccount,
+        CustomerBuilder $customerBuilder,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -153,6 +161,7 @@ class Calculation extends \Magento\Model\AbstractModel
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;
         $this->customerAccountService = $customerAccount;
+        $this->customerBuilder = $customerBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -195,7 +204,7 @@ class Calculation extends \Magento\Model\AbstractModel
     /**
      * Retrieve customer data object
      *
-     * @return CustomerDataObject|false
+     * @return CustomerDataObject
      */
     public function getCustomerData()
     {
@@ -205,7 +214,7 @@ class Calculation extends \Magento\Model\AbstractModel
             } elseif ($this->_customerSession->getCustomerId()) {
                 $this->_customer = $this->customerAccountService->getCustomer($this->_customerSession->getCustomerId());
             } else {
-                $this->_customer = false;
+                $this->_customer = $this->customerBuilder->create();
             }
         }
 
@@ -416,7 +425,7 @@ class Calculation extends \Magento\Model\AbstractModel
                 $shippingAddress
             ) || !$shippingAddress->getCountryId()) && $basedOn == 'shipping'
             ) {
-                if ($customerData && $customerData->getId()) {
+                if ($customerData->getId()) {
                     try {
                         $defaultBilling = $this->_addressService->getDefaultBillingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
@@ -465,9 +474,9 @@ class Calculation extends \Magento\Model\AbstractModel
                 break;
         }
 
-        if (is_null($customerTaxClass) && $customerData && $customerData->getId()) {
+        if (is_null($customerTaxClass) && $customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
-        } elseif ($customerTaxClass === false || (!$customerData || !$customerData->getId())) {
+        } elseif ($customerTaxClass === false || !$customerData->getId()) {
             $customerTaxClass = $this->getDefaultCustomerTaxClass($store);
         }
 
