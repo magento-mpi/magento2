@@ -63,14 +63,19 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
+
         $this->contextMock->expects($this->any())
             ->method('getEventManager')
             ->will($this->returnValue($eventManagerMock));
         $this->contextMock->expects($this->any())
             ->method('getStoreConfig')
             ->will($this->returnValue($storeConfigMock));
+        $this->contextMock->expects($this->any())
+            ->method('getScopeConfig')
+            ->will($this->returnValue($scopeConfigMock));
 
-        $this->model = new \Magento\Weee\Pricing\Render\Adjustment(
+        $this->model = new Adjustment(
             $this->contextMock,
             $this->priceCurrencyMock,
             $this->weeeHelperMock

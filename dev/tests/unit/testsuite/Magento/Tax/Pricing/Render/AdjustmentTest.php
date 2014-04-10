@@ -43,7 +43,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     {
         $this->contextMock = $this->getMock(
             'Magento\View\Element\Template\Context',
-            ['getEventManager', 'getStoreConfig'],
+            ['getEventManager', 'getStoreConfig', 'getScopeConfig'],
             [],
             '',
             false
@@ -64,6 +64,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $storeConfigMock = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
 
         $this->contextMock->expects($this->any())
             ->method('getEventManager')
@@ -71,8 +72,11 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->contextMock->expects($this->any())
             ->method('getStoreConfig')
             ->will($this->returnValue($storeConfigMock));
+        $this->contextMock->expects($this->any())
+            ->method('getScopeConfig')
+            ->will($this->returnValue($scopeConfigMock));
 
-        $this->model = new \Magento\Tax\Pricing\Render\Adjustment(
+        $this->model = new Adjustment(
             $this->contextMock,
             $this->priceCurrencyMock,
             $this->taxHelperMock

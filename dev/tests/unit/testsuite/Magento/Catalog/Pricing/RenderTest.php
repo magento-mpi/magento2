@@ -43,7 +43,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
         $config = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
-
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
         $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
             ->method('getEventManager')
@@ -54,6 +54,9 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
+        $context->expects($this->any())
+            ->method('getScopeConfig')
+            ->will($this->returnValue($scopeConfigMock));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManager->getObject(
