@@ -130,8 +130,10 @@ class Quote extends \Magento\Session\SessionManager
                 } catch (\Magento\Exception\NoSuchEntityException $e) {
                     /** Customer does not exist */
                 }
-                $customerGroupId = $this->_scopeConfig->getValue(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                $customerGroupId = $this->_scopeConfig->getValue(
+                    self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
                 $this->_quote
                     ->setStoreId($this->getStoreId())
                     ->setCustomerGroupId($customerGroupId)
