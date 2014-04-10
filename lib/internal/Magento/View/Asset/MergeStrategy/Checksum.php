@@ -43,7 +43,7 @@ class Checksum implements \Magento\View\Asset\MergeStrategyInterface
      */
     public function merge(array $assetsToMerge, \Magento\View\Asset\LocalInterface $resultAsset)
     {
-        $sourceDir = $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $sourceDir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $mTime = null;
         /** @var \Magento\View\Asset\MergeableInterface $asset */
         foreach ($assetsToMerge as $asset) {

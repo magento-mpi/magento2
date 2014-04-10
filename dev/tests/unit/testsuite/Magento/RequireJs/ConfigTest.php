@@ -111,7 +111,7 @@ expected;
     {
         $this->mockContextPath();
         $actual = $this->object->getConfigFileRelativePath();
-        $this->assertSame('_requirejs/area/theme/requirejs-config.js', $actual);
+        $this->assertSame('_requirejs/area/theme/locale/requirejs-config.js', $actual);
     }
 
     public function testGetBaseConfig()
@@ -123,7 +123,7 @@ expected;
             ->will($this->returnValue('http://base.url/'));
         $expected = <<<expected
 require.config({
-    "baseUrl": "http://base.url/area/theme",
+    "baseUrl": "http://base.url/area/theme/locale",
     "paths": {
         "magento": "mage/requirejs/plugin/id-normalizer"
     },
@@ -142,7 +142,7 @@ expected;
             ->method('getBaseUrl')
             ->with(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
             ->will($this->returnValue('http://base.url/'));
-        $expected = 'http://base.url/_requirejs/area/theme/requirejs-config.js';
+        $expected = 'http://base.url/_requirejs/area/theme/locale/requirejs-config.js';
         $actual = $this->object->getConfigUrl();
         $this->assertSame($expected, $actual);
     }
@@ -171,5 +171,8 @@ expected;
             ->method('getThemePath')
             ->with($theme)
             ->will($this->returnValue('theme'));
+        $this->design->expects($this->once())
+            ->method('getLocale')
+            ->will($this->returnValue('locale'));
     }
 }

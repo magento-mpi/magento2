@@ -13,6 +13,7 @@ use \Magento\App\Filesystem;
 
 /**
  * A repository service for view assets
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Repository
 {
@@ -132,8 +133,11 @@ class Repository
      */
     public function createAsset($fileId, array $params = array())
     {
-        list($module, $filePath) = self::extractModule($fileId);
         $this->updateDesignParams($params);
+        list($module, $filePath) = self::extractModule($fileId);
+        if (!$module && $params['module']) {
+            $module = $params['module'];
+        }
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         $themePath = $this->design->getThemePath($params['themeModel']);
         $context = $this->getFallbackContext($isSecure, $params['area'], $themePath, $params['locale']);

@@ -170,6 +170,8 @@ config;
      */
     protected function getContextPath()
     {
-        return $this->design->getArea() . '/' . $this->design->getThemePath($this->design->getDesignTheme());
+        return $this->design->getArea()
+            . '/' . $this->design->getThemePath($this->design->getDesignTheme())
+            . '/' . $this->design->getLocale();
     }
 }

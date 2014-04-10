@@ -60,9 +60,9 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $cssContent
-     * @param $inlineCallback
-     * @param $expectedResult
+     * @param string $cssContent
+     * @param callback $inlineCallback
+     * @param string $expectedResult
      * @dataProvider replaceRelativeUrlsDataProvider
      */
     public function testReplaceRelativeUrls($cssContent, $inlineCallback, $expectedResult)
@@ -77,23 +77,34 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
     public static function replaceRelativeUrlsDataProvider()
     {
         $fixturePath = __DIR__ . '/_files/';
-        $callback = function ($relativeUrl) {
-            return '../two/another/' . $relativeUrl;
-        };
-
+        $callback = '\Magento\View\Url\CssResolverTest::replaceRelativeUrl';
         $source = file_get_contents($fixturePath . 'source.css');
         $result = file_get_contents($fixturePath . 'result.css');
         $sourceNoPatterns = 'li {background: url("https://example.com/absolute.gif");}';
 
         return array(
-            'empty' => array(
-                '',
-                function () {
-                },
-                ''
-            ),
+            'empty' => array('', '\Magento\View\Url\CssResolverTest::doNothing', ''),
             'data without patterns' => array($sourceNoPatterns, $callback, $sourceNoPatterns),
             'data with patterns' => array($source, $callback, $result)
         );
+    }
+
+    /**
+     * A callback for testing replacing relative URLs
+     *
+     * @param string $relativeUrl
+     * @return string
+     */
+    public static function replaceRelativeUrl($relativeUrl)
+    {
+        return '../two/another/' . $relativeUrl;
+    }
+
+    /**
+     * A dummy callback for testing replacing relative URLs
+     */
+    public static function doNothing()
+    {
+        // do nothing
     }
 }

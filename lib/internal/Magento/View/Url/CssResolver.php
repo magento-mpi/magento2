@@ -55,7 +55,7 @@ class CssResolver
             $replace = array();
             foreach ($patterns as $pattern => $path) {
                 if (!isset($replace[$pattern])) {
-                    $newPath = $inlineCallback($path);
+                    $newPath = call_user_func($inlineCallback, $path);
                     $newPattern = str_replace($path, $newPath, $pattern);
                     $replace[$pattern] = $newPattern;
                 }
