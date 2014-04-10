@@ -259,4 +259,10 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
+    <route url="/V1/customerAccounts/:customerEmail/customerEmail" method="GET">
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="getCustomerByEmail"/>
+        <resources>
+            <resource ref="Magento_Customer::customer"/>
+        </resources>
+    </route>
 </routes>

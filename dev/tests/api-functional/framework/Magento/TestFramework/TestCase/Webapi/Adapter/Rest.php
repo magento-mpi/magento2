@@ -48,7 +48,7 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     public function call($serviceInfo, $arguments = array())
     {
         $defaultStoreCode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getCode();
         $resourcePath = '/' . $defaultStoreCode . $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
