@@ -78,12 +78,23 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
      */
     public function addSortOrder($field, $direction)
     {
-        if (!isset($this->_data['sort_orders'])) {
-            $this->_data['sort_orders'] = array();
+        if (!isset($this->_data[SearchCriteria::SORT_ORDERS])) {
+            $this->_data[SearchCriteria::SORT_ORDERS] = array();
         }
 
-        $this->_data['sort_orders'][$field] = $direction;
+        $this->_data[SearchCriteria::SORT_ORDERS][$field] = $direction;
         return $this;
+    }
+
+    /**
+     * Set sort orders
+     *
+     * @param array $sortOrders
+     * @return $this
+     */
+    public function setSortOrders(array $sortOrders)
+    {
+        return $this->_set(SearchCriteria::SORT_ORDERS, $sortOrders);
     }
 
     /**
@@ -94,7 +105,7 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
      */
     public function setPageSize($pageSize)
     {
-        return $this->_set('page_size', $pageSize);
+        return $this->_set(SearchCriteria::PAGE_SIZE, $pageSize);
     }
 
     /**
@@ -105,6 +116,6 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
      */
     public function setCurrentPage($currentPage)
     {
-        return $this->_set('current_page', $currentPage);
+        return $this->_set(SearchCriteria::CURRENT_PAGE, $currentPage);
     }
 }

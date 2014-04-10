@@ -9,6 +9,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Service\V1\Data\SearchCriteria;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Service\V1\Data\Customer;
@@ -714,7 +715,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     /**
      * Test using multiple filters
      */
-    public function testSearchCustomersMultipleFilters()
+    public function testSearchCustomersMultipleFiltersWithSort()
     {
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
@@ -732,6 +733,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->create();
         $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
         $this->searchCriteriaBuilder->addFilter([$filter3]);
+        $this->searchCriteriaBuilder->setSortOrders([Customer::EMAIL => SearchCriteria::SORT_ASC]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
