@@ -5,7 +5,6 @@
     * Simple/Virtual (MAGETWO-22747, MAGETWO-21847)
     * Grouped (MAGETWO-20409)
     * Downloadable (MAGETWO-20404)
-    * GiftCard (MAGETWO-20415)
   * Resolved dependencies of price calculation from Tax module (MAGETWO-20457)
   * Resolved dependencies of price calculation from Weee tax module (MAGETWO-20458)
 * Framework Improvements:

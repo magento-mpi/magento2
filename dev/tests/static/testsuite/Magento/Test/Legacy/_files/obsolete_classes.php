@@ -2277,4 +2277,5 @@ return array(
     ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
+    ['Magento\Catalog\Model\PriceCurrency'],
 );
