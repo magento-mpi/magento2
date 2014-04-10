@@ -26,8 +26,16 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     public function testProcessException()
     {
         $expectedMessage = 'test message';
-        $this->expectOutputRegex("/(" . $expectedMessage . ")/i");
-        $this->object->processException(new \Exception($expectedMessage), array());
+
+        ob_start();
+        $this->object->processException(new \Exception($expectedMessage), []);
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertContains($expectedMessage, $result);
+        // assert trace string pieces
+        $this->assertContains('internal function', $result);
+        $this->assertContains('{main}', $result);
     }
 
     /**
@@ -47,75 +55,95 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     public function handlerProviderNegative()
     {
-        return array(
-            array(0, 'DateTimeZone::__construct', 0, 0),
-            array(0, 0, 0, 0)
-        );
+        return [
+            [0, 'DateTimeZone::__construct', 0, 0],
+            [0, 0, 0, 0]
+        ];
     }
 
     /**
      * @param int $errorNo
      * @param string $errorStr
      * @param string $errorFile
-     * @param int $errorLine
      * @dataProvider handlerProviderPositive
      */
-    public function testHandlerPositive($errorNo, $errorStr, $errorFile, $errorLine)
+    public function testHandlerPositive($errorNo, $errorStr, $errorFile)
     {
-        $result = $this->object->handler($errorNo, $errorStr, $errorFile, $errorLine);
+        $result = $this->object->handler($errorNo, $errorStr, $errorFile, 0);
         $this->assertTrue($result);
     }
 
     public function handlerProviderPositive()
     {
-        return array(
-            array(E_STRICT, 0, 'pear', 0),
-            array(E_DEPRECATED, 0, 'pear', 0),
-            array(E_STRICT, 'pear', 0, 0),
-            array(E_DEPRECATED, 'pear', 0, 0),
-            array(E_STRICT, 'pear', 'pear', 0),
-            array(E_DEPRECATED, 'pear', 'pear', 0),
-            array(E_WARNING, 'open_basedir', 'pear', 0),
-        );
+        return [
+            [E_STRICT, 'error_string', 'pear'],
+            [E_DEPRECATED, 'error_string', 'pear'],
+            [E_STRICT, 'pear', 0],
+            [E_DEPRECATED, 'pear', 0],
+            [E_STRICT, 'pear', 'pear'],
+            [E_DEPRECATED, 'pear', 'pear'],
+            [E_WARNING, 'open_basedir', 'pear'],
+        ];
     }
 
     /**
      * Test handler() method with 'false' result
      *
      * @param int $errorNo
-     * @param string $errorStr
-     * @param string $errorFile
-     * @param int $errorLine
+     * @param string $errorPhrase
      * @dataProvider handlerProviderException
      */
-    public function testHandlerException($errorNo, $errorStr, $errorFile, $errorLine)
+    public function testHandlerException($errorNo, $errorPhrase)
     {
-        try {
-            $this->object->handler($errorNo, $errorStr, $errorFile, $errorLine);
-        } catch (\Exception $e) {
-            $this->assertRegExp("/" . $errorStr . "/i", $e->getMessage());
-        }
+        $errorStr = 'test_string';
+        $errorFile = 'test_file';
+        $errorLine = 'test_error_line';
+
+        $exceptedExceptionMessage = sprintf('%s: %s in %s on line %s', $errorPhrase, $errorStr, $errorFile, $errorLine);
+        $this->setExpectedException('Exception', $exceptedExceptionMessage);
+
+        $this->object->handler($errorNo, $errorStr, $errorFile, $errorLine);
     }
 
     public function handlerProviderException()
     {
-        return array(
-            array(E_ERROR, '', 0, 0),
-            array(-1, '', 0, 0),
-            array(E_WARNING, '', 0, 0),
-            array(E_PARSE, '', 0, 0),
-            array(E_NOTICE, '', 0, 0),
-            array(E_CORE_ERROR, '', 0, 0),
-            array(E_CORE_WARNING, '', 0, 0),
-            array(E_COMPILE_ERROR, '', 0, 0),
-            array(E_COMPILE_WARNING, '', 0, 0),
-            array(E_USER_ERROR, '', 0, 0),
-            array(E_USER_WARNING, '', 0, 0),
-            array(E_USER_NOTICE, '', 0, 0),
-            array(E_STRICT, '', 0, 0),
-            array(E_RECOVERABLE_ERROR, '', 0, 0),
-            array(E_DEPRECATED, '', 0, 0),
-            array(E_USER_DEPRECATED, '', 0, 0),
-        );
+        return [
+            [E_ERROR, 'Error'],
+            [E_WARNING, 'Warning'],
+            [E_PARSE, 'Parse Error'],
+            [E_NOTICE, 'Notice'],
+            [E_CORE_ERROR, 'Core Error'],
+            [E_CORE_WARNING, 'Core Warning'],
+            [E_COMPILE_ERROR, 'Compile Error'],
+            [E_COMPILE_WARNING, 'Compile Warning'],
+            [E_USER_ERROR, 'User Error'],
+            [E_USER_WARNING, 'User Warning'],
+            [E_USER_NOTICE, 'User Notice'],
+            [E_STRICT, 'Strict Notice'],
+            [E_RECOVERABLE_ERROR, 'Recoverable Error'],
+            [E_DEPRECATED, 'Deprecated Functionality'],
+            [E_USER_DEPRECATED, 'User Deprecated Functionality']
+        ];
+    }
+
+    /**
+     * Test handler() method handles unknown error
+     */
+    public function testHandlerExceptionUnknownError()
+    {
+        $errorNo = -1;
+        $errorStr = 'test_string';
+        $errorFile = 'test_file';
+        $errorLine = 'test_error_line';
+        $errorPhrase = 'Unknown error';
+
+        try {
+            $this->object->handler($errorNo, $errorStr, $errorFile, $errorLine);
+        } catch (\Exception $e) {
+            $this->assertRegExp("/(" . $errorPhrase . ")/i", $e->getMessage());
+            $this->assertRegExp("/(" . $errorStr . ")/i", $e->getMessage());
+            $this->assertRegExp("/(" . $errorFile . ")/i", $e->getMessage());
+            $this->assertRegExp("/(" . $errorLine . ")/i", $e->getMessage());
+        }
     }
 }
