@@ -183,10 +183,10 @@ class Address extends \Magento\App\Action\Action
         } catch (InputException $e) {
             $errors = $e->getErrors();
             if (empty($errors)) {
-                $this->messageManager->addError($this->escaper->escapeHtml($e->getLogMessage()));
+                $this->messageManager->addError($e->getLogMessage());
             } else {
                 foreach ($errors as $error) {
-                    $this->messageManager->addError($this->escaper->escapeHtml($error->getLogMessage()));
+                    $this->messageManager->addError($error->getLogMessage());
                 }
             }
         } catch (\Exception $e) {

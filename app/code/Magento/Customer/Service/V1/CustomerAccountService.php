@@ -274,10 +274,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                     $customer->sendPasswordResetConfirmationEmail();
                     break;
                 default:
-                    throw new InputException(InputException::INVALID_FIELD_VALUE, [
-                        'value'     => $template,
-                        'fieldName' => 'email type'
-                    ]);
+                    throw new InputException(
+                        InputException::INVALID_FIELD_VALUE,
+                        ['value' => $template, 'fieldName' => 'email type']
+                    );
             }
         } catch (MailException $e) {
             // If we are not able to send a reset password email, this should be ignored
