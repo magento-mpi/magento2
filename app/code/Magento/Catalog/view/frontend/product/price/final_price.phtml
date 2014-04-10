@@ -32,7 +32,7 @@ if (isset($_GET['showmeprice'])) {
     echo  "<br />";
 }
 ?>
-<?php if ($this->showSpecialPrice()): ?>
+<?php if ($this->hasSpecialPrice()): ?>
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel->getCustomAmount($priceModel->getValue(), true), [
             'display_label'     => __('Regular Price:'),
