@@ -38,7 +38,6 @@ class FileIterator extends \Magento\Config\FileIterator
      */
     public function current()
     {
-        $contents = $this->directoryRead->readFile($this->key());
         $path = $this->directoryRead->getAbsolutePath($this->key());
         $moduleName = $this->_moduleDirResolver->getModuleName($path);
         if (!$moduleName) {
@@ -46,6 +45,7 @@ class FileIterator extends \Magento\Config\FileIterator
                 sprintf("Unable to determine a module, file '%s' belongs to.", $this->key())
             );
         }
+        $contents = $this->directoryRead->readFile($this->key());
         return str_replace('<template ', '<template module="' . $moduleName . '" ', $contents);
     }
 }
