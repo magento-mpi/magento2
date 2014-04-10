@@ -31,6 +31,8 @@ class CustomerRegistry
      */
     private $customerRegistryByEmail = [];
 
+    const REGISTRY_SEPARATOR = ':';
+
     /**
      * Constructor
      *
@@ -60,7 +62,8 @@ class CustomerRegistry
             throw new NoSuchEntityException('customerId', $customerId);
         } else {
             $this->customerRegistryById[$customerId] = $customer;
-            $this->customerRegistryByEmail[$customer->getEmail() . $customer->getWebsiteId()] = $customer;
+            $registryKey = $this->getRegistryKey($customer->getEmail(), $customer->getWebsiteId());
+            $this->customerRegistryByEmail[$registryKey] = $customer;
             return $customer;
         }
     }
@@ -75,9 +78,9 @@ class CustomerRegistry
      */
     public function retrieveByEmail($customerEmail, $websiteId)
     {
-        $emailKey = $customerEmail . $websiteId;
-        if (isset($this->customerRegistryByEmail[$emailKey])) {
-            return $this->customerRegistryByEmail[$emailKey];
+        $registryKey = $this->getRegistryKey($customerEmail, $websiteId);
+        if (isset($this->customerRegistryByEmail[$registryKey])) {
+            return $this->customerRegistryByEmail[$registryKey];
         }
 
         /** @var Customer $customer */
@@ -93,7 +96,7 @@ class CustomerRegistry
             throw (new NoSuchEntityException('email', $customerEmail))->addField('websiteId', $websiteId);
         } else {
             $this->customerRegistryById[$customer->getId()] = $customer;
-            $this->customerRegistryByEmail[$emailKey] = $customer;
+            $this->customerRegistryByEmail[$registryKey] = $customer;
             return $customer;
         }
     }
@@ -109,7 +112,8 @@ class CustomerRegistry
         if (isset($this->customerRegistryById[$customerId])) {
             /** @var Customer $customer */
             $customer = $this->customerRegistryById[$customerId];
-            unset($this->customerRegistryByEmail[$customer->getEmail() . $customer->getWebsiteId()]);
+            $registryKey = $this->getRegistryKey($customer->getEmail(), $customer->getWebsiteId());
+            unset($this->customerRegistryByEmail[$registryKey]);
             unset($this->customerRegistryById[$customerId]);
         }
     }
@@ -123,12 +127,24 @@ class CustomerRegistry
      */
     public function removeByEmail($customerEmail, $websiteId)
     {
-        $emailKey = $customerEmail . $websiteId;
-        if ($emailKey) {
+        $registryKey = $this->getRegistryKey($customerEmail, $websiteId);
+        if ($registryKey) {
             /** @var Customer $customer */
-            $customer = $this->customerRegistryByEmail[$emailKey];
-            unset($this->customerRegistryByEmail[$emailKey]);
+            $customer = $this->customerRegistryByEmail[$registryKey];
+            unset($this->customerRegistryByEmail[$registryKey]);
             unset($this->customerRegistryById[$customer->getId()]);
         }
+    }
+
+    /**
+     * Create registry key
+     *
+     * @param string $customerEmail
+     * @param string $websiteId
+     * @return string
+     */
+    protected function getRegistryKey($customerEmail, $websiteId)
+    {
+        return $customerEmail . self::REGISTRY_SEPARATOR . $websiteId;
     }
 }
