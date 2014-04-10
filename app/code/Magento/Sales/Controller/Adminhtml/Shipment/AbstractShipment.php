@@ -64,9 +64,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Shipments'));
 
-        $this->_initAction()->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment')
-        );
+        $this->_initAction();
         $this->_view->renderLayout();
     }
 
@@ -149,5 +147,16 @@ class AbstractShipment extends \Magento\Backend\App\Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Sales::shipment');
+    }
+
+    /**
+     * Shipment grid
+     *
+     * @return void
+     */
+    public function gridAction()
+    {
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 }

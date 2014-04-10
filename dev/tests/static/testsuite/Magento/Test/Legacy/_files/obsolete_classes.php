@@ -2113,8 +2113,8 @@ return array(
     array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
-    ['Magento\PubSub'],
-    ['Magento\Outbound'],
+    ['Magento\PubSub'], // unused library code which was removed
+    ['Magento\Outbound'], // unused library code which was removed
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
@@ -2215,4 +2215,9 @@ return array(
     ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
+    array('Magento\Sales\Block\Adminhtml\Invoice\Grid'),
+    array('Magento\Sales\Block\Adminhtml\Shipment\Grid'),
+    array('Magento\Sales\Block\Adminhtml\Creditmemo\Grid'),
+    array('Magento\Sales\Block\Adminhtml\Transactions\Grid'),
+    array('Magento\Sales\Block\Adminhtml\Transactions\Child\Grid')
 );
