@@ -7,15 +7,13 @@
  */
 namespace Magento;
 
-use Magento\TranslateInterface;
-
 /**
  * Translate library
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Translate implements \Magento\TranslateInterface
+class Translate implements TranslateInterface
 {
     /**
      * CSV separator
@@ -352,7 +350,7 @@ class Translate implements \Magento\TranslateInterface
             }
             $key    = $this->_prepareDataString($key);
             $value  = $this->_prepareDataString($value);
-            if ($scope && isset($this->_dataScope[$key]) && !$forceReload ) {
+            if ($scope && isset($this->_dataScope[$key]) && !$forceReload) {
                 /**
                  * Checking previous value
                  */
@@ -451,8 +449,8 @@ class Translate implements \Magento\TranslateInterface
     protected function _getThemeTranslationFile($locale, $area = null)
     {
         $area = isset($area) ? $area : $this->_appState->getAreaCode();
-        return $this->_viewFileSystem
-            ->getFilename(\Magento\App\Filesystem::LOCALE_DIR . '/' . $locale . '.csv', array('area' => $area));
+        $filePath = \Magento\App\Filesystem::LOCALE_DIR . '/' . $locale . '.csv';
+        return $this->_viewFileSystem->getLocaleFileName($filePath, array('area' => $area));
     }
 
     /**

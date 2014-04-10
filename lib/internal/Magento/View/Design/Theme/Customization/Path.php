@@ -107,7 +107,6 @@ class Path
         if ($theme->getId()) {
             $path = $this->mediaDirectoryRead
                 ->getAbsolutePath(self::DIR_NAME . '/' . $theme->getId() . '/' . $this->filename);
-
         }
         return $path;
     }

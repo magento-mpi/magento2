@@ -76,7 +76,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
         );
 
         $params = array(
-            'area'       => $theme->getArea(),
+            'area'       => $theme->getData('area'),
             'themeModel' => $theme,
         );
 

@@ -8,17 +8,10 @@
  * @license     {license_link}
  */
 
-/**
- * Adminhtml customer orders grid block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
- * @SuppressWarnings(PHPMD.LongVariable)
+ * Adminhtml customer orders grid block
  */
 class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -185,7 +178,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('customer/*/cart', array('_current'=>true, 'website_id' => $this->getWebsiteId()));
+        return $this->getUrl('customer/*/cart', array('_current' => true, 'website_id' => $this->getWebsiteId()));
     }
 
     /**
@@ -193,7 +186,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridParentHtml()
     {
-        $templateName = $this->_viewFileSystem->getFilename($this->_parentTemplate, array('_relative' => true));
+        $templateName = $this->_viewFileSystem->getTemplateFileName($this->_parentTemplate, array('_relative' => true));
         return $this->fetchView($templateName);
     }
 

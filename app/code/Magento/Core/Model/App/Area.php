@@ -8,13 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Application area model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Core\Model\App;
 
+/**
+ * Application area model
+ */
 class Area
 {
     const AREA_GLOBAL   = 'global';
@@ -143,9 +141,9 @@ class Area
      * @param   string|null $part
      * @return  $this
      */
-    public function load($part=null)
+    public function load($part = null)
     {
-        if (is_null($part)) {
+        if (null === $part) {
             $this->_loadPart(self::PART_CONFIG)
                 ->_loadPart(self::PART_DESIGN)
                 ->_loadPart(self::PART_TRANSLATE);
@@ -222,8 +220,10 @@ class Area
         if (isset($this->_loadedParts[$part])) {
             return $this;
         }
-        \Magento\Profiler::start('load_area:' . $this->_code . '.' . $part,
-            array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part));
+        \Magento\Profiler::start(
+            'load_area:' . $this->_code . '.' . $part,
+            array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part)
+        );
         switch ($part) {
             case self::PART_CONFIG:
                 $this->_initConfig();
@@ -243,11 +243,12 @@ class Area
     /**
      * Load area configuration
      *
-     * @return void
+     * @return $this
      */
     protected function _initConfig()
     {
         $this->_objectManager->configure($this->_diConfigLoader->load($this->_code));
+        return $this;
     }
 
     /**
@@ -273,10 +274,13 @@ class Area
     }
 
     /**
-     * @return void
+     * Initialize design
+     *
+     * @return $this
      */
     protected function _initDesign()
     {
         $this->_getDesign()->setArea($this->_code)->setDefaultDesignTheme();
+        return $this;
     }
 }

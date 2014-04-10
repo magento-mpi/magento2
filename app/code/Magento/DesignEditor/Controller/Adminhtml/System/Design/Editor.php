@@ -286,7 +286,7 @@ class Editor extends \Magento\Backend\App\Action
             }
             $themeCopy->setData($theme->getData());
             $themeCopy->setId(null)->setThemeTitle(__('Copy of [%1]', $theme->getThemeTitle()));
-            $themeCopy->getThemeImage()->createPreviewImageCopy($theme->getPreviewImage());
+            $themeCopy->getThemeImage()->createPreviewImageCopy($theme);
             $themeCopy->save();
             $copyService->copy($theme, $themeCopy);
             $this->messageManager->addSuccess(

@@ -23,7 +23,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::LIB_WEB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
+                \Magento\App\Filesystem::LIB_WEB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib/web'),
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
             )
         ));
@@ -97,17 +97,17 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     str_replace(
                         '\\',
                         '/',
-                         "$fixtureDir/_files/design/frontend/test_default/1.file"
+                         "$fixtureDir/_files/design/frontend/test_default/web/1.file"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/design/frontend/test_default/Magento_Core/1.file"
+                        "$fixtureDir/_files/design/frontend/test_default/Magento_Core/web/1.file"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/design/frontend/test_parent/Magento_Theme/1.file"
+                        "$fixtureDir/_files/design/frontend/test_parent/Magento_Theme/web/1.file"
                     )
                 )
             ),
@@ -118,7 +118,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/lib/2.file"
+                        "$fixtureDir/_files/lib/web/2.file"
                     )
                 )
             ),
@@ -134,17 +134,17 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/lib/3.less"
+                        "$fixtureDir/_files/lib/web/3.less"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/code/Magento/Theme/view/frontend/3.less"
+                        "$fixtureDir/_files/code/Magento/Theme/view/frontend/web/3.less"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/design/frontend/test_default/Magento_Core/3.less"
+                        "$fixtureDir/_files/design/frontend/test_default/Magento_Core/web/3.less"
                     )
                 )
             ),

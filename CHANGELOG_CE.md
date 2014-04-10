@@ -24,6 +24,7 @@
 * Unified format of specifying arguments for class constructors in DI and in Layout configuration
   * Common xsd schema is being used for defining simple types. Layout and DI customize common types with their specific ones
   * Arguments processing is unified and moved to library
+* Web files location changed to improve security of entry point for resolving static view files (MAGETWO-21196)
 
 2.0.0.0-dev65
 =============

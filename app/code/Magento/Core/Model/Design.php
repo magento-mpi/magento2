@@ -14,8 +14,6 @@ use Magento\Core\Model\Resource\AbstractResource;
 /**
  * Design settings change model
  *
- * @method \Magento\Core\Model\Resource\Design _getResource()
- * @method \Magento\Core\Model\Resource\Design getResource()
  * @method int getStoreId()
  * @method \Magento\Core\Model\Design setStoreId(int $value)
  * @method string getDesign()

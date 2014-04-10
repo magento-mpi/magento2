@@ -8,14 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Customer giftregistry list block
- *
- * @category   Magento
- * @package    Magento_GiftRegistry
- */
 namespace Magento\GiftRegistry\Block\Customer;
 
+/**
+ * Customer giftregistry list block
+ */
 class Edit extends \Magento\Directory\Block\Data
 {
     /**
@@ -70,7 +67,13 @@ class Edit extends \Magento\Directory\Block\Data
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
         parent::__construct(
-            $context, $coreData, $jsonEncoder, $configCacheType, $regionCollectionFactory, $countryCollectionFactory, $data
+            $context,
+            $coreData,
+            $jsonEncoder,
+            $configCacheType,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -197,12 +200,12 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function addInputTypeTemplate($type, $template)
     {
-        $params = array('_relative'=>true);
+        $params = array('_relative' => true);
         $area = $this->getArea();
         if ($area) {
             $params['area'] = $area;
         }
-        $templateName = $this->_viewFileSystem->getFilename($template, $params);
+        $templateName = $this->_viewFileSystem->getTemplateFileName($template, $params);
 
         $this->_inputTemplates[$type] = $templateName;
         return $this;

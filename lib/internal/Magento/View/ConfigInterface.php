@@ -16,7 +16,7 @@ interface ConfigInterface
     /**
      * Filename of view configuration
      */
-    const CONFIG_FILE_NAME = 'view.xml';
+    const CONFIG_FILE_NAME = 'etc/view.xml';
 
     /**
      * Render view config object for current package and theme
