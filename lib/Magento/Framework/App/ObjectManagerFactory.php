@@ -119,9 +119,12 @@ class ObjectManagerFactory
         $verification->createAndVerifyDirectories();
 
         $diConfig->setCache($objectManager->get('Magento\Framework\App\ObjectManager\ConfigCache'));
-        $objectManager->configure($objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global'));
+        $objectManager->configure(
+            $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
+        );
         $objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('global');
-        $objectManager->get('Magento\Framework\App\Resource')->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
+        $objectManager->get('Magento\Framework\App\Resource')
+            ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
         $interceptionConfig = $objectManager->get('Magento\Interception\Config\Config');
         $diConfig->setInterceptionConfig($interceptionConfig);
 

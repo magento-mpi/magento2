@@ -55,7 +55,8 @@ class State implements StateInterface
         $banAll = false
     ) {
         $this->_options = $options;
-        $this->_cacheFrontend = $cacheFrontendPool->get(\Magento\Framework\App\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID);
+        $this->_cacheFrontend =
+            $cacheFrontendPool->get(\Magento\Framework\App\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID);
         if ($appState->isInstalled()) {
             $this->_loadTypeStatuses($banAll);
         }

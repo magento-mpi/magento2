@@ -55,7 +55,8 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Layout'
         )->disableOriginalConstructor()->getMock();
 
-        $contextMock = $this->getMockBuilder('Magento\Framework\App\Action\Context')->disableOriginalConstructor()->getMock();
+        $contextMock =
+            $this->getMockBuilder('Magento\Framework\App\Action\Context')->disableOriginalConstructor()->getMock();
 
         $this->requestMock = $this->getMockBuilder(
             'Magento\Framework\App\Request\Http'

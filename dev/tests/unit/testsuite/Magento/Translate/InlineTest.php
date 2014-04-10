@@ -41,7 +41,8 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->scopeResolverMock = $this->getMock('Magento\Framework\App\ScopeResolverInterface', array(), array(), '', false);
+        $this->scopeResolverMock =
+            $this->getMock('Magento\Framework\App\ScopeResolverInterface', array(), array(), '', false);
         $this->urlMock = $this->getMock('Magento\UrlInterface', array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\View\LayoutInterface', array(), array(), '', false);
         $this->configMock = $this->getMock('Magento\Translate\Inline\ConfigInterface', array(), array(), '', false);

@@ -72,7 +72,10 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_responseMock)
         );
-        $this->_model = new \Magento\Framework\App\Response\Http\FileFactory($this->_responseMock, $this->_fileSystemMock);
+        $this->_model = new \Magento\Framework\App\Response\Http\FileFactory(
+            $this->_responseMock,
+            $this->_fileSystemMock
+        );
     }
 
     /**

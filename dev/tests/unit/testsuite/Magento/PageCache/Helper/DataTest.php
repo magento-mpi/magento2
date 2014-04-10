@@ -70,7 +70,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function prepareMocks()
     {
         $this->contextMock = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
-        $this->viewMock = $this->getMock('Magento\Framework\App\View', ['getLayout'], ['getPageLayoutHandles'], '', false);
+        $this->viewMock =
+            $this->getMock('Magento\Framework\App\View', ['getLayout'], ['getPageLayoutHandles'], '', false);
         $layoutMock = $this->getMockForAbstractClass(
             'Magento\View\LayoutInterface',
             array(),

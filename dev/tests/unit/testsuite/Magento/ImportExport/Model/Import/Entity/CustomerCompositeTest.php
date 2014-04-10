@@ -96,7 +96,8 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $translateInline = $this->getMock('\Magento\Translate\InlineInterface', array(), array(), '', false);
         $translateInline->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
 
-        $context = $this->getMock('Magento\Framework\App\Helper\Context', array('getTranslateInline'), array(), '', false);
+        $context =
+            $this->getMock('Magento\Framework\App\Helper\Context', array('getTranslateInline'), array(), '', false);
         $context->expects($this->any())->method('getTranslateInline')->will($this->returnValue($translateInline));
 
         $data = array(

@@ -24,8 +24,10 @@ class FileFactory
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
-    public function __construct(\Magento\Framework\App\ResponseInterface $response, \Magento\Framework\App\Filesystem $filesystem)
-    {
+    public function __construct(
+        \Magento\Framework\App\ResponseInterface $response,
+        \Magento\Framework\App\Filesystem $filesystem
+    ) {
         $this->_response = $response;
         $this->_filesystem = $filesystem;
     }

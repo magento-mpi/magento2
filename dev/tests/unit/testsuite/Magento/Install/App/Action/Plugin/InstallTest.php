@@ -47,7 +47,8 @@ class InstallTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $this->_response = $this->getMock('Magento\Framework\App\ResponseInterface', array('setRedirect', 'sendResponse'));
+        $this->_response =
+            $this->getMock('Magento\Framework\App\ResponseInterface', array('setRedirect', 'sendResponse'));
         $this->_urlMock = $this->getMock('Magento\Url', array(), array(), '', false);
         $this->closureMock = function () {
             return 'ExpectedValue';

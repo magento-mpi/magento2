@@ -25,8 +25,10 @@ class MetadataProcessor
      * @param \Magento\Framework\App\Config\Data\ProcessorFactory $processorFactory
      * @param Initial $initialConfig
      */
-    public function __construct(\Magento\Framework\App\Config\Data\ProcessorFactory $processorFactory, Initial $initialConfig)
-    {
+    public function __construct(
+        \Magento\Framework\App\Config\Data\ProcessorFactory $processorFactory,
+        Initial $initialConfig
+    ) {
         $this->_processorFactory = $processorFactory;
         $this->_metadata = $initialConfig->getMetadata();
     }

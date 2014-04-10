@@ -41,9 +41,10 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_cache = $this->getMockBuilder('Magento\Framework\App\CacheInterface')->disableOriginalConstructor()->setMethods(
-            []
-        )->getMock();
+        $this->_cache = $this->getMockBuilder('Magento\Framework\App\CacheInterface')
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
         $this->_connectionFactory = $this->getMockBuilder(
             'Magento\Framework\App\Resource\ConnectionFactory'
         )->disableOriginalConstructor()->setMethods(['create'])->getMock();

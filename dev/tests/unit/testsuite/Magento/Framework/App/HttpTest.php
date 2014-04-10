@@ -59,15 +59,17 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $frontName = 'frontName';
         $this->_requestMock->expects($this->once())->method('getFrontName')->will($this->returnValue($frontName));
         $areaCode = 'areaCode';
-        $areaListMock = $this->getMockBuilder('Magento\Framework\App\AreaList')->disableOriginalConstructor()->setMethods(
-            ['getCodeByFrontName']
-        )->getMock();
+        $areaListMock = $this->getMockBuilder('Magento\Framework\App\AreaList')
+            ->disableOriginalConstructor()
+            ->setMethods(['getCodeByFrontName'])
+            ->getMock();
         $areaListMock->expects($this->once())->method('getCodeByFrontName')->with($frontName)->will(
             $this->returnValue($areaCode)
         );
-        $this->_stateMock = $this->getMockBuilder('Magento\Framework\App\State')->disableOriginalConstructor()->setMethods(
-            ['setAreaCode', 'getMode']
-        )->getMock();
+        $this->_stateMock = $this->getMockBuilder('Magento\Framework\App\State')
+            ->disableOriginalConstructor()
+            ->setMethods(['setAreaCode', 'getMode'])
+            ->getMock();
         $this->_stateMock->expects($this->once())->method('setAreaCode')->with($areaCode);
         $areaConfig = [];
         $configLoaderMock = $this->getMockBuilder(
@@ -88,9 +90,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_frontControllerMock = $this->getMockBuilder(
             'Magento\Framework\App\FrontControllerInterface'
         )->disableOriginalConstructor()->setMethods(['dispatch'])->getMock();
-        $objectManagerMock->expects($this->once())->method('get')->with('Magento\Framework\App\FrontControllerInterface')->will(
-            $this->returnValue($this->_frontControllerMock)
-        );
+        $objectManagerMock->expects($this->once())
+            ->method('get')
+            ->with('Magento\Framework\App\FrontControllerInterface')
+            ->will($this->returnValue($this->_frontControllerMock));
         $this->_frontControllerMock->expects($this->once())->method('dispatch')->with($this->_requestMock)->will(
             $this->returnValue($this->_responseMock)
         );

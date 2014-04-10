@@ -13,7 +13,9 @@ class PageCacheTest extends \PHPUnit_Framework_TestCase
     {
         $identifier = 'page_cache';
 
-        $poolMock = $this->getMockBuilder('\Magento\Framework\App\Cache\Frontend\Pool')->disableOriginalConstructor()->getMock();
+        $poolMock = $this->getMockBuilder('\Magento\Framework\App\Cache\Frontend\Pool')
+            ->disableOriginalConstructor()
+            ->getMock();
         $poolMock->expects(
             $this->once()
         )->method(

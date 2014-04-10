@@ -41,7 +41,9 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->_loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
 
-        $filesystemMock = $this->getMockBuilder('\Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystemMock = $this->getMockBuilder('\Magento\Framework\App\Filesystem')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         /** Initialize SUT. */
         $this->_errorProcessor = new ErrorProcessor(

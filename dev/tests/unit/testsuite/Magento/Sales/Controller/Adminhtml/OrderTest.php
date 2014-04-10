@@ -59,7 +59,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             array('addError')
         )->getMock();
 
-        $titleMock = $this->getMock('\Magento\Framework\App\Action\Title', array('__wakeup', 'add'), array(), '', false);
+        $titleMock =
+            $this->getMock('\Magento\Framework\App\Action\Title', array('__wakeup', 'add'), array(), '', false);
         $viewMock = $this->getMockForAbstractClass('\Magento\Framework\App\ViewInterface');
 
         $this->_controllerMock = $this->getMockBuilder(

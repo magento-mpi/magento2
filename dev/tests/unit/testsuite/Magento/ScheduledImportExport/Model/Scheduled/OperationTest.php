@@ -93,7 +93,8 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             'Magento\Filesystem\Directory\Write'
         )->disableOriginalConstructor()->getMock();
         $directory->expects($this->once())->method('getAbsolutePath')->will($this->returnArgument(0));
-        $filesystem = $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem =
+            $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
         $filesystem->expects($this->once())->method('getDirectoryWrite')->will($this->returnValue($directory));
 
         $params = array('operationFactory' => $operationFactory, 'filesystem' => $filesystem);

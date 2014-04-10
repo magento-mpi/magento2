@@ -60,9 +60,11 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_cache = $this->getMock('\Magento\Framework\App\CacheInterface', array(), array(), '', false);
-        $this->_config = $this->getMock('\Magento\Framework\App\Config\ReinitableConfigInterface', array(), array(), '', false);
+        $this->_config =
+            $this->getMock('\Magento\Framework\App\Config\ReinitableConfigInterface', array(), array(), '', false);
         $this->_cacheState = $this->getMock('\Magento\Framework\App\Cache\StateInterface', array(), array(), '', false);
-        $this->_cacheTypeList = $this->getMock('\Magento\Framework\App\Cache\TypeListInterface', array(), array(), '', false);
+        $this->_cacheTypeList =
+            $this->getMock('\Magento\Framework\App\Cache\TypeListInterface', array(), array(), '', false);
         $this->_appState = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
         $this->_installerConfig = $this->getMock(
             '\Magento\Install\Model\Installer\Config',

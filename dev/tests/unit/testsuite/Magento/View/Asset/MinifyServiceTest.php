@@ -176,7 +176,10 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
         return array(
             'production' => array(\Magento\Framework\App\State::MODE_PRODUCTION, 'Magento\Code\Minifier\Strategy\Lite'),
             'default' => array(\Magento\Framework\App\State::MODE_DEFAULT, 'Magento\Code\Minifier\Strategy\Generate'),
-            'developer' => array(\Magento\Framework\App\State::MODE_DEVELOPER, 'Magento\Code\Minifier\Strategy\Generate')
+            'developer' => array(
+                \Magento\Framework\App\State::MODE_DEVELOPER,
+                'Magento\Code\Minifier\Strategy\Generate'
+            )
         );
     }
 }

@@ -15,7 +15,9 @@ class IdentifierTest extends \PHPUnit_Framework_TestCase
         $vary = 1;
         $expected = md5(serialize(array($uri, $vary)));
 
-        $requestMock = $this->getMockBuilder('\Magento\Framework\App\Request\Http')->disableOriginalConstructor()->getMock();
+        $requestMock = $this->getMockBuilder('\Magento\Framework\App\Request\Http')
+            ->disableOriginalConstructor()
+            ->getMock();
         $requestMock->expects($this->once())->method('getRequestUri')->will($this->returnValue($uri));
         $requestMock->expects(
             $this->once()

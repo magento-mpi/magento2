@@ -37,8 +37,11 @@ class Config implements \Magento\Framework\App\Config\ScopeConfigInterface
      * @param null|string $scopeCode
      * @return mixed
      */
-    public function getValue($path = null, $scope = \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
-    {
+    public function getValue(
+        $path = null,
+        $scope = \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT,
+        $scopeCode = null
+    ) {
         return $this->_scopePool->getScope($scope, $scopeCode)->getValue($path);
     }
 

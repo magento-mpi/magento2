@@ -10,7 +10,8 @@
 
 namespace Magento\Framework\App;
 
-class MutableScopeConfig extends \Magento\Framework\App\Config implements \Magento\Framework\App\Config\MutableScopeConfigInterface
+class MutableScopeConfig extends \Magento\Framework\App\Config
+    implements \Magento\Framework\App\Config\MutableScopeConfigInterface
 {
     /**
      * Set config value in the corresponding config scope
@@ -21,8 +22,12 @@ class MutableScopeConfig extends \Magento\Framework\App\Config implements \Magen
      * @param null|string $scopeCode
      * @return void
      */
-    public function setValue($path, $value, $scope = \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
-    {
+    public function setValue(
+        $path,
+        $value,
+        $scope = \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT,
+        $scopeCode = null
+    ) {
         if (empty($scopeCode)) {
             $scopeCode = null;
         }

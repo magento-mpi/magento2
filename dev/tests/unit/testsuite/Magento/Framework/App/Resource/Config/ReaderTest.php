@@ -58,7 +58,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_converterMock = $this->getMock('Magento\Framework\App\Resource\Config\Converter', array(), array(), '', false);
+        $this->_converterMock =
+            $this->getMock('Magento\Framework\App\Resource\Config\Converter', array(), array(), '', false);
 
         $this->_configLocalMock = $this->getMock('Magento\Framework\App\Arguments', array(), array(), '', false);
 

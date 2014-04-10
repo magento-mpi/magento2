@@ -63,11 +63,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_dirsMock = $this->getMock('Magento\Module\Dir', array(), array(), '', false, false);
-        $this->_baseConfigMock = $this->getMock('Magento\Framework\App\Config\Base', array(), array(), '', false, false);
+        $this->_baseConfigMock =
+            $this->getMock('Magento\Framework\App\Config\Base', array(), array(), '', false, false);
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
-        $this->_filesystemMock = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false, false);
-        $this->_fileIteratorFactory = $this->getMock('\Magento\Config\FileIteratorFactory', array(), array(),
-            '', false, false);
+        $this->_filesystemMock =
+            $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false, false);
+        $this->_fileIteratorFactory =
+            $this->getMock('\Magento\Config\FileIteratorFactory', array(), array(), '', false, false);
 
         $this->_model = new \Magento\Module\Dir\Reader(
             $this->_dirsMock,

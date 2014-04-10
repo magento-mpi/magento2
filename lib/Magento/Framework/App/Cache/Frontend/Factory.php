@@ -121,7 +121,8 @@ class Factory
             $idPrefix = $options['prefix'];
         }
         if (empty($idPrefix)) {
-            $idPrefix = substr(md5($this->_filesystem->getPath(\Magento\Framework\App\Filesystem::CONFIG_DIR)), 0, 3) . '_';
+            $idPrefix =
+                substr(md5($this->_filesystem->getPath(\Magento\Framework\App\Filesystem::CONFIG_DIR)), 0, 3) . '_';
         }
         $options['frontend_options']['cache_id_prefix'] = $idPrefix;
 

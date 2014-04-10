@@ -47,7 +47,10 @@ class MetadataProcessorTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(array('some/config/path' => array('backendModel' => 'Custom_Backend_Model')))
         );
-        $this->_model = new \Magento\Framework\App\Config\MetadataProcessor($this->_modelPoolMock, $this->_initialConfigMock);
+        $this->_model = new \Magento\Framework\App\Config\MetadataProcessor(
+            $this->_modelPoolMock,
+            $this->_initialConfigMock
+        );
     }
 
     public function testProcess()

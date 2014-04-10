@@ -43,7 +43,8 @@ class DirTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $filesystem =
+            $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $this->varDirectory = $this->getMock(
             'Magento\Filesystem\Directory\Write',
             array('read', 'isDirectory', 'delete'),

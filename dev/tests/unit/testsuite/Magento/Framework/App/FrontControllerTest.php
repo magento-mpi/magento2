@@ -32,7 +32,8 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->_router = $this->getMock('Magento\Framework\App\Router\AbstractRouter', array('match'), array(), '', false);
+        $this->_router =
+            $this->getMock('Magento\Framework\App\Router\AbstractRouter', array('match'), array(), '', false);
         $this->_routerList = $this->getMock('Magento\Framework\App\RouterList', array(), array(), '', false);
         $this->_routerList->expects($this->any())->method('getIterator')->will($this->returnValue($this->_routerList));
         $this->_model = new \Magento\Framework\App\FrontController($this->_routerList);

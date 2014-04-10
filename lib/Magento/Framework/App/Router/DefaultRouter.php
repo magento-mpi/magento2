@@ -43,6 +43,9 @@ class DefaultRouter extends AbstractRouter
             }
         }
 
-        return $this->_actionFactory->createController('Magento\Framework\App\Action\Forward', array('request' => $request));
+        return $this->_actionFactory->createController(
+            'Magento\Framework\App\Action\Forward',
+            array('request' => $request)
+        );
     }
 }

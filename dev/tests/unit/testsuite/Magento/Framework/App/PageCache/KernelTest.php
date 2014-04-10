@@ -40,7 +40,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->cacheMock = $this->getMock('Magento\Framework\App\PageCache\Cache', array(), array(), '', false);
-        $this->identifierMock = $this->getMock('Magento\Framework\App\PageCache\Identifier', array(), array(), '', false);
+        $this->identifierMock =
+            $this->getMock('Magento\Framework\App\PageCache\Identifier', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->kernel = new Kernel($this->cacheMock, $this->identifierMock, $this->requestMock);
         $this->responseMock = $this->getMockBuilder(

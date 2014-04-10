@@ -35,7 +35,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
         $directoryMock->expects($this->any())->method('openFile')->will($this->returnValue($streamMock));
 
-        $filesystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystemMock =
+            $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
         $filesystemMock->expects(
             $this->once()
         )->method(

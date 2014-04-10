@@ -25,7 +25,9 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Action\Forward',
             array('request' => $request)
         )->will(
-            $this->returnValue($this->getMockForAbstractClass('Magento\Framework\App\Action\AbstractAction', [], '', false))
+            $this->returnValue(
+                $this->getMockForAbstractClass('Magento\Framework\App\Action\AbstractAction', [], '', false)
+            )
         );
         $noRouteHandler = $this->getMock('Magento\Core\App\Router\NoRouteHandler', [], [], '', false);
         $noRouteHandler->expects($this->any())->method('process')->will($this->returnValue(true));

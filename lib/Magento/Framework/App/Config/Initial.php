@@ -34,8 +34,10 @@ class Initial
      * @param \Magento\Framework\App\Config\Initial\Reader $reader
      * @param \Magento\Framework\App\Cache\Type\Config $cache
      */
-    public function __construct(\Magento\Framework\App\Config\Initial\Reader $reader, \Magento\Framework\App\Cache\Type\Config $cache)
-    {
+    public function __construct(
+        \Magento\Framework\App\Config\Initial\Reader $reader,
+        \Magento\Framework\App\Cache\Type\Config $cache
+    ) {
         $data = $cache->load(self::CACHE_ID);
         if (!$data) {
             $data = $reader->read();

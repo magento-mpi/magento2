@@ -37,8 +37,11 @@ class Config
      *     so allowed to be present in the publication directory
      * @throws \Magento\Exception
      */
-    public function __construct(\Magento\Framework\App\Filesystem $filesystem, array $cmdOptions, $allowedFiles = array())
-    {
+    public function __construct(
+        \Magento\Framework\App\Filesystem $filesystem,
+        array $cmdOptions,
+        $allowedFiles = array()
+    ) {
         $rootDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $sourceDir = isset($cmdOptions['source']) ? $cmdOptions['source'] : $rootDirectory->getAbsolutePath();
         if (!$rootDirectory->isDirectory($rootDirectory->getRelativePath($sourceDir))) {

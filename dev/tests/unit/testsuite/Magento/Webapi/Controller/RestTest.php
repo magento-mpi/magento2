@@ -88,7 +88,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
             array(self::SERVICE_METHOD)
         )->disableOriginalConstructor()->getMock();
 
-        $this->_appStateMock = $this->getMockBuilder('Magento\Framework\App\State')->disableOriginalConstructor()->getMock();
+        $this->_appStateMock = $this->getMockBuilder('Magento\Framework\App\State')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_authzServiceMock = $this->getMockBuilder(
             'Magento\Authz\Service\AuthorizationV1Interface'

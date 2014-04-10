@@ -91,7 +91,9 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        $configData = $this->getMockBuilder('\Magento\Framework\App\Config\Data')->disableOriginalConstructor()->getMock();
+        $configData = $this->getMockBuilder('\Magento\Framework\App\Config\Data')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_dataFactory->expects(
             $this->once()
         )->method(
@@ -101,10 +103,16 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($configData)
         );
-        $this->assertInstanceOf('\Magento\Framework\App\Config\DataInterface', $this->_object->getScope($scopeType, $scope));
+        $this->assertInstanceOf(
+            '\Magento\Framework\App\Config\DataInterface',
+            $this->_object->getScope($scopeType, $scope)
+        );
 
         // second call to check caching
-        $this->assertInstanceOf('\Magento\Framework\App\Config\DataInterface', $this->_object->getScope($scopeType, $scope));
+        $this->assertInstanceOf(
+            '\Magento\Framework\App\Config\DataInterface',
+            $this->_object->getScope($scopeType, $scope)
+        );
     }
 
     public function getScopeDataProvider()

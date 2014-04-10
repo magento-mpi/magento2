@@ -161,7 +161,11 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
     public function getTransportDataProvider()
     {
         return array(
-            array(\Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT, \Magento\Mail\Message::TYPE_TEXT, 'Plain text'),
+            array(
+                \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT,
+                \Magento\Mail\Message::TYPE_TEXT,
+                'Plain text'
+            ),
             array(
                 \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML,
                 \Magento\Mail\Message::TYPE_HTML,
