@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
@@ -241,7 +241,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
 
-        return $this->_converter->createCustomerFromModel($customerModel);
+        $customerDto = $this->_converter->createCustomerFromModel($customerModel);
+        $this->_eventManager->dispatch('customer_data_object_login', array('customer' => $customerDto));
+
+        return $customerDto;
     }
 
     /**

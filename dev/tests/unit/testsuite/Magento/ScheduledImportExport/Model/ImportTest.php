@@ -41,7 +41,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
             $this->getMock('Magento\Logger\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false),
+            $this->getMock('Magento\App\Config\ScopeConfigInterface'),
             $this->_importConfigMock,
             $this->getMock('Magento\ImportExport\Model\Import\Entity\Factory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),

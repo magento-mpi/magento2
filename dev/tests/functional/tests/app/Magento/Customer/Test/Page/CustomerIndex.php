@@ -15,6 +15,7 @@ namespace Magento\Customer\Test\Page;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
+use Magento\Backend\Test\Block\GridPageActions;
 
 /**
  * Class CustomerIndex
@@ -37,6 +38,13 @@ class CustomerIndex extends Page
     protected $gridBlock = '#customerGrid';
 
     /**
+     * Grid page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -53,6 +61,18 @@ class CustomerIndex extends Page
     {
         return Factory::getBlockFactory()->getMagentoCustomerBackendCustomerGrid(
             $this->_browser->find($this->gridBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get Grid page actions block
+     *
+     * @return GridPageActions
+     */
+    public function getActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendGridPageActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }

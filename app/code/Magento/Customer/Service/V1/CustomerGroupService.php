@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Core\Model\Store\Config as StoreConfig;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
@@ -34,9 +34,9 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_groupFactory;
 
     /**
-     * @var StoreConfig
+     * @var ScopeConfigInterface
      */
-    private $_storeConfig;
+    private $_scopeConfig;
 
     /**
      * @var StoreManagerInterface
@@ -65,7 +65,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
     /**
      * @param GroupFactory $groupFactory
-     * @param StoreConfig $storeConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
@@ -73,18 +73,17 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function __construct(
         GroupFactory $groupFactory,
-        StoreConfig $storeConfig,
+        ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
         TaxClassModelFactory $taxClassModelFactory
     ) {
         $this->_groupFactory = $groupFactory;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
-        $this->_storeManager = $storeManager;
         $this->_taxClassModelFactory = $taxClassModelFactory;
     }
 
@@ -136,7 +135,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
-            $this->_customerGroupBuilder->setId($group->getId())
+            $this->_customerGroupBuilder
+                ->setId($group->getId())
                 ->setCode($group->getCode())
                 ->setTaxClassId($group->getTaxClassId());
             $groups[] = $this->_customerGroupBuilder->create();
@@ -245,15 +245,17 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function getDefaultGroup($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = $this->_storeManager->getStore()->getId();
-        } else {
-            try {
-                $this->_storeManager->getStore($storeId);
-            } catch (\Exception $e) {
-                throw new NoSuchEntityException('storeId', $storeId);
-            }
+            $storeId = $this->_storeManager->getCurrentStore();
         }
-        $groupId = $this->_storeConfig->getConfig(CustomerGroupModel::XML_PATH_DEFAULT_ID, $storeId);
+        try {
+            $groupId = $this->_scopeConfig->getValue(
+                CustomerGroupModel::XML_PATH_DEFAULT_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
+        } catch (\Magento\Model\Exception $e) {
+            throw new NoSuchEntityException('storeId', $storeId);
+        }
         try {
             return $this->getGroup($groupId);
         } catch (NoSuchEntityException $e) {

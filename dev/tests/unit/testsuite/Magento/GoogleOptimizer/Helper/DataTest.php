@@ -18,7 +18,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -32,7 +32,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\ConfigInterface');
+        $this->_scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_googleAnalyticsHelperMock = $this->getMock(
             'Magento\GoogleAnalytics\Helper\Data',
             array(),
@@ -46,7 +46,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_helper = $objectManagerHelper->getObject(
             'Magento\GoogleOptimizer\Helper\Data',
             array(
-                'storeConfig' => $this->_storeConfigMock,
+                'scopeConfig' => $this->_scopeConfigMock,
                 'analyticsHelper' => $this->_googleAnalyticsHelperMock,
                 'context' => $context
             )
@@ -60,12 +60,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGoogleExperimentIsEnabled($isExperimentsEnabled)
     {
         $store = 1;
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
-            'getConfigFlag'
+            'isSetFlag'
         )->with(
             \Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         )->will(
             $this->returnValue($isExperimentsEnabled)
@@ -91,12 +92,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGoogleExperimentIsActive($isExperimentsEnabled, $isAnalyticsAvailable, $result)
     {
         $store = 1;
-        $this->_storeConfigMock->expects(
+        $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
-            'getConfigFlag'
+            'isSetFlag'
         )->with(
             \Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         )->will(
             $this->returnValue($isExperimentsEnabled)

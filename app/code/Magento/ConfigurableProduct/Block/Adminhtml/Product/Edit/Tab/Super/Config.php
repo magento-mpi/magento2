@@ -54,17 +54,11 @@ class Config extends Widget implements TabInterface
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\App\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
@@ -74,7 +68,6 @@ class Config extends Widget implements TabInterface
         Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Registry $coreRegistry,
-        \Magento\App\ConfigInterface $config,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
@@ -82,7 +75,6 @@ class Config extends Widget implements TabInterface
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogData = $catalogData;
         $this->_jsonEncoder = $jsonEncoder;
-        $this->_config = $config;
         $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $data);
     }
@@ -411,7 +403,7 @@ class Config extends Widget implements TabInterface
     public function getBaseCurrency()
     {
         return $this->_localeCurrency->getCurrency(
-            $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
+            $this->_scopeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
         );
     }
 }

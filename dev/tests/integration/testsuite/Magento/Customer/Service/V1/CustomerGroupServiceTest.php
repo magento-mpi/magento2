@@ -10,6 +10,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Service\V1\Data\Filter;
 use Magento\Customer\Model\Group;
@@ -174,8 +175,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefaultGroupDataProvider()
     {
-        /** @var \Magento\Core\Model\StoreManagerInterface  $storeManager */
-        $storeManager = Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
         $defaultStoreId = $storeManager->getStore()->getId();
         return [
             'no store id' => [['id' => 1, 'code' => 'General', 'tax_class_id' => 3], null],
@@ -187,11 +188,13 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Core/_files/second_third_store.php
      */
     public function testGetDefaultGroupWithNonDefaultStoreId()
-    {        /** @var \Magento\Core\Model\StoreManagerInterface  $storeManager */
-        $storeManager = Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface');
-        $nonDefaultStore = $storeManager->getStores()[1];
+    {        /** @var \Magento\Store\Model\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
+        $nonDefaultStore = $storeManager->getStore('secondstore');
         $nonDefaultStoreId = $nonDefaultStore->getId();
-        $nonDefaultStore->setConfig(Group::XML_PATH_DEFAULT_ID, 2);
+        /** @var \Magento\App\MutableScopeConfig $scopeConfig */
+        $scopeConfig = $this->_objectManager->get('Magento\App\MutableScopeConfig');
+        $scopeConfig->setValue(Group::XML_PATH_DEFAULT_ID, 2, ScopeInterface::SCOPE_STORE, 'secondstore');
         $testGroup = ['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3];
         $this->assertDefaultGroupMatches($testGroup, $nonDefaultStoreId);
     }

@@ -15,6 +15,7 @@ namespace Magento\Tax\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\GridPageActions;
 
 /**
  * Class TaxRule.
@@ -37,6 +38,13 @@ class TaxRule extends Page
     protected $taxRuleGrid = '#taxRuleGrid';
 
     /**
+     * Grid page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -53,6 +61,18 @@ class TaxRule extends Page
     {
         return Factory::getBlockFactory()->getMagentoTaxAdminhtmlRuleGrid(
             $this->_browser->find($this->taxRuleGrid, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get Grid page actions block
+     *
+     * @return GridPageActions
+     */
+    public function getActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendGridPageActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }

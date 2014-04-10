@@ -121,7 +121,7 @@ class Soap implements \Magento\App\FrontControllerInterface
     {
         $path = $this->_pathProcessor->process($request->getPathInfo());
         $this->_request->setPathInfo($path);
-        $this->areaList->getArea($this->_layout->getArea())
+        $this->areaList->getArea($this->_appState->getAreaCode())
             ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {

@@ -112,13 +112,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     protected $_options = array();
 
     /**
-     * Product reserved attribute codes
-     *
-     * @var mixed
-     */
-    protected $_reservedAttributes;
-
-    /**
      * Flag for available duplicate function
      *
      * @var boolean
@@ -246,7 +239,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
      * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
@@ -275,7 +268,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
@@ -1530,16 +1523,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * Returns rating summary
-     *
-     * @return mixed
-     */
-    public function getRatingSummary()
-    {
-        return $this->_getData('rating_summary');
-    }
-
-    /**
      * Check is product composite
      *
      * @return bool
@@ -1755,43 +1738,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     protected function _getImageHelper()
     {
         return $this->_catalogImage;
-    }
-
-    /**
-     * Returns system reserved attribute codes
-     *
-     * @return array Reserved attribute names
-     */
-    public function getReservedAttributes()
-    {
-        if ($this->_reservedAttributes === null) {
-            $_reserved = array('position');
-            $methods = get_class_methods(__CLASS__);
-            foreach ($methods as $method) {
-                if (preg_match('/^get([A-Z]{1}.+)/', $method, $matches)) {
-                    $method = $matches[1];
-                    $tmp = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $method));
-                    $_reserved[] = $tmp;
-                }
-            }
-            $_allowed = array('type_id', 'calculated_final_price', 'request_path', 'rating_summary');
-            $this->_reservedAttributes = array_diff($_reserved, $_allowed);
-        }
-        return $this->_reservedAttributes;
-    }
-
-    /**
-     * Check whether attribute reserved or not
-     *
-     * @param \Magento\Catalog\Model\Entity\Attribute $attribute Attribute model object
-     * @return boolean
-     */
-    public function isReservedAttribute($attribute)
-    {
-        return $attribute->getIsUserDefined() && in_array(
-            $attribute->getAttributeCode(),
-            $this->getReservedAttributes()
-        );
     }
 
     /**
