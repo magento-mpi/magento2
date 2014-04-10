@@ -25,7 +25,7 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('current_rma', $rma);
-        $utility = new \Magento\Core\Utility\Layout($this);
+        $utility = new \Magento\View\Utility\Layout($this);
         $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(
             __DIR__ . '/../../../_files/adminhtml_rma_edit.xml',

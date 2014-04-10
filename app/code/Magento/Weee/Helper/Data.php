@@ -160,19 +160,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Get weee tax amount for product based on shipping and billing addresses, website and tax settings
+     * Get weee tax amount for product based on website
      *
      * @param   \Magento\Catalog\Model\Product $product
-     * @param   null|\Magento\Customer\Model\Address\AbstractAddress $shipping
-     * @param   null|\Magento\Customer\Model\Address\AbstractAddress $billing
-     * @param   null|bool|int|string|Website $website
-     * @param   bool $calculateTaxes
+     * @param   mixed $website
      * @return  float
      */
-    public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
+    public function getAmount($product, $website = null)
     {
         if ($this->isEnabled()) {
-            return $this->_weeeTax->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
+            return $this->_weeeTax->getWeeeAmount($product, null, null, $website, false);
         }
         return 0;
     }

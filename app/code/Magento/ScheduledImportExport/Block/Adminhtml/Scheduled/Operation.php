@@ -34,7 +34,7 @@ class Operation extends \Magento\Backend\Block\Widget\Grid\Container
             array(
                 'label' => __('Add Scheduled Import'),
                 'onclick' => "setLocation('" . $this->getUrl('adminhtml/*/new', array('type' => 'import')) . "')",
-                'class' => 'add'
+                'class' => 'add primary add-scheduled-import'
             )
         );
 

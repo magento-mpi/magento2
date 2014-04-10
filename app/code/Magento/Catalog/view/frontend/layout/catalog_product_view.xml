@@ -50,6 +50,7 @@
                     <argument name="add_attribute" xsi:type="string">itemprop="sku"</argument>
                 </arguments>
             </block>
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.review" template="product/view/review.phtml" after="product.info.sku"/>
             <!--<block class="Magento\Catalog\Block\Product\View" name="product.price" template="product/view/price.phtml" after="product.info.rating"/>-->
             <block class="Magento\Catalog\Block\Product\View" name="product.info.rating" template="product/view/rating.phtml" after="product.info.sku"/>
             <block class="Magento\Catalog\Pricing\Render" name="product.price.final" after="product.info.rating">

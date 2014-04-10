@@ -55,9 +55,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
     protected $_localeDate;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\Product\ReservedAttributeList
      */
-    protected $_catalogProductFactory;
+    protected $reservedAttributeList;
 
     /**
      * @var \Magento\Locale\ResolverInterface
@@ -69,12 +69,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
+     * @param TypeFactory $eavTypeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -90,7 +90,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -111,7 +111,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         );
         $this->_localeDate = $localeDate;
         $this->_localeResolver = $localeResolver;
-        $this->_catalogProductFactory = $catalogProductFactory;
+        $this->reservedAttributeList = $reservedAttributeList;
     }
 
     /**
@@ -204,12 +204,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
     protected function _beforeSave()
     {
         // prevent overriding product data
-        if (isset(
-            $this->_data['attribute_code']
-        ) && $this->_catalogProductFactory->create()->isReservedAttribute(
-            $this
-        )
-        ) {
+        if (isset($this->_data['attribute_code']) && $this->reservedAttributeList->isReservedAttribute($this)) {
             throw new Exception(
                 __(
                     'The attribute code \'%1\' is reserved by system. Please try another attribute code',

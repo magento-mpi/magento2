@@ -84,7 +84,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param LockValidatorInterface $lockValidator
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -101,7 +101,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Locale\ResolverInterface $localeResolver,
         LockValidatorInterface $lockValidator,
         \Magento\Model\Resource\AbstractResource $resource = null,
@@ -119,7 +119,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             $resourceHelper,
             $universalFactory,
             $localeDate,
-            $catalogProductFactory,
+            $reservedAttributeList,
             $localeResolver,
             $resource,
             $resourceCollection,

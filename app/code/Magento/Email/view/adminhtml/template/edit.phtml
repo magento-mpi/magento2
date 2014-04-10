@@ -8,19 +8,6 @@
  * @license     {license_link}
  */
 ?>
-<div class="page-actions">
-    <?php echo $this->getBackButtonHtml(); ?>
-    <?php echo $this->getResetButtonHtml(); ?>
-    <?php if($this->getEditMode()): ?>
-    <?php echo $this->getDeleteButtonHtml(); ?>
-    <?php endif ?>
-    <?php if(!$this->isTextType()): ?>
-    <?php echo $this->getToPlainButtonHtml(); ?>
-    <?php echo $this->getToHtmlButtonHtml(); ?>
-    <?php endif ?>
-    <?php echo $this->getPreviewButtonHtml(); ?>
-    <?php echo $this->getSaveButtonHtml(); ?>
-</div>
 <?php if (!$this->getEditMode()): ?>
 <form action="<?php echo $this->getLoadUrl() ?>" method="post" id="email_template_load_form">
     <?php echo $this->getBlockHtml('formkey')?>

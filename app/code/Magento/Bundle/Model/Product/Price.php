@@ -630,4 +630,31 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     {
         return false;
     }
+
+    /**
+     * Calculate and apply special price
+     *
+     * @param float  $finalPrice
+     * @param float  $specialPrice
+     * @param string $specialPriceFrom
+     * @param string $specialPriceTo
+     * @param mixed  $store
+     * @return float
+     */
+    public function calculateSpecialPrice(
+        $finalPrice,
+        $specialPrice,
+        $specialPriceFrom,
+        $specialPriceTo,
+        $store = null
+    ) {
+        if (!is_null($specialPrice) && $specialPrice != false) {
+            if ($this->_localeDate->isScopeDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
+                $specialPrice = $this->_storeManager->getStore()->roundPrice($finalPrice * $specialPrice / 100);
+                $finalPrice = min($finalPrice, $specialPrice);
+            }
+        }
+
+        return $finalPrice;
+    }
 }
