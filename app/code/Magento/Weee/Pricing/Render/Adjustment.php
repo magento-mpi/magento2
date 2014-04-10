@@ -15,6 +15,9 @@ use Magento\Pricing\Render\AbstractAdjustment;
 use Magento\Pricing\PriceCurrencyInterface;
 use Magento\Weee\Model\Tax;
 
+/**
+ * Weee Tax Price Adjustment
+ */
 class Adjustment extends AbstractAdjustment
 {
     /**
