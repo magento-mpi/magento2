@@ -74,7 +74,7 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory
@@ -83,7 +83,7 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory,

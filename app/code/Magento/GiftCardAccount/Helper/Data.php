@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Maximal gift card code length according to database table definitions (longer codes are truncated)

@@ -35,7 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -65,7 +65,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\DB\Helper $coreResourceHelper
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Sales\Model\Order\Config $orderConfig
@@ -81,7 +81,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\DB\Helper $coreResourceHelper,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\Order\Config $orderConfig,

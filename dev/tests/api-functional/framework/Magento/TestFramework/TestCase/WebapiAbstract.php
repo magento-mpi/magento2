@@ -30,7 +30,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     /**
      * Application cache model.
      *
-     * @var \Magento\App\Cache
+     * @var \Magento\Framework\App\Cache
      */
     protected $_appCache;
 
@@ -403,24 +403,24 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     /**
      * Get application cache model
      *
-     * @return \Magento\App\Cache
+     * @return \Magento\Framework\App\Cache
      */
     protected function _getAppCache()
     {
         if (null === $this->_appCache) {
             //set application path
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            /** @var \Magento\App\Config\ScopeConfigInterface $config */
-            $config = $objectManager->get('Magento\App\Config\ScopeConfigInterface');
+            /** @var \Magento\Framework\App\Config\ScopeConfigInterface $config */
+            $config = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
             $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
-            /** @var \Magento\App\Filesystem $filesystem */
-            $filesystem = $objectManager->get('Magento\App\Filesystem');
-            $options->setCacheDir($filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/var/cache');
-            $options->setEtcDir($filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/app/etc');
+            /** @var \Magento\Framework\App\Filesystem $filesystem */
+            $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
+            $options->setCacheDir($filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR) . '/var/cache');
+            $options->setEtcDir($filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR) . '/app/etc');
 
-            $this->_appCache = $objectManager->get('Magento\App\Cache');
+            $this->_appCache = $objectManager->get('Magento\Framework\App\Cache');
 
             //revert paths options
             $options->setCacheDir($currentCacheDir);
@@ -436,7 +436,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      */
     protected function _cleanAppConfigCache()
     {
-        return $this->_getAppCache()->clean(\Magento\App\Config::CACHE_TAG);
+        return $this->_getAppCache()->clean(\Magento\Framework\App\Config::CACHE_TAG);
     }
 
     /**
@@ -473,7 +473,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
             $this->_origConfigValues[$path] = (string)$objectManager->get(
-                'Magento\App\Config\ScopeConfigInterface'
+                'Magento\Framework\App\Config\ScopeConfigInterface'
             )->getNode(
                 $path,
                 'default'
@@ -483,7 +483,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
-                $objectManager->get('Magento\App\Config\ReinitableConfigInterface')->reinit();
+                $objectManager->get('Magento\Framework\App\Config\ReinitableConfigInterface')->reinit();
                 $objectManager->get('Magento\Store\Model\StoreManagerInterface')->reinitStores();
             }
 

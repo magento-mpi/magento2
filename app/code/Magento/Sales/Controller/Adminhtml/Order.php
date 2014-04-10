@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 /**
@@ -36,7 +36,7 @@ class Order extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -48,13 +48,13 @@ class Order extends \Magento\Backend\App\Action
     /**
      * @param Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Translate\InlineInterface $translateInline
      */
     public function __construct(
         Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Translate\InlineInterface $translateInline
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -140,7 +140,7 @@ class Order extends \Magento\Backend\App\Action
         if ($order) {
             try {
                 $this->_initAction();
-            } catch (\Magento\App\Action\Exception $e) {
+            } catch (\Magento\Framework\App\Action\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('sales/order/index');
                 return;
@@ -561,7 +561,7 @@ class Order extends \Magento\Backend\App\Action
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -614,7 +614,7 @@ class Order extends \Magento\Backend\App\Action
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -667,7 +667,7 @@ class Order extends \Magento\Backend\App\Action
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -766,7 +766,7 @@ class Order extends \Magento\Backend\App\Action
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -855,7 +855,7 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -872,7 +872,7 @@ class Order extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 

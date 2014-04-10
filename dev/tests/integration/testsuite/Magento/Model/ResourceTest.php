@@ -12,13 +12,13 @@ namespace Magento\Model;
 class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\Resource');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Resource');
     }
 
     public function testGetTableName()
@@ -28,7 +28,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         $tableNameOrig = 'store_website';
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\App\Resource',
+            'Magento\Framework\App\Resource',
             array('tablePrefix' => 'prefix_')
         );
 

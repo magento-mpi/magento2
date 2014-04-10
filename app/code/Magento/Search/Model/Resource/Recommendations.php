@@ -28,11 +28,11 @@ class Recommendations extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         parent::__construct($resource);

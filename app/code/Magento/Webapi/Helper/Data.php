@@ -10,16 +10,16 @@ namespace Magento\Webapi\Helper;
 use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
 use Magento\Service\Data\AbstractObject;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /** @var \Magento\Registry */
     protected $_registry;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Registry $registry
      */
-    public function __construct(\Magento\App\Helper\Context $context, \Magento\Registry $registry)
+    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\Registry $registry)
     {
         $this->_registry = $registry;
         parent::__construct($context);

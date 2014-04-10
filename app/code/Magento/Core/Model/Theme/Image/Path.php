@@ -21,7 +21,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
@@ -38,12 +38,12 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     /**
      * Initialize dependencies
      * 
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\View\Url $viewUrl,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
@@ -81,7 +81,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getImagePreviewDirectory()
     {
-        return $this->filesystem->getPath(\Magento\App\Filesystem::MEDIA_DIR) . '/' . self::PREVIEW_DIRECTORY_PATH;
+        return $this->filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR) . '/' . self::PREVIEW_DIRECTORY_PATH;
     }
 
     /**
@@ -91,6 +91,6 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getTemporaryDirectory()
     {
-        return $this->filesystem->getPath(\Magento\App\Filesystem::MEDIA_DIR) . '/theme/origin';
+        return $this->filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR) . '/theme/origin';
     }
 }

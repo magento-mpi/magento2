@@ -39,7 +39,7 @@ class ExpressRedirectTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_actionFlag = $this->getMockBuilder(
-            'Magento\App\ActionFlag'
+            'Magento\Framework\App\ActionFlag'
         )->disableOriginalConstructor()->setMethods(
             array('set')
         )->getMock();
@@ -56,7 +56,7 @@ class ExpressRedirectTest extends \PHPUnit_Framework_TestCase
             array('setBeforeAuthUrl')
         )->getMock();
 
-        $this->_context = $this->getMockBuilder('Magento\App\Helper\Context')->disableOriginalConstructor()->getMock();
+        $this->_context = $this->getMockBuilder('Magento\Framework\App\Helper\Context')->disableOriginalConstructor()->getMock();
 
         $this->_helper = new \Magento\Checkout\Helper\ExpressRedirect(
             $this->_actionFlag,
@@ -136,7 +136,7 @@ class ExpressRedirectTest extends \PHPUnit_Framework_TestCase
         );
 
         $responseMock = $this->getMockBuilder(
-            'Magento\App\Response\Http'
+            'Magento\Framework\App\Response\Http'
         )->disableOriginalConstructor()->setMethods(
             array('setRedirect')
         )->getMock();

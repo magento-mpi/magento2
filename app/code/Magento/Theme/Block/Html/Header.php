@@ -32,7 +32,7 @@ class Header extends \Magento\View\Element\Template
     protected $_fileStorageHelper;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -40,14 +40,14 @@ class Header extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageHelper
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Helper\File\Storage\Database $fileStorageHelper,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_fileStorageHelper = $fileStorageHelper;

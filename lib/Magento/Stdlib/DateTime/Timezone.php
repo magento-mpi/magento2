@@ -25,7 +25,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     protected $_scopeType;
 
     /**
-     * @var \Magento\App\ScopeResolverInterface
+     * @var \Magento\Framework\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
 
@@ -45,25 +45,25 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     protected $_defaultTimezonePath;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\ScopeResolverInterface $scopeResolver
+     * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Stdlib\DateTime\DateFactory $dateFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $scopeType
      * @param string $defaultTimezonePath
      */
     public function __construct(
-        \Magento\App\ScopeResolverInterface $scopeResolver,
+        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Stdlib\DateTime\DateFactory $dateFactory,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         $scopeType,
         $defaultTimezonePath
     ) {
@@ -263,7 +263,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function isScopeDateInInterval($scope, $dateFrom = null, $dateTo = null)
     {
-        if (!$scope instanceof \Magento\App\ScopeInterface) {
+        if (!$scope instanceof \Magento\Framework\App\ScopeInterface) {
             $scope = $this->_scopeResolver->getScope($scope);
         }
 

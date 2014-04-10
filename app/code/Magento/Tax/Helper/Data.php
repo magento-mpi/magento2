@@ -15,7 +15,7 @@ use Magento\Customer\Model\Address;
 /**
  * Catalog data helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const PRICE_CONVERSION_PLUS = 1;
 
@@ -96,7 +96,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -126,10 +126,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_localeResolver;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -139,10 +139,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Model\Calculation $calculation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

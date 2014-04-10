@@ -19,7 +19,7 @@ use Magento\Store\Model\Website;
  * @package  Magento_Weee
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const XML_PATH_FPT_ENABLED = 'tax/weee/enable';
 
@@ -45,7 +45,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -60,20 +60,20 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Weee\Model\Tax $weeeTax
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Weee\Model\Tax $weeeTax,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_storeManager = $storeManager;
         $this->_weeeTax = $weeeTax;

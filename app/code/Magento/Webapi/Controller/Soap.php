@@ -17,7 +17,7 @@ use Magento\Webapi\Exception as WebapiException;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Soap implements \Magento\App\FrontControllerInterface
+class Soap implements \Magento\Framework\App\FrontControllerInterface
 {
     /**#@+
      * Content types used for responses processed by SOAP web API.
@@ -43,7 +43,7 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
 
     /** @var \Magento\View\LayoutInterface */
@@ -60,7 +60,7 @@ class Soap implements \Magento\App\FrontControllerInterface
     protected $_localeResolver;
 
     /**
-     * @var \Magento\App\AreaList
+     * @var \Magento\Framework\App\AreaList
      */
     protected $areaList;
 
@@ -70,11 +70,11 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param ErrorProcessor $errorProcessor
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\App\AreaList $areaList
+     * @param \Magento\Framework\App\AreaList $areaList
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -84,11 +84,11 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator,
         \Magento\Webapi\Model\Soap\Server $soapServer,
         ErrorProcessor $errorProcessor,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\App\AreaList $areaList
+        \Magento\Framework\App\AreaList $areaList
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -105,10 +105,10 @@ class Soap implements \Magento\App\FrontControllerInterface
     /**
      * Dispatch SOAP request.
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);

@@ -29,7 +29,7 @@ class Customer extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Framework\App\Action\Title
      */
     protected $_title;
 

@@ -26,9 +26,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Store\Model\StoreManager'
         );
         $scopeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Config\ScopeConfigInterface'
+            'Magento\Framework\App\Config\ScopeConfigInterface'
         );
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem');
         $model = new \Magento\ScheduledImportExport\Model\Observer(
             $operationFactory,
             $transportBuilder,
@@ -40,7 +40,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFileExists(
             $filesystem->getPath(
-                \Magento\App\Filesystem::LOG_DIR
+                \Magento\Framework\App\Filesystem::LOG_DIR
             ) . '/' . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
         );
     }

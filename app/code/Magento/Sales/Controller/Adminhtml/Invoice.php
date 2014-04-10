@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Adminhtml sales orders controller
@@ -27,7 +27,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     {
         $fileName = 'invoices.csv';
         $grid = $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid');
-        return $this->_fileFactory->create($fileName, $grid->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $grid->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -39,6 +39,6 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     {
         $fileName = 'invoices.xml';
         $grid = $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid');
-        return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 }

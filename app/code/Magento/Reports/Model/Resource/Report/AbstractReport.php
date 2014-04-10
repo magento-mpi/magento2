@@ -43,7 +43,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
     protected $_reportsFlagFactory;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
@@ -51,7 +51,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Logger $logger,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,

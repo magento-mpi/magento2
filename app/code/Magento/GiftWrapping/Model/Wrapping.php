@@ -60,7 +60,7 @@ class Wrapping extends \Magento\Model\AbstractModel
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -71,14 +71,14 @@ class Wrapping extends \Magento\Model\AbstractModel
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $this->_uploaderFactory = $uploaderFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

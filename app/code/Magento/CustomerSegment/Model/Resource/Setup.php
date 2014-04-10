@@ -19,7 +19,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     /**
      * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param string $moduleName
@@ -28,7 +28,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     public function __construct(
         \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         $moduleName = 'Magento_CustomerSegment',

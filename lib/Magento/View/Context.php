@@ -7,18 +7,18 @@
  */
 namespace Magento\View;
 
-use Magento\App\Request\Http as Request;
-use Magento\App\FrontControllerInterface;
+use Magento\Framework\App\Request\Http as Request;
+use Magento\Framework\App\FrontControllerInterface;
 use Magento\TranslateInterface;
-use Magento\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
-use Magento\App\State as AppState;
+use Magento\Framework\App\State as AppState;
 use Magento\View\LayoutInterface;
 use Magento\Session\SessionManager;
-use Magento\App\CacheInterface as Cache;
-use Magento\App\Cache\StateInterface as CacheState;
+use Magento\Framework\App\CacheInterface as Cache;
+use Magento\Framework\App\Cache\StateInterface as CacheState;
 use Magento\UrlInterface;
 use Magento\Event\ManagerInterface;
 
@@ -63,7 +63,7 @@ class Context
     /**
      * Cache
      *
-     * @var \Magento\App\CacheInterface
+     * @var \Magento\Framework\App\CacheInterface
      */
     protected $cache;
 
@@ -84,7 +84,7 @@ class Context
     /**
      * Store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $scopeConfig;
 
@@ -119,7 +119,7 @@ class Context
     /**
      * Cache state
      *
-     * @var \Magento\App\Cache\StateInterface
+     * @var \Magento\Framework\App\Cache\StateInterface
      */
     protected $cacheState;
 
@@ -133,7 +133,7 @@ class Context
     /**
      * Application state
      *
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $appState;
 
@@ -197,7 +197,7 @@ class Context
     /**
      * Retrieve cache
      *
-     * @return \Magento\App\CacheInterface
+     * @return \Magento\Framework\App\CacheInterface
      */
     public function getCache()
     {
@@ -267,7 +267,7 @@ class Context
     /**
      * Retrieve scope config
      *
-     * @return \Magento\App\Config\ScopeConfigInterface
+     * @return \Magento\Framework\App\Config\ScopeConfigInterface
      */
     public function getScopeConfig()
     {
@@ -317,7 +317,7 @@ class Context
     /**
      * Retrieve cache state
      *
-     * @return \Magento\App\Cache\StateInterface
+     * @return \Magento\Framework\App\Cache\StateInterface
      */
     public function getCacheState()
     {
@@ -486,7 +486,7 @@ class Context
     /**
      * Retrieve application state
      *
-     * @return \Magento\App\State
+     * @return \Magento\Framework\App\State
      */
     public function getAppState()
     {

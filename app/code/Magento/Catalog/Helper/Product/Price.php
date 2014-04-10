@@ -17,7 +17,7 @@ use Magento\Customer\Service\V1\Data\Customer;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Price extends \Magento\App\Helper\AbstractHelper
+class Price extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Tax\Helper\Data

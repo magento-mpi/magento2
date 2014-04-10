@@ -151,7 +151,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Application configuration
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -166,7 +166,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_processorFactory;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -191,7 +191,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $themeResolver;
 
     /**
-     * @var \Magento\App\ScopeResolverInterface
+     * @var \Magento\Framework\App\ScopeResolverInterface
      */
     protected $scopeResolver;
 
@@ -204,11 +204,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\View\Layout\Argument\Parser $argumentParser
      * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
      * @param \Magento\View\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\View\Design\Theme\ResolverInterface $themeResolver
-     * @param \Magento\App\ScopeResolverInterface $scopeResolver
+     * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param string $scopeType
      */
     public function __construct(
@@ -220,11 +220,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\View\Layout\Argument\Parser $argumentParser,
         \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
         \Magento\View\Layout\ScheduledStructure $scheduledStructure,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\View\Design\Theme\ResolverInterface $themeResolver,
-        \Magento\App\ScopeResolverInterface $scopeResolver,
+        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         $scopeType
     ) {
         $this->_eventManager = $eventManager;
@@ -1464,7 +1464,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $type
      * @throws \Magento\Model\Exception
-     * @return \Magento\App\Helper\AbstractHelper
+     * @return \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getBlockSingleton($type)
     {

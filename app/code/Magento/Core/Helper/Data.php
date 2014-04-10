@@ -12,7 +12,7 @@ namespace Magento\Core\Helper;
 /**
  * Core data helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Currency cache context
@@ -57,7 +57,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -67,7 +67,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -77,17 +77,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_dbCompatibleMode;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         $dbCompatibleMode = true
     ) {
         parent::__construct($context);

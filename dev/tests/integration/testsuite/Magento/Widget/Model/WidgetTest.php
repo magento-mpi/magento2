@@ -58,9 +58,9 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\View\DesignInterface')->setDesignTheme('magento_backend');
         $expectedFilePath = "/adminhtml/magento_backend/en_US/{$expectedFile}";
         $expectedPubFile = $objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getPath(
-            \Magento\App\Filesystem::STATIC_VIEW_DIR
+            \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR
         ) . $expectedFilePath;
 
         if (file_exists($expectedPubFile)) {
@@ -97,8 +97,8 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design')
+                \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
+                    \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design')
                 )
             )
         );

@@ -23,7 +23,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected $viewFileSystem;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
@@ -31,7 +31,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager();
         $this->viewFileSystem = $this->objectManager->get('Magento\View\FileSystem');
-        $this->filesystem = $this->objectManager->get('Magento\App\Filesystem');
+        $this->filesystem = $this->objectManager->get('Magento\Framework\App\Filesystem');
         $this->objectManager->configure(
             array('preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'))
         );
@@ -57,7 +57,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         );
         /** @var $lessPreProcessor \Magento\Less\PreProcessor */
         $lessPreProcessor = $this->objectManager->create('Magento\Less\PreProcessor');
-        $directoryRead = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $directoryRead = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
         /**
          * Solution for \Magento\View\Layout\File\Source\Base aggregator, it depends on theme and area
          */
@@ -98,7 +98,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     public function testViewFilesFromThemes()
     {
-        $directoryRead = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $directoryRead = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
         /** @var $viewService \Magento\View\Service */
         $viewService = $this->objectManager->get('Magento\View\Service');
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
@@ -331,7 +331,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         $this->markTestIncomplete('Should be fixed when static when we have static folder jslib implemented');
         $this->assertFileExists(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\App\Filesystem'
+                'Magento\Framework\App\Filesystem'
             )->getPath(
                 'jslib'
             ) . '/' . $file

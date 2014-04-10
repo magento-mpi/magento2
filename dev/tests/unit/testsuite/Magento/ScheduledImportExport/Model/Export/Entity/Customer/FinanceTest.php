@@ -55,7 +55,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $customerCollectionFactory = $this->getMock(
             'Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory',
             array(),

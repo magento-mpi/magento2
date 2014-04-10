@@ -86,7 +86,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
@@ -133,7 +133,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_cacheStateMock = $this->getMockBuilder(
-            'Magento\App\Cache\StateInterface'
+            'Magento\Framework\App\Cache\StateInterface'
         )->disableOriginalConstructor()->getMock();
 
         $this->_dataHelper = $this->getMock(
@@ -146,7 +146,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
 
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
 
-        $mutableConfig = $this->getMockForAbstractClass('\Magento\App\Config\MutableScopeConfigInterface');
+        $mutableConfig = $this->getMockForAbstractClass('\Magento\Framework\App\Config\MutableScopeConfigInterface');
         $mutableConfig->expects(
             $this->any()
         )->method(
@@ -159,7 +159,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             $this->returnSelf()
         );
 
-        $this->_configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_configMock->expects(
             $this->any()
         )->method(
@@ -283,7 +283,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public function testUpdateNavigationMode()
     {
         $this->_setAdditionalExpectations();
-        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
 
         $request->expects($this->once())->method('getPathInfo')->will($this->returnValue('/'));
 

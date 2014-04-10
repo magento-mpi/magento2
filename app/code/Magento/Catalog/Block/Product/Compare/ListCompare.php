@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\Compare;
 
-use Magento\App\Action\Action;
+use Magento\Framework\App\Action\Action;
 use Magento\Catalog\Model\Product;
 
 class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
@@ -59,7 +59,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     protected $_mapRenderer = 'msrp_noform';
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -100,7 +100,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
      * @param Product\Visibility $catalogProductVisibility
      * @param \Magento\Log\Model\Visitor $logVisitor
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      * @param array $priceBlockTypes
@@ -111,7 +111,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Log\Model\Visitor $logVisitor,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array(),
         array $priceBlockTypes = array()

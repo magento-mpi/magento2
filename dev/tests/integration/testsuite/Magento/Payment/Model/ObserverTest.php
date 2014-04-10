@@ -61,8 +61,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Order\Status $status */
         $status = $this->_objectManager->get('Magento\Sales\Model\Order\Status')->load($statusCode);
 
-        /** @var $scopeConfig \Magento\App\Config\ScopeConfigInterface */
-        $scopeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
+        /** @var $scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
+        $scopeConfig = $this->_objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
         $defaultStatus = (string)$scopeConfig->getValue(
             'payment/checkmo/order_status',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -70,7 +70,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Core\Model\Resource\Config $config */
         $config = $this->_objectManager->get('Magento\Core\Model\Resource\Config');
-        $config->saveConfig('payment/checkmo/order_status', $statusCode, \Magento\App\ScopeInterface::SCOPE_DEFAULT, 0);
+        $config->saveConfig('payment/checkmo/order_status', $statusCode, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, 0);
 
         $this->_resetConfig();
 
@@ -112,8 +112,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_resetConfig();
 
-        /** @var $scopeConfig \Magento\App\Config\ScopeConfigInterface */
-        $scopeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
+        /** @var $scopeConfig \Magento\Framework\App\Config\ScopeConfigInterface */
+        $scopeConfig = $this->_objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
         $unassignedStatus = (string)$scopeConfig->getValue(
             'payment/checkmo/order_status',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -138,7 +138,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _resetConfig()
     {
-        $this->_objectManager->get('Magento\App\Config\ReinitableConfigInterface')->reinit();
+        $this->_objectManager->get('Magento\Framework\App\Config\ReinitableConfigInterface')->reinit();
         $this->_objectManager->create('Magento\Store\Model\StoreManagerInterface')->reinitStores();
     }
 }

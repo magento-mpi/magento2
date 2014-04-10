@@ -66,7 +66,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $stateMock = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $stateMock = $this->getMock('Magento\Framework\App\State', array('getAreaCode'), array(), '', false);
 
         $stateMock->expects(
             $this->any()
@@ -82,7 +82,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
         );
         $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $cacheInterfaceMock = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false);
+        $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
 
 
         $contextMock = $this->getMock(
@@ -129,7 +129,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Catalog\Model\Resource\Product', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false),
             $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false),
             $this->categoryIndexerMock,
             $this->_productFlatProcessor,
             $this->_productPriceProcessor,

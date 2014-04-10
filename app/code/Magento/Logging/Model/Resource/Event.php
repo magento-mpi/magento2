@@ -32,20 +32,20 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Class constructor
      *
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_archiveFactory = $archiveFactory;
-        $this->directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->dateTime = $dateTime;
     }
 

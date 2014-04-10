@@ -22,18 +22,18 @@ class Reorder extends \Magento\Core\Helper\Data
     protected $_customerSession;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Customer\Model\Session $customerSession
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\Customer\Model\Session $customerSession,
         $dbCompatibleMode = true
     ) {

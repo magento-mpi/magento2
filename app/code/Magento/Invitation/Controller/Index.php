@@ -16,10 +16,10 @@
  */
 namespace Magento\Invitation\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * Customer Session
@@ -43,13 +43,13 @@ class Index extends \Magento\App\Action\Action
     protected $invitationFactory;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $session,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
@@ -65,8 +65,8 @@ class Index extends \Magento\App\Action\Action
      * this function checks if user is logged in before all other actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {

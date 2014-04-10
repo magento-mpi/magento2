@@ -23,7 +23,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Cache group Tag
      */
-    const CACHE_GROUP = \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER;
+    const CACHE_GROUP = \Magento\Framework\App\Cache\Type\Block::TYPE_IDENTIFIER;
 
     /**
      * Design
@@ -70,7 +70,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -92,7 +92,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Application front controller
      *
-     * @var \Magento\App\FrontController
+     * @var \Magento\Framework\App\FrontController
      */
     protected $_frontController;
 
@@ -113,7 +113,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Cache State
      *
-     * @var \Magento\App\Cache\StateInterface
+     * @var \Magento\Framework\App\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -157,7 +157,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_isScopePrivate = false;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -194,7 +194,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Get request
      *
-     * @return \Magento\App\RequestInterface
+     * @return \Magento\Framework\App\RequestInterface
      */
     public function getRequest()
     {

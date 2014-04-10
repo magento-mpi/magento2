@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Theme;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 use Magento\Model\Exception;
 use Magento\View\Design\ThemeInterface;
 

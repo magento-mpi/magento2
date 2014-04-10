@@ -56,12 +56,12 @@ class ObjectManagerFactory
         $configuration = $systemConfig->getConfigParam();
         $diConfig->extend($configuration);
 
-        $directories = isset($arguments[\Magento\App\Filesystem::PARAM_APP_DIRS])
-            ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
+        $directories = isset($arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS])
+            ? $arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS]
             : array();
-        $directoryList = new \Magento\App\Filesystem\DirectoryList(realpath(MTF_BP . '../../../../'), $directories);
+        $directoryList = new \Magento\Framework\App\Filesystem\DirectoryList(realpath(MTF_BP . '../../../../'), $directories);
         \Magento\Autoload\IncludePath::addIncludePath(
-            array($directoryList->getDir(\Magento\App\Filesystem::GENERATION_DIR))
+            array($directoryList->getDir(\Magento\Framework\App\Filesystem::GENERATION_DIR))
         );
 
         $factory = new Factory($diConfig);
@@ -82,18 +82,18 @@ class ObjectManagerFactory
     /**
      * Create instance of application arguments
      *
-     * @param \Magento\App\Filesystem\DirectoryList $directoryList
+     * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
      * @param array $arguments
-     * @return \Magento\App\Arguments
+     * @return \Magento\Framework\App\Arguments
      */
-    protected function createAppArguments(\Magento\App\Filesystem\DirectoryList $directoryList, array $arguments)
+    protected function createAppArguments(\Magento\Framework\App\Filesystem\DirectoryList $directoryList, array $arguments)
     {
-        return new \Magento\App\Arguments(
+        return new \Magento\Framework\App\Arguments(
             $arguments,
-            new \Magento\App\Arguments\Loader(
+            new \Magento\Framework\App\Arguments\Loader(
                 $directoryList,
-                isset($arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE])
-                    ? $arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE]
+                isset($arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE])
+                    ? $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE]
                     : null
             )
         );
@@ -117,7 +117,7 @@ class ObjectManagerFactory
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),
                 'const' => $constInterpreter,
                 'object' => new \Magento\Data\Argument\Interpreter\Object($booleanUtils),
-                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($constInterpreter),
+                'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter),
             ),
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );

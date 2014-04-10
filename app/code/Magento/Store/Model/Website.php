@@ -29,7 +29,7 @@ namespace Magento\Store\Model;
  */
 class Website extends \Magento\Model\AbstractModel implements
     \Magento\Object\IdentityInterface,
-    \Magento\App\ScopeInterface
+    \Magento\Framework\App\ScopeInterface
 {
     const ENTITY = 'store_website';
 
@@ -166,7 +166,7 @@ class Website extends \Magento\Model\AbstractModel implements
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Store\Model\GroupFactory $storeGroupFactory
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
@@ -180,7 +180,7 @@ class Website extends \Magento\Model\AbstractModel implements
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,

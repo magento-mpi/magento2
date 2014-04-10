@@ -24,7 +24,7 @@ class Link extends \Magento\View\Element\Html\Link
     protected $_invitationConfiguration;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -35,14 +35,14 @@ class Link extends \Magento\View\Element\Html\Link
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Invitation\Helper\Data $invitationHelper
      * @param \Magento\Invitation\Model\Config $invitationConfiguration
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Invitation\Helper\Data $invitationHelper,
         \Magento\Invitation\Model\Config $invitationConfiguration,
         array $data = array()

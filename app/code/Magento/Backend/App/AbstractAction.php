@@ -14,7 +14,7 @@ namespace Magento\Backend\App;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractAction extends \Magento\App\Action\Action
+abstract class AbstractAction extends \Magento\Framework\App\Action\Action
 {
     /**
      * Name of "is URLs checked" flag
@@ -81,7 +81,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Framework\App\Action\Title
      */
     protected $_title;
 
@@ -203,10 +203,10 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         if (!$this->_processUrlKeys()) {
             return parent::dispatch($request);
@@ -335,7 +335,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      *
      * @param   string $path
      * @param   array $arguments
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     protected function _redirect($path, $arguments = array())
     {

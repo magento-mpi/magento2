@@ -15,7 +15,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\App\Config\ScopePool|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopePool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_scopePullMock;
 
@@ -41,9 +41,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_scopePullMock = $this->getMock('Magento\App\Config\ScopePool', array(), array(), '', false);
+        $this->_scopePullMock = $this->getMock('Magento\Framework\App\Config\ScopePool', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->_initialConfigMock = $this->getMock('Magento\App\Config\Initial', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\Framework\App\Config\Initial', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\Store\Model\Resource\Config\Collection\ScopedFactory',
             array('create'),
@@ -55,7 +55,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $storeFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_storeMock));
 
-        $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
         $placeholderProcessor = $this->getMock(
@@ -92,7 +92,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_storeMock->expects($this->any())->method('load')->with($storeCode);
         $this->_storeMock->expects($this->any())->method('getId')->will($this->returnValue($storeId));
 
-        $dataMock = $this->getMock('Magento\App\Config\Data', array(), array(), '', false);
+        $dataMock = $this->getMock('Magento\Framework\App\Config\Data', array(), array(), '', false);
         $dataMock->expects(
             $this->any()
         )->method(

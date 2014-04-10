@@ -36,7 +36,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     protected $_fileSizeMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Filesystem
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Filesystem
      */
     protected $_filesystemMock;
 
@@ -62,7 +62,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
         $this->_directoryMock = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
-        $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_filesystemMock->expects(
             $this->any()
         )->method(

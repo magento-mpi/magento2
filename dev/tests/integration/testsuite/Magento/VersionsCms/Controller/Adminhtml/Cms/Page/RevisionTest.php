@@ -41,7 +41,7 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
             'Magento\Store\Model\StoreManagerInterface'
         )->getAnyStoreView();
         // fixture design_change
-        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Http\Context');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Http\Context');
         $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
 
         $this->getRequest()->setParam('preview_selected_store', $storeId);

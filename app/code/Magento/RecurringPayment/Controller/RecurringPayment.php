@@ -11,10 +11,10 @@
  */
 namespace Magento\RecurringPayment\Controller;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Controller\RegistryConstants;
 
-class RecurringPayment extends \Magento\App\Action\Action
+class RecurringPayment extends \Magento\Framework\App\Action\Action
 {
     /**
      *
@@ -30,19 +30,19 @@ class RecurringPayment extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Framework\App\Action\Title
      */
     protected $_title;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Action\Title $title
+     * @param \Magento\Framework\App\Action\Title $title
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\Framework\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -53,7 +53,7 @@ class RecurringPayment extends \Magento\App\Action\Action
      * Make sure customer is logged in and put it into registry
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

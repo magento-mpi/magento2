@@ -58,14 +58,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
     /**
      * @param GroupFactory $groupFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      * @param TaxClassModelFactory $taxClassModel
      */
     public function __construct(
         GroupFactory $groupFactory,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
         TaxClassModelFactory $taxClassModelFactory

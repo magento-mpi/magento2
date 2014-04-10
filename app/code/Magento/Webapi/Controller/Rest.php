@@ -20,7 +20,7 @@ use Magento\Webapi\Controller\Rest\Router;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Rest implements \Magento\App\FrontControllerInterface
+class Rest implements \Magento\Framework\App\FrontControllerInterface
 {
     /** @var Router */
     protected $_router;
@@ -34,7 +34,7 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
 
     /** @var \Magento\View\LayoutInterface */
@@ -56,7 +56,7 @@ class Rest implements \Magento\App\FrontControllerInterface
     protected $_errorProcessor;
 
     /**
-     * @var \Magento\App\AreaList
+     * @var \Magento\Framework\App\AreaList
      */
     protected $areaList;
 
@@ -67,14 +67,14 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param RestResponse $response
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
-     * @param \Magento\App\AreaList $areaList
+     * @param \Magento\Framework\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -84,14 +84,14 @@ class Rest implements \Magento\App\FrontControllerInterface
         RestResponse $response,
         Router $router,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,
-        \Magento\App\AreaList $areaList
+        \Magento\Framework\App\AreaList $areaList
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -110,10 +110,10 @@ class Rest implements \Magento\App\FrontControllerInterface
     /**
      * Handle REST request
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);

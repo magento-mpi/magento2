@@ -35,7 +35,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 '',
                 array('customerSession' => $this->_customerSession)
             );
-        $this->objectManager->get('Magento\App\ViewInterface')->setIsLayoutLoaded(true);
+        $this->objectManager->get('Magento\Framework\App\ViewInterface')->setIsLayoutLoaded(true);
     }
 
     protected function tearDown()

@@ -83,7 +83,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')->disableOriginalConstructor()->getMock();
-        $filesystem = $this->getMockBuilder('Magento\App\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem = $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
         $storage = $this->getMockBuilder(
             'Magento\Core\Helper\File\Storage\Database'
         )->disableOriginalConstructor()->getMock();
@@ -112,7 +112,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 $catalogData,
                 $this->_storeManagerMock,
                 $locale,
-                $this->getMock('Magento\App\Config\ScopeConfigInterface')
+                $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface')
             )
         );
     }

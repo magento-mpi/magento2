@@ -19,13 +19,13 @@ class AreaTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\CacheInterface')->
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\CacheInterface')->
             clean(array(\Magento\Core\Model\Design::CACHE_TAG));
     }
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->setAreaCode('frontend');
         /** @var $_model \Magento\Core\Model\App\Area */
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\App\Area',

@@ -33,13 +33,13 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
-     * @param \Magento\App\Resource $coreResource
+     * @param \Magento\Framework\App\Resource $coreResource
      * @param \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory
      * @param \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory
      * @param \Magento\Wishlist\Model\Resource\Item $resource
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Registry $coreRegistry
      * @param mixed $connection
@@ -57,13 +57,13 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
-        \Magento\App\Resource $coreResource,
+        \Magento\Framework\App\Resource $coreResource,
         \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollectionFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory,
         \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
         \Magento\Wishlist\Model\Resource\Item $resource,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Registry $coreRegistry,
         $connection = null
