@@ -10,8 +10,6 @@ namespace Magento\Persistent\Block\Header;
 
 /**
  * @magentoDataFixture Magento/Persistent/_files/persistent.php
- * @magentoConfigFixture current_store persistent/options/customer 1
- * @magentoConfigFixture current_store persistent/options/enabled 1
  */
 class AdditionalTest extends \PHPUnit_Framework_TestCase
 {
@@ -50,6 +48,10 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoConfigFixture current_store persistent/options/customer 1
+     * @magentoConfigFixture current_store persistent/options/enabled 1
+     */
     public function testToHtml()
     {
         /** @var \Magento\Customer\Helper\View $customerViewHelper */

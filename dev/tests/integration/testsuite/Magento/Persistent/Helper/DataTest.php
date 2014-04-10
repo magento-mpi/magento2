@@ -9,8 +9,6 @@ namespace Magento\Persistent\Helper;
 
 /**
  * @magentoDataFixture Magento/Persistent/_files/persistent.php
- * @magentoConfigFixture current_store persistent/options/customer 1
- * @magentoConfigFixture current_store persistent/options/enabled 1
  */
 class DataTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,6 +41,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoConfigFixture current_store persistent/options/customer 1
+     * @magentoConfigFixture current_store persistent/options/enabled 1
+     */
     public function testGetPersistentName()
     {
         /** @var \Magento\Customer\Helper\View $customerViewHelper */

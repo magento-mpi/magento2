@@ -10,8 +10,6 @@ namespace Magento\Persistent\Helper;
 
 /**
  * @magentoDataFixture Magento/Persistent/_files/persistent.php
- * @magentoConfigFixture current_store persistent/options/customer 1
- * @magentoConfigFixture current_store persistent/options/enabled 1
  */
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,6 +33,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->_persistentSessionHelper->setSession($persistentSession);
     }
 
+    /**
+     * @magentoConfigFixture current_store persistent/options/customer 1
+     * @magentoConfigFixture current_store persistent/options/enabled 1
+     */
     public function testGetCustomerDataObject()
     {
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
