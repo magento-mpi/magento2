@@ -740,6 +740,32 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
     }
 
+    public function testGetCustomerByEmail()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::EMAIL] . '/customerEmail',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetCustomerByEmail'
+            ]
+        ];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $customerResponseData = $this->_webApiCall(
+                $serviceInfo,
+                ['customerEmail' => $customerData[Customer::EMAIL]]
+            );
+        } else {
+            $customerResponseData = $this->_webApiCall($serviceInfo);
+        }
+        $this->assertEquals($customerData, $customerResponseData);
+
+    }
     /**
      * @return CustomerDetails
      */

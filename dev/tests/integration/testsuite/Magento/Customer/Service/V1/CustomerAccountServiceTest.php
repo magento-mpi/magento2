@@ -1328,6 +1328,62 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_customerAccountService->isEmailAvailable('nonexistent@example.com', 1));
     }
 
+    /**
+     * @param $email
+     * @param $websiteId
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @dataProvider getValidEmailDataProvider
+     */
+    public function testGetCustomerByEmailWithValidData($email, $websiteId)
+    {
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $customer = $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
+
+        // All these expected values come from _files/customer.php fixture
+        $this->assertEquals(1, $customer->getId());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
+    }
+
+    /**
+     * @param $email
+     * @param $websiteId
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @dataProvider getInvalidEmailDataProvider
+     */
+    public function testGetCustomerByEmailWithInvalidData($email, $websiteId)
+    {
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
+    }
+
+    /**
+     * @return array
+     *
+     */
+    public function getValidEmailDataProvider()
+    {
+        /** @var \Magento\Core\Model\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface');
+        $defaultWebsiteId = $storeManager->getStore()->getWebsiteId();
+        return [
+            'valid email' => ['customer@example.com', null],
+            'default websiteId' => ['customer@example.com', $defaultWebsiteId],
+        ];
+    }
+
+    /**
+     * @return array
+     *
+     */
+    public function getInvalidEmailDataProvider()
+    {
+        return [
+            'invalid email' => ['nonexistent@example.com', null],
+            'invalid websiteId' => ['customer@example.com', 123456],
+        ];
+    }
 
     /**
      * Set Rp data to Customer in fixture

@@ -280,4 +280,14 @@ interface CustomerAccountServiceInterface
      * @return bool
      */
     public function isCustomerInStore($customerWebsiteId, $storeId);
+
+    /**
+     * Check if the email has not been associated with a customer account in given website
+     *
+     * @param string $customerEmail
+     * @param int $websiteId If not set, will use the current websiteId
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerEmail is not found.
+     * @return \Magento\Customer\Service\V1\Data\Customer
+     */
+    public function getCustomerByEmail($customerEmail, $websiteId = null);
 }

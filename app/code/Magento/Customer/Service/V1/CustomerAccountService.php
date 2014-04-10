@@ -809,4 +809,16 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         return in_array($storeId, $ids);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCustomerByEmail($customerEmail, $websiteId = null)
+    {
+        if (is_null($websiteId)) {
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
+        }
+        $customerModel = $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);
+        return $this->_converter->createCustomerFromModel($customerModel);
+    }
 }
