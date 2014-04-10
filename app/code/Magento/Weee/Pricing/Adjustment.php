@@ -129,7 +129,7 @@ class Adjustment implements AdjustmentInterface
      * @param SaleableInterface $saleableItem
      * @return float
      */
-    protected function getAmount($saleableItem)
+    protected function getAmount(SaleableInterface $saleableItem)
     {
         return $this->weeeHelper->getAmount($saleableItem);
     }
