@@ -58,7 +58,6 @@ class Additional extends \Magento\View\Element\Html\Link
     protected function _toHtml()
     {
         $text = $this->_persistentHelper->getPersistentName();
-
         return '<span><a ' . $this->getLinkAttributes() . ' >' . $this->escapeHtml($text) . '</a></span>';
     }
 }

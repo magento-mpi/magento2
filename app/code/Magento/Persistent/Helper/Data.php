@@ -171,8 +171,10 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getPersistentName()
     {
-        return __('(Not %1?)', $this->_escaper->escapeHtml(
-            $this->_customerViewHelper->getCustomerName($this->_persistentSession->getCustomerDataObject()))
+        return __('(Not %1?)',
+            $this->_escaper->escapeHtml(
+                $this->_customerViewHelper->getCustomerName($this->_persistentSession->getCustomerDataObject())
+            )
         );
     }
 

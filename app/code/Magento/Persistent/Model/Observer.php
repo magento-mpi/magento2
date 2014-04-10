@@ -259,12 +259,8 @@ class Observer
         );
 
         $this->_applyAccountLinksPersistentData();
-        $welcomeMessage = __(
-            'Welcome, %1!',
-            $escapedName
-        ) . ' ' . $this->_layout->getBlock(
-            'header.additional'
-        )->toHtml();
+        $welcomeMessage = __('Welcome, %1!', $escapedName)
+            . ' ' . $this->_layout->getBlock('header.additional')->toHtml();
         $block->setWelcome($welcomeMessage);
         return $this;
     }
@@ -303,9 +299,9 @@ class Observer
     {
         $stopActions = array('persistent_index_saveMethod', 'customer_account_createpost');
 
-        if (!$this->_persistentData->canProcess(
-            $observer
-        ) || !$this->_persistentSession->isPersistent() || $this->_customerSession->isLoggedIn()
+        if (!$this->_persistentData->canProcess($observer) ||
+            !$this->_persistentSession->isPersistent() ||
+            $this->_customerSession->isLoggedIn()
         ) {
             return;
         }

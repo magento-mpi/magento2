@@ -136,17 +136,13 @@ class Session
     /**
      * Unload persistent session (if set in config)
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param Observer $observer
      * @return void
      */
     public function synchronizePersistentOnLogout(Observer $observer)
     {
         if (!$this->_persistentData->isEnabled() || !$this->_persistentData->getClearOnLogout()) {
-            return;
-        }
-
-        // Check if customer is valid
-        if (!$this->_customerSession->isLoggedIn()) {
             return;
         }
 
