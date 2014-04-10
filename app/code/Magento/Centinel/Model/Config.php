@@ -18,7 +18,7 @@ class Config
     /**
      * Store id or store model
      *
-     * @var int|\Magento\Core\Model\Store
+     * @var int|\Magento\Store\Model\Store
      */
     protected $_store = false;
 
@@ -32,14 +32,14 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Core config interface
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -51,16 +51,16 @@ class Config
     protected $_encryptor;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Encryption\EncryptorInterface $encryptor
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_coreConfig = $coreConfig;
         $this->_encryptor = $encryptor;
     }
@@ -68,7 +68,7 @@ class Config
     /**
      * Set store to congif model
      *
-     * @param int|\Magento\Core\Model\Store $store
+     * @param int|\Magento\Store\Model\Store $store
      * @return $this
      */
     public function setStore($store)
@@ -80,7 +80,7 @@ class Config
     /**
      * Return store
      *
-     * @return int|\Magento\Core\Model\Store
+     * @return int|\Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -135,7 +135,7 @@ class Config
      */
     private function _getServiceConfigValue($key)
     {
-        return $this->_coreStoreConfig->getConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
+        return $this->_scopeConfig->getValue($this->_serviceConfigPath . '/' . $key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStore());
     }
 
     /**

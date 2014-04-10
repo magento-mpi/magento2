@@ -29,7 +29,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
@@ -52,7 +52,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,

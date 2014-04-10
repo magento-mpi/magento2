@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\TargetRule\Model\Resource\Setup */
+/** @var $installer \Magento\Eav\Model\Entity\Setup */
 $installer = $this;
 
 if ($installer->getAttributeId(

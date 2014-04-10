@@ -9,8 +9,9 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getInstance()
-    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(
+    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+);
 
 require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 /** @var $balance \Magento\CustomerBalance\Model\Balance */
@@ -21,7 +22,7 @@ $balance->setCustomerId(
     $customer->getId()
 )->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Core\Model\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $balance->save();
@@ -34,7 +35,7 @@ $history->setCustomerId(
     $customer->getId()
 )->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Core\Model\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 )->setBalanceModel(
     $balance

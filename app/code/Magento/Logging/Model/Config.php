@@ -37,20 +37,20 @@ class Config
     protected $_systemConfigValues = null;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_store;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Logging\Model\Config\Data $dataStorage
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Logging\Model\Config\Data $dataStorage,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_xmlConfig = $dataStorage->get('logging');
-        $this->_store = $storeManager->getStore();
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -117,14 +117,12 @@ class Config
      */
     public function getActionLabel($action)
     {
-        if (isset(
-            $this->_xmlConfig['actions']
-        ) && array_key_exists(
-            $action,
-            $this->_xmlConfig['actions']
-        ) && isset(
-            $this->_xmlConfig['actions'][$action]['label']
-        )
+        if (isset($this->_xmlConfig['actions'])
+            && array_key_exists(
+                $action,
+                $this->_xmlConfig['actions']
+            )
+            && isset($this->_xmlConfig['actions'][$action]['label'])
         ) {
             return __($this->_xmlConfig['actions'][$action]['label']);
         }
@@ -169,7 +167,10 @@ class Config
      */
     protected function _initSystemConfigValues()
     {
-        $this->_systemConfigValues = $this->_store->getConfig('admin/magento_logging/actions');
+        $this->_systemConfigValues = $this->_scopeConfig->getValue(
+            'admin/magento_logging/actions',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (null === $this->_systemConfigValues) {
             $this->_systemConfigValues = array();
             foreach (array_keys($this->getLabels()) as $key) {

@@ -67,9 +67,9 @@ class Observer
     protected $_cache;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var ScheduleFactory
@@ -91,7 +91,7 @@ class Observer
      * @param ScheduleFactory $scheduleFactory
      * @param \Magento\App\CacheInterface $cache
      * @param ConfigInterface $config
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\Console\Request $request
      * @param \Magento\Shell $shell
      */
@@ -100,7 +100,7 @@ class Observer
         \Magento\Cron\Model\ScheduleFactory $scheduleFactory,
         \Magento\App\CacheInterface $cache,
         \Magento\Cron\Model\ConfigInterface $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\Console\Request $request,
         \Magento\Shell $shell
     ) {
@@ -108,7 +108,7 @@ class Observer
         $this->_scheduleFactory = $scheduleFactory;
         $this->_cache = $cache;
         $this->_config = $config;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_request = $request;
         $this->_shell = $shell;
     }
@@ -130,8 +130,9 @@ class Observer
         foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
             if ($this->_request->getParam(
                 'group'
-            ) === null && $this->_coreStoreConfig->getConfig(
-                'system/cron/' . $groupId . '/use_separate_process'
+            ) === null && $this->_scopeConfig->getValue(
+                'system/cron/' . $groupId . '/use_separate_process',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             ) == 1
             ) {
                 $this->_shell->executeInBackground(
@@ -188,8 +189,9 @@ class Observer
      */
     protected function _runJob($scheduledTime, $currentTime, $jobConfig, $schedule, $groupId)
     {
-        $scheduleLifetime = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_LIFETIME
+        $scheduleLifetime = (int)$this->_scopeConfig->getValue(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_LIFETIME,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         $scheduleLifetime = $scheduleLifetime * self::SECONDS_IN_MINUTE;
         if ($scheduledTime < $currentTime - $scheduleLifetime) {
@@ -249,8 +251,9 @@ class Observer
          * check if schedule generation is needed
          */
         $lastRun = (int)$this->_cache->load(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
-        $rawSchedulePeriod = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY
+        $rawSchedulePeriod = (int)$this->_scopeConfig->getValue(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         $schedulePeriod = $rawSchedulePeriod * self::SECONDS_IN_MINUTE;
         if ($lastRun > time() - $schedulePeriod) {
@@ -288,8 +291,9 @@ class Observer
      */
     protected function _generateJobs($jobs, $exists, $groupId)
     {
-        $scheduleAheadFor = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR
+        $scheduleAheadFor = (int)$this->_scopeConfig->getValue(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
         /**
@@ -300,7 +304,10 @@ class Observer
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
             if (isset($jobConfig['config_path'])) {
-                $cronExpr = $this->_coreStoreConfig->getConfig($jobConfig['config_path']);
+                $cronExpr = $this->_scopeConfig->getValue(
+                    $jobConfig['config_path'],
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
             } elseif (empty($cronExpr) && isset($jobConfig['schedule'])) {
                 $cronExpr = $jobConfig['schedule'];
             }
@@ -339,8 +346,9 @@ class Observer
     {
         // check if history cleanup is needed
         $lastCleanup = (int)$this->_cache->load(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
-        $historyCleanUp = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY
+        $historyCleanUp = (int)$this->_scopeConfig->getValue(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if ($lastCleanup > time() - $historyCleanUp * self::SECONDS_IN_MINUTE) {
             return $this;
@@ -354,11 +362,13 @@ class Observer
             array('in' => array(Schedule::STATUS_SUCCESS, Schedule::STATUS_MISSED, Schedule::STATUS_ERROR))
         )->load();
 
-        $historySuccess = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_SUCCESS
+        $historySuccess = (int)$this->_scopeConfig->getValue(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_SUCCESS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        $historyFailure = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_FAILURE
+        $historyFailure = (int)$this->_scopeConfig->getValue(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_FAILURE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         $historyLifetimes = array(
             Schedule::STATUS_SUCCESS => $historySuccess * self::SECONDS_IN_MINUTE,

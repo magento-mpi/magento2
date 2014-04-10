@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
-class Serialized extends \Magento\Core\Model\Config\Value
+class Serialized extends \Magento\App\Config\Value
 {
     /**
      * @return void

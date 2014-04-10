@@ -9,8 +9,9 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getInstance()
-    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(
+    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+);
 
 $addressData = include __DIR__ . '/address_data.php';
 
@@ -41,7 +42,7 @@ $order->setIncrementId(
     $shippingAddress
 )->setStoreId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Core\Model\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getId()
 )->setPayment(
     $payment

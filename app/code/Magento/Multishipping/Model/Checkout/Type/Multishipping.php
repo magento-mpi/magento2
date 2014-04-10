@@ -31,17 +31,17 @@ class Multishipping extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -93,11 +93,11 @@ class Multishipping extends \Magento\Object
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
      * @param \Magento\Multishipping\Helper\Data $helper
      * @param array $data
@@ -108,17 +108,17 @@ class Multishipping extends \Magento\Object
         \Magento\Sales\Model\OrderFactory $orderFactory,
         CustomerAddressServiceInterface $customerAddressService,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Session $session,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Session\Generic $session,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
         \Magento\Multishipping\Helper\Data $helper,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_session = $session;
         $this->_addressFactory = $addressFactory;
         $this->_quote = $quote;
@@ -393,7 +393,6 @@ class Multishipping extends \Magento\Object
             try {
                 $address = $this->_customerAddressService->getAddress($addressId);
             } catch (\Exception $e) {
-                /** Customer address does not exist. */
             }
             if (isset($address)) {
                 if (!($quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId()))) {
@@ -428,7 +427,6 @@ class Multishipping extends \Magento\Object
         try {
             $address = $this->_customerAddressService->getAddress($addressId);
         } catch (\Exception $e) {
-            /** Customer address does not exist. */
         }
         if (isset($address)) {
             $this->getQuote()->getShippingAddressByCustomerAddressId(
@@ -454,7 +452,6 @@ class Multishipping extends \Magento\Object
         try {
             $address = $this->_customerAddressService->getAddress($addressId);
         } catch (\Exception $e) {
-            /** Customer address does not exist. */
         }
         if (isset($address)) {
             $this->getQuote()->getBillingAddress($addressId)->importCustomerAddressData($address)->collectTotals();
@@ -677,10 +674,12 @@ class Multishipping extends \Magento\Object
      */
     public function validateMinimumAmount()
     {
-        return !($this->_coreStoreConfig->getConfigFlag(
-            'sales/minimum_order/active'
-        ) && $this->_coreStoreConfig->getConfigFlag(
-            'sales/minimum_order/multi_address'
+        return !($this->_scopeConfig->isSetFlag(
+            'sales/minimum_order/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && $this->_scopeConfig->isSetFlag(
+            'sales/minimum_order/multi_address',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && !$this->getQuote()->validateMinimumAmount());
     }
 
@@ -691,9 +690,15 @@ class Multishipping extends \Magento\Object
      */
     public function getMinimumAmountDescription()
     {
-        $descr = $this->_coreStoreConfig->getConfig('sales/minimum_order/multi_address_description');
+        $descr = $this->_scopeConfig->getValue(
+            'sales/minimum_order/multi_address_description',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (empty($descr)) {
-            $descr = $this->_coreStoreConfig->getConfig('sales/minimum_order/description');
+            $descr = $this->_scopeConfig->getValue(
+                'sales/minimum_order/description',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $descr;
     }
@@ -703,9 +708,15 @@ class Multishipping extends \Magento\Object
      */
     public function getMinimumAmountError()
     {
-        $error = $this->_coreStoreConfig->getConfig('sales/minimum_order/multi_address_error_message');
+        $error = $this->_scopeConfig->getValue(
+            'sales/minimum_order/multi_address_error_message',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (empty($error)) {
-            $error = $this->_coreStoreConfig->getConfig('sales/minimum_order/error_message');
+            $error = $this->_scopeConfig->getValue(
+                'sales/minimum_order/error_message',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $error;
     }
