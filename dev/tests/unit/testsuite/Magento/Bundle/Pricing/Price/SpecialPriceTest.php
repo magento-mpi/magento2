@@ -68,7 +68,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getSpecialPrice')
             ->will($this->returnValue($specialPrice));
 
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
         $this->saleable->expects($this->once())

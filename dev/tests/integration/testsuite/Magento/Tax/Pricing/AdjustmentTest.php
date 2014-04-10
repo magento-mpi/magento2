@@ -21,8 +21,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         // Instantiate objects
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
 
         /** @var \Magento\Tax\Model\Config $config */
         $config = $objectManager->get('Magento\Tax\Model\Config');
@@ -65,8 +65,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         // Instantiate objects
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
 
         /** @var \Magento\Tax\Pricing\Adjustment $model */
         $model = $objectManager->create('Magento\Tax\Pricing\Adjustment');

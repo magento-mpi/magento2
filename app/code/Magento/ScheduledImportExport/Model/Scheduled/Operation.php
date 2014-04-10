@@ -75,12 +75,12 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -95,7 +95,7 @@ class Operation extends \Magento\Model\AbstractModel
     protected $_schedOperFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -120,12 +120,12 @@ class Operation extends \Magento\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
-     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\App\Config\ValueFactory $configValueFactory
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -136,19 +136,19 @@ class Operation extends \Magento\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
-        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\App\Config\ValueFactory $configValueFactory,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_dateModel = $dateModel;
         $this->_configValueFactory = $configValueFactory;
         $this->_operationFactory = $operationFactory;
@@ -184,12 +184,14 @@ class Operation extends \Magento\Model\AbstractModel
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        $receiverEmail = $this->_coreStoreConfig->getConfig(
+        $receiverEmail = $this->_scopeConfig->getValue(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
-        $receiverName = $this->_coreStoreConfig->getConfig(
+        $receiverName = $this->_scopeConfig->getValue(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
 

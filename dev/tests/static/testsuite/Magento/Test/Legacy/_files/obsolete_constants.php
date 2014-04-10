@@ -61,7 +61,7 @@ return array(
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\Package'),
     array('DEFAULT_TIMEZONE', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
-    array('DEFAULT_STORE_ID', 'Magento\Catalog\Model\AbstractModel', 'Magento\Core\Model\Store::DEFAULT_STORE_ID'),
+    array('DEFAULT_STORE_ID', 'Magento\Catalog\Model\AbstractModel', 'Magento\Store\Model\Store::DEFAULT_STORE_ID'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Magento\Review\Model\Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
@@ -114,12 +114,12 @@ return array(
     array('RULE_PERM_ALLOW', '\Magento\Math\Random'),
     array('RULE_PERM_DENY', '\Magento\Math\Random'),
     array('RULE_PERM_INHERIT', '\Magento\Math\Random'),
-    array('SCOPE_TYPE_GROUP', 'Magento\Core\Model\App', 'Magento_Core_Model_StoreManagerInterface::SCOPE_TYPE_GROUP'),
-    array('SCOPE_TYPE_STORE', 'Magento\Core\Model\App', 'Magento_Core_Model_StoreManagerInterface::SCOPE_TYPE_STORE'),
+    array('SCOPE_TYPE_GROUP', 'Magento\Core\Model\App', 'Magento\Store\Model\ScopeInterface::SCOPE_GROUP'),
+    array('SCOPE_TYPE_STORE', 'Magento\Core\Model\App', 'Magento\Store\Model\ScopeInterface::SCOPE_STORE'),
     array(
         'SCOPE_TYPE_WEBSITE',
         'Magento\Core\Model\App',
-        'Magento_Core_Model_StoreManagerInterface::SCOPE_TYPE_WEBSITE'
+        'Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE'
     ),
     array('SEESION_MAX_COOKIE_LIFETIME'),
     array('TYPE_BINARY', null, 'Magento_DB_Ddl_Table::TYPE_BLOB'),
@@ -315,7 +315,7 @@ return array(
     array('XML_PATH_FRONT_NAME', 'Magento\DesignEditor\Helper\Data'),
     array('XML_PATH_DISABLED_CACHE_TYPES', 'Magento\DesignEditor\Helper\Data'),
     array('XML_PATH_ENCRYPTION_MODEL', 'Magento\Core\Helper\Data'),
-    array('CONFIG_KEY_PATH_TO_MAP_FILE', 'Magento\Core\Model\Resource\Setup\Migration'),
+    array('CONFIG_KEY_PATH_TO_MAP_FILE', 'Magento\Module\Setup\Migration'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento\App\UpdaterInterface'),
     array('XML_PATH_IGNORE_DEV_MODE', 'Magento\Module\UpdaterInterface'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento\Module\UpdaterInterface'),
@@ -389,7 +389,7 @@ return array(
     array(
         'XML_PATH_USE_FRONTEND_SID',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
+        '\Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
     ),
     array(
         'SESSION_ID_QUERY_PARAM',

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Translation\Model\Inline;
 
 /**
@@ -14,9 +13,11 @@ namespace Magento\Translation\Model\Inline;
 class Config implements \Magento\Translate\Inline\ConfigInterface
 {
     /**
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * Core store config
+     *
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $config;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Core\Helper\Data
@@ -24,12 +25,14 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
     protected $_helper;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $helper
      */
-    public function __construct(\Magento\Core\Model\Store\ConfigInterface $config, \Magento\Core\Helper\Data $helper)
-    {
-        $this->config = $config;
+    public function __construct(
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Core\Helper\Data $helper
+    ) {
+        $this->_scopeConfig = $scopeConfig;
         $this->_helper = $helper;
     }
 
@@ -38,7 +41,11 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
      */
     public function isActive($scope = null)
     {
-        return $this->config->getConfigFlag('dev/translate_inline/active', $scope);
+        return $this->_scopeConfig->isSetFlag(
+            'dev/translate_inline/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $scope
+        );
     }
 
     /**

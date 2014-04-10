@@ -24,7 +24,7 @@ interface PriceCurrencyInterface
      * Convert price value
      *
      * @param float $amount
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @param \Magento\Directory\Model\Currency|string|null $currency
      * @return float
      */
@@ -36,7 +36,7 @@ interface PriceCurrencyInterface
      * @param float $amount
      * @param bool $includeContainer
      * @param int $precision
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @param \Magento\Directory\Model\Currency|string|null $currency
      * @return float
      */
@@ -54,7 +54,7 @@ interface PriceCurrencyInterface
      * @param float $amount
      * @param bool $includeContainer
      * @param int $precision
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @param \Magento\Directory\Model\Currency|string|null $currency
      * @return string
      */

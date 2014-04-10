@@ -21,8 +21,8 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
@@ -30,8 +30,8 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
@@ -40,7 +40,7 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
         $this->_orderCollection = $orderCollection;
         parent::__construct(
             $context,
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
             $appState,
             $priceCurrency,
@@ -68,7 +68,7 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
         } elseif (!$this->_collection->isLive()) {
             $this->_collection->addFieldToFilter(
                 'store_id',
-                array('eq' => $this->_storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
+                array('eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId())
             );
         }
         $this->_collection->load();

@@ -20,7 +20,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -30,14 +30,14 @@ class Observer
     protected $_customerHelper;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Core event manager proxy
@@ -58,21 +58,21 @@ class Observer
 
     /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Core\Model\Session $session
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Session\Generic $session
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Core\Model\Session $session,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Session\Generic $session,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\UrlFactory $urlFactory,
         \Magento\App\ActionFlag $actionFlag
     ) {
@@ -81,7 +81,7 @@ class Observer
         $this->_eventManager = $eventManager;
         $this->_customerHelper = $customerHelper;
         $this->_session = $session;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_urlFactory = $urlFactory;
         $this->_actionFlag = $actionFlag;
     }
@@ -171,8 +171,9 @@ class Observer
                         $response->setRedirect($redirectUrl);
                         $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
-                    if ($this->_storeConfig->getConfigFlag(
-                        \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
+                    if ($this->_scopeConfig->isSetFlag(
+                        \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     )
                     ) {
                         $afterLoginUrl = $this->_customerHelper->getDashboardUrl();

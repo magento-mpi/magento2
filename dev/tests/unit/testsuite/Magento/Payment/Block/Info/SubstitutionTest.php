@@ -41,19 +41,20 @@ class SubstitutionTest extends \PHPUnit_Framework_TestCase
             []
         )->getMock();
 
-        $storeConfig = $this->getMockBuilder(
-            'Magento\Core\Model\Store\Config'
+        $scopeConfig = $this->getMockBuilder(
+            'Magento\App\Config\ScopeConfigInterface'
         )->disableOriginalConstructor()->setMethods(
             []
         )->getMock();
-        $storeConfig->expects(
+        $scopeConfig->expects(
             $this->any()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             $this->stringContains(
                 'advanced/modules_disable_output/'
-            )
+            ),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue(
                 false
@@ -63,7 +64,7 @@ class SubstitutionTest extends \PHPUnit_Framework_TestCase
         $context = $this->getMockBuilder(
             'Magento\View\Element\Template\Context'
         )->disableOriginalConstructor()->setMethods(
-            ['getLayout', 'getEventManager', 'getStoreConfig']
+            ['getLayout', 'getEventManager', 'getScopeConfig']
         )->getMock();
         $context->expects(
             $this->any()
@@ -86,10 +87,10 @@ class SubstitutionTest extends \PHPUnit_Framework_TestCase
         $context->expects(
             $this->any()
         )->method(
-            'getStoreConfig'
+            'getScopeConfig'
         )->will(
             $this->returnValue(
-                $storeConfig
+                $scopeConfig
             )
         );
 

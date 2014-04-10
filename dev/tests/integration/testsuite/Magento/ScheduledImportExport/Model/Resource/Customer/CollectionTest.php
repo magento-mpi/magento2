@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 namespace Magento\ScheduledImportExport\Model\Resource\Customer;
-
+use \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection as FinanceAttributeCollection;
 /**
  * Test collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
  *
@@ -24,7 +24,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->reinitStores();
     }
 
@@ -47,13 +47,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $customer = reset($items);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $website \Magento\Core\Model\Website */
-        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
+        /** @var $website \Magento\Store\Model\Website */
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
         foreach ($websites as $website) {
-            $key = $website->getCode() .
-                '_' .
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-                COLUMN_REWARD_POINTS;
+            $key = $website->getCode() . '_' . FinanceAttributeCollection::COLUMN_REWARD_POINTS;
             $rewardPoints = $customer->getData($key);
             $this->assertNotEmpty($rewardPoints);
             $this->assertEquals(
@@ -82,13 +79,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $customer = reset($items);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
-        /** @var $website \Magento\Core\Model\Website */
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
-            $key = $website->getCode() .
-                '_' .
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-                COLUMN_CUSTOMER_BALANCE;
+            $key = $website->getCode() . '_' . FinanceAttributeCollection::COLUMN_CUSTOMER_BALANCE;
             $customerBalance = $customer->getData($key);
             $this->assertNotEmpty($customerBalance);
             $this->assertEquals(

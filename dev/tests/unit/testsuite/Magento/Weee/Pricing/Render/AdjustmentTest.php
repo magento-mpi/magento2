@@ -59,7 +59,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $storeConfigMock = $this->getMockBuilder('Magento\Core\Model\Store\Config')
+        $storeConfigMock = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
 

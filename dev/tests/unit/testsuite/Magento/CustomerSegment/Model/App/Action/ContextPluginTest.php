@@ -37,12 +37,12 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $customerSegmentMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Website|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $websiteMock;
 
@@ -79,7 +79,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManagerMock = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface',
+        $this->storeManagerMock = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface',
             array(),
             '',
             false
@@ -89,7 +89,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
         };
         $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\RequestInterface');
-        $this->websiteMock = $this->getMock('Magento\Core\Model\Website',
+        $this->websiteMock = $this->getMock('Magento\Store\Model\Website',
             array('__wakeup', 'getId'),
             array(),
             '',

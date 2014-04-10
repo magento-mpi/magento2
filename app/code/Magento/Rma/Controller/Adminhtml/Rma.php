@@ -246,7 +246,7 @@ class Rma extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(__('You submitted the RMA request.'));
         } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')->getRmaErrorKeys();
+            $errorKeys = $this->_objectManager->get('Magento\Session\Generic')->getRmaErrorKeys();
             $controllerParams = array('order_id' => $this->_coreRegistry->registry('current_order')->getId());
             if (!empty($errorKeys) && isset($errorKeys['tabs']) && $errorKeys['tabs'] == 'items_section') {
                 $controllerParams['active_tab'] = 'items_section';
@@ -356,7 +356,7 @@ class Rma extends \Magento\Backend\App\Action
             }
         } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')->getRmaErrorKeys();
+            $errorKeys = $this->_objectManager->get('Magento\Session\Generic')->getRmaErrorKeys();
             $controllerParams = array('id' => $rmaId);
             if (isset($errorKeys['tabs']) && $errorKeys['tabs'] == 'items_section') {
                 $controllerParams['active_tab'] = 'items_section';

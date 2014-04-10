@@ -22,9 +22,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * Core store config mock
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Config\ScopeConfigInterface
      */
-    protected $coreStoreConfigMock;
+    protected $scopeConfigMock;
 
     /**
      * Context mock
@@ -50,7 +50,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->contextMock = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
-        $this->coreStoreConfigMock = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->scopeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->checkoutSessionMock = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote', array(), array(), '', false);
 
@@ -59,7 +59,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'Magento\Multishipping\Helper\Data',
             array(
                 'context' => $this->contextMock,
-                'coreStoreConfig' => $this->coreStoreConfigMock,
+                'scopeConfig' => $this->scopeConfigMock,
                 'checkoutSession' => $this->checkoutSessionMock
             )
         );
@@ -68,10 +68,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetMaximumQty()
     {
         $maximumQty = 10;
-        $this->coreStoreConfigMock->expects(
+        $this->scopeConfigMock->expects(
             $this->once()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             \Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY
         )->will(
@@ -104,10 +104,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $maximumQty,
         $hasNominalItems
     ) {
-        $this->coreStoreConfigMock->expects(
+        $this->scopeConfigMock->expects(
             $this->once()
         )->method(
-            'getConfigFlag'
+            'isSetFlag'
         )->with(
             \Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE
         )->will(
@@ -152,10 +152,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($itemVirtualQty)
         );
-        $this->coreStoreConfigMock->expects(
+        $this->scopeConfigMock->expects(
             $this->any()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             \Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY
         )->will(

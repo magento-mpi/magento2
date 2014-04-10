@@ -85,7 +85,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->priceInfo));
 
         $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
-        $config = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
+        $config = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
         $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
 
         $this->priceBox = $this->getMock('Magento\Pricing\Render\PriceBox', [], [], '', false);

@@ -26,7 +26,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
+    protected $_websites = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
 
     /**
      * Attributes array
@@ -55,7 +55,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $customerCollectionFactory = $this->getMock(
             'Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory',
             array(),
@@ -74,7 +74,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $storeManager->expects(
             $this->exactly(2)
         )->method(
@@ -84,7 +84,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance(
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false, false),
             $this->getMock(
@@ -166,7 +166,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 continue;
             }
             $websiteData = array('id' => $id, 'code' => $code);
@@ -179,7 +179,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method exportItem()
      *
-     * @covers \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::exportItem
+     * @covers Finance::exportItem
      */
     public function testExportItem()
     {
@@ -225,14 +225,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function validateWriteRow(array $row)
     {
-        $emailColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_EMAIL;
+        $emailColumn = Finance::COLUMN_EMAIL;
         $this->assertEquals($this->_customerData['email'], $row[$emailColumn]);
 
-        $websiteColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE;
+        $websiteColumn = Finance::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
-        $financeWebsiteCol =
-            \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteCol = Finance::COLUMN_FINANCE_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$financeWebsiteCol]);
 
         $this->assertEquals($this->_customerData[self::WEBSITE_ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

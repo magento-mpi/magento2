@@ -63,7 +63,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -91,7 +91,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Theme\Helper\Layout $pageLayout
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\ViewInterface $view
@@ -103,7 +103,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
         \Magento\Theme\Helper\Layout $pageLayout,
         \Magento\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Escaper $escaper,
         \Magento\App\ViewInterface $view
