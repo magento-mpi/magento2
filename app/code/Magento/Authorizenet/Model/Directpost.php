@@ -55,7 +55,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
     /**#@-*/
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -77,7 +77,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Module\ModuleListInterface $moduleList
@@ -89,7 +89,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory
      * @param \Magento\Authorizenet\Model\Directpost\Response $response
@@ -101,7 +101,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Logger $logger,
         \Magento\Module\ModuleListInterface $moduleList,
@@ -113,7 +113,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Authorizenet\Helper\Data $authorizenetData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory,
         \Magento\Authorizenet\Model\Directpost\Response $response,
@@ -123,7 +123,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         parent::__construct(
             $eventManager,
             $paymentData,
-            $coreStoreConfig,
+            $scopeConfig,
             $logAdapterFactory,
             $logger,
             $moduleList,

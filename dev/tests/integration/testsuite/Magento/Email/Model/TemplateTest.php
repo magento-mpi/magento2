@@ -40,12 +40,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
-                $objectManager->get('Magento\Core\Model\StoreManager'),
+                $objectManager->get('Magento\Store\Model\StoreManager'),
                 $objectManager->create('Magento\App\Filesystem'),
                 $objectManager->create('Magento\View\Url'),
                 $objectManager->create('Magento\View\FileSystem'),
-                $objectManager->create('Magento\Core\Model\Store\Config'),
-                $objectManager->create('Magento\App\ConfigInterface'),
+                $objectManager->create('Magento\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Email\Model\Template\Config')
             )
@@ -71,7 +70,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($filter, $this->_model->getTemplateFilter());
         $this->assertEquals(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Core\Model\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->getId(),
             $filter->getStoreId()
         );
@@ -99,8 +98,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplate()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\AreaList'
+        )->getArea(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND
+        )->load();
         $this->_setNotDefaultThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico';
         $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
@@ -109,7 +111,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array(
                 'area' => 'frontend',
                 'store' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Core\Model\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore(
                     'fixturestore'
                 )->getId()
@@ -129,12 +131,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         );
         $theme->load('Magento/plushe', 'theme_path');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
-        )->getStore(
-            'fixturestore'
-        )->setConfig(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
             \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-            $theme->getId()
+            $theme->getId(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            'fixturestore'
         );
     }
 
@@ -144,8 +146,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplateDesignChange()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\AreaList'
+        )->getArea(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND
+        )->load();
         $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsWith(
             'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico',
@@ -159,8 +164,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplateSubject()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\AreaList'
+        )->getArea(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND
+        )->load();
         $this->_setNotDefaultThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Magento_Theme::favicon.ico"}}');
@@ -169,7 +177,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array(
                 'area' => 'frontend',
                 'store' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Core\Model\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore(
                     'fixturestore'
                 )->getId()
@@ -183,8 +191,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultEmailLogo()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\AreaList'
+        )->getArea(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND
+        )->load();
         $this->assertStringEndsWith(
             'static/frontend/Magento/blank/en_US/Magento_Email/logo_email.gif',
             $this->_model->getDefaultEmailLogo()

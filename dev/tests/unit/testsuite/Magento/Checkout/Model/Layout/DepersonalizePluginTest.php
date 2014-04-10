@@ -52,7 +52,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false);
         $this->checkoutSessionMock = $this->getMock(
-            'Magento\Core\Model\Session',
+            'Magento\Session\Generic',
             array('clearStorage', 'setData', 'getData'),
             array(),
             '',

@@ -75,7 +75,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetConfiguration()
+    public function testgetConfiguration()
     {
         $this->_fileManagerMock->expects(
             $this->once()

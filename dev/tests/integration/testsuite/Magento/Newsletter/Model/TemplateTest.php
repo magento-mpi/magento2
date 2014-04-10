@@ -41,7 +41,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         if ($store != 'default') {
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\App\ConfigInterface'
+                'Magento\App\Config\MutableScopeConfigInterface'
             )->setValue(
                 \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
                 $design,

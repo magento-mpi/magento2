@@ -41,7 +41,7 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
             '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory', array('create'), array(), '', false);
 
         $this->storeManagerMock = $this->getMock(
-            '\Magento\Core\Model\StoreManagerInterface', array(), array(), '', false
+            '\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false
         );
 
         $this->layerMock = $this->getMock(
@@ -102,7 +102,7 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
         $collectionMock->expects($this->once())->method('removePriceFilter');
 
         //store mocks for collection chain
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeId = 4321;
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));

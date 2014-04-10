@@ -59,9 +59,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('magento_customerbalance', array('website_id')),
     array('website_id')
 )->addForeignKey(
-    $installer->getFkName('magento_customerbalance', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('magento_customerbalance', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

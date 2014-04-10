@@ -22,7 +22,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
+    protected $_websites = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
 
     /**
      * Attributes array
@@ -70,7 +70,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
 
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $storeManager->expects(
             $this->once()
         )->method(
@@ -81,7 +81,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address(
-            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+            $this->getMock('Magento\App\Config\ScopeConfigInterface'),
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock(
@@ -202,7 +202,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 continue;
             }
             $websiteData = array('id' => $id, 'code' => $code);

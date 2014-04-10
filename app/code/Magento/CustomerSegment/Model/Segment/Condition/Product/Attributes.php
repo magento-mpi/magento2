@@ -200,7 +200,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                array('store' => $this->getResource()->getTable('core_store')),
+                array('store' => $this->getResource()->getTable('store')),
                 'main.store_id=store.store_id',
                 array()
             )->where(

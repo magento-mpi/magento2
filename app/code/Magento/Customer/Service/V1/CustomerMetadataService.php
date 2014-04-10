@@ -28,7 +28,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_attrFormCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     private $_storeManager;
 
@@ -50,7 +50,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Store\Model\StoreManager $storeManager
      * @param Data\Eav\OptionBuilder $optionBuilder
      * @param Data\Eav\ValidationRuleBuilder $validationRuleBuilder
      * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
@@ -58,7 +58,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Store\Model\StoreManager $storeManager,
         Data\Eav\OptionBuilder $optionBuilder,
         Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
         Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder

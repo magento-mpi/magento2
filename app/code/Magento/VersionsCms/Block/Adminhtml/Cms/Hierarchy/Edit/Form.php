@@ -678,7 +678,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Get current store view if available, or get any in current scope
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {

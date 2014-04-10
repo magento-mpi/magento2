@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\TargetRule\Model\Resource\Setup */
+/* @var $installer \Magento\Eav\Model\Entity\Setup */
 
 $installer = $this;
 $installer->startSetup();
@@ -256,9 +256,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('magento_targetrule_product', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('magento_targetrule_product', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('magento_targetrule_product', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -340,9 +340,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_targetrule_index', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('magento_targetrule_index', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -406,9 +406,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_related', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('magento_targetrule_index_related', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -472,9 +472,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_upsell', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('magento_targetrule_index_upsell', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -538,9 +538,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_crosssell', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('magento_targetrule_index_crosssell', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

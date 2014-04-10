@@ -15,7 +15,7 @@ $permission = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->creat
 );
 $permission->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Core\Model\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getWebsite()->getId()
 )->setCategoryId(
     6
@@ -49,7 +49,7 @@ $product->setTypeId(
 )->setName(
     'Simple Product Two'
 )->setSku(
-    '12345' // SKU intentionally contains digits only
+    '12345'
 )->setPrice(
     45.67
 )->setWeight(
