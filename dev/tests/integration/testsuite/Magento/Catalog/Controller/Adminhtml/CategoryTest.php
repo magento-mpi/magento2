@@ -26,8 +26,8 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
-        /** @var $store \Magento\Core\Model\Store */
-        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Store');
+        /** @var $store \Magento\Store\Model\Store */
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 
@@ -52,8 +52,8 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
         foreach ($attributesSaved as $attribute => $value) {
             $actualValue = $category->getData($attribute);
             if ($value !== $actualValue) {
-                $errors[] =
-                    "value for '{$attribute}' attribute must be '{$value}', but '{$actualValue}' is found instead";
+                $errors[] = "value for '{$attribute}' attribute must be '{$value}'"
+                    . ", but '{$actualValue}' is found instead";
             }
         }
 

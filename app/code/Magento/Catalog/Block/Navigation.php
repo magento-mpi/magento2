@@ -80,7 +80,6 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Registry $registry
@@ -92,7 +91,6 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
-        \Magento\Customer\Model\Session $customerSession,
         \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Registry $registry,
@@ -118,7 +116,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
         $this->addData(
             array(
                 'cache_lifetime' => false,
-                'cache_tags' => array(Category::CACHE_TAG, \Magento\Core\Model\Store\Group::CACHE_TAG)
+                'cache_tags' => array(Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG)
             )
         );
     }
@@ -509,6 +507,6 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
      */
     public function getIdentities()
     {
-        return array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Core\Model\Store\Group::CACHE_TAG);
+        return array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG);
     }
 }

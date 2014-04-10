@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -57,10 +57,10 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->subjectMock = $this->getMock('Magento\Core\Model\Resource\Store\Group', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
 
         $this->groupMock = $this->getMock(
-            'Magento\Core\Model\Store\Group',
+            'Magento\Store\Model\Group',
             array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
             array(),
             '',
@@ -94,7 +94,7 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->never())->method('isFlatEnabled');
         $this->groupMock = $this->getMock(
-            'Magento\Core\Model\Store\Group',
+            'Magento\Store\Model\Group',
             array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
             array(),
             '',

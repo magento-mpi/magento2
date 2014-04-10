@@ -105,10 +105,10 @@ class UserWithRestrictedRoleTest extends Functional
     public function testAclRoleWithRestrictedGwsScope()
     {
         //Create new Store
-        $storeGroupFixture = Factory::getFixtureFactory()->getMagentoCoreStoreGroup();
+        $storeGroupFixture = Factory::getFixtureFactory()->getMagentoStoreStoreGroup();
         $storeGroupData = $storeGroupFixture->persist();
 
-        $storeFixture = Factory::getFixtureFactory()->getMagentoCoreStore(
+        $storeFixture = Factory::getFixtureFactory()->getMagentoStoreStore(
             array('store_group' => $storeGroupData['id'])
         );
         $storeFixture->switchData('custom_store');

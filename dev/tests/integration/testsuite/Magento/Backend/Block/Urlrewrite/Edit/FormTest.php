@@ -107,7 +107,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         // Check that store value set correctly
         $defaultStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore(
             true
         )->getId();
@@ -137,7 +137,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         // Check store elements has expected values
         $storesList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\System\Store'
+            'Magento\Store\Model\System\Store'
         )->getStoreValuesForForm();
         $this->assertInternalType('array', $storeElement->getValues());
         $this->assertNotEmpty($storeElement->getValues());

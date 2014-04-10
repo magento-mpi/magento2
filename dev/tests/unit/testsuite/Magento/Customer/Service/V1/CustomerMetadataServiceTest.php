@@ -119,7 +119,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory'
         )->disableOriginalConstructor()->getMock();
         $storeManagerMock = $this->getMockBuilder(
-            '\Magento\Core\Model\StoreManager'
+            '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
@@ -158,7 +158,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory'
         )->disableOriginalConstructor()->getMock();
         $storeManagerMock = $this->getMockBuilder(
-            '\Magento\Core\Model\StoreManager'
+            '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
@@ -214,7 +214,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory'
         )->disableOriginalConstructor()->getMock();
         $storeManagerMock = $this->getMockBuilder(
-            '\Magento\Core\Model\StoreManager'
+            '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
@@ -257,7 +257,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory'
         )->disableOriginalConstructor()->getMock();
         $storeManagerMock = $this->getMockBuilder(
-            '\Magento\Core\Model\StoreManager'
+            '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
@@ -292,7 +292,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory'
         )->disableOriginalConstructor()->getMock();
         $storeManagerMock = $this->getMockBuilder(
-            '\Magento\Core\Model\StoreManager'
+            '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
@@ -329,7 +329,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory'
         )->disableOriginalConstructor()->getMock();
         $storeManagerMock = $this->getMockBuilder(
-            '\Magento\Core\Model\StoreManager'
+            '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
@@ -378,7 +378,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
 
         $storeManagerMock = $this->getMockBuilder(
-            '\Magento\Core\Model\StoreManager'
+            '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
         $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();

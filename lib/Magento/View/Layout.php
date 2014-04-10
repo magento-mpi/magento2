@@ -151,9 +151,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Application configuration
      *
-     * @var \Magento\App\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $config;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Logger $logger
@@ -183,7 +183,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * @var string
      */
-    protected $scope;
+    protected $scopeType;
 
     /**
      * @var \Magento\View\Design\Theme\ResolverInterface
@@ -191,7 +191,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $themeResolver;
 
     /**
-     * @var \Magento\BaseScopeResolverInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
     protected $scopeResolver;
 
@@ -204,12 +204,12 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\View\Layout\Argument\Parser $argumentParser
      * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
      * @param \Magento\View\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\App\Config $config
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\View\Design\Theme\ResolverInterface $themeResolver
-     * @param \Magento\BaseScopeResolverInterface $scopeResolver
-     * @param string $scope
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
+     * @param string $scopeType
      */
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
@@ -220,15 +220,15 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\View\Layout\Argument\Parser $argumentParser,
         \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
         \Magento\View\Layout\ScheduledStructure $scheduledStructure,
-        \Magento\App\Config $config,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\View\Design\Theme\ResolverInterface $themeResolver,
-        \Magento\BaseScopeResolverInterface $scopeResolver,
-        $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT
+        \Magento\App\ScopeResolverInterface $scopeResolver,
+        $scopeType
     ) {
         $this->_eventManager = $eventManager;
-        $this->config = $config;
+        $this->_scopeConfig = $scopeConfig;
         $this->_blockFactory = $blockFactory;
         $this->_appState = $appState;
         $this->_structure = $structure;
@@ -241,7 +241,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_processorFactory = $processorFactory;
         $this->_logger = $logger;
         $this->messageManager = $messageManager;
-        $this->scope = $scope;
+        $this->scopeType = $scopeType;
         $this->themeResolver = $themeResolver;
         $this->scopeResolver = $scopeResolver;
     }
@@ -770,7 +770,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
         $configPath = (string)$node->getAttribute('ifconfig');
         if (!empty($configPath)
-            && !$this->config->isSetFlag($configPath, $this->scope, $this->scopeResolver->getScope()->getCode())
+            && !$this->_scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
         ) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
@@ -872,7 +872,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     {
         $configPath = $node->getAttribute('ifconfig');
         if ($configPath
-            && !$this->config->isSetFlag($configPath, $this->scope, $this->scopeResolver->getScope()->getCode())
+            && !$this->_scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
         ) {
             return;
         }

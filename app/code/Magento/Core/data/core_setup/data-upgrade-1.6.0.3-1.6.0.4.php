@@ -8,22 +8,22 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
-$installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
+/** @var $installer \Magento\Module\Setup\Migration */
+$installer = $this->createMigrationSetup();
 $installer->startSetup();
 
 $installer->appendClassAliasReplace(
     'core_config_data',
     'value',
-    \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL,
-    \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
+    \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL,
+    \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
     array('config_id')
 );
 $installer->appendClassAliasReplace(
     'core_layout_update',
     'xml',
-    \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
-    \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_XML,
+    \Magento\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_XML,
     array('layout_update_id')
 );
 $installer->doUpdateClassAliases();
