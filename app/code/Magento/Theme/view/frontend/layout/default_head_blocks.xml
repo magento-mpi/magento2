@@ -8,6 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+    <referenceBlock name="head.components">
+        <block class="Magento\View\Element\Template" name="theme_page_head_components" template="Magento_Theme::js/components.phtml"/>
+    </referenceBlock>
     <referenceBlock name="head">
         <block class="Magento\Theme\Block\Html\Head\Css" name="magento-calendar-css">
             <arguments>
@@ -62,6 +65,16 @@
                 <argument name="file" xsi:type="string">jquery/jquery.tmpl.min.js</argument>
             </arguments>
         </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-validate-js">
+            <arguments>
+                <argument name="file" xsi:type="string">jquery/jquery.validate.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-metadata-js">
+            <arguments>
+                <argument name="file" xsi:type="string">jquery/jquery.metadata.js</argument>
+            </arguments>
+        </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-bootstrap-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/bootstrap.js</argument>
@@ -97,6 +110,5 @@
                 <argument name="file" xsi:type="string">mage/dataPost.js</argument>
             </arguments>
         </block>
-        <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml"/>
     </referenceBlock>
 </layout>
