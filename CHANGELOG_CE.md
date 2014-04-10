@@ -44,6 +44,12 @@
   * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
   * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
   * Fixed: Tax class ID is displayed on "Customer Groups" grid instead of tax class name (MAGETWO-21826)
+  * Fixed: Unable to save Fontend App, information about Layout Updates is not saved (MAGETWO-21735)
+  * Fixed: Configurable product base image disappears on selecting product variations (MAGETWO-22973)
+  * Fixed: Unable to login to frontend, save customer address if FPC is disabled (MAGETWO-23149)
+  * Fixed: Compare products link and widget is absent on frontend (MAGETWO-22465)
+  * Fixed: Inability to create shipping label with FedEx (MAGETWO-22600)
+  * Fixed: Error message blocks are absent during installation wizard pages (MAGETWO-22318)
 * GitHub requests:
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 * Customer Service usage:
