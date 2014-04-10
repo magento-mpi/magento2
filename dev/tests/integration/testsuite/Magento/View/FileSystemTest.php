@@ -42,13 +42,6 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
-    public function testGetFileNameAccordingToLocale()
-    {
-        $expected = '%s/frontend/test_default/web/i18n/fr_FR/logo.gif';
-        $actual = $this->_model->getViewFile('logo.gif', array('locale' => 'fr_FR'));
-        $this->_testExpectedVersusActualFilename($expected, $actual);
-    }
-
     /**
      * Tests expected vs actual found fallback filename
      *

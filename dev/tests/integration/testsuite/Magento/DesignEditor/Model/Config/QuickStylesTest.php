@@ -24,11 +24,6 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
     protected $_design;
 
     /**
-     * @var \Magento\View\FileSystem
-     */
-    protected $_viewFileSystem;
-
-    /**
      * Initialize dependencies
      */
     protected function setUp()
@@ -41,8 +36,9 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
         $this->_design = $objectManager->get('Magento\View\DesignInterface');
         $objectManager->get('Magento\App\State')->setAreaCode(\Magento\View\DesignInterface::DEFAULT_AREA);
         $this->_design->setDesignTheme('vendor_test');
-        $this->_viewFileSystem = $objectManager->get('Magento\View\FileSystem');
-        $quickStylesPath = $this->_viewFileSystem->getViewFile('Magento_DesignEditor::controls/quick_styles.xml');
+        /** @var \Magento\View\Asset\Repository $assetRepo */
+        $assetRepo = $objectManager->get('Magento\View\Asset\Repository');
+        $quickStylesPath = $assetRepo->createAsset('Magento_DesignEditor::controls/quick_styles.xml')->getSourceFile();
         $this->assertFileExists($quickStylesPath);
         $this->_model = $objectManager->create(
             'Magento\DesignEditor\Model\Config\Control\QuickStyles',

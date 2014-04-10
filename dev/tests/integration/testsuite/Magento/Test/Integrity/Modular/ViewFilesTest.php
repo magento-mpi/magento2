@@ -27,9 +27,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\View\DesignInterface')
                     ->setDefaultDesignTheme();
-                $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\View\FileSystem')
-                    ->getViewFile($file);
+                /** @var \Magento\View\Asset\Repository $assetRepo */
+                $assetRepo = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
+                    ->get('Magento\View\Asset\Repository');
+                $result = $assetRepo->createAsset($file)->getSourceFile();
                 $this->assertFileExists($result);
             },
             $this->viewFilesFromModulesViewDataProvider()
@@ -130,9 +131,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\View\DesignInterface')
                     ->setDefaultDesignTheme();
-                $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\View\FileSystem');
-                $this->assertFileExists($filesystem->getViewFile($file));
+                /** @var \Magento\View\Asset\Repository $assetRepo */
+                $assetRepo = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
+                    ->get('Magento\View\Asset\Repository');
+                $this->assertFileExists($assetRepo->createAsset($file)->getSourceFile());
             },
             $this->viewFilesFromModulesCodeDataProvider()
         );

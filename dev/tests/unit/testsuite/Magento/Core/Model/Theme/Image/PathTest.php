@@ -27,11 +27,6 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected $filesystem;
 
     /**
-     * @var \Magento\View\FileSystem
-     */
-    protected $viewFilesystem;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Asset\Repository
      */
     protected $_assetRepo;
@@ -52,7 +47,6 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->mediaDirectory = $this->getMock(
             'Magento\Filesystem\Directory\ReadInterface', array(), array(), '', false
         );
-        $this->viewFilesystem = $this->getMock('Magento\View\FileSystem', array(), array(), '', false);
         $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
         $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
@@ -72,7 +66,6 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
         $this->model = new Path(
             $this->filesystem,
-            $this->viewFilesystem,
             $this->_assetRepo,
             $this->_storeManager
         );

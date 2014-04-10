@@ -33,11 +33,6 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     protected $assetRepo;
 
     /**
-     * @var \Magento\View\FileSystem
-     */
-    protected $viewFileSystem;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
@@ -46,18 +41,15 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      * Initialize dependencies
      *
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\FileSystem $viewFilesystem
      * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFilesystem,
         \Magento\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->mediaDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
-        $this->viewFileSystem = $viewFilesystem;
         $this->assetRepo = $assetRepo;
         $this->storeManager = $storeManager;
     }
@@ -88,10 +80,10 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     public function getPreviewImagePath(ThemeInterface $theme)
     {
         return $theme->isPhysical()
-            ? $this->viewFileSystem->getViewFile($theme->getPreviewImage(), [
+            ? $this->assetRepo->createAsset($theme->getPreviewImage(), [
                 'area'       => $theme->getData('area'),
                 'themeModel' => $theme
-            ])
+            ])->getSourceFile()
             : $this->mediaDirectory->getAbsolutePath(self::PREVIEW_DIRECTORY_PATH . '/' . $theme->getPreviewImage());
     }
 

@@ -1345,4 +1345,5 @@ return array(
         'Magento\View\Asset\PreProcessor\ModuleNotation',
         'Magento\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
+    ['getViewFile', 'Magento\View\FileSystem', 'Magento\View\Asset\File::getSourceFile()']
 );

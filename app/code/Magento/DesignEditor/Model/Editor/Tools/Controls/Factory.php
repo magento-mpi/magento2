@@ -38,9 +38,9 @@ class Factory
     protected $_objectManager;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\View\Asset\Repository
      */
-    protected $_viewFileSystem;
+    protected $assetRepo;
 
     /**
      * @var \Magento\Config\FileIteratorFactory
@@ -54,18 +54,18 @@ class Factory
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\View\Asset\Repository $assetRepo,
         \Magento\Config\FileIteratorFactory $fileIteratorFactory,
         \Magento\App\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
-        $this->_viewFileSystem = $viewFileSystem;
+        $this->assetRepo = $assetRepo;
         $this->fileIteratorFactory = $fileIteratorFactory;
         $this->filesystem = $filesystem;
     }
@@ -83,10 +83,10 @@ class Factory
         if (!isset($this->_fileNames[$type])) {
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
-        return $this->_viewFileSystem->getViewFile($this->_fileNames[$type], array(
+        return $this->assetRepo->createAsset($this->_fileNames[$type], array(
             'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $theme
-        ));
+        ))->getSourceFile();
     }
 
     /**

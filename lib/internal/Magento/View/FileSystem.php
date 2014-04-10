@@ -107,19 +107,6 @@ class FileSystem
     }
 
     /**
-     * Find a view file using fallback mechanism
-     *
-     * @param string $fileId
-     * @param array $params
-     * @return string|bool
-     */
-    public function getViewFile($fileId, array $params = array())
-    {
-        $asset = $this->_assetRepo->createAsset($fileId, $params);
-        return $asset->getSourceFile();
-    }
-
-    /**
      * Remove excessive "." and ".." parts from a path
      *
      * For example foo/bar/../file.ext -> foo/file.ext

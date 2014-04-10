@@ -17,12 +17,10 @@ class SkinFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testWidgetPlaceholderImages($skinImage)
     {
+        /** @var \Magento\View\Asset\Repository $assetRepo */
+        $assetRepo = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()->get('Magento\View\Asset\Repository');
         $this->assertFileExists(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
-                ->get('Magento\View\FileSystem')->getViewFile(
-                    $skinImage,
-                    array('area' => 'adminhtml')
-                )
+            $assetRepo->createAsset($skinImage, array('area' => 'adminhtml'))->getSourceFile()
         );
     }
 
