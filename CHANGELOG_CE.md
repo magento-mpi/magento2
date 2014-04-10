@@ -2,6 +2,7 @@
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
   * API Service Exception Handling (MAGETWO-14490)
+  * Simplify Search related Data Objects (MAGETWO-22613)
 * Themes update:
   * Admin theme look&feel updated
 * Modularity improvements:
@@ -24,6 +25,13 @@
   * Refactor CatalogInventory to use Customer Service for customer services (MAGETWO-20464)
   * Refactor CatalogRule Module to use Customer Service (MAGETWO-20471)
   * Refactor SalesRule module to use customer services (MAGETWO-20496)
+  * Refactor Theme and WebAPI modules to use Customer Services (MAGETWO-20498)
+  * Refactor Backend, Bundle, Captcha and Contacts module to use customer services (MAGETWO-20501)
+  * Refactor EAV module to use customer services (MAGETWO-20502)
+  * Refactor Integration & Contacts module to use customer services (MAGETWO-20504)
+  * Implement Caching strategy for the Customer services (MAGETWO-22429)
+  * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
+  * Refactor RecurringPayment module to use customer service (MAGETWO-22521)
 * GitHub requests:
   * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
   * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
@@ -43,6 +51,8 @@
   * Fixed: Wrong special price calculating for Bundle Product (MAGETWO-22562)
   * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
   * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
+  * Fixed Flat Rate shipping method to be enabled by default (MAGETWO-21702)
+  * Fixed possibility creating integration from config file (MAGETWO-22311)
 * GitHub requests:
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 
