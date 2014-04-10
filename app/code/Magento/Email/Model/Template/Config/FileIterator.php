@@ -20,8 +20,8 @@ class FileIterator extends \Magento\Config\FileIterator
 
     /**
      * @param \Magento\Filesystem\Directory\ReadInterface $directory
-     * @param array                                       $paths
-     * @param \Magento\Module\Dir\ReverseResolver         $dirResolver
+     * @param array $paths
+     * @param \Magento\Module\Dir\ReverseResolver $dirResolver
      */
     public function __construct(
         \Magento\Filesystem\Directory\ReadInterface $directory,
@@ -38,18 +38,14 @@ class FileIterator extends \Magento\Config\FileIterator
      */
     public function current()
     {
-        if (!isset($this->cached[$this->key()])) {
-            $contents = $this->directoryRead->readFile($this->key());
-            $path = $this->directoryRead->getAbsolutePath($this->key());
-            $moduleName = $this->_moduleDirResolver->getModuleName($path);
-            if (!$moduleName) {
-                throw new \UnexpectedValueException(
-                    sprintf("Unable to determine a module, file '%s' belongs to.", $this->key())
-                );
-            }
-            $contents = str_replace('<template ', '<template module="' . $moduleName . '" ', $contents);
-            $this->cached[$this->key()] = $contents;
+        $contents = $this->directoryRead->readFile($this->key());
+        $path = $this->directoryRead->getAbsolutePath($this->key());
+        $moduleName = $this->_moduleDirResolver->getModuleName($path);
+        if (!$moduleName) {
+            throw new \UnexpectedValueException(
+                sprintf("Unable to determine a module, file '%s' belongs to.", $this->key())
+            );
         }
-        return $this->cached[$this->key()];
+        return str_replace('<template ', '<template module="' . $moduleName . '" ', $contents);
     }
 }
