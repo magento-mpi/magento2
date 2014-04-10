@@ -46,7 +46,7 @@ class Phrase
     }
 
     /**
-     * Get default Phrase rendered
+     * Get default Phrase renderer
      *
      * @return RendererInterface
      */
