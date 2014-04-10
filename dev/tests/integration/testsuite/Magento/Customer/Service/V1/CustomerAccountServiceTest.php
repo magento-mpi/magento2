@@ -260,10 +260,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->validateResetPasswordLinkToken(1, $invalidToken);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $message = $ie->getMessage();
-            $this->assertContains('One or more input exceptions have occurred.', $message);
-            $this->assertContains('code: INVALID_FIELD_VALUE', $message);
-            $this->assertContains('resetPasswordLinkToken: 0', $message);
+            $this->assertContains('resetPasswordLinkToken is a required field.', $ie->getMessage());
+            $this->assertEmpty($ie->getErrors());
         }
     }
 
@@ -293,10 +291,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->validateResetPasswordLinkToken(1, null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $message = $ie->getMessage();
-            $this->assertContains('One or more input exceptions have occurred.', $message);
-            $this->assertContains('code: INVALID_FIELD_VALUE', $message);
-            $this->assertContains('resetPasswordLinkToken: ', $message);
+            $this->assertContains('resetPasswordLinkToken is a required field.', $ie->getMessage());
+            $this->assertEmpty($ie->getErrors());
         }
     }
 
@@ -372,10 +368,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->resetPassword(1, $invalidToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $message = $ie->getMessage();
-            $this->assertContains('One or more input exceptions have occurred.', $message);
-            $this->assertContains('code: INVALID_FIELD_VALUE', $message);
-            $this->assertContains('resetPasswordLinkToken: 0', $message);
+            $this->assertContains('resetPasswordLinkToken is a required field.', $ie->getMessage());
+            $this->assertEmpty($ie->getErrors());
         }
     }
 
@@ -409,10 +403,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->resetPassword(0, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $message = $ie->getMessage();
-            $this->assertContains('One or more input exceptions have occurred.', $message);
-            $this->assertContains('code: INVALID_FIELD_VALUE', $message);
-            $this->assertContains('customerId: 0', $message);
+            $this->assertEquals('Invalid value of "0" provided for the customerId field.', $ie->getMessage());
+            $this->assertEmpty($ie->getErrors());
         }
     }
 
@@ -738,30 +730,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->saveCustomer($customerEntity);
             $this->fail('Expected exception not thrown');
         } catch (InputException $ie) {
-            // @todo: clean this up
-            $expectedMessage
-                = <<<'NOWDOC'
-One or more input exceptions have occurred.
-{
-	code: REQUIRED_FIELD
-	firstname: 
-	params: []
- }
-
-{
-	code: REQUIRED_FIELD
-	lastname: 
-	params: []
- }
-
-{
-	code: INVALID_FIELD_VALUE
-	email: 
-	params: []
- }
-
-NOWDOC;
-            $this->assertEquals($expectedMessage, $ie->getMessage());
+            $this->assertContains('One or more input exceptions have occurred.', $ie->getMessage());
+            $errors = $ie->getErrors();
+            $this->assertCount(3, $errors);
+            $this->assertEquals('firstname is a required field.', $errors[0]->getLogMessage());
+            $this->assertEquals('lastname is a required field.', $errors[1]->getLogMessage());
+            $this->assertEquals('Invalid value of "" provided for the email field.', $errors[2]->getLogMessage());
         }
     }
 

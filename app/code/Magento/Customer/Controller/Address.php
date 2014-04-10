@@ -181,9 +181,13 @@ class Address extends \Magento\App\Action\Action
             $this->getResponse()->setRedirect($this->_redirect->success($url));
             return;
         } catch (InputException $e) {
-            foreach ($e->getErrors() as $error) {
-                $message = InputException::translateError($error);
-                $this->messageManager->addError($message);
+            $errors = $e->getErrors();
+            if (empty($errors)) {
+                $this->messageManager->addError($this->escaper->escapeHtml($e->getLogMessage()));
+            } else {
+                foreach ($errors as $error) {
+                    $this->messageManager->addError($this->escaper->escapeHtml($error->getLogMessage()));
+                }
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Cannot save address.'));

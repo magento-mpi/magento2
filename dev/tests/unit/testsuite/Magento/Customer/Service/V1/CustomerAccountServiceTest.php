@@ -603,14 +603,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->validateResetPasswordLinkToken(14, null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
-            $expectedParams = array(
-                array(
-                    'code' => InputException::INVALID_FIELD_VALUE,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'value' => null
-                )
-            );
-            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('resetPasswordLinkToken is a required field.', $e->getLogMessage());
         }
     }
 
@@ -976,10 +969,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->resetPassword(0, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
-            $expectedParams = array(
-                array('code' => InputException::INVALID_FIELD_VALUE, 'fieldName' => 'customerId', 'value' => 0)
-            );
-            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('Invalid value of "0" provided for the customerId field.', $e->getLogMessage());
         }
     }
 
@@ -1472,34 +1462,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveCustomer($customerEntity);
         } catch (InputException $inputException) {
-            $this->assertContains(
-                array('fieldName' => 'firstname', 'code' => InputException::REQUIRED_FIELD, 'value' => null),
-                $inputException->getParams()
+            $this->assertEquals('One or more input exceptions have occurred.', $inputException->getLogMessage());
+            $errors = $inputException->getErrors();
+            $this->assertCount(6, $errors);
+            $this->assertEquals('firstname is a required field.', $errors[0]->getLogMessage());
+            $this->assertEquals('lastname is a required field.', $errors[1]->getLogMessage());
+            $this->assertEquals(
+                'Invalid value of "missingAtSign" provided for the email field.',
+                $errors[2]->getLogMessage()
             );
-            $this->assertContains(
-                array('fieldName' => 'lastname', 'code' => InputException::REQUIRED_FIELD, 'value' => null),
-                $inputException->getParams()
-            );
-            $this->assertContains(
-                array(
-                    'fieldName' => 'email',
-                    'code' => InputException::INVALID_FIELD_VALUE,
-                    'value' => 'missingAtSign'
-                ),
-                $inputException->getParams()
-            );
-            $this->assertContains(
-                array('fieldName' => 'dob', 'code' => InputException::REQUIRED_FIELD, 'value' => null),
-                $inputException->getParams()
-            );
-            $this->assertContains(
-                array('fieldName' => 'taxvat', 'code' => InputException::REQUIRED_FIELD, 'value' => null),
-                $inputException->getParams()
-            );
-            $this->assertContains(
-                array('fieldName' => 'gender', 'code' => InputException::REQUIRED_FIELD, 'value' => null),
-                $inputException->getParams()
-            );
+            $this->assertEquals('dob is a required field.', $errors[3]->getLogMessage());
+            $this->assertEquals('taxvat is a required field.', $errors[4]->getLogMessage());
+            $this->assertEquals('gender is a required field.', $errors[5]->getLogMessage());
         }
     }
 
@@ -1730,27 +1704,26 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerDetailsWithException()
     {
-        $customerMock = $this->getMockBuilder(
-            '\Magento\Customer\Service\V1\Data\Customer'
-        )->disableOriginalConstructor()->getMock();
-        $addressMock = $this->getMockBuilder(
-            '\Magento\Customer\Service\V1\Data\Address'
-        )->disableOriginalConstructor()->getMock();
-        $this->_converter = $this->getMockBuilder(
-            '\Magento\Customer\Model\Converter'
-        )->disableOriginalConstructor()->getMock();
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $addressMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_converter = $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
         $service = $this->_createService();
-        $this->_converter->expects(
-            $this->once()
-        )->method(
-            'getCustomerModel'
-        )->will(
-            $this->throwException(new NoSuchEntityException(
-                    'No such entity with %fieldName = $value',
-                    ['fieldName' => 'testField', 'value' => 'value']
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModel')
+            ->will(
+                $this->throwException(
+                    new NoSuchEntityException('No such entity with %fieldName = $value', [
+                        'fieldName' => 'testField',
+                        'value'     => 'value'
+                    ])
                 )
-            )
-        );
+            );
         $this->_converter->expects(
             $this->any()
         )->method(
@@ -1770,21 +1743,20 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testIsEmailAvailable()
     {
-        $this->_converter = $this->getMockBuilder(
-            '\Magento\Customer\Model\Converter'
-        )->disableOriginalConstructor()->getMock();
+        $this->_converter = $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->disableOriginalConstructor()
+            ->getMock();
         $service = $this->_createService();
-        $this->_converter->expects(
-            $this->once()
-        )->method(
-            'getCustomerModelByEmail'
-        )->will(
-            $this->throwException(new NoSuchEntityException(
-                    'No such entity with %fieldName = $value',
-                    ['fieldName' => 'testField', 'value' => 'value']
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModelByEmail')
+            ->will(
+                $this->throwException(
+                    new NoSuchEntityException(
+                        'No such entity with %fieldName = $value',
+                        ['fieldName' => 'testField', 'value' => 'value']
+                    )
                 )
-            )
-        );
+            );
         $this->assertTrue($service->isEmailAvailable('email', 1));
     }
 

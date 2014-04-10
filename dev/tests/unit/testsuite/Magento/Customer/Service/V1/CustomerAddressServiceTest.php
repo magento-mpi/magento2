@@ -728,12 +728,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveAddresses(1, array($this->_addressBuilder->create()));
             $this->fail("Expected InputException not caught");
-        } catch (InputException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
-            $message = $exception->getMessage();
-            $this->assertContains('One or more input exceptions have occurred.', $message);
-            $this->assertContains('code: REQUIRED_FIELD', $message);
-            $this->assertContains('firstname:', $message);
+        } catch (InputException $inputException) {
+            $this->assertEquals('firstname is a required field.', $inputException->getLogMessage());
+            $this->assertTrue($inputException->hasAdditionalErrors());
+            $this->assertEmpty($inputException->getErrors());
         }
     }
 
@@ -802,11 +800,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->validateAddresses(array('b' => $addressBad, 'g' => $addressGood));
+            $customerService->validateAddresses(array($addressBad, $addressGood));
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
-            $expectedException->addError('REQUIRED_FIELD', 'firstname', '', array('index' => 'b'));
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'firstname']);
             $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
         }
     }

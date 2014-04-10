@@ -22,9 +22,6 @@ class LocalizedException extends \Exception
     /** @var Placeholder */
     private $renderer;
 
-    /** @var string|null */
-    private $logMessage = null;
-
     /**
      * @param string     $message
      * @param array      $params
@@ -56,9 +53,6 @@ class LocalizedException extends \Exception
      */
     public function getLogMessage()
     {
-        if (is_null($this->logMessage)) {
-            $this->logMessage = $this->renderer->render([$this->rawMessage], $this->params);
-        }
-        return $this->logMessage;
+        return $this->renderer->render([$this->rawMessage], $this->params);
     }
 }

@@ -274,7 +274,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                     $customer->sendPasswordResetConfirmationEmail();
                     break;
                 default:
-                    throw new InputException(__('Invalid email type.'), InputException::INVALID_FIELD_VALUE);
+                    throw new InputException(InputException::INVALID_FIELD_VALUE, [
+                        'value'     => $template,
+                        'fieldName' => 'email type'
+                    ]);
             }
         } catch (MailException $e) {
             // If we are not able to send a reset password email, this should be ignored
@@ -321,7 +324,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         if ($customer->getId()) {
             $customerModel = $this->_converter->getCustomerModel($customer->getId());
             if ($customerModel->isInStore($customer->getStoreId())) {
-                throw new InputException(__('Customer already exists in this store.'));
+                throw new InputException('Customer already exists in this store.');
             }
         }
         // Make sure we have a storeId to associate this customer with.
@@ -627,33 +630,36 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         $exception = new InputException();
         if (!\Zend_Validate::is(trim($customerModel->getFirstname()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, 'firstname', '');
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'firstname']);
         }
 
         if (!\Zend_Validate::is(trim($customerModel->getLastname()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, 'lastname', '');
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'lastname']);
         }
 
         if (!\Zend_Validate::is($customerModel->getEmail(), 'EmailAddress')) {
-            $exception->addError(InputException::INVALID_FIELD_VALUE, 'email', $customerModel->getEmail());
+            $exception->addError(
+                InputException::INVALID_FIELD_VALUE,
+                ['fieldName' => 'email', 'value' => $customerModel->getEmail()]
+            );
         }
 
         $dob = $this->_getAttributeMetadata('dob');
         if (!is_null($dob) && $dob->isRequired() && '' == trim($customerModel->getDob())) {
-            $exception->addError(InputException::REQUIRED_FIELD, 'dob', '');
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'dob']);
         }
 
         $taxvat = $this->_getAttributeMetadata('taxvat');
         if (!is_null($taxvat) && $taxvat->isRequired() && '' == trim($customerModel->getTaxvat())) {
-            $exception->addError(InputException::REQUIRED_FIELD, 'taxvat', '');
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'taxvat']);
         }
 
         $gender = $this->_getAttributeMetadata('gender');
         if (!is_null($gender) && $gender->isRequired() && '' == trim($customerModel->getGender())) {
-            $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'gender']);
         }
 
-        if ($exception->getErrors()) {
+        if ($exception->hasAdditionalErrors()) {
             throw $exception;
         }
     }
@@ -672,14 +678,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private function _validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {
         if (!is_int($customerId) || empty($customerId) || $customerId < 0) {
-            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'customerId', $customerId);
+            $params = ['value' => $customerId, 'fieldName' => 'customerId'];
+            throw new InputException(InputException::INVALID_FIELD_VALUE, $params);
         }
         if (!is_string($resetPasswordLinkToken) || empty($resetPasswordLinkToken)) {
-            throw InputException::create(
-                InputException::INVALID_FIELD_VALUE,
-                'resetPasswordLinkToken',
-                $resetPasswordLinkToken
-            );
+            $params = ['fieldName' => 'resetPasswordLinkToken'];
+            throw new InputException(InputException::REQUIRED_FIELD, $params);
         }
 
         $customerModel = $this->_converter->getCustomerModel($customerId);

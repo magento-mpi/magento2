@@ -293,29 +293,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->saveAddresses($customerId, array($firstAddress, $secondAddress));
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (InputException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
-            $expectedMessage = <<<'NOWDOC'
-One or more input exceptions have occurred.
-{
-	code: REQUIRED_FIELD
-	firstname: 
-	params: Array
-(
-    [index] => 0
-)
- }
-
-{
-	code: REQUIRED_FIELD
-	lastname: 
-	params: Array
-(
-    [index] => 1
-)
- }
-
-NOWDOC;
-            $this->assertEquals($expectedMessage, $exception->getMessage());
+            $this->assertEquals('One or more input exceptions have occurred.', $exception->getMessage());
+            $errors = $exception->getErrors();
+            $this->assertCount(2, $errors);
+            $this->assertEquals('firstname is a required field.', $errors[0]->getLogMessage());
+            $this->assertEquals('lastname is a required field.', $errors[1]->getLogMessage());
         }
     }
 
@@ -546,12 +528,12 @@ NOWDOC;
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
-            $expectedException->addError('REQUIRED_FIELD', 'firstname', '', array('index' => 0));
-            $expectedException->addError('REQUIRED_FIELD', 'lastname', '', array('index' => 0));
-            $expectedException->addError('REQUIRED_FIELD', 'street', '', array('index' => 0));
-            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', array('index' => 0));
-            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', array('index' => 0));
-            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', array('index' => 0));
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'firstname', 'index'=> 0]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'lastname', 'index'=> 0]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'street', 'index'=> 0]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'telephone', 'index'=> 0]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'postcode', 'index'=> 0]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'countryId', 'index'=> 0]);
             $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
         }
     }
@@ -567,11 +549,23 @@ NOWDOC;
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
-            $expectedException->addError('REQUIRED_FIELD', 'street', '', array('index' => 'addr_3'));
-            $expectedException->addError('REQUIRED_FIELD', 'city', '', array('index' => 'addr_3'));
-            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', array('index' => 'addr_3'));
-            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', array('index' => 'addr_3'));
-            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', array('index' => 'addr_3'));
+            $expectedException->addError(
+                InputException::REQUIRED_FIELD,
+                ['fieldName' => 'street', 'index' => 'addr_3']
+            );
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'city', 'index' => 'addr_3']);
+            $expectedException->addError(
+                InputException::REQUIRED_FIELD,
+                ['fieldName' => 'telephone', 'index' => 'addr_3']
+            );
+            $expectedException->addError(
+                InputException::REQUIRED_FIELD,
+                ['fieldName' => 'postcode', 'index' => 'addr_3']
+            );
+            $expectedException->addError(
+                InputException::REQUIRED_FIELD,
+                ['fieldName' => 'countryId', 'index' => 'addr_3']
+            );
             $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
         }
     }
@@ -584,11 +578,11 @@ NOWDOC;
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
-            $expectedException->addError('REQUIRED_FIELD', 'street', '', array('index' => 2));
-            $expectedException->addError('REQUIRED_FIELD', 'city', '', array('index' => 2));
-            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', array('index' => 2));
-            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', array('index' => 2));
-            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', array('index' => 2));
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'street', 'index' => 2]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'city', 'index' => 2]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'telephone', 'index' => 2]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'postcode', 'index' => 2]);
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'countryId', 'index' => 2]);
             $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
         }
     }
