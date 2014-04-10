@@ -534,7 +534,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'telephone', 'index'=> 0]);
             $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'postcode', 'index'=> 0]);
             $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'countryId', 'index'=> 0]);
-            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+            $this->assertEquals($expectedException, $actualException);
         }
     }
 
@@ -566,7 +566,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                 InputException::REQUIRED_FIELD,
                 ['fieldName' => 'countryId', 'index' => 'addr_3']
             );
-            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+            $this->assertEquals($expectedException, $actualException);
         }
     }
 
@@ -583,7 +583,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'telephone', 'index' => 2]);
             $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'postcode', 'index' => 2]);
             $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'countryId', 'index' => 2]);
-            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+            $this->assertEquals($expectedException, $actualException);
         }
     }
 

@@ -260,7 +260,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->validateResetPasswordLinkToken(1, $invalidToken);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $this->assertContains('resetPasswordLinkToken is a required field.', $ie->getMessage());
+            $this->assertEquals('resetPasswordLinkToken is a required field.', $ie->getLogMessage());
             $this->assertEmpty($ie->getErrors());
         }
     }
@@ -291,7 +291,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->validateResetPasswordLinkToken(1, null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $this->assertContains('resetPasswordLinkToken is a required field.', $ie->getMessage());
+            $this->assertEquals('resetPasswordLinkToken is a required field.', $ie->getLogMessage());
             $this->assertEmpty($ie->getErrors());
         }
     }
@@ -368,7 +368,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->resetPassword(1, $invalidToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
-            $this->assertContains('resetPasswordLinkToken is a required field.', $ie->getMessage());
+            $this->assertEquals('resetPasswordLinkToken is a required field.', $ie->getLogMessage());
             $this->assertEmpty($ie->getErrors());
         }
     }
@@ -730,7 +730,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->saveCustomer($customerEntity);
             $this->fail('Expected exception not thrown');
         } catch (InputException $ie) {
-            $this->assertContains('One or more input exceptions have occurred.', $ie->getMessage());
+            $this->assertEquals('One or more input exceptions have occurred.', $ie->getMessage());
             $errors = $ie->getErrors();
             $this->assertCount(3, $errors);
             $this->assertEquals('firstname is a required field.', $errors[0]->getLogMessage());

@@ -804,8 +804,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
-            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'firstname']);
-            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'firstname', 'index' => 0]);
+            $this->assertEquals($expectedException, $actualException);
         }
     }
 

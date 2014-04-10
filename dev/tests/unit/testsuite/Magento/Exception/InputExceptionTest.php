@@ -41,11 +41,14 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $inputException = new InputException();
         $this->assertStringStartsWith('One or more', $inputException->getMessage());
+        $this->assertFalse($inputException->hasAdditionalErrors());
+        $this->assertCount(0, $inputException->getErrors());
 
         $inputException->addError(
             InputException::INVALID_FIELD_MIN_VALUE,
             ['fieldName' => 'weight', 'value' => -100, 'minValue' => 1]
         );
+        $this->assertTrue($inputException->hasAdditionalErrors());
         $this->assertCount(0, $inputException->getErrors());
         $this->assertEquals(
             'The weight value of "-100" must be greater than or equal to 1.',
@@ -53,6 +56,7 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
         );
 
         $inputException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'name']);
+        $this->assertTrue($inputException->hasAdditionalErrors());
         $this->assertCount(2, $inputException->getErrors());
         $this->assertStringStartsWith('One or more', $inputException->getMessage());
         $this->assertEquals('One or more input exceptions have occurred.', $inputException->getLogMessage());
