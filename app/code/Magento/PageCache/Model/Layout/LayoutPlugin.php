@@ -7,15 +7,13 @@
  */
 namespace Magento\PageCache\Model\Layout;
 
-use Magento\TestFramework\Inspection\Exception;
-
 /**
  * Class LayoutPlugin
  */
 class LayoutPlugin
 {
     /**
-     * @var \Magento\Core\Model\Layout
+     * @var \Magento\View\Layout
      */
     protected $layout;
 
@@ -32,12 +30,12 @@ class LayoutPlugin
     /**
      * Constructor
      *
-     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\View\Layout $layout
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\PageCache\Model\Config $config
      */
     public function __construct(
-        \Magento\Core\Model\Layout $layout,
+        \Magento\View\Layout $layout,
         \Magento\App\ResponseInterface $response,
         \Magento\PageCache\Model\Config $config
     ) {
@@ -50,11 +48,11 @@ class LayoutPlugin
      * Set appropriate Cache-Control headers
      * We have to set public headers in order to tell Varnish and Builtin app that page should be cached
      *
-     * @param \Magento\Core\Model\Layout $subject
+     * @param \Magento\View\Layout $subject
      * @param mixed $result
      * @return mixed
      */
-    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
+    public function afterGenerateXml(\Magento\View\Layout $subject, $result)
     {
         if ($this->layout->isCacheable() && $this->config->isEnabled()) {
             $this->response->setPublicHeaders($this->config->getTtl());
@@ -65,11 +63,11 @@ class LayoutPlugin
     /**
      * Retrieve all identities from blocks for further cache invalidation
      *
-     * @param \Magento\Core\Model\Layout $subject
+     * @param \Magento\View\Layout $subject
      * @param mixed $result
      * @return mixed
      */
-    public function afterGetOutput(\Magento\Core\Model\Layout $subject, $result)
+    public function afterGetOutput(\Magento\View\Layout $subject, $result)
     {
         if ($this->layout->isCacheable() && $this->config->isEnabled()) {
             $tags = array();

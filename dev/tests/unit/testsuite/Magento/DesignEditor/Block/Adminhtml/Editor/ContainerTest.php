@@ -69,7 +69,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
         $block = $this->_helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
 
-        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
         $block->setLayout($layout);
 
         $expectedButtonData = array(

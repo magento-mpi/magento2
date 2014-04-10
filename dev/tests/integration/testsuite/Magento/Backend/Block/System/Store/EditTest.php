@@ -49,7 +49,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $this->_initStoreTypesInRegistry($registryData);
 
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Backend\Block\System\Store\Edit */
         $block = $layout->createBlock('Magento\Backend\Block\System\Store\Edit', 'block');
@@ -89,7 +89,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $this->_initStoreTypesInRegistry($registryData);
 
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Backend\Block\System\Store\Edit */
         $block = $layout->createBlock('Magento\Backend\Block\System\Store\Edit', 'block');
