@@ -83,7 +83,7 @@ class Invitation extends \Magento\Model\AbstractModel
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -124,17 +124,23 @@ class Invitation extends \Magento\Model\AbstractModel
     protected $dateTime;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Resource\Invitation $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -143,13 +149,14 @@ class Invitation extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Resource\Invitation $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -162,6 +169,7 @@ class Invitation extends \Magento\Model\AbstractModel
         $this->_transportBuilder = $transportBuilder;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -281,8 +289,19 @@ class Invitation extends \Magento\Model\AbstractModel
         $this->makeSureCanBeSent();
         $store = $this->_storeManager->getStore($this->getStoreId());
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_EMAIL_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $from = $this->_scopeConfig->getValue(
+            self::XML_PATH_EMAIL_IDENTITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
         $this->_transportBuilder->setTemplateIdentifier(
-            $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE)
+            $templateIdentifier
         )->setTemplateOptions(
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
         )->setTemplateVars(
@@ -294,7 +313,7 @@ class Invitation extends \Magento\Model\AbstractModel
                 'inviter_name' => $this->getInviter() ? $this->getInviter()->getName() : null
             )
         )->setFrom(
-            $store->getConfig(self::XML_PATH_EMAIL_IDENTITY)
+            $from
         )->addTo(
             $this->getEmail()
         );
@@ -517,7 +536,6 @@ class Invitation extends \Magento\Model\AbstractModel
             $this->makeSureCanBeAccepted($websiteId);
             return true;
         } catch (\Magento\Model\Exception $e) {
-            // intentionally jammed
         }
         return false;
     }

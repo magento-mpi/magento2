@@ -44,12 +44,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -80,9 +80,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Resource\Cart $resourceCart
      * @param Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -91,9 +91,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Resource\Cart $resourceCart,
         Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
@@ -101,7 +101,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_resourceCart = $resourceCart;
@@ -590,7 +590,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         }
 
         if ($quoteId && $this->_summaryQty === null) {
-            if ($this->_coreStoreConfig->getConfig('checkout/cart_link/use_qty')) {
+            if ($this->_scopeConfig->getValue('checkout/cart_link/use_qty', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
                 $this->_summaryQty = $this->getItemsQty();
             } else {
                 $this->_summaryQty = $this->getItemsCount();

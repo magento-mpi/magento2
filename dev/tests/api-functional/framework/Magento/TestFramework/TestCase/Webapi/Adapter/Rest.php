@@ -47,11 +47,14 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      */
     public function call($serviceInfo, $arguments = array())
     {
-        $resourcePath = $this->_getRestResourcePath($serviceInfo);
+        $defaultStoreCode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getStore()->getCode();
+        $resourcePath = '/' . $defaultStoreCode . $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
         //Get a valid token
         $accessCredentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
-        /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient*/
+        /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient */
         $oAuthClient = $accessCredentials['oauth_client'];
         // delegate the request to vanilla cURL REST client
         $curlClient = new \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient();
@@ -94,28 +97,6 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     {
         if (isset($serviceInfo['rest']['resourcePath'])) {
             $resourcePath = $serviceInfo['rest']['resourcePath'];
-        } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
-            /** Identify resource path using service interface name and service method name */
-            $services = $this->_config->getServices();
-            $serviceInterface = $serviceInfo['serviceInterface'];
-            $method = $serviceInfo['method'];
-            if (isset($services[$serviceInterface]['methods'][$method])) {
-                $serviceData = $services[$serviceInterface];
-                $methodData = $serviceData['methods'][$method];
-                $routePattern = $serviceData[Converter::KEY_BASE_URL] . $methodData[Converter::KEY_METHOD_ROUTE];
-                $numberOfPlaceholders = substr_count($routePattern, ':');
-                if ($numberOfPlaceholders == 1) {
-                    if (!isset($serviceInfo['entityId'])) {
-                        throw new \LogicException('Entity ID is required (to be used instead of placeholder).');
-                    }
-                    $resourcePath = preg_replace('#:\w+#', $serviceInfo['entityId'], $routePattern);
-                } elseif ($numberOfPlaceholders > 1) {
-                    throw new \LogicException(
-                        "Current implementation of Web API functional framework " .
-                        "is able to process only one placeholder in REST route."
-                    );
-                }
-            }
         }
         if (!isset($resourcePath)) {
             throw new \Exception("REST endpoint cannot be identified.");
@@ -134,14 +115,6 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     {
         if (isset($serviceInfo['rest']['httpMethod'])) {
             $httpMethod = $serviceInfo['rest']['httpMethod'];
-        } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
-            /** Identify HTTP method using service interface name and service method name */
-            $services = $this->_config->getServices();
-            $serviceInterface = $serviceInfo['serviceInterface'];
-            $method = $serviceInfo['method'];
-            if (isset($services[$serviceInterface]['methods'][$method])) {
-                $httpMethod = $services[$serviceInterface]['methods'][$method][Converter::KEY_HTTP_METHOD];
-            }
         }
         if (!isset($httpMethod)) {
             throw new \Exception("REST HTTP method cannot be identified.");

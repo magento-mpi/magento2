@@ -192,7 +192,7 @@ class Quote
             } else { //for new customers
                 $customerDetails =
                     $this->_customerDetailsBuilder->setCustomer($customerData)->setAddresses($addresses)->create();
-                $customerData = $this->_customerAccountService->createAccount(
+                $customerData = $this->_customerAccountService->createCustomer(
                     $customerDetails,
                     null,
                     $quote->getPasswordHash()

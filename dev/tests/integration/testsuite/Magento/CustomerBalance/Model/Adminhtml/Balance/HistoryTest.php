@@ -35,7 +35,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             new \Magento\Object(array('id' => 1, 'username' => 'Admin user'))
         );
         $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getWebsiteId();
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Customer'

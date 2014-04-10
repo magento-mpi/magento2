@@ -7,7 +7,8 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Customer\Service\V1\Data\Filter;
+use Magento\Customer\Service\V1\Data\FilterBuilder;
 use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Service\V1\Data\Customer;
@@ -290,8 +291,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $requestData = [
             'email' => $customerData[Customer::EMAIL],
-            'websiteId' => $customerData[Customer::WEBSITE_ID],
-            'template' => CustomerAccountServiceInterface::EMAIL_RESET
+            'template' => CustomerAccountServiceInterface::EMAIL_RESET,
+            'websiteId' => $customerData[Customer::WEBSITE_ID]
         ];
         // This api doesn't return any response.
         // No exception or response means the request was processed successfully.
@@ -314,8 +315,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $requestData = [
             'email' => 'dummy@example.com',
-            'websiteId' => 0,
-            'template' => CustomerAccountServiceInterface::EMAIL_RESET
+            'template' => CustomerAccountServiceInterface::EMAIL_RESET,
+            'websiteId' => 0
         ];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -847,7 +848,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateAccount'
+                'operation' => self::SERVICE_NAME . 'CreateCustomer'
             ]
         ];
         $customerDetailsAsArray = $this->_createSampleCustomerDetailsData()->__toArray();

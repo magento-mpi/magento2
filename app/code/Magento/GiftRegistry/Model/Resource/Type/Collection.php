@@ -41,7 +41,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param int $storeId
      * @return $this
      */
-    public function addStoreData($storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID)
+    public function addStoreData($storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID)
     {
         $infoTable = $this->getTable('magento_giftregistry_type_info');
         $adapter = $this->getConnection();
@@ -53,7 +53,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             array('d' => $infoTable),
             $adapter->quoteInto(
                 'm.type_id = d.type_id AND d.store_id = ?',
-                \Magento\Core\Model\Store::DEFAULT_STORE_ID
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
             ),
             array()
         )->joinLeft(

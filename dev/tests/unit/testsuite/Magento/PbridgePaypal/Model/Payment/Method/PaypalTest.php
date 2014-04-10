@@ -30,9 +30,9 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     protected function assertPreConditions()
     {
@@ -40,7 +40,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $this->_methodInstance = $this->getMock('Magento\Payment\Model\Method\Cc', array(), array(), '', false);
         $this->_paymentData = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
         $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false);
-        $this->_coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', array('create'), array(), '', false);
         $paymentFactory->expects(
             $this->once()
@@ -58,7 +58,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
                 'paypalClassName' => 'paypal class name',
                 'paymentData' => $this->_paymentData,
                 'pbridgeData' => $this->_pbridgeData,
-                'coreStoreConfig' => $this->_coreStoreConfig
+                'scopeConfig' => $this->_scopeConfig
             )
         );
     }
@@ -185,7 +185,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
 
     public function testSetStoreObject()
     {
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $store->expects($this->once())->method('getId')->will($this->returnValue('store id'));
         $this->_methodInstance->expects($this->once())->method('setData')->with('store', $store);
         $this->_pbridgeData->expects($this->once())->method('setStoreId')->with('store id');
@@ -223,12 +223,13 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         }
         $this->_methodInstance->expects($this->once())->method('getCode')->will($this->returnValue('some_code'));
         $path = 'payment/some_code/some_field';
-        $this->_coreStoreConfig->expects(
+        $this->_scopeConfig->expects(
             $this->once()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $newStoreId
         )->will(
             $this->returnValue('config value')

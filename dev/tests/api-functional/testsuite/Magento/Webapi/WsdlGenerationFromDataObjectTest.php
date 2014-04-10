@@ -8,6 +8,8 @@
 
 namespace Magento\Webapi;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 /**
  * Test WSDL generation mechanisms.
  */
@@ -16,15 +18,24 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
     /** @var string */
     protected $_baseUrl = TESTS_BASE_URL;
 
+    /** @var string */
+    protected $_storeCode ;
+
+    /** @var string */
+    protected $_soapUrl;
+
     protected function setUp()
     {
         $this->_markTestAsSoapOnly("WSDL generation tests are intended to be executed for SOAP adapter only.");
+        $this->_storeCode = Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->getCode();
+        $this->_soapUrl = "{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2";
         parent::setUp();
     }
 
     public function testMultiServiceWsdl()
     {
-        $wsdlUrl = $this->_getBaseWsdlUrl() . '&services=testModule5AllSoapAndRestV1,testModule5AllSoapAndRestV2';
+        $wsdlUrl = $this->_getBaseWsdlUrl() . 'testModule5AllSoapAndRestV1,testModule5AllSoapAndRestV2';
         $wsdlContent = $this->_convertXmlToString($this->_getWsdlContent($wsdlUrl));
 
         $this->_checkTypesDeclaration($wsdlContent);
@@ -101,7 +112,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
         // @codingStandardsIgnoreStart
         $typesSectionDeclaration = <<< TYPES_SECTION_DECLARATION
 <types>
-    <xsd:schema targetNamespace="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+    <xsd:schema targetNamespace="{$this->_soapUrl}">
 TYPES_SECTION_DECLARATION;
         // @codingStandardsIgnoreEnd
         $this->assertContains(
@@ -146,13 +157,13 @@ RESPONSE_ELEMENT;
 <xsd:complexType name="TestModule5AllSoapAndRestV1ItemRequest">
     <xsd:annotation>
         <xsd:documentation>Retrieve an item.</xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_soapUrl}"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:int">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:min/>
                     <inf:max/>
                     <inf:callInfo>
@@ -178,13 +189,13 @@ REQUEST_TYPE;
         <xsd:documentation>
             Response container for the testModule5AllSoapAndRestV1Item call.
         </xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_soapUrl}"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="result" minOccurs="1" maxOccurs="1" type="tns:TestModule5V1EntityAllSoapAndRest">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:callInfo>
                         <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
                         <inf:returned>Always</inf:returned>
@@ -216,13 +227,13 @@ RESPONSE_TYPE;
 <xsd:complexType name="TestModule5V1EntityAllSoapAndRest">
     <xsd:annotation>
         <xsd:documentation>Some Data Object short description. Data Object long multi line description.</xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_soapUrl}"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:int">
             <xsd:annotation>
                 <xsd:documentation>Item ID</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:min/>
                     <inf:max/>
                     <inf:callInfo>
@@ -242,7 +253,7 @@ RESPONSE_TYPE;
         <xsd:element name="name" minOccurs="0" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation>Item name</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:maxLength/>
                     <inf:callInfo>
                         <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
@@ -261,7 +272,7 @@ RESPONSE_TYPE;
         <xsd:element name="enabled" minOccurs="1" maxOccurs="1" type="xsd:boolean">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:default>false</inf:default>
                     <inf:callInfo>
                         <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
@@ -280,7 +291,7 @@ RESPONSE_TYPE;
         <xsd:element name="orders" minOccurs="1" maxOccurs="1" type="xsd:boolean">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:default>false</inf:default>
                     <inf:callInfo>
                         <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
@@ -418,7 +429,7 @@ OPERATION_DECLARATION;
         $firstServiceDeclaration = <<< FIRST_SERVICE_DECLARATION
 <service name="testModule5AllSoapAndRestV1Service">
     <port name="testModule5AllSoapAndRestV1Port" binding="tns:testModule5AllSoapAndRestV1Binding">
-        <soap:address location="{$this->_baseUrl}/soap?services=testModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+        <soap:address location="{$this->_baseUrl}/soap/{$this->_storeCode}?services=testModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </port>
 </service>
 FIRST_SERVICE_DECLARATION;
@@ -433,7 +444,7 @@ FIRST_SERVICE_DECLARATION;
         $secondServiceDeclaration = <<< SECOND_SERVICE_DECLARATION
 <service name="testModule5AllSoapAndRestV2Service">
     <port name="testModule5AllSoapAndRestV2Port" binding="tns:testModule5AllSoapAndRestV2Binding">
-        <soap:address location="{$this->_baseUrl}/soap?services=testModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+        <soap:address location="{$this->_baseUrl}/soap/{$this->_storeCode}?services=testModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </port>
 </service>
 SECOND_SERVICE_DECLARATION;
@@ -560,7 +571,7 @@ GENERIC_FAULT_IN_MESSAGES;
         <xsd:element name="Trace" minOccurs="0" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation>Exception calls stack trace.</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -568,7 +579,7 @@ GENERIC_FAULT_IN_MESSAGES;
         <xsd:element name="Parameters" type="tns:ArrayOfGenericFaultParameter" minOccurs="0">
             <xsd:annotation>
                 <xsd:documentation>Additional exception parameters.</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:natureOfType>array</inf:natureOfType>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -576,7 +587,7 @@ GENERIC_FAULT_IN_MESSAGES;
         <xsd:element name="WrappedErrors" type="tns:ArrayOfWrappedError" minOccurs="0">
             <xsd:annotation>
                 <xsd:documentation>Additional wrapped errors.</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:natureOfType>array</inf:natureOfType>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -596,7 +607,7 @@ GENERIC_FAULT_COMPLEX_TYPE;
         <xsd:element name="key" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -604,7 +615,7 @@ GENERIC_FAULT_COMPLEX_TYPE;
         <xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -624,7 +635,7 @@ PARAM_COMPLEX_TYPE;
         <xsd:element name="fieldName" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -632,7 +643,7 @@ PARAM_COMPLEX_TYPE;
         <xsd:element name="code" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -640,7 +651,7 @@ PARAM_COMPLEX_TYPE;
         <xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:maxLength/>
                 </xsd:appinfo>
             </xsd:annotation>
@@ -658,13 +669,13 @@ WRAPPED_ERROR_COMPLEX_TYPE;
 <xsd:complexType name="ArrayOfGenericFaultParameter">
     <xsd:annotation>
         <xsd:documentation>An array of GenericFaultParameter items.</xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_soapUrl}"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" type="tns:GenericFaultParameter">
             <xsd:annotation>
                 <xsd:documentation>An item of ArrayOfGenericFaultParameter.</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}"/>
             </xsd:annotation>
         </xsd:element>
     </xsd:sequence>
@@ -681,13 +692,13 @@ PARAMETERS_COMPLEX_TYPE;
 <xsd:complexType name="ArrayOfWrappedError">
     <xsd:annotation>
         <xsd:documentation>An array of WrappedError items.</xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" type="tns:WrappedError">
             <xsd:annotation>
                 <xsd:documentation>An item of ArrayOfWrappedError.</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
             </xsd:annotation>
         </xsd:element>
     </xsd:sequence>
