@@ -16,6 +16,7 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
  *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @magentoAppArea adminhtml
  */
 class ViewTest extends \PHPUnit_Framework_TestCase
