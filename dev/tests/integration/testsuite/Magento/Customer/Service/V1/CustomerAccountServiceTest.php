@@ -1334,7 +1334,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @dataProvider getValidEmailDataProvider
      */
-    public function testGetCustomerByEmailWithValidData($email, $websiteId)
+    public function testGetCustomerByEmail($email, $websiteId)
     {
         /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
@@ -1352,9 +1352,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Exception\NoSuchEntityException
      * @dataProvider getInvalidEmailDataProvider
      */
-    public function testGetCustomerByEmailWithInvalidData($email, $websiteId)
+    public function testGetCustomerByEmailWithException($email, $websiteId)
     {
-        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
     }
 
