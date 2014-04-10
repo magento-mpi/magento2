@@ -37,9 +37,9 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_resourceIterator;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Pricing\PriceCurrencyInterface
      */
-    protected $_coreData;
+    protected $_priceCurrency;
 
     /**
      * @var \Magento\Catalog\Helper\Image
@@ -52,22 +52,22 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_outputHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Rss\Model\RssFactory $rssFactory
-     * @param \Magento\Model\Resource\Iterator $resourceIterator
-     * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Catalog\Helper\Output $outputHelper
-     * @param array $data
+     * @param \Magento\View\Element\Template\Context  $context
+     * @param \Magento\App\Http\Context               $httpContext
+     * @param \Magento\Catalog\Helper\Data            $catalogData
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Catalog\Model\ProductFactory   $productFactory
+     * @param \Magento\Rss\Model\RssFactory           $rssFactory
+     * @param \Magento\Model\Resource\Iterator        $resourceIterator
+     * @param \Magento\Catalog\Helper\Image           $imageHelper
+     * @param \Magento\Catalog\Helper\Output          $outputHelper
+     * @param array                                   $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Model\Resource\Iterator $resourceIterator,
@@ -77,7 +77,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     ) {
         $this->_outputHelper = $outputHelper;
         $this->_imageHelper = $imageHelper;
-        $this->_coreData = $coreData;
+        $this->_priceCurrency = $priceCurrency;
         $this->_productFactory = $productFactory;
         $this->_rssFactory = $rssFactory;
         $this->_resourceIterator = $resourceIterator;
@@ -192,8 +192,8 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                         }
                         $html .= sprintf(
                             '<p>%s %s%s</p>',
-                            __('Price: %1', $this->_coreData->currency($result['price'])),
-                            __('Special Price: %1', $this->_coreData->currency($result['final_price'])),
+                            __('Price: %1', $this->_priceCurrency->convertAndFormat($result['price'])),
+                            __('Special Price: %1', $this->_priceCurrency->convertAndFormat($result['final_price'])),
                             $special
                         );
                     }

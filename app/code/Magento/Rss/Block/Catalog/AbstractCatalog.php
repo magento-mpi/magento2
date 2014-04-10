@@ -59,37 +59,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
         $this->_isScopePrivate = true;
     }
 
-    /**
-     * Return Price Block renderer for specified product type
-     *
-     * @param string $type Catalog Product type
-     * @return \Magento\View\Element\Template
-     * @throws \RuntimeException
-     * @deprecated
-     */
-    protected function _getPriceBlock($type)
-    {
-        if (!isset($this->_priceBlock[$type])) {
-            /** @var \Magento\View\Element\RendererList $rendererList */
-            $rendererList = $this->getRendererListName() ? $this->getLayout()->getBlock(
-                $this->getRendererListName()
-            ) : $this->getChildBlock(
-                'renderer.list'
-            );
-            if (!$rendererList) {
-                throw new \RuntimeException(
-                    'Renderer list for block "' . $this->getNameInLayout() . '" is not defined'
-                );
-            }
-            $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
-            $template = isset(
-                $overriddenTemplates[$type]
-            ) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
-            $renderer = $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
-            $this->_priceBlock[$type] = $renderer;
-        }
-        return $this->_priceBlock[$type];
-    }
+
 
     /**
      * Get rendered price html
