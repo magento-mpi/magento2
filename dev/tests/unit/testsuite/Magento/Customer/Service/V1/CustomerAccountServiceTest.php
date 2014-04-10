@@ -1906,6 +1906,48 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         // If we get no mail exception, the test in considered a success
     }
 
+    public function testGetCustomerByEmail()
+    {
+
+        $this->_converter = $this->getMockBuilder(
+            '\Magento\Customer\Model\Converter'
+        )->setMethods(['getCustomerModelByEmail', 'createCustomerFromModel'])
+            ->disableOriginalConstructor()->getMock();
+
+        $customerDataMock = $this->getMockBuilder(
+            '\Magento\Customer\Service\V1\Data\Customer'
+        )->setMethods(['getId', 'getFirstname', 'getLastname', 'getEmail'])
+            ->disableOriginalConstructor()->getMock();
+
+        $defaultWebsiteId = 7;
+
+        $this->_mockReturnValue(
+            $customerDataMock,
+            array(
+                'getId' => self::ID,
+                'getFirstname' => self::FIRSTNAME,
+                'getLastname' => self::LASTNAME,
+                'getName' => self::NAME,
+                'getEmail' => self::EMAIL
+            )
+        );
+
+        $this->_storeMock->expects($this->any())->method('getWebSiteId')->will($this->returnValue($defaultWebsiteId));
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModelByEmail')->with(self::EMAIL, $defaultWebsiteId)
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_converter->expects($this->once())
+            ->method('createCustomerFromModel')->with($this->_customerModelMock)
+            ->will($this->returnValue($customerDataMock));
+
+        $customerService = $this->_createService();
+        $actualCustomer = $customerService->getCustomerByEmail(self::EMAIL);
+        $this->assertEquals(self::ID, $actualCustomer->getId());
+        $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
+        $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
+        $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
+    }
+
     private function _setupStoreMock()
     {
         $this->_storeManagerMock = $this->getMockBuilder(
