@@ -92,35 +92,6 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     }
 
     /**
-     * Returns product price html for RSS feed
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param bool $displayMinimalPrice Display "As low as" etc.
-     * @param string $idSuffix Suffix for HTML containers
-     * @return string
-     * @deprecated see renderPriceHtml
-     */
-    public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
-    {
-        $typeId = $product->getTypeId();
-        if ($this->_catalogData->canApplyMsrp($product)) {
-            $typeId = $this->_mapRenderer;
-        }
-
-        return $this->_getPriceBlock(
-            $typeId
-        )->setProduct(
-            $product
-        )->setDisplayMinimalPrice(
-            $displayMinimalPrice
-        )->setIdSuffix(
-            $idSuffix
-        )->setUseLinkForAsLowAs(
-            $this->_useLinkForAsLowAs
-        )->toHtml();
-    }
-
-    /**
      * Get rendered price html
      *
      * @param \Magento\Catalog\Model\Product $product

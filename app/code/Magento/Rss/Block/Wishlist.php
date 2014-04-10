@@ -167,7 +167,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                     ) . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
-                    $description .= $this->getPriceHtml($product, true);
+                    $description .= $this->getProductPrice($product);
                 }
                 $description .= '</p>';
 
