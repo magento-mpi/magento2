@@ -50,8 +50,8 @@ class StoresConfig
         /** @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             try {
-            $value = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $store->getCode());
-            $storeValues[$store->getId()] = $value;
+                $value = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $store->getCode());
+                $storeValues[$store->getId()] = $value;
             } catch (NoSuchEntityException $e) {
                 // Store doesn't really exist, so move on.
                 continue;
