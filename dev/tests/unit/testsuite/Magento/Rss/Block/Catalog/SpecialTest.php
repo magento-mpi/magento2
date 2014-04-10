@@ -18,7 +18,7 @@ namespace Magento\Rss\Block\Catalog;
 class SpecialTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Rss\Block\Catalog\Category
+     * @var \Magento\Rss\Block\Catalog\Special
      */
     protected $block;
 
