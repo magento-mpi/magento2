@@ -88,7 +88,7 @@ class LocaleFileTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getLocaleFileDataProvider
      */
-    public function testGetLocaleFile($targetFile, $expectedFileName, $expectedCacheId)
+    public function testGetLocaleFile($targetFile, $expectedFileName)
     {
         $requestedFile = 'file.txt';
 
@@ -131,12 +131,10 @@ class LocaleFileTest extends \PHPUnit_Framework_TestCase
             'file found' => array(
                 'found_folder/file.txt',
                 'found_folder/file.txt',
-                'type:locale|area:area|theme:magento_theme|locale:locale|module:_|file:file.txt',
             ),
             'file not found' => array(
                 null,
                 false,
-                'type:locale|area:area|theme:magento_theme|locale:locale|module:_|file:file.txt',
             )
         );
     }

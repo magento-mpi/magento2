@@ -87,7 +87,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getFileDataProvider
      */
-    public function testGetFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName, $expectedCacheId)
+    public function testGetFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName)
     {
         $requestedFile = 'file.txt';
 
@@ -133,7 +133,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 null,
                 'found_folder/file.txt',
                 'found_folder/file.txt',
-                'type:file|area:area|theme:magento_theme|locale:|module:_|file:file.txt',
             ),
             'module, file found' => array(
                 'Namespace_Module',
@@ -141,7 +140,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'Module',
                 'found_folder/file.txt',
                 'found_folder/file.txt',
-                'type:file|area:area|theme:magento_theme|locale:|module:Namespace_Module|file:file.txt',
             ),
             'no module, file not found' => array(
                 null,
@@ -149,7 +147,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 false,
-                'type:file|area:area|theme:magento_theme|locale:|module:_|file:file.txt',
             ),
             'module, file not found' => array(
                 'Namespace_Module',
@@ -157,7 +154,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'Module',
                 null,
                 false,
-                'type:file|area:area|theme:magento_theme|locale:|module:Namespace_Module|file:file.txt',
             ),
         );
     }

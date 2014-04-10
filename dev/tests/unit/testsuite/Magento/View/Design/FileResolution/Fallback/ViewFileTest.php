@@ -116,9 +116,8 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getViewFileDataProvider
      */
-    public function testGetViewFile(
-        $fullModuleName, $namespace, $module, $targetFile, $expectedFileName, $expectedCacheId
-    ) {
+    public function testGetViewFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName)
+    {
         $requestedFile = 'file.txt';
 
         $this->directoryMock->expects($this->any())
@@ -164,7 +163,6 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
                 null,
                 'found_folder/file.txt',
                 'found_folder/file.txt',
-                'type:view|area:area|theme:magento_theme|locale:locale|module:_|file:file.txt',
             ),
             'module, file found' => array(
                 'Namespace_Module',
@@ -172,7 +170,6 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
                 'Module',
                 'found_folder/file.txt',
                 'found_folder/file.txt',
-                'type:view|area:area|theme:magento_theme|locale:locale|module:Namespace_Module|file:file.txt',
             ),
             'no module, file not found' => array(
                 null,
@@ -180,7 +177,6 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 false,
-                'type:view|area:area|theme:magento_theme|locale:locale|module:_|file:file.txt',
             ),
             'module, file not found' => array(
                 'Namespace_Module',
@@ -188,7 +184,6 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
                 'Module',
                 null,
                 false,
-                'type:view|area:area|theme:magento_theme|locale:locale|module:Namespace_Module|file:file.txt',
             ),
         );
     }
