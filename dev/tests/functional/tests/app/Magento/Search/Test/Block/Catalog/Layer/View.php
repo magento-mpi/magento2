@@ -22,7 +22,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $clearAll = '.action.reset';
+    protected $clearAll = '.action.clear';
 
     /**
      * Price range
