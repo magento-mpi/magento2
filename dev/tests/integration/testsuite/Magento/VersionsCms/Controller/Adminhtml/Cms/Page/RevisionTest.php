@@ -39,7 +39,7 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
     {
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
-        )->getAnyStoreView();
+        )->getDefaultStoreView();
         // fixture design_change
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Http\Context');
         $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);

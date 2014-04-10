@@ -20,6 +20,11 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
 
     /**
+     * Wether single store mode enabled or not
+     */
+    const XML_PATH_SINGLE_STORE_MODE_ENABLED = 'general/single_store_mode/enabled';
+
+    /**
      * Store storage factory model
      *
      * @var \Magento\Store\Model\StorageFactory
@@ -69,21 +74,23 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     protected $_scopeType;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * Scope config
+     *
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_helper;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Store\Model\StorageFactory $factory
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Helper\Data $helper
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $scopeCode
      * @param string $scopeType
      */
     public function __construct(
         \Magento\Store\Model\StorageFactory $factory,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Helper\Data $helper,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         $scopeCode = '',
         $scopeType = ScopeInterface::SCOPE_STORE
     ) {
@@ -91,7 +98,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
         $this->_request = $request;
         $this->_scopeCode = $scopeCode;
         $this->_scopeType = $scopeType;
-        $this->_helper = $helper;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -123,15 +130,6 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * @return void
-     * @throws \Magento\Store\Model\Exception
-     */
-    public function throwStoreException()
-    {
-        $this->_getStorage()->throwStoreException();
-    }
-
-    /**
      * Allow or disallow single store mode
      *
      * @param bool $value
@@ -160,7 +158,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      */
     public function isSingleStoreMode()
     {
-        return $this->hasSingleStore() && $this->_helper->isSingleStoreModeEnabled();
+        return $this->hasSingleStore() && $this->isSingleStoreModeEnabled();
     }
 
     /**
@@ -269,22 +267,18 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * Get either default or any store view
+     * Check if Single-Store mode is enabled in configuration
      *
-     * @return Store|null
-     */
-    public function getAnyStoreView()
-    {
-        return $this->_getStorage()->getAnyStoreView();
-    }
-
-    /**
-     * Get current store code
+     * This flag only shows that admin does not want to show certain UI components at backend (like store switchers etc)
+     * if Magento has only one store view but it does not check the store view collection
      *
-     * @return string
+     * @return bool
      */
-    public function getCurrentStore()
+    protected function isSingleStoreModeEnabled()
     {
-        return $this->_getStorage()->getCurrentStore();
+        return (bool)$this->_scopeConfig->getValue(
+            self::XML_PATH_SINGLE_STORE_MODE_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

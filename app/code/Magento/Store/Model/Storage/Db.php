@@ -69,13 +69,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     protected $_groups = array();
 
     /**
-     * Config model
-     *
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_config;
-
-    /**
      * Default store code
      *
      * @var string
@@ -118,18 +111,19 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * Scope config
+     *
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_helper;
+    protected $_scopeConfig;
 
     /**
      * @param StoreFactory $storeFactory
      * @param WebsiteFactory $websiteFactory
      * @param Factory $groupFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\Cookie $cookie
      * @param State $appState
-     * @param \Magento\Core\Helper\Data $helper
      * @param bool $isSingleStoreAllowed
      * @param null $currentStore
      */
@@ -137,21 +131,19 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         StoreFactory $storeFactory,
         WebsiteFactory $websiteFactory,
         Factory $groupFactory,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\Cookie $cookie,
         State $appState,
-        \Magento\Core\Helper\Data $helper,
         $isSingleStoreAllowed,
         $currentStore = null
     ) {
         $this->_storeFactory = $storeFactory;
         $this->_websiteFactory = $websiteFactory;
         $this->_groupFactory = $groupFactory;
-        $this->_config = $config;
+        $this->_scopeConfig = $scopeConfig;
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
         $this->_cookie = $cookie;
-        $this->_helper = $helper;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
         }
@@ -402,7 +394,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      */
     public function isSingleStoreMode()
     {
-        return $this->hasSingleStore() && $this->_helper->isSingleStoreModeEnabled();
+        return $this->hasSingleStore() && $this->isSingleStoreModeEnabled();
     }
 
     /**
@@ -438,7 +430,9 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
             }
 
             if (!$store->getCode()) {
-                $this->throwStoreException();
+                throw new \Magento\Store\Model\Exception(
+                    'Store Manager has been initialized not properly'
+                );
             }
             $this->_stores[$store->getStoreId()] = $store;
             $this->_stores[$store->getCode()] = $store;
@@ -634,24 +628,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * Get either default or any store view
-     *
-     * @return Store|null
-     */
-    public function getAnyStoreView()
-    {
-        $store = $this->getDefaultStoreView();
-        if ($store) {
-            return $store;
-        }
-        foreach ($this->getStores() as $store) {
-            return $store;
-        }
-
-        return null;
-    }
-
-    /**
      * Set current default store
      *
      * @param string $store
@@ -663,21 +639,18 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * @return void
-     * @throws \Magento\Store\Model\Exception
-     */
-    public function throwStoreException()
-    {
-        throw new \Magento\Store\Model\Exception('Store Manager has been initialized not properly');
-    }
-
-    /**
-     * Get current store code
+     * Check if Single-Store mode is enabled in configuration
      *
-     * @return string
+     * This flag only shows that admin does not want to show certain UI components at backend (like store switchers etc)
+     * if Magento has only one store view but it does not check the store view collection
+     *
+     * @return bool
      */
-    public function getCurrentStore()
+    protected function isSingleStoreModeEnabled()
     {
-        return $this->_currentStore;
+        return (bool)$this->_scopeConfig->getValue(
+            \Magento\Store\Model\StoreManager::XML_PATH_SINGLE_STORE_MODE_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

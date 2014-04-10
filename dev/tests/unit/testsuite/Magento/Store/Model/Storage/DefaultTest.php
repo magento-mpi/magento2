@@ -215,11 +215,4 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->_model->getDefaultStoreView());
     }
-
-    public function testGetCurrentStore()
-    {
-        $this->_storeMock->expects($this->once())->method('getCode')->will($this->returnValue('result'));
-        $result = $this->_model->getCurrentStore();
-        $this->assertEquals('result', $result);
-    }
 }

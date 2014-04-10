@@ -54,7 +54,7 @@ class Items extends \Magento\Backend\App\Action
                 array(
                     'store' => $this->_objectManager->get(
                         'Magento\Store\Model\StoreManagerInterface'
-                    )->getAnyStoreView()->getId(),
+                    )->getStore()->getId(),
                     '_current' => true
                 )
             );

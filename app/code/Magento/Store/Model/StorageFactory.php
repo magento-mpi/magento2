@@ -8,7 +8,6 @@
 namespace Magento\Store\Model;
 
 use Magento\Profiler;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\Store\Model\Store;
 
 class StorageFactory
@@ -184,6 +183,7 @@ class StorageFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storage
      * @param array $arguments
      * @return void
+     * @throws \Magento\Store\Model\Exception
      */
     protected function _reinitStores(\Magento\Store\Model\StoreManagerInterface $storage, $arguments)
     {
@@ -208,10 +208,12 @@ class StorageFactory
                 $storage->setCurrentStore($this->_getStoreByWebsite($storage, $scopeCode));
                 break;
             default:
-                $storage->throwStoreException();
+                throw new \Magento\Store\Model\Exception(
+                    'Store Manager has been initialized not properly'
+                );
         }
 
-        $currentStore = $storage->getCurrentStore();
+        $currentStore = $storage->getStore()->getCode();
         if (!empty($currentStore)) {
             $this->_checkCookieStore($storage, $scopeType);
             $this->_checkGetStore($storage, $scopeType);
@@ -271,12 +273,12 @@ class StorageFactory
             && $stores[$store]->getIsActive()
         ) {
             if ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
-                && $stores[$store]->getWebsiteId() == $stores[$storage->getCurrentStore()]->getWebsiteId()
+                && $stores[$store]->getWebsiteId() == $stores[$storage->getStore()->getCode()]->getWebsiteId()
             ) {
                 $storage->setCurrentStore($store);
             }
             if ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_GROUP
-                && $stores[$store]->getGroupId() == $stores[$storage->getCurrentStore()]->getGroupId()
+                && $stores[$store]->getGroupId() == $stores[$storage->getStore()->getCode()]->getGroupId()
             ) {
                 $storage->setCurrentStore($store);
             }
@@ -312,7 +314,7 @@ class StorageFactory
          * prevent running a store from another website or store group,
          * if website or store group was specified explicitly
          */
-        $curStoreObj = $stores[$storage->getCurrentStore()];
+        $curStoreObj = $stores[$storage->getStore()->getCode()];
         if ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
             && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()
         ) {
@@ -325,15 +327,15 @@ class StorageFactory
             $storage->setCurrentStore($store);
         }
 
-        if ($storage->getCurrentStore() == $store) {
+        if ($storage->getStore()->getCode() == $store) {
             $store = $storage->getStore($store);
             if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
                 $this->_cookie->set(Store::COOKIE_NAME, null);
             } else {
-                $this->_cookie->set(Store::COOKIE_NAME, $storage->getCurrentStore(), true);
+                $this->_cookie->set(Store::COOKIE_NAME, $storage->getStore()->getCode(), true);
                 $this->_httpContext->setValue(
                     Store::ENTITY,
-                    $storage->getCurrentStore(),
+                    $storage->getStore()->getCode(),
                     \Magento\Store\Model\Store::DEFAULT_CODE
                 );
             }

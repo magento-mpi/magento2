@@ -95,9 +95,9 @@ class Area implements \Magento\App\AreaInterface
     protected $_design;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
-    protected $_storeManager;
+    protected $_scopeResolver;
 
     /**
      * @var Area\DesignExceptions
@@ -113,7 +113,7 @@ class Area implements \Magento\App\AreaInterface
      * @param \Magento\App\ObjectManager\ConfigLoader $diConfigLoader
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param Area\DesignExceptions $designExceptions
      * @param string $areaCode
      */
@@ -126,7 +126,7 @@ class Area implements \Magento\App\AreaInterface
         \Magento\App\ObjectManager\ConfigLoader $diConfigLoader,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\Design $design,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\ScopeResolverInterface $scopeResolver,
         Area\DesignExceptions $designExceptions,
         $areaCode
     ) {
@@ -139,7 +139,7 @@ class Area implements \Magento\App\AreaInterface
         $this->_translator = $translator;
         $this->_logger = $logger;
         $this->_design = $design;
-        $this->_storeManager = $storeManager;
+        $this->_scopeResolver = $scopeResolver;
         $this->_designExceptions = $designExceptions;
     }
 
@@ -171,7 +171,7 @@ class Area implements \Magento\App\AreaInterface
             $isDesignException = $request && $this->_applyUserAgentDesignException($request);
             if (!$isDesignException) {
                 $this->_design->loadChange(
-                    $this->_storeManager->getStore()->getId()
+                    $this->_scopeResolver->getScope()->getId()
                 )->changeDesign(
                     $this->_getDesign()
                 );

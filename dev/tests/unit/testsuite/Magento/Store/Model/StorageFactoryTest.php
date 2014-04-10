@@ -134,7 +134,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
-        $this->_storage->expects($this->exactly(2))->method('getStore')->will($this->returnValue($store));
+        $this->_storage->expects($this->exactly(3))->method('getStore')->will($this->returnValue($store));
 
         $this->_scopeConfig->expects(
             $this->at(0)
@@ -236,7 +236,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $group->expects($this->any())->method('getDefaultStoreId')->will($this->returnValue(1));
 
         $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $store->expects($this->once())->method('getCode')->will($this->returnValue(1));
+        $store->expects($this->exactly(3))->method('getCode')->will($this->returnValue(1));
         $store->expects($this->once())->method('getId')->will($this->returnValue(1));
         $store->expects($this->once())->method('getIsActive')->will($this->returnValue(true));
         $store->expects($this->any())->method('getConfig')->will($this->returnValue(1));

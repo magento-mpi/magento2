@@ -204,16 +204,6 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * Get either default or any store view
-     *
-     * @return \Magento\Store\Model\Store|null
-     */
-    public function getAnyStoreView()
-    {
-        return null;
-    }
-
-    /**
      * Set current default store
      *
      * @param string $store
@@ -221,23 +211,5 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      */
     public function setCurrentStore($store)
     {
-    }
-
-    /**
-     * @return void
-     * @throws \Magento\Store\Model\Exception
-     */
-    public function throwStoreException()
-    {
-    }
-
-    /**
-     * Get current store code
-     *
-     * @return string
-     */
-    public function getCurrentStore()
-    {
-        return $this->_store->getCode();
     }
 }
