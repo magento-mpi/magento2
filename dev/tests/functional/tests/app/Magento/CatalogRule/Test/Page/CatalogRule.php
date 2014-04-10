@@ -2,10 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +11,7 @@ namespace Magento\CatalogRule\Test\Page;
 use Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog;
 use Magento\Core\Test\Block\Messages;
 use Mtf\Factory\Factory;
-use Mtf\Page\Page;
+use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogRule
@@ -23,7 +19,7 @@ use Mtf\Page\Page;
  *
  * @package Magento\CatalogRule\Test\Page
  */
-class CatalogRule extends Page
+class CatalogRule extends BackendPage
 {
     /**
      * URL for catalog price rules grid

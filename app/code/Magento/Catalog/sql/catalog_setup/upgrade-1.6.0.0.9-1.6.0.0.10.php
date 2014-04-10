@@ -90,9 +90,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('catalog_product_entity_group_price', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('catalog_product_entity_group_price', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -172,9 +172,9 @@ $table = $connection->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('catalog_product_index_group_price', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('catalog_product_index_group_price', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

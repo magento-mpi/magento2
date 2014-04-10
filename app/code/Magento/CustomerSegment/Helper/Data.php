@@ -20,9 +20,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const XML_PATH_CUSTOMER_SEGMENT_ENABLER = 'customer/magento_customersegment/is_enabled';
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    private $_storeConfig;
+    private $_scopeConfig;
 
     /**
      * @var \Magento\CustomerSegment\Model\Resource\Segment\Collection
@@ -31,16 +31,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
     ) {
         parent::__construct($context);
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_segmentCollection = $segmentCollection;
     }
 
@@ -51,7 +51,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_storeConfig->getConfig(self::XML_PATH_CUSTOMER_SEGMENT_ENABLER);
+        return (bool)$this->_scopeConfig->getValue(self::XML_PATH_CUSTOMER_SEGMENT_ENABLER, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

@@ -31,7 +31,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
@@ -43,12 +43,12 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_GiftWrapping',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;

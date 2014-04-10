@@ -17,13 +17,13 @@ class FilterableAttributeList extends \Magento\Catalog\Model\Layer\Search\Filter
 
     /**
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Search $layer
      * @param \Magento\Search\Helper\Data $helper
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer\Search $layer,
         \Magento\Search\Helper\Data $helper
     ) {
