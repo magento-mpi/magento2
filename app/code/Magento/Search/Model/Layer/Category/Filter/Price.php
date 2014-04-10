@@ -55,12 +55,13 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Category $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
      * @param \Magento\Registry $coreRegistry
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Search\Model\Layer\Category\CacheStateTags $cacheStateTags
@@ -68,12 +69,13 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer\Category $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
         \Magento\Registry $coreRegistry,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\App\CacheInterface $cache,
         \Magento\Search\Model\Layer\Category\CacheStateTags $cacheStateTags,
@@ -82,7 +84,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         $this->_resourceEngine = $resourceEngine;
         $this->_cache = $cache;
         $this->cacheStateTags = $cacheStateTags;
-        \Magento\Catalog\Model\Layer\Filter\Price::__construct(
+        parent::__construct(
             $filterItemFactory,
             $storeManager,
             $layer,
@@ -90,6 +92,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $customerSession,
             $priceAlgorithm,
             $coreRegistry,
+            $scopeConfig,
             $data
         );
     }
@@ -127,8 +130,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             return array();
         }
 
-        $isAuto = ($this->_storeManager->getStore()
-            ->getConfig(\Magento\Catalog\Model\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION) == \Magento\Catalog\Model\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED);
+        $isAuto = $this->_scopeConfig->getValue(
+            self::XML_PATH_RANGE_CALCULATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) == self::RANGE_CALCULATION_IMPROVED;
         if (!$isAuto && $this->getInterval()) {
             return array();
         }
@@ -410,7 +415,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     public function addFacetCondition()
     {
-        $range = $this->_storeManager->getStore()->getConfig(\Magento\Catalog\Model\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION);
+        $range = $this->_scopeConfig->getValue(
+            self::XML_PATH_RANGE_CALCULATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (\Magento\Catalog\Model\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED == $range) {
             return $this->_addCalculatedFacetCondition();
         }

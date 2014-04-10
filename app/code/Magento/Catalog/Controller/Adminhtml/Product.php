@@ -244,7 +244,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
 
         if (!$this->_objectManager->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->isSingleStoreMode() && ($switchBlock = $this->_view->getLayout()->getBlock(
             'store_switcher'
         ))
@@ -281,7 +281,7 @@ class Product extends \Magento\Backend\App\Action
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
         $storeId = $this->getRequest()->getParam('store_id', 0);
         $storeMediaUrl = $this->_objectManager->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore(
             $storeId
         )->getBaseUrl(
@@ -460,8 +460,6 @@ class Product extends \Magento\Backend\App\Action
         );
         $this->_view->renderLayout();
     }
-
-
 
     /**
      * Validate product

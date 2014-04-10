@@ -40,7 +40,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $coreResourceMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -79,7 +79,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->storeManagerMock = $this->getMock(
-            'Magento\Core\Model\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             array(),
             array(),
             '',
@@ -87,7 +87,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
         $this->connectionMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->resourceMock = $this->getMockForAbstractClass(
-            'Magento\Model\Resource\Db\AbstractDb', array(), '', false, true, true,
+            'Magento\Model\Resource\Db\AbstractDb',
+            array(),
+            '',
+            false,
+            true,
+            true,
             array('__wakeup', 'getReadConnection', 'getMainTable', 'getTable')
         );
         $this->selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);

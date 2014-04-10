@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Model\Resource\Product;
 
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
@@ -202,9 +202,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Customer session
@@ -254,10 +254,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
-     * @param Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -277,10 +277,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -290,7 +290,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     ) {
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlatState = $catalogProductFlatState;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_productOptionFactory = $productOptionFactory;
         $this->_catalogUrl = $catalogUrl;
         $this->_localeDate = $localeDate;
@@ -566,7 +566,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Add attribute to entities in collection
      * If $attribute=='*' select all attributes
      *
-     * @param array|string|integer|\Magento\Core\Model\Config\Element $attribute
+     * @param array|string|integer|\Magento\App\Config\Element $attribute
      * @param bool|string $joinType
      * @return $this
      */
@@ -702,7 +702,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $select = $this->getConnection()->select()->from(
                 array('product_website' => $this->_productWebsiteTable)
             )->join(
-                array('website' => $this->getResource()->getTable('core_website')),
+                array('website' => $this->getResource()->getTable('store_website')),
                 'website.website_id = product_website.website_id',
                 array('name')
             )->where(
@@ -826,8 +826,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode . '_max_value';
         $fieldAlias = 'max_' . $attributeCode;
-        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
+        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id AND ' . $this->_getConditionSql(
+            $tableAlias . '.attribute_id',
+            $attribute->getId()
+        );
 
         $select->join(
             array($tableAlias => $attribute->getBackend()->getTable()),
@@ -859,8 +861,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode . '_range_count_value';
 
-        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
+        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id AND ' . $this->_getConditionSql(
+            $tableAlias . '.attribute_id',
+            $attribute->getId()
+        );
 
         $select->reset(\Zend_Db_Select::GROUP);
         $select->join(
@@ -1225,8 +1229,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        $useCategoryUrl = $this->_coreStoreConfig->getConfig(
+        $useCategoryUrl = $this->_scopeConfig->getValue(
             \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStoreId()
         );
         if ($useCategoryUrl) {
@@ -1727,14 +1732,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $fromPart = $this->getSelect()->getPart(\Zend_Db_Select::FROM);
         if (!isset($fromPart['store_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_index' => $this->getTable('core_store')),
+                array('store_index' => $this->getTable('store')),
                 'store_index.store_id = ' . $filters['store_table'] . '.store_id',
                 array()
             );
         }
         if (!isset($fromPart['store_group_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_group_index' => $this->getTable('core_store_group')),
+                array('store_group_index' => $this->getTable('store_group')),
                 'store_index.group_id = store_group_index.group_id',
                 array()
             );
@@ -1847,7 +1852,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
         //Clean duplicated fields
         $this->_resourceHelper->prepareColumnsList($select);
-
 
         return $this;
     }
@@ -1988,7 +1992,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             }
         }
 
-
         foreach ($this->getItems() as $item) {
             $productId = $item->getId();
             if (isset($categoryIds[$productId])) {
@@ -2027,8 +2030,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attribute = $this->getAttribute('tier_price');
         if ($attribute->isScopeGlobal()) {
             $websiteId = 0;
-        } else if ($this->getStoreId()) {
-            $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
+        } else {
+            if ($this->getStoreId()) {
+                $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
+            }
         }
 
         $adapter = $this->getConnection();
@@ -2063,8 +2068,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
                 'cust_group' => $row['all_groups'] ? CustomerGroupServiceInterface::CUST_GROUP_ALL : $row['cust_group'],
                 'price_qty' => $row['price_qty'],
                 'price' => $row['price'],
-                'website_price' => $row['price'],
-
+                'website_price' => $row['price']
             );
         }
 

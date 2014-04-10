@@ -44,8 +44,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->layout = Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Layout',
-            ['area' => FrontNameResolver::AREA_CODE]
+            'Magento\View\Layout'
         );
         $this->customerGroupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');

@@ -20,7 +20,7 @@ class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
     protected $_template = 'Magento_Checkout::total/default.phtml';
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -57,7 +57,7 @@ class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
     }
 
     /**
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

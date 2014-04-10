@@ -52,13 +52,6 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
     protected $_adminhtmlSessionQuote;
 
     /**
-     * Configuration interface
-     *
-     * @var \Magento\App\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
     protected $_customerService;
@@ -78,7 +71,6 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
-     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
      * @param \Magento\Customer\Model\Converter $customerConverter
      * @param array $data
@@ -93,14 +85,12 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\App\ConfigInterface $config,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
         \Magento\Customer\Model\Converter $customerConverter,
         array $data = array()
     ) {
         $this->_adminhtmlSessionQuote = $adminhtmlSessionQuote;
         $this->_backendUrl = $backendUrl;
-        $this->_config = $config;
         $this->_customerService = $customerService;
         $this->_customerConverter = $customerConverter;
         parent::__construct(
@@ -145,7 +135,7 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      */
     protected function _getVariation()
     {
-        return $this->_config->getValue(
+        return $this->_scopeConfig->getValue(
             'payment/pbridge/merchantcode',
             'default'
         ) . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
@@ -194,7 +184,7 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
     /**
      * Return store for current context
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getCurrentStore()
     {

@@ -119,13 +119,19 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if (!$rateObject->hasTaxCountryId()) {
             $rateObject->setTaxCountryId(
-                $this->_storeConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY)
+                $this->_scopeConfig->getValue(
+                    \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
             );
         }
 
         if (!$rateObject->hasTaxRegionId()) {
             $rateObject->setTaxRegionId(
-                $this->_storeConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION)
+                $this->_scopeConfig->getValue(
+                    \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
             );
         }
 
@@ -171,7 +177,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if (!$rateObject->hasTaxPostcode()) {
             $rateObject->setTaxPostcode(
-                $this->_storeConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE)
+                $this->_scopeConfig->getValue(
+                    \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
             );
         }
 

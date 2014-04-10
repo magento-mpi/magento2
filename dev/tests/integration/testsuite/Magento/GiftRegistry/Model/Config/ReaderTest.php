@@ -39,9 +39,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             array('moduleDirs' => $moduleDirs, 'filesystem' => $filesystem)
         );
 
-        /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
+        /** @var \Magento\App\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
-            'Magento\Core\Model\Config\FileResolver',
+            'Magento\App\Config\FileResolver',
             array('moduleReader' => $moduleReader)
         );
 

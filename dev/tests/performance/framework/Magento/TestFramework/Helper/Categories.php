@@ -42,7 +42,7 @@ class Categories
     {
 
         $rootCategoryId = $this->getObjectManager()->create(
-            'Magento\Core\Model\StoreManager'
+            'Magento\Store\Model\StoreManager'
         )->getDefaultStoreView()->getRootCategoryId();
 
         /** @var $category \Magento\Catalog\Model\Category */

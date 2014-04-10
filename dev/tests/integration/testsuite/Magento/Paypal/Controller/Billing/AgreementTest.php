@@ -75,7 +75,7 @@ class AgreementTest extends \Magento\TestFramework\TestCase\AbstractController
             ->method('create')
             ->with('Magento\Paypal\Model\Billing\Agreement', [])
             ->will($this->returnValue($billingAgreement));
-        $storeManager = $objectManager->get('Magento\Core\Model\StoreManager');
+        $storeManager = $objectManager->get('Magento\Store\Model\StoreManager');
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
         $objectManagerMock
             ->expects($this->any())
@@ -83,7 +83,7 @@ class AgreementTest extends \Magento\TestFramework\TestCase\AbstractController
             ->will(
                 $this->returnValueMap(
                     [
-                        ['Magento\Core\Model\StoreManager', $storeManager],
+                        ['Magento\Store\Model\StoreManager', $storeManager],
                         ['Magento\Customer\Model\Session', $customerSession]
                     ]
                 )

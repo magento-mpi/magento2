@@ -30,7 +30,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\App\Filesystem'),
                 $objectManager->get('Magento\Logger\AdapterFactory'),
                 $objectManager->get('Magento\ImportExport\Helper\Data'),
-                $objectManager->get('Magento\App\ConfigInterface'),
+                $objectManager->get('Magento\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface'),
                 $objectManager->get('Magento\ImportExport\Model\Import\Entity\Factory'),
                 $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data'),

@@ -14,11 +14,11 @@ interface ValueInterface
     /**
      * Table name
      */
-    const ENTITY = 'core_config_data';
+    const ENTITY = 'config_data';
 
     /**
      * Check if config data value was changed
-     *
+     * @todo this method should be make as protected
      * @return bool
      */
     public function isValueChanged();

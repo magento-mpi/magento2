@@ -86,14 +86,14 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -103,8 +103,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Search\Model\Resource\Advanced $searchResource
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      */
     public function __construct(
@@ -113,8 +113,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Search\Model\Resource\Advanced $searchResource,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
         $this->_searchCollectionFactory = $searchCollectionFactory;
@@ -123,7 +123,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_adapter = $searchFactory->getFactory()->createAdapter();
         $this->_searchResource = $searchResource;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_initAdapter();
     }
@@ -135,8 +135,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected function _canHoldCommit()
     {
-        $commitMode = $this->_coreStoreConfig->getConfig(
-            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
+        $commitMode = $this->_scopeConfig->getValue(
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL ||
@@ -150,8 +151,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected function _canAllowCommit()
     {
-        $commitMode = $this->_coreStoreConfig->getConfig(
-            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
+        $commitMode = $this->_scopeConfig->getValue(
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL ||
@@ -278,7 +280,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
             return $this;
         }
 
-        if (is_null($storeIds) || $storeIds == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+        if (is_null($storeIds) || $storeIds == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
             $storeIds = array_keys($this->_storeManager->getStores());
         } else {
             $storeIds = (array)$storeIds;

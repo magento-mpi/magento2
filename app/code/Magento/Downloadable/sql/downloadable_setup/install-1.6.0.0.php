@@ -145,9 +145,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('downloadable_link_price', 'website_id'),
     'website_id'
 )->addForeignKey(
-    $installer->getFkName('downloadable_link_price', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('downloadable_link_price', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -434,9 +434,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('downloadable_link_title', 'store_id'),
     'store_id'
 )->addForeignKey(
-    $installer->getFkName('downloadable_link_title', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('downloadable_link_title', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -552,9 +552,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('downloadable_sample_title', 'store_id'),
     'store_id'
 )->addForeignKey(
-    $installer->getFkName('downloadable_sample_title', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('downloadable_sample_title', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
