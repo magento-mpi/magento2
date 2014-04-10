@@ -27,13 +27,6 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_taxData = null;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
      * Config
      *
      * @var \Magento\GoogleShopping\Model\Config
@@ -53,6 +46,11 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $catalogPrice;
 
     /**
+     * @var  \Magento\Customer\Service\V1\CustomerGroupService
+     */
+    protected $_customerGroupService;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -62,9 +60,9 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService
      * @param array $data
      */
     public function __construct(
@@ -77,15 +75,15 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_taxData = $taxData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_customerGroupService = $customerGroupService;
         $this->catalogPrice = $catalogPrice;
         parent::__construct(
             $context,
@@ -110,12 +108,8 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     public function convertAttribute($product, $entry)
     {
         $product->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId());
-        $product->setCustomerGroupId(
-            $this->_coreStoreConfig->getConfig(
-                \Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID,
-                $product->getStoreId()
-            )
-        );
+        $defaultCustomerGroup = $this->_customerGroupService->getDefaultGroup($product->getStoreId());
+        $product->setCustomerGroupId($defaultCustomerGroup->getId());
 
         $store = $this->_storeManager->getStore($product->getStoreId());
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
