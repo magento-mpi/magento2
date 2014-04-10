@@ -40,7 +40,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    protected $storeManager;
 
     /**
      * Initialize dependencies
@@ -59,7 +59,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
         $this->mediaDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $this->viewFileSystem = $viewFilesystem;
         $this->assetRepo = $assetRepo;
-        $this->_storeManager = $storeManager;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -75,7 +75,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
                 'area'       => $theme->getData('area'),
                 'themeModel' => $theme
             ])
-            : $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA)
+            : $this->storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA)
                 . self::PREVIEW_DIRECTORY_PATH . '/' . $theme->getPreviewImage();
     }
 

@@ -66,7 +66,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->fallbackFactory = $this->getMock(
             'Magento\View\Design\Fallback\Factory',
             array('createFileRule'),
-            array($this->getMock('Magento\App\Filesystem', array(), array(), '', false))
+            array($filesystem)
         );
         $this->rule = $this->getMockForAbstractClass('Magento\View\Design\Fallback\Rule\RuleInterface');
         $this->fallbackFactory

@@ -54,7 +54,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
         );
         $this->viewFilesystem = $this->getMock('Magento\View\FileSystem', array(), array(), '', false);
         $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
-        $this->storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
 
         $this->mediaDirectory->expects($this->any())

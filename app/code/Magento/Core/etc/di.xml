@@ -499,9 +499,14 @@
             <argument name="fileSource" xsi:type="object">Magento\Less\File\Collector\Aggregated</argument>
         </arguments>
     </type>
+    <virtualType name="lessFileSourceBase" type="Magento\View\File\Collector\Base">
+        <arguments>
+            <argument name="subDir" xsi:type="string">web</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="lessFileSourceBaseFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\File\Collector\Base</argument>
+            <argument name="subject" xsi:type="object">lessFileSourceBase</argument>
         </arguments>
     </virtualType>
     <virtualType name="lessFileSourceBaseSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
@@ -509,9 +514,14 @@
             <argument name="subject" xsi:type="object">lessFileSourceBaseFiltered</argument>
         </arguments>
     </virtualType>
+    <virtualType name="lessFileSourceTheme" type="Magento\View\File\Collector\ThemeModular">
+        <arguments>
+            <argument name="subDir" xsi:type="string">web</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="lessFileSourceThemeFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\File\Collector\ThemeModular</argument>
+            <argument name="subject" xsi:type="object">lessFileSourceTheme</argument>
         </arguments>
     </virtualType>
     <virtualType name="lessFileSourceThemeSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
@@ -536,6 +546,11 @@
         </arguments>
     </type>
     <type name="Magento\View\Design\FileResolution\Fallback\File">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\View\Design\FileResolution\Fallback\CacheData\Grouped</argument>
+        </arguments>
+    </type>
+    <type name="Magento\View\Design\FileResolution\Fallback\TemplateFile">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\View\Design\FileResolution\Fallback\CacheData\Grouped</argument>
         </arguments>

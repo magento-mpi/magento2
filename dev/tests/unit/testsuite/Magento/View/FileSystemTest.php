@@ -25,6 +25,11 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected $_fileResolution;
 
     /**
+     * @var \Magento\View\Design\FileResolution\Fallback\TemplateFile|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_templateFileResolution;
+
+    /**
      * @var \Magento\View\Design\FileResolution\Fallback\LocaleFile|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_localeFileResolution;
@@ -39,6 +44,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->_fileResolution = $this->getMock('Magento\View\Design\FileResolution\Fallback\File', array(),
             array(), '', false
         );
+        $this->_templateFileResolution = $this->getMock(
+            'Magento\View\Design\FileResolution\Fallback\TemplateFile', array(), array(), '', false
+        );
         $this->_localeFileResolution = $this->getMock('Magento\View\Design\FileResolution\Fallback\LocaleFile', array(),
             array(), '', false
         );
@@ -48,6 +56,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\View\FileSystem(
             $this->_fileResolution,
+            $this->_templateFileResolution,
             $this->_localeFileResolution,
             $this->_assetRepo
         );
@@ -89,18 +98,12 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento\View\Design\FileResolution\Strategy\TemplateInterface');
-        $strategyMock->expects($this->once())
+        $this->_templateFileResolution->expects($this->once())
             ->method('getTemplateFile')
             ->with($params['area'], $params['themeModel'], 'some_file.ext', 'Some_Module')
             ->will($this->returnValue($expected));
 
-        $this->_strategyPool->expects($this->once())
-            ->method('getTemplateStrategy')
-            ->with(false)
-            ->will($this->returnValue($strategyMock));
-
-        $this->_viewService->expects($this->any())
+        $this->_assetRepo->expects($this->any())
             ->method('extractScope')
             ->with($file, $params)
             ->will($this->returnValue('some_file.ext'));

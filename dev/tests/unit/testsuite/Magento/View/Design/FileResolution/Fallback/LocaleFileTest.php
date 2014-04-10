@@ -68,7 +68,7 @@ class LocaleFileTest extends \PHPUnit_Framework_TestCase
         $this->fallbackFactory = $this->getMock(
             'Magento\View\Design\Fallback\Factory',
             array('createLocaleFileRule'),
-            array($this->getMock('Magento\App\Filesystem', array(), array(), '', false))
+            array($filesystem)
         );
         $this->fallbackFactory
             ->expects($this->any())->method('createLocaleFileRule')->will($this->returnValue($this->rule));

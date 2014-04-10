@@ -39,7 +39,9 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     'root' => BP,
                     'directories' => array(
                         \Magento\App\Filesystem::MODULES_DIR
-                            => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
+                            => array('path' => dirname(dirname(__DIR__)) . '/_files/code'),
+                        \Magento\App\Filesystem::THEMES_DIR
+                            => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
                     )
                 )
             ))
@@ -47,11 +49,15 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\View\File\Collector\Base $sourceBase */
         $sourceBase = $this->objectManager->create(
-            'Magento\View\File\Collector\Base', array('filesystem' => $filesystem)
+            'Magento\View\File\Collector\Base', array('filesystem' => $filesystem, 'subDir' => 'web')
+        );
+        /** @var \Magento\View\File\Collector\Base $sourceBase */
+        $sourceTheme = $this->objectManager->create(
+            'Magento\View\File\Collector\ThemeModular', array('filesystem' => $filesystem, 'subDir' => 'web')
         );
         $this->model = $this->objectManager->create(
             'Magento\Less\File\Collector\Aggregated',
-            array('baseFiles' => $sourceBase)
+            array('baseFiles' => $sourceBase, 'themeFiles' => $sourceTheme)
         );
     }
 
@@ -73,7 +79,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
             $this->setExpectedException('LogicException', 'magento_import returns empty result by path doesNotExist');
         }
         $files = $this->model->getFiles($theme, $path);
-        $this->assertCount(count($expectedFiles), $files, 'Files number doesn\'t match');
+        $this->assertCount(count($expectedFiles), $files, 'Files number doesn\'t match.');
 
         /** @var $file \Magento\View\File */
         foreach ($files as $file) {
@@ -102,12 +108,12 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/design/frontend/test_default/Magento_Core/web/1.file"
+                        "$fixtureDir/_files/design/frontend/test_default/Magento_Module/web/1.file"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/design/frontend/test_parent/Magento_Theme/web/1.file"
+                        "$fixtureDir/_files/design/frontend/test_parent/Magento_Second/web/1.file"
                     )
                 )
             ),
@@ -139,12 +145,12 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/code/Magento/Theme/view/frontend/web/3.less"
+                        "$fixtureDir/_files/code/Magento/Other/view/frontend/web/3.less"
                     ),
                     str_replace(
                         '\\',
                         '/',
-                        "$fixtureDir/_files/design/frontend/test_default/Magento_Core/web/3.less"
+                        "$fixtureDir/_files/design/frontend/test_default/Magento_Third/web/3.less"
                     )
                 )
             ),

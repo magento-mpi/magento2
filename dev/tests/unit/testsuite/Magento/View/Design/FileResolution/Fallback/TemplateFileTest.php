@@ -8,7 +8,7 @@
 
 namespace Magento\View\Design\FileResolution\Fallback;
 
-class ViewFileTest extends \PHPUnit_Framework_TestCase
+class TemplateFileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\View\Design\Fallback\Rule\RuleInterface
@@ -41,7 +41,7 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
     protected $cache;
 
     /**
-     * @var ViewFile
+     * @var TemplateFile
      */
     protected $fallback;
 
@@ -65,12 +65,12 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
 
         $this->fallbackFactory = $this->getMock(
             'Magento\View\Design\Fallback\Factory',
-            array('createViewFileRule'),
+            array('createTemplateFileRule'),
             array($filesystem)
         );
         $this->rule = $this->getMockForAbstractClass('Magento\View\Design\Fallback\Rule\RuleInterface');
         $this->fallbackFactory
-            ->expects($this->any())->method('createViewFileRule')->will($this->returnValue($this->rule));
+            ->expects($this->any())->method('createTemplateFileRule')->will($this->returnValue($this->rule));
 
         $this->resolver = $this->getMock('\Magento\View\Design\FileResolution\Fallback\Resolver');
 
@@ -81,42 +81,13 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
 
         $this->cache = $this->getMockForAbstractClass('Magento\View\Design\FileResolution\Fallback\CacheDataInterface');
 
-        $this->fallback = new ViewFile(
-            $this->cache, $filesystem, $this->fallbackFactory, $this->resolver, ['css' => ['less']]
-        );
+        $this->fallback = new TemplateFile($this->cache, $filesystem, $this->fallbackFactory, $this->resolver);
     }
 
     /**
-     * @param array $additionalExtensions
-     *
-     * @dataProvider constructorExceptionDataProvider
+     * @dataProvider getFileDataProvider
      */
-    public function testConstructorException(array $additionalExtensions)
-    {
-        $this->setExpectedException('\InvalidArgumentException', "\$staticExtensionRule must be an array with format: "
-            . "array('ext1' => array('ext1', 'ext2'), 'ext3' => array(...)]");
-
-        $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $this->fallback = new ViewFile(
-            $this->cache, $filesystem, $this->fallbackFactory, $this->resolver, $additionalExtensions
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function constructorExceptionDataProvider()
-    {
-        return [
-            'numerical keys'   => [['css', 'less']],
-            'non-array values' => [['css' => 'less']],
-        ];
-    }
-
-    /**
-     * @dataProvider getViewFileDataProvider
-     */
-    public function testGetViewFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName)
+    public function testGetTemplateFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName)
     {
         $requestedFile = 'file.txt';
 
@@ -130,23 +101,22 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => $namespace, 'module' => $module,
-            'locale' => 'locale');
+        $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => $namespace, 'module' => $module);
 
         $this->resolver->expects($this->once())
             ->method('resolveFile')
             ->with($this->directoryMock, $this->rule, $requestedFile, $params)
             ->will($this->returnValue($expectedFileName));
 
-        $this->cache->expects($this->once())
+        $this->cache->expects($this->any())
             ->method('getFromCache')
             ->will($this->returnValue(false));
         $this->cache->expects($this->once())
             ->method('saveToCache')
-            ->with($expectedFileName, 'view', $requestedFile, $params)
+            ->with($expectedFileName, 'template', $requestedFile, $params)
             ->will($this->returnValue(true));
 
-        $filename = $this->fallback->getViewFile('area', $this->theme, 'locale', 'file.txt', $fullModuleName);
+        $filename = $this->fallback->getTemplateFile('area', $this->theme, $requestedFile, $fullModuleName);
 
         $this->assertSame($expectedFileName, $filename);
     }
@@ -154,7 +124,7 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getViewFileDataProvider()
+    public function getFileDataProvider()
     {
         return array(
             'no module, file found' => array(
@@ -188,44 +158,7 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetViewFileAdditionalExtension()
-    {
-        $targetFile = 'found_folder/file.less';
-        $requestedCssFile = 'file.css';
-        $requestedLessFile = 'file.less';
-        $expectedFile = 'found_folder/file.less';
-
-        $this->directoryMock->expects($this->any())
-            ->method('isExist')
-            ->will(
-                $this->returnCallback(
-                    function ($tryFile) use ($targetFile) {
-                        return ($tryFile == $targetFile);
-                    }
-                )
-            );
-
-        $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => 'Namespace', 'module' => 'Module',
-            'locale' => 'locale');
-
-        $this->cache->expects($this->once())
-            ->method('getFromCache')
-            ->will($this->returnValue(false));
-        $this->resolver->expects($this->at(0))
-            ->method('resolveFile')
-            ->with($this->directoryMock, $this->rule, $requestedCssFile, $params)
-            ->will($this->returnValue(false));
-        $this->resolver->expects($this->at(1))
-            ->method('resolveFile')
-            ->with($this->directoryMock, $this->rule, $requestedLessFile, $params)
-            ->will($this->returnValue($expectedFile));
-
-        $filename = $this->fallback->getViewFile('area', $this->theme, 'locale', $requestedCssFile, 'Namespace_Module');
-
-        $this->assertSame($expectedFile, $filename);
-    }
-
-    public function testGetViewFileCached()
+    public function testGetTemplateFileCached()
     {
         $file = 'some/file';
         $expectedResult = 'some/file';
@@ -240,20 +173,13 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $params = array(
-            'area' => 'frontend',
-            'theme' => $this->theme,
-            'locale' => 'en_US',
-            'namespace' => 'Magento',
-            'module' => 'Core',
-        );
-
+        $params = array('area' => 'frontend', 'theme' => $this->theme, 'namespace' => 'Magento', 'module' => 'Core');
         $this->cache->expects($this->once())
             ->method('getFromCache')
-            ->with('view', $file, $params)
+            ->with('template', $file, $params)
             ->will($this->returnValue($expectedResult));
 
-        $resultCached = $this->fallback->getViewFile('frontend', $this->theme, 'en_US', $file, 'Magento_Core');
-        $this->assertSame($expectedResult, $resultCached);
+        $actual = $this->fallback->getTemplateFile('frontend', $this->theme, $file, 'Magento_Core');
+        $this->assertSame($expectedResult, $actual);
     }
 }

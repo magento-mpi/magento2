@@ -19,6 +19,11 @@ class FileSystem
     protected $_fileResolution;
 
     /**
+     * @var Design\FileResolution\Fallback\TemplateFile
+     */
+    protected $_templateFileResolution;
+
+    /**
      * @var Design\FileResolution\Fallback\LocaleFile
      */
     protected $_localeFileResolution;
@@ -34,15 +39,18 @@ class FileSystem
      * Constructor
      *
      * @param Design\FileResolution\Fallback\File $fallbackFile
+     * @param Design\FileResolution\Fallback\TemplateFile $fallbackTemplateFile
      * @param Design\FileResolution\Fallback\LocaleFile $fallbackLocaleFile
      * @param Asset\Repository $assetRepo
      */
     public function __construct(
         Design\FileResolution\Fallback\File $fallbackFile,
+        Design\FileResolution\Fallback\TemplateFile $fallbackTemplateFile,
         Design\FileResolution\Fallback\LocaleFile $fallbackLocaleFile,
         Asset\Repository $assetRepo
     ) {
         $this->_fileResolution = $fallbackFile;
+        $this->_templateFileResolution = $fallbackTemplateFile;
         $this->_localeFileResolution = $fallbackLocaleFile;
         $this->_assetRepo = $assetRepo;
     }
@@ -89,9 +97,12 @@ class FileSystem
      */
     public function getTemplateFileName($fileId, array $params = array())
     {
-        $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
-        $this->_viewService->updateDesignParams($params);
-        return $this->_resolutionPool->getTemplateStrategy(!empty($params['skipProxy']))
+        list($module, $filePath) = \Magento\View\Asset\Repository::extractModule($this->normalizePath($fileId));
+        if ($module) {
+            $params['module'] = $module;
+        }
+        $this->_assetRepo->updateDesignParams($params);
+        return $this->_templateFileResolution
             ->getTemplateFile($params['area'], $params['themeModel'], $filePath, $params['module']);
     }
 
