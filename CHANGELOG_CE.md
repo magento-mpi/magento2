@@ -8,7 +8,6 @@
   * An issue with a fatal error in Wish List trying to edit product if more than one store view available was fixed (MAGETWO-20859)
   * An issue with page layout for categories is not able to change was fixed (MAGETWO-21365)
   * An issue with create product with grouped price is possible when Price Scope = Website was fixed (MAGETWO-21709)
-  * An issue with create RMA is possible when required custom attribute is added was fixed (MAGETWO-22344)n issue with create product with grouped price is possible when Price Scope = Website was fixed (MAGETWO-21709)
   * An issue with quantity_and_stock_status dropdown is disabled for bundle product was fixed (MAGETWO-22346)
   * An issue with 'Related Products Rule' with inactive status still shows on frontend (Related Products, Up-sell) was fixed (MAGETWO-22672)
   * An issue with clickjacking vulnerability was fixed (MAGETWO-22696)
