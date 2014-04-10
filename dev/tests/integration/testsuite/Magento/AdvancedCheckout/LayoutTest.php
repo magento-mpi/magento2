@@ -20,7 +20,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\View\DesignInterface'
         )->setDesignTheme(
-            'magento_plushe'
+            'Magento/plushe'
         );
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         $layout->getUpdate()->addHandle('checkout_cart_index');

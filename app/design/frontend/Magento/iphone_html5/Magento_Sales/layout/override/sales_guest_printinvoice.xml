@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+    <update handle="sales_order_print_invoice_renderers" />
+    <referenceContainer name="content">
+        <block class="Magento\Sales\Block\Order\PrintOrder\Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
+            <block class="Magento\View\Element\RendererList" name="sales.order.print.invoice.renderers" as="renderer.list" />
+            <block class="Magento\Sales\Block\Order\Invoice\Totals" name="invoice_totals" template="order/totals.phtml" cacheable="false">
+                <action method="setLabelProperties">
+                    <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
+                </action>
+                <action method="setValueProperties">
+                    <argument name="value" xsi:type="string">class="last a-right"</argument>
+                </action>
+                <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml"/>
+            </block>
+        </block>
+    </referenceContainer>
+</layout>

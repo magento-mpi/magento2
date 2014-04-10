@@ -501,8 +501,8 @@ class Context
     public function getDesignTheme()
     {
         $theme = $this->design->getDesignTheme();
-        $theme->setCode('magento_plushe');
-        $theme->setThemePath('magento_plushe');
+        $theme->setCode('Magento/plushe');
+        $theme->setThemePath('Magento/plushe');
         $theme->setId(8);
 
         return $this->getPhysicalTheme($theme);

@@ -106,7 +106,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeManagerMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
 
-        $themePath = 'magento_blank';
+        $themePath = 'Magento/blank';
         /** Unassign themes from store */
         $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
@@ -157,7 +157,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeManagerMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(false));
 
-        $themePath = 'magento_blank';
+        $themePath = 'Magento/blank';
         /** Unassign themes from store */
         $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
