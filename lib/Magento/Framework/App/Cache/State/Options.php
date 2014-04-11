@@ -9,8 +9,9 @@
  */
 namespace Magento\Framework\App\Cache\State;
 
-class Options extends \Magento\Model\Resource\Db\AbstractDb
-    implements \Magento\Framework\App\Cache\State\OptionsInterface
+use Magento\Model\Resource\Db\AbstractDb;
+
+class Options extends AbstractDb implements OptionsInterface
 {
     /**
      * Define main table

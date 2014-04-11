@@ -73,9 +73,9 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
      */
     public function restore(ObjectManager $objectManager, $rootDir, array $arguments)
     {
-        $directories = isset(
-            $arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS]
-        ) ? $arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS] : array();
+        $directories = isset($arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS])
+            ? $arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS]
+            : array();
         $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList($rootDir, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);

@@ -10,8 +10,10 @@
 
 namespace Magento\Framework\App;
 
-class MutableScopeConfig extends \Magento\Framework\App\Config
-    implements \Magento\Framework\App\Config\MutableScopeConfigInterface
+use Magento\Framework\App\Config;
+use Magento\Framework\App\Config\MutableScopeConfigInterface;
+
+class MutableScopeConfig extends Config implements MutableScopeConfigInterface
 {
     /**
      * Set config value in the corresponding config scope
