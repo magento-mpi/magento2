@@ -9,6 +9,8 @@
  */
 namespace Magento\Webapi;
 
+use Magento\Exception\ErrorMessage;
+
 class Exception extends \RuntimeException
 {
     /**#@+
@@ -52,13 +54,28 @@ class Exception extends \RuntimeException
     protected $_name;
 
     /**
+     * Stacktrace
+     */
+    protected $_stackTrace;
+
+    /**
+     * List of errors
+     *
+     * @var ErrorMessage[]
+     */
+    protected $_errors;
+
+    /**
      * Initialize exception with HTTP code.
      *
      * @param string $message
      * @param int $code Error code
      * @param int $httpCode
      * @param array $details Additional exception details
+     * @param ErrorMessage[]|null $errors Array of errors messages
      * @param string $name Exception name
+     * @param string stackTrace
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct(
@@ -66,7 +83,9 @@ class Exception extends \RuntimeException
         $code = 0,
         $httpCode = self::HTTP_BAD_REQUEST,
         array $details = array(),
-        $name = ''
+        $errors = null,
+        $name = '',
+        $stackTrace = null
     ) {
         /** Only HTTP error codes are allowed. No success or redirect codes must be used. */
         if ($httpCode < 400 || $httpCode > 599) {
@@ -76,6 +95,8 @@ class Exception extends \RuntimeException
         $this->_httpCode = $httpCode;
         $this->_details = $details;
         $this->_name = $name;
+        $this->_errors = $errors;
+        $this->_stackTrace = $stackTrace;
     }
 
     /**
@@ -120,4 +141,15 @@ class Exception extends \RuntimeException
     {
         return $this->_name;
     }
+
+    /**
+     * Retrieve list of errors.
+     *
+     * @return ErrorMessage[]
+     */
+    public function getErrors()
+    {
+        return $this->_errors;
+    }
+
 }

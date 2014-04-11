@@ -2,21 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-/**
- * oAuth \Exception
- *
- * @category    Magento
- * @package     Magento_Oauth
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Oauth;
 
+/**
+ * oAuth \Exception
+ */
 class Exception extends \Magento\Webapi\Exception
 {
     /**
@@ -33,6 +27,6 @@ class Exception extends \Magento\Webapi\Exception
         array $details = array(),
         $name = 'oauth'
     ) {
-        parent::__construct($message, $code, $httpCode, $details, $name);
+        parent::__construct($message, $code, $httpCode, $details, null, $name);
     }
 }

@@ -9,6 +9,8 @@
  */
 namespace Magento\TestModule3\Service\V1;
 
+use Magento\Exception\AuthorizationException;
+use Magento\Exception\NoSuchEntityException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
 
@@ -27,7 +29,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function resourceNotFoundException()
     {
-        throw new \Magento\Service\ResourceNotFoundException('', 2345, null, array(), 'resourceNotFound', 'resourceY');
+        throw new NoSuchEntityException('Resource with ID "%resource_id" not found.', ['resource_id' => 'resourceY']);
     }
 
     /**
@@ -55,7 +57,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function authorizationException()
     {
-        throw new \Magento\Service\AuthorizationException('', 4567, null, array(), 'authorization', 30, 'resourceN');
+        throw new AuthorizationException('Consumer ID %consumer_id is not authorized to access %resources', ['consumer_id' => '30', 'resources' => 'resourceN']);
     }
 
     /**

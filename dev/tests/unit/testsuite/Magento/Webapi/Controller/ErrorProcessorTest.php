@@ -9,6 +9,10 @@
  */
 namespace Magento\Webapi\Controller;
 
+use Magento\Exception\AuthorizationException;
+use Magento\Exception\NoSuchEntityException;
+use Magento\Webapi\Exception as WebapiException;
+
 class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\ErrorProcessor */
@@ -192,16 +196,15 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider dataProviderForSendResponseExceptions
      */
-    public function testMaskException($exception, $expectedHttpCode, $expectedMessage, $expectedCode, $expectedDetails)
+    public function testMaskException($exception, $expectedHttpCode, $expectedMessage, $expectedDetails)
     {
         /** Assert that exception was logged. */
-        $this->_loggerMock->expects($this->once())->method('logException');
+        // TODO:MAGETWO-21077 $this->_loggerMock->expects($this->once())->method('logException');
         $maskedException = $this->_errorProcessor->maskException($exception);
         $this->assertMaskedException(
             $maskedException,
             $expectedHttpCode,
             $expectedMessage,
-            $expectedCode,
             $expectedDetails
         );
     }
@@ -209,76 +212,45 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForSendResponseExceptions()
     {
         return array(
-            'Magento\Service\ResourceNotFoundException' => array(
-                new \Magento\Service\ResourceNotFoundException(
-                    'Resource not found',
-                    2345,
-                    null,
-                    array('datail1' => 'value1'),
-                    'resourceNotFound',
-                    'resource10'
+            'NoSuchEntityException' => array(
+                new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                    [
+                        'fieldName' => 'detail1',
+                        'fieldValue' => 'value1',
+                        'field2Name' => 'resource_id',
+                        'field2Value' => 'resource10',
+                    ]
                 ),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
-                'Resource not found',
-                2345,
-                array('datail1' => 'value1', 'resource_id' => 'resource10')
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                [
+                    'fieldName' => 'detail1',
+                    'fieldValue' => 'value1',
+                    'field2Name' => 'resource_id',
+                    'field2Value' => 'resource10',
+                ],
             ),
-            'Magento_Service_ResourceNotFoundException (Empty message)' => array(
-                new \Magento\Service\ResourceNotFoundException(
-                    '',
-                    2345,
-                    null,
-                    array('datail1' => 'value1'),
-                    'resourceNotFound',
-                    'resource10'
+            'NoSuchEntityException (Empty message)' => array(
+                new NoSuchEntityException(),
+                WebapiException::HTTP_NOT_FOUND,
+                'No such entity.',
+                []
+            ),
+            'AuthorizationException' => array(
+                new AuthorizationException(
+                    AuthorizationException::NOT_AUTHORIZED,
+                    ['consumer_id' => '3', 'resources' => '4']
                 ),
-                \Magento\Webapi\Exception::HTTP_NOT_FOUND,
-                "Resource with ID 'resource10' not found.",
-                2345,
-                array('datail1' => 'value1', 'resource_id' => 'resource10')
-            ),
-            'Magento\Service\AuthorizationException' => array(
-                new \Magento\Service\AuthorizationException(
-                    'Service authorization exception',
-                    345,
-                    null,
-                    array(),
-                    'authorization',
-                    3,
-                    4
-                ),
-                \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
-                'Service authorization exception',
-                345,
-                array('user_id' => 3, 'resource_id' => 4)
-            ),
-            'Magento\Service\AuthorizationException (Empty message)' => array(
-                new \Magento\Service\AuthorizationException('', 345, null, array(), 'authorization', 3, 4),
-                \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
-                "User with ID '3' is not authorized to access resource with ID '4'.",
-                345,
-                array('user_id' => 3, 'resource_id' => 4)
-            ),
-            'Magento\Service\Exception' => array(
-                new \Magento\Service\Exception('Generic service exception', 4567),
-                \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-                'Generic service exception',
-                4567,
-                array()
-            ),
-            'Magento\Service\Exception\With\Parameters' => array(
-                new \Magento\Service\Exception('Parameterized service exception', 1234, null, array("P1", "P2")),
-                \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-                'Parameterized service exception',
-                1234,
-                array("P1", "P2")
+                WebapiException::HTTP_UNAUTHORIZED,
+                AuthorizationException::NOT_AUTHORIZED,
+                ['consumer_id' => '3', 'resources' => '4']
             ),
             'Exception' => array(
                 new \Exception('Non service exception', 5678),
-                \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
-                'Internal Error. Details are available in Magento log file. Report ID: webapi-',
-                0,
-                array()
+                WebapiException::HTTP_INTERNAL_ERROR,
+                'Non service exception',
+                []
             )
         );
     }
@@ -289,14 +261,12 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
      * @param \Exception $maskedException
      * @param int $expectedHttpCode
      * @param string $expectedMessage
-     * @param int $expectedCode
      * @param array $expectedDetails
      */
     public function assertMaskedException(
         $maskedException,
         $expectedHttpCode,
         $expectedMessage,
-        $expectedCode,
         $expectedDetails
     ) {
         /** All masked exceptions must be \Magento\Webapi\Exception */
@@ -320,11 +290,6 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
             $maskedException->getMessage(),
             "Masked exception message is invalid: expected '{$expectedMessage}', " .
             "given '{$maskedException->getMessage()}'."
-        );
-        $this->assertEquals(
-            $expectedCode,
-            $maskedException->getCode(),
-            "Masked exception code is invalid: expected '{$expectedCode}', given '{$maskedException->getCode()}'."
         );
         $this->assertEquals($expectedDetails, $maskedException->getDetails(), "Masked exception details are invalid.");
     }

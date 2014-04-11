@@ -9,6 +9,8 @@
  */
 namespace Magento\Webapi\Routing;
 
+use Magento\Webapi\Exception as WebapiException;
+
 class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     protected function setUp()
@@ -45,10 +47,9 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         // \Magento\Service\ResourceNotFoundException
         $this->_errorTest(
             $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_NOT_FOUND,
-            2345,
-            "Resource with ID 'resourceY' not found."
+            ['resource_id' => 'resourceY'],
+            WebapiException::HTTP_NOT_FOUND,
+            'Resource with ID "%resource_id" not found.'
         );
     }
 
@@ -64,55 +65,10 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         // \Magento\Service\AuthorizationException
         $this->_errorTest(
             $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
-            4567,
-            "User with ID '30' is not authorized to access resource with ID 'resourceN'."
-        );
-    }
-
-    public function testServiceException()
-    {
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V1/errortest/serviceexception',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            )
-        );
-
-        // \Magento\Service\Exception
-        $this->_errorTest(
-            $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-            3456,
-            'Generic service exception'
-        );
-    }
-
-    public function testServiceExceptionWithParameters()
-    {
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V1/errortest/parameterizedserviceexception',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            )
-        );
-        $arguments = array(
-            'parameters' => array(
-                array('name' => 'key1', 'value' => 'value1'),
-                array('name' => 'key2', 'value' => 'value2')
-            )
-        );
-        $expectedExceptionParameters = array('key1' => 'value1', 'key2' => 'value2');
-        // \Magento\Service\Exception (with parameters)
-        $this->_errorTest(
-            $serviceInfo,
-            $arguments,
-            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-            1234,
-            'Parameterized service exception',
-            $expectedExceptionParameters
+            [],
+            WebapiException::HTTP_UNAUTHORIZED,
+            'Consumer ID %consumer_id is not authorized to access %resources',
+            ['consumer_id' => '30', 'resources' => 'resourceN']
         );
     }
 
@@ -125,16 +81,14 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             )
         );
 
-        $expectedCodes = array(5678, null);
         $expectedMessages = array(
             'Non service exception',
             'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX'
         );
         $this->_errorTest(
             $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
-            $expectedCodes,
+            [],
+            WebapiException::HTTP_INTERNAL_ERROR,
             $expectedMessages
         );
     }
@@ -145,11 +99,10 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
      * @param string $serviceInfo - REST Service information (i.e. resource path and HTTP method)
      * @param array $data - Data for the cal
      * @param int $httpStatus - Expected HTTP status
-     * @param int|array $errorCode - Expected error code
      * @param string|array $errorMessage - \Exception error message
      * @param array $parameters - Optional parameters array, or null if no parameters
      */
-    protected function _errorTest($serviceInfo, $data, $httpStatus, $errorCode, $errorMessage, $parameters = array())
+    protected function _errorTest($serviceInfo, $data, $httpStatus, $errorMessage, $parameters = array())
     {
         // TODO: need to get header info instead of catching the exception
         try {
@@ -159,21 +112,8 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
             $body = json_decode($e->getMessage(), true);
 
-            $errorCodes = is_array($errorCode) ? $errorCode : array($errorCode);
-            if (isset($body['errors'][0]['code'])) {
-                $this->assertTrue(
-                    in_array($body['errors'][0]['code'], $errorCodes),
-                    sprintf(
-                        "Error code is invalid. Actual: {$body['errors'][0]['code']}, Expected one of: \n%s",
-                        implode("\n", $errorCodes)
-                    )
-                );
-            } else {
-                $this->assertTrue(in_array(0, $errorCodes), "Error code was expected");
-            }
-
             $errorMessages = is_array($errorMessage) ? $errorMessage : array($errorMessage);
-            $actualMessage = $body['errors'][0]['message'];
+            $actualMessage = $body['message'];
             $matches = array();
             //Report ID was created dynamically, so we need to replace it with some static value in order to test
             if (preg_match('/.*Report\sID\:\s([a-zA-Z0-9\-]*)/', $actualMessage, $matches)) {
@@ -189,7 +129,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             );
 
             if ($parameters) {
-                $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
+                $this->assertEquals($parameters, $body['parameters'], 'Checking body parameters');
             }
         }
     }

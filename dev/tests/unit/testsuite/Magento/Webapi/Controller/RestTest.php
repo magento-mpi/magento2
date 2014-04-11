@@ -9,6 +9,8 @@
  */
 namespace Magento\Webapi\Controller;
 
+use Magento\Exception\AuthorizationException;
+
 class RestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Rest */
@@ -34,6 +36,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
 
     /** @var \Magento\App\State */
     protected $_appStateMock;
+
+    /** @var \Magento\Oauth\OauthInterface */
+    protected $_oauthServiceMock;
 
     /** @var \Magento\Authz\Service\AuthorizationV1Interface */
     protected $_authzServiceMock;
@@ -75,7 +80,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_routeMock = $this->getMockBuilder(
             'Magento\Webapi\Controller\Rest\Router\Route'
         )->setMethods(
-            array('isSecure', 'getServiceMethod', 'getServiceClass')
+            array('isSecure', 'getServiceMethod', 'getServiceClass', 'getAclResources')
         )->disableOriginalConstructor()->getMock();
 
         $this->_objectManagerMock = $this->getMockBuilder(
@@ -89,6 +94,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
 
         $this->_appStateMock = $this->getMockBuilder('Magento\App\State')->disableOriginalConstructor()->getMock();
+
+        $this->_oauthServiceMock = $this->getMockBuilder('\Magento\Oauth\OauthInterface')->
+            setMethods(['validateAccessTokenRequest'])->getMockForAbstractClass();
 
         $this->_authzServiceMock = $this->getMockBuilder(
             'Magento\Authz\Service\AuthorizationV1Interface'
@@ -115,6 +123,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->_objectManagerMock,
                 'appState' => $this->_appStateMock,
                 'layout' => $layoutMock,
+                'oauthService' => $this->_oauthServiceMock,
                 'authorizationService' => $this->_authzServiceMock,
                 'serializer' => $serializer,
                 'errorProcessor' => $errorProcessorMock,
@@ -214,10 +223,15 @@ class RestTest extends \PHPUnit_Framework_TestCase
     {
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(false));
+        $this->_oauthServiceMock->expects(
+            $this->any())->method('validateAccessTokenRequest')->will($this->returnValue('fred')
+        );
+        $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['5','6']));
 
         $this->_restController->dispatch($this->_requestMock);
         /** Ensure that response contains proper error message. */
-        $expectedMsg = 'Not Authorized.';
+        $expectedMsg = 'Consumer ID fred is not authorized to access 5, 6';
+        AuthorizationException::NOT_AUTHORIZED;
         $this->assertTrue($this->_responseMock->isException());
         $exceptionArray = $this->_responseMock->getException();
         $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());

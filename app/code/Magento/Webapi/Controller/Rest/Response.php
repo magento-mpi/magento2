@@ -81,8 +81,15 @@ class Response extends \Magento\Webapi\Controller\Response
             $maskedException = $this->_errorProcessor->maskException($exception);
             $messageData = array(
                 'message' => $maskedException->getMessage(),
-                'http_code' => $maskedException->getHttpCode()
             );
+            if ($maskedException->getErrors()) {
+                $messageData['errors'] = [];
+                foreach($maskedException->getErrors() as $errorMessage) {
+                    $errorData['message'] = $errorMessage->getRawMessage();
+                    $errorData['parameters'] = $errorMessage->getParameters();
+                    $messageData['errors'][] = $errorData;
+                }
+            }
             if ($maskedException->getCode()) {
                 $messageData['code'] = $maskedException->getCode();
             }
@@ -92,13 +99,13 @@ class Response extends \Magento\Webapi\Controller\Response
             if ($this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }
-            $formattedMessages['errors'][] = $messageData;
             $responseHttpCode = $maskedException->getHttpCode();
         }
         // set HTTP code of the last error, Content-Type, and all rendered error messages to body
         $this->setHttpResponseCode($responseHttpCode);
         $this->setMimeType($this->_renderer->getMimeType());
-        $this->setBody($this->_renderer->render($formattedMessages));
+       //  $this->setBody($this->_renderer->render($formattedMessages));
+        $this->setBody($this->_renderer->render($messageData));
         return $this;
     }
 

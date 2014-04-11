@@ -55,4 +55,14 @@ class LocalizedException extends \Magento\Service\Exception
     {
         return $this->renderer->render([$this->rawMessage], $this->params);
     }
+
+    /**
+     * Returns the array of parameters in the message
+     *
+     * @return array Parameter name => values
+     */
+    public function getParameters()
+    {
+        return $this->params;
+    }
 }

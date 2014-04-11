@@ -154,8 +154,8 @@ class CustomerAddressService implements CustomerAddressServiceInterface
 
         if (!$address->getId()) {
             throw new NoSuchEntityException(
-                'No such entity with %fieldName = %value',
-                ['fieldName' => 'addressId', 'value' => $addressId]
+                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                ['fieldName' => 'addressId', 'fieldValue' => $addressId]
             );
         }
 

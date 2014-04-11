@@ -36,12 +36,12 @@ class ErrorMessage
      * Initialize the error message object.
      *
      * @param string $message Error message
-     * @param array $params Message arguments (i.e. substitution parameters)
+     * @param array $parameters Message arguments (i.e. substitution parameters)
      */
-    public function __construct($message, array $params = [])
+    public function __construct($message, array $parameters = [])
     {
         $this->message = $message;
-        $this->params = $params;
+        $this->params = $parameters;
         $this->renderer = new Placeholder();
     }
 
@@ -50,7 +50,7 @@ class ErrorMessage
      *
      * @return array
      */
-    public function getParams()
+    public function getParameters()
     {
         return $this->params;
     }

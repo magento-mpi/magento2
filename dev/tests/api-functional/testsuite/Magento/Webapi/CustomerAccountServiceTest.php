@@ -7,9 +7,7 @@
  */
 namespace Magento\Webapi;
 
-use Magento\Customer\Service\V1\Data\Filter;
-use Magento\Customer\Service\V1\Data\FilterBuilder;
-use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Exception\NoSuchEntityException;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
@@ -18,6 +16,7 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Exception\InputException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -117,6 +116,43 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $customerData = $this->_createSampleCustomer();
         $this->assertNotNull($customerData['id']);
+    }
+
+    public function testCreateCustomerWithErrors()
+    {
+        $serviceInfo = array(
+            'rest' => array('resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST)
+        );
+        $customerDetailsAsArray = $this->_createSampleCustomerDetailsData()->__toArray();
+        unset($customerDetailsAsArray['customer']['firstname']);
+        unset($customerDetailsAsArray['customer']['email']);
+        $requestData = array('customerDetails' => $customerDetailsAsArray, 'password' => 'test@123');
+        try{
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Expected exception did not occur.');
+        } catch (\Exception $e) {
+            $this->assertEquals(400, $e->getCode());
+            $exceptionData = $this->_processRestExceptionResult($e);
+            $expectedExceptionData = [
+                    'message' => InputException::DEFAULT_MESSAGE,
+                    'errors' => [
+                        [
+                            'message' => InputException::REQUIRED_FIELD,
+                            'parameters' => [
+                                'fieldName' => 'firstname',
+                            ]
+                        ],
+                        [
+                            'message' => InputException::INVALID_FIELD_VALUE,
+                            'parameters' => [
+                                'fieldName' => 'email',
+                                'value' => ''
+                            ]
+                        ]
+                    ]
+            ];
+            $this->assertEquals($expectedExceptionData, $exceptionData);
+        }
     }
 
     public function testGetCustomerDetails()
@@ -232,7 +268,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals("Reset password token mismatch.", $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
     }
 
@@ -274,8 +310,20 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals("No such entity with email = dummy@example.com websiteId = 0", $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals(
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                $errorObj['message']
+            );
+            $this->assertEquals(
+                [
+                    'fieldName' => 'email',
+                    'fieldValue' => 'dummy@example.com',
+                    'field2Name' => 'websiteId',
+                    'field2Value'=> '0'
+                ],
+                $errorObj['parameters']
+            );
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
 
@@ -326,8 +374,18 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals("No such entity with email = dummy@example.com websiteId = 0", $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals(
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS, $errorObj['message']);
+            $this->assertEquals(
+                [
+                    'fieldName' => 'email',
+                    'fieldValue' => 'dummy@example.com',
+                    'field2Name' => 'websiteId',
+                    'field2Value' => '0'
+                ],
+                $errorObj['parameters']
+            );
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
 
@@ -413,8 +471,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo);
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals("No such entity with customerId = -1", $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals(NoSuchEntityException::MESSAGE_SINGLE_FIELD, $errorObj['message']);
+            $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => '-1'], $errorObj['parameters']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
 
@@ -513,8 +572,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals("No such entity with customerId = -1", $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals(NoSuchEntityException::MESSAGE_SINGLE_FIELD, $errorObj['message']);
+            $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => '-1'], $errorObj['parameters']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
 
@@ -628,17 +688,24 @@ class CustomerAccountServiceTest extends WebapiAbstract
      * @param \Exception $e
      * @return array
      * <pre> ex.
-     * array (
-     *     'message' => "No such entity with email = dummy@example.com websiteId = 0"
-     *     'http_code' => 400
-     * )
+     * 'message' => "No such entity with %fieldName1 = %value1, %fieldName2 = %value2"
+     * 'parameters' => [
+     *      "fieldName1" => "email",
+     *      "value1" => "dummy@example.com",
+     *      "fieldName2" => "websiteId",
+     *      "value2" => 0
+     * ]
+     *
      * </pre>
      */
     protected function _processRestExceptionResult(\Exception $e)
     {
-        $error = json_decode($e->getMessage(), true)['errors'][0];
+        $error = json_decode($e->getMessage(), true);
         //Remove line breaks and replace with space
         $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
+        // remove trace and type, will only be present if server is in dev mode
+        unset($error['trace']);
+        unset($error['type']);
         return $error;
     }
 }

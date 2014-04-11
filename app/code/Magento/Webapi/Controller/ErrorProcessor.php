@@ -10,6 +10,12 @@
 namespace Magento\Webapi\Controller;
 
 use Magento\App\State;
+use Magento\Exception\AbstractAggregateException;
+use Magento\Exception\AuthenticationException;
+use Magento\Exception\AuthorizationException;
+use Magento\Exception\LocalizedException;
+use Magento\Exception\NoSuchEntityException;
+use Magento\Webapi\Exception as WebapiException;
 
 class ErrorProcessor
 {
@@ -80,45 +86,58 @@ class ErrorProcessor
      *
      * Convert any exception into \Magento\Webapi\Exception.
      *
-     * @param \Exception $exception
-     * @return \Magento\Webapi\Exception
+     * @param \Exception $exception Exception to convert to a WebAPI exception
+     *
+     * @return WebapiException
      */
     public function maskException(\Exception $exception)
     {
         /** Log information about actual exception. */
-        $reportId = $this->_logException($exception);
-        if ($exception instanceof \Magento\Service\Exception) {
-            if ($exception instanceof \Magento\Service\ResourceNotFoundException) {
-                $httpCode = \Magento\Webapi\Exception::HTTP_NOT_FOUND;
-            } elseif ($exception instanceof \Magento\Service\AuthorizationException) {
-                $httpCode = \Magento\Webapi\Exception::HTTP_UNAUTHORIZED;
+        // TODO: MAGETWO-21077 $this->_logException($exception);
+
+        $stackTrace = ($this->_appState->getMode() === State::MODE_DEVELOPER) ?
+            $stackTrace = $exception->getTrace() : null;
+
+        if ($exception instanceof LocalizedException) {
+            // Map HTTP codes for LocalizedExceptions according to exception type
+            if ($exception instanceof NoSuchEntityException) {
+                $httpCode = WebapiException::HTTP_NOT_FOUND;
+            } elseif (($exception instanceof AuthorizationException) || ($exception instanceof AuthenticationException)) {
+                $httpCode = WebapiException::HTTP_UNAUTHORIZED;
             } else {
-                $httpCode = \Magento\Webapi\Exception::HTTP_BAD_REQUEST;
+                // Input, Expired, InvalidState exceptions will fall to here
+                $httpCode = WebapiException::HTTP_BAD_REQUEST;
             }
-            $maskedException = new \Magento\Webapi\Exception(
-                $exception->getMessage(),
+
+            $errors = null;
+            if ($exception instanceof AbstractAggregateException) {
+                if ($exception->wasErrorAdded()) {
+                    $errors = $exception->getErrors();
+                }
+            }
+
+            $maskedException = new WebapiException(
+                $exception->getRawMessage(),
                 $exception->getCode(),
                 $httpCode,
                 $exception->getParameters(),
-                $exception->getName()
+                $errors,
+                get_class($exception),
+                $stackTrace
             );
-        } else if ($exception instanceof \Magento\Webapi\Exception) {
+
+        } else if ($exception instanceof WebapiException) {
             $maskedException = $exception;
         } else {
-            if ($this->_appState->getMode() !== State::MODE_DEVELOPER) {
-                /** Create exception with masked message. */
-                $maskedException = new \Magento\Webapi\Exception(
-                    __('Internal Error. Details are available in Magento log file. Report ID: %1', $reportId),
-                    0,
-                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
-                );
-            } else {
-                $maskedException = new \Magento\Webapi\Exception(
-                    $exception->getMessage(),
-                    $exception->getCode(),
-                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
-                );
-            }
+            $maskedException = new WebapiException(
+                $exception->getMessage(),
+                $exception->getCode(),
+                WebapiException::HTTP_INTERNAL_ERROR,
+                [],
+                null,
+                '',
+                $stackTrace
+            );
         }
         return $maskedException;
     }

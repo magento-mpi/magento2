@@ -419,15 +419,43 @@ class CustomerGroupServiceTest extends WebapiAbstract
         );
 
         $requestData = array('groupId' => $groupId);
-        $expectedMessage = "No such entity with groupId = {$groupId}";
+        $expectedMessage = NoSuchEntityException::MESSAGE_SINGLE_FIELD;
+        $expectedParameters = ['fieldName' => 'groupId', 'fieldValue' => $groupId];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\SoapFault $e) {
             $this->assertContains($expectedMessage, $e->getMessage(), "SoapFault does not contain expected message.");
         } catch (\Exception $e) {
-            $this->assertContains($expectedMessage, $e->getMessage(), "Exception does not contain expected message.");
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals($expectedParameters, $errorObj['parameters']);
         }
+    }
+
+    /**
+     * @param \Exception $e
+     * @return array
+     * <pre> ex.
+     * 'message' => "No such entity with %fieldName1 = %value1, %fieldName2 = %value2"
+     * 'parameters' => [
+     *      "fieldName1" => "email",
+     *      "value1" => "dummy@example.com",
+     *      "fieldName2" => "websiteId",
+     *      "value2" => 0
+     * ]
+     *
+     * </pre>
+     */
+    protected function _processRestExceptionResult(\Exception $e)
+    {
+        $error = json_decode($e->getMessage(), true);
+        //Remove line breaks and replace with space
+        $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
+        // remove trace and type, will only be present if server is in dev mode
+        unset($error['trace']);
+        unset($error['type']);
+        return $error;
     }
 
     /**
