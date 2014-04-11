@@ -9,6 +9,7 @@ namespace Magento\Exception;
 
 class InputException extends AbstractAggregateException
 {
+    const DEFAULT_MESSAGE = 'One or more input exceptions have occurred.';
     const INVALID_FIELD_RANGE = 'The %fieldName value of "%value" must be between %minValue and %maxValue';
     const INVALID_FIELD_MIN_VALUE = 'The %fieldName value of "%value" must be greater than or equal to %minValue.';
     const INVALID_FIELD_MAX_VALUE = 'The %fieldName value of "%value" must be less than or equal to %maxValue.';
@@ -22,11 +23,8 @@ class InputException extends AbstractAggregateException
      * @param array      $params  Substitution parameters
      * @param \Exception $cause   Cause of the InputException
      */
-    public function __construct(
-        $message = 'One or more input exceptions have occurred.',
-        $params = [],
-        \Exception $cause = null
-    ) {
+    public function __construct($message = self::DEFAULT_MESSAGE, $params = [], \Exception $cause = null)
+    {
         parent::__construct($message, $params, $cause);
     }
 }

@@ -9,7 +9,7 @@
  */
 namespace Magento\Exception\State;
 
-class InvalidStateException extends \Magento\Exception\StateException
+class InvalidTransitionException extends \Magento\Exception\StateException
 {
 
 }

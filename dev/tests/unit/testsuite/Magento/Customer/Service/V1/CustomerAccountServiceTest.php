@@ -280,7 +280,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException  \Magento\Exception\State\InvalidStateException
+     * @expectedException  \Magento\Exception\State\InvalidTransitionException
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -603,6 +603,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->validateResetPasswordLinkToken(14, null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
+            $this->assertEquals(InputException::REQUIRED_FIELD, $e->getRawMessage());
             $this->assertEquals('resetPasswordLinkToken is a required field.', $e->getMessage());
             $this->assertEquals('resetPasswordLinkToken is a required field.', $e->getLogMessage());
         }
@@ -970,6 +971,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->resetPassword(0, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
+            $this->assertEquals(InputException::INVALID_FIELD_VALUE, $e->getRawMessage());
             $this->assertEquals('Invalid value of "0" provided for the customerId field.', $e->getMessage());
             $this->assertEquals('Invalid value of "0" provided for the customerId field.', $e->getLogMessage());
         }
@@ -1027,7 +1029,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\State\InvalidStateException
+     * @expectedException \Magento\Exception\State\InvalidTransitionException
      */
     public function testResendConfirmationNotNeeded()
     {
@@ -1464,14 +1466,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveCustomer($customerEntity);
         } catch (InputException $inputException) {
-            $this->assertEquals('One or more input exceptions have occurred.', $inputException->getMessage());
-            $this->assertEquals('One or more input exceptions have occurred.', $inputException->getLogMessage());
+            $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getRawMessage());
+            $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getMessage());
+            $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getLogMessage());
+            
             $errors = $inputException->getErrors();
             $this->assertCount(6, $errors);
+
+            $this->assertEquals(InputException::REQUIRED_FIELD, $errors[0]->getRawMessage());
             $this->assertEquals('firstname is a required field.', $errors[0]->getMessage());
             $this->assertEquals('firstname is a required field.', $errors[0]->getLogMessage());
+
+            $this->assertEquals(InputException::REQUIRED_FIELD, $errors[1]->getRawMessage());
             $this->assertEquals('lastname is a required field.', $errors[1]->getMessage());
             $this->assertEquals('lastname is a required field.', $errors[1]->getLogMessage());
+
+            $this->assertEquals(InputException::INVALID_FIELD_VALUE, $errors[2]->getRawMessage());
             $this->assertEquals(
                 'Invalid value of "missingAtSign" provided for the email field.',
                 $errors[2]->getMessage()
@@ -1480,10 +1490,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'Invalid value of "missingAtSign" provided for the email field.',
                 $errors[2]->getLogMessage()
             );
+
+            $this->assertEquals(InputException::REQUIRED_FIELD, $errors[3]->getRawMessage());
             $this->assertEquals('dob is a required field.', $errors[3]->getMessage());
             $this->assertEquals('dob is a required field.', $errors[3]->getLogMessage());
+
+            $this->assertEquals(InputException::REQUIRED_FIELD, $errors[4]->getRawMessage());
             $this->assertEquals('taxvat is a required field.', $errors[4]->getMessage());
             $this->assertEquals('taxvat is a required field.', $errors[4]->getLogMessage());
+
+            $this->assertEquals(InputException::REQUIRED_FIELD, $errors[5]->getRawMessage());
             $this->assertEquals('gender is a required field.', $errors[5]->getMessage());
             $this->assertEquals('gender is a required field.', $errors[5]->getLogMessage());
         }

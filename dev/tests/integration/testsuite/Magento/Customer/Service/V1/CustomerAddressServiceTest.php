@@ -293,7 +293,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->saveAddresses($customerId, array($firstAddress, $secondAddress));
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (InputException $exception) {
-            $this->assertEquals('One or more input exceptions have occurred.', $exception->getMessage());
+            $this->assertEquals(InputException::DEFAULT_MESSAGE, $exception->getMessage());
             $errors = $exception->getErrors();
             $this->assertCount(2, $errors);
             $this->assertEquals('firstname is a required field.', $errors[0]->getLogMessage());
