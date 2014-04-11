@@ -1600,4 +1600,5 @@ return array(
     ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Stock\Collection'],
     ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Price\Collection'],
+    ['setCustomer', 'Magento\ProductAlert\Model\Email'],
 );
