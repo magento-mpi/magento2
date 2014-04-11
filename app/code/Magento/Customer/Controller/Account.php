@@ -473,10 +473,10 @@ class Account extends \Magento\App\Action\Action
         } catch (InputException $e) {
             $errors = $e->getErrors();
             if (empty($errors)) {
-                $this->messageManager->addError($this->escaper->escapeHtml($e->getLogMessage()));
+                $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
             } else {
                 foreach ($errors as $error) {
-                    $this->messageManager->addError($this->escaper->escapeHtml($error->getLogMessage()));
+                    $this->messageManager->addError($this->escaper->escapeHtml($error->getMessage()));
                 }
             }
         } catch (\Exception $e) {

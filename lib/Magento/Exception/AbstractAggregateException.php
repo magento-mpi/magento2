@@ -17,6 +17,13 @@ abstract class AbstractAggregateException extends LocalizedException
     protected $errors = [];
 
     /**
+     * The original message after being processed by the parent constructor
+     * 
+     * @var string
+     */
+    protected $originalMessage;
+    
+    /**
      * The original raw message passed in via the constructor
      *
      * @var string
@@ -31,6 +38,13 @@ abstract class AbstractAggregateException extends LocalizedException
     protected $originalParams = [];
 
     /**
+     * An internal variable indicating how many time addError has been called
+     * 
+     * @var int
+     */
+    private $addErrorCalls = 0;
+
+    /**
      * Initialize the exception.
      *
      * @param string     $message
@@ -39,9 +53,10 @@ abstract class AbstractAggregateException extends LocalizedException
      */
     public function __construct($message, array $params = [], \Exception $cause = null)
     {
-        parent::__construct($message, $params, $cause);
         $this->originalRawMessage = $message;
         $this->originalParams = $params;
+        parent::__construct($message, $params, $cause);
+        $this->originalMessage = $this->message;
     }
 
     /**
@@ -54,17 +69,24 @@ abstract class AbstractAggregateException extends LocalizedException
      */
     public function addError($rawMessage, array $params = [])
     {
+        $this->addErrorCalls++;
         if (empty($this->errors)) {
-            if ($this->rawMessage == $this->originalRawMessage && $this->params == $this->originalParams) {
+            if (1 == $this->addErrorCalls) {
+                // First call: simply overwrite the message and params
                 $this->rawMessage = $rawMessage;
                 $this->params = $params;
-            } else {
+                $this->message = __($rawMessage, $params);
+            } elseif (2 == $this->addErrorCalls) {
+                // Second call: store the error from the first call and the second call in the array
+                // restore the message and params to their original value
                 $this->errors[] = new ErrorMessage($this->rawMessage, $this->params);
                 $this->errors[] = new ErrorMessage($rawMessage, $params);
                 $this->rawMessage = $this->originalRawMessage;
                 $this->params = $this->originalParams;
+                $this->message = $this->originalMessage;
             }
         } else {
+            // All subsequent calls after the second should reach here
             $this->errors[] = new ErrorMessage($rawMessage, $params);
         }
         return $this;
@@ -75,14 +97,9 @@ abstract class AbstractAggregateException extends LocalizedException
      *
      * @return bool
      */
-    public function hasAdditionalErrors()
+    public function wasErrorAdded()
     {
-        if (!empty($this->errors) || $this->rawMessage != $this->originalRawMessage
-            || $this->params != $this->originalParams
-        ) {
-            return true;
-        }
-        return false;
+        return (0 < $this->addErrorCalls);
     }
     
     /**

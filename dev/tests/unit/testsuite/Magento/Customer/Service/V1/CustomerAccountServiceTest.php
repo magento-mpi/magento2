@@ -603,6 +603,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->validateResetPasswordLinkToken(14, null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
+            $this->assertEquals('resetPasswordLinkToken is a required field.', $e->getMessage());
             $this->assertEquals('resetPasswordLinkToken is a required field.', $e->getLogMessage());
         }
     }
@@ -969,6 +970,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->resetPassword(0, $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
+            $this->assertEquals('Invalid value of "0" provided for the customerId field.', $e->getMessage());
             $this->assertEquals('Invalid value of "0" provided for the customerId field.', $e->getLogMessage());
         }
     }
@@ -1462,17 +1464,27 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveCustomer($customerEntity);
         } catch (InputException $inputException) {
+            $this->assertEquals('One or more input exceptions have occurred.', $inputException->getMessage());
             $this->assertEquals('One or more input exceptions have occurred.', $inputException->getLogMessage());
             $errors = $inputException->getErrors();
             $this->assertCount(6, $errors);
+            $this->assertEquals('firstname is a required field.', $errors[0]->getMessage());
             $this->assertEquals('firstname is a required field.', $errors[0]->getLogMessage());
+            $this->assertEquals('lastname is a required field.', $errors[1]->getMessage());
             $this->assertEquals('lastname is a required field.', $errors[1]->getLogMessage());
+            $this->assertEquals(
+                'Invalid value of "missingAtSign" provided for the email field.',
+                $errors[2]->getMessage()
+            );
             $this->assertEquals(
                 'Invalid value of "missingAtSign" provided for the email field.',
                 $errors[2]->getLogMessage()
             );
+            $this->assertEquals('dob is a required field.', $errors[3]->getMessage());
             $this->assertEquals('dob is a required field.', $errors[3]->getLogMessage());
+            $this->assertEquals('taxvat is a required field.', $errors[4]->getMessage());
             $this->assertEquals('taxvat is a required field.', $errors[4]->getLogMessage());
+            $this->assertEquals('gender is a required field.', $errors[5]->getMessage());
             $this->assertEquals('gender is a required field.', $errors[5]->getLogMessage());
         }
     }

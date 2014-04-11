@@ -659,7 +659,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'gender']);
         }
 
-        if ($exception->hasAdditionalErrors()) {
+        if ($exception->wasErrorAdded()) {
             throw $exception;
         }
     }

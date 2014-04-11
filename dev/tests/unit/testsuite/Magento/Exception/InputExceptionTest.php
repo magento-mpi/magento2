@@ -40,23 +40,28 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
     public function testAddError()
     {
         $inputException = new InputException();
-        $this->assertStringStartsWith('One or more', $inputException->getMessage());
-        $this->assertFalse($inputException->hasAdditionalErrors());
+        $this->assertEquals('One or more input exceptions have occurred.', $inputException->getMessage());
+        $this->assertEquals('One or more input exceptions have occurred.', $inputException->getLogMessage());
+        $this->assertFalse($inputException->wasErrorAdded());
         $this->assertCount(0, $inputException->getErrors());
 
         $inputException->addError(
             InputException::INVALID_FIELD_MIN_VALUE,
             ['fieldName' => 'weight', 'value' => -100, 'minValue' => 1]
         );
-        $this->assertTrue($inputException->hasAdditionalErrors());
+        $this->assertTrue($inputException->wasErrorAdded());
         $this->assertCount(0, $inputException->getErrors());
+        $this->assertEquals(
+            'The weight value of "-100" must be greater than or equal to 1.',
+            $inputException->getMessage()
+        );
         $this->assertEquals(
             'The weight value of "-100" must be greater than or equal to 1.',
             $inputException->getLogMessage()
         );
 
         $inputException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'name']);
-        $this->assertTrue($inputException->hasAdditionalErrors());
+        $this->assertTrue($inputException->wasErrorAdded());
         $this->assertCount(2, $inputException->getErrors());
         $this->assertStringStartsWith('One or more', $inputException->getMessage());
         $this->assertEquals('One or more input exceptions have occurred.', $inputException->getLogMessage());
@@ -64,8 +69,49 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $errors);
         $this->assertEquals(
             'The weight value of "-100" must be greater than or equal to 1.',
+            $errors[0]->getMessage()
+        );
+        $this->assertEquals(
+            'The weight value of "-100" must be greater than or equal to 1.',
             $errors[0]->getLogMessage()
         );
+        $this->assertEquals('name is a required field.', $errors[1]->getMessage());
         $this->assertEquals('name is a required field.', $errors[1]->getLogMessage());
+    }
+
+    /**
+     * Verify the message and params are not used to determine the call count
+     *
+     * @return void
+     */
+    public function testAddErrorWithSameMessage()
+    {
+        $rawMessage = 'Foo "%var"';
+        $params = ['var' => 'Bar'];
+        $expectedProcessedMessage = 'Foo "Bar"';
+        $inputException = new InputException($rawMessage, $params);
+        $this->assertEquals($rawMessage, $inputException->getRawMessage());
+        $this->assertEquals($expectedProcessedMessage, $inputException->getMessage());
+        $this->assertEquals($expectedProcessedMessage, $inputException->getLogMessage());
+        $this->assertFalse($inputException->wasErrorAdded());
+        $this->assertCount(0, $inputException->getErrors());
+
+        $inputException->addError($rawMessage, $params);
+        $this->assertEquals($expectedProcessedMessage, $inputException->getMessage());
+        $this->assertEquals($expectedProcessedMessage, $inputException->getLogMessage());
+        $this->assertTrue($inputException->wasErrorAdded());
+        $this->assertCount(0, $inputException->getErrors());
+
+        $inputException->addError($rawMessage, $params);
+        $this->assertEquals($expectedProcessedMessage, $inputException->getMessage());
+        $this->assertEquals($expectedProcessedMessage, $inputException->getLogMessage());
+        $this->assertTrue($inputException->wasErrorAdded());
+
+        $errors = $inputException->getErrors();
+        $this->assertCount(2, $errors);
+        $this->assertEquals($expectedProcessedMessage, $errors[0]->getMessage());
+        $this->assertEquals($expectedProcessedMessage, $errors[0]->getLogMessage());
+        $this->assertEquals($expectedProcessedMessage, $errors[1]->getMessage());
+        $this->assertEquals($expectedProcessedMessage, $errors[1]->getLogMessage());
     }
 }

@@ -186,7 +186,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             $inputException = $this->_validate($addressModel, $inputException, $i);
             $addressModels[] = $addressModel;
         }
-        if ($inputException->hasAdditionalErrors()) {
+        if ($inputException->wasErrorAdded()) {
             throw $inputException;
         }
         $addressIds = array();
@@ -210,7 +210,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             $addressModel = $this->_addressConverter->createAddressModel($address);
             $inputException = $this->_validate($addressModel, $inputException, $key);
         }
-        if ($inputException->hasAdditionalErrors()) {
+        if ($inputException->wasErrorAdded()) {
             throw $inputException;
         }
         return true;
