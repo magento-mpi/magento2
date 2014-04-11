@@ -18,5 +18,4 @@
     <referenceContainer name="right">
         <block class="Magento\Catalog\Block\Product\Compare\Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
     </referenceContainer>
-    <block class="Magento\Catalog\Block\Product\Price\Template" name="catalog_product_price_template"/>
 </layout>
