@@ -26,13 +26,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_prices = array();
 
     /**
-     * Prepared prices
-     *
-     * @var array
-     */
-    protected $_resPrices = array();
-
-    /**
      * Catalog product
      *
      * @var \Magento\Catalog\Helper\Product
@@ -61,6 +54,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param CustomerAccountService $customerAccountService
+     * @param PriceModifierInterface $priceModifier
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -73,8 +67,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Helper\Product\Price $priceHelper,
         CustomerAccountService $customerAccountService,
         PriceModifierInterface $priceModifier,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
