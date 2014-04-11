@@ -39,50 +39,29 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test handler() method with 'false' result
-     *
      * @param int $errorNo
      * @param string $errorStr
      * @param string $errorFile
-     * @param int $errorLine
-     * @dataProvider handlerProviderNegative
+     * @param bool $expectedResult
+     * @dataProvider handlerProvider
      */
-    public function testHandlerNegative($errorNo, $errorStr, $errorFile, $errorLine)
+    public function testHandler($errorNo, $errorStr, $errorFile, $expectedResult)
     {
-        $result = $this->object->handler($errorNo, $errorStr, $errorFile, $errorLine);
-        $this->assertFalse($result);
+        $this->assertEquals($expectedResult, $this->object->handler($errorNo, $errorStr, $errorFile, 11));
     }
 
-    public function handlerProviderNegative()
+    public function handlerProvider()
     {
         return [
-            [0, 'DateTimeZone::__construct', 0, 0],
-            [0, 0, 0, 0]
-        ];
-    }
-
-    /**
-     * @param int $errorNo
-     * @param string $errorStr
-     * @param string $errorFile
-     * @dataProvider handlerProviderPositive
-     */
-    public function testHandlerPositive($errorNo, $errorStr, $errorFile)
-    {
-        $result = $this->object->handler($errorNo, $errorStr, $errorFile, 0);
-        $this->assertTrue($result);
-    }
-
-    public function handlerProviderPositive()
-    {
-        return [
-            [E_STRICT, 'error_string', 'pear'],
-            [E_DEPRECATED, 'error_string', 'pear'],
-            [E_STRICT, 'pear', 0],
-            [E_DEPRECATED, 'pear', 0],
-            [E_STRICT, 'pear', 'pear'],
-            [E_DEPRECATED, 'pear', 'pear'],
-            [E_WARNING, 'open_basedir', 'pear'],
+            [E_STRICT, 'error_string', 'pear', true],
+            [E_DEPRECATED, 'error_string', 'pear', true],
+            [E_STRICT, 'pear', 0, true],
+            [E_DEPRECATED, 'pear', 0, true],
+            [E_STRICT, 'pear', 'pear', true],
+            [E_DEPRECATED, 'pear', 'pear', true],
+            [E_WARNING, 'open_basedir', 'pear', true],
+            [0, 'DateTimeZone::__construct', 0, false],
+            [0, 0, 0, false]
         ];
     }
 
@@ -122,28 +101,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             [E_STRICT, 'Strict Notice'],
             [E_RECOVERABLE_ERROR, 'Recoverable Error'],
             [E_DEPRECATED, 'Deprecated Functionality'],
-            [E_USER_DEPRECATED, 'User Deprecated Functionality']
+            [E_USER_DEPRECATED, 'User Deprecated Functionality'],
+            ['42', 'Unknown error (42)']
         ];
-    }
-
-    /**
-     * Test handler() method handles unknown error
-     */
-    public function testHandlerExceptionUnknownError()
-    {
-        $errorNo = -1;
-        $errorStr = 'test_string';
-        $errorFile = 'test_file';
-        $errorLine = 'test_error_line';
-        $errorPhrase = 'Unknown error';
-
-        try {
-            $this->object->handler($errorNo, $errorStr, $errorFile, $errorLine);
-        } catch (\Exception $e) {
-            $this->assertRegExp("/(" . $errorPhrase . ")/i", $e->getMessage());
-            $this->assertRegExp("/(" . $errorStr . ")/i", $e->getMessage());
-            $this->assertRegExp("/(" . $errorFile . ")/i", $e->getMessage());
-            $this->assertRegExp("/(" . $errorLine . ")/i", $e->getMessage());
-        }
     }
 }
