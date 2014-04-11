@@ -151,12 +151,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customer->setWebsiteId($websiteId)->loadByEmail($email);
         if (!$customer->getId()) {
             throw new NoSuchEntityException(
-                'No such entity with %fieldName1 = %value1, %fieldName2 = %value2',
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 [
-                    'fieldName1' => 'email',
-                    'value1' => $email,
-                    'fieldName2' => 'websiteId',
-                    'value2' => $websiteId
+                    'fieldName' => 'email',
+                    'fieldValue' => $email,
+                    'field2Name' => 'websiteId',
+                    'field2Value' => $websiteId,
                 ]
             );
         }
@@ -245,12 +245,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         if (!$customer->getId()) {
             throw new NoSuchEntityException(
-                'No such entity with %fieldName1 = %value1, %fieldName2 = %value2',
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 [
-                    'fieldName1' => 'email',
-                    'value1' => $email,
-                    'fieldName2' => 'websiteId',
-                    'value2' => $websiteId
+                    'fieldName' => 'email',
+                    'fieldValue' => $email,
+                    'field2Name' => 'websiteId',
+                    'field2Value' => $websiteId,
                 ]
             );
         }

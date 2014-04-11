@@ -128,8 +128,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
             'getAttributeMetadata'
         )->will(
             $this->throwException(new NoSuchEntityException(
-                    'No such entity with %fieldName = $value',
-                    ['fieldName' => 'field', 'value' => 'value']
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value',]
                 )
             )
         );
@@ -148,8 +148,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
             'getAttributeMetadata'
         )->will(
             $this->throwException(new NoSuchEntityException(
-                    'No such entity with %fieldName = $value',
-                    ['fieldName' => 'field', 'value' => 'value']
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value',]
                 )
             )
         );
@@ -400,8 +400,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
             'getAttributeMetadata'
         )->will(
             $this->throwException(new NoSuchEntityException(
-                    'No such entity with %fieldName = $value',
-                    ['fieldName' => 'field', 'value' => 'value']
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value',]
                 )
             )
         );

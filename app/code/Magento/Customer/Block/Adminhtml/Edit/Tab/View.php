@@ -147,7 +147,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         try {
             $group = $this->_groupService->getGroup($groupId);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $group = null;
         }
         return $group;

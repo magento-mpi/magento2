@@ -1730,10 +1730,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomerModel')
             ->will(
                 $this->throwException(
-                    new NoSuchEntityException('No such entity with %fieldName = $value', [
-                        'fieldName' => 'testField',
-                        'value'     => 'value'
-                    ])
+                    new NoSuchEntityException(
+                        NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                        [
+                            'fieldName' => 'testField',
+                            'fieldValue'     => 'value',
+                        ]
+                    )
                 )
             );
         $this->_converter->expects(
@@ -1764,8 +1767,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->throwException(
                     new NoSuchEntityException(
-                        'No such entity with %fieldName = $value',
-                        ['fieldName' => 'testField', 'value' => 'value']
+                        NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                        ['fieldName' => 'testField', 'fieldValue' => 'value',]
                     )
                 )
             );

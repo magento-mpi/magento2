@@ -83,12 +83,12 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             return $attributeMetadata;
         } else {
             throw new NoSuchEntityException(
-                'No such entity with %fieldName1 = %value1, %fieldName2 = %value2',
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 [
-                    'fieldName1' => 'entityType',
-                    'value1' => $entityType,
-                    'fieldName2' => 'attributeCode',
-                    'value2' => $attributeCode
+                    'fieldName' => 'entityType',
+                    'fieldValue' => $entityType,
+                    'field2Name' => 'attributeCode',
+                    'field2Value' => $attributeCode,
                 ]
             );
         }

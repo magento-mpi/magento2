@@ -139,8 +139,8 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         )->method(
                 'getCustomer'
             )->will($this->throwException(new NoSuchEntityException(
-                        'No such entity with %fieldName = %value',
-                        ['fieldName' => 'customerId', 'value' => 1]
+                        NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                        ['fieldName' => 'customerId', 'fieldValue' => 1,]
                     )
                 )
             );

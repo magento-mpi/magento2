@@ -216,8 +216,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         // Throw exception if a customer group does not exist
         if (is_null($customerGroup->getId())) {
             throw new NoSuchEntityException(
-                'No such entity with %fieldName = %value',
-                ['fieldName' => 'groupId', 'value' => $groupId]
+                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                ['fieldName' => 'groupId', 'fieldValue' => $groupId,]
             );
         }
         $this->_customerGroupBuilder->setId(
@@ -240,12 +240,12 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             return $this->getGroup($groupId);
         } catch (NoSuchEntityException $e) {
             throw new NoSuchEntityException(
-                'No such entity with %fieldName1 = %value1, $fieldName2 = %value2',
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 [
-                    'fieldName1' => 'groupId',
-                    'value1' => $groupId,
-                    'fieldName2' => 'storeId',
-                    'value2' => $storeId,
+                    'fieldName' => 'groupId',
+                    'fieldValue' => $groupId,
+                    'field2Name' => 'storeId',
+                    'field2Value' => $storeId,
                 ]
             );
         }

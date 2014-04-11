@@ -11,6 +11,9 @@ namespace Magento\Exception;
 
 class NoSuchEntityException extends \Magento\Exception\LocalizedException
 {
+    const MESSAGE_SINGLE_FIELD = 'No such entity with %fieldName = %fieldValue';
+    const MESSAGE_DOUBLE_FIELDS = 'No such entity with %fieldName = %fieldValue, %field2Name = %field2Value';
+
     /**
      * @param string $message
      * @param array $params
