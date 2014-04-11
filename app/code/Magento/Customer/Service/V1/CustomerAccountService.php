@@ -831,17 +831,17 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {inheritDoc}
      */
     public function getCustomerDetailsByEmail($customerEmail, $websiteId = null)
     {
-        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'getCustomerDetailsByEmail');
-        if (!$pluginInfo) {
-            return parent::getCustomerDetailsByEmail($customerEmail, $websiteId);
-        } else {
-            return $this->___call('getCustomerDetailsByEmail', func_get_args(), $pluginInfo);
-        }
+        $customerData = $this->getCustomerByEmail($customerEmail, $websiteId = null);
+        return $this->_customerDetailsBuilder
+            ->setCustomer($customerData)
+            ->setAddresses($this->_customerAddressService->getAddresses($customerData->getId()))
+            ->create();
     }
+
     /**
      * {@inheritdoc}
      */
