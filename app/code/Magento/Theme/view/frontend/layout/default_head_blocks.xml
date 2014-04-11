@@ -65,26 +65,6 @@
                 <argument name="file" xsi:type="string">jquery/jquery.tmpl.min.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-validate-js">
-            <arguments>
-                <argument name="file" xsi:type="string">jquery/jquery.validate.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-metadata-js">
-            <arguments>
-                <argument name="file" xsi:type="string">jquery/jquery.metadata.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="mage-validation-js">
-            <arguments>
-                <argument name="file" xsi:type="string">mage/validation.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="mage-validation-validation-js">
-            <arguments>
-                <argument name="file" xsi:type="string">mage/validation/validation.js</argument>
-            </arguments>
-        </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-bootstrap-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/bootstrap.js</argument>
