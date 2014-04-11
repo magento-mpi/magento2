@@ -20,7 +20,7 @@ class AttributeValueBuilder extends \Magento\Service\Data\AbstractObjectBuilder
      */
     public function setAttributeCode($attributeCode)
     {
-        return $this->_set(AttributeValue::ATTRIBUTE_CODE, $attributeCode);
+        return $this->_set(\Magento\Service\Data\Eav\AttributeValue::ATTRIBUTE_CODE, $attributeCode);
     }
 
     /**
@@ -31,6 +31,6 @@ class AttributeValueBuilder extends \Magento\Service\Data\AbstractObjectBuilder
      */
     public function setValue($value)
     {
-        return $this->_set(AttributeValue::VALUE, $value);
+        return $this->_set(\Magento\Service\Data\Eav\AttributeValue::VALUE, $value);
     }
 }
