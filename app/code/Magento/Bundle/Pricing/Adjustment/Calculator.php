@@ -127,7 +127,13 @@ class Calculator implements BundleCalculatorInterface
         $minOptionAmount = false;
         $amountList = [];
         // Flag shows - is it necessary to find minimal option amount in case if all options are not required
-        $shouldFindMinOption = $searchMin && !$this->hasRequiredOption($saleableItem);
+        $shouldFindMinOption = false;
+        if ($searchMin
+            && $saleableItem->getPriceType() == Price::PRICE_TYPE_FIXED
+            && !$this->hasRequiredOption($saleableItem)
+        ) {
+            $shouldFindMinOption = true;
+        }
         $canSkipRequiredOptions = $searchMin && !$shouldFindMinOption;
 
         /* @var $option \Magento\Bundle\Model\Option */
