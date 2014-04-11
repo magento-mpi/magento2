@@ -59,8 +59,6 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
         $this->_isScopePrivate = true;
     }
 
-
-
     /**
      * Get rendered price html
      *
