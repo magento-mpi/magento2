@@ -14,7 +14,7 @@ use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\State\InvalidStateException;
+use Magento\Exception\State\InvalidTransitionException;
 use Magento\Exception\StateException;
 
 /**
