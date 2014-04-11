@@ -18,7 +18,7 @@ use Magento\Exception\State\ExpiredException;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\State\InputMismatchException;
-use Magento\Exception\State\InvalidStateException;
+use Magento\Exception\State\InvalidTransitionException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Mail\Exception as MailException;
 use Magento\Math\Random;
@@ -172,7 +172,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 $this->_logger->logException($e);
             }
         } else {
-            throw new InvalidStateException('No confirmation needed.');
+            throw new InvalidTransitionException('No confirmation needed.');
         }
     }
 
@@ -194,7 +194,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $customer->save();
             $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
         } else {
-            throw new InvalidStateException('Account already active');
+            throw new InvalidTransitionException('Account already active');
         }
 
         return $this->_converter->createCustomerFromModel($customer);
