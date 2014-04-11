@@ -108,12 +108,18 @@ class Email extends \Magento\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerHelper;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Helper\View $customerHelper
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -127,6 +133,7 @@ class Email extends \Magento\Model\AbstractModel
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Helper\View $customerHelper,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Model\Resource\AbstractResource $resource = null,
@@ -139,6 +146,7 @@ class Email extends \Magento\Model\AbstractModel
         $this->_customerAccountService = $customerAccountService;
         $this->_appEmulation = $appEmulation;
         $this->_transportBuilder = $transportBuilder;
+        $this->_customerHelper = $customerHelper;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -345,24 +353,16 @@ class Email extends \Magento\Model\AbstractModel
         )->setTemplateOptions(
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
-            array('customerName' => $this->_getCustomerName(), 'alertGrid' => $block)
+            array('customerName' => $this->_customerHelper->getCustomerName($this->_customer), 'alertGrid' => $block)
         )->setFrom(
             $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId)
         )->addTo(
             $this->_customer->getEmail(),
-            $this->_getCustomerName()
+            $this->_customerHelper->getCustomerName($this->_customer)
         )->getTransport();
 
         $transport->sendMessage();
 
         return true;
-    }
-
-    /**
-     * @return string
-     */
-    protected function _getCustomerName()
-    {
-        return $this->_customer->getFirstname() . ' ' . $this->_customer->getLastname();
     }
 }
