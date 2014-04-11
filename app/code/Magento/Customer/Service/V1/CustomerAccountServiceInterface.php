@@ -290,6 +290,15 @@ interface CustomerAccountServiceInterface
     public function getCustomerByEmail($customerEmail, $websiteId = null);
 
     /**
+     *
+     * @param string $customerEmail
+     * @param int $websiteId If not set, will use the current websiteId
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerEmail is not found.
+     * @return \Magento\Customer\Service\V1\Data\CustomerDetails
+     */
+    public function getCustomerDetailsByEmail($customerEmail, $websiteId = null);
+
+    /**
      * Delete Customer by email
      *
      * @param string $customerEmail

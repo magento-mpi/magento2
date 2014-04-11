@@ -1150,7 +1150,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param Data\Filter[] $filters
-     * @param Datao\Filter[] $orGroup
+     * @param Data\Filter[] $orGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider
