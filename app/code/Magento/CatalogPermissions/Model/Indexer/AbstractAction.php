@@ -7,11 +7,11 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
-use Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
+use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\App\ConfigInterface;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\Config as CatalogConfig;
 
 abstract class AbstractAction
@@ -560,6 +560,7 @@ abstract class AbstractAction
             'is_active'
         )->getId();
 
+
         $select = $this->getReadAdapter()->select()->from(
             array('category_product' => $this->getTable('catalog_category_product')),
             array()
@@ -573,11 +574,11 @@ abstract class AbstractAction
             'product_website.product_id = category_product.product_id',
             array()
         )->joinInner(
-            array('store_group' => $this->getTable('core_store_group')),
+            array('store_group' => $this->getTable('store_group')),
             'store_group.website_id = product_website.website_id',
             array()
         )->joinInner(
-            array('store' => $this->getTable('core_store')),
+            array('store' => $this->getTable('store')),
             'store.website_id = product_website.website_id' . ' AND store.group_id = store_group.group_id',
             array()
         )->joinInner(

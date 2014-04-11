@@ -47,9 +47,10 @@ class CreateOrderTest extends Functional
         $orderGridPage = Factory::getPageFactory()->getSalesOrder();
         //Steps
         $orderGridPage->open();
-        $orderGridPage->getOrderGridBlock()->addNewOrder();
+        $orderCreatePage->getActionsBlock()->addNew();
         $orderCreatePage->getCustomerBlock()->selectCustomer($fixture);
         $orderCreatePage->getStoreBlock()->selectStoreView($fixture);
+
         $orderCreatePage->getCreateBlock()->addProducts($fixture);
         $orderCreatePage->getCreateBlock()->fillAddresses($fixture);
         $orderCreatePage->getCreateBlock()->selectShippingMethod($fixture);

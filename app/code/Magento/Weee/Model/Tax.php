@@ -10,7 +10,8 @@
 namespace Magento\Weee\Model;
 
 use Magento\Catalog\Model\Product;
-use Magento\Core\Model\Website;
+use Magento\Store\Model\Website;
+use Magento\Customer\Model\Converter as CustomerConverter;
 
 class Tax extends \Magento\Model\AbstractModel
 {
@@ -64,7 +65,7 @@ class Tax extends \Magento\Model\AbstractModel
     protected $_attributeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -79,15 +80,21 @@ class Tax extends \Magento\Model\AbstractModel
     protected $_customerSession;
 
     /**
+     * @var CustomerConverter
+     */
+    protected $customerConverter;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\CalculationFactory $calculationFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Weee\Helper\Data $weeeData
      * @param \Magento\Weee\Model\Resource\Tax $resource
+     * @param CustomerConverter $customerConverter
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -95,12 +102,13 @@ class Tax extends \Magento\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\CalculationFactory $calculationFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Weee\Helper\Data $weeeData,
         \Magento\Weee\Model\Resource\Tax $resource,
+        CustomerConverter $customerConverter,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -110,6 +118,7 @@ class Tax extends \Magento\Model\AbstractModel
         $this->_customerSession = $customerSession;
         $this->_taxData = $taxData;
         $this->_weeeData = $weeeData;
+        $this->customerConverter = $customerConverter;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -184,8 +193,8 @@ class Tax extends \Magento\Model\AbstractModel
 
     /**
      * @param Product $product
-     * @param null|false|\Magento\Object $shipping
-     * @param null|false|\Magento\Object $billing
+     * @param null|false|\Magento\Sales\Model\Quote\Address $shipping
+     * @param null|false|\Magento\Sales\Model\Quote\Address $billing
      * @param Website $website
      * @param bool $calculateTax
      * @param bool $ignoreDiscount
@@ -208,19 +217,16 @@ class Tax extends \Magento\Model\AbstractModel
         $websiteId = $this->_storeManager->getWebsite($website)->getId();
         $store = $this->_storeManager->getWebsite($website)->getDefaultGroup()->getDefaultStore();
 
-        $customer = null;
+        /** @var \Magento\Tax\Model\Calculation $calculator */
+        $calculator = $this->_calculationFactory->create();
+
         if ($shipping) {
             $customerTaxClass = $shipping->getQuote()->getCustomerTaxClassId();
-            $customer = $shipping->getQuote()->getCustomer();
+            $calculator->setCustomerData($shipping->getQuote()->getCustomerData());
         } else {
             $customerTaxClass = null;
         }
 
-        /** @var \Magento\Tax\Model\Calculation $calculator */
-        $calculator = $this->_calculationFactory->create();
-        if ($customer) {
-            $calculator->setCustomer($customer);
-        }
         $rateRequest = $calculator->getRateRequest($shipping, $billing, $customerTaxClass, $store);
         $defaultRateRequest = $calculator->getRateRequest(false, false, false, $store);
 

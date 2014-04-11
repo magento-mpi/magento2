@@ -111,7 +111,7 @@ class Gws extends \Magento\Backend\Block\Template
     /**
      * Get websites
      *
-     * @return \Magento\Core\Model\Website[]
+     * @return \Magento\Store\Model\Website[]
      */
     public function getWebsites()
     {

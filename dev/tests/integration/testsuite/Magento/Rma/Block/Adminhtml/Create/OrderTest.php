@@ -17,7 +17,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $utility = new \Magento\Core\Utility\Layout($this);
+        $utility = new \Magento\View\Utility\Layout($this);
         $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(
             __DIR__ . '/../../../_files/adminhtml_rma_chooseorder.xml',

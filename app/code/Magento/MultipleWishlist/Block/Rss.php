@@ -58,7 +58,6 @@ class Rss extends \Magento\Rss\Block\Wishlist
         $this->_customerViewHelper = $customerViewHelper;
         $this->_customerAccountService = $customerAccountService;
 
-        /* TODO this constructor must be eliminated after elimination of \Magento\MultipleWishlist\Helper\Rss */
         parent::__construct(
             $context,
             $httpContext,

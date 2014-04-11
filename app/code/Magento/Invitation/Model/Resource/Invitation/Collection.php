@@ -88,7 +88,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function addWebsiteInformation()
     {
         $this->getSelect()->joinInner(
-            array('w' => $this->getTable('core_store')),
+            array('w' => $this->getTable('store')),
             'main_table.store_id = w.store_id',
             'w.website_id'
         );

@@ -74,9 +74,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Eav\Model\Config
@@ -104,13 +104,13 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -124,13 +124,13 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Registry $registry,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -140,7 +140,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         $this->_clientFactory = $searchFactory->getFactory();
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->dateTime = $dateTime;
         $this->_localeResolver = $localeResolver;
         $this->_localeDate = $localeDate;
@@ -230,8 +230,16 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected function _getSolrDate($storeId, $date = null)
     {
         if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = $this->_coreStoreConfig->getConfig($this->_localeDate->getDefaultTimezonePath(), $storeId);
-            $locale = $this->_coreStoreConfig->getConfig($this->_localeResolver->getDefaultLocalePath(), $storeId);
+            $timezone = $this->_scopeConfig->getValue(
+                $this->_localeDate->getDefaultTimezonePath(),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
+            $locale = $this->_scopeConfig->getValue(
+                $this->_localeResolver->getDefaultLocalePath(),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
             $locale = new \Zend_Locale($locale);
 
             $dateObj = new \Magento\Stdlib\DateTime\Date(null, null, $locale);
@@ -386,7 +394,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     {
         $result = array();
 
-        $localeCode = $this->_storeManager->getStore()->getConfig($this->_localeResolver->getDefaultLocalePath());
+        $localeCode = $this->_scopeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         /**
@@ -457,10 +468,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
-        $localeCode = $this->_storeManager->getStore(
+        $localeCode = $this->_scopeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
-        )->getConfig(
-            $this->_localeResolver->getDefaultLocalePath()
         );
         $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
 
@@ -523,10 +534,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         }
 
         if ($fieldType == 'text') {
-            $localeCode = $this->_storeManager->getStore(
+            $localeCode = $this->_scopeConfig->getValue(
+                $this->_localeResolver->getDefaultLocalePath(),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $attribute->getStoreId()
-            )->getConfig(
-                $this->_localeResolver->getDefaultLocalePath()
             );
             $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
             $fieldName = $fieldPrefix . $attributeCode . $languageSuffix;

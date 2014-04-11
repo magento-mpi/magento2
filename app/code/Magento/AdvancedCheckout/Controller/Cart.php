@@ -210,7 +210,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
             $product = $this->_objectManager->create(
                 'Magento\Catalog\Model\Product'
             )->setStoreId(
-                $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId()
+                $this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore()->getId()
             )->load(
                 $id
             );

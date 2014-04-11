@@ -82,11 +82,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_sidResolver;
 
     /**
-     * Store config
+     * Scope config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * View URL
@@ -150,7 +150,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
@@ -172,7 +172,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\View\DesignInterface $design,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
@@ -191,7 +191,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_design = $design;
         $this->_session = $session;
         $this->_sidResolver = $sidResolver;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_viewUrl = $viewUrl;
         $this->_viewConfig = $viewConfig;
         $this->_cacheState = $cacheState;
@@ -273,13 +273,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * Get store config
+     * Get scope config
      *
-     * @return \Magento\Core\Model\Store\Config
+     * @return \Magento\App\Config\ScopeConfigInterface
      */
-    public function getStoreConfig()
+    public function getScopeConfig()
     {
-        return $this->_storeConfig;
+        return $this->_scopeConfig;
     }
 
     /**

@@ -18,6 +18,7 @@
             <module name="Magento_Log"/>
         </sequence>
         <depends>
+            <module name="Magento_Store"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Rule"/>
@@ -29,7 +30,6 @@
             <module name="Magento_Eav"/>
             <module name="Magento_Directory"/>
             <module name="Magento_Newsletter"/>
-            <module name="Magento_Enterprise"/>
             <module name="Magento_CatalogRule"/>
             <module name="Magento_PageCache"/>
         </depends>

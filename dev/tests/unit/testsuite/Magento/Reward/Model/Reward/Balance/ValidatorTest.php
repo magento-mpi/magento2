@@ -36,7 +36,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock = $this->getMock(
             'Magento\Reward\Model\RewardFactory',
             array('create'),
@@ -68,7 +68,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateWhenBalanceAboveNull()
     {
         $this->_orderMock->expects($this->any())->method('getRewardPointsBalance')->will($this->returnValue(1));
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $reward = $this->getMock(
@@ -90,7 +90,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateWhenBalanceNotEnoughToPlaceOrder()
     {
         $this->_orderMock->expects($this->any())->method('getRewardPointsBalance')->will($this->returnValue(1));
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $reward = $this->getMock(

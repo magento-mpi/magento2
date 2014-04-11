@@ -47,6 +47,7 @@ class Login extends Form
     {
         $this->fill($fixture);
         $this->submit();
+        $this->waitForElementNotVisible($this->loginButton, Locator::SELECTOR_CSS);
     }
 
     /**

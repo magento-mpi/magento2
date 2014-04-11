@@ -16,7 +16,7 @@ namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Engine extends \Magento\Core\Model\Config\Value
+class Engine extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Index\Model\Indexer
@@ -26,8 +26,7 @@ class Engine extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -36,15 +35,14 @@ class Engine extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_indexer = $indexer;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

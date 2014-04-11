@@ -861,9 +861,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_order', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_order', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -1029,9 +1029,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_order_grid', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_order_grid', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -1669,9 +1669,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_order_item', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_order_item', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -2140,9 +2140,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_shipment', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_shipment', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -2257,9 +2257,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_shipment_grid', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_shipment_grid', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -2809,9 +2809,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_invoice', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_invoice', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -2956,9 +2956,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_invoice_grid', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_invoice_grid', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -3511,9 +3511,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_creditmemo', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_creditmemo', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -3700,9 +3700,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_creditmemo_grid', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_creditmemo_grid', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -4242,9 +4242,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_flat_quote', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('sales_flat_quote', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_quote', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -4896,9 +4896,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_flat_quote_item', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_flat_quote_item', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -5536,9 +5536,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_invoiced_aggregated', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('sales_invoiced_aggregated', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_invoiced_aggregated', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -5619,9 +5619,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_invoiced_aggregated_order', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('sales_invoiced_aggregated_order', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_invoiced_aggregated_order', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -5768,9 +5768,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_order_aggregated_created', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('sales_order_aggregated_created', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_order_aggregated_created', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -5954,9 +5954,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_refunded_aggregated', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('sales_refunded_aggregated', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_refunded_aggregated', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -6031,9 +6031,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_refunded_aggregated_order', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('sales_refunded_aggregated_order', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_refunded_aggregated_order', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -6108,9 +6108,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_shipping_aggregated', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('sales_shipping_aggregated', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_shipping_aggregated', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -6185,9 +6185,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_shipping_aggregated_order', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('sales_shipping_aggregated_order', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_shipping_aggregated_order', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_SET_NULL,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -6265,9 +6265,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_bestsellers_aggregated_daily', array('product_id')),
     array('product_id')
 )->addForeignKey(
-    $installer->getFkName('sales_bestsellers_aggregated_daily', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_bestsellers_aggregated_daily', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -6352,9 +6352,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_bestsellers_aggregated_monthly', array('product_id')),
     array('product_id')
 )->addForeignKey(
-    $installer->getFkName('sales_bestsellers_aggregated_monthly', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_bestsellers_aggregated_monthly', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -6438,9 +6438,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('sales_bestsellers_aggregated_yearly', array('product_id')),
     array('product_id')
 )->addForeignKey(
-    $installer->getFkName('sales_bestsellers_aggregated_yearly', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_bestsellers_aggregated_yearly', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -6635,9 +6635,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('sales_order_status_label', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('sales_order_status_label', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
