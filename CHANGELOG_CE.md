@@ -68,6 +68,7 @@
   * Fixed: Wrong special price calculating for Bundle Product (MAGETWO-22562)
   * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
   * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
+  * Fixed: Blank theme - fixed bugs and added improvements
   * Fixed an issue with active tab is changed to upper one after attribute set has been changed (MAGETWO-10611)
   * Fixed Flat Rate shipping method to be enabled by default (MAGETWO-21702)
   * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
