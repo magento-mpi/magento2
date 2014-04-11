@@ -8,9 +8,7 @@
 
 namespace Magento\Downloadable\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Downloadable\Model\Link;
-use Magento\Pricing\Adjustment\Calculator;
 
 /**
  * Class LinkPrice Model

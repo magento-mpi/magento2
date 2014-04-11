@@ -55,27 +55,11 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_customerAccountService;
 
     /**
-     * @var \Magento\Catalog\Model\Product\PriceModifierInterface
-     */
-    protected $priceModifier;
-
-    /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
-     * @param \Magento\Catalog\Model\Product\PriceModifierInterface $priceModifier
      * @param CustomerAccountService $customerAccountService
      * @param array $data
      *
@@ -89,7 +73,8 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Helper\Product\Price $priceHelper,
         CustomerAccountService $customerAccountService,
         PriceModifierInterface $priceModifier,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;

@@ -69,4 +69,14 @@
     <type name="Magento\Catalog\Model\Product\Type">
         <plugin name="configurable_output" type="Magento\ConfigurableProduct\Model\Product\Type\Plugin" />
     </type>
+    <type name="Magento\Pricing\PriceComposite">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="custom_option_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\ConfigurableProduct\Pricing\Price\CustomOptionPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>
