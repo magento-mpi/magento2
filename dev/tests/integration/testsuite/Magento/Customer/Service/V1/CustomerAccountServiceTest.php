@@ -736,7 +736,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAccountService->saveCustomer($customerEntity);
             $this->fail('Expected exception not thrown');
         } catch (InputException $ie) {
-            $this->assertEquals('One or more input exceptions have occurred.', $ie->getMessage());
+            $this->assertEquals(InputException::DEFAULT_MESSAGE, $ie->getMessage());
             $errors = $ie->getErrors();
             $this->assertCount(3, $errors);
             $this->assertEquals('firstname is a required field.', $errors[0]->getLogMessage());

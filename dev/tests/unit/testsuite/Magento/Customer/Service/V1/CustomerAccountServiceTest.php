@@ -1466,9 +1466,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveCustomer($customerEntity);
         } catch (InputException $inputException) {
-            $this->assertEquals('One or more input exceptions have occurred.', $inputException->getRawMessage());
-            $this->assertEquals('One or more input exceptions have occurred.', $inputException->getMessage());
-            $this->assertEquals('One or more input exceptions have occurred.', $inputException->getLogMessage());
+            $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getRawMessage());
+            $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getMessage());
+            $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getLogMessage());
             
             $errors = $inputException->getErrors();
             $this->assertCount(6, $errors);
