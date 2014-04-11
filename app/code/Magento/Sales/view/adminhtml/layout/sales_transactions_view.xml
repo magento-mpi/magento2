@@ -12,7 +12,7 @@
     <referenceContainer name="content">
         <block class="Magento\Sales\Block\Adminhtml\Transactions\Detail" name="sales_transactions.detail" template="transactions/detail.phtml">
             <block class="Magento\Sales\Block\Adminhtml\Transactions\Detail\Grid" name="sales_transactions.detail.grid" as="detail_grid"/>
-            <block class="Magento\Backend\Block\Widget\Grid\Container" name="sales_transactions.grid.container" as="child_grid"/>
+            <block class="Magento\Sales\Block\Adminhtml\Transactions" name="sales_transactions.grid.container" as="child_grid"/>
         </block>
     </referenceContainer>
 </layout>

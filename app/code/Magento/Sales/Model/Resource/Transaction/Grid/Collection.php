@@ -23,7 +23,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Payment\Transaction
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Registry $registryManager
      * @param null $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */

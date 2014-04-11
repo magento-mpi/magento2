@@ -21,9 +21,6 @@
         <referenceBlock name="sales.transactions.grid.columnSet">
             <arguments>
                 <argument name="id" xsi:type="string">transactionChildGrid</argument>
-                <argument name="rowUrl" xsi:type="array">
-                    <item name="generatorClass" xsi:type="string">Magento\Sales\Model\Grid\Child\UrlGenerator</item>
-                </argument>
                 <argument name="filter_visibility" xsi:type="string">0</argument>
             </arguments>
             <referenceBlock name="transaction_id">

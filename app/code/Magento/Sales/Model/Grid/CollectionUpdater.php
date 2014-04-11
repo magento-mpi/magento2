@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Model\Grid\Child;
+namespace Magento\Sales\Model\Grid;
 
 
 class CollectionUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
@@ -19,9 +19,7 @@ class CollectionUpdater implements \Magento\View\Layout\Argument\UpdaterInterfac
     /**
      * @param \Magento\Registry $registryManager
      */
-    public function __construct(
-        \Magento\Registry $registryManager
-    ) {
+    public function __construct(\Magento\Registry $registryManager) {
         $this->registryManager = $registryManager;
     }
 
@@ -31,7 +29,13 @@ class CollectionUpdater implements \Magento\View\Layout\Argument\UpdaterInterfac
      */
     public function update($argument)
     {
-        $argument->addParentIdFilter($this->registryManager->registry('current_transaction')->getId());
+        $order = $this->registryManager->registry('current_order');
+        if ($order) {
+            $argument->setOrderFilter($order->getId());
+
+        }
+        $argument->addOrderInformation(array('increment_id'));
+
         return $argument;
     }
 }
