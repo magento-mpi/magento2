@@ -48,11 +48,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     protected $_tierPriceDefaultTemplate = 'product/view/tierprices.phtml';
 
     /**
-     * @var array
-     */
-    protected $_priceBlockTypes = array();
-
-    /**
      * Flag which allow/disallow to use link for as low as price
      *
      * @var bool
@@ -146,12 +141,10 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     /**
      * @param Context $context
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_imageHelper = $context->getImageHelper();
         $this->_layoutHelper = $context->getLayoutHelper();
@@ -163,7 +156,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         $this->_taxData = $context->getTaxData();
         $this->_catalogData = $context->getCatalogHelper();
         $this->_mathRandom = $context->getMathRandom();
-        $this->_priceBlockTypes = $priceBlockTypes;
         $this->reviewRenderer = $context->getReviewRenderer();
         parent::__construct($context, $data);
     }
@@ -252,51 +244,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     }
 
     /**
-     * @param string $productTypeId
-     * @return BlockInterface
-     */
-    protected function _getPriceBlock($productTypeId)
-    {
-        if (!isset($this->_priceBlock[$productTypeId])) {
-            $block = $this->_block;
-            if (isset($this->_priceBlockTypes[$productTypeId])) {
-                if ($this->_priceBlockTypes[$productTypeId]['block'] != '') {
-                    $block = $this->_priceBlockTypes[$productTypeId]['block'];
-                }
-            }
-            $this->_priceBlock[$productTypeId] = $this->getLayout()->createBlock($block);
-        }
-        return $this->_priceBlock[$productTypeId];
-    }
-
-    /**
-     * @param string $productTypeId
-     * @return string
-     */
-    protected function _getPriceBlockTemplate($productTypeId)
-    {
-        if (isset($this->_priceBlockTypes[$productTypeId])) {
-            if ($this->_priceBlockTypes[$productTypeId]['template'] != '') {
-                return $this->_priceBlockTypes[$productTypeId]['template'];
-            }
-        }
-        return $this->_priceBlockDefaultTemplate;
-    }
-
-    /**
-     * Prepares and returns block to render some product type
-     *
-     * @param string $productType
-     * @return \Magento\View\Element\Template
-     */
-    public function _preparePriceRenderer($productType)
-    {
-        return $this->_getPriceBlock($productType)
-            ->setTemplate($this->_getPriceBlockTemplate($productType))
-            ->setUseLinkForAsLowAs($this->_useLinkForAsLowAs);
-    }
-
-    /**
      * Returns product price block html
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -324,21 +271,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
             ->setDisplayMinimalPrice($displayMinimalPrice)
             ->setIdSuffix($idSuffix)
             ->toHtml();
-    }
-
-    /**
-     * Adding customized price template for product type
-     *
-     * @param string $type
-     * @param string $block
-     * @param string $template
-     * @return void
-     */
-    public function addPriceBlockType($type, $block = '', $template = '')
-    {
-        if ($type) {
-            $this->_priceBlockTypes[$type] = array('block' => $block, 'template' => $template);
-        }
     }
 
     /**
@@ -638,26 +570,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         $statusInfo = new \Magento\Object(array('display_status' => true));
         $this->_eventManager->dispatch('catalog_block_product_status_display', array('status' => $statusInfo));
         return (bool) $statusInfo->getDisplayStatus();
-    }
-
-    /**
-     * If exists price template block, retrieve price blocks from it
-     *
-     * @return \Magento\Catalog\Block\Product\AbstractProduct
-     */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-
-        /* @var $block \Magento\Catalog\Block\Product\Price\Template */
-        $block = $this->getLayout()->getBlock('catalog_product_price_template');
-        if ($block) {
-            foreach ($block->getPriceBlockTypes() as $type => $priceBlock) {
-                $this->addPriceBlockType($type, $priceBlock['block'], $priceBlock['template']);
-            }
-        }
-
-        return $this;
     }
 
     /**

@@ -215,19 +215,4 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         $additional['_rss'] = true;
         return parent::getProductUrl($product, $additional);
     }
-
-    /**
-     * Adding customized price template for product type, used as action in layouts
-     *
-     * @param string $type Catalog Product Type
-     * @param string $block Block Type
-     * @param string $template Template
-     * @return void
-     */
-    public function addPriceBlockType($type, $block = '', $template = '')
-    {
-        if ($type) {
-            $this->_priceBlockTypes[$type] = array('block' => $block, 'template' => $template);
-        }
-    }
 }
