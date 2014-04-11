@@ -17,8 +17,6 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     protected function isIncludedInBasePricePrice($isShippingPriceExcludeTax, $expectedResult)
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
-        $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         /** @var \Magento\Tax\Model\Config $config */
         $config = $objectManager->get('Magento\Tax\Model\Config');
         /** @var \Magento\Tax\Pricing\Adjustment $model */
