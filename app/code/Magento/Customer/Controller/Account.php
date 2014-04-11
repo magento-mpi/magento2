@@ -12,10 +12,8 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\AuthenticationException;
-use Magento\Exception\State\ExpiredException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\State\InputMismatchException;
 use Magento\Exception\State\InvalidStateException;
 use Magento\Exception\StateException;
 
@@ -667,16 +665,8 @@ class Account extends \Magento\App\Action\Action
             $successUrl = $this->_welcomeCustomer();
             $this->getResponse()->setRedirect($this->_redirect->success($backUrl ? $backUrl : $successUrl));
             return;
-        } catch (InvalidStateException $e) {
-            return;
-        } catch (InputMismatchException $e) {
-            return;
-        } catch (ExpiredException $e) {
-            $this->messageManager->addException($e, __('This confirmation key is invalid or has expired.'));
         } catch (StateException $e) {
-            $this->messageManager->addException($e, __('There was an error confirming the account.'));
-        } catch (NoSuchEntityException $e) {
-            $this->messageManager->addException($e, __('There was an error confirming the account.'));
+            $this->messageManager->addException($e, __('This confirmation key is invalid or has expired.'));
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('There was an error confirming the account'));
         }
@@ -707,7 +697,7 @@ class Account extends \Magento\App\Action\Action
                     $this->_storeManager->getStore()->getWebsiteId()
                 );
                 $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
-            } catch (InvalidStateException $e) {
+            } catch (InvalidTransitionException $e) {
                 $this->messageManager->addSuccess(__('This email does not require confirmation.'));
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Wrong email.'));
