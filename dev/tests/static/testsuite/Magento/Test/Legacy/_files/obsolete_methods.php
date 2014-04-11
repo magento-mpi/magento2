@@ -40,7 +40,7 @@ return array(
         'Magento\Store\Model\StorageFactory::_checkCookieStore'),
     array('_checkGetStore', 'Magento\Core\Model\App'),
     array('_checkGetStore', 'Magento\Core\Model\Store\Storage\Db',
-        'Magento\Store\Model\StorageFactory::_checkGetStore'),
+        'Magento\Store\Model\StorageFactory::_checkRequestStore'),
     array('_checkUrlSettings', 'Magento\Backend\Controller\Adminhtml\Action'),
     array('_collectOrigData', 'Magento\Catalog\Model\Resource\AbstractResource'),
     array('_decodeInput', 'Magento\Catalog\Controller\Adminhtml\Product'),
