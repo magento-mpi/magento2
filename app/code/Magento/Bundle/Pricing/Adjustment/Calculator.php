@@ -142,7 +142,7 @@ class Calculator implements BundleCalculatorInterface
                 && (!$minOptionAmount || end($optionsAmounts)->getValue() < $minOptionAmount->getValue())
             ) {
                 $minOptionAmount = end($optionsAmounts);
-            } else {
+            } elseif (!$shouldFindMinOption) {
                 $amountList = array_merge($amountList, $optionsAmounts);
             }
         }
@@ -165,8 +165,7 @@ class Calculator implements BundleCalculatorInterface
      */
     protected function hasRequiredOption($saleableItem)
     {
-        $options = $this->getBundleOptionPrice($saleableItem)->getOptions();
-        array_filter($options, function ($item) {
+        $options = array_filter($this->getBundleOptionPrice($saleableItem)->getOptions(), function ($item) {
             return $item->getRequired();
         });
         return !empty($options);

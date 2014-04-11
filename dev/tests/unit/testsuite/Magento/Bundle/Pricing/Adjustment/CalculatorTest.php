@@ -194,7 +194,10 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             'case with getting maximum amount' => $this->getCaseWithMaxAmount(),
 
             // third case without saleable items
-            'case without saleable items' => $this->getCaseWithoutSaleableItems()
+            'case without saleable items' => $this->getCaseWithoutSaleableItems(),
+
+            // fourth case without require options
+            'case without required options' => $this->getCaseMinAmountWithoutRequiredOptions(),
         ];
     }
 
@@ -371,6 +374,84 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                 'isMinAmount' => true,
                 'fullAmount'  => 782.,
                 'adjustments' => ['tax' => 102]
+            ]
+        ];
+    }
+
+    /**
+     * Array for data provider dataProviderForGetterAmount for case 'case without required options'
+     *
+     * @return array
+     */
+    protected function getCaseMinAmountWithoutRequiredOptions()
+    {
+        return [
+            'amountForBundle' => [
+                'adjustmentsAmounts' => [],
+                'amount' => null
+            ],
+            'optionList' => [
+                // first option
+                [
+                    'isMultiSelection' => false,
+                    'data' => [
+                        'title'         => 'test option 1',
+                        'default_title' => 'test option 1',
+                        'type'          => 'select',
+                        'option_id'     => '1',
+                        'position'      => '0',
+                        'required'      => '0',
+                    ],
+                    'selections' => [
+                        'first product selection'  => [
+                            'data'   => ['price' => 20.],
+                            'amount' => [
+                                'adjustmentsAmounts' => ['tax' => 8],
+                                'amount' => 8
+                            ]
+                        ],
+                        'second product selection'  => [
+                            'data'   => ['price' => 30.],
+                            'amount' => [
+                                'adjustmentsAmounts' => ['tax' => 10],
+                                'amount' => 12
+                            ]
+                        ],
+                    ]
+                ],
+                // second option
+                [
+                    'isMultiSelection' => false,
+                    'data' => [
+                        'title'         => 'test option 2',
+                        'default_title' => 'test option 2',
+                        'type'          => 'select',
+                        'option_id'     => '2',
+                        'position'      => '1',
+                        'required'      => '0',
+                    ],
+                    'selections' => [
+                        'first product selection'  => [
+                            'data'   => ['price' => 25.],
+                            'amount' => [
+                                'adjustmentsAmounts' => ['tax' => 8],
+                                'amount' => 9
+                            ]
+                        ],
+                        'second product selection'  => [
+                            'data'   => ['price' => 35.],
+                            'amount' => [
+                                'adjustmentsAmounts' => ['tax' => 10],
+                                'amount' => 10
+                            ]
+                        ],
+                    ]
+                ]
+            ],
+            'expectedResult' => [
+                'isMinAmount' => true,
+                'fullAmount'  => 8.,
+                'adjustments' => ['tax' => 8]
             ]
         ];
     }
