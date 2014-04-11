@@ -1948,6 +1948,40 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
     }
+    public function testGetCustomerDetailsByEmail()
+    {
+        $this->_converter = $this->getMockBuilder(
+            '\Magento\Customer\Model\Converter'
+        )->setMethods(['getCustomerModelByEmail', 'createCustomerFromModel'])
+            ->disableOriginalConstructor()->getMock();
+
+        $customerDataMock = $this->getMockBuilder(
+            '\Magento\Customer\Service\V1\Data\Customer'
+        )->disableOriginalConstructor()->getMock();
+
+        $addressMock = $this->getMockBuilder(
+            '\Magento\Customer\Service\V1\Data\Address'
+        )->disableOriginalConstructor()->getMock();
+
+        $this->_customerAddressServiceMock
+            ->expects($this->once())
+            ->method('getAddresses')
+            ->will($this->returnValue(array($addressMock)));
+        $defaultWebsiteId = 7;
+        $this->_storeMock->expects($this->any())->method('getWebSiteId')->will($this->returnValue($defaultWebsiteId));
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModelByEmail')->with(self::EMAIL, $defaultWebsiteId)
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_converter->expects($this->once())
+            ->method('createCustomerFromModel')->with($this->_customerModelMock)
+            ->will($this->returnValue($customerDataMock));
+
+        $customerService = $this->_createService();
+        $actualCustomerDetails = $customerService->getCustomerDetailsByEmail(self::EMAIL,$defaultWebsiteId);
+        $this->assertEquals($customerDataMock, $actualCustomerDetails->getCustomer());
+        $this->assertEquals(array($addressMock), $actualCustomerDetails->getAddresses());
+
+    }
 
     public function testDeleteCustomerByEmail()
     {
@@ -1990,6 +2024,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue($this->_storeMock)
             );
     }
+
 
     /**
      * @param \PHPUnit_Framework_MockObject_MockObject $mock

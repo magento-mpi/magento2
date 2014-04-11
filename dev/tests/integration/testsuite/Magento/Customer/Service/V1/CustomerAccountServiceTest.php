@@ -1268,7 +1268,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $customerDetails->getCustomer();
         // All these expected values come from _files/customer.php fixture
         $this->assertEquals(1, $customer->getId());
-        $this->assertEquals('example@domain.com', $customer->getEmail());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
         $this->assertEquals('test firstname', $customer->getFirstname());
         $this->assertEquals('test lastname', $customer->getLastname());
         $this->assertEquals(3, count($customerDetails->getAddresses()));
@@ -1400,6 +1400,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
     }
 
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     * @magentoAppIsolation enabled
+     * @dataProvider getValidEmailDataProvider
+     */
+    public function testGetCustomerDetailsByEmail($email, $websiteId)
+    {
+        $customerDetails = $this->_customerAccountService->getCustomerDetailsByEmail($email, $websiteId);
+        $customer = $customerDetails->getCustomer();
+
+        $this->assertEquals(1, $customer->getId());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
+        $this->assertEquals('test firstname', $customer->getFirstname());
+        $this->assertEquals('test lastname', $customer->getLastname());
+        $this->assertEquals(3, count($customerDetails->getAddresses()));
+    }
     /**
      * @return array
      *
