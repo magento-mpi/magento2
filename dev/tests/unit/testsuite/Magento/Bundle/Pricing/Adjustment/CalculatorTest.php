@@ -55,7 +55,10 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->saleableItem = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->saleableItem = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getPriceInfo', 'getPriceType', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface', [], [], '', true);
         $priceInfo->expects($this->any())->method('getPrice')->will($this->returnCallback(function ($type) {
             if (!isset($this->priceMocks[$type])) {
@@ -110,7 +113,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
         // Price type of saleable items
         $this->saleableItem->expects($this->any())->method('getPriceType')->will($this->returnValue(
-            ProductPrice::PRICE_TYPE_FIXED
+            ProductPrice::PRICE_TYPE_DYNAMIC
         ));
 
         $this->amountFactory->expects($this->atLeastOnce())->method('create')
