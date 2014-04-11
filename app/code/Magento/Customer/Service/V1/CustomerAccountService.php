@@ -829,4 +829,18 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel = $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);
         return $this->_converter->createCustomerFromModel($customerModel);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteCustomerByEmail($customerEmail, $websiteId = null)
+    {
+        if (is_null($websiteId)) {
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
+        }
+        $customerModel = $this->_converter->getCustomerModelByEmail($customerEmail, $websiteId);
+        $customerModel->delete();
+
+        return true;
+    }
 }

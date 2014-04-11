@@ -767,6 +767,75 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData, $customerResponseData);
 
     }
+
+    public function testDeleteCustomerByEmail()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::EMAIL] . '/customerEmail',
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
+            ]
+        ];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $response = $this->_webApiCall($serviceInfo, ['customerEmail' => $customerData[Customer::EMAIL]]);
+        } else {
+            $response = $this->_webApiCall($serviceInfo);
+        }
+
+        $this->assertTrue($response);
+
+        //Verify if the customer is deleted
+        $this->setExpectedException(
+            'Magento\Exception\NoSuchEntityException',
+            sprintf("No such entity with email = %s", $customerData[Customer::EMAIL])
+        );
+        $this->customerAccountService->getCustomerByEmail($customerData[Customer::EMAIL]);
+    }
+
+    public function testDeleteCustomerByEmailInvalidCustomerId()
+    {
+        $invalidEmail = 'invalid@email.com';
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidEmail . '/customerEmail',
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
+            ]
+        ];
+
+        $expectedMessage = 'No such entity with email = ' . $invalidEmail;
+
+        try {
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $this->_webApiCall($serviceInfo, ['customerEmail' => $invalidEmail]);
+            } else {
+                $this->_webApiCall($serviceInfo);
+            }
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+        }
+    }
+
     /**
      * @return CustomerDetails
      */

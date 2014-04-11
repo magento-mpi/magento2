@@ -288,4 +288,15 @@ interface CustomerAccountServiceInterface
      * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomerByEmail($customerEmail, $websiteId = null);
+
+    /**
+     * Delete Customer by email
+     *
+     * @param string $customerEmail
+     * @param int $websiteId If not set, will use the current websiteId
+     * @throws \Magento\Customer\Exception If something goes wrong during delete
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @return bool True if the customer was deleted
+     */
+    public function deleteCustomerByEmail($customerEmail, $websiteId = null);
 }

@@ -1290,13 +1290,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testDeleteCustomer()
     {
         // _files/customer.php sets the customer id to 1
         $this->_customerAccountService->deleteCustomer(1);
+        //Verify if the customer is deleted
+        $this->setExpectedException(
+            'Magento\Exception\NoSuchEntityException',
+            'No such entity with customerId = 1'
+        );
         $this->_customerAccountService->getCustomer(1);
     }
 
@@ -1422,6 +1425,23 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'invalid email' => ['nonexistent@example.com', null],
             'invalid websiteId' => ['customer@example.com', 123456],
         ];
+    }
+
+    /**
+     * @magentoAppArea adminhtml
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     */
+    public function testDeleteCustomerByEmail()
+    {
+        // _files/customer.php sets the customer email to customer@example.com
+        $this->_customerAccountService->deleteCustomerByEmail('customer@example.com');
+        //Verify if the customer is deleted
+        $this->setExpectedException(
+            'Magento\Exception\NoSuchEntityException',
+            'No such entity with email = customer@example.com'
+        );
+        $this->_customerAccountService->getCustomerByEmail('customer@example.com');
     }
 
     /**

@@ -121,8 +121,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock = $this->getMockBuilder(
             'Magento\Customer\Model\CustomerFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
-        )->getMock();
+                array('create')
+            )->getMock();
 
         $this->_customerModelMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
             ->disableOriginalConstructor()
@@ -174,8 +174,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'changeResetPasswordLinkToken',
                     'sendPasswordResetConfirmationEmail',
                     'sendPasswordResetNotificationEmail',
+                    'delete'
                 )
-        )->getMock();
+            )->getMock();
 
         $this->_eventManagerMock = $this->getMockBuilder(
             '\Magento\Event\ManagerInterface'
@@ -202,10 +203,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue(array())
-        );
+                'getCustomCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue(array())
+            );
 
         $this->_customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
 
@@ -224,26 +225,26 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerHelperMock = $this->getMockBuilder(
             'Magento\Customer\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('isCustomerInStore')
-        )->getMock();
+                array('isCustomerInStore')
+            )->getMock();
         $this->_customerHelperMock->expects(
             $this->any()
         )->method(
-            'isCustomerInStore'
-        )->will(
-            $this->returnValue(false)
-        );
+                'isCustomerInStore'
+            )->will(
+                $this->returnValue(false)
+            );
 
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $this->_objectManagerMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->with(
-            'Magento\Customer\Helper\Data'
-        )->will(
-            $this->returnValue($this->_customerHelperMock)
-        );
+                'create'
+            )->with(
+                'Magento\Customer\Helper\Data'
+            )->will(
+                $this->returnValue($this->_customerHelperMock)
+            );
 
         $this->_urlMock = $this->getMockBuilder('\Magento\UrlInterface')
             ->disableOriginalConstructor()
@@ -274,10 +275,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         // Assertions
         $this->_customerModelMock->expects($this->once())->method('save');
@@ -306,10 +307,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         // Assertions
         $this->_customerModelMock->expects($this->never())->method('save');
@@ -329,10 +330,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         // Assertions
         $this->_customerModelMock->expects($this->never())->method('save');
@@ -365,10 +366,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         // Assertions
         $this->_customerModelMock->expects($this->never())->method('save');
@@ -395,19 +396,19 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         // Assertions/Mocking
         $this->_customerModelMock->expects(
             $this->once()
         )->method(
-            'save'
-        )->will(
-            $this->throwException(new \Exception('DB is down'))
-        );
+                'save'
+            )->will(
+                $this->throwException(new \Exception('DB is down'))
+            );
         $this->_customerModelMock->expects($this->once())->method('setConfirmation');
 
         $customerService = $this->_createService();
@@ -430,10 +431,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
 
@@ -456,18 +457,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects(
             $this->any()
         )->method(
-            'authenticate'
-        )->will(
-            $this->throwException(new \Magento\Model\Exception('exception message'))
-        );
+                'authenticate'
+            )->will(
+                $this->throwException(new \Magento\Model\Exception('exception message'))
+            );
 
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
 
@@ -490,10 +491,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
 
@@ -520,10 +521,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
 
@@ -551,10 +552,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
 
@@ -577,10 +578,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
 
@@ -609,10 +610,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
 
@@ -645,10 +646,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->once())->method('sendPasswordResetConfirmationEmail');
 
@@ -675,10 +676,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->never())->method('sendPasswordResetConfirmationEmail');
 
@@ -711,18 +712,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects(
             $this->once()
         )->method(
-            'sendPasswordResetConfirmationEmail'
-        )->will(
-            $this->throwException(new \Magento\Model\Exception(__('Invalid transactional email code: %1', 0)))
-        );
+                'sendPasswordResetConfirmationEmail'
+            )->will(
+                $this->throwException(new \Magento\Model\Exception(__('Invalid transactional email code: %1', 0)))
+            );
 
         $customerService = $this->_createService();
 
@@ -781,10 +782,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->once())
             ->method('setRpToken')
@@ -826,10 +827,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->once())
             ->method('setRpToken')
@@ -874,10 +875,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->never())->method('setRpToken');
         $this->_customerModelMock->expects($this->never())->method('setRpTokenCreatedAt');
@@ -910,10 +911,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->never())->method('setRpToken');
         $this->_customerModelMock->expects($this->never())->method('setRpTokenCreatedAt');
@@ -941,10 +942,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->never())->method('setRpToken');
         $this->_customerModelMock->expects($this->never())->method('setRpTokenCreatedAt');
@@ -978,10 +979,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->never())->method('setRpToken');
         $this->_customerModelMock->expects($this->never())->method('setRpTokenCreatedAt');
@@ -1005,26 +1006,26 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
         $this->_customerModelMock->expects($this->any())->method('getId')->will($this->returnValue(55));
         $this->_customerModelMock->expects($this->once())->method('setWebsiteId')->will($this->returnSelf());
         $this->_customerModelMock->expects(
             $this->any()
         )->method(
-            'isConfirmationRequired'
-        )->will(
-            $this->returnValue(true)
-        );
+                'isConfirmationRequired'
+            )->will(
+                $this->returnValue(true)
+            );
         $this->_customerModelMock->expects(
             $this->any()
         )->method(
-            'getConfirmation'
-        )->will(
-            $this->returnValue('123abc')
-        );
+                'getConfirmation'
+            )->will(
+                $this->returnValue('123abc')
+            );
 
         $customerService = $this->_createService();
         $customerService->resendConfirmation('email', 1);
@@ -1035,10 +1036,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
         $this->_customerModelMock->expects($this->once())->method('getId')->will($this->returnValue(0));
         $this->_customerModelMock->expects($this->once())->method('setWebsiteId')->will($this->returnSelf());
 
@@ -1061,10 +1062,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
         $this->_customerModelMock->expects($this->once())->method('getId')->will($this->returnValue(55));
         $this->_customerModelMock->expects($this->once())->method('setWebsiteId')->with(2)->will($this->returnSelf());
 
@@ -1116,53 +1117,53 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->once()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
         $this->_customerModelMock->expects(
             $this->once()
         )->method(
-            'load'
-        )->with(
-            $customerId
-        )->will(
-            $this->returnSelf()
-        );
+                'load'
+            )->with(
+                $customerId
+            )->will(
+                $this->returnSelf()
+            );
         $this->_customerModelMock->expects($this->once())->method('getId')->will($this->returnValue($customerId));
         if (CustomerAccountServiceInterface::ACCOUNT_CONFIRMED == $expected) {
             $this->_customerModelMock->expects(
                 $this->once()
             )->method(
-                'getConfirmation'
-            )->will(
-                $this->returnValue(false)
-            );
+                    'getConfirmation'
+                )->will(
+                    $this->returnValue(false)
+                );
         } else {
             $this->_customerModelMock->expects(
                 $this->once()
             )->method(
-                'getConfirmation'
-            )->will(
-                $this->returnValue(true)
-            );
+                    'getConfirmation'
+                )->will(
+                    $this->returnValue(true)
+                );
         }
         if (CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED == $expected) {
             $this->_customerModelMock->expects(
                 $this->once()
             )->method(
-                'isConfirmationRequired'
-            )->will(
-                $this->returnValue(true)
-            );
+                    'isConfirmationRequired'
+                )->will(
+                    $this->returnValue(true)
+                );
         } elseif (CustomerAccountServiceInterface::ACCOUNT_CONFIRMED != $expected) {
             $this->_customerModelMock->expects(
                 $this->once()
             )->method(
-                'getConfirmation'
-            )->will(
-                $this->returnValue(false)
-            );
+                    'getConfirmation'
+                )->will(
+                    $this->returnValue(false)
+                );
         }
 
         $customerService = $this->_createService();
@@ -1193,10 +1194,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->once()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
         $this->assertEquals(!$isBoolean, $customerService->canModify(self::ID));
@@ -1215,18 +1216,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects(
             $this->once()
         )->method(
-            'isDeleteable'
-        )->will(
-            $this->returnValue($isBoolean)
-        );
+                'isDeleteable'
+            )->will(
+                $this->returnValue($isBoolean)
+            );
 
         $this->_customerFactoryMock->expects(
             $this->once()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
         $this->assertEquals($isBoolean, $customerService->canDelete(self::ID));
@@ -1258,10 +1259,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -1280,10 +1281,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue($mockAttribute)
-        );
+                'getCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue($mockAttribute)
+            );
 
         // verify
         $this->_customerModelMock->expects($this->atLeastOnce())->method('setData');
@@ -1309,10 +1310,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->atLeastOnce()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -1330,10 +1331,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue($mockAttribute)
-        );
+                'getCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue($mockAttribute)
+            );
 
         // verify
         $this->_customerModelMock->expects($this->atLeastOnce())->method('setData');
@@ -1358,10 +1359,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -1379,10 +1380,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue($mockAttribute)
-        );
+                'getCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue($mockAttribute)
+            );
 
         // verify
         $this->_customerModelMock->expects($this->atLeastOnce())->method('setData');
@@ -1411,10 +1412,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -1432,18 +1433,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue($mockAttribute)
-        );
+                'getCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue($mockAttribute)
+            );
 
         $this->_customerModelMock->expects(
             $this->once()
         )->method(
-            'save'
-        )->will(
-            $this->throwException(new \Exception('exception message'))
-        );
+                'save'
+            )->will(
+                $this->throwException(new \Exception('exception message'))
+            );
 
         // verify
         $customerService = $this->_createService();
@@ -1466,10 +1467,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_mockReturnValue($this->_customerModelMock, array('getId' => self::ID, 'getEmail' => 'missingAtSign'));
 
@@ -1480,10 +1481,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue($mockAttribute)
-        );
+                'getCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue($mockAttribute)
+            );
 
         // verify
         $customerService = $this->_createService();
@@ -1531,10 +1532,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects(
             $this->any()
         )->method(
-            'load'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'load'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -1551,28 +1552,28 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $attributeModelMock->expects(
             $this->any()
         )->method(
-            'getAttributeCode'
-        )->will(
-            $this->returnValue('attribute_code')
-        );
+                'getAttributeCode'
+            )->will(
+                $this->returnValue('attribute_code')
+            );
 
         $this->_customerModelMock->expects(
             $this->any()
         )->method(
-            'getData'
-        )->with(
-            $this->equalTo('attribute_code')
-        )->will(
-            $this->returnValue('ATTRIBUTE_VALUE')
-        );
+                'getData'
+            )->with(
+                $this->equalTo('attribute_code')
+            )->will(
+                $this->returnValue('ATTRIBUTE_VALUE')
+            );
 
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $customerService = $this->_createService();
 
@@ -1589,18 +1590,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $collectionMock = $this->getMockBuilder(
             'Magento\Customer\Model\Resource\Customer\Collection'
         )->disableOriginalConstructor()->setMethods(
-            array('addNameToSelect', 'addFieldToFilter', 'getSize', 'load', 'joinAttribute')
-        )->getMock();
+                array('addNameToSelect', 'addFieldToFilter', 'getSize', 'load', 'joinAttribute')
+            )->getMock();
         $collectionMock->expects($this->any())->method('joinAttribute')->will($this->returnSelf());
 
         $this->_mockReturnValue($collectionMock, array('getSize' => 0));
         $this->_customerFactoryMock->expects(
             $this->atLeastOnce()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerModelMock->expects($this->any())->method('load')->will($this->returnSelf());
 
@@ -1612,17 +1613,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue(array())
-        );
+                'getAllCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue(array())
+            );
 
         $customerService = $this->_createService();
         $searchBuilder = new Data\SearchCriteriaBuilder(new AndGroupBuilder(new FilterBuilder()));
@@ -1639,8 +1640,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $collectionMock = $this->getMockBuilder(
             '\Magento\Customer\Model\Resource\Customer\Collection'
         )->disableOriginalConstructor()->setMethods(
-            array('addNameToSelect', 'addFieldToFilter', 'getSize', 'load', 'getItems', 'getIterator', 'joinAttribute')
-        )->getMock();
+                array('addNameToSelect', 'addFieldToFilter', 'getSize', 'load', 'getItems', 'getIterator', 'joinAttribute')
+            )->getMock();
         $collectionMock->expects($this->any())->method('joinAttribute')->will($this->returnSelf());
 
         $this->_mockReturnValue(
@@ -1655,10 +1656,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->atLeastOnce()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_mockReturnValue(
             $this->_customerModelMock,
@@ -1674,26 +1675,26 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerFactoryMock->expects(
             $this->any()
         )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'create'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
 
         $this->_customerAddressServiceMock->expects(
             $this->once()
         )->method(
-            'getAddresses'
-        )->will(
-            $this->returnValue(array())
-        );
+                'getAddresses'
+            )->will(
+                $this->returnValue(array())
+            );
 
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllCustomerAttributeMetadata'
-        )->will(
-            $this->returnValue(array())
-        );
+                'getAllCustomerAttributeMetadata'
+            )->will(
+                $this->returnValue(array())
+            );
 
         $customerService = $this->_createService();
         $searchBuilder = new Data\SearchCriteriaBuilder(new AndGroupBuilder(new FilterBuilder()));
@@ -1721,24 +1722,24 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_converter->expects(
             $this->once()
         )->method(
-            'getCustomerModel'
-        )->will(
-            $this->returnValue($this->_customerModelMock)
-        );
+                'getCustomerModel'
+            )->will(
+                $this->returnValue($this->_customerModelMock)
+            );
         $this->_converter->expects(
             $this->once()
         )->method(
-            'createCustomerFromModel'
-        )->will(
-            $this->returnValue($customerMock)
-        );
+                'createCustomerFromModel'
+            )->will(
+                $this->returnValue($customerMock)
+            );
         $this->_customerAddressServiceMock->expects(
             $this->once()
         )->method(
-            'getAddresses'
-        )->will(
-            $this->returnValue(array($addressMock))
-        );
+                'getAddresses'
+            )->will(
+                $this->returnValue(array($addressMock))
+            );
         $customerDetails = $service->getCustomerDetails(1);
         $this->assertEquals($customerMock, $customerDetails->getCustomer());
         $this->assertEquals(array($addressMock), $customerDetails->getAddresses());
@@ -1762,24 +1763,24 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_converter->expects(
             $this->once()
         )->method(
-            'getCustomerModel'
-        )->will(
-            $this->throwException(new \Magento\Exception\NoSuchEntityException('testField', 'value'))
-        );
+                'getCustomerModel'
+            )->will(
+                $this->throwException(new \Magento\Exception\NoSuchEntityException('testField', 'value'))
+            );
         $this->_converter->expects(
             $this->any()
         )->method(
-            'createCustomerFromModel'
-        )->will(
-            $this->returnValue($customerMock)
-        );
+                'createCustomerFromModel'
+            )->will(
+                $this->returnValue($customerMock)
+            );
         $this->_customerAddressServiceMock->expects(
             $this->any()
         )->method(
-            'getAddresses'
-        )->will(
-            $this->returnValue(array($addressMock))
-        );
+                'getAddresses'
+            )->will(
+                $this->returnValue(array($addressMock))
+            );
         $service->getCustomerDetails(1);
     }
 
@@ -1792,10 +1793,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_converter->expects(
             $this->once()
         )->method(
-            'getCustomerModelByEmail'
-        )->will(
-            $this->throwException(new \Magento\Exception\NoSuchEntityException('testField', 'value'))
-        );
+                'getCustomerModelByEmail'
+            )->will(
+                $this->throwException(new \Magento\Exception\NoSuchEntityException('testField', 'value'))
+            );
         $this->assertTrue($service->isEmailAvailable('email', 1));
     }
 
@@ -1811,10 +1812,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_converter->expects(
             $this->once()
         )->method(
-            'getCustomerModelByEmail'
-        )->will(
-            $this->returnValue($customerMock)
-        );
+                'getCustomerModelByEmail'
+            )->will(
+                $this->returnValue($customerMock)
+            );
         $this->assertFalse($service->isEmailAvailable('email', 1));
     }
 
@@ -1948,6 +1949,29 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
     }
 
+    public function testDeleteCustomerByEmail()
+    {
+        $this->_converter = $this->getMockBuilder('\Magento\Customer\Model\Converter')
+            ->setMethods(['getCustomerModelByEmail', 'createCustomerFromModel'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $defaultWebsiteId = 7;
+
+        $this->_storeMock->expects($this->any())
+            ->method('getWebSiteId')
+            ->will($this->returnValue($defaultWebsiteId));
+        $this->_converter->expects($this->once())
+            ->method('getCustomerModelByEmail')
+            ->with(self::EMAIL, $defaultWebsiteId)
+            ->will($this->returnValue($this->_customerModelMock));
+        $this->_customerModelMock->expects($this->once())
+            ->method('delete');
+
+        $customerService = $this->_createService();
+        $this->assertTrue($customerService->deleteCustomerByEmail(self::EMAIL));
+    }
+
     private function _setupStoreMock()
     {
         $this->_storeManagerMock = $this->getMockBuilder(
@@ -1961,10 +1985,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock->expects(
             $this->any()
         )->method(
-            'getStore'
-        )->will(
-            $this->returnValue($this->_storeMock)
-        );
+                'getStore'
+            )->will(
+                $this->returnValue($this->_storeMock)
+            );
     }
 
     /**
