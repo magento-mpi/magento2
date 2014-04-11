@@ -729,6 +729,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->saveAddresses(1, array($this->_addressBuilder->create()));
             $this->fail("Expected InputException not caught");
         } catch (InputException $inputException) {
+            $this->assertEquals(InputException::REQUIRED_FIELD, $inputException->getRawMessage());
             $this->assertEquals('firstname is a required field.', $inputException->getMessage());
             $this->assertEquals('firstname is a required field.', $inputException->getLogMessage());
             $this->assertTrue($inputException->wasErrorAdded());
