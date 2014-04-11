@@ -345,16 +345,24 @@ class Email extends \Magento\Model\AbstractModel
         )->setTemplateOptions(
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
-            array('customerName' => $this->_customer->getName(), 'alertGrid' => $block)
+            array('customerName' => $this->_getCustomerName(), 'alertGrid' => $block)
         )->setFrom(
             $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId)
         )->addTo(
             $this->_customer->getEmail(),
-            $this->_customer->getName()
+            $this->_getCustomerName()
         )->getTransport();
 
         $transport->sendMessage();
 
         return true;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getCustomerName()
+    {
+        return $this->_customer->getFirstname() . ' ' . $this->_customer->getLastname();
     }
 }
