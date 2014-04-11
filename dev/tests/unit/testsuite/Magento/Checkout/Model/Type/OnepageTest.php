@@ -264,7 +264,13 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(['error' => -1, 'message' => 'Invalid data'], $this->onepage->saveCheckoutMethod(null));
         /** @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $quoteMock */
-        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['setCheckoutMethod', '__wakeup'], [], '', false);
+        $quoteMock = $this->getMock(
+            'Magento\Sales\Model\Quote',
+            ['setCheckoutMethod', 'save', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $quoteMock->expects($this->once())->method('save');
         $quoteMock->expects($this->once())->method('setCheckoutMethod')->with('someMethod')->will($this->returnSelf());
         $this->checkoutSessionMock->expects($this->once())->method('setStepData')->with('billing', 'allow', true);
