@@ -44,12 +44,13 @@ interface CustomerAccountServiceInterface
 
     const EMAIL_RESET = 'email_reset';
 
+    const DEFAULT_PASSWORD_LENGTH = 6;
+
     /**
      * Create Customer Account
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
      * @param string $password If null then a random password will be assigned. Disregard if $hash is not empty.
-     * @param string $hash Password hash that we can save directly
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return \Magento\Customer\Service\V1\Data\Customer
@@ -60,7 +61,24 @@ interface CustomerAccountServiceInterface
     public function createAccount(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $password = null,
-        $hash = null,
+        $redirectUrl = ''
+    );
+
+    /**
+     * Create Customer Account with provided hashed password. Should not be exposed as a webapi.
+     *
+     * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
+     * @param string $hash Password hash that we can save directly
+     * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
+     *                            the customer to a product they were looking at after pressing confirmation link.
+     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @throws \Exception If something goes wrong during save
+     * @throws \Magento\Exception\InputException If bad input is provided
+     * @throws \Magento\Exception\StateException If the provided email is already used
+     */
+    public function createAccountWithHashedPassword(
+        \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
+        $hash,
         $redirectUrl = ''
     );
 

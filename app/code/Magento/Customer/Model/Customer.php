@@ -180,11 +180,6 @@ class Customer extends \Magento\Model\AbstractModel
     protected $_encryptor;
 
     /**
-     * @var \Magento\Math\Random
-     */
-    protected $mathRandom;
-
-    /**
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
@@ -209,10 +204,9 @@ class Customer extends \Magento\Model\AbstractModel
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param CustomerBuilder $customerDataBuilder
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -230,7 +224,6 @@ class Customer extends \Magento\Model\AbstractModel
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         AttributeFactory $attributeFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
         CustomerBuilder $customerDataBuilder,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -247,7 +240,6 @@ class Customer extends \Magento\Model\AbstractModel
         $this->_groupService = $groupService;
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
-        $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
         $this->_customerDataBuilder = $customerDataBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -513,17 +505,6 @@ class Customer extends \Magento\Model\AbstractModel
     public function hashPassword($password, $salt = true)
     {
         return $this->_encryptor->getHash($password, $salt);
-    }
-
-    /**
-     * Retrieve random password
-     *
-     * @param   int $length
-     * @return  string
-     */
-    public function generatePassword($length = 6)
-    {
-        return $this->mathRandom->getRandomString($length);
     }
 
     /**

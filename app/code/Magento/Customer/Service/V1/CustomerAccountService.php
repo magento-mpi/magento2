@@ -338,9 +338,22 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * {@inheritdoc}
      */
     public function createAccount(
-        Data\CustomerDetails $customerDetails,
+        \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $password = null,
-        $hash = null,
+        $redirectUrl = ''
+    ) {
+        //Generate password hash
+        $password = $password ? $password : $this->mathRandom->getRandomString(self::DEFAULT_PASSWORD_LENGTH);
+        $hash = $this->getPasswordHash($password);
+        return $this->createAccountWithHashedPassword($customerDetails, $hash, $redirectUrl);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createAccountWithHashedPassword(
+        \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
+        $hash,
         $redirectUrl = ''
     ) {
         $customer = $customerDetails->getCustomer();
@@ -354,11 +367,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             if ($this->isCustomerInStore($websiteId, $customer->getStoreId())) {
                 throw new InputException(__('Customer already exists in this store.'));
             }
-
-            if (empty($password) && empty($hash)) {
-                // Reuse existing password
-                $hash = $this->converter->getCustomerModel($customer->getId())->getPasswordHash();
-            }
+            // Reuse existing password
+            $hash = $this->converter->getCustomerModel($customer->getId())->getPasswordHash();
         }
         // Make sure we have a storeId to associate this customer with.
         if (!$customer->getStoreId()) {
@@ -373,7 +383,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
 
         try {
-            $customerId = $this->saveCustomer($customer, $password, $hash);
+            $customerId = $this->saveCustomer($customer, $hash);
         } catch (\Magento\Customer\Exception $e) {
             if ($e->getCode() === CustomerModel::EXCEPTION_EMAIL_EXISTS) {
                 throw new StateException(
@@ -434,7 +444,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         $this->saveCustomer(
             $customer,
-            null,
             $this->converter->getCustomerModel($customer->getId())->getPasswordHash()
         );
 
@@ -538,7 +547,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Create or update customer information
      *
      * @param \Magento\Customer\Service\V1\Data\Customer $customer
-     * @param string $password Plain text password
      * @param string $hash Hashed password ready to be saved
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
@@ -546,22 +554,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     protected function saveCustomer(
         \Magento\Customer\Service\V1\Data\Customer $customer,
-        $password = null,
-        $hash = null
+        $hash
     ) {
         $customerModel = $this->converter->createCustomerModel($customer);
-
-        // Priority: hash, password, auto generated password
-        if ($hash) {
-            $customerModel->setPasswordHash($hash);
-        } elseif ($password) {
-            $passwordHash = $this->getPasswordHash($password);
-            $customerModel->setPasswordHash($passwordHash);
-        } elseif (!$customerModel->getId()) {
-            $passwordHash = $this->getPasswordHash($customerModel->generatePassword());
-            $customerModel->setPasswordHash($passwordHash);
-        }
-
+        $customerModel->setPasswordHash($hash);
         // Shouldn't we be calling validateCustomerData/Details here?
         $this->validate($customerModel);
         $customerModel->save();
