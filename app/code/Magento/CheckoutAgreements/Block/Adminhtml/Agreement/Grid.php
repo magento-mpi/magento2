@@ -2,30 +2,28 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Checkout\Block\Adminhtml\Agreement;
+namespace Magento\CheckoutAgreements\Block\Adminhtml\Agreement;
 
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
+     * @var \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $collectionFactory
+     * @param \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $collectionFactory,
+        \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;

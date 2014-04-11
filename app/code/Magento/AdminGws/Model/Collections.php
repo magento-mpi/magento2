@@ -295,7 +295,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Filter checkout agreements collection by allowed stores
      *
-     * @param \Magento\Checkout\Model\Resource\Agreement\Collection $collection
+     * @param \Magento\CheckoutAgreements\Model\Resource\Agreement\Collection $collection
      * @return void
      */
     public function limitCheckoutAgreements($collection)

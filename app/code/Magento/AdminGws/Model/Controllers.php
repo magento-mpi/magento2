@@ -908,7 +908,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento\Checkout\Model\Agreement')->load($id);
+            $object = $this->_objectManager->create('Magento\CheckoutAgreements\Model\Agreement')->load($id);
             if ($object && $object->getId()) {
                 $stores = $object->getStoreId();
                 foreach ($stores as $store) {

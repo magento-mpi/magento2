@@ -10,7 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/App/etc/routes.xsd">
     <router id="admin">
         <route id="checkout" frontName="checkout">
-            <module name="Magento_Checkout_Adminhtml" before="Magento_Adminhtml" />
+            <module name="Magento_CheckoutAgreements_Adminhtml" before="Magento_Adminhtml" />
         </route>
     </router>
 </config>

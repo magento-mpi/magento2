@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Checkout\Block\Adminhtml\Agreement\Edit;
+namespace Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

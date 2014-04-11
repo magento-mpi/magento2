@@ -51,7 +51,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_localeDate;
 
     /**
-     * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
+     * @var \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory
      */
     protected $_agreementCollectionFactory;
 
@@ -71,7 +71,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
+     * @param \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
@@ -81,7 +81,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
+        \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {

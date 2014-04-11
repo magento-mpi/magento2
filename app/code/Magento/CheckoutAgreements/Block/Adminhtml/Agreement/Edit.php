@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Checkout\Block\Adminhtml\Agreement;
+namespace Magento\CheckoutAgreements\Block\Adminhtml\Agreement;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -41,7 +39,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_agreement';
-        $this->_blockGroup = 'Magento_Checkout';
+        $this->_blockGroup = 'Magento_CheckoutAgreements';
 
         parent::_construct();
 

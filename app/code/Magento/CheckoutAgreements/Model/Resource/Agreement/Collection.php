@@ -2,19 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Checkout\Model\Resource\Agreement;
+namespace Magento\CheckoutAgreements\Model\Resource\Agreement;
 
 /**
  * Resource Model for Agreement Collection
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -37,7 +31,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     protected function _construct()
     {
-        $this->_init('Magento\Checkout\Model\Agreement', 'Magento\Checkout\Model\Resource\Agreement');
+        $this->_init('Magento\CheckoutAgreements\Model\Agreement', 'Magento\CheckoutAgreements\Model\Resource\Agreement');
     }
 
     /**

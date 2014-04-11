@@ -91,7 +91,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
         $collectionFactory = $this->getMock(
-            '\Magento\Checkout\Model\Resource\Agreement\CollectionFactory',
+            '\Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory',
             array(),
             array(),
             '',
