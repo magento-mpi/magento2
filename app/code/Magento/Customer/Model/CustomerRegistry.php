@@ -128,7 +128,7 @@ class CustomerRegistry
     public function removeByEmail($customerEmail, $websiteId)
     {
         $registryKey = $this->getRegistryKey($customerEmail, $websiteId);
-        if ($registryKey) {
+        if (isset($this->customerRegistryByEmail[$registryKey])) {
             /** @var Customer $customer */
             $customer = $this->customerRegistryByEmail[$registryKey];
             unset($this->customerRegistryByEmail[$registryKey]);
