@@ -45,7 +45,6 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -53,8 +52,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->calculationModel = $calculationModel;
         $this->jsonEncoder = $jsonEncoder;
@@ -62,8 +60,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->accountService = $accountService;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }

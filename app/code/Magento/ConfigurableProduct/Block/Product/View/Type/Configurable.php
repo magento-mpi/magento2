@@ -78,7 +78,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Model\Product\PriceModifierInterface $priceModifier
      * @param CustomerAccountService $customerAccountService
      * @param array $data
-     * @param array $priceBlockTypes
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -90,8 +89,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Helper\Product\Price $priceHelper,
         CustomerAccountService $customerAccountService,
         PriceModifierInterface $priceModifier,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
@@ -101,8 +99,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         parent::__construct(
             $context,
             $arrayUtils,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

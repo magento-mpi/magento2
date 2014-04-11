@@ -253,9 +253,11 @@ class Email extends \Magento\Model\AbstractModel
      * Retrieve price block
      *
      * @return \Magento\ProductAlert\Block\Email\Price
+     * @deprecated
      */
     protected function _getPriceBlock()
     {
+        return false;
         if (is_null($this->_priceBlock)) {
             $this->_priceBlock = $this->_productAlertData->createBlock('Magento\ProductAlert\Block\Email\Price');
         }

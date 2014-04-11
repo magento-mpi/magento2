@@ -35,7 +35,6 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Module\Manager $moduleManager
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -45,8 +44,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Data\Form\FormKey $formKey,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Module\Manager $moduleManager,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_moduleManager = $moduleManager;
         $this->_giftRegistryData = $giftRegistryData;
@@ -56,8 +54,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
             $productFactory,
             $helperPool,
             $formKey,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

@@ -31,21 +31,18 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->itemFactory = $itemFactory;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }

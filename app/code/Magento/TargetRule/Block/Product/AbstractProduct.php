@@ -85,21 +85,18 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_resourceIndex = $index;
         $this->_targetRuleData = $targetRuleData;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

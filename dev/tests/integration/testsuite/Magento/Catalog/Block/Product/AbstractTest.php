@@ -143,18 +143,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test.phtml', $this->_block->getTierPriceTemplate());
     }
 
-    public function testGetTierPriceHtml()
-    {
-        $this->_block->setLayout(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-        );
-        $html = $this->_block->getTierPriceHtml();
-        $this->assertNotEmpty($html);
-        $this->assertContains('2', $html); /* Buy 2 */
-        $this->assertContains('8', $html); /* Price 8 */
-        $this->assertContains('5', $html); /* Buy 5 and price 5 */
-    }
-
     public function testGetTierPrices()
     {
         $prices = $this->_block->getTierPrices();

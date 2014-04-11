@@ -82,7 +82,6 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             'Magento\GroupedProduct\Block\Product\View\Type\Grouped',
             array(
                 'data' => array('product' => $this->productMock, 'tier_price_template' => $this->defaultTemplate),
-                'priceBlockTypes' => array('product_id' => array('block' => $this->blockMock)),
                 'layout' => $layout
             )
         );
@@ -162,64 +161,4 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->groupedView->setPreconfiguredValue();
     }
 
-    /**
-     * @param null|PHPUnit_Framework_MockObject_MockObject $price
-     * @dataProvider getTierPriceHtmlDataProvider
-     */
-    public function testGetTierPriceHtml($price)
-    {
-        $this->productMock->expects($this->any())->method('getTypeId')->will($this->returnValue('product_id'));
-        $this->blockMock->expects(
-            $this->once()
-        )->method(
-            'setTemplate'
-        )->with(
-            $this->defaultTemplate
-        )->will(
-            $this->returnValue($this->blockMock)
-        );
-        $this->blockMock->expects(
-            $this->once()
-        )->method(
-            'setProduct'
-        )->with(
-            $this->productMock
-        )->will(
-            $this->returnValue($this->blockMock)
-        );
-        $this->blockMock->expects(
-            $this->once()
-        )->method(
-            'setListClass'
-        )->with(
-            'tier prices grouped items'
-        )->will(
-            $this->returnValue($this->blockMock)
-        );
-        $this->blockMock->expects(
-            $this->once()
-        )->method(
-            'setShowDetailedPrice'
-        )->with(
-            false
-        )->will(
-            $this->returnValue($this->blockMock)
-        );
-        $this->blockMock->expects(
-            $this->once()
-        )->method(
-            'setCanDisplayQty'
-        )->with(
-            false
-        )->will(
-            $this->returnValue($this->blockMock)
-        );
-        $this->blockMock->expects($this->once())->method('toHtml')->will($this->returnValue('expected'));
-        $this->assertEquals('expected', $this->groupedView->getTierPriceHtml($price));
-    }
-
-    public function getTierPriceHtmlDataProvider()
-    {
-        return array('if_use_default_value_for_method' => array(null), 'if_pice_exist' => array($this->productMock));
-    }
 }

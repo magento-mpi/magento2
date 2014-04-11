@@ -49,21 +49,18 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->httpContext = $httpContext;
         $this->_productFactory = $productFactory;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }

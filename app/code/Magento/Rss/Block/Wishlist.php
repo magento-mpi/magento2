@@ -54,7 +54,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -64,8 +63,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Helper\Output $outputHelper,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_outputHelper = $outputHelper;
         $this->_coreData = $coreData;
@@ -75,8 +73,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $context,
             $httpContext,
             $productFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

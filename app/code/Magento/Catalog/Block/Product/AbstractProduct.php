@@ -317,23 +317,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     }
 
     /**
-     * Returns product tier price block html
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return string
-     */
-    public function getTierPriceHtml($product = null)
-    {
-        if (is_null($product)) {
-            $product = $this->getProduct();
-        }
-        return $this->_getPriceBlock($product->getTypeId())
-            ->setTemplate($this->getTierPriceTemplate())
-            ->setProduct($product)
-            ->toHtml();
-    }
-
-    /**
      * Get tier prices (formatted)
      *
      * @param \Magento\Catalog\Model\Product $product

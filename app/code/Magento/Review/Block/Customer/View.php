@@ -70,7 +70,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -79,8 +78,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_productFactory = $productFactory;
         $this->_reviewFactory = $reviewFactory;
@@ -90,8 +88,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
 
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }

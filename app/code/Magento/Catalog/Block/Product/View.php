@@ -79,7 +79,6 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -91,8 +90,7 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Locale\FormatInterface $localeFormat,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_productHelper = $productHelper;
         $this->_coreData = $coreData;
@@ -104,8 +102,7 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
         $this->_localeFormat = $localeFormat;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

@@ -163,37 +163,4 @@ class Info extends \Magento\View\Element\Template
                 return '';
         }
     }
-
-    /**
-     * Get html of tier price
-     *
-     * @return string
-     */
-    public function getTierPriceHtml()
-    {
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = $this->getItem()->getProduct();
-        if (!$product || !$product->getId()) {
-            return '';
-        }
-
-        $productTierPrices = $product->getData('tier_price');
-        if (!is_array($productTierPrices)) {
-            $productAttributes = $product->getAttributes();
-            if (!isset(
-                $productAttributes['tier_price']
-            ) || !$productAttributes['tier_price'] instanceof \Magento\Catalog\Model\Resource\Eav\Attribute
-            ) {
-                return '';
-            }
-            $productAttributes['tier_price']->getBackend()->afterLoad($product);
-        }
-
-        $this->_coreRegistry->unregister('product');
-        $this->_coreRegistry->register('product', $product);
-        if (!$this->hasProductViewBlock()) {
-            $this->setProductViewBlock($this->getLayout()->createBlock('Magento\Catalog\Block\Product\View'));
-        }
-        return $this->getProductViewBlock()->getTierPriceHtml();
-    }
 }

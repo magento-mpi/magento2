@@ -42,23 +42,20 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_helperPool = $helperPool;
         parent::__construct(
             $context,
             $httpContext,
             $productFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
