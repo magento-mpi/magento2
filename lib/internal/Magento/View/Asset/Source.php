@@ -39,9 +39,9 @@ class Source
     protected $varDir;
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\Factory
+     * @var \Magento\View\Asset\PreProcessor\Pool
      */
-    private $preprocessorFactory;
+    private $preProcessorPool;
 
     /**
      * @var \Magento\View\Design\FileResolution\Fallback\ViewFile
@@ -56,7 +56,7 @@ class Source
     public function __construct(
         \Magento\View\Asset\PreProcessor\Cache $cache,
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory,
+        \Magento\View\Asset\PreProcessor\Pool $preProcessorPool,
         \Magento\View\Design\FileResolution\Fallback\ViewFile $fallback,
         \Magento\View\Design\Theme\Provider $themeProvider
     ) {
@@ -64,7 +64,7 @@ class Source
         $this->filesystem = $filesystem;
         $this->rootDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $this->varDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
-        $this->preprocessorFactory = $preprocessorFactory;
+        $this->preProcessorPool = $preProcessorPool;
         $this->fallback = $fallback;
         $this->themeProvider = $themeProvider;
     }
@@ -127,7 +127,7 @@ class Source
             return unserialize($cached);
         }
         $chain = new PreProcessor\Chain($asset, $this->rootDir->readFile($path), pathinfo($path, PATHINFO_EXTENSION));
-        $preProcessors = $this->preprocessorFactory
+        $preProcessors = $this->preProcessorPool
             ->getPreProcessors($chain->getOrigContentType(), $chain->getTargetContentType());
         foreach ($preProcessors as $processor) {
             $processor->process($chain);

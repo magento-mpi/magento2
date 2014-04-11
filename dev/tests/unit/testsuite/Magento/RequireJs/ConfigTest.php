@@ -26,9 +26,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     private $baseDir;
 
     /**
-     * @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\ContextInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $baseUrl;
+    private $context;
 
     /**
      * @var Config
@@ -41,18 +41,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '\Magento\RequireJs\Config\File\Collector\Aggregated', array(), array(), '', false
         );
         $this->design = $this->getMockForAbstractClass('\Magento\View\DesignInterface');
-        $this->baseUrl = $this->getMockForAbstractClass('\Magento\UrlInterface');
-
         $this->baseDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
         $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(\Magento\App\Filesystem::ROOT_DIR)
             ->will($this->returnValue($this->baseDir));
-
-        $this->object = new \Magento\RequireJs\Config(
-            $this->fileSource, $this->design, $filesystem, $this->baseUrl
-        );
+        $repo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
+        $this->context = $this->getMockForAbstractClass('\Magento\View\Asset\ContextInterface');
+        $repo->expects($this->once())->method('getStaticViewFileContext')->will($this->returnValue($this->context));
+        $this->object = new \Magento\RequireJs\Config($this->fileSource, $this->design, $filesystem, $repo);
     }
 
     public function testGetConfig()
@@ -109,17 +107,16 @@ expected;
 
     public function testGetConfigFileRelativePath()
     {
-        $this->mockContextPath();
+        $this->context->expects($this->once())->method('getPath')->will($this->returnValue('path'));
         $actual = $this->object->getConfigFileRelativePath();
-        $this->assertSame('_requirejs/area/theme/locale/requirejs-config.js', $actual);
+        $this->assertSame('_requirejs/path/requirejs-config.js', $actual);
     }
 
     public function testGetBaseConfig()
     {
-        $this->mockContextPath();
-        $this->baseUrl->expects($this->once())
+        $this->context->expects($this->once())->method('getPath')->will($this->returnValue('area/theme/locale'));
+        $this->context->expects($this->once())
             ->method('getBaseUrl')
-            ->with(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
             ->will($this->returnValue('http://base.url/'));
         $expected = <<<expected
 require.config({
@@ -133,46 +130,5 @@ require.config({
 expected;
         $actual = $this->object->getBaseConfig();
         $this->assertSame($expected, $actual);
-    }
-
-    public function testGetConfigUrl()
-    {
-        $this->mockContextPath();
-        $this->baseUrl->expects($this->once())
-            ->method('getBaseUrl')
-            ->with(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
-            ->will($this->returnValue('http://base.url/'));
-        $expected = 'http://base.url/_requirejs/area/theme/locale/requirejs-config.js';
-        $actual = $this->object->getConfigUrl();
-        $this->assertSame($expected, $actual);
-    }
-
-    public function testGetBaseUrl()
-    {
-        $expected = 'http://base.url/';
-        $this->baseUrl->expects($this->once())
-            ->method('getBaseUrl')
-            ->with(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC))
-            ->will($this->returnValue($expected));
-        $actual = $this->object->getBaseUrl();
-        $this->assertSame($expected, $actual);
-    }
-
-    protected function mockContextPath()
-    {
-        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
-        $this->design->expects($this->once())
-            ->method('getArea')
-            ->will($this->returnValue('area'));
-        $this->design->expects($this->once())
-            ->method('getDesignTheme')
-            ->will($this->returnValue($theme));
-        $this->design->expects($this->once())
-            ->method('getThemePath')
-            ->with($theme)
-            ->will($this->returnValue('theme'));
-        $this->design->expects($this->once())
-            ->method('getLocale')
-            ->will($this->returnValue('locale'));
     }
 }

@@ -56,6 +56,11 @@ class Import implements PreProcessorInterface
     /**
      * Retrieve information on all related files, processed so far
      *
+     * BUG: this information about related files is not supposed to be in the state of this object.
+     * This class is meant to be a service (shareable instance) without such a transient state.
+     * The list of related files needs to be accumulated for the LESS preprocessor (\Magento\Css\PreProcessor\Less),
+     * because it uses a 3rd-party library, which requires the files to physically reside in the base same directory.
+     *
      * @return array
      */
     public function getRelatedFiles()

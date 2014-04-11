@@ -46,9 +46,9 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     private $cache;
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\Factory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\PreProcessor\Pool|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $preprocessorFactory;
+    private $preProcessorPool;
 
     /**
      * @var \Magento\View\Design\FileResolution\Fallback\ViewFile|\PHPUnit_Framework_MockObject_MockObject
@@ -70,8 +70,8 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $this->cache = $this->getMock(
             'Magento\View\Asset\PreProcessor\Cache', array(), array(), '', false
         );
-        $this->preprocessorFactory = $this->getMock(
-            'Magento\View\Asset\PreProcessor\Factory', array(), array(), '', false
+        $this->preProcessorPool = $this->getMock(
+            'Magento\View\Asset\PreProcessor\Pool', array(), array(), '', false
         );
         $this->viewFileResolution = $this->getMock(
             'Magento\View\Design\FileResolution\Fallback\ViewFile', array(), array(), '', false
@@ -89,7 +89,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $this->object = new Source(
             $this->cache,
             $this->filesystem,
-            $this->preprocessorFactory,
+            $this->preProcessorPool,
             $this->viewFileResolution,
             $themeProvider
         );
@@ -141,10 +141,11 @@ class SourceTest extends \PHPUnit_Framework_TestCase
      * @param string $origFile
      * @param string $origPath
      * @param string $origContentType
+     * @param string $origContent
      * @param string $isMaterialization
      * @dataProvider getFileDataProvider
      */
-    public function testGetFile($origFile, $origPath, $origContentType, $isMaterialization)
+    public function testGetFile($origFile, $origPath, $origContentType, $origContent, $isMaterialization)
     {
         $filePath = 'some/file.ext';
         $cacheValue = "{$origPath}:{$filePath}";
@@ -162,17 +163,19 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $this->rootDirRead->expects($this->once())
             ->method('readFile')
             ->with($origPath)
-            ->will($this->returnValue('content'));
+            ->will($this->returnValue($origContent));
         $processor = $this->getMockForAbstractClass('Magento\View\Asset\PreProcessorInterface');
-        $this->preprocessorFactory->expects($this->once())
+        $this->preProcessorPool->expects($this->once())
             ->method('getPreProcessors')
             ->with($origContentType, 'ext')
             ->will($this->returnValue([$processor]));
-        $processor->expects($this->once())->method('process')->with($this->anything()); // with chain
+        $processor->expects($this->once())
+            ->method('process')
+            ->will($this->returnCallback(array($this, 'chainTestCallback')));
         if ($isMaterialization) {
             $this->varDir->expects($this->once())
                 ->method('writeFile')
-                ->with('view_preprocessed/some/file.ext', 'content');
+                ->with('view_preprocessed/some/file.ext', 'processed');
             $this->cache->expects($this->once())
                 ->method('save')
                 ->with(serialize([\Magento\App\Filesystem::VAR_DIR, 'view_preprocessed/some/file.ext']), $cacheValue);
@@ -193,13 +196,26 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * A callback for affecting preprocessor chain in the test
+     *
+     * @param PreProcessor\Chain $chain
+     */
+    public function chainTestCallback(PreProcessor\Chain $chain)
+    {
+        $chain->setContentType('ext');
+        $chain->setContent('processed');
+    }
+
+    /**
      * @return array
      */
     public function getFileDataProvider()
     {
         return [
-            ['/root/some/file.ext', 'some/file.ext', 'ext', false],
-            ['/root/some/file.ext2', 'some/file.ext2', 'ext2', true],
+            ['/root/some/file.ext', 'some/file.ext', 'ext', 'processed', false],
+            ['/root/some/file.ext', 'some/file.ext', 'ext', 'not_processed', true],
+            ['/root/some/file.ext2', 'some/file.ext2', 'ext2', 'processed', true],
+            ['/root/some/file.ext2', 'some/file.ext2', 'ext2', 'not_processed', true],
         ];
     }
 

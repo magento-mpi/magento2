@@ -62,25 +62,31 @@ config;
     private $design;
 
     /**
-     * @var \Magento\UrlInterface
-     */
-    private $baseUrl;
-
-    /**
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     private $baseDir;
 
+    /**
+     * @var \Magento\View\Asset\ContextInterface
+     */
+    private $staticContext;
+
+    /**
+     * @param Config\File\Collector\Aggregated $fileSource
+     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\App\Filesystem $appFilesystem
+     * @param \Magento\View\Asset\Repository $assetRepo
+     */
     public function __construct(
         Config\File\Collector\Aggregated $fileSource,
         \Magento\View\DesignInterface $design,
         \Magento\App\Filesystem $appFilesystem,
-        \Magento\UrlInterface $baseUrl
+        \Magento\View\Asset\Repository $assetRepo
     ) {
         $this->fileSource = $fileSource;
         $this->design = $design;
-        $this->baseUrl = $baseUrl;
         $this->baseDir = $appFilesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->staticContext = $assetRepo->getStaticViewFileContext();
     }
 
     /**
@@ -120,7 +126,7 @@ config;
      */
     public function getConfigFileRelativePath()
     {
-        return self::DIR_NAME . '/' . $this->getContextPath() . '/' . self::CONFIG_FILE_NAME;
+        return self::DIR_NAME . '/' . $this->staticContext->getPath() . '/' . self::CONFIG_FILE_NAME;
     }
 
     /**
@@ -131,7 +137,7 @@ config;
     public function getBaseConfig()
     {
         $config = array(
-            'baseUrl' => $this->getBaseUrl() . $this->getContextPath(),
+            'baseUrl' => $this->staticContext->getBaseUrl() . $this->staticContext->getPath(),
             'paths' => array(
                 'magento' => self::NORMALIZE_PLUGIN_PATH,
             ),
@@ -141,37 +147,5 @@ config;
         );
         $config = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         return "require.config($config);\n";
-    }
-
-    /**
-     * Get URL for the config
-     *
-     * @return string
-     */
-    public function getConfigUrl()
-    {
-        return $this->getBaseUrl() . $this->getConfigFileRelativePath();
-    }
-
-    /**
-     * Get base URL to view dir
-     *
-     * @return string
-     */
-    public function getBaseUrl()
-    {
-        return $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC));
-    }
-
-    /**
-     * Get part of path specifying current context (area, theme, etc.)
-     *
-     * @return string
-     */
-    protected function getContextPath()
-    {
-        return $this->design->getArea()
-            . '/' . $this->design->getThemePath($this->design->getDesignTheme())
-            . '/' . $this->design->getLocale();
     }
 }

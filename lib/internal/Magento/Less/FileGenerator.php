@@ -64,6 +64,10 @@ class FileGenerator
      */
     public function generateLessFileTree(\Magento\View\Asset\PreProcessor\Chain $chain)
     {
+        /**
+         * @bug This logic is duplicated at \Magento\View\Asset\PreProcessor\Pool::getPreProcessors()
+         * If you need to extend or modify behavior of LESS preprocessing, you must account for both places
+         */
         $this->magentoImportProcessor->process($chain);
         $this->importProcessor->process($chain);
         $this->generateRelatedFiles();

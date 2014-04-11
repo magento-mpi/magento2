@@ -48,7 +48,7 @@ class Repository
     private $appMode;
 
     /**
-     * @var \Magento\View\Asset\File\FallbackContext[]
+     * @var \Magento\View\Asset\ContextInterface[]
      */
     private $contextPool = array();
 
@@ -140,8 +140,33 @@ class Repository
         }
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         $themePath = $this->design->getThemePath($params['themeModel']);
-        $context = $this->getFallbackContext($isSecure, $params['area'], $themePath, $params['locale']);
+        $context = $this->getFallbackContext(
+            UrlInterface::URL_TYPE_STATIC,
+            $isSecure,
+            $params['area'],
+            $themePath,
+            $params['locale']
+        );
         return new File($this->assetSource, $context, $filePath, $module, $this->inferType($filePath));
+    }
+
+    /**
+     * Get current context for static view files
+     *
+     * @return \Magento\View\Asset\ContextInterface
+     */
+    public function getStaticViewFileContext()
+    {
+        $params = array();
+        $this->updateDesignParams($params);
+        $themePath = $this->design->getThemePath($params['themeModel']);
+        return $this->getFallbackContext(
+            UrlInterface::URL_TYPE_STATIC,
+            null,
+            $params['area'],
+            $themePath,
+            $params['locale']
+        );
     }
 
     /**
@@ -149,20 +174,23 @@ class Repository
      *
      * Create only one instance per combination of parameters
      *
-     * @param bool $isSecure
+     * @param string $urlType
+     * @param bool|null $isSecure
      * @param string $area
      * @param string $themePath
      * @param string $locale
      * @return File\FallbackContext
      */
-    private function getFallbackContext($isSecure, $area, $themePath, $locale)
+    private function getFallbackContext($urlType, $isSecure, $area, $themePath, $locale)
     {
-        $id = implode('|', array((int)$isSecure, $area, $themePath, $locale));
+        $secureKey = null === $isSecure ? 'null' : (int)$isSecure;
+        $baseDirType = \Magento\App\Filesystem::STATIC_VIEW_DIR;
+        $id = implode('|', array($baseDirType, $urlType, $secureKey, $area, $themePath, $locale));
         if (!isset($this->contextPool[$id])) {
             if ($this->appMode == \Magento\App\State::MODE_PRODUCTION) {
                 $locale = ''; // a workaround while support for locale is not implemented in production mode
             }
-            $url = $this->baseUrl->getBaseUrl(array('_type' => UrlInterface::URL_TYPE_STATIC, '_secure' => $isSecure));
+            $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType, '_secure' => $isSecure));
             $this->contextPool[$id] = new File\FallbackContext($url, $area, $themePath, $locale);
         }
         return $this->contextPool[$id];
@@ -202,10 +230,30 @@ class Repository
         $baseDirType = Filesystem::STATIC_VIEW_DIR,
         $baseUrlType = UrlInterface::URL_TYPE_STATIC
     ) {
-        $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => $baseUrlType));
-        $context = new File\Context($baseUrl, $baseDirType, $dirPath);
+        $context = $this->getFileContext($baseDirType, $baseUrlType, $dirPath);
         $contentType = $this->inferType($filePath);
         return new File($this->assetSource, $context, $filePath, '', $contentType);
+    }
+
+    /**
+     * Get a file context value object
+     *
+     * Same instance per set of parameters
+     *
+     * @param string $baseDirType
+     * @param string $urlType
+     * @param string $dirPath
+     * @return File\Context
+     */
+    private function getFileContext($baseDirType, $urlType, $dirPath)
+    {
+        $secureKey = 'null'; // the "is secure" is not supported as parameter in arbitrary interface
+        $id = implode('|', array($baseDirType, $urlType, $secureKey, $dirPath));
+        if (!isset($this->contextPool[$id])) {
+            $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType));
+            $this->contextPool[$id] = new File\Context($url, $baseDirType, $dirPath);
+        }
+        return $this->contextPool[$id];
     }
 
     /**

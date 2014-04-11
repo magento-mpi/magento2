@@ -11,15 +11,78 @@ namespace Magento\View\Asset\PreProcessor;
 class ChainTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The requested asset type was 'ext', but ended up with 'ext2'
+     * @var \Magento\View\Asset\LocalInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    public function testGetFileBadContentType()
+    private $asset;
+
+    /**
+     * @var Chain
+     */
+    private $object;
+
+    protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-21654');
-        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
-        $chain = new Chain($asset, '', 'ext');
-        $chain->setContentType('ext2');
-        $chain->assertValid();
+        $this->asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $this->asset->expects($this->once())->method('getContentType')->will($this->returnValue('assetType'));
+        $this->object = new Chain($this->asset, 'origContent', 'origType');
+    }
+
+    public function testGetAsset()
+    {
+        $this->assertSame($this->asset, $this->object->getAsset());
+    }
+
+    public function testGettersAndSetters()
+    {
+        $this->assertEquals('origType', $this->object->getOrigContentType());
+        $this->assertEquals('origType', $this->object->getContentType());
+        $this->assertEquals('origContent', $this->object->getOrigContent());
+        $this->assertEquals('origContent', $this->object->getContent());
+        $this->assertEquals('assetType', $this->object->getTargetContentType());
+
+        $this->object->setContent('anotherContent');
+        $this->object->setContentType('anotherType');
+
+        $this->assertEquals('origType', $this->object->getOrigContentType());
+        $this->assertEquals('anotherType', $this->object->getContentType());
+        $this->assertEquals('origContent', $this->object->getOrigContent());
+        $this->assertEquals('anotherContent', $this->object->getContent());
+        $this->assertEquals('assetType', $this->object->getTargetContentType());
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage The requested asset type was 'assetType', but ended up with 'type'
+     */
+    public function testAssertValid()
+    {
+        $this->object->setContentType('type');
+        $this->object->assertValid();
+    }
+
+    /**
+     * @param string $content
+     * @param string $type
+     * @param bool $expected
+     * @dataProvider isMaterializationRequiredDataProvider
+     */
+    public function testIsMaterializationRequired($content, $type, $expected)
+    {
+        $this->object->setContent($content);
+        $this->object->setContentType($type);
+        $this->assertEquals($expected, $this->object->isMaterializationRequired());
+    }
+
+    /**
+     * @return array
+     */
+    public function isMaterializationRequiredDataProvider()
+    {
+        return [
+            ['origContent', 'origType', false],
+            ['anotherContent', 'origType', true],
+            ['origContent', 'anotherType', true],
+            ['anotherContent', 'anotherType', true],
+        ];
     }
 } 

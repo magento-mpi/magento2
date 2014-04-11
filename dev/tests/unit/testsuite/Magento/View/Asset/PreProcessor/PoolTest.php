@@ -8,10 +8,10 @@
 
 namespace Magento\View\Asset\PreProcessor;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class PoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Asset\PreProcessor\Factory
+     * @var \Magento\View\Asset\PreProcessor\Pool
      */
     protected $factory;
 
@@ -23,7 +23,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManager = $this->getMock('Magento\ObjectManager');
-        $this->factory = new \Magento\View\Asset\PreProcessor\Factory($this->objectManager);
+        $this->factory = new Pool($this->objectManager);
     }
 
     /**

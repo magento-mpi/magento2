@@ -40,6 +40,11 @@ class Chain
     private $contentType;
 
     /**
+     * @var string
+     */
+    private $targetContentType;
+
+    /**
      * @param \Magento\View\Asset\LocalInterface $asset
      * @param string $origContent
      * @param string $origContentType
@@ -48,9 +53,10 @@ class Chain
     {
         $this->asset = $asset;
         $this->origContent = $origContent;
-        $this->origContentType = $origContentType;
         $this->content = $origContent;
-        $this->contentType = $asset->getContentType();
+        $this->origContentType = $origContentType;
+        $this->contentType = $origContentType;
+        $this->targetContentType = $asset->getContentType();
     }
 
     /**
@@ -130,22 +136,21 @@ class Chain
      */
     public function getTargetContentType()
     {
-        return $this->asset->getContentType();
+        return $this->targetContentType;
     }
 
     /**
      * Assert invariants
      *
-     * Impose an integrity check to avoid generating mismatching content type
+     * Impose an integrity check to avoid generating mismatching content type and not leaving transient data behind
      *
      * @throws \LogicException
      */
     public function assertValid()
     {
-        $targetType = $this->getTargetContentType();
-        if ($this->contentType !== $targetType) {
+        if ($this->contentType !== $this->targetContentType) {
             throw new \LogicException(
-                "The requested asset type was '{$targetType}', but ended up with '{$this->contentType}'"
+                "The requested asset type was '{$this->targetContentType}', but ended up with '{$this->contentType}'"
             );
         }
     }

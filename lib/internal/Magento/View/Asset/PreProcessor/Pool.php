@@ -11,9 +11,9 @@ namespace Magento\View\Asset\PreProcessor;
 use Magento\ObjectManager;
 
 /**
- * A factory for known types of preprocessors
+ * A registry of asset preprocessors (not to confuse with the "Registry" pattern)
  */
-class Factory
+class Pool
 {
     /**
      * @var \Magento\ObjectManager
@@ -31,6 +31,10 @@ class Factory
     /**
      * Retrieve preprocessors instances suitable to convert source content type into a destination one
      *
+     * BUG: this implementation is hard-coded intentionally because there is a logic duplication that needs to be fixed.
+     * Adding an extensibility layer through DI configuration would add even more fragility to this design.
+     * If you need to add another preprocessor, use interceptors or class inheritance (at your own risk).
+     *
      * @param string $sourceContentType
      * @param string $targetContentType
      * @return \Magento\View\Asset\PreProcessorInterface[]
@@ -42,6 +46,10 @@ class Factory
             if ($targetContentType == 'css') {
                 $result[] = $this->objectManager->get('Magento\Css\PreProcessor\Less');
             } else if ($targetContentType == 'less') {
+                /**
+                 * @bug This logic is duplicated at \Magento\Less\FileGenerator::generateLessFileTree()
+                 * If you need to extend or modify behavior of LESS preprocessing, you must account for both places
+                 */
                 $result[] = $this->objectManager->get('Magento\Less\PreProcessor\Instruction\MagentoImport');
                 $result[] = $this->objectManager->get('Magento\Less\PreProcessor\Instruction\Import');
             }
