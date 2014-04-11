@@ -18,7 +18,7 @@ class Source
      */
     const TMP_MATERIALIZATION_DIR = 'view_preprocessed';
 
-     /**
+    /**
      * @var \Magento\App\Filesystem
      */
     private $filesystem;

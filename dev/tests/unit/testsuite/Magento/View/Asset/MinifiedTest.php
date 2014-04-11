@@ -263,7 +263,10 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array('mtime' => $mtimeMinified)));
         if ($isMinifyExpected) {
             $this->_asset->expects($this->once())->method('getContent')->will($this->returnValue('content'));
-            $this->_adapter->expects($this->once())->method('minify')->with('content')->will($this->returnValue('mini'));
+            $this->_adapter->expects($this->once())
+                ->method('minify')
+                ->with('content')
+                ->will($this->returnValue('mini'));
             $this->_staticViewDir->expects($this->once())->method('writeFile')->with($this->anything(), 'mini');
         } else {
             $this->_adapter->expects($this->never())->method('minify');
