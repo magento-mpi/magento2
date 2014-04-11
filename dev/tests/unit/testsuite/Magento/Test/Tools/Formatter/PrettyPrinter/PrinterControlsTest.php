@@ -332,8 +332,8 @@ FORMATTEDCODESNIPPET;
 function alpha() {
 if ($ftp) {
     $cwd=$ftpObj->getcwd();
-    $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR
-        . \Magento\Connect\Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
+    $dir=$cwd . '/' .$config->downloader_path . '/'
+        . \Magento\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim( $pChan, "\\/");
     $ftpObj->mkdirRecursive($dir,0777);
     $ftpObj->chdir($cwd);
 } else {
@@ -348,11 +348,11 @@ function alpha()
     if ($ftp) {
         $cwd = $ftpObj->getcwd();
         $dir = $cwd .
-            DIRECTORY_SEPARATOR .
+            '/' .
             $config->downloader_path .
-            DIRECTORY_SEPARATOR .
+            '/' .
             \Magento\Connect\Config::DEFAULT_CACHE_PATH .
-            DIRECTORY_SEPARATOR .
+            '/' .
             trim(
             $pChan,
             "\\/"

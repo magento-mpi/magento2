@@ -184,7 +184,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     public function testPrepareShippingLabelContent()
     {
         $xml = simplexml_load_file(
-            __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'response_shipping_label.xml'
+            __DIR__ . '/_files/response_shipping_label.xml'
         );
         $result = $this->_invokePrepareShippingLabelContent($xml);
         $this->assertEquals(1111, $result->getTrackingNumber());
