@@ -35,13 +35,6 @@ class Session extends \Magento\Session\SessionManager
     protected $_customer;
 
     /**
-     * Customer Data Object  builder
-     *
-     * @var CustomerBuilder
-     */
-    protected $_customerBuilder;
-
-    /**
      * Whether load only active quote
      *
      * @var bool
@@ -98,7 +91,6 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param CustomerBuilder $customerBuilder
      * @param null $sessionName
      */
     public function __construct(
@@ -114,7 +106,6 @@ class Session extends \Magento\Session\SessionManager
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        CustomerBuilder $customerBuilder,
         $sessionName = null
     ) {
         $this->_orderFactory = $orderFactory;
@@ -123,30 +114,8 @@ class Session extends \Magento\Session\SessionManager
         $this->_remoteAddress = $remoteAddress;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
-        $this->_customerBuilder = $customerBuilder;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
-    }
-
-    /**
-     * Set customer instance
-     *
-     * TODO: Remove after elimination of dependencies from \Magento\Persistent\Model\Observer
-     *
-     * @param \Magento\Customer\Model\Customer|null $customer
-     * @return $this
-     * @deprecated Use \Magento\Checkout\Model\Session::setCustomerData() instead
-     */
-    public function setCustomer($customer)
-    {
-        if ($customer instanceof \Magento\Customer\Model\Customer) {
-            $this->_customerBuilder->populateWithArray($customer->getData());
-            $this->_customerBuilder->setId($customer->getId());
-            $this->_customer = $this->_customerBuilder->create();
-        } else {
-            $this->_customer = $customer;
-        }
-        return $this;
     }
 
     /**

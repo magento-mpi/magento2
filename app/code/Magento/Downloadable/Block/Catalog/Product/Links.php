@@ -116,7 +116,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         }
 
         if (!$this->calculationModel->getCustomerData()->getId()
-            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)) {
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+        ) {
             $customer = $this->accountService
                 ->getCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
             $this->calculationModel->setCustomerData($customer);
