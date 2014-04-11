@@ -15,18 +15,6 @@ namespace Magento\Sales\Helper;
 class Guest extends \Magento\Core\Helper\Data
 {
     /**
-     * Cookie params
-     *
-     * @var string
-     */
-    protected $_cookieName = 'guest-view';
-
-    /**
-     * @var int
-     */
-    protected $_lifeTime = 600;
-
-    /**
      * Core registry
      *
      * @var \Magento\Registry
@@ -52,6 +40,21 @@ class Guest extends \Magento\Core\Helper\Data
      * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
+
+    /**
+     * Cookie key for guest view
+     */
+    const COOKIE_NAME = 'guest-view';
+
+    /**
+     * Cookie path
+     */
+    const COOKIE_PATH = '/';
+
+    /**
+     * Cookie lifetime value
+     */
+    const COOKIE_LIFETIME = 600;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -108,7 +111,7 @@ class Guest extends \Magento\Core\Helper\Data
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create();
 
-        if (empty($post) && !$this->_coreCookie->get($this->_cookieName)) {
+        if (empty($post) && !$this->_coreCookie->get(self::COOKIE_NAME)) {
             $response->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
             return false;
         } elseif (!empty($post) && isset($post['oar_order_id']) && isset($post['oar_type'])) {
@@ -130,42 +133,34 @@ class Guest extends \Magento\Core\Helper\Data
                 $order->loadByIncrementId($incrementId);
             }
 
+            $errors = true;
             if ($order->getId()) {
                 $billingAddress = $order->getBillingAddress();
-                if (strtolower(
-                    $lastName
-                ) != strtolower(
-                    $billingAddress->getLastname()
-                ) || $type == 'email' && strtolower(
-                    $email
-                ) != strtolower(
-                    $billingAddress->getEmail()
-                ) || $type == 'zip' && strtolower(
-                    $zip
-                ) != strtolower(
-                    $billingAddress->getPostcode()
-                )
+                if (strtolower($lastName) == strtolower($billingAddress->getLastname()) &&
+                    ($type == 'email' && strtolower($email) == strtolower($billingAddress->getEmail()) ||
+                    $type == 'zip' && strtolower($zip) == strtolower($billingAddress->getPostcode()))
                 ) {
-                    $errors = true;
+                    $errors = false;
                 }
-            } else {
-                $errors = true;
             }
 
             if (!$errors) {
-                $toCookie = base64_encode($order->getProtectCode());
-                $this->_coreCookie->set($this->_cookieName, $toCookie, $this->_lifeTime, '/');
+                $toCookie = base64_encode($order->getProtectCode() . ':' . $incrementId);
+                $this->_coreCookie->set(self::COOKIE_NAME, $toCookie, self::COOKIE_LIFETIME, self::COOKIE_PATH);
             }
-        } elseif ($this->_coreCookie->get($this->_cookieName)) {
-            $fromCookie = $this->_coreCookie->get($this->_cookieName);
-            $protectCode = base64_decode($fromCookie);
+        } elseif ($this->_coreCookie->get(self::COOKIE_NAME)) {
+            $fromCookie = $this->_coreCookie->get(self::COOKIE_NAME);
+            $cookieData = explode(':', base64_decode($fromCookie));
+            $protectCode = isset($cookieData[0]) ? $cookieData[0] : null;
+            $incrementId = isset($cookieData[1]) ? $cookieData[1] : null;
 
-            if (!empty($protectCode)) {
-                $order->loadByAttribute('protect_code', $protectCode);
-
-                $this->_coreCookie->renew($this->_cookieName, $this->_lifeTime, '/');
-            } else {
-                $errors = true;
+            $errors = true;
+            if (!empty($protectCode) && !empty($incrementId)) {
+                $order->loadByIncrementId($incrementId);
+                if ($order->getProtectCode() == $protectCode) {
+                    $this->_coreCookie->renew(self::COOKIE_NAME, self::COOKIE_LIFETIME, self::COOKIE_PATH);
+                    $errors = false;
+                }
             }
         }
 
