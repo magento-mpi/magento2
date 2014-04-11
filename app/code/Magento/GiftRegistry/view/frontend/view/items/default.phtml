@@ -55,11 +55,7 @@
     </td>
     <td class="col price">
         <span class="cart-price">
-            <?php if ($_item->getCanApplyMsrp()): ?>
-                <?php echo $this->getMsrpHtml($_item); ?>
-            <?php else: ?>
-                <?php echo $this->helper('Magento\Core\Helper\Data')->currency($_item->getGiftRegistryPrice()) ?>
-            <?php endif; ?>
+            <?php echo $this->getProductPrice($_item->getProduct());?>
         </span>
     </td>
     <td class="col qty">
