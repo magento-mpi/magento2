@@ -67,6 +67,7 @@
   * Fixed: Compare products link and widget is absent on frontend (MAGETWO-22465)
   * Fixed: Inability to create shipping label with FedEx (MAGETWO-22600)
   * Fixed: Error message blocks are absent during installation wizard pages (MAGETWO-22318)
+  * Fixed: Blank theme - fixed bugs and added improvements
   * Fixed an issue with active tab is changed to upper one after attribute set has been changed (MAGETWO-10611)
   * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
   * Fixed an issue with tier price attribute save (MAGETWO-19371)
