@@ -129,7 +129,7 @@ class Calculator implements BundleCalculatorInterface
         // Flag shows - is it necessary to find minimal option amount in case if all options are not required
         $shouldFindMinOption = false;
         if ($searchMin
-            && $saleableItem->getPriceType() == Price::PRICE_TYPE_FIXED
+            && $saleableItem->getPriceType() == Price::PRICE_TYPE_DYNAMIC
             && !$this->hasRequiredOption($saleableItem)
         ) {
             $shouldFindMinOption = true;
