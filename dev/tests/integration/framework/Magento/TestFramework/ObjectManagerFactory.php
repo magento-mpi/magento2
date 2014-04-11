@@ -90,8 +90,9 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
         $objectManager->addSharedInstance($appArguments, 'Magento\Framework\App\Arguments');
 
         $objectManager->get('Magento\Interception\PluginList')->reset();
-        $objectManager->configure($objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')
-            ->load('global'));
+        $objectManager->configure(
+            $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
+        );
 
         return $objectManager;
     }
