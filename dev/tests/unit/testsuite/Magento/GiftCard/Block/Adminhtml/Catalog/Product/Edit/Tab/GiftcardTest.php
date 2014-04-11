@@ -22,7 +22,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     {
 
         $storeManagerMock = $this->getMockBuilder(
-            'Magento\Core\Model\StoreManager'
+            'Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
         $storeManagerMock->expects(
             $this->any()

@@ -55,9 +55,9 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Helper\Data $coreHelperData
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Core\Helper\Data $coreHelperData,
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\State $appState
      * @param CustomerGroupServiceInterface $customerGroupService
@@ -80,8 +80,8 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,
@@ -106,7 +106,7 @@ class Account extends \Magento\Customer\Controller\Account
             $formKeyValidator,
             $subscriberFactory,
             $storeManager,
-            $storeConfig,
+            $scopeConfig,
             $coreHelperData,
             $escaper,
             $appState,
@@ -242,9 +242,10 @@ class Account extends \Magento\Customer\Controller\Account
                         __(
                             'Your invitation is not valid. Please contact us at %1.',
                             $this->_objectManager->get(
-                                'Magento\Core\Model\Store\Config'
-                            )->getConfig(
-                                'trans_email/ident_support/email'
+                                'Magento\App\Config\ScopeConfigInterface'
+                            )->getValue(
+                                'trans_email/ident_support/email',
+                                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                             )
                         )
                     );

@@ -204,11 +204,13 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
                 self::$_methodLevelFixtures[$fixturesNamespace] = array();
             }
             self::$_methodLevelFixtures[$fixturesNamespace][] = $key;
-        } else if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
-            if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
-                self::$_classLevelFixtures[$fixturesNamespace] = array();
+        } else {
+            if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
+                if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
+                    self::$_classLevelFixtures[$fixturesNamespace] = array();
+                }
+                self::$_classLevelFixtures[$fixturesNamespace][] = $key;
             }
-            self::$_classLevelFixtures[$fixturesNamespace][] = $key;
         }
     }
 
@@ -408,8 +410,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         if (null === $this->_appCache) {
             //set application path
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            /** @var \Magento\App\ConfigInterface $config */
-            $config = $objectManager->get('Magento\App\ConfigInterface');
+            /** @var \Magento\App\Config\ScopeConfigInterface $config */
+            $config = $objectManager->get('Magento\App\Config\ScopeConfigInterface');
             $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
@@ -471,7 +473,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
             $this->_origConfigValues[$path] = (string)$objectManager->get(
-                'Magento\App\ConfigInterface'
+                'Magento\App\Config\ScopeConfigInterface'
             )->getNode(
                 $path,
                 'default'
@@ -481,8 +483,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
-                $objectManager->get('Magento\App\ReinitableConfigInterface')->reinit();
-                $objectManager->get('Magento\Core\Model\StoreManagerInterface')->reinitStores();
+                $objectManager->get('Magento\App\Config\ReinitableConfigInterface')->reinit();
+                $objectManager->get('Magento\Store\Model\StoreManagerInterface')->reinitStores();
             }
 
             if (!$this->_cleanAppConfigCache()) {

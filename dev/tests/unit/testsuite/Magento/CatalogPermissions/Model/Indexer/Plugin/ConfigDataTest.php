@@ -30,7 +30,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
     protected $configLoaderMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -74,7 +74,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->storeManagerMock = $this->getMock(
-            'Magento\Core\Model\StoreManager',
+            'Magento\Store\Model\StoreManager',
             array('getStore', 'getWebsite'),
             array(),
             '',
@@ -180,20 +180,20 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getStore()
     {
-        $store = $this->getMock('Magento\Core\Model\Store', array('getId', '__wakeup'), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array('getId', '__wakeup'), array(), '', false);
         return $store;
     }
 
     /**
-     * @return \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Store\Model\Website|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getWebsite()
     {
-        $website = $this->getMock('Magento\Core\Model\Website', array('getId', '__wakeup'), array(), '', false);
+        $website = $this->getMock('Magento\Store\Model\Website', array('getId', '__wakeup'), array(), '', false);
         return $website;
     }
 

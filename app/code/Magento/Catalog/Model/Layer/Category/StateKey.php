@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Layer\StateKeyInterface;
 class StateKey implements StateKeyInterface
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -24,11 +24,11 @@ class StateKey implements StateKeyInterface
     protected $customerSession;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->storeManager = $storeManager;

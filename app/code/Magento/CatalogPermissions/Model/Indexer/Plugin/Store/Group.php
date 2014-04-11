@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +27,7 @@ class Group extends AbstractPlugin
     /**
      * Invalidate indexer on store group save
      *
-     * @param \Magento\Core\Model\Resource\Store\Group $subject
+     * @param \Magento\Store\Model\Resource\Group $subject
      * @param callable $proceed
      * @param \Magento\Model\AbstractModel $store
      *
@@ -35,7 +35,7 @@ class Group extends AbstractPlugin
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
-        \Magento\Core\Model\Resource\Store\Group $subject,
+        \Magento\Store\Model\Resource\Group $subject,
         \Closure $proceed,
         \Magento\Model\AbstractModel $store
     ) {

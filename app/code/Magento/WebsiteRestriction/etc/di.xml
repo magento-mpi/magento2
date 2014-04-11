@@ -16,4 +16,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_websiterestriction" xsi:type="string">Magento_WebsiteRestriction</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

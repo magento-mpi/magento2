@@ -15,7 +15,7 @@ namespace Magento\Customer\Model\Backend;
 
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManager;
 
     /** @var \Magento\Customer\Model\Backend\Customer */
@@ -26,7 +26,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Customer\Model\Backend\Customer',

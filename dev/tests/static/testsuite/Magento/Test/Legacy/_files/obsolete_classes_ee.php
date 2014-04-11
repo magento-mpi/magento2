@@ -113,4 +113,6 @@ return array(
     array('Magento\FullPageCache\Helper\*'),
     array('Magento\FullPageCache\Model\*'),
     ['Magento\JobQueue'], // unused library code which was removed
+    array('Magento\TargetRule\Model\Resource\Setup'),
+    array('Magento\Enterprise\Model\Resource\Setup\Migration'),
 );

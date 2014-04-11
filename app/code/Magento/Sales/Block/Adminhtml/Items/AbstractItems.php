@@ -513,7 +513,11 @@ class AbstractItems extends \Magento\Backend\Block\Template
      */
     public function canReturnToStock()
     {
-        if ($this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
+        if ($this->_scopeConfig->getValue(
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             return true;
         } else {
             return false;
@@ -528,8 +532,9 @@ class AbstractItems extends \Magento\Backend\Block\Template
      */
     public function canReturnItemToStock($item = null)
     {
-        $canReturnToStock = $this->_storeConfig->getConfig(
-            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
+        $canReturnToStock = $this->_scopeConfig->getValue(
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
@@ -553,8 +558,9 @@ class AbstractItems extends \Magento\Backend\Block\Template
      */
     public function canParentReturnToStock($item = null)
     {
-        $canReturnToStock = $this->_storeConfig->getConfig(
-            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
+        $canReturnToStock = $this->_scopeConfig->getValue(
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if (!is_null($item)) {
             if ($item->getCreditmemo()->getOrder()->hasCanReturnToStock()) {
