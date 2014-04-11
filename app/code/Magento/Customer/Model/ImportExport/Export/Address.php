@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
+namespace Magento\Customer\Model\ImportExport\Export;
 
 /**
  * Export customer address entity model

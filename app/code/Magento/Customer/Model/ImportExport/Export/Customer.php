@@ -7,14 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export\Entity\Eav;
+namespace Magento\Customer\Model\ImportExport\Export;
 
 /**
  * Export entity customer model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method \Magento\Customer\Model\Resource\Attribute\Collection getAttributeCollection() getAttributeCollection()
  */
