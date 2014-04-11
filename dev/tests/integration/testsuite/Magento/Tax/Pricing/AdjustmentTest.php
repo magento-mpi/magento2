@@ -11,88 +11,123 @@ namespace Magento\Tax\Pricing;
 class AdjustmentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param int $configValue
-     * @param bool $isShippingPriceExcludeTax
-     * @param bool $expectedResult
-     * @dataProvider isIncludedInBasePriceDataProvider
+     * @param $isShippingPriceExcludeTax
+     * @param $expectedResult
      */
-    public function testIsIncludedInBasePrice($configValue, $isShippingPriceExcludeTax, $expectedResult)
+    protected function isIncludedInBasePricePrice($isShippingPriceExcludeTax, $expectedResult)
     {
-        // Instantiate objects
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
         /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
         $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
-
         /** @var \Magento\Tax\Model\Config $config */
         $config = $objectManager->get('Magento\Tax\Model\Config');
-
         /** @var \Magento\Tax\Pricing\Adjustment $model */
         $model = $objectManager->create('Magento\Tax\Pricing\Adjustment');
-
-        // Set fixtures
-        $storeManager->getStore()
-            ->setConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_PRICE_INCLUDES_TAX, $configValue);
         $config->setNeedUseShippingExcludeTax($isShippingPriceExcludeTax);
-
         // Run tested method
         $result = $model->isIncludedInBasePrice();
-
         // Check expectations
         $this->assertInternalType('bool', $result);
         $this->assertEquals($expectedResult, $result);
     }
 
     /**
+     * @param bool $isShippingPriceExcludeTax
+     * @param bool $expectedResult
+     * @magentoConfigFixture current_store tax/calculation/price_includes_tax 1
+     * @dataProvider IsIncludedInBasePricePriceIncludeTaxEnabledDataProvider
+     */
+    public function testIsIncludedInBasePricePriceIncludeTacEnabled($isShippingPriceExcludeTax, $expectedResult)
+    {
+        $this->isIncludedInBasePricePrice($isShippingPriceExcludeTax, $expectedResult);
+    }
+
+    /**
+     * @param bool $isShippingPriceExcludeTax
+     * @param bool $expectedResult
+     * @magentoConfigFixture current_store tax/calculation/price_includes_tax 0
+     * @dataProvider IsIncludedInBasePricePriceIncludeTaxDisabledDataProvider
+     */
+    public function testIsIncludedInBasePricePriceIncludeTacDisabled($isShippingPriceExcludeTax, $expectedResult)
+    {
+        $this->isIncludedInBasePricePrice($isShippingPriceExcludeTax, $expectedResult);
+    }
+
+    /**
      * @return array
      */
-    public function isIncludedInBasePriceDataProvider()
+    public function IsIncludedInBasePricePriceIncludeTaxEnabledDataProvider()
     {
         return [
-            [0, 0, false],
-            [0, 1, true],
-            [1, 0, true],
-            [1, 1, true],
+            [0, true],
+            [1, true],
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function IsIncludedInBasePricePriceIncludeTaxDisabledDataProvider()
+    {
+        return [
+            [0, false],
+            [1, true],
+        ];
+    }
+
+    /**
+     * test template for isIncludedInDisplayPrice
+     *
+     * @param $expectedResult
+     */
+    protected function isIncludedInDisplayPrice($expectedResult)
+    {
+        // Instantiate objects
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        /** @var \Magento\Tax\Pricing\Adjustment $model */
+        $model = $objectManager->create('Magento\Tax\Pricing\Adjustment');
+        // Run tested method
+        $result = $model->isIncludedInDisplayPrice();
+        // Check expectations
+        $this->assertInternalType('bool', $result);
+        $this->assertEquals($expectedResult, $result);
     }
 
     /**
      * @magentoAppIsolation enabled
-     * @dataProvider isIncludedInDisplayPriceDataProvider
+     * @magentoConfigFixture current_store tax/display/type 1
      */
-    public function testIsIncludedInDisplayPrice($configValue, $expectedResult)
+    public function testIsIncludedInDisplayPriceExcludingTax()
     {
-        // Instantiate objects
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
-        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
-        $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
-
-        /** @var \Magento\Tax\Pricing\Adjustment $model */
-        $model = $objectManager->create('Magento\Tax\Pricing\Adjustment');
-
-        // Set fixtures
-        $storeManager->getStore()
-            ->setConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE, $configValue);
-
-        // Run tested method
-        $result = $model->isIncludedInDisplayPrice();
-
-        // Check expectations
-        $this->assertInternalType('bool', $result);
-        $this->assertEquals($expectedResult, $result);
+        $this->isIncludedInDisplayPrice(false);
     }
 
     /**
-     * @return array
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store tax/display/type 2
      */
-    public function isIncludedInDisplayPriceDataProvider()
+    public function testIsIncludedInDisplayPriceIncludingTax()
     {
-        return [
-            [\Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX, false],
-            [\Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX, true],
-            [\Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH, true],
-            [256, false],   //random number
-        ];
+        $this->isIncludedInDisplayPrice(true);
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store tax/display/type 3
+     */
+    public function testIsIncludedInDisplayPriceBoth()
+    {
+        $this->isIncludedInDisplayPrice(true);
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store tax/display/type 100500
+     */
+    public function testIsIncludedInDisplayPriceWrongValue()
+    {
+        $this->isIncludedInDisplayPrice(false);
     }
 }
