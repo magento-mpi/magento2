@@ -132,7 +132,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory,
-        \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
+        \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory,
         array $data = array()
     ) {
