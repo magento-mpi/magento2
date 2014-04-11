@@ -157,7 +157,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         );
         $customerServiceMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $wishlistSharingUrl = 'wishlist/shared/index/1';
-        $locale = '';//TODO 'en_US';
+        $locale = 'en_US';
         $productUrl = 'http://product.url/';
         $productName = 'Product name';
         $expectedHeaders = [
@@ -190,8 +190,10 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $this->storeConfigMock->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValueMap(
-                    ['general/locale/code', null, $locale]
-//                    []
+                    [
+                        ['advanced/modules_disable_output/Magento_Rss', null, null],
+                        ['general/locale/code', null, $locale]
+                    ]
                 )
             );
 
