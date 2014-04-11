@@ -37,12 +37,15 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @param string $module
      * @param array $files
      *
      * @dataProvider getFromCacheDataProvider
      */
-    public function testGetFromCache(array $params, array $files)
+    public function testGetFromCache($area, $themePath, $locale, $module, array $files)
     {
         if (isset($params['theme'])) {
             $this->theme->expects($this->any())
@@ -56,22 +59,22 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
         $cachedSections = [
             'type:file|area:frontend|theme:magento_theme|locale:en_US' => [
-                'module:Magento_Core|file:file.ext' => 'one/file.ext',
-                'module:Magento_Core|file:other_file.ext' => 'one/other_file.ext',
-                'module:_|file:file.ext' => 'two/file.ext',
-                'module:_|file:other_file.ext' => 'two/other_file.ext',
+                'module:Magento_Module|file:file.ext' => 'one/file.ext',
+                'module:Magento_Module|file:other_file.ext' => 'one/other_file.ext',
+                'module:|file:file.ext' => 'two/file.ext',
+                'module:|file:other_file.ext' => 'two/other_file.ext',
             ],
             'type:file|area:frontend|theme:magento_theme|locale:' => [
-                'module:Magento_Core|file:file.ext' => 'three/file.ext',
-                'module:Magento_Core|file:other_file.ext' => 'four/other_file.ext',
+                'module:Magento_Module|file:file.ext' => 'three/file.ext',
+                'module:Magento_Module|file:other_file.ext' => 'four/other_file.ext',
             ],
             'type:file|area:frontend|theme:|locale:en_US' => [
-                'module:Magento_Core|file:file.ext' => 'five/file.ext',
-                'module:Magento_Core|file:other_file.ext' => 'five/other_file.ext',
+                'module:Magento_Module|file:file.ext' => 'five/file.ext',
+                'module:Magento_Module|file:other_file.ext' => 'five/other_file.ext',
             ],
             'type:file|area:|theme:magento_theme|locale:en_US' => [
-                'module:Magento_Core|file:file.ext' => 'seven/file.ext',
-                'module:Magento_Core|file:other_file.ext' => 'other_file.ext',
+                'module:Magento_Module|file:file.ext' => 'seven/file.ext',
+                'module:Magento_Module|file:other_file.ext' => 'other_file.ext',
             ],
         ];
 
@@ -85,7 +88,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             }));
 
         foreach ($files as $requested => $expected) {
-            $actual = $this->object->getFromCache('file', $requested, $params);
+            $actual = $this->object->getFromCache('file', $requested, $area, $themePath, $locale, $module);
             $this->assertSame($expected, $actual);
         }
     }
@@ -97,48 +100,23 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'all params' => [
-                [
-                    'area' => 'frontend',
-                    'theme' => 'magento_theme',
-                    'locale' => 'en_US',
-                    'namespace' => 'Magento',
-                    'module' => 'Core',
-                ],
+                'frontend', 'magento_theme', 'en_US', 'Magento_Module',
                 ['file.ext' => 'one/file.ext', 'other_file.ext' => 'one/other_file.ext'],
             ],
             'no area' => [
-                [
-                    'theme' => 'magento_theme',
-                    'locale' => 'en_US',
-                    'namespace' => 'Magento',
-                    'module' => 'Core',
-                ],
+                null, 'magento_theme', 'en_US', 'Magento_Module',
                 ['file.ext' => 'seven/file.ext', 'other_file.ext' => 'other_file.ext'],
             ],
             'no theme' => [
-                [
-                    'area' => 'frontend',
-                    'locale' => 'en_US',
-                    'namespace' => 'Magento',
-                    'module' => 'Core',
-                ],
+                'frontend', null, 'en_US', 'Magento_Module',
                 ['file.ext' => 'five/file.ext', 'other_file.ext' => 'five/other_file.ext'],
             ],
             'no locale' => [
-                [
-                    'area' => 'frontend',
-                    'theme' => 'magento_theme',
-                    'namespace' => 'Magento',
-                    'module' => 'Core',
-                ],
+                'frontend', 'magento_theme', null, 'Magento_Module',
                 ['file.ext' => 'three/file.ext', 'other_file.ext' => 'four/other_file.ext'],
             ],
-            'no namespace and module' => [
-                [
-                    'area' => 'frontend',
-                    'theme' => 'magento_theme',
-                    'locale' => 'en_US',
-                ],
+            'no module' => [
+                'frontend', 'magento_theme', 'en_US', null,
                 ['file.ext' => 'two/file.ext', 'other_file.ext' => 'two/other_file.ext'],
             ],
         ];
@@ -151,14 +129,10 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     {
         $this->cache->expects($this->once())
             ->method('load');
-        $params = [
-            'area' => 'frontend',
-            'locale' => 'en_US',
-            'namespace' => 'Magento',
-            'module' => 'Core',
-        ];
-        $this->assertFalse($this->object->getFromCache('type', 'file.ext', $params));
-        $this->assertFalse($this->object->getFromCache('type', 'file.ext', $params));
+        $this->assertFalse($this->object->getFromCache('type', 'file.ext',
+            'frontend', 'magento_theme', 'en_US', 'Magento_Module'));
+        $this->assertFalse($this->object->getFromCache('type', 'file.ext',
+            'frontend', 'magento_theme', 'en_US', 'Magento_Module'));
     }
 
     /**
@@ -166,41 +140,31 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveToCache()
     {
-        $paramsOne = [
-            'area' => 'frontend',
-            'locale' => 'en_US',
-            'namespace' => 'Magento',
-            'module' => 'Core',
-        ];
-        $paramsTwo = [
-            'area' => 'backend',
-            'locale' => 'en_US',
-            'namespace' => 'Magento',
-            'module' => 'Core',
-        ];
-
         $this->cache->expects($this->exactly(2))
             ->method('save')
             ->will($this->returnValueMap([
                 [
                     json_encode([
-                        'module:Magento_Core|file:file.ext' => 'some/file.ext',
-                        'module:Magento_Core|file:other_file.ext' => 'some/other_file.ext',
+                        'module:Magento_Module|file:file.ext' => 'some/file.ext',
+                        'module:Magento_Module|file:other_file.ext' => 'some/other_file.ext',
                     ]),
                     'type:file|area:frontend|theme:|locale:en_US',
                     true,
                 ],
                 [
-                    json_encode(['module:Magento_Core|file:file.ext' => 'some/other/file.ext']),
+                    json_encode(['module:Magento_Module|file:file.ext' => 'some/other/file.ext']),
                     'type:view|area:backend|theme:|locale:en_US',
                     true,
                 ],
             ]));
 
 
-        $this->object->saveToCache('some/file.ext', 'file', 'file.ext', $paramsOne);
-        $this->object->saveToCache('some/other_file.ext', 'file', 'other_file.ext', $paramsOne);
-        $this->object->saveToCache('some/other/file.ext', 'view', 'file.ext', $paramsTwo);
+        $this->object->saveToCache('some/file.ext', 'file', 'file.ext',
+            'frontend', 'magento_theme', 'en_US', 'Magento_Module');
+        $this->object->saveToCache('some/other_file.ext', 'file', 'other_file.ext',
+            'frontend', 'magento_theme', 'en_US', 'Magento_Module');
+        $this->object->saveToCache('some/other/file.ext', 'view', 'file.ext',
+            'backend', 'magento_theme', 'en_US', 'Magento_Module');
 
         $this->object = null;
     }

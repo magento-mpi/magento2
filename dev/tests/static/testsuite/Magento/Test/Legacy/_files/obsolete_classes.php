@@ -1255,7 +1255,7 @@ return array(
     array('Magento\Core\Model\Design\Fallback\Rule\ModularSwitch', 'Magento\View\Design\Fallback\Rule\ModularSwitch'),
     array('Magento\Core\Model\Design\Fallback\Rule\RuleInterface', 'Magento\View\Design\Fallback\Rule\RuleInterface'),
     array('Magento\Core\Model\Design\Fallback\Rule\Simple', 'Magento\View\Design\Fallback\Rule\Simple'),
-    array('Magento\Core\Model\Design\Fallback\Factory', 'Magento\View\Design\Fallback\Factory'),
+    array('Magento\Core\Model\Design\Fallback\Factory', 'Magento\View\Design\Fallback\RulePool'),
     array('Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy'),
     array('Magento\View\Design\FileResolution\Strategy\View\NotifiableInterface'),
     array('Magento\View\Design\FileResolution\Strategy\View\FileInterface'),
@@ -2178,4 +2178,5 @@ return array(
     ['Magento\Css\PreProcessor\Cache\CacheFactory'],
     ['Magento\Css\PreProcessor\Cache\CacheInterface'],
     ['Magento\Css\PreProcessor\Cache\CacheManager'],
+    ['Magento\View\Design\FileResolution\Strategy\ViewInterface'],
 );

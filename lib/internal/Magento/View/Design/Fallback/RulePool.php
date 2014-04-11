@@ -20,7 +20,7 @@ use Magento\View\Design\Fallback\Rule\Theme;
  *
  * Factory that produces all sorts of fallback rules
  */
-class Factory
+class RulePool
 {
     /**
      * File system
@@ -28,6 +28,11 @@ class Factory
      * @var Filesystem
      */
     protected $filesystem;
+
+    /**
+     * @var array
+     */
+    private $rules = [];
 
     /**
      * Constructor
@@ -44,7 +49,7 @@ class Factory
      *
      * @return RuleInterface
      */
-    public function createLocaleFileRule()
+    protected function createLocaleFileRule()
     {
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
         return new Theme(
@@ -57,7 +62,7 @@ class Factory
      *
      * @return RuleInterface
      */
-    public function createTemplateFileRule()
+    protected function createTemplateFileRule()
     {
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
         $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
@@ -79,7 +84,7 @@ class Factory
      *
      * @return RuleInterface
      */
-    public function createFileRule()
+    protected function createFileRule()
     {
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
         $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
@@ -99,7 +104,7 @@ class Factory
      *
      * @return RuleInterface
      */
-    public function createViewFileRule()
+    protected function createViewFileRule()
     {
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
         $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
@@ -139,5 +144,35 @@ class Factory
                 )
             )
         );
+    }
+
+    /**
+     * @param string $type
+     * @return RuleInterface
+     * @throws \InvalidArgumentException
+     */
+    public function getRule($type)
+    {
+        if (isset($this->rules[$type])) {
+            return $this->rules[$type];
+        }
+        switch ($type) {
+            case \Magento\View\Design\FileResolution\Fallback\File::TYPE:
+                $rule = $this->createFileRule();
+                break;
+            case \Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE:
+                $rule = $this->createLocaleFileRule();
+                break;
+            case \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE:
+                $rule = $this->createTemplateFileRule();
+                break;
+            case \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE:
+                $rule = $this->createViewFileRule();
+                break;
+            default:
+                throw new \InvalidArgumentException("Fallback rule '$type' is not supported");
+        }
+        $this->rules[$type] = $rule;
+        return $this->rules[$type];
     }
 }

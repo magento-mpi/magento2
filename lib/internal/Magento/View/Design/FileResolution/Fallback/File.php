@@ -8,11 +8,7 @@
 
 namespace Magento\View\Design\FileResolution\Fallback;
 
-use Magento\App\Filesystem;
-use Magento\View\Design\Fallback\Factory;
-use Magento\View\Design\Fallback\Rule\RuleInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\Filesystem\Directory\Read;
 
 /**
  * Provider of dynamic view files
@@ -20,53 +16,22 @@ use Magento\Filesystem\Directory\Read;
 class File
 {
     /**
-     * @var CacheDataInterface
+     * Fallback resolver type
      */
-    private $cache;
+    const TYPE = 'file';
 
     /**
-     * Fallback factory
-     *
-     * @var Factory
-     */
-    protected $fallbackFactory;
-
-    /**
-     * Rule file
-     *
-     * @var RuleInterface
-     */
-    protected $ruleFile;
-
-    /**
-     * @var Resolver
+     * @var ResolverInterface
      */
     private $resolver;
 
     /**
-     * Root directory with read access
-     *
-     * @var Read
-     */
-    protected $rootDirectory;
-
-    /**
      * Constructor
      *
-     * @param CacheDataInterface $cache
-     * @param Filesystem $filesystem
-     * @param Factory $fallbackFactory
-     * @param Resolver $resolver
+     * @param ResolverInterface $resolver
      */
-    public function __construct(
-        CacheDataInterface $cache,
-        Filesystem $filesystem,
-        Factory $fallbackFactory,
-        Resolver $resolver
-    ) {
-        $this->cache = $cache;
-        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
-        $this->fallbackFactory = $fallbackFactory;
+    public function __construct(ResolverInterface $resolver)
+    {
         $this->resolver = $resolver;
     }
 
@@ -81,31 +46,6 @@ class File
      */
     public function getFile($area, ThemeInterface $themeModel, $file, $module = null)
     {
-        $params = array('area' => $area, 'theme' => $themeModel, 'namespace' => null, 'module' => null);
-        if ($module) {
-            list($params['namespace'], $params['module']) = explode('_', $module, 2);
-        }
-        $path = $this->cache->getFromCache('file', $file, $params);
-        if (false !== $path) {
-            $path = $path ? $this->rootDirectory->getAbsolutePath($path) : false;
-        } else {
-            $path = $this->resolver->resolveFile($this->rootDirectory, $this->getRule(), $file, $params);
-            $cachedValue = $path ? $this->rootDirectory->getRelativePath($path) : '';
-            $this->cache->saveToCache($cachedValue, 'file', $file, $params);
-        }
-        return $path;
-    }
-
-    /**
-     * Retrieve fallback rule
-     *
-     * @return RuleInterface
-     */
-    protected function getRule()
-    {
-        if (!$this->ruleFile) {
-            $this->ruleFile = $this->fallbackFactory->createFileRule();
-        }
-        return $this->ruleFile;
+        return $this->resolver->resolve(self::TYPE, $file, $area, $themeModel, null, $module);
     }
 }

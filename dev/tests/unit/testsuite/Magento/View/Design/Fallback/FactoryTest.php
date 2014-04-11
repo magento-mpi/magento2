@@ -14,7 +14,7 @@ namespace Magento\View\Design\Fallback;
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Factory
+     * @var RulePool
      */
     protected $model;
 
@@ -47,7 +47,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ))
             );
 
-        $this->model = new Factory($filesystemMock);
+        $this->model = new RulePool($filesystemMock);
 
         $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $parentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue('parent_theme_path'));
@@ -71,259 +71,209 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->defaultParams = array();
     }
 
-    public function testCreateLocaleFileRule()
-    {
-        $actualResult = $this->model->createLocaleFileRule();
-        $this->assertInstanceOf('\Magento\View\Design\Fallback\Rule\RuleInterface', $actualResult);
-        $this->assertNotSame($actualResult, $this->model->createLocaleFileRule());
-    }
-
-    public function testCreateLocaleFileRuleGetPatternDirs()
-    {
-        $expectedResult = array('/area/current_theme_path', '/area/parent_theme_path');
-        $this->assertSame($expectedResult, $this->model->createLocaleFileRule()->getPatternDirs($this->defaultParams));
-    }
-
     /**
-     * @param array $overriddenParams
-     * @param string $expectedErrorMessage
-     * @dataProvider createLocaleFileRuleGetPatternDirsExceptionDataProvider
+     * @param string $type
+     *
+     * @dataProvider getRuleDataProvider
      */
-    public function testCreateLocaleFileRuleGetPatternDirsException(array $overriddenParams, $expectedErrorMessage)
+    public function testGetRule($type)
     {
-        $this->setExpectedException('InvalidArgumentException', $expectedErrorMessage);
-        $this->model->createLocaleFileRule()->getPatternDirs($overriddenParams + $this->defaultParams);
+        $actualResult = $this->model->getRule($type);
+        $this->assertInstanceOf('\Magento\View\Design\Fallback\Rule\RuleInterface', $actualResult);
+        $this->assertSame($actualResult, $this->model->getRule($type));
     }
 
     /**
      * @return array
      */
-    public function createLocaleFileRuleGetPatternDirsExceptionDataProvider()
+    public function getRuleDataProvider()
     {
-        return array(
-            'no theme' => array(
-                array('theme' => null),
+        return [
+            [\Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE],
+            [\Magento\View\Design\FileResolution\Fallback\File::TYPE],
+            [\Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE],
+            [\Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE],
+        ];
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedException Fallback rule 'unsupported_type' is not supported
+     */
+    public function testGetRuleUnsupportedType()
+    {
+        $this->model->getRule('unsupported_type');
+    }
+
+    /**
+     * @param string $type
+     * @param array $overriddenParams
+     * @param string $expectedErrorMessage
+     *
+     * @dataProvider getPatternDirsExceptionDataProvider
+     */
+    public function testGetPatternDirsException($type, array $overriddenParams, $expectedErrorMessage)
+    {
+        $this->setExpectedException('InvalidArgumentException', $expectedErrorMessage);
+        $this->model->getRule($type)->getPatternDirs($overriddenParams + $this->defaultParams);
+    }
+
+    /**
+     * @return array
+     */
+    public function getPatternDirsExceptionDataProvider()
+    {
+        $exceptions = [
+            'no theme' => [
+                ['theme' => null],
                 'Parameter "theme" should be specified and should implement the theme interface',
-            ),
-            'no area' => array(
-                array('area' => null),
+            ],
+            'no area' => [
+                ['area' => null],
                 "Required parameter 'area' was not passed",
-            )
-        );
-    }
+            ],
+            'no namespace' => [
+                ['namespace' => null],
+                "Parameters 'namespace' and 'module' should either be both set or unset",
+            ],
+            'no module' => [
+                ['module' => null],
+                "Parameters 'namespace' and 'module' should either be both set or unset",
+            ],
+        ];
+        $exceptionsPerTypes = [
+            \Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE => [
+                'no theme', 'no area'
+            ],
+            \Magento\View\Design\FileResolution\Fallback\File::TYPE => [
+                'no theme', 'no area', 'no namespace', 'no module'
+            ],
+            \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE => [
+                'no theme', 'no area', 'no namespace', 'no module'
+            ],
+            \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE => [
+                'no theme', 'no area', 'no namespace', 'no module'
+            ],
+        ];
 
-    public function testCreateFileRule()
-    {
-        $actualResult = $this->model->createFileRule();
-        $this->assertInstanceOf('\Magento\View\Design\Fallback\Rule\RuleInterface', $actualResult);
-        $this->assertNotSame($actualResult, $this->model->createFileRule());
+        $data = [];
+        foreach ($exceptionsPerTypes as $type => $exceptionKeys) {
+            foreach ($exceptionKeys as $key) {
+                $data[$type . ', ' . $key] = [$type, $exceptions[$key][0], $exceptions[$key][1]];
+            }
+        }
+
+        return $data;
     }
 
     /**
+     * @param string $type
      * @param array $overriddenParams
      * @param array $expectedResult
-     * @dataProvider createFileRuleGetPatternDirsDataProvider
+     *
+     * @dataProvider getPatternDirsDataProvider
      */
-    public function testCreateFileRuleGetPatternDirs(array $overriddenParams, array $expectedResult)
+    public function testGetPatternDirs($type, array $overriddenParams, array $expectedResult)
     {
-        $actualResult = $this->model->createFileRule()->getPatternDirs($overriddenParams + $this->defaultParams);
-        $this->assertEquals($expectedResult, $actualResult);
-    }
-
-    /**
-     * @return array
-     */
-    public function createFileRuleGetPatternDirsDataProvider()
-    {
-        return array(
-            'modular' => array(
-                array(),
-                array(
-                    '/area/current_theme_path/namespace_module',
-                    '/area/parent_theme_path/namespace_module',
-                    '/namespace/module/view/area',
-                ),
-            ),
-            'non-modular' => array(
-                array('namespace' => null, 'module' => null),
-                array(
-                    '/area/current_theme_path',
-                    '/area/parent_theme_path',
-                ),
-            ),
-        );
-    }
-
-    /**
-     * @param array $overriddenParams
-     * @param string $expectedErrorMessage
-     * @dataProvider createRuleGetPatternDirsExceptionDataProvider
-     */
-    public function testCreateFileRuleGetPatternDirsException(array $overriddenParams, $expectedErrorMessage)
-    {
-        $this->setExpectedException('InvalidArgumentException', $expectedErrorMessage);
-        $this->model->createFileRule()->getPatternDirs($overriddenParams + $this->defaultParams);
-    }
-
-    public function testCreateTemplateFileRule()
-    {
-        $actualResult = $this->model->createTemplateFileRule();
-        $this->assertInstanceOf('\Magento\View\Design\Fallback\Rule\RuleInterface', $actualResult);
-        $this->assertNotSame($actualResult, $this->model->createTemplateFileRule());
-    }
-
-    /**
-     * @param array $overriddenParams
-     * @param array $expectedResult
-     * @dataProvider createTemplateFileRuleGetPatternDirsDataProvider
-     */
-    public function testCreateTemplateFileRuleGetPatternDirs(array $overriddenParams, array $expectedResult)
-    {
-        $actualResult = $this->model->createTemplateFileRule()
+        $actualResult = $this->model->getRule($type)
             ->getPatternDirs($overriddenParams + $this->defaultParams);
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    /**
-     * @return array
-     */
-    public function createTemplateFileRuleGetPatternDirsDataProvider()
+    public function getPatternDirsDataProvider()
     {
-        return array(
-            'modular' => array(
-                array(),
-                array(
+        return [
+            'locale' => [
+                \Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE,
+                [],
+                ['/area/current_theme_path', '/area/parent_theme_path'],
+            ],
+            'file, modular' => [
+                \Magento\View\Design\FileResolution\Fallback\File::TYPE,
+                [],
+                [
+                    '/area/current_theme_path/namespace_module',
+                    '/area/parent_theme_path/namespace_module',
+                    '/namespace/module/view/area',
+                ],
+            ],
+            'file, non-modular' => [
+                \Magento\View\Design\FileResolution\Fallback\File::TYPE,
+                ['namespace' => null, 'module' => null],
+                [
+                    '/area/current_theme_path',
+                    '/area/parent_theme_path',
+                ],
+            ],
+
+            'template, modular' => [
+                \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE,
+                [],
+                [
                     '/area/current_theme_path/namespace_module/templates',
                     '/area/parent_theme_path/namespace_module/templates',
                     '/namespace/module/view/area/templates',
-                ),
-            ),
-            'non-modular' => array(
-                array('namespace' => null, 'module' => null),
-                array(
+                ],
+            ],
+            'template, non-modular' => [
+                \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE,
+                ['namespace' => null, 'module' => null],
+                [
                     '/area/current_theme_path/templates',
                     '/area/parent_theme_path/templates',
-                ),
-            ),
-            'non-modular-magento-core' => array(
-                array('namespace' => 'Magento', 'module' => 'Core'),
-                array(
+                ],
+            ],
+            'template, non-modular-magento-core' => [
+                \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE,
+                ['namespace' => 'Magento', 'module' => 'Core'],
+                [
                     '/area/current_theme_path/Magento_Core/templates',
                     '/area/parent_theme_path/Magento_Core/templates',
                     '/Magento/Core/view/area/templates',
-                ),
-            ),
-        );
-    }
+                ],
+            ],
 
-    /**
-     * @param array $overriddenParams
-     * @param string $expectedErrorMessage
-     * @dataProvider createRuleGetPatternDirsExceptionDataProvider
-     */
-    public function testCreateTemplateFileRuleGetPatternDirsException(array $overriddenParams, $expectedErrorMessage)
-    {
-        $this->setExpectedException('InvalidArgumentException', $expectedErrorMessage);
-        $this->model->createTemplateFileRule()->getPatternDirs($overriddenParams + $this->defaultParams);
-    }
-
-    public function testCreateViewFileRule()
-    {
-        $actualResult = $this->model->createViewFileRule();
-        $this->assertInstanceOf('\Magento\View\Design\Fallback\Rule\RuleInterface', $actualResult);
-        $this->assertNotSame($actualResult, $this->model->createViewFileRule());
-    }
-
-    /**
-     * @param array $overriddenParams
-     * @param array $expectedResult
-     * @dataProvider createViewFileRuleGetPatternDirsDataProvider
-     */
-    public function testCreateViewFileRuleGetPatternDirs(array $overriddenParams, array $expectedResult)
-    {
-        $actualResult = $this->model->createViewFileRule()->getPatternDirs($overriddenParams + $this->defaultParams);
-        $this->assertEquals($expectedResult, $actualResult);
-    }
-
-    /**
-     * @return array
-     */
-    public function createViewFileRuleGetPatternDirsDataProvider()
-    {
-        return array(
-            'modular localized' => array(
-                array(),
-                array(
+            'view, modular localized' => [
+                \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE,
+                [],
+                [
                     '/area/current_theme_path/namespace_module/web/i18n/en_US',
                     '/area/current_theme_path/namespace_module/web',
                     '/area/parent_theme_path/namespace_module/web/i18n/en_US',
                     '/area/parent_theme_path/namespace_module/web',
                     '/namespace/module/view/area/web/i18n/en_US',
                     '/namespace/module/view/area/web',
-                ),
-            ),
-            'modular non-localized' => array(
-                array('locale' => null),
-                array(
+                ],
+            ],
+            'view, modular non-localized' => [
+                \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE,
+                ['locale' => null],
+                [
                     '/area/current_theme_path/namespace_module/web',
                     '/area/parent_theme_path/namespace_module/web',
                     '/namespace/module/view/area/web',
-                ),
-            ),
-            'non-modular localized' => array(
-                array('module' => null, 'namespace' => null),
-                array(
+                ],
+            ],
+            'view, non-modular localized' => [
+                \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE,
+                ['module' => null, 'namespace' => null],
+                [
                     '/area/current_theme_path/web/i18n/en_US',
                     '/area/current_theme_path/web',
                     '/area/parent_theme_path/web/i18n/en_US',
                     '/area/parent_theme_path/web',
                     '',
-                ),
-            ),
-            'non-modular non-localized' => array(
-                array('module' => null, 'namespace' => null, 'locale' => null),
-                array(
+                ],
+            ],
+            'view, non-modular non-localized' => [
+                \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE,
+                ['module' => null, 'namespace' => null, 'locale' => null],
+                [
                     '/area/current_theme_path/web',
                     '/area/parent_theme_path/web',
                     '',
-                ),
-            ),
-        );
-    }
-
-    /**
-     * @param array $overriddenParams
-     * @param string $expectedErrorMessage
-     * @dataProvider createRuleGetPatternDirsExceptionDataProvider
-     */
-    public function testCreateViewFileRuleGetPatternDirsException(array $overriddenParams, $expectedErrorMessage)
-    {
-        $this->setExpectedException('InvalidArgumentException', $expectedErrorMessage);
-        $this->model->createViewFileRule()->getPatternDirs($overriddenParams + $this->defaultParams);
-    }
-
-    /**
-     * @return array
-     */
-    public function createRuleGetPatternDirsExceptionDataProvider()
-    {
-        return array(
-            'no theme' => array(
-                array('theme' => null),
-                'Parameter "theme" should be specified and should implement the theme interface',
-            ),
-            'no area' => array(
-                array('area' => null),
-                "Required parameter 'area' was not passed",
-            ),
-            'no namespace' => array(
-                array('namespace' => null),
-                "Parameters 'namespace' and 'module' should either be both set or unset",
-            ),
-            'no module' => array(
-                array('module' => null),
-                "Parameters 'namespace' and 'module' should either be both set or unset",
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

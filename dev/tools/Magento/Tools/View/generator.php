@@ -68,13 +68,13 @@ try {
     $themes->setItemObjectClass('Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
 
-    /** @var \Magento\View\Design\Fallback\Factory $fallbackFactory */
-    $fallbackFactory = $objectManager->create('Magento\View\Design\Fallback\Factory');
+    /** @var \Magento\View\Design\Fallback\RulePool $fallbackPool */
+    $fallbackPool = $objectManager->create('Magento\View\Design\Fallback\RulePool');
 
     /** @var \Magento\Tools\View\Generator\CopyRule $generator */
     $generator = $objectManager->create('Magento\Tools\View\Generator\CopyRule', array(
         'themes' => $themes,
-        'fallbackRule' => $fallbackFactory->createViewFileRule()
+        'fallbackRule' => $fallbackPool->getRule(\Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE)
     ));
 
     $copyRules = $generator->getCopyRules();

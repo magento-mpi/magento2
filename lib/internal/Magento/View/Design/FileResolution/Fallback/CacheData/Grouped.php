@@ -36,18 +36,13 @@ class Grouped implements Fallback\CacheDataInterface
     }
 
     /**
-     * Retrieve cached file path
-     *
-     * @param string $type
-     * @param string $file
-     * @param array $params
-     * @return string
+     * {@inheritdoc}
      */
-    public function getFromCache($type, $file, array $params)
+    public function getFromCache($type, $file, $area, $themePath, $locale, $module)
     {
-        $sectionId = $this->getCacheSectionId($type, $params);
+        $sectionId = $this->getCacheSectionId($type, $area, $themePath, $locale);
         $this->loadSection($sectionId);
-        $recordId = $this->getCacheRecordId($file, $params);
+        $recordId = $this->getCacheRecordId($file, $module);
         if (!isset($this->cacheSections[$sectionId][$recordId])) {
             $this->cacheSections[$sectionId][$recordId] = false;
         }
@@ -55,18 +50,12 @@ class Grouped implements Fallback\CacheDataInterface
     }
 
     /**
-     * Save calculated file path
-     *
-     * @param string $value
-     * @param string $type
-     * @param string $file
-     * @param array $params
-     * @return bool
+     * {@inheritdoc}
      */
-    public function saveToCache($value, $type, $file, array $params)
+    public function saveToCache($value, $type, $file, $area, $themePath, $locale, $module)
     {
-        $cacheId = $this->getCacheSectionId($type, $params);
-        $recordId = $this->getCacheRecordId($file, $params);
+        $cacheId = $this->getCacheSectionId($type, $area, $themePath, $locale);
+        $recordId = $this->getCacheRecordId($file, $module);
         $this->isUpdated = true;
         return $this->cacheSections[$cacheId][$recordId] = $value;
     }
@@ -90,17 +79,17 @@ class Grouped implements Fallback\CacheDataInterface
      * Generate section ID
      *
      * @param string $type
-     * @param array $params
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     *
      * @return string
      */
-    protected function getCacheSectionId($type, array $params)
+    protected function getCacheSectionId($type, $area, $themePath, $locale)
     {
         return sprintf(
             "type:%s|area:%s|theme:%s|locale:%s",
-            $type,
-            !empty($params['area']) ? $params['area'] : '',
-            !empty($params['theme']) ? $params['theme']->getThemePath() : '',
-            !empty($params['locale']) ? $params['locale'] : ''
+            $type, $area, $themePath, $locale
         );
     }
 
@@ -108,17 +97,12 @@ class Grouped implements Fallback\CacheDataInterface
      * Generate record ID
      *
      * @param string $file
-     * @param array $params
+     * @param string $module
      * @return string
      */
-    protected function getCacheRecordId($file, array $params)
+    protected function getCacheRecordId($file, $module)
     {
-        return sprintf(
-            "module:%s_%s|file:%s",
-            !empty($params['namespace']) ? $params['namespace'] : '',
-            !empty($params['module']) ? $params['module'] : '',
-            $file
-        );
+        return sprintf("module:%s|file:%s", $module, $file);
     }
 
     /**

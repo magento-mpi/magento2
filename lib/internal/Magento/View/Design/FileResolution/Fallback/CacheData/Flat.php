@@ -25,32 +25,21 @@ class Flat implements Fallback\CacheDataInterface
         $this->cache = $cache;
     }
     /**
-     * Retrieve cached file path
-     *
-     * @param string $type
-     * @param string $file
-     * @param array $params
-     * @return string
+     * {@inheritdoc}
      */
-    public function getFromCache($type, $file, array $params)
+    public function getFromCache($type, $file, $area, $themePath, $locale, $module)
     {
-        $cacheId = $this->getCacheId($type, $file, $params);
+        $cacheId = $this->getCacheId($type, $file, $area, $themePath, $locale, $module);
         return $this->cache->load($cacheId);
     }
 
     /**
-     * Save calculated file path
-     *
-     * @param string $path
-     * @param string $type
-     * @param string $file
-     * @param array $params
-     * @return bool
+     * {@inheritdoc}
      */
-    public function saveToCache($path, $type, $file, array $params)
+    public function saveToCache($value, $type, $file, $area, $themePath, $locale, $module)
     {
-        $cacheId = $this->getCacheId($type, $file, $params);
-        return $this->cache->save($path, $cacheId);
+        $cacheId = $this->getCacheId($type, $file, $area, $themePath, $locale, $module);
+        return $this->cache->save($value, $cacheId);
     }
 
     /**
@@ -58,20 +47,17 @@ class Flat implements Fallback\CacheDataInterface
      *
      * @param string $type
      * @param string $file
-     * @param array $params
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @param string $module
      * @return string
      */
-    protected function getCacheId($type, $file, array $params)
+    protected function getCacheId($type, $file, $area, $themePath, $locale, $module)
     {
         return sprintf(
-            "type:%s|area:%s|theme:%s|locale:%s|module:%s_%s|file:%s",
-            $type,
-            !empty($params['area']) ? $params['area'] : '',
-            !empty($params['theme']) ? $params['theme']->getThemePath() : '',
-            !empty($params['locale']) ? $params['locale'] : '',
-            !empty($params['namespace']) ? $params['namespace'] : '',
-            !empty($params['module']) ? $params['module'] : '',
-            $file
+            "type:%s|area:%s|theme:%s|locale:%s|module:%s|file:%s",
+            $type, $area, $themePath, $locale, $module, $file
         );
     }
 }

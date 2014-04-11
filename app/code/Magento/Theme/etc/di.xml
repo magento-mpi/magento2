@@ -56,13 +56,4 @@
     <type name="Magento\Url\ScopeInterface">
         <plugin name="urlSignature" type="Magento\Theme\Model\Url\Plugin\Signature"/>
     </type>
-    <type name="Magento\View\Design\FileResolution\Fallback\ViewFile">
-        <arguments>
-            <argument name="staticExtensionRule" xsi:type="array">
-                <item name="css" xsi:type="array">
-                    <item name="less" xsi:type="string">less</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
 </config>

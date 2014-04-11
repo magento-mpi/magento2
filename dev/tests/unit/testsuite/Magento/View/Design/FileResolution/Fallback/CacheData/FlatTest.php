@@ -37,13 +37,16 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @param string $module
      * @param string $expectedId
      * @param string $expectedValue
      *
      * @dataProvider cacheDataProvider
      */
-    public function testGetFromCache(array $params, $expectedId, $expectedValue)
+    public function testGetFromCache($area, $themePath, $locale, $module, $expectedId, $expectedValue)
     {
         if (isset($params['theme'])) {
             $this->theme->expects($this->any())
@@ -60,18 +63,21 @@ class FlatTest extends \PHPUnit_Framework_TestCase
             ->with($expectedId)
             ->will($this->returnValue($expectedValue));
 
-        $actual = $this->object->getFromCache('file', 'file.ext', $params);
+        $actual = $this->object->getFromCache('file', 'file.ext', $area, $themePath, $locale, $module);
         $this->assertSame($expectedValue, $actual);
     }
 
     /**
-     * @param array $params
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @param string $module
      * @param string $expectedId
      * @param string $savedValue
      *
      * @dataProvider cacheDataProvider
      */
-    public function testSaveToCache(array $params, $expectedId, $savedValue)
+    public function testSaveToCache($area, $themePath, $locale, $module, $expectedId, $savedValue)
     {
         if (isset($params['theme'])) {
             $this->theme->expects($this->any())
@@ -88,7 +94,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
             ->with($savedValue, $expectedId)
             ->will($this->returnValue(true));
 
-        $actual = $this->object->saveToCache($savedValue, 'file', 'file.ext', $params);
+        $actual = $this->object->saveToCache($savedValue, 'file', 'file.ext', $area, $themePath, $locale, $module);
         $this->assertTrue($actual);
     }
 
@@ -99,53 +105,28 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'all params' => [
-                [
-                    'area' => 'frontend',
-                    'theme' => 'magento_theme',
-                    'locale' => 'en_US',
-                    'namespace' => 'Magento',
-                    'module' => 'Module',
-                ],
+                'frontend', 'magento_theme', 'en_US', 'Magento_Module',
                 'type:file|area:frontend|theme:magento_theme|locale:en_US|module:Magento_Module|file:file.ext',
                 'one/file.ext',
             ],
             'no area' => [
-                [
-                    'theme' => 'magento_theme',
-                    'locale' => 'en_US',
-                    'namespace' => 'Magento',
-                    'module' => 'Module',
-                ],
+                null, 'magento_theme', 'en_US', 'Magento_Module',
                 'type:file|area:|theme:magento_theme|locale:en_US|module:Magento_Module|file:file.ext',
                 'two/file.ext',
             ],
             'no theme' => [
-                [
-                    'area' => 'frontend',
-                    'locale' => 'en_US',
-                    'namespace' => 'Magento',
-                    'module' => 'Module',
-                ],
+                'frontend', null, 'en_US', 'Magento_Module',
                 'type:file|area:frontend|theme:|locale:en_US|module:Magento_Module|file:file.ext',
                 'three/file.ext',
             ],
             'no locale' => [
-                [
-                    'area' => 'frontend',
-                    'theme' => 'magento_theme',
-                    'namespace' => 'Magento',
-                    'module' => 'Module',
-                ],
+                'frontend', 'magento_theme', null, 'Magento_Module',
                 'type:file|area:frontend|theme:magento_theme|locale:|module:Magento_Module|file:file.ext',
                 'four/file.ext',
             ],
-            'no namespace and module' => [
-                [
-                    'area' => 'frontend',
-                    'theme' => 'magento_theme',
-                    'locale' => 'en_US',
-                ],
-                'type:file|area:frontend|theme:magento_theme|locale:en_US|module:_|file:file.ext',
+            'no module' => [
+                'frontend', 'magento_theme', 'en_US', null,
+                'type:file|area:frontend|theme:magento_theme|locale:en_US|module:|file:file.ext',
                 'five/file.ext',
             ],
         ];

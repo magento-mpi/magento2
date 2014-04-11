@@ -58,9 +58,9 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
             )
         ));
 
-        /** @var $fallbackFactory \Magento\View\Design\Fallback\Factory */
-        $fallbackFactory = $objectManager->get('Magento\View\Design\Fallback\Factory');
-        self::$_fallbackRule = $fallbackFactory->createViewFileRule();
+        /** @var $fallbackPool \Magento\View\Design\Fallback\RulePool */
+        $fallbackPool = $objectManager->get('Magento\View\Design\Fallback\RulePool');
+        self::$_fallbackRule = $fallbackPool->getRule(\Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE);
 
         self::$_viewFilesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\ViewFile');
         self::$_filesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\File');

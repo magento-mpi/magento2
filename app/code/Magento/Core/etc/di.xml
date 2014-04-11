@@ -545,24 +545,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\View\Design\FileResolution\Fallback\File">
-        <arguments>
-            <argument name="cache" xsi:type="object">Magento\View\Design\FileResolution\Fallback\CacheData\Grouped</argument>
-        </arguments>
-    </type>
-    <type name="Magento\View\Design\FileResolution\Fallback\TemplateFile">
-        <arguments>
-            <argument name="cache" xsi:type="object">Magento\View\Design\FileResolution\Fallback\CacheData\Grouped</argument>
-        </arguments>
-    </type>
-    <type name="Magento\View\Design\FileResolution\Fallback\LocaleFile">
-        <arguments>
-            <argument name="cache" xsi:type="object">Magento\View\Design\FileResolution\Fallback\CacheData\Grouped</argument>
-        </arguments>
-    </type>
-    <type name="Magento\View\Design\FileResolution\Fallback\ViewFile">
-        <arguments>
-            <argument name="cache" xsi:type="object">Magento\View\Design\FileResolution\Fallback\CacheData\Flat</argument>
-        </arguments>
-    </type>
 </config>

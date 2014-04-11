@@ -8,11 +8,7 @@
 
 namespace Magento\View\Design\FileResolution\Fallback;
 
-use Magento\App\Filesystem;
-use Magento\View\Design\Fallback\Factory;
-use Magento\View\Design\Fallback\Rule\RuleInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\Filesystem\Directory\Read;
 
 /**
  * Provider of static view files
@@ -20,70 +16,22 @@ use Magento\Filesystem\Directory\Read;
 class ViewFile
 {
     /**
-     * @var CacheDataInterface
+     * Fallback resolver type
      */
-    private $cache;
+    const TYPE = 'view';
 
     /**
-     * Fallback factory
-     *
-     * @var Factory
-     */
-    protected $fallbackFactory;
-
-    /**
-     * Rule view file
-     *
-     * @var RuleInterface
-     */
-    protected $ruleViewFile;
-
-    /**
-     * @var Resolver
+     * @var ResolverInterface
      */
     private $resolver;
 
     /**
-     * Root directory with read access
-     *
-     * @var Read
-     */
-    protected $rootDirectory;
-
-    /**
-     * @var array
-     */
-    private $staticExtensionRule;
-
-    /**
      * Constructor
      *
-     * @param CacheDataInterface $cache
-     * @param Filesystem $filesystem
-     * @param Factory $fallbackFactory
-     * @param Resolver $resolver
-     * @param array $staticExtensionRule
-     * @throws \InvalidArgumentException
+     * @param ResolverInterface $resolver
      */
-    public function __construct(
-        CacheDataInterface $cache,
-        Filesystem $filesystem,
-        Factory $fallbackFactory,
-        Resolver $resolver,
-        array $staticExtensionRule = array()
-    ) {
-        $this->cache = $cache;
-        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
-        $this->fallbackFactory = $fallbackFactory;
-
-        foreach ($staticExtensionRule as $extension => $newExtensions) {
-            if (!is_string($extension) || !is_array($newExtensions)) {
-                throw new \InvalidArgumentException("\$staticExtensionRule must be an array with format: "
-                    . "array('ext1' => array('ext1', 'ext2'), 'ext3' => array(...)]");
-            }
-        }
-
-        $this->staticExtensionRule = $staticExtensionRule;
+    public function __construct(ResolverInterface $resolver)
+    {
         $this->resolver = $resolver;
     }
 
@@ -99,62 +47,6 @@ class ViewFile
      */
     public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {
-        $params = array(
-            'area' => $area, 'theme' => $themeModel, 'locale' => $locale, 'namespace' => null, 'module' => null
-        );
-        if ($module) {
-            list($params['namespace'], $params['module']) = explode('_', $module, 2);
-        }
-        $path = $this->cache->getFromCache('view', $file, $params);
-        if (false !== $path) {
-            $path = $path ? $this->rootDirectory->getAbsolutePath($path) : false;
-        } else {
-            $rule = $this->getRule();
-            $path = $this->resolver->resolveFile($this->rootDirectory, $rule, $file, $params);
-            if (!$path) {
-                $path = $this->lookupAdditionalExtensions($rule, $file, $params);
-            }
-            $cachedValue = $path ? $this->rootDirectory->getRelativePath($path) : '';
-            $this->cache->saveToCache($cachedValue, 'view', $file, $params);
-        }
-        return $path;
-    }
-
-    /**
-     * Using additional rule for static view file extensions, lookup specified file with these extensions
-     *
-     * A first matched file with alternative extension will be returned
-     *
-     * @param RuleInterface $rule
-     * @param string $file
-     * @param array $params
-     * @return string|bool
-     */
-    protected function lookupAdditionalExtensions(RuleInterface $rule, $file, array $params)
-    {
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
-        if (isset($this->staticExtensionRule[$extension])) {
-            foreach ($this->staticExtensionRule[$extension] as $newExtension) {
-                $newFile = substr($file, 0, strlen($file) - strlen($extension)) . $newExtension;
-                $result = $this->resolver->resolveFile($this->rootDirectory, $rule, $newFile, $params);
-                if ($result) {
-                    return $result;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Retrieve fallback rule
-     *
-     * @return RuleInterface
-     */
-    protected function getRule()
-    {
-        if (!$this->ruleViewFile) {
-            $this->ruleViewFile = $this->fallbackFactory->createViewFileRule();
-        }
-        return $this->ruleViewFile;
+        return $this->resolver->resolve(self::TYPE, $file, $area, $themeModel, $locale, $module);
     }
 }

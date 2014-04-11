@@ -15,10 +15,13 @@ interface CacheDataInterface
      *
      * @param string $type
      * @param string $file
-     * @param array $params
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @param string $module
      * @return string
      */
-    public function getFromCache($type, $file, array $params);
+    public function getFromCache($type, $file, $area, $themePath, $locale, $module);
 
     /**
      * Save value to cache as unique to file name and parameters
@@ -26,8 +29,11 @@ interface CacheDataInterface
      * @param string $value
      * @param string $type
      * @param string $file
-     * @param array $params
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @param string $module
      * @return bool
      */
-    public function saveToCache($value, $type, $file, array $params);
+    public function saveToCache($value, $type, $file, $area, $themePath, $locale, $module);
 }
