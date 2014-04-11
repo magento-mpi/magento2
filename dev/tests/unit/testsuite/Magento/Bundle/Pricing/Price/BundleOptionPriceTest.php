@@ -154,4 +154,14 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
             [2.2, false]
         ];
     }
+
+    public function testGetAmount()
+    {
+        $amountMock = $this->getMock('Magento\Pricing\Amount\AmountInterface');
+        $this->bundleCalculatorMock->expects($this->once())
+            ->method('getOptionsAmount')
+            ->with($this->equalTo($this->saleableItemMock))
+            ->will($this->returnValue($amountMock));
+        $this->assertSame($amountMock, $this->bundleOptionPrice->getAmount());
+    }
 }
