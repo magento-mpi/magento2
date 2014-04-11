@@ -28,7 +28,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $registryData = array(
             'store_type' => 'group',
             'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                'Magento\Core\Model\Store\Group'
+                'Magento\Store\Model\Store'
             ),
             'store_action' => 'add'
         );
@@ -38,7 +38,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Registry')->register($key, $value);
         }
 
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = $objectManager->get('Magento\View\LayoutInterface');
 
         $this->_block = $layout->createBlock('Magento\Backend\Block\System\Store\Edit\Form\Group');

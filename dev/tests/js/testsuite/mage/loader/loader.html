@@ -1,0 +1,41 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    mage.loader
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit test</title>
+    <base href="../../../"/>
+    <link type="text/css" rel="stylesheet" href="framework/qunit/qunit-1.14.0.css"/>
+    <script src="../../../pub/lib/jquery/jquery.js"></script>
+    <script src="../../../pub/lib/jquery/jquery-ui.js"></script>
+    <script type="text/javascript" src="framework/qunit/qunit-1.14.0.js"></script>
+    <script type="text/javascript" src="../../../pub/lib/mage/mage.js"></script>
+    <script src="../../../pub/lib/jquery/handlebars/handlebars-v1.3.0.js"></script>
+    <script type="text/javascript" src="../../../pub/lib/mage/loader.js"></script>
+    <script type="text/javascript" src="testsuite/mage/loader/jquery-loader-test.js"></script>
+</head>
+<script id="loader-template" type="text/x-handlebars-template">
+    <div class="loading-mask" data-role="loader">
+        <div class="loader">
+            <img alt="{{imgAlt}}" src="{{icon}}">
+            <p>{{loaderText}}</p>
+        </div>
+    </div>
+</script>
+<body data-mage-init='{"loader": {"template":"#loader-template"}}'>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <div id="loader"></div>
+    <script type="text/javascript">
+        $.mage.init();
+    </script>
+</body>
+</html>

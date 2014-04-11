@@ -75,36 +75,36 @@ class Switcher extends \Magento\Backend\Block\Template
     /**
      * Website factory
      *
-     * @var \Magento\Core\Model\Website\Factory
+     * @var \Magento\Store\Model\Website\Factory
      */
     protected $_websiteFactory;
 
     /**
      * Store Group Factory
      *
-     * @var \Magento\Core\Model\Store\Group\Factory
+     * @var \Magento\Store\Model\Group\Factory
      */
     protected $_storeGroupFactory;
 
     /**
      * Store Factory
      *
-     * @var \Magento\Core\Model\StoreFactory
+     * @var \Magento\Store\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Website\Factory $websiteFactory
-     * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Store\Model\Website\Factory $websiteFactory
+     * @param \Magento\Store\Model\Group\Factory $storeGroupFactory
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Website\Factory $websiteFactory,
-        \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
-        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\Website\Factory $websiteFactory,
+        \Magento\Store\Model\Group\Factory $storeGroupFactory,
+        \Magento\Store\Model\StoreFactory $storeFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -138,7 +138,7 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Website\Collection
+     * @return \Magento\Store\Model\Resource\Website\Collection
      */
     public function getWebsiteCollection()
     {
@@ -155,7 +155,7 @@ class Switcher extends \Magento\Backend\Block\Template
     /**
      * Get websites
      *
-     * @return \Magento\Core\Model\Website[]
+     * @return \Magento\Store\Model\Website[]
      */
     public function getWebsites()
     {
@@ -203,10 +203,10 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Store\Model\Website $website
      * @return bool
      */
-    public function isWebsiteSelected(\Magento\Core\Model\Website $website)
+    public function isWebsiteSelected(\Magento\Store\Model\Website $website)
     {
         return $this->getWebsiteId() === $website->getId() && $this->getStoreId() === null;
     }
@@ -223,12 +223,12 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param int|\Magento\Core\Model\Website $website
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @param int|\Magento\Store\Model\Website $website
+     * @return \Magento\Store\Model\Resource\Group\Collection
      */
     public function getGroupCollection($website)
     {
-        if (!$website instanceof \Magento\Core\Model\Website) {
+        if (!$website instanceof \Magento\Store\Model\Website) {
             $website = $this->_websiteFactory->create()->load($website);
         }
         return $website->getGroupCollection();
@@ -237,12 +237,12 @@ class Switcher extends \Magento\Backend\Block\Template
     /**
      * Get store groups for specified website
      *
-     * @param \Magento\Core\Model\Website|int $website
+     * @param \Magento\Store\Model\Website|int $website
      * @return array
      */
     public function getStoreGroups($website)
     {
-        if (!$website instanceof \Magento\Core\Model\Website) {
+        if (!$website instanceof \Magento\Store\Model\Website) {
             $website = $this->_storeManager->getWebsite($website);
         }
         return $website->getGroups();
@@ -281,10 +281,10 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Core\Model\Store\Group $group
+     * @param \Magento\Store\Model\Group $group
      * @return bool
      */
-    public function isStoreGroupSelected(\Magento\Core\Model\Store\Group $group)
+    public function isStoreGroupSelected(\Magento\Store\Model\Group $group)
     {
         return $this->getStoreGroupId() === $group->getId() && $this->getStoreGroupId() === null;
     }
@@ -301,12 +301,12 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Core\Model\Store\Group|int $group
-     * @return \Magento\Core\Model\Resource\Store\Collection
+     * @param \Magento\Store\Model\Group|int $group
+     * @return \Magento\Store\Model\Resource\Store\Collection
      */
     public function getStoreCollection($group)
     {
-        if (!$group instanceof \Magento\Core\Model\Store\Group) {
+        if (!$group instanceof \Magento\Store\Model\Group) {
             $group = $this->_storeGroupFactory->create()->load($group);
         }
         $stores = $group->getStoreCollection();
@@ -320,12 +320,12 @@ class Switcher extends \Magento\Backend\Block\Template
     /**
      * Get store views for specified store group
      *
-     * @param \Magento\Core\Model\Store\Group|int $group
-     * @return \Magento\Core\Model\Store[]
+     * @param \Magento\Store\Model\Group|int $group
+     * @return \Magento\Store\Model\Store[]
      */
     public function getStores($group)
     {
-        if (!$group instanceof \Magento\Core\Model\Store\Group) {
+        if (!$group instanceof \Magento\Store\Model\Group) {
             $group = $this->_storeManager->getGroup($group);
         }
         $stores = $group->getStores();
@@ -351,10 +351,10 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return bool
      */
-    public function isStoreSelected(\Magento\Core\Model\Store $store)
+    public function isStoreSelected(\Magento\Store\Model\Store $store)
     {
         return $this->getStoreId() !== null && (int)$this->getStoreId() === (int)$store->getId();
     }

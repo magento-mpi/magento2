@@ -18,4 +18,11 @@
             <argument name="emailIdentity" xsi:type="object">Magento\Backend\Model\Config\Source\Email\Identity\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_scheduledimportexport" xsi:type="string">Magento_ScheduledImportExport</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

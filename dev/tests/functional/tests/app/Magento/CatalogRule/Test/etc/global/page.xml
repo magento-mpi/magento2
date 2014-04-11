@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <catalogRuleNew>
+        <mca>catalog_rule/promo_catalog/new</mca>
+        <class>Magento\CatalogRule\Test\Page\CatalogRuleNew</class>
+    </catalogRuleNew>
+    <catalogRule>
+        <mca>catalog_rule/promo_catalog</mca>
+        <class>Magento\CatalogRule\Test\Page\CatalogRule</class>
+    </catalogRule>
+</page>

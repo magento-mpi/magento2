@@ -11,16 +11,16 @@ $storeGroupsCount = \Magento\ToolkitFramework\Config::getInstance()->getValue('s
 $storesCount = \Magento\ToolkitFramework\Config::getInstance()->getValue('store_views', 5);
 $this->resetObjectManager();
 
-/** @var \Magento\Core\Model\StoreManager $storeManager */
-$storeManager = $this->getObjectManager()->create('\Magento\Core\Model\StoreManager');
+/** @var \Magento\Store\Model\StoreManager $storeManager */
+$storeManager = $this->getObjectManager()->create('\Magento\Store\Model\StoreManager');
 /** @var $category \Magento\Catalog\Model\Category */
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 
-/** @var $defaultWebsite \Magento\Core\Model\Website */
+/** @var $defaultWebsite \Magento\Store\Model\Website */
 $defaultWebsite = $storeManager->getWebsite();
-/** @var $defaultStoreGroup \Magento\Core\Model\Store\Group */
+/** @var $defaultStoreGroup \Magento\Store\Model\Group */
 $defaultStoreGroup = $storeManager->getGroup();
-/** @var $defaultStoreView \Magento\Core\Model\Store */
+/** @var $defaultStoreView \Magento\Store\Model\Store */
 $defaultStoreView = $storeManager->getDefaultStoreView();
 
 $default_parent_category_id =  $storeManager->getStore()->getRootCategoryId();

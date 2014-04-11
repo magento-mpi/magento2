@@ -21,7 +21,7 @@ class Search extends \Magento\Catalog\Model\Layer
      * @param CategoryFactory $categoryFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $registry
      * @param array $data
      */
@@ -31,7 +31,7 @@ class Search extends \Magento\Catalog\Model\Layer
         CategoryFactory $categoryFactory,
         Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         Resource\Product $catalogProduct,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $registry,
         array $data = array()
     ) {
