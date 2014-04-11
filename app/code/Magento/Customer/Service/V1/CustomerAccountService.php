@@ -416,13 +416,26 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function updateCustomer(Data\CustomerDetails $customerDetails)
     {
         $customer = $customerDetails->getCustomer();
+
         // Making this call first will ensure the customer already exists.
-        $this->getCustomer($customer->getId());
+        $customerId = $customer->getId();
+        if (empty($customerId)) {
+            $email = $customer->getEmail();
+            $storeId = $customer->getStoreId();
+            $websiteId = null;
+            if (!empty($storeId)) {
+                $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
+            }
+            $customerId = $this->getCustomerByEmail($email, $websiteId)->getId();
+            $customer = $this->_customerBuilder->populate($customer)->setId($customerId)->create();
+        } else {
+            $this->getCustomer($customerId);
+        }
 
         $this->saveCustomer(
             $customer,
             null,
-            $this->_converter->getCustomerModel($customer->getId())->getPasswordHash()
+            $this->_converter->getCustomerModel($customerId)->getPasswordHash()
         );
 
         $addresses = $customerDetails->getAddresses();

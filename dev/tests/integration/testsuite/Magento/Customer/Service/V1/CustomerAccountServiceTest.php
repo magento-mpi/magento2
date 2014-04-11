@@ -587,6 +587,70 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
      */
+    public function testUpdateCustomerWithoutId()
+    {
+        $customerId = 1;
+        $firstName = 'Firstsave';
+        $lastName = 'Lastsave';
+
+        $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $newCustomer = array_merge(
+            $customerDetails->getCustomer()->__toArray(),
+            [
+                'id' => null,
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+            ]
+        );
+        $this->_customerBuilder->populateWithArray($newCustomer);
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($this->_customerBuilder->create())
+            ->create();
+        $this->assertNull($customerDetails->getCustomer()->getId());
+        $this->_customerAccountService->updateCustomer($customerDetails);
+
+        $newCustomerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $this->assertEquals($firstName, $newCustomerDetails->getCustomer()->getFirstname());
+        $this->assertEquals($lastName, $newCustomerDetails->getCustomer()->getLastname());
+        $this->assertEquals(2, count($newCustomerDetails->getAddresses()));
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with email = unknown@email.com
+     */
+    public function testUpdateCustomerWithoutIdUnknownEmail()
+    {
+        $customerId = 1;
+        $firstName = 'Firstsave';
+        $lastName = 'Lastsave';
+
+        $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $newCustomer = array_merge(
+            $customerDetails->getCustomer()->__toArray(),
+            [
+                'id' => null,
+                'email' => 'unknown@email.com',
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+            ]
+        );
+        $this->_customerBuilder->populateWithArray($newCustomer);
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($this->_customerBuilder->create())
+            ->create();
+        $this->assertNull($customerDetails->getCustomer()->getId());
+        $this->_customerAccountService->updateCustomer($customerDetails);
+
+        $newCustomerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     */
     public function testUpdateCustomerAddress()
     {
         $customerId = 1;
