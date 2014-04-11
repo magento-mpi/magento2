@@ -24,6 +24,8 @@
     * Magento/Translate.php
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
   * API Service Exception Handling (MAGETWO-14490)
+  * Extracted vendor name from app/design/*/magento_<theme> into app/design/*/Magento/<theme> (MAGETWO-20865)
+  * Renamed 3DSecure library into CardinalCommerce and removed flex library as unused (MAGETWO-23143)
 * Themes update:
   * Admin theme look&feel updated
 * Modularity improvements:
@@ -61,6 +63,7 @@
   * [#538] (https://github.com/magento/magento2/issues/538) -- Fixed missing tax amount in the invoice (MAGETWO-23175)
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 * Fixed bugs:
+  * Fixed implementation issues with Cron task group threading (MAGETWO-21617)
   * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
   * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
   * Fixed: Impossible export several entyties (Credit Memos, Report Shopping Cart ...) for user with restricted permission (MAGETWO-19346)
@@ -73,6 +76,12 @@
   * Fixed an issue with active tab is changed to upper one after attribute set has been changed (MAGETWO-10611)
   * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
   * Fixed an issue with tier price attribute save (MAGETWO-19371)
+* JavaScript improvements:
+  * Upgraded frontend jQuery library to version 1.11
+  * Upgraded frontend jQuery UI library to version 1.10.4
+  * Modified loader widget to render content using handlebars
+  * Added use strict mode to accordian widget
+  * Added use strict mode to tab widget
 
 2.0.0.0-dev72
 =============
@@ -643,7 +652,7 @@
   * Design loader moved to library
   * Theme label moved to library
 * Themes update:
-  * Reduced amount of templates and layouts in magento_plushe theme
+  * Reduced amount of templates and layouts in Magento/plushe theme
   * Responsive design improvements
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
