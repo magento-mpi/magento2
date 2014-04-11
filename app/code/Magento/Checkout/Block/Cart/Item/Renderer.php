@@ -439,23 +439,6 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
     }
 
     /**
-     * Get html for MAP product enabled
-     *
-     * @param Item $item
-     * @return string
-     */
-    public function getMsrpHtml($item)
-    {
-        return $this->getLayout()->createBlock(
-            'Magento\Catalog\Block\Product\Price'
-        )->setTemplate(
-            'product/price_msrp_item.phtml'
-        )->setProduct(
-            $item->getProduct()
-        )->toHtml();
-    }
-
-    /**
      * Set qty mode to be strict or not
      *
      * @param bool $strict
@@ -490,5 +473,37 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
             return $this->getProduct()->getIdentities();
         }
         return array();
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    public function getProductPrice(\Magento\Catalog\Model\Product $product)
+    {
+        $priceRender = $this->getPriceRender();
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                $product,
+                [
+                    'include_container' => true,
+                    'display_minimal_price' => true,
+                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                ]
+            );
+        }
+
+        return $price;
+    }
+
+    /**
+     * @return \Magento\Pricing\Render
+     */
+    protected function getPriceRender()
+    {
+        return $this->getLayout()->getBlock('product.price.render.default');
     }
 }
