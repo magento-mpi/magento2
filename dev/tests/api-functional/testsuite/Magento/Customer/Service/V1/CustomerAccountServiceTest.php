@@ -806,6 +806,37 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     }
 
+    public function testGetCustomerDetailsByEmail()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::EMAIL] . '/customerEmail',
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
+            ]
+        ];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $response = $this->_webApiCall($serviceInfo, ['customerEmail' => $customerData[Customer::EMAIL]]);
+        } else {
+            $response = $this->_webApiCall($serviceInfo);
+        }
+
+        $this->assertTrue($response);
+
+        //Verify if the customer is deleted
+        $this->setExpectedException(
+            'Magento\Exception\NoSuchEntityException',
+            sprintf("No such entity with email = %s", $customerData[Customer::EMAIL])
+        );
+        $this->customerAccountService->getCustomerByEmail($customerData[Customer::EMAIL]);
+    }
+
     public function testDeleteCustomerByEmail()
     {
         $customerData = $this->_createSampleCustomer();

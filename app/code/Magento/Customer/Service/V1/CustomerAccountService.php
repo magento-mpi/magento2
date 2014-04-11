@@ -844,6 +844,18 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
+     * {inheritDoc}
+     */
+    public function getCustomerDetailsByEmail($customerEmail, $websiteId = null)
+    {
+        $customerData = $this->getCustomerByEmail($customerEmail, $websiteId = null);
+        return $this->_customerDetailsBuilder
+            ->setCustomer($customerData)
+            ->setAddresses($this->_customerAddressService->getAddresses($customerData->getId()))
+            ->create();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function deleteCustomerByEmail($customerEmail, $websiteId = null)
