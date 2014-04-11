@@ -25,4 +25,20 @@ interface BundleCalculatorInterface extends CalculatorInterface
      * @return \Magento\Pricing\Amount\AmountInterface
      */
     public function getMaxAmount($amount, SaleableInterface $saleableItem, $exclude = null);
+
+    /**
+     * Option amount calculation for saleable item
+     *
+     * @param SaleableInterface $saleableItem
+     * @param null|string $exclude
+     * @param bool $searchMin
+     * @param \Magento\Pricing\Amount\AmountInterface|null $bundleProductAmount
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    public function getOptionsAmount(
+        SaleableInterface $saleableItem,
+        $exclude = null,
+        $searchMin = true,
+        $bundleProductAmount = null
+    );
 }

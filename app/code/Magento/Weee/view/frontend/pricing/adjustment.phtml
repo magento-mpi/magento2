@@ -13,10 +13,8 @@
 /** @var \Magento\Weee\Pricing\Render\Adjustment $this */
 
 $weeeSeparator = $openBrace = $closeBrace = '';
-//if ($this->getZone() !== \Magento\Pricing\Render::ZONE_ITEM_OPTION) {
-    $openBrace = '(';
-    $closeBrace = ')';
-//}
+$openBrace = '(';
+$closeBrace = ')';
 ?>
 
 <?php if ($this->showInclDescr()): // incl. + weee ?>

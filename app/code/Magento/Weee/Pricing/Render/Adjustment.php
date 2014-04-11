@@ -52,13 +52,7 @@ class Adjustment extends AbstractAdjustment
      */
     protected function apply()
     {
-        if ($this->typeOfDisplay(
-            [
-                Tax::DISPLAY_EXCL,
-                Tax::DISPLAY_EXCL_DESCR_INCL
-            ]
-        )
-        ) {
+        if ($this->typeOfDisplay([Tax::DISPLAY_EXCL, Tax::DISPLAY_EXCL_DESCR_INCL])) {
             $this->finalAmount = $this->amountRender->getDisplayValue();
             $this->amountRender->setDisplayValue(
                 $this->amountRender->getDisplayValue() -
@@ -172,13 +166,7 @@ class Adjustment extends AbstractAdjustment
      */
     protected function isDisplayFpt()
     {
-        $isDisplayFpt = $this->typeOfDisplay(
-            [
-                Tax::DISPLAY_INCL_DESCR,
-                Tax::DISPLAY_EXCL_DESCR_INCL
-            ]
-        );
-
+        $isDisplayFpt = $this->typeOfDisplay([Tax::DISPLAY_INCL_DESCR, Tax::DISPLAY_EXCL_DESCR_INCL]);
         return $isDisplayFpt;
     }
 }

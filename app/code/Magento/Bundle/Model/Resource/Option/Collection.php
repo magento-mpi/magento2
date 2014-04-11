@@ -155,7 +155,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     {
         if (is_array($ids)) {
             $this->addFieldToFilter('main_table.option_id', array('in' => $ids));
-        } else if ($ids != '') {
+        } elseif ($ids != '') {
             $this->addFieldToFilter('main_table.option_id', $ids);
         }
         return $this;

@@ -177,6 +177,6 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
      */
     public function getAmount()
     {
-        return $this->calculator->getAmount(0, $this->salableItem);
+        return $this->calculator->getOptionsAmount($this->salableItem);
     }
 }
