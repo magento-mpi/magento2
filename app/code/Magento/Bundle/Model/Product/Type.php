@@ -11,10 +11,6 @@ namespace Magento\Bundle\Model\Product;
 
 /**
  * Bundle Type Model
- *
- * @category    Magento
- * @package     Magento_Bundle
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
@@ -225,7 +221,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     }
 
     /**
-     * Retrieve parent ids array by requered child
+     * Retrieve parent ids array by required child
      *
      * @param int|array $childId
      * @return array
@@ -387,17 +383,13 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                     unset($option['option_id']);
                 }
 
-                $optionModel = $this->_bundleOption->create()->setData(
-                    $option
-                )->setParentId(
-                    $product->getId()
-                )->setStoreId(
-                    $product->getStoreId()
-                );
+                $optionModel = $this->_bundleOption->create()
+                    ->setData($option)
+                    ->setParentId($product->getId())
+                    ->setStoreId($product->getStoreId());
 
-                $optionModel->isDeleted((bool)$option['delete']);
+                $optionModel->isDeleted((bool) $option['delete']);
                 $optionModel->save();
-
                 $options[$key]['option_id'] = $optionModel->getOptionId();
             }
 
@@ -416,15 +408,11 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                             $selection['is_default'] = 0;
                         }
 
-                        $selectionModel = $this->_bundleModelSelection->create()->setData(
-                            $selection
-                        )->setOptionId(
-                            $options[$index]['option_id']
-                        )->setWebsiteId(
-                            $this->_storeManager->getStore($product->getStoreId())->getWebsiteId()
-                        )->setParentProductId(
-                            $product->getId()
-                        );
+                        $selectionModel = $this->_bundleModelSelection->create()
+                            ->setData($selection)
+                            ->setOptionId($options[$index]['option_id'])
+                            ->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId())
+                            ->setParentProductId($product->getId());
 
                         $selectionModel->isDeleted((bool) $selection['delete']);
                         $selectionModel->save();
@@ -481,10 +469,10 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getOptionsCollection($product)
     {
         if (!$product->hasData($this->_keyOptionsCollection)) {
-            $optionsCollection = $this->_bundleOption->create()->getResourceCollection()->setProductIdFilter(
-                $product->getId()
-            )->setPositionOrder();
-
+            $optionsCollection = $this->_bundleOption->create()
+                ->getResourceCollection()
+                ->setProductIdFilter($product->getId())
+                ->setPositionOrder();
             $storeId = $this->getStoreFilter($product);
             if ($storeId instanceof \Magento\Core\Model\Store) {
                 $storeId = $storeId->getId();
@@ -509,9 +497,9 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $key = $this->_keySelectionsCollection . $keyOptionIds;
         if (!$product->hasData($key)) {
             $storeId = $product->getStoreId();
-            $selectionsCollection = $this->_bundleCollection->create()->addAttributeToSelect(
-                $this->_config->getProductAttributes()
-            )->addAttributeToSelect('tax_class_id')   //used for calculation item taxes in Bundle with Dynamic Price
+            $selectionsCollection = $this->_bundleCollection->create()
+                ->addAttributeToSelect($this->_config->getProductAttributes())
+                ->addAttributeToSelect('tax_class_id')   //used for calculation item taxes in Bundle with Dynamic Price
                 ->setFlag('require_stock_items', true)
                 ->setFlag('product_children', true)
                 ->setPositionOrder()
@@ -533,7 +521,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Method is needed for specific actions to change given quote options values
      * according current product type logic
-     * Example: the cataloginventory validation of decimal qty can change qty to int,
+     * Example: the catalog inventory validation of decimal qty can change qty to int,
      * so need to change quote item qty option value too.
      *
      * @param   array           $options
