@@ -1637,10 +1637,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchCustomers()
     {
-        $collectionMock = $this->getMockBuilder(
-            '\Magento\Customer\Model\Resource\Customer\Collection'
-        )->disableOriginalConstructor()->setMethods(
-                array('addNameToSelect', 'addFieldToFilter', 'getSize', 'load', 'getItems', 'getIterator', 'joinAttribute')
+        $collectionMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Customer\Collection')
+            ->disableOriginalConstructor()
+            ->setMethods(
+                ['addNameToSelect', 'addFieldToFilter', 'getSize', 'load', 'getItems', 'getIterator', 'joinAttribute']
             )->getMock();
         $collectionMock->expects($this->any())->method('joinAttribute')->will($this->returnSelf());
 
