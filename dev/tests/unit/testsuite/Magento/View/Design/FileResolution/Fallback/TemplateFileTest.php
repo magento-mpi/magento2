@@ -34,7 +34,7 @@ class TemplateFileTest extends \PHPUnit_Framework_TestCase
             ->method('resolve')
             ->with(TemplateFile::TYPE, 'file.ext', 'frontend', $theme, null, 'Magento_Module')
             ->will($this->returnValue($expected));
-        $actual = $this->object->getTemplateFile('frontend', $theme, 'file.ext', 'Magento_Module');
+        $actual = $this->object->getFile('frontend', $theme, 'file.ext', 'Magento_Module');
         $this->assertSame($expected, $actual);
     }
 }

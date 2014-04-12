@@ -338,7 +338,7 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="Magento\View\Design\FileResolution\Fallback\ViewFile">
+    <type name="Magento\View\Design\FileResolution\Fallback\StaticFile">
         <arguments>
             <argument name="resolver" xsi:type="object">viewFileFallbackResolver</argument>
         </arguments>

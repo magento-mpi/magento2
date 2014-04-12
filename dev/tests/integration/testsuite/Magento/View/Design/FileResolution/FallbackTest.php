@@ -146,11 +146,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetViewFile($file, $themePath, $locale, $module, $expectedFilename)
     {
-        /** @var \Magento\View\Design\FileResolution\Fallback\ViewFile $model */
-        $model = Bootstrap::getObjectManager()->create('Magento\View\Design\FileResolution\Fallback\ViewFile');
+        /** @var \Magento\View\Design\FileResolution\Fallback\StaticFile $model */
+        $model = Bootstrap::getObjectManager()->create('Magento\View\Design\FileResolution\Fallback\StaticFile');
         $themeModel = $this->themeFactory->create($themePath);
 
-        $actualFilename = $model->getViewFile('frontend', $themeModel, $locale, $file, $module);
+        $actualFilename = $model->getFile('frontend', $themeModel, $locale, $file, $module);
         if ($expectedFilename) {
             $this->assertInternalType('string', $actualFilename);
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);

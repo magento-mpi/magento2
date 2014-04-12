@@ -92,7 +92,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             [\Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE],
             [\Magento\View\Design\FileResolution\Fallback\File::TYPE],
             [\Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE],
-            [\Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE],
+            [\Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE],
         ];
     }
 
@@ -151,7 +151,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE => [
                 'no theme', 'no area', 'no namespace', 'no module'
             ],
-            \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE => [
+            \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE => [
                 'no theme', 'no area', 'no namespace', 'no module'
             ],
         ];
@@ -234,7 +234,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ],
 
             'view, modular localized' => [
-                \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE,
+                \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE,
                 [],
                 [
                     '/area/current_theme_path/namespace_module/web/i18n/en_US',
@@ -246,7 +246,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'view, modular non-localized' => [
-                \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE,
+                \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE,
                 ['locale' => null],
                 [
                     '/area/current_theme_path/namespace_module/web',
@@ -255,7 +255,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'view, non-modular localized' => [
-                \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE,
+                \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE,
                 ['module' => null, 'namespace' => null],
                 [
                     '/area/current_theme_path/web/i18n/en_US',
@@ -266,7 +266,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'view, non-modular non-localized' => [
-                \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE,
+                \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE,
                 ['module' => null, 'namespace' => null, 'locale' => null],
                 [
                     '/area/current_theme_path/web',

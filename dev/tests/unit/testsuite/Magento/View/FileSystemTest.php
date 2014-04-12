@@ -99,7 +99,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $expected = 'path/to/some_file.ext';
 
         $this->_templateFileResolution->expects($this->once())
-            ->method('getTemplateFile')
+            ->method('getFile')
             ->with($params['area'], $params['themeModel'], 'some_file.ext', 'Some_Module')
             ->will($this->returnValue($expected));
 
@@ -123,7 +123,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $expected = 'path/to/some_file.ext';
 
         $this->_localeFileResolution->expects($this->once())
-            ->method('getLocaleFile')
+            ->method('getFile')
             ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext')
             ->will($this->returnValue($expected));
 

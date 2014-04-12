@@ -30,7 +30,7 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
     static protected $_fallbackRule;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback\ViewFile
+     * @var \Magento\View\Design\FileResolution\Fallback\StaticFile
      */
     static protected $_viewFilesFallback;
 
@@ -60,9 +60,9 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
 
         /** @var $fallbackPool \Magento\View\Design\Fallback\RulePool */
         $fallbackPool = $objectManager->get('Magento\View\Design\Fallback\RulePool');
-        self::$_fallbackRule = $fallbackPool->getRule(\Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE);
+        self::$_fallbackRule = $fallbackPool->getRule(\Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE);
 
-        self::$_viewFilesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\ViewFile');
+        self::$_viewFilesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\StaticFile');
         self::$_filesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\File');
 
         // Themes to be checked
@@ -174,7 +174,7 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
         }
 
         foreach (self::$_checkThemeLocales[$theme->getFullPath()] as $locale) {
-            $fileResolved = self::$_viewFilesFallback->getViewFile($theme->getArea(), $theme, $locale, $file);
+            $fileResolved = self::$_viewFilesFallback->getFile($theme->getArea(), $theme, $locale, $file);
             if (file_exists($fileResolved)) {
                 $found[$fileResolved] = $fileResolved;
             }

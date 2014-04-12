@@ -34,7 +34,7 @@ class LocaleFileTest extends \PHPUnit_Framework_TestCase
             ->method('resolve')
             ->with(LocaleFile::TYPE, 'file.ext', 'frontend', $theme, 'en_US', null)
             ->will($this->returnValue($expected));
-        $actual = $this->object->getLocaleFile('frontend', $theme, 'en_US', 'file.ext');
+        $actual = $this->object->getFile('frontend', $theme, 'en_US', 'file.ext');
         $this->assertSame($expected, $actual);
     }
 }

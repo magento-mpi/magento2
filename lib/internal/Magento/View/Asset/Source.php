@@ -44,7 +44,7 @@ class Source
     private $preProcessorPool;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback\ViewFile
+     * @var \Magento\View\Design\FileResolution\Fallback\StaticFile
      */
     protected $fallback;
 
@@ -57,7 +57,7 @@ class Source
         \Magento\View\Asset\PreProcessor\Cache $cache,
         \Magento\App\Filesystem $filesystem,
         \Magento\View\Asset\PreProcessor\Pool $preProcessorPool,
-        \Magento\View\Design\FileResolution\Fallback\ViewFile $fallback,
+        \Magento\View\Design\FileResolution\Fallback\StaticFile $fallback,
         \Magento\View\Design\Theme\Provider $themeProvider
     ) {
         $this->cache = $cache;
@@ -174,7 +174,7 @@ class Source
     private function findFileThroughFallback(LocalInterface $asset, File\FallbackContext $context)
     {
         $themeModel = $this->themeProvider->getThemeModel($context->getThemePath(), $context->getAreaCode());
-        $sourceFile = $this->fallback->getViewFile(
+        $sourceFile = $this->fallback->getFile(
             $context->getAreaCode(),
             $themeModel,
             $context->getLocaleCode(),

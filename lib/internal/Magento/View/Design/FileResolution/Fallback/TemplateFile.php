@@ -44,7 +44,7 @@ class TemplateFile
      * @param string|null $module
      * @return string|bool
      */
-    public function getTemplateFile($area, ThemeInterface $themeModel, $file, $module = null)
+    public function getFile($area, ThemeInterface $themeModel, $file, $module = null)
     {
         return $this->resolver->resolve(self::TYPE, $file, $area, $themeModel, null, $module);
     }

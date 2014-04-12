@@ -13,7 +13,7 @@ use Magento\View\Design\ThemeInterface;
 /**
  * Provider of static view files
  */
-class ViewFile
+class StaticFile
 {
     /**
      * Fallback resolver type
@@ -45,7 +45,7 @@ class ViewFile
      * @param string|null $module
      * @return string|bool
      */
-    public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
+    public function getFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {
         return $this->resolver->resolve(self::TYPE, $file, $area, $themeModel, $locale, $module);
     }

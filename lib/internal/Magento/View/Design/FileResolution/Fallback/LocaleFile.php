@@ -44,7 +44,7 @@ class LocaleFile
      * @param string $file
      * @return string|bool
      */
-    public function getLocaleFile($area, ThemeInterface $themeModel, $locale, $file)
+    public function getFile($area, ThemeInterface $themeModel, $locale, $file)
     {
         return $this->resolver->resolve(self::TYPE, $file, $area, $themeModel, $locale, null);
     }

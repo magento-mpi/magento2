@@ -51,7 +51,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     private $preProcessorPool;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback\ViewFile|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\FileResolution\Fallback\StaticFile|\PHPUnit_Framework_MockObject_MockObject
      */
     private $viewFileResolution;
 
@@ -74,7 +74,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Asset\PreProcessor\Pool', array(), array(), '', false
         );
         $this->viewFileResolution = $this->getMock(
-            'Magento\View\Design\FileResolution\Fallback\ViewFile', array(), array(), '', false
+            'Magento\View\Design\FileResolution\Fallback\StaticFile', array(), array(), '', false
         );
         $this->theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
 
@@ -98,7 +98,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     public function testGetFileNoOriginalFile()
     {
         $this->viewFileResolution->expects($this->once())
-            ->method('getViewFile')
+            ->method('getFile')
             ->with('frontend', $this->theme, 'en_US', 'some/file.ext', 'Magento_Module')
             ->will($this->returnValue(false));
         $this->assertFalse($this->object->getFile($this->getAsset()));
@@ -119,7 +119,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $expected = '/var/some/file.ext';
         $filePath = 'some/file.ext';
         $this->viewFileResolution->expects($this->once())
-            ->method('getViewFile')
+            ->method('getFile')
             ->with('frontend', $this->theme, 'en_US', $filePath, 'Magento_Module')
             ->will($this->returnValue($root));
         $this->rootDirRead->expects($this->once())
@@ -150,7 +150,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $filePath = 'some/file.ext';
         $cacheValue = "{$origPath}:{$filePath}";
         $this->viewFileResolution->expects($this->once())
-            ->method('getViewFile')
+            ->method('getFile')
             ->with('frontend', $this->theme, 'en_US', $filePath, 'Magento_Module')
             ->will($this->returnValue($origFile));
         $this->rootDirRead->expects($this->once())

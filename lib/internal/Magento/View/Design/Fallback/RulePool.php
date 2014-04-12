@@ -166,7 +166,7 @@ class RulePool
             case \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE:
                 $rule = $this->createTemplateFileRule();
                 break;
-            case \Magento\View\Design\FileResolution\Fallback\ViewFile::TYPE:
+            case \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE:
                 $rule = $this->createViewFileRule();
                 break;
             default:

@@ -85,7 +85,7 @@ class FileSystem
     {
         $this->_assetRepo->updateDesignParams($params);
         return $this->_localeFileResolution
-            ->getLocaleFile($params['area'], $params['themeModel'], $params['locale'], $file);
+            ->getFile($params['area'], $params['themeModel'], $params['locale'], $file);
     }
 
     /**
@@ -103,7 +103,7 @@ class FileSystem
         }
         $this->_assetRepo->updateDesignParams($params);
         return $this->_templateFileResolution
-            ->getTemplateFile($params['area'], $params['themeModel'], $filePath, $params['module']);
+            ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
     }
 
     /**
