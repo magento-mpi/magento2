@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 /**
  * Builder for the Customer Service Data Object
  *
- * @method \Magento\Customer\Service\V1\Data\Customer create()
+ * @method Customer create()
  */
 class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
 {
@@ -68,7 +68,7 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
 
     /**
      * Set confirmation
-     * 
+     *
      * @param string $confirmation
      * @return $this
      */

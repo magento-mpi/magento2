@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data;
+
+namespace Magento\Service\V1\Data;
 
 use Magento\Service\Data\AbstractObject;
 
@@ -15,18 +16,24 @@ use Magento\Service\Data\AbstractObject;
 class SearchCriteria extends AbstractObject
 {
     const SORT_ASC = 1;
-
     const SORT_DESC = -1;
-    const ROOT_GROUP_TYPE = 'andGroup';
+
+    /**#@+
+     * Constants for Data Object keys
+     */
+    const FILTER_GROUPS = 'filterGroups';
+    const SORT_ORDERS = 'sort_orders';
+    const PAGE_SIZE = 'page_size';
+    const CURRENT_PAGE = 'current_page';
 
     /**
-     * Get filters
-     * 
-     * @return \Magento\Customer\Service\V1\Data\Search\AndGroup
+     * Returns a list of filter groups
+     *
+     * @return \Magento\Service\V1\Data\Search\FilterGroup[]
      */
-    public function getAndGroup()
+    public function getFilterGroups()
     {
-        return $this->_get(self::ROOT_GROUP_TYPE);
+        return $this->_get(self::FILTER_GROUPS);
     }
 
     /**
@@ -36,7 +43,7 @@ class SearchCriteria extends AbstractObject
      */
     public function getSortOrders()
     {
-        return $this->_get('sort_orders');
+        return $this->_get(self::SORT_ORDERS);
     }
 
     /**
@@ -46,7 +53,7 @@ class SearchCriteria extends AbstractObject
      */
     public function getPageSize()
     {
-        return $this->_get('page_size');
+        return $this->_get(self::PAGE_SIZE);
     }
 
     /**
@@ -56,6 +63,6 @@ class SearchCriteria extends AbstractObject
      */
     public function getCurrentPage()
     {
-        return $this->_get('current_page');
+        return $this->_get(self::CURRENT_PAGE);
     }
 }

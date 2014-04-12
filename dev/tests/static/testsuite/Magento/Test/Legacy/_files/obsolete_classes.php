@@ -2150,6 +2150,8 @@ return array(
     ['Magento\DesignEditor\Model\Translate\InlineVde', 'Magento\DesignEditor\Model\Translate\Inline'],
     ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
     ['Magento\Translate\Inline\ConfigFactory'],
+    ['Magento\Bundle\Model\Price\Index'],
+    ['Magento\Bundle\Model\Resource\Price\Index'],
     array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
     array('Magento\Core\Helper\Js'),
     array('Magento\Backend\Helper\Media\Js'),
