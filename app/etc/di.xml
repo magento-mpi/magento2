@@ -328,7 +328,7 @@
             <argument name="resolver" xsi:type="object">fallbackResolverSimpleWithGroupedCache</argument>
         </arguments>
     </type>
-    <virtualType name="viewFileFallbackResolver" type="\Magento\View\Design\FileResolution\Fallback\Resolver\Alternative">
+    <virtualType name="viewFileFallbackResolver" type="Magento\View\Design\FileResolution\Fallback\Resolver\Alternative">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\View\Design\FileResolution\Fallback\CacheData\Flat</argument>
             <argument name="alternativeExtensions" xsi:type="array">
