@@ -218,7 +218,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
     {
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $theme->expects($this->any())
-            ->method('getFullPath')
+            ->method('getThemePath')
             ->will($this->returnValue($themePath));
         return $theme;
     }

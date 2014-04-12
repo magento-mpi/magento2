@@ -158,7 +158,6 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
                 ],
             ]));
 
-
         $this->object->saveToCache('some/file.ext', 'file', 'file.ext',
             'frontend', 'magento_theme', 'en_US', 'Magento_Module');
         $this->object->saveToCache('some/other_file.ext', 'file', 'other_file.ext',
@@ -176,6 +175,24 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     {
         $this->cache->expects($this->never())
             ->method('save');
+        $this->object = null;
+    }
+
+    /**
+     * Ensure that same data is not saved again
+     */
+    public function testSaveToCacheNotDirty()
+    {
+        $this->cache->expects($this->never())
+            ->method('save');
+        $this->cache->expects($this->once())
+            ->method('load')
+            ->with('type:file|area:frontend|theme:magento_theme|locale:en_US')
+            ->will($this->returnValue(json_encode(['module:Magento_Module|file:file.ext' => 'some/file.ext'])));
+
+        $this->object->saveToCache('some/file.ext', 'file', 'file.ext',
+            'frontend', 'magento_theme', 'en_US', 'Magento_Module');
+
         $this->object = null;
     }
 }

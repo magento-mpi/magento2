@@ -20,7 +20,7 @@ class Grouped implements Fallback\CacheDataInterface
     /**
      * @var bool
      */
-    private $isUpdated = false;
+    private $isDirty = false;
 
     /**
      * @var array
@@ -54,10 +54,15 @@ class Grouped implements Fallback\CacheDataInterface
      */
     public function saveToCache($value, $type, $file, $area, $themePath, $locale, $module)
     {
-        $cacheId = $this->getCacheSectionId($type, $area, $themePath, $locale);
+        $sectionId = $this->getCacheSectionId($type, $area, $themePath, $locale);
+        $this->loadSection($sectionId);
         $recordId = $this->getCacheRecordId($file, $module);
-        $this->isUpdated = true;
-        return $this->cacheSections[$cacheId][$recordId] = $value;
+        if (!isset($this->cacheSections[$sectionId][$recordId])
+            || $this->cacheSections[$sectionId][$recordId] !== $value) {
+            $this->isDirty = true;
+            $this->cacheSections[$sectionId][$recordId] = $value;
+        }
+        return true;
     }
 
     /**
@@ -110,7 +115,7 @@ class Grouped implements Fallback\CacheDataInterface
      */
     public function __destruct()
     {
-        if ($this->isUpdated) {
+        if ($this->isDirty) {
             foreach ($this->cacheSections as $cacheId => $section) {
                 $value = json_encode($section);
                 $this->cache->save($value, $cacheId);

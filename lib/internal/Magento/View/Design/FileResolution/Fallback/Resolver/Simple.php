@@ -51,7 +51,7 @@ class Simple implements Fallback\ResolverInterface
      */
     public function resolve($type, $file, $area = null, ThemeInterface $theme = null, $locale = null, $module = null)
     {
-        $themePath = $theme ? $theme->getFullPath() : '';
+        $themePath = $theme ? $theme->getThemePath() : '';
         $path = $this->cache->getFromCache($type, $file, $area, $themePath, $locale, $module);
         if (false !== $path) {
             $path = $path ? $this->rootDirectory->getAbsolutePath($path) : false;
