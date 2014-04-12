@@ -56,18 +56,11 @@ class Simple implements Fallback\ResolverInterface
         if (false !== $path) {
             $path = $path ? $this->rootDirectory->getAbsolutePath($path) : false;
         } else {
-            $params = [];
-            if (!empty($area)) {
-                $params['area'] = $area;
-            }
-            if (!empty($theme)) {
-                $params['theme'] = $theme;
-            }
-            if (!empty($locale)) {
-                $params['locale'] = $locale;
-            }
-            if (!empty($namespace)) {
-                $params['namespace'] = $namespace;
+            $params = ['area' => $area, 'theme' => $theme, 'locale' => $locale];
+            foreach ($params as $key => $param) {
+                if ($param === null) {
+                    unset($params[$key]);
+                }
             }
             if (!empty($module)) {
                 list($params['namespace'], $params['module']) = explode('_', $module, 2);
