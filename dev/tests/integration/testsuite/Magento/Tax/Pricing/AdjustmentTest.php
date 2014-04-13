@@ -82,8 +82,6 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     {
         // Instantiate objects
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
-        $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         /** @var \Magento\Tax\Pricing\Adjustment $model */
         $model = $objectManager->create('Magento\Tax\Pricing\Adjustment');
         // Run tested method
