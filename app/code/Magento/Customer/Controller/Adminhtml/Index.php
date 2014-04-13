@@ -964,7 +964,10 @@ class Index extends \Magento\Backend\App\Action
                 $customer = $this->_customerAccountService->getCustomer($customerId);
                 $this->_customerBuilder->populate($customer);
                 $customer = $this->_customerBuilder->setGroupId($this->getRequest()->getParam('group'))->create();
-                $this->_customerAccountService->saveCustomer($customer);
+                $customerDetails = $this->_customerDetailsBuilder
+                    ->setCustomer($customer)
+                    ->create();
+                $this->_customerAccountService->updateCustomer($customerDetails);
             },
             $customerIds
         );

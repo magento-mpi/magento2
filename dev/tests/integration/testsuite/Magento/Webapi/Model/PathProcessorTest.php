@@ -36,7 +36,7 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $storeCode = 'fixturestore';
         $basePath = "rest/{$storeCode}";
-        $path = $basePath . '/V1/customerAccounts/createAccount';
+        $path = $basePath . '/V1/customerAccounts/createCustomer';
         $resultPath = $this->pathProcessor->process($path);
         $this->assertEquals(str_replace($basePath, "", $path), $resultPath);
         $this->assertEquals($storeCode, $this->storeManager->getCurrentStore());
@@ -49,7 +49,7 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     public function testProcessWithInValidStoreCode()
     {
         $storeCode = 'InvalidStorecode';
-        $path = '/rest/' . $storeCode . '/V1/customerAccounts/createAccount';
+        $path = '/rest/' . $storeCode . '/V1/customerAccounts/createCustomer';
         $this->pathProcessor->process($path);
     }
 }

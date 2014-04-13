@@ -28,7 +28,7 @@
         </data>
     </route>
     <route url="/V1/customers" method="POST">
-        <service class="Magento\Customer\Service\V1\CustomerServiceInterface" method="createAccount" />
+        <service class="Magento\Customer\Service\V1\CustomerServiceInterface" method="createCustomer" />
         <resources>
             <resource ref="Magento_Customer::manage" />
         </resources>

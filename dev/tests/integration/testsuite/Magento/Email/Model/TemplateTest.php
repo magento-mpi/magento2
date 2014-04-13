@@ -104,7 +104,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             \Magento\Core\Model\App\Area::AREA_FRONTEND
         )->load();
         $this->_setNotDefaultThemeForFixtureStore();
-        $expectedViewUrl = 'static/frontend/magento_plushe/en_US/Magento_Theme/favicon.ico';
+        $expectedViewUrl = 'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico';
         $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(
@@ -121,7 +121,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Set 'magento_plushe' for the 'fixturestore' store.
+     * Set 'Magento/plushe' for the 'fixturestore' store.
      * Application isolation is required, if a test uses this method.
      */
     protected function _setNotDefaultThemeForFixtureStore()
@@ -129,7 +129,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\View\Design\ThemeInterface'
         );
-        $theme->load('magento_plushe', 'theme_path');
+        $theme->load('Magento/plushe', 'theme_path');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\App\Config\MutableScopeConfigInterface'
         )->setValue(
@@ -153,7 +153,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         )->load();
         $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsWith(
-            'static/frontend/magento_plushe/en_US/Magento_Theme/favicon.ico',
+            'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
     }
@@ -170,7 +170,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             \Magento\Core\Model\App\Area::AREA_FRONTEND
         )->load();
         $this->_setNotDefaultThemeForFixtureStore();
-        $expectedViewUrl = 'static/frontend/magento_plushe/en_US/Magento_Theme/favicon.ico';
+        $expectedViewUrl = 'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(
@@ -197,7 +197,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             \Magento\Core\Model\App\Area::AREA_FRONTEND
         )->load();
         $this->assertStringEndsWith(
-            'static/frontend/magento_blank/en_US/Magento_Email/logo_email.gif',
+            'static/frontend/Magento/blank/en_US/Magento_Email/logo_email.gif',
             $this->_model->getDefaultEmailLogo()
         );
     }

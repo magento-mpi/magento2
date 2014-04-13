@@ -21,7 +21,7 @@ return [
                 ],
                 'secure' => true,
             ],
-            'createAccount' => [
+            'createCustomer' => [
                 'resources' => [
                     'Magento_Customer::manage' => true,
                 ],
@@ -76,7 +76,7 @@ return [
                 'secure' => false,
                 'service' => [
                     'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
-                    'method' => 'createAccount',
+                    'method' => 'createCustomer',
                 ],
                 'resources' => [
                     'Magento_Customer::manage' => true,
