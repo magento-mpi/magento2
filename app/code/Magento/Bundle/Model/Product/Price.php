@@ -2,13 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Bundle\Model\Product;
+
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Bundle Price Model
@@ -542,7 +542,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
+        $allGroups = CustomerGroupServiceInterface::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
