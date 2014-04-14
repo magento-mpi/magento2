@@ -243,7 +243,7 @@ class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection
      */
     protected function _beforeLoad()
     {
-        \Magento\Framework\Model\Resource\Db\Collection\parent::_beforeLoad();
+        parent::_beforeLoad();
 
         $this->_applyDateRangeFilter();
         $this->_applyStoresFilter();

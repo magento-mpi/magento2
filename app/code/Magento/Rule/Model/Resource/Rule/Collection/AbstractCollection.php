@@ -57,7 +57,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
      */
     protected function _afterLoad()
     {
-        \Magento\Framework\Model\Resource\Db\Collection\parent::_afterLoad();
+        parent::_afterLoad();
         if ($this->getFlag('add_websites_to_result') && $this->_items) {
             /** @var \Magento\Rule\Model\AbstractModel $item */
             foreach ($this->_items as $item) {
@@ -124,7 +124,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
             return $this->addWebsiteFilter($condition);
         }
 
-        \Magento\Framework\Model\Resource\Db\Collection\parent::addFieldToFilter($field, $condition);
+        parent::addFieldToFilter($field, $condition);
         return $this;
     }
 
