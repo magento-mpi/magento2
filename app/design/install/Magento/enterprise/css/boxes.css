@@ -137,27 +137,26 @@ p.required {
 
 
 /********************** Messages  */
-    .messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
-    .messages li { margin:0 0 10px; padding:0; }
-    .messages ul { padding:10px 17px 18px; margin:0 0 -11px; background-position:35px 100%; background-repeat:no-repeat; position:relative; }
-    .messages ul li { margin:0; padding:0 0 3px; }
-    .messages a { text-decoration:underline; }
-    .messages a:hover { text-decoration:none; }
-    .messages li.error-msg,
-    .messages li.success-msg,
-    .messages li.note-msg,
-    .messages li.notice-msg { border-style:solid !important; border-width:1px !important; font-size:12px !important; }
+.messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
+.messages .message { padding:10px 17px; position:relative; }
+.messages .message a { text-decoration:underline; }
+.messages .message a:hover { text-decoration:none; }
 
-    .messages li.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
-    .messages li.error-msg a { color:#d91a00; }
+.messages .message.error,
+.messages .message.success,
+.messages .message.note,
+.messages .message.notice { border-style:solid !important; border-width:1px !important; font-size:12px !important; }
 
-    .messages li.success-msg { border-color:#446423; background-color:#eff5ea; color:#3d6611; }
-    .messages li.success-msg a { color:#3d6611; }
+.messages .message.error { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
+.messages .message.error a { color:#d91a00; }
 
-    .messages li.note-msg,
-    .messages li.notice-msg { border-color:#fcd344; background-color:#fafaec; color:#3d6611; }
-    .messages li.note-msg a,
-    .messages li.notice-msg a { color:#3d6611; }
+.messages .message.success { border-color:#446423; background-color:#eff5ea; color:#3d6611; }
+.messages .message.success a { color:#3d6611; }
+
+.messages .message.note,
+.messages .message.notice { border-color:#fcd344; background-color:#fafaec; color:#3d6611; }
+.messages .message.note a,
+.messages .message.notice a { color:#3d6611; }
 
 
 
