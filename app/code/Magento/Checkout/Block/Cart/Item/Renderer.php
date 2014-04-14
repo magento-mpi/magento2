@@ -476,10 +476,12 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
     }
 
     /**
+     * Get product price formatted with html (final price, special price, mrp price)
+     *
      * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
-    public function getProductPrice(\Magento\Catalog\Model\Product $product)
+    public function getProductPriceHtml(\Magento\Catalog\Model\Product $product)
     {
         $priceRender = $this->getPriceRender();
 
