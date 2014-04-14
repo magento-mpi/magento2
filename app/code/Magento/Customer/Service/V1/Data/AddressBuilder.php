@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Data\EAV\AbstractObject;
-use Magento\Service\Data\EAV\AbstractObjectBuilder;
+use Magento\Service\Data\Eav\AbstractObject;
+use Magento\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Service\Data\Eav\AttributeValueBuilder;
 

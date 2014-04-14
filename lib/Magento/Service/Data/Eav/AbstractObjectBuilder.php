@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service\Data\EAV;
+namespace Magento\Service\Data\Eav;
 
 /**
  * @SuppressWarnings(PHPMD.NumberOfChildren)
